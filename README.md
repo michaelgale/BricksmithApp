@@ -1,4 +1,4 @@
-![screenshot](./images/screenshot.png)
+![screenshot](./images/screenshotdark.png)
 
 # Bricksmith
 
