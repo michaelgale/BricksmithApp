@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="19529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment version="1070" identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19529"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="LDrawGLView">
+            <connections>
+                <outlet property="menu" destination="6" id="15"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <menu title="Menu" id="6" userLabel="Menu (Menu)">
+            <items>
+                <menuItem title="3-D Perspective" id="5">
+                    <connections>
+                        <action selector="viewOrientationSelected:" target="-2" id="29"/>
+                    </connections>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="8">
+                    <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                </menuItem>
+                <menuItem title="Front" tag="1" id="7">
+                    <connections>
+                        <action selector="viewOrientationSelected:" target="-2" id="28"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Back" tag="2" id="9">
+                    <connections>
+                        <action selector="viewOrientationSelected:" target="-2" id="26"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Left" tag="3" id="10">
+                    <connections>
+                        <action selector="viewOrientationSelected:" target="-2" id="27"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Right" tag="4" id="11">
+                    <connections>
+                        <action selector="viewOrientationSelected:" target="-2" id="25"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Top" tag="5" id="12">
+                    <connections>
+                        <action selector="viewOrientationSelected:" target="-2" id="24"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Bottom" tag="6" id="13">
+                    <connections>
+                        <action selector="viewOrientationSelected:" target="-2" id="30"/>
+                    </connections>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="32"/>
+                <menuItem title="Walk-Through" tag="7" id="2On-K1-ZD4">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="viewOrientationSelected:" target="-2" id="CCH-pw-3am"/>
+                    </connections>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="8cU-lp-2No"/>
+                <menuItem title="Zoom to Fit" id="33">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="zoomToFit:" target="-2" id="34"/>
+                    </connections>
+                </menuItem>
+            </items>
+            <point key="canvasLocation" x="139" y="122"/>
+        </menu>
+    </objects>
+</document>

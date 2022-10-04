@@ -1,0 +1,1749 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="15G20015" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+    <dependencies>
+        <deployment version="1070" identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="MinifigureDialogController">
+            <connections>
+                <outlet property="hatsColorWell" destination="157" id="681"/>
+                <outlet property="hatsController" destination="486" id="498"/>
+                <outlet property="headsColorWell" destination="158" id="682"/>
+                <outlet property="headsController" destination="436" id="442"/>
+                <outlet property="hipsColorWell" destination="223" id="693"/>
+                <outlet property="hipsController" destination="509" id="541"/>
+                <outlet property="leftArmsColorWell" destination="201" id="689"/>
+                <outlet property="leftArmsController" destination="506" id="542"/>
+                <outlet property="leftHandAccessoriesColorWell" destination="295" id="692"/>
+                <outlet property="leftHandAccessoriesController" destination="508" id="545"/>
+                <outlet property="leftHandsColorWell" destination="216" id="691"/>
+                <outlet property="leftHandsController" destination="507" id="544"/>
+                <outlet property="leftLegAccessoriesColorWell" destination="261" id="697"/>
+                <outlet property="leftLegAccessoriesController" destination="513" id="547"/>
+                <outlet property="leftLegsColorWell" destination="256" id="696"/>
+                <outlet property="leftLegsController" destination="512" id="546"/>
+                <outlet property="minifigureGeneratorPanel" destination="10" id="48"/>
+                <outlet property="minifigurePreview" destination="47" id="49"/>
+                <outlet property="necksColorWell" destination="162" id="683"/>
+                <outlet property="necksController" destination="501" id="540"/>
+                <outlet property="rightArmsColorWell" destination="191" id="685"/>
+                <outlet property="rightArmsController" destination="503" id="548"/>
+                <outlet property="rightHandAccessoriesColorWell" destination="285" id="688"/>
+                <outlet property="rightHandAccessoriesController" destination="505" id="550"/>
+                <outlet property="rightHandsColorWell" destination="214" id="686"/>
+                <outlet property="rightHandsController" destination="504" id="549"/>
+                <outlet property="rightLegAccessoriesColorWell" destination="249" id="695"/>
+                <outlet property="rightLegAccessoriesController" destination="511" id="551"/>
+                <outlet property="rightLegsColorWell" destination="264" id="694"/>
+                <outlet property="rightLegsController" destination="510" id="552"/>
+                <outlet property="torsosColorWell" destination="171" id="684"/>
+                <outlet property="torsosController" destination="502" id="553"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application"/>
+        <window title="Minifigure Generator" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="10" userLabel="Minifigure" customClass="NSPanel">
+            <windowStyleMask key="styleMask" titled="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" topStrut="YES"/>
+            <rect key="contentRect" x="12" y="139" width="800" height="671"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1280" height="832"/>
+            <value key="minSize" type="size" width="212.78" height="7"/>
+            <view key="contentView" id="7">
+                <rect key="frame" x="0.0" y="0.0" width="800" height="671"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <textField verticalHuggingPriority="750" id="50">
+                        <rect key="frame" x="67" y="629" width="464" height="19"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="824">
+                            <font key="font" metaFont="smallSystem"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                        <connections>
+                            <binding destination="326" name="value" keyPath="selection.minifigureName" id="822">
+                                <dictionary key="options">
+                                    <bool key="NSContinuouslyUpdatesValue" value="YES"/>
+                                </dictionary>
+                            </binding>
+                        </connections>
+                    </textField>
+                    <textField verticalHuggingPriority="750" id="51">
+                        <rect key="frame" x="17" y="631" width="45" height="14"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" alignment="right" title="Name:" id="825">
+                            <font key="font" metaFont="smallSystem"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <popUpButton verticalHuggingPriority="750" id="53">
+                        <rect key="frame" x="106" y="565" width="242" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <popUpButtonCell key="cell" type="push" title="Item1" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="56" id="826">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="smallSystem"/>
+                            <menu key="menu" title="OtherViews" id="55">
+                                <items>
+                                    <menuItem title="Item1" state="on" id="56"/>
+                                    <menuItem title="Item2" state="on" id="52"/>
+                                    <menuItem title="Item3" state="on" id="54"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="719"/>
+                            <binding destination="486" name="content" keyPath="arrangedObjects" id="495"/>
+                            <binding destination="486" name="contentValues" keyPath="arrangedObjects.browsingDescription" previousBinding="495" id="496"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasHat" id="383"/>
+                            <binding destination="486" name="selectedIndex" keyPath="selectionIndex" previousBinding="496" id="497"/>
+                        </connections>
+                    </popUpButton>
+                    <popUpButton verticalHuggingPriority="750" id="83">
+                        <rect key="frame" x="106" y="518" width="242" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <popUpButtonCell key="cell" type="push" title="Item1" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="86" id="827">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="smallSystem"/>
+                            <menu key="menu" title="OtherViews" id="82">
+                                <items>
+                                    <menuItem title="Item1" state="on" id="86"/>
+                                    <menuItem title="Item2" id="85"/>
+                                    <menuItem title="Item3" id="84"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="441"/>
+                            <binding destination="436" name="content" keyPath="arrangedObjects" id="444"/>
+                            <binding destination="436" name="contentValues" keyPath="arrangedObjects.browsingDescription" previousBinding="444" id="446"/>
+                            <binding destination="436" name="selectedIndex" keyPath="selectionIndex" previousBinding="446" id="450"/>
+                        </connections>
+                    </popUpButton>
+                    <popUpButton verticalHuggingPriority="750" id="100">
+                        <rect key="frame" x="27" y="323" width="208" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <popUpButtonCell key="cell" type="push" title="Item1" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="99" id="828">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="smallSystem"/>
+                            <menu key="menu" title="OtherViews" id="97">
+                                <items>
+                                    <menuItem title="Item1" state="on" id="99"/>
+                                    <menuItem title="Item2" id="101"/>
+                                    <menuItem title="Item3" id="98"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="734"/>
+                            <binding destination="503" name="content" keyPath="arrangedObjects" id="567"/>
+                            <binding destination="503" name="contentValues" keyPath="arrangedObjects.browsingDescription" previousBinding="567" id="571"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasRightArm" id="475"/>
+                            <binding destination="503" name="selectedIndex" keyPath="selectionIndex" previousBinding="571" id="572"/>
+                        </connections>
+                    </popUpButton>
+                    <popUpButton verticalHuggingPriority="750" id="103">
+                        <rect key="frame" x="415" y="323" width="208" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <popUpButtonCell key="cell" type="push" title="Item1" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="105" id="829">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="smallSystem"/>
+                            <menu key="menu" title="OtherViews" id="102">
+                                <items>
+                                    <menuItem title="Item1" state="on" id="105"/>
+                                    <menuItem title="Item2" id="104"/>
+                                    <menuItem title="Item3" id="106"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="749"/>
+                            <binding destination="506" name="content" keyPath="arrangedObjects" id="582"/>
+                            <binding destination="506" name="contentValues" keyPath="arrangedObjects.browsingDescription" previousBinding="582" id="584"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasLeftArm" id="481"/>
+                            <binding destination="506" name="selectedIndex" keyPath="selectionIndex" previousBinding="584" id="585"/>
+                        </connections>
+                    </popUpButton>
+                    <popUpButton verticalHuggingPriority="750" id="107">
+                        <rect key="frame" x="27" y="273" width="208" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <popUpButtonCell key="cell" type="push" title="Item1" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="110" id="830">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="smallSystem"/>
+                            <menu key="menu" title="OtherViews" id="109">
+                                <items>
+                                    <menuItem title="Item1" state="on" id="110"/>
+                                    <menuItem title="Item2" id="108"/>
+                                    <menuItem title="Item3" id="111"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="739"/>
+                            <binding destination="504" name="content" keyPath="arrangedObjects" id="573"/>
+                            <binding destination="504" name="contentValues" keyPath="arrangedObjects.browsingDescription" previousBinding="573" id="574"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasRightHand" id="394"/>
+                            <binding destination="504" name="selectedIndex" keyPath="selectionIndex" previousBinding="574" id="575"/>
+                        </connections>
+                    </popUpButton>
+                    <popUpButton verticalHuggingPriority="750" id="115">
+                        <rect key="frame" x="415" y="273" width="208" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <popUpButtonCell key="cell" type="push" title="Item1" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="116" id="831">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="smallSystem"/>
+                            <menu key="menu" title="OtherViews" id="112">
+                                <items>
+                                    <menuItem title="Item1" state="on" id="116"/>
+                                    <menuItem title="Item2" id="113"/>
+                                    <menuItem title="Item3" id="114"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="754"/>
+                            <binding destination="507" name="content" keyPath="arrangedObjects" id="586"/>
+                            <binding destination="507" name="contentValues" keyPath="arrangedObjects.browsingDescription" previousBinding="586" id="587"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasLeftHand" id="404"/>
+                            <binding destination="507" name="selectedIndex" keyPath="selectionIndex" previousBinding="587" id="588"/>
+                        </connections>
+                    </popUpButton>
+                    <popUpButton verticalHuggingPriority="750" id="117">
+                        <rect key="frame" x="106" y="173" width="242" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <popUpButtonCell key="cell" type="push" title="Item1" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="120" id="832">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="smallSystem"/>
+                            <menu key="menu" title="OtherViews" id="121">
+                                <items>
+                                    <menuItem title="Item1" state="on" id="120"/>
+                                    <menuItem title="Item2" id="118"/>
+                                    <menuItem title="Item3" id="119"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="763"/>
+                            <binding destination="509" name="content" keyPath="arrangedObjects" id="593"/>
+                            <binding destination="509" name="contentValues" keyPath="arrangedObjects.browsingDescription" previousBinding="593" id="594"/>
+                            <binding destination="509" name="selectedIndex" keyPath="selectionIndex" previousBinding="594" id="595"/>
+                        </connections>
+                    </popUpButton>
+                    <button verticalHuggingPriority="750" id="142">
+                        <rect key="frame" x="642" y="13" width="143" height="28"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <buttonCell key="cell" type="push" title="Insert Minifigure" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" inset="2" id="833">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="smallSystem"/>
+                            <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                        </buttonCell>
+                        <connections>
+                            <action selector="okButtonClicked:" target="-2" id="435"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" id="143">
+                        <rect key="frame" x="564" y="13" width="80" height="28"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" inset="2" id="834">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="smallSystem"/>
+                            <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
+                        </buttonCell>
+                        <connections>
+                            <action selector="cancelButtonClicked:" target="-2" id="434"/>
+                        </connections>
+                    </button>
+                    <box verticalHuggingPriority="750" boxType="separator" id="146">
+                        <rect key="frame" x="128" y="592" width="403" height="5"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </box>
+                    <box verticalHuggingPriority="750" boxType="separator" id="148">
+                        <rect key="frame" x="91" y="545" width="440" height="5"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </box>
+                    <textField verticalHuggingPriority="750" id="149">
+                        <rect key="frame" x="59" y="544" width="33" height="14"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Head" id="835">
+                            <font key="font" metaFont="smallSystemBold"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <box verticalHuggingPriority="750" boxType="separator" id="152">
+                        <rect key="frame" x="168" y="498" width="363" height="5"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </box>
+                    <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" id="154">
+                        <rect key="frame" x="383" y="566" width="18" height="20"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" maxValue="359" doubleValue="50" allowsTickMarkValuesOnly="YES" sliderType="circular" id="836">
+                            <font key="font" size="12" name="Helvetica"/>
+                        </sliderCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="721"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasHat" id="384"/>
+                            <binding destination="326" name="value" keyPath="selection.angleOfHat" id="328"/>
+                        </connections>
+                    </slider>
+                    <textField verticalHuggingPriority="750" id="155">
+                        <rect key="frame" x="409" y="568" width="31" height="19"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" drawsBackground="YES" id="837">
+                            <font key="font" metaFont="smallSystem"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="722"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasHat" id="385"/>
+                            <binding destination="326" name="value" keyPath="selection.angleOfHat" id="329"/>
+                            <outlet property="formatter" destination="297" id="312"/>
+                        </connections>
+                    </textField>
+                    <button id="157" customClass="LDrawColorWell">
+                        <rect key="frame" x="467" y="568" width="59" height="18"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" inset="2" id="838">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="colorWellChanged:" target="-2" id="667"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasHat" id="387"/>
+                        </connections>
+                    </button>
+                    <button id="158" customClass="LDrawColorWell">
+                        <rect key="frame" x="467" y="521" width="59" height="18"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" inset="2" id="839">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="colorWellChanged:" target="-2" id="668"/>
+                        </connections>
+                    </button>
+                    <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" id="159">
+                        <rect key="frame" x="383" y="519" width="18" height="20"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" maxValue="359" doubleValue="50" allowsTickMarkValuesOnly="YES" sliderType="circular" id="840">
+                            <font key="font" size="12" name="Helvetica"/>
+                        </sliderCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="724"/>
+                            <binding destination="326" name="value" keyPath="selection.angleOfHead" id="331"/>
+                        </connections>
+                    </slider>
+                    <textField verticalHuggingPriority="750" id="160">
+                        <rect key="frame" x="409" y="521" width="31" height="19"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" drawsBackground="YES" id="841">
+                            <font key="font" metaFont="smallSystem"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="725"/>
+                            <binding destination="326" name="value" keyPath="selection.angleOfHead" id="332"/>
+                            <outlet property="formatter" destination="297" id="313"/>
+                        </connections>
+                    </textField>
+                    <button id="162" customClass="LDrawColorWell">
+                        <rect key="frame" x="467" y="473" width="59" height="18"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" inset="2" id="842">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="colorWellChanged:" target="-2" id="669"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasNeckAccessory" id="392"/>
+                        </connections>
+                    </button>
+                    <textField verticalHuggingPriority="750" id="163">
+                        <rect key="frame" x="409" y="473" width="31" height="19"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" title="360" drawsBackground="YES" id="843">
+                            <font key="font" metaFont="smallSystem"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="731"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasNeckAccessory" id="390"/>
+                            <binding destination="326" name="value" keyPath="selection.angleOfNeck" id="335"/>
+                            <outlet property="formatter" destination="297" id="298"/>
+                        </connections>
+                    </textField>
+                    <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" id="165">
+                        <rect key="frame" x="446" y="471" width="15" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <stepperCell key="cell" controlSize="small" continuous="YES" alignment="left" maxValue="359" valueWraps="YES" id="844"/>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="732"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasNeckAccessory" id="391"/>
+                            <binding destination="326" name="value" keyPath="selection.angleOfNeck" id="336"/>
+                        </connections>
+                    </stepper>
+                    <popUpButton verticalHuggingPriority="750" id="167">
+                        <rect key="frame" x="106" y="471" width="242" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <popUpButtonCell key="cell" type="push" title="Item1" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="164" id="845">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="smallSystem"/>
+                            <menu key="menu" title="OtherViews" id="166">
+                                <items>
+                                    <menuItem title="Item1" state="on" id="164"/>
+                                    <menuItem title="Item2" id="168"/>
+                                    <menuItem title="Item3" id="169"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="728"/>
+                            <binding destination="501" name="content" keyPath="arrangedObjects" id="554"/>
+                            <binding destination="501" name="contentValues" keyPath="arrangedObjects.browsingDescription" previousBinding="554" id="555"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasNeckAccessory" id="388"/>
+                            <binding destination="501" name="selectedIndex" keyPath="selectionIndex" previousBinding="555" id="556"/>
+                        </connections>
+                    </popUpButton>
+                    <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" id="170">
+                        <rect key="frame" x="379" y="466" width="26" height="31"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" maxValue="359" doubleValue="89.75" numberOfTickMarks="4" sliderType="circular" id="846">
+                            <font key="font" size="12" name="Helvetica"/>
+                        </sliderCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="730"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasNeckAccessory" id="389"/>
+                            <binding destination="326" name="value" keyPath="selection.angleOfNeck" id="334"/>
+                        </connections>
+                    </slider>
+                    <button id="171" customClass="LDrawColorWell">
+                        <rect key="frame" x="467" y="391" width="59" height="18"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" inset="2" id="847">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="colorWellChanged:" target="-2" id="670"/>
+                        </connections>
+                    </button>
+                    <textField verticalHuggingPriority="750" id="174">
+                        <rect key="frame" x="59" y="414" width="37" height="14"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Torso" id="848">
+                            <font key="font" metaFont="smallSystemBold"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <popUpButton verticalHuggingPriority="750" id="175">
+                        <rect key="frame" x="106" y="388" width="242" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <popUpButtonCell key="cell" type="push" title="Item1" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="179" id="849">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="smallSystem"/>
+                            <menu key="menu" title="OtherViews" id="180">
+                                <items>
+                                    <menuItem title="Item1" state="on" id="179"/>
+                                    <menuItem title="Item2" id="176"/>
+                                    <menuItem title="Item3" id="173"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="454"/>
+                            <binding destination="502" name="content" keyPath="arrangedObjects" id="608"/>
+                            <binding destination="502" name="contentValues" keyPath="arrangedObjects.browsingDescription" previousBinding="608" id="716"/>
+                            <binding destination="502" name="selectedIndex" keyPath="selectionIndex" previousBinding="716" id="717"/>
+                        </connections>
+                    </popUpButton>
+                    <box verticalHuggingPriority="750" boxType="separator" id="177">
+                        <rect key="frame" x="97" y="415" width="434" height="5"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </box>
+                    <box verticalHuggingPriority="750" boxType="separator" id="185">
+                        <rect key="frame" x="97" y="350" width="292" height="5"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </box>
+                    <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" id="190">
+                        <rect key="frame" x="322" y="322" width="15" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <stepperCell key="cell" controlSize="small" continuous="YES" alignment="left" maxValue="359" valueWraps="YES" id="850"/>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="737"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasRightArm" id="478"/>
+                            <binding destination="326" name="value" keyPath="selection.angleOfRightArm" id="342"/>
+                        </connections>
+                    </stepper>
+                    <button id="191" customClass="LDrawColorWell">
+                        <rect key="frame" x="343" y="324" width="36" height="18"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" inset="2" id="851">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="colorWellChanged:" target="-2" id="671"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasRightArm" id="479"/>
+                        </connections>
+                    </button>
+                    <textField verticalHuggingPriority="750" id="192">
+                        <rect key="frame" x="285" y="325" width="31" height="19"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" title="360" drawsBackground="YES" id="852">
+                            <font key="font" metaFont="smallSystem"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="736"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasRightArm" id="477"/>
+                            <binding destination="326" name="value" keyPath="selection.angleOfRightArm" id="341"/>
+                            <outlet property="formatter" destination="297" id="314"/>
+                        </connections>
+                    </textField>
+                    <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" id="193">
+                        <rect key="frame" x="259" y="324" width="18" height="20"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" minValue="-179" maxValue="180" allowsTickMarkValuesOnly="YES" sliderType="circular" id="853">
+                            <font key="font" size="12" name="Helvetica"/>
+                        </sliderCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="735"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasRightArm" id="476"/>
+                            <binding destination="326" name="value" keyPath="selection.angleOfRightArm" id="340"/>
+                        </connections>
+                    </slider>
+                    <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" id="197">
+                        <rect key="frame" x="647" y="324" width="18" height="20"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" minValue="-179" maxValue="180" allowsTickMarkValuesOnly="YES" sliderType="circular" id="854">
+                            <font key="font" size="12" name="Helvetica"/>
+                        </sliderCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="750"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasLeftArm" id="482"/>
+                            <binding destination="326" name="value" keyPath="selection.angleOfLeftArm" id="337"/>
+                        </connections>
+                    </slider>
+                    <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" id="198">
+                        <rect key="frame" x="710" y="323" width="15" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <stepperCell key="cell" controlSize="small" continuous="YES" alignment="left" maxValue="359" valueWraps="YES" id="855"/>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="752"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasLeftArm" id="484"/>
+                            <binding destination="326" name="value" keyPath="selection.angleOfLeftArm" id="339"/>
+                        </connections>
+                    </stepper>
+                    <textField verticalHuggingPriority="750" id="200">
+                        <rect key="frame" x="673" y="325" width="31" height="19"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" title="360" drawsBackground="YES" id="856">
+                            <font key="font" metaFont="smallSystem"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="751"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasLeftArm" id="483"/>
+                            <binding destination="326" name="value" keyPath="selection.angleOfLeftArm" id="338"/>
+                            <outlet property="formatter" destination="297" id="317"/>
+                        </connections>
+                    </textField>
+                    <button id="201" customClass="LDrawColorWell">
+                        <rect key="frame" x="731" y="325" width="36" height="18"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" inset="2" id="857">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="colorWellChanged:" target="-2" id="676"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasLeftArm" id="485"/>
+                        </connections>
+                    </button>
+                    <box verticalHuggingPriority="750" boxType="separator" id="203">
+                        <rect key="frame" x="479" y="350" width="301" height="5"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </box>
+                    <box verticalHuggingPriority="750" boxType="separator" id="207">
+                        <rect key="frame" x="484" y="300" width="296" height="5"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </box>
+                    <box verticalHuggingPriority="750" boxType="separator" id="210">
+                        <rect key="frame" x="102" y="300" width="287" height="5"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </box>
+                    <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" id="211">
+                        <rect key="frame" x="322" y="272" width="15" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <stepperCell key="cell" controlSize="small" continuous="YES" alignment="left" maxValue="359" valueWraps="YES" id="858"/>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="742"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasRightHand" id="397"/>
+                            <binding destination="326" name="value" keyPath="selection.angleOfRightHand" id="351"/>
+                        </connections>
+                    </stepper>
+                    <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" id="212">
+                        <rect key="frame" x="259" y="274" width="18" height="20"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" maxValue="359" doubleValue="50" allowsTickMarkValuesOnly="YES" sliderType="circular" id="859">
+                            <font key="font" size="12" name="Helvetica"/>
+                        </sliderCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="740"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasRightHand" id="395"/>
+                            <binding destination="326" name="value" keyPath="selection.angleOfRightHand" id="349"/>
+                        </connections>
+                    </slider>
+                    <textField verticalHuggingPriority="750" id="213">
+                        <rect key="frame" x="285" y="275" width="31" height="19"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" title="360" drawsBackground="YES" id="860">
+                            <font key="font" metaFont="smallSystem"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="741"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasRightHand" id="396"/>
+                            <binding destination="326" name="value" keyPath="selection.angleOfRightHand" id="350"/>
+                            <outlet property="formatter" destination="297" id="315"/>
+                        </connections>
+                    </textField>
+                    <button id="214" customClass="LDrawColorWell">
+                        <rect key="frame" x="343" y="274" width="36" height="18"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" inset="2" id="861">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="colorWellChanged:" target="-2" id="672"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasRightHand" id="398"/>
+                        </connections>
+                    </button>
+                    <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" id="215">
+                        <rect key="frame" x="647" y="274" width="18" height="20"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" maxValue="359" doubleValue="50" allowsTickMarkValuesOnly="YES" sliderType="circular" id="862">
+                            <font key="font" size="12" name="Helvetica"/>
+                        </sliderCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="755"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasLeftHand" id="405"/>
+                            <binding destination="326" name="value" keyPath="selection.angleOfLeftHand" id="343"/>
+                        </connections>
+                    </slider>
+                    <button id="216" customClass="LDrawColorWell">
+                        <rect key="frame" x="731" y="275" width="36" height="18"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" inset="2" id="863">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="colorWellChanged:" target="-2" id="677"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasLeftHand" id="408"/>
+                        </connections>
+                    </button>
+                    <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" id="217">
+                        <rect key="frame" x="710" y="273" width="15" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <stepperCell key="cell" controlSize="small" continuous="YES" alignment="left" maxValue="359" valueWraps="YES" id="864"/>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="757"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasLeftHand" id="407"/>
+                            <binding destination="326" name="value" keyPath="selection.angleOfLeftHand" id="345"/>
+                        </connections>
+                    </stepper>
+                    <textField verticalHuggingPriority="750" id="218">
+                        <rect key="frame" x="673" y="275" width="31" height="19"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" title="360" drawsBackground="YES" id="865">
+                            <font key="font" metaFont="smallSystem"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="756"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasLeftHand" id="406"/>
+                            <binding destination="326" name="value" keyPath="selection.angleOfLeftHand" id="344"/>
+                            <outlet property="formatter" destination="297" id="318"/>
+                        </connections>
+                    </textField>
+                    <box verticalHuggingPriority="750" boxType="separator" id="221">
+                        <rect key="frame" x="105" y="200" width="426" height="5"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </box>
+                    <button id="223" customClass="LDrawColorWell">
+                        <rect key="frame" x="467" y="176" width="59" height="18"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" inset="2" id="866">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="colorWellChanged:" target="-2" id="765"/>
+                        </connections>
+                    </button>
+                    <popUpButton verticalHuggingPriority="750" id="224">
+                        <rect key="frame" x="27" y="63" width="227" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <popUpButtonCell key="cell" type="push" title="Item1" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="238" id="867">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="smallSystem"/>
+                            <menu key="menu" title="OtherViews" id="258">
+                                <items>
+                                    <menuItem title="Item1" state="on" id="238"/>
+                                    <menuItem title="Item2" id="251"/>
+                                    <menuItem title="Item3" id="236"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="772"/>
+                            <binding destination="511" name="content" keyPath="arrangedObjects" id="599"/>
+                            <binding destination="511" name="contentValues" keyPath="arrangedObjects.browsingDescription" previousBinding="599" id="600"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasRightLegAccessory" id="419"/>
+                            <binding destination="511" name="selectedIndex" keyPath="selectionIndex" previousBinding="600" id="601"/>
+                        </connections>
+                    </popUpButton>
+                    <box verticalHuggingPriority="750" boxType="separator" id="227">
+                        <rect key="frame" x="152" y="93" width="237" height="5"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </box>
+                    <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" id="229">
+                        <rect key="frame" x="710" y="112" width="15" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <stepperCell key="cell" controlSize="small" continuous="YES" alignment="left" maxValue="359" valueWraps="YES" id="868"/>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="780"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasLeftLeg" id="427"/>
+                            <binding destination="326" name="value" keyPath="selection.angleOfLeftLeg" id="360"/>
+                        </connections>
+                    </stepper>
+                    <textField verticalHuggingPriority="750" id="232">
+                        <rect key="frame" x="673" y="67" width="31" height="19"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" title="360" drawsBackground="YES" id="869">
+                            <font key="font" metaFont="smallSystem"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="786"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasLeftLegAccessory" id="431"/>
+                            <binding destination="326" name="value" keyPath="selection.angleOfLeftLegAccessory" id="362"/>
+                            <outlet property="formatter" destination="297" id="323"/>
+                        </connections>
+                    </textField>
+                    <box verticalHuggingPriority="750" boxType="separator" id="233">
+                        <rect key="frame" x="533" y="93" width="247" height="5"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </box>
+                    <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" id="234">
+                        <rect key="frame" x="710" y="65" width="15" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <stepperCell key="cell" controlSize="small" continuous="YES" alignment="left" maxValue="359" valueWraps="YES" id="870"/>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="787"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasLeftLegAccessory" id="432"/>
+                            <binding destination="326" name="value" keyPath="selection.angleOfLeftLegAccessory" id="363"/>
+                        </connections>
+                    </stepper>
+                    <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" id="235">
+                        <rect key="frame" x="322" y="112" width="15" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <stepperCell key="cell" controlSize="small" continuous="YES" alignment="left" maxValue="359" valueWraps="YES" id="871"/>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="770"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasRightLeg" id="417"/>
+                            <binding destination="326" name="value" keyPath="selection.angleOfRightLeg" id="366"/>
+                        </connections>
+                    </stepper>
+                    <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" id="237">
+                        <rect key="frame" x="647" y="113" width="18" height="20"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" minValue="-179" maxValue="180" allowsTickMarkValuesOnly="YES" sliderType="circular" id="872">
+                            <font key="font" size="12" name="Helvetica"/>
+                        </sliderCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="778"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasLeftLeg" id="425"/>
+                            <binding destination="326" name="value" keyPath="selection.angleOfLeftLeg" id="358"/>
+                        </connections>
+                    </slider>
+                    <box verticalHuggingPriority="750" boxType="separator" id="239">
+                        <rect key="frame" x="91" y="143" width="298" height="5"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </box>
+                    <popUpButton verticalHuggingPriority="750" id="242">
+                        <rect key="frame" x="415" y="112" width="227" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <popUpButtonCell key="cell" type="push" title="Item1" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="228" id="873">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="smallSystem"/>
+                            <menu key="menu" title="OtherViews" id="226">
+                                <items>
+                                    <menuItem title="Item1" state="on" id="228"/>
+                                    <menuItem title="Item2" id="241"/>
+                                    <menuItem title="Item3" id="246"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="777"/>
+                            <binding destination="512" name="content" keyPath="arrangedObjects" id="602"/>
+                            <binding destination="512" name="contentValues" keyPath="arrangedObjects.browsingDescription" previousBinding="602" id="603"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasLeftLeg" id="424"/>
+                            <binding destination="512" name="selectedIndex" keyPath="selectionIndex" previousBinding="603" id="604"/>
+                        </connections>
+                    </popUpButton>
+                    <popUpButton verticalHuggingPriority="750" id="247">
+                        <rect key="frame" x="27" y="112" width="227" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <popUpButtonCell key="cell" type="push" title="Item1" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="245" id="874">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="smallSystem"/>
+                            <menu key="menu" title="OtherViews" id="252">
+                                <items>
+                                    <menuItem title="Item1" state="on" id="245"/>
+                                    <menuItem title="Item2" id="230"/>
+                                    <menuItem title="Item3" id="243"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="767"/>
+                            <binding destination="510" name="content" keyPath="arrangedObjects" id="596"/>
+                            <binding destination="510" name="contentValues" keyPath="arrangedObjects.browsingDescription" previousBinding="596" id="597"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasRightLeg" id="414"/>
+                            <binding destination="510" name="selectedIndex" keyPath="selectionIndex" previousBinding="597" id="598"/>
+                        </connections>
+                    </popUpButton>
+                    <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" id="248">
+                        <rect key="frame" x="647" y="66" width="18" height="20"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" maxValue="359" doubleValue="50" allowsTickMarkValuesOnly="YES" sliderType="circular" id="875">
+                            <font key="font" size="12" name="Helvetica"/>
+                        </sliderCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="785"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasLeftLegAccessory" id="430"/>
+                            <binding destination="326" name="value" keyPath="selection.angleOfLeftLegAccessory" id="361"/>
+                        </connections>
+                    </slider>
+                    <button id="249" customClass="LDrawColorWell">
+                        <rect key="frame" x="343" y="67" width="36" height="18"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" inset="2" id="876">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="colorWellChanged:" target="-2" id="675"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasRightLegAccessory" id="423"/>
+                        </connections>
+                    </button>
+                    <popUpButton verticalHuggingPriority="750" id="253">
+                        <rect key="frame" x="415" y="63" width="227" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <popUpButtonCell key="cell" type="push" title="Item1" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="231" id="877">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="smallSystem"/>
+                            <menu key="menu" title="OtherViews" id="250">
+                                <items>
+                                    <menuItem title="Item1" state="on" id="231"/>
+                                    <menuItem title="Item2" id="244"/>
+                                    <menuItem title="Item3" id="271"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="783"/>
+                            <binding destination="513" name="content" keyPath="arrangedObjects" id="605"/>
+                            <binding destination="513" name="contentValues" keyPath="arrangedObjects.browsingDescription" previousBinding="605" id="606"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasLeftLegAccessory" id="429"/>
+                            <binding destination="513" name="selectedIndex" keyPath="selectionIndex" previousBinding="606" id="607"/>
+                        </connections>
+                    </popUpButton>
+                    <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" id="255">
+                        <rect key="frame" x="322" y="65" width="15" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <stepperCell key="cell" controlSize="small" continuous="YES" alignment="left" maxValue="359" valueWraps="YES" id="878"/>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="775"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasRightLegAccessory" id="422"/>
+                            <binding destination="326" name="value" keyPath="selection.angleOfRightLegAccessory" id="369"/>
+                        </connections>
+                    </stepper>
+                    <button id="256" customClass="LDrawColorWell">
+                        <rect key="frame" x="731" y="114" width="36" height="18"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" inset="2" id="879">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="colorWellChanged:" target="-2" id="679"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasLeftLeg" id="428"/>
+                        </connections>
+                    </button>
+                    <textField verticalHuggingPriority="750" id="257">
+                        <rect key="frame" x="673" y="114" width="31" height="19"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" title="360" drawsBackground="YES" id="880">
+                            <font key="font" metaFont="smallSystem"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="779"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasLeftLeg" id="426"/>
+                            <binding destination="326" name="value" keyPath="selection.angleOfLeftLeg" id="359"/>
+                            <outlet property="formatter" destination="297" id="322"/>
+                        </connections>
+                    </textField>
+                    <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" id="259">
+                        <rect key="frame" x="259" y="66" width="18" height="20"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" maxValue="359" doubleValue="50" allowsTickMarkValuesOnly="YES" sliderType="circular" id="881">
+                            <font key="font" size="12" name="Helvetica"/>
+                        </sliderCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="773"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasRightLegAccessory" id="420"/>
+                            <binding destination="326" name="value" keyPath="selection.angleOfRightLegAccessory" id="367"/>
+                        </connections>
+                    </slider>
+                    <button id="261" customClass="LDrawColorWell">
+                        <rect key="frame" x="731" y="67" width="36" height="18"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" inset="2" id="882">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="colorWellChanged:" target="-2" id="680"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasLeftLegAccessory" id="433"/>
+                        </connections>
+                    </button>
+                    <box verticalHuggingPriority="750" boxType="separator" id="262">
+                        <rect key="frame" x="472" y="143" width="308" height="5"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </box>
+                    <button id="264" customClass="LDrawColorWell">
+                        <rect key="frame" x="343" y="114" width="36" height="18"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" inset="2" id="883">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="colorWellChanged:" target="-2" id="674"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasRightLeg" id="418"/>
+                        </connections>
+                    </button>
+                    <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" id="267">
+                        <rect key="frame" x="259" y="113" width="18" height="20"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" minValue="-179" maxValue="180" allowsTickMarkValuesOnly="YES" sliderType="circular" id="884">
+                            <font key="font" size="12" name="Helvetica"/>
+                        </sliderCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="768"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasRightLeg" id="415"/>
+                            <binding destination="326" name="value" keyPath="selection.angleOfRightLeg" id="364"/>
+                        </connections>
+                    </slider>
+                    <textField verticalHuggingPriority="750" id="268">
+                        <rect key="frame" x="285" y="114" width="31" height="19"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" title="360" drawsBackground="YES" id="885">
+                            <font key="font" metaFont="smallSystem"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="769"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasRightLeg" id="416"/>
+                            <binding destination="326" name="value" keyPath="selection.angleOfRightLeg" id="365"/>
+                            <outlet property="formatter" destination="297" id="320"/>
+                        </connections>
+                    </textField>
+                    <textField verticalHuggingPriority="750" id="269">
+                        <rect key="frame" x="285" y="67" width="31" height="19"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" title="360" drawsBackground="YES" id="886">
+                            <font key="font" metaFont="smallSystem"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="774"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasRightLegAccessory" id="421"/>
+                            <binding destination="326" name="value" keyPath="selection.angleOfRightLegAccessory" id="368"/>
+                            <outlet property="formatter" destination="297" id="321"/>
+                        </connections>
+                    </textField>
+                    <box verticalHuggingPriority="750" boxType="separator" id="275">
+                        <rect key="frame" x="544" y="253" width="236" height="5"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </box>
+                    <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" id="276">
+                        <rect key="frame" x="322" y="225" width="15" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <stepperCell key="cell" controlSize="small" continuous="YES" alignment="left" maxValue="359" valueWraps="YES" id="887"/>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="747"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasRightHandAccessory" id="402"/>
+                            <binding destination="326" name="value" keyPath="selection.angleOfRightHandAccessory" id="354"/>
+                        </connections>
+                    </stepper>
+                    <popUpButton verticalHuggingPriority="750" id="279">
+                        <rect key="frame" x="415" y="226" width="208" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <popUpButtonCell key="cell" type="push" title="Item1" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="292" id="888">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="smallSystem"/>
+                            <menu key="menu" title="OtherViews" id="290">
+                                <items>
+                                    <menuItem title="Item1" state="on" id="292"/>
+                                    <menuItem title="Item2" id="274"/>
+                                    <menuItem title="Item3" id="278"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="759"/>
+                            <binding destination="508" name="content" keyPath="arrangedObjects" id="590"/>
+                            <binding destination="508" name="contentValues" keyPath="arrangedObjects.browsingDescription" previousBinding="590" id="591"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasLeftHandAccessory" id="409"/>
+                            <binding destination="508" name="selectedIndex" keyPath="selectionIndex" previousBinding="591" id="592"/>
+                        </connections>
+                    </popUpButton>
+                    <textField verticalHuggingPriority="750" id="284">
+                        <rect key="frame" x="673" y="228" width="31" height="19"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" title="360" drawsBackground="YES" id="889">
+                            <font key="font" metaFont="smallSystem"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="761"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasLeftHandAccessory" id="411"/>
+                            <binding destination="326" name="value" keyPath="selection.angleOfLeftHandAccessory" id="381"/>
+                            <outlet property="formatter" destination="297" id="319"/>
+                        </connections>
+                    </textField>
+                    <button id="285" customClass="LDrawColorWell">
+                        <rect key="frame" x="343" y="227" width="36" height="18"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" inset="2" id="890">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="colorWellChanged:" target="-2" id="673"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasRightHandAccessory" id="403"/>
+                        </connections>
+                    </button>
+                    <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" id="286">
+                        <rect key="frame" x="710" y="226" width="15" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <stepperCell key="cell" controlSize="small" continuous="YES" alignment="left" maxValue="359" valueWraps="YES" id="891"/>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="762"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasLeftHandAccessory" id="412"/>
+                            <binding destination="326" name="value" keyPath="selection.angleOfLeftHandAccessory" id="382"/>
+                        </connections>
+                    </stepper>
+                    <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" id="287">
+                        <rect key="frame" x="259" y="227" width="18" height="20"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" maxValue="359" doubleValue="50" allowsTickMarkValuesOnly="YES" sliderType="circular" id="892">
+                            <font key="font" size="12" name="Helvetica"/>
+                        </sliderCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="745"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasRightHandAccessory" id="400"/>
+                            <binding destination="326" name="value" keyPath="selection.angleOfRightHandAccessory" id="352"/>
+                        </connections>
+                    </slider>
+                    <popUpButton verticalHuggingPriority="750" id="289">
+                        <rect key="frame" x="27" y="226" width="208" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <popUpButtonCell key="cell" type="push" title="Item1" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="281" id="893">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="smallSystem"/>
+                            <menu key="menu" title="OtherViews" id="288">
+                                <items>
+                                    <menuItem title="Item1" state="on" id="281"/>
+                                    <menuItem title="Item2" id="272"/>
+                                    <menuItem title="Item3" id="277"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="744"/>
+                            <binding destination="505" name="content" keyPath="arrangedObjects" id="576"/>
+                            <binding destination="505" name="contentValues" keyPath="arrangedObjects.browsingDescription" previousBinding="576" id="577"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasRightHandAccessory" id="399"/>
+                            <binding destination="505" name="selectedIndex" keyPath="selectionIndex" previousBinding="577" id="579"/>
+                        </connections>
+                    </popUpButton>
+                    <slider horizontalHuggingPriority="750" verticalHuggingPriority="750" id="291">
+                        <rect key="frame" x="647" y="227" width="18" height="20"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" maxValue="359" doubleValue="50" allowsTickMarkValuesOnly="YES" sliderType="circular" id="894">
+                            <font key="font" size="12" name="Helvetica"/>
+                        </sliderCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="760"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasLeftHandAccessory" id="410"/>
+                            <binding destination="326" name="value" keyPath="selection.angleOfLeftHandAccessory" id="380"/>
+                        </connections>
+                    </slider>
+                    <textField verticalHuggingPriority="750" id="293">
+                        <rect key="frame" x="285" y="228" width="31" height="19"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" title="360" drawsBackground="YES" id="895">
+                            <font key="font" metaFont="smallSystem"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="746"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasRightHandAccessory" id="401"/>
+                            <binding destination="326" name="value" keyPath="selection.angleOfRightHandAccessory" id="353"/>
+                            <outlet property="formatter" destination="297" id="316"/>
+                        </connections>
+                    </textField>
+                    <box verticalHuggingPriority="750" boxType="separator" id="294">
+                        <rect key="frame" x="162" y="253" width="227" height="5"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </box>
+                    <button id="295" customClass="LDrawColorWell">
+                        <rect key="frame" x="731" y="228" width="36" height="18"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" inset="2" id="896">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="colorWellChanged:" target="-2" id="678"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasLeftHandAccessory" id="413"/>
+                        </connections>
+                    </button>
+                    <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="299">
+                        <rect key="frame" x="539" y="361" width="243" height="289"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <clipView key="contentView" id="i9S-2Z-C7O">
+                            <rect key="frame" x="1" y="1" width="241" height="287"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <openGLView useAuxiliaryDepthBufferStencil="NO" id="47" customClass="LDrawGLView">
+                                    <rect key="frame" x="0.0" y="0.0" width="241" height="289"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </openGLView>
+                            </subviews>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </clipView>
+                        <scroller key="horizontalScroller" verticalHuggingPriority="750" controlSize="small" horizontal="YES" id="924">
+                            <rect key="frame" x="1" y="274" width="241" height="14"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                        <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" controlSize="small" horizontal="NO" id="923">
+                            <rect key="frame" x="228" y="1" width="14" height="287"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                    </scrollView>
+                    <button id="300">
+                        <rect key="frame" x="59" y="590" width="72" height="16"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <buttonCell key="cell" type="check" title="Hat/Hair" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="897">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="smallSystemBold"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="718"/>
+                            <binding destination="326" name="value" keyPath="selection.hasHat" id="370"/>
+                        </connections>
+                    </button>
+                    <button id="301">
+                        <rect key="frame" x="59" y="496" width="111" height="16"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <buttonCell key="cell" type="check" title="Neck Accessory" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="898">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="smallSystemBold"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="727"/>
+                            <binding destination="326" name="value" keyPath="selection.hasNeckAccessory" id="371"/>
+                        </connections>
+                    </button>
+                    <button id="302">
+                        <rect key="frame" x="17" y="251" width="147" height="16"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <buttonCell key="cell" type="check" title="Right Hand Accessory" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="899">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="smallSystemBold"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="743"/>
+                            <binding destination="326" name="value" keyPath="selection.hasRightHandAccessory" id="373"/>
+                        </connections>
+                    </button>
+                    <button id="303">
+                        <rect key="frame" x="17" y="141" width="147" height="16"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <buttonCell key="cell" type="check" title="Right Leg" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="900">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="smallSystemBold"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="766"/>
+                            <binding destination="326" name="value" keyPath="selection.hasRightLeg" id="376"/>
+                        </connections>
+                    </button>
+                    <button id="304">
+                        <rect key="frame" x="17" y="91" width="147" height="16"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <buttonCell key="cell" type="check" title="Right Leg Accessory" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="901">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="smallSystemBold"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="771"/>
+                            <binding destination="326" name="value" keyPath="selection.hasRightLegAccessory" id="377"/>
+                        </connections>
+                    </button>
+                    <button id="305">
+                        <rect key="frame" x="406" y="91" width="147" height="16"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <buttonCell key="cell" type="check" title="Left Leg Accessory" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="902">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="smallSystemBold"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="781"/>
+                            <binding destination="326" name="value" keyPath="selection.hasLeftLegAccessory" id="379"/>
+                        </connections>
+                    </button>
+                    <button id="306">
+                        <rect key="frame" x="406" y="141" width="147" height="16"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <buttonCell key="cell" type="check" title="Left Leg" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="903">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="smallSystemBold"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="776"/>
+                            <binding destination="326" name="value" keyPath="selection.hasLeftLeg" id="378"/>
+                        </connections>
+                    </button>
+                    <button id="307">
+                        <rect key="frame" x="408" y="251" width="147" height="16"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <buttonCell key="cell" type="check" title="Left Hand Accessory" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="904">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="smallSystemBold"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="758"/>
+                            <binding destination="326" name="value" keyPath="selection.hasLeftHandAccessory" id="375"/>
+                        </connections>
+                    </button>
+                    <button id="308">
+                        <rect key="frame" x="17" y="298" width="147" height="16"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <buttonCell key="cell" type="check" title="Right Hand" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="905">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="smallSystemBold"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="738"/>
+                            <binding destination="326" name="value" keyPath="selection.hasRightHand" id="372"/>
+                        </connections>
+                    </button>
+                    <button id="309">
+                        <rect key="frame" x="408" y="298" width="147" height="16"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <buttonCell key="cell" type="check" title="Left Hand" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="906">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="smallSystemBold"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="753"/>
+                            <binding destination="326" name="value" keyPath="selection.hasLeftHand" id="374"/>
+                        </connections>
+                    </button>
+                    <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" id="310">
+                        <rect key="frame" x="446" y="519" width="15" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <stepperCell key="cell" controlSize="small" continuous="YES" alignment="left" maxValue="359" valueWraps="YES" id="907"/>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="726"/>
+                            <binding destination="326" name="value" keyPath="selection.angleOfHead" id="333"/>
+                        </connections>
+                    </stepper>
+                    <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" id="311">
+                        <rect key="frame" x="446" y="566" width="15" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <stepperCell key="cell" controlSize="small" continuous="YES" alignment="left" maxValue="359" valueWraps="YES" id="908"/>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="723"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasHat" id="386"/>
+                            <binding destination="326" name="value" keyPath="selection.angleOfHat" id="330"/>
+                        </connections>
+                    </stepper>
+                    <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" id="461">
+                        <rect key="frame" x="351" y="518" width="15" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <stepperCell key="cell" controlSize="small" continuous="YES" alignment="left" increment="-1" id="909"/>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="470"/>
+                            <binding destination="436" name="maxValue" keyPath="arrangedObjects.@count" id="633">
+                                <dictionary key="options">
+                                    <string key="NSValueTransformerName">TransformerIntMinus1</string>
+                                </dictionary>
+                            </binding>
+                            <binding destination="436" name="value" keyPath="selectionIndex" previousBinding="633" id="634"/>
+                        </connections>
+                    </stepper>
+                    <button id="471">
+                        <rect key="frame" x="17" y="348" width="80" height="16"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <buttonCell key="cell" type="check" title="Right Arm" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="910">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="smallSystemBold"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="733"/>
+                            <binding destination="326" name="value" keyPath="selection.hasRightArm" id="474"/>
+                        </connections>
+                    </button>
+                    <button id="472">
+                        <rect key="frame" x="408" y="348" width="72" height="16"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <buttonCell key="cell" type="check" title="Left Arm" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="911">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="smallSystemBold"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="748"/>
+                            <binding destination="326" name="value" keyPath="selection.hasLeftArm" id="500"/>
+                        </connections>
+                    </button>
+                    <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" id="636">
+                        <rect key="frame" x="351" y="565" width="15" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <stepperCell key="cell" controlSize="small" continuous="YES" alignment="left" increment="-1" id="912"/>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="720"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasHat" id="708"/>
+                            <binding destination="486" name="maxValue" keyPath="arrangedObjects.@count" id="644">
+                                <dictionary key="options">
+                                    <string key="NSValueTransformerName">TransformerIntMinus1</string>
+                                </dictionary>
+                            </binding>
+                            <binding destination="486" name="value" keyPath="selectionIndex" previousBinding="644" id="646"/>
+                        </connections>
+                    </stepper>
+                    <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" id="647">
+                        <rect key="frame" x="351" y="471" width="15" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <stepperCell key="cell" controlSize="small" continuous="YES" alignment="left" increment="-1" id="913"/>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="729"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasNeckAccessory" id="706"/>
+                            <binding destination="501" name="maxValue" keyPath="arrangedObjects.@count" id="652">
+                                <dictionary key="options">
+                                    <string key="NSValueTransformerName">TransformerIntMinus1</string>
+                                </dictionary>
+                            </binding>
+                            <binding destination="501" name="value" keyPath="selectionIndex" previousBinding="652" id="653"/>
+                        </connections>
+                    </stepper>
+                    <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" id="654">
+                        <rect key="frame" x="351" y="388" width="15" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <stepperCell key="cell" controlSize="small" continuous="YES" alignment="left" increment="-1" id="914"/>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="710"/>
+                            <binding destination="502" name="maxValue" keyPath="arrangedObjects.@count" id="790">
+                                <dictionary key="options">
+                                    <string key="NSValueTransformerName">TransformerIntMinus1</string>
+                                </dictionary>
+                            </binding>
+                            <binding destination="502" name="value" keyPath="selectionIndex" previousBinding="790" id="791"/>
+                        </connections>
+                    </stepper>
+                    <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" id="661">
+                        <rect key="frame" x="352" y="174" width="15" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <stepperCell key="cell" controlSize="small" continuous="YES" alignment="left" increment="-1" id="915"/>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="764"/>
+                            <binding destination="509" name="maxValue" keyPath="arrangedObjects.@count" id="665">
+                                <dictionary key="options">
+                                    <string key="NSValueTransformerName">TransformerIntMinus1</string>
+                                </dictionary>
+                            </binding>
+                            <binding destination="509" name="value" keyPath="selectionIndex" previousBinding="665" id="666"/>
+                        </connections>
+                    </stepper>
+                    <textField verticalHuggingPriority="750" id="699">
+                        <rect key="frame" x="106" y="454" width="133" height="11"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" controlSize="mini" sendsActionOnEndEditing="YES" alignment="left" title="Neck accessory elevates head" id="916">
+                            <font key="font" metaFont="miniSystem"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField verticalHuggingPriority="750" id="700">
+                        <rect key="frame" x="244" y="452" width="26" height="15"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" controlSize="mini" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" drawsBackground="YES" id="917">
+                            <font key="font" metaFont="miniSystem"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="816"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasNeckAccessory" id="704"/>
+                            <binding destination="326" name="value" keyPath="selection.headElevation" id="702"/>
+                        </connections>
+                    </textField>
+                    <textField verticalHuggingPriority="750" id="701">
+                        <rect key="frame" x="291" y="454" width="26" height="11"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" controlSize="mini" sendsActionOnEndEditing="YES" alignment="left" title="units" id="918">
+                            <font key="font" metaFont="miniSystem"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" id="788">
+                        <rect key="frame" x="238" y="226" width="15" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <stepperCell key="cell" controlSize="small" continuous="YES" alignment="left" increment="-1" id="919"/>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="810"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasRightHandAccessory" id="789"/>
+                            <binding destination="505" name="maxValue" keyPath="arrangedObjects.@count" id="795">
+                                <dictionary key="options">
+                                    <string key="NSValueTransformerName">TransformerIntMinus1</string>
+                                </dictionary>
+                            </binding>
+                            <binding destination="505" name="value" keyPath="selectionIndex" previousBinding="795" id="796"/>
+                        </connections>
+                    </stepper>
+                    <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" id="797">
+                        <rect key="frame" x="626" y="226" width="15" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <stepperCell key="cell" controlSize="small" continuous="YES" alignment="left" increment="-1" id="920"/>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="809"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasLeftHandAccessory" id="808"/>
+                            <binding destination="508" name="maxValue" keyPath="arrangedObjects.@count" id="805">
+                                <dictionary key="options">
+                                    <string key="NSValueTransformerName">TransformerIntMinus1</string>
+                                </dictionary>
+                            </binding>
+                            <binding destination="508" name="value" keyPath="selectionIndex" previousBinding="805" id="806"/>
+                        </connections>
+                    </stepper>
+                    <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" id="811">
+                        <rect key="frame" x="274" y="452" width="13" height="15"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <stepperCell key="cell" controlSize="mini" continuous="YES" alignment="left" maxValue="20" valueWraps="YES" id="921"/>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="815"/>
+                            <binding destination="326" name="enabled" keyPath="selection.hasNeckAccessory" id="820"/>
+                            <binding destination="326" name="value" keyPath="selection.headElevation" id="813"/>
+                        </connections>
+                    </stepper>
+                    <button id="817">
+                        <rect key="frame" x="59" y="198" width="147" height="16"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <buttonCell key="cell" type="check" title="Hips" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="922">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="smallSystemBold"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="generateMinifigure:" target="-2" id="819"/>
+                            <binding destination="326" name="value" keyPath="selection.hasHips" id="818"/>
+                        </connections>
+                    </button>
+                </subviews>
+            </view>
+            <connections>
+                <outlet property="delegate" destination="-2" id="23"/>
+            </connections>
+        </window>
+        <numberFormatter formatterBehavior="10_0" positiveFormat="0°" negativeFormat="-0°" localizesFormat="NO" hasThousandSeparators="NO" thousandSeparator="," id="297" userLabel="Degrees">
+            <attributedString key="attributedStringForNil"/>
+            <attributedString key="attributedStringForNotANumber">
+                <fragment content="NaN"/>
+            </attributedString>
+            <attributedString key="attributedStringForZero">
+                <fragment content="0°"/>
+            </attributedString>
+            <decimal key="minimum" value="NaN"/>
+            <decimal key="maximum" value="NaN"/>
+        </numberFormatter>
+        <objectController id="326" userLabel="Bindings">
+            <declaredKeys>
+                <string>angleOfHat</string>
+                <string>angleOfHead</string>
+                <string>angleOfNeck</string>
+                <string>angleOfLeftArm</string>
+                <string>angleOfRightArm</string>
+                <string>angleOfLeftHand</string>
+                <string>angleOfRightHand</string>
+                <string>angleOfRightHandAccessory</string>
+                <string>angleOfLeftLeg</string>
+                <string>angleOfLeftLegAccessory</string>
+                <string>angleOfRightLeg</string>
+                <string>angleOfRightLegAccessory</string>
+                <string>hasHat</string>
+                <string>hasNeckAccessory</string>
+                <string>hasRightHand</string>
+                <string>hasRightHandAccessory</string>
+                <string>hasLeftHand</string>
+                <string>hasLeftHandAccessory</string>
+                <string>hasRightLeg</string>
+                <string>hasRightLegAccessory</string>
+                <string>hasLeftLeg</string>
+                <string>hasLeftLegAccessory</string>
+                <string>angleOfLeftHandAccessory</string>
+                <string>iniFile.minifigureHeads</string>
+                <string>iniFile.minifigureTorsos</string>
+                <string>iniFile.minifigureTorsos.browsingDescription</string>
+                <string>hasRightArm</string>
+                <string>hasLeftArm</string>
+                <string>iniFile.minifigureHats</string>
+                <string>iniFile.minifigureNecks</string>
+                <string>iniFile.minifigureHips</string>
+                <string>iniFile.minifigureArmsRight</string>
+                <string>iniFile.minifigureHandsRight</string>
+                <string>iniFile.minifigureHandsRightAccessories</string>
+                <string>iniFile.minifigureArmsLeft</string>
+                <string>iniFile.minifigureHandsLeft</string>
+                <string>iniFile.minifigureHandsLeftAccessories</string>
+                <string>iniFile.minifigureLegsRight</string>
+                <string>iniFile.minifigureLegsRightAccessories</string>
+                <string>iniFile.minifigureLegsLeft</string>
+                <string>iniFile.minifigureLegsLeftAcessories</string>
+                <string>minifigureName</string>
+                <string>headElevation</string>
+                <string>hasHips</string>
+            </declaredKeys>
+            <connections>
+                <outlet property="content" destination="-2" id="327"/>
+            </connections>
+        </objectController>
+        <arrayController objectClassName="LDrawPart" clearsFilterPredicateOnInsertion="NO" id="436" userLabel="Heads">
+            <declaredKeys>
+                <string>browsingDescription</string>
+                <string>@count</string>
+            </declaredKeys>
+            <connections>
+                <binding destination="326" name="contentArray" keyPath="selection.iniFile.minifigureHeads" id="437"/>
+            </connections>
+        </arrayController>
+        <arrayController objectClassName="LDrawPart" clearsFilterPredicateOnInsertion="NO" id="486" userLabel="Hats">
+            <declaredKeys>
+                <string>@count</string>
+            </declaredKeys>
+            <connections>
+                <binding destination="326" name="contentArray" keyPath="selection.iniFile.minifigureHats" id="489"/>
+            </connections>
+        </arrayController>
+        <arrayController objectClassName="LDrawPart" clearsFilterPredicateOnInsertion="NO" id="501" userLabel="Necks">
+            <declaredKeys>
+                <string>browsingDescription</string>
+                <string>@count</string>
+            </declaredKeys>
+            <connections>
+                <binding destination="326" name="contentArray" keyPath="selection.iniFile.minifigureNecks" id="515"/>
+            </connections>
+        </arrayController>
+        <arrayController objectClassName="LDrawPart" clearsFilterPredicateOnInsertion="NO" id="502" userLabel="Torsos">
+            <declaredKeys>
+                <string>browsingDescription</string>
+                <string>@count</string>
+            </declaredKeys>
+            <connections>
+                <binding destination="326" name="contentArray" keyPath="selection.iniFile.minifigureTorsos" id="517"/>
+            </connections>
+        </arrayController>
+        <arrayController objectClassName="LDrawPart" clearsFilterPredicateOnInsertion="NO" id="503" userLabel="Right Arms">
+            <declaredKeys>
+                <string>minifigureLegsLeftAcessories</string>
+                <string>browsingDescription</string>
+            </declaredKeys>
+            <connections>
+                <binding destination="326" name="contentArray" keyPath="selection.iniFile.minifigureArmsRight" id="521"/>
+            </connections>
+        </arrayController>
+        <arrayController objectClassName="LDrawPart" clearsFilterPredicateOnInsertion="NO" id="504" userLabel="Right Hands">
+            <declaredKeys>
+                <string>browsingDescription</string>
+            </declaredKeys>
+            <connections>
+                <binding destination="326" name="contentArray" keyPath="selection.iniFile.minifigureHandsRight" id="523"/>
+            </connections>
+        </arrayController>
+        <arrayController objectClassName="LDrawPart" clearsFilterPredicateOnInsertion="NO" id="505" userLabel="Right Hand Accessories">
+            <declaredKeys>
+                <string>browsingDescription</string>
+                <string>@count</string>
+            </declaredKeys>
+            <connections>
+                <binding destination="326" name="contentArray" keyPath="selection.iniFile.minifigureHandsRightAccessories" id="525"/>
+            </connections>
+        </arrayController>
+        <arrayController objectClassName="LDrawPart" clearsFilterPredicateOnInsertion="NO" id="506" userLabel="Left Arms">
+            <declaredKeys>
+                <string>browsingDescription</string>
+            </declaredKeys>
+            <connections>
+                <binding destination="326" name="contentArray" keyPath="selection.iniFile.minifigureArmsLeft" id="527"/>
+            </connections>
+        </arrayController>
+        <arrayController objectClassName="LDrawPart" clearsFilterPredicateOnInsertion="NO" id="507" userLabel="Left Hands">
+            <declaredKeys>
+                <string>browsingDescription</string>
+            </declaredKeys>
+            <connections>
+                <binding destination="326" name="contentArray" keyPath="selection.iniFile.minifigureHandsLeft" id="529"/>
+            </connections>
+        </arrayController>
+        <arrayController objectClassName="LDrawPart" clearsFilterPredicateOnInsertion="NO" id="508" userLabel="Left Hand Accessories">
+            <declaredKeys>
+                <string>browsingDescription</string>
+                <string>@count</string>
+            </declaredKeys>
+            <connections>
+                <binding destination="326" name="contentArray" keyPath="selection.iniFile.minifigureHandsLeftAccessories" id="531"/>
+            </connections>
+        </arrayController>
+        <arrayController objectClassName="LDrawPart" clearsFilterPredicateOnInsertion="NO" id="509" userLabel="Hips">
+            <declaredKeys>
+                <string>browsingDescription</string>
+                <string>@count</string>
+            </declaredKeys>
+            <connections>
+                <binding destination="326" name="contentArray" keyPath="selection.iniFile.minifigureHips" id="519"/>
+            </connections>
+        </arrayController>
+        <arrayController objectClassName="LDrawPart" clearsFilterPredicateOnInsertion="NO" id="510" userLabel="Right Legs">
+            <declaredKeys>
+                <string>browsingDescription</string>
+            </declaredKeys>
+            <connections>
+                <binding destination="326" name="contentArray" keyPath="selection.iniFile.minifigureLegsRight" id="533"/>
+            </connections>
+        </arrayController>
+        <arrayController objectClassName="LDrawPart" clearsFilterPredicateOnInsertion="NO" id="511" userLabel="Right Leg Accessories">
+            <declaredKeys>
+                <string>browsingDescription</string>
+            </declaredKeys>
+            <connections>
+                <binding destination="326" name="contentArray" keyPath="selection.iniFile.minifigureLegsRightAccessories" id="535"/>
+            </connections>
+        </arrayController>
+        <arrayController objectClassName="LDrawPart" clearsFilterPredicateOnInsertion="NO" id="512" userLabel="Left Legs">
+            <declaredKeys>
+                <string>browsingDescription</string>
+            </declaredKeys>
+            <connections>
+                <binding destination="326" name="contentArray" keyPath="selection.iniFile.minifigureLegsLeft" id="537"/>
+            </connections>
+        </arrayController>
+        <arrayController objectClassName="LDrawPart" clearsFilterPredicateOnInsertion="NO" id="513" userLabel="Left Leg Accessories">
+            <declaredKeys>
+                <string>browsingDescription</string>
+            </declaredKeys>
+            <connections>
+                <binding destination="326" name="contentArray" keyPath="selection.iniFile.minifigureLegsLeftAcessories" id="539"/>
+            </connections>
+        </arrayController>
+        <view id="147">
+            <rect key="frame" x="0.0" y="0.0" width="125" height="1"/>
+            <autoresizingMask key="autoresizingMask"/>
+        </view>
+        <view id="150">
+            <rect key="frame" x="0.0" y="0.0" width="125" height="1"/>
+            <autoresizingMask key="autoresizingMask"/>
+        </view>
+        <view id="153">
+            <rect key="frame" x="0.0" y="0.0" width="125" height="1"/>
+            <autoresizingMask key="autoresizingMask"/>
+        </view>
+        <view id="172">
+            <rect key="frame" x="0.0" y="0.0" width="125" height="1"/>
+            <autoresizingMask key="autoresizingMask"/>
+        </view>
+        <view id="184">
+            <rect key="frame" x="0.0" y="0.0" width="125" height="1"/>
+            <autoresizingMask key="autoresizingMask"/>
+        </view>
+        <view id="202">
+            <rect key="frame" x="0.0" y="0.0" width="125" height="1"/>
+            <autoresizingMask key="autoresizingMask"/>
+        </view>
+        <view id="205">
+            <rect key="frame" x="0.0" y="0.0" width="125" height="1"/>
+            <autoresizingMask key="autoresizingMask"/>
+        </view>
+        <view id="209">
+            <rect key="frame" x="0.0" y="0.0" width="125" height="1"/>
+            <autoresizingMask key="autoresizingMask"/>
+        </view>
+        <view id="222">
+            <rect key="frame" x="0.0" y="0.0" width="125" height="1"/>
+            <autoresizingMask key="autoresizingMask"/>
+        </view>
+        <view id="266">
+            <rect key="frame" x="0.0" y="0.0" width="125" height="1"/>
+            <autoresizingMask key="autoresizingMask"/>
+        </view>
+        <view id="225">
+            <rect key="frame" x="0.0" y="0.0" width="125" height="1"/>
+            <autoresizingMask key="autoresizingMask"/>
+        </view>
+        <view id="240">
+            <rect key="frame" x="0.0" y="0.0" width="125" height="1"/>
+            <autoresizingMask key="autoresizingMask"/>
+        </view>
+        <view id="260">
+            <rect key="frame" x="0.0" y="0.0" width="125" height="1"/>
+            <autoresizingMask key="autoresizingMask"/>
+        </view>
+        <view id="283">
+            <rect key="frame" x="0.0" y="0.0" width="125" height="1"/>
+            <autoresizingMask key="autoresizingMask"/>
+        </view>
+        <view id="282">
+            <rect key="frame" x="0.0" y="0.0" width="125" height="1"/>
+            <autoresizingMask key="autoresizingMask"/>
+        </view>
+    </objects>
+</document>
