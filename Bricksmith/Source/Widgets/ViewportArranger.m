@@ -16,7 +16,6 @@
 
 const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 
-
 @implementation ViewportArranger
 
 #pragma mark -
@@ -33,7 +32,7 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 // -initWithCoder:
 //
 // ==============================================================================
-- (id) initWithFrame:(NSRect)frame
+- (id)initWithFrame:(NSRect)frame
 {
   self = [super initWithFrame:frame];
 
@@ -53,7 +52,7 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 // viewport arranger.
 //
 // ==============================================================================
-- (NSArray *) allViewports
+- (NSArray *)allViewports
 {
   NSUInteger     columnCounter = 0;
   NSUInteger     rowCounter    = 0;
@@ -80,7 +79,7 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 
 // ========== delegate ==========================================================
 // ==============================================================================
-- (id <ViewportArrangerDelegate>) delegate
+- (id <ViewportArrangerDelegate>)delegate
 {
   return(self->delegate);
 }
@@ -91,7 +90,7 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 // Purpose:		Sets the name under which this split view is saved.
 //
 // ==============================================================================
-- (void) setAutosaveName:(NSString *)newName
+- (void)setAutosaveName:(NSString *)newName
 {
   [self restoreViewportsWithAutosaveName:newName];
 
@@ -110,7 +109,7 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 // Purpose:		Sets the object which is notified on viewport changes.
 //
 // ==============================================================================
-- (void) setDelegate:(id <ViewportArrangerDelegate>)delegateIn
+- (void)setDelegate:(id <ViewportArrangerDelegate>)delegateIn
 {
   self->delegate = delegateIn;
 }// end setDelegate:
@@ -129,7 +128,7 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 // vertically.
 //
 // ==============================================================================
-- (IBAction) splitViewportClicked:(id)sender
+- (IBAction)splitViewportClicked:(id)sender
 {
   NSView *placardView = [sender superview];
   ExtendedScrollView *sourceViewport  = (ExtendedScrollView *)[placardView superview];    // enclosingScrollView won't work here.
@@ -207,7 +206,7 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 // column, removes the entire column.
 //
 // ==============================================================================
-- (IBAction) closeViewportClicked:(id)sender
+- (IBAction)closeViewportClicked:(id)sender
 {
   NSView *placardView = [sender superview];
   ExtendedScrollView *sourceViewport  = (ExtendedScrollView *)[placardView superview];    // enclosingScrollView won't work here.
@@ -319,7 +318,7 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 // Purpose:		Collapsing is good if we don't like this multipane view deal.
 //
 // ==============================================================================
-- (BOOL) splitView:(NSSplitView *)sender canCollapseSubview:(NSView *)subview
+- (BOOL)splitView:(NSSplitView *)sender canCollapseSubview:(NSView *)subview
 {
   return(YES);
 }// end splitView:canCollapseSubview:
@@ -332,7 +331,7 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 // double-clicked.
 //
 // ==============================================================================
-- (BOOL) splitView:(NSSplitView *)splitView
+- (BOOL)splitView:(NSSplitView *)splitView
   shouldCollapseSubview:(NSView *)subview
   forDoubleClickOnDividerAtIndex:(NSInteger)dividerIndex
 {
@@ -350,7 +349,7 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 // caller is responsible for releasing the button.
 //
 // ==============================================================================
-- (NSButton *) newCloseButton
+- (NSButton *)newCloseButton
 {
   NSButton *closeButton = [[NSButton alloc] initWithFrame:NSMakeRect(0, 0, 12, 12)];
 
@@ -373,7 +372,7 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 // is responsible for releasing it.
 //
 // ==============================================================================
-- (NSButton *) newSplitButton
+- (NSButton *)newSplitButton
 {
   NSButton *splitButton = [[NSButton alloc] initWithFrame:NSMakeRect(0, 0, 12, 12)];
 
@@ -399,7 +398,7 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 // archiving/unarchiving--the target and tooltip are getting lost.
 //
 // ==============================================================================
-- (NSView *) newSplitPlacard
+- (NSView *)newSplitPlacard
 {
   NSButton *splitButton      = [[self newSplitButton] autorelease];
   NSView   *placardContainer = [[NSView alloc] initWithFrame:NSMakeRect(0, 0, 12, 12)];
@@ -420,7 +419,7 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 // archiving/unarchiving--the target and tooltip are getting lost.
 //
 // ==============================================================================
-- (NSView *) newSplitClosePlacard
+- (NSView *)newSplitClosePlacard
 {
   NSButton *splitButton      = [[self newSplitButton] autorelease];
   NSButton *closeButton      = [[self newCloseButton] autorelease];
@@ -444,7 +443,7 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 // releasing the returned object.
 //
 // ==============================================================================
-- (ExtendedScrollView *) newViewport
+- (ExtendedScrollView *)newViewport
 {
   ExtendedScrollView *rowView = nil;
 
@@ -476,7 +475,7 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 // Poof! Now nothing is visible in the column. Ahh, an Apple bug!
 //
 // ==============================================================================
-- (void) doFrameSanityCheck
+- (void)doFrameSanityCheck
 {
   NSArray     *columns       = [self subviews];
   NSSplitView *currentColumn = nil;
@@ -499,7 +498,7 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 // See -doFrameSanityCheck for discussion.
 //
 // ==============================================================================
-- (void) doFrameSanityCheckForSplitView:(NSSplitView *)splitView
+- (void)doFrameSanityCheckForSplitView:(NSSplitView *)splitView
 {
   NSArray     *subviews    = [splitView subviews];
   BOOL        isSane       = NO;
@@ -534,7 +533,7 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 // the viewports, but they won't exist until they're created here.
 //
 // ==============================================================================
-- (void) restoreViewportsWithAutosaveName:(NSString *)autosaveNameIn
+- (void)restoreViewportsWithAutosaveName:(NSString *)autosaveNameIn
 {
   NSUserDefaults *userDefaults  = [NSUserDefaults standardUserDefaults];
   NSString       *preferenceKey =
@@ -611,7 +610,7 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 // time.
 //
 // ==============================================================================
-- (void) storeViewports
+- (void)storeViewports
 {
   NSUserDefaults *userDefaults       = [NSUserDefaults standardUserDefaults];
   NSString       *preferenceKey      = nil;
@@ -641,7 +640,7 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 // what saves the size of each row in each column.)
 //
 // ==============================================================================
-- (void) updateAutosaveNames
+- (void)updateAutosaveNames
 {
   NSString          *baseAutosaveName   = [self autosaveName];
   NSString          *columnAutosaveName = nil;
@@ -664,7 +663,7 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 // area for each viewport.
 //
 // ==============================================================================
-- (void) updatePlacardsForViewports
+- (void)updatePlacardsForViewports
 {
   NSArray            *columns       = [self subviews];
   NSArray            *rows          = nil;
@@ -708,7 +707,7 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 // Purpose:		Making our final arrangements.
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
   [super dealloc];
 }// end dealloc

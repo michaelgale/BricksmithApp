@@ -43,7 +43,7 @@
 // 5 colour x1 y1 z1 x2 y2 z2 x3 y3 z3 x4 y4 z4
 //
 // ==============================================================================
-- (id) initWithLines:(NSArray *)lines
+- (id)initWithLines:(NSArray *)lines
   inRange:(NSRange)range
   parentGroup:(dispatch_group_t)parentGroup
 {
@@ -161,7 +161,7 @@
 // read and write LDraw objects as NSData.
 //
 // ==============================================================================
-- (id) initWithCoder:(NSCoder *)decoder
+- (id)initWithCoder:(NSCoder *)decoder
 {
   const uint8_t *temporary = NULL; // pointer to a temporary buffer returned by the decoder.
 
@@ -187,7 +187,7 @@
 // read and write LDraw objects as NSData.
 //
 // ==============================================================================
-- (void) encodeWithCoder:(NSCoder *)encoder
+- (void)encodeWithCoder:(NSCoder *)encoder
 {
   [super encodeWithCoder:encoder];
 
@@ -205,7 +205,7 @@
 // Purpose:		Returns a duplicate of this file.
 //
 // ==============================================================================
-- (id) copyWithZone:(NSZone *)zone
+- (id)copyWithZone:(NSZone *)zone
 {
   LDrawConditionalLine *copied = (LDrawConditionalLine *)[super copyWithZone:zone];
 
@@ -227,7 +227,7 @@
 // absolutely kill performance.
 //
 // ==============================================================================
-- (void) draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)parentColor
+- (void)draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)parentColor
 
 {
   // do nothing.
@@ -242,7 +242,7 @@
 // Note:		DISABLED. See -draw:parentColor:
 //
 // ==============================================================================
-- (void) drawElement:(NSUInteger)optionsMask viewScale:(double)scaleFactor withColor:(LDrawColor *)
+- (void)drawElement:(NSUInteger)optionsMask viewScale:(double)scaleFactor withColor:(LDrawColor *)
   drawingColor
 {
   [super drawElement:optionsMask
@@ -258,7 +258,7 @@
 // 5 colour x1 y1 z1 x2 y2 z2 x3 y3 z3 x4 y4 z4
 //
 // ==============================================================================
-- (NSString *) write
+- (NSString *)write
 {
   return([NSString stringWithFormat:
           @"5 %@ %@ %@ %@ %@ %@ %@ %@ %@ %@ %@ %@ %@",
@@ -290,7 +290,7 @@
 // is to be stored. Store subsequent vertexs after the first.
 //
 // ==============================================================================
-- (VBOVertexData *) writeElementToVertexBuffer:(VBOVertexData *)vertexBuffer
+- (VBOVertexData *)writeElementToVertexBuffer:(VBOVertexData *)vertexBuffer
   withColor:(LDrawColor *)drawingColor
   wireframe:(BOOL)wireframe
 {
@@ -309,7 +309,7 @@
 // which can be presented to the user.
 //
 // ==============================================================================
-- (NSString *) browsingDescription
+- (NSString *)browsingDescription
 {
   return(NSLocalizedString(@"ConditionalLine", nil));
 }// end browsingDescription
@@ -321,7 +321,7 @@
 // object, or nil if there is no icon.
 //
 // ==============================================================================
-- (NSString *) iconName
+- (NSString *)iconName
 {
   return(@"ConditionalLine");
 }// end iconName
@@ -332,7 +332,7 @@
 // Purpose:		Returns the name of the class used to inspect this one.
 //
 // ==============================================================================
-- (NSString *) inspectorClassName
+- (NSString *)inspectorClassName
 {
   return(@"InspectionConditionalLine");
 }// end inspectorClassName
@@ -347,7 +347,7 @@
 // Purpose:		Returns the triangle's first vertex.
 //
 // ==============================================================================
-- (Point3) conditionalVertex1
+- (Point3)conditionalVertex1
 {
   return(conditionalVertex1);
 }// end conditionalVertex1
@@ -358,7 +358,7 @@
 // Purpose:
 //
 // ==============================================================================
-- (Point3) conditionalVertex2
+- (Point3)conditionalVertex2
 {
   return(conditionalVertex2);
 }// end conditionalVertex2
@@ -369,7 +369,7 @@
 // Purpose:
 //
 // ==============================================================================
-- (void) setConditionalVertex1:(Point3)newVertex
+- (void)setConditionalVertex1:(Point3)newVertex
 {
   conditionalVertex1 = newVertex;
 }// end setconditionalVertex1:
@@ -380,7 +380,7 @@
 // Purpose:
 //
 // ==============================================================================
-- (void) setConditionalVertex2:(Point3)newVertex
+- (void)setConditionalVertex2:(Point3)newVertex
 {
   conditionalVertex2 = newVertex;
 }// end setconditionalVertex2:
@@ -395,7 +395,7 @@
 // Purpose:		Moves the receiver in the specified direction.
 //
 // ==============================================================================
-- (void) moveBy:(Vector3)moveVector
+- (void)moveBy:(Vector3)moveVector
 {
   // I don't know if this makes any sense.
   conditionalVertex1.x += moveVector.x;
@@ -417,7 +417,7 @@
 // Purpose:		Appends the directive into the appropriate container.
 //
 // ==============================================================================
-- (void) flattenIntoLines:(NSMutableArray *)lines
+- (void)flattenIntoLines:(NSMutableArray *)lines
   triangles:(NSMutableArray *)triangles
   quadrilaterals:(NSMutableArray *)quadrilaterals
   other:(NSMutableArray *)everythingElse
@@ -439,7 +439,7 @@
 // not to any superclass.
 //
 // ==============================================================================
-- (void) registerUndoActions:(NSUndoManager *)undoManager
+- (void)registerUndoActions:(NSUndoManager *)undoManager
 {
   [super registerUndoActions:undoManager];
 

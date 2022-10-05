@@ -28,39 +28,38 @@
 @protocol LDrawColorable
 
 - (LDrawColor *)LDrawColor;
--(void)setLDrawColor: (LDrawColor *)newColor;
+- (void)setLDrawColor:(LDrawColor *)newColor;
 
 @end
-
 
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Class:		ColorLibrary
 //
 ////////////////////////////////////////////////////////////////////////////////
-@interface ColorLibrary: NSObject
+@interface ColorLibrary : NSObject
 {
   NSMutableDictionary *colors;    // keys are LDrawColorT codes; objects are LDrawColors
   NSMutableDictionary *privateColors; // colors we might be asked to display, but should NOT be in the color picker
-  NSMutableArray *favorites;       // colours in "Favorites"
+  NSMutableArray      *favorites;  // colours in "Favorites"
 }
 
 // Initialization
 + (ColorLibrary *)sharedColorLibrary;
 
 // Accessors
--(NSArray *)colors;
--(NSArray *)favoriteColors;
--(LDrawColor *)colorForCode: (LDrawColorT)colorCode;
--(void)getComplimentRGBA: (GLfloat *)complimentRGBA forCode: (LDrawColorT)colorCode;
--(void)setFavorites: (NSArray *)favoritesIn;
--(void)addColorToFavorites: (LDrawColorT)color;
--(void)removeColorFromFavorites: (LDrawColorT)color;
--(void)saveFavoritesToUserDefaults;
+- (NSArray *)colors;
+- (NSArray *)favoriteColors;
+- (LDrawColor *)colorForCode:(LDrawColorT)colorCode;
+- (void)getComplimentRGBA:(GLfloat *)complimentRGBA forCode:(LDrawColorT)colorCode;
+- (void)setFavorites:(NSArray *)favoritesIn;
+- (void)addColorToFavorites:(LDrawColorT)color;
+- (void)removeColorFromFavorites:(LDrawColorT)color;
+- (void)saveFavoritesToUserDefaults;
 
 // Registering Colors
--(void)addColor: (LDrawColor *)newColor;
--(void)addPrivateColor: (LDrawColor *)newColor;
+- (void)addColor:(LDrawColor *)newColor;
+- (void)addPrivateColor:(LDrawColor *)newColor;
 
 // Utilities
 

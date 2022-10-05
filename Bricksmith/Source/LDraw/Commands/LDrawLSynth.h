@@ -57,40 +57,40 @@ typedef enum
   PARSER_STATE_COUNT
 } LSynthParserStateT;
 
-@interface LDrawLSynth: LDrawContainer <LDrawColorable, LDrawMovableDirective>
+@interface LDrawLSynth : LDrawContainer <LDrawColorable, LDrawMovableDirective>
 {
   NSMutableArray *synthesizedParts;
-  NSString *synthType;
-  int lsynthClass;
-  LDrawColor *color;
-  GLfloat glTransformation[16];
-  BOOL hidden;
-  BOOL subdirectiveSelected;
-  Box3 cachedBounds;            // cached bounds of the enclosed directives
+  NSString       *synthType;
+  int            lsynthClass;
+  LDrawColor     *color;
+  GLfloat        glTransformation[16];
+  BOOL           hidden;
+  BOOL           subdirectiveSelected;
+  Box3           cachedBounds;  // cached bounds of the enclosed directives
 }
 
 // Accessors
-- (void)setLsynthClass: (int)lsynthClass;
--(int)lsynthClass;
--(void)setLsynthType: (NSString *)lsynthType;
--(NSString *)lsynthType;
--(void)setHidden: (BOOL)flag;
--(BOOL)isHidden;
--(void)setLDrawColor: (LDrawColor *)color;
+- (void)setLsynthClass:(int)lsynthClass;
+- (int)lsynthClass;
+- (void)setLsynthType:(NSString *)lsynthType;
+- (NSString *)lsynthType;
+- (void)setHidden:(BOOL)flag;
+- (BOOL)isHidden;
+- (void)setLDrawColor:(LDrawColor *)color;
 
--(TransformComponents)transformComponents;
--(Matrix4)transformationMatrix;
+- (TransformComponents)transformComponents;
+- (Matrix4)transformationMatrix;
 
 
 // Utilities
--(void)synthesize;
--(void)colorSelectedSynthesizedParts: (BOOL)yesNo;
--(NSString *)determineIconName: (LDrawDirective *)directive;
--(NSMutableArray *)prepareAutoHullData;
--(int)synthesizedPartsCount;
+- (void)synthesize;
+- (void)colorSelectedSynthesizedParts:(BOOL)yesNo;
+- (NSString *)determineIconName:(LDrawDirective *)directive;
+- (NSMutableArray *)prepareAutoHullData;
+- (int)synthesizedPartsCount;
 
 
-+(BOOL)lineIsLSynthBeginning: (NSString *)line;
-+(BOOL)lineIsLSynthTerminator: (NSString *)line;
++ (BOOL)lineIsLSynthBeginning:(NSString *)line;
++ (BOOL)lineIsLSynthTerminator:(NSString *)line;
 
 @end

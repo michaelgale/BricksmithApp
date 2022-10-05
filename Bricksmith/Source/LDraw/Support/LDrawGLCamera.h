@@ -44,8 +44,8 @@ typedef enum
 
 @protocol LDrawGLCameraScroller;
 
-
-@interface LDrawGLCamera: NSObject {
+@interface LDrawGLCamera : NSObject
+{
   id <LDrawGLCameraScroller> scroller;
 
   GLfloat projection[16];
@@ -53,57 +53,57 @@ typedef enum
   GLfloat orientation[16];
 
   ProjectionModeT projectionMode;
-  LocationModeT locationMode;
-  Box3 modelSize;
+  LocationModeT   locationMode;
+  Box3            modelSize;
 
-  BOOL viewportExpandsToAvailableSize;
+  BOOL   viewportExpandsToAvailableSize;
   double zoomFactor;
 
   GLfloat cameraDistance;     // location of camera on the z-axis; distance from (0,0,0);
-  Point3 rotationCenter;
-  Size2 snugFrameSize;
+  Point3  rotationCenter;
+  Size2   snugFrameSize;
 
   int mute;                   // Counted 'mute' to stop re-entrant calls to tickle...
 }
 
 - (id)init;
--(void)dealloc;
--(void)setScroller: (id <LDrawGLCameraScroller>)newScroller;
+- (void)dealloc;
+- (void)setScroller:(id <LDrawGLCameraScroller>)newScroller;
 
 // Output - the official OpenGL transform.
--(GLfloat *)getProjection;
--(GLfloat *)getModelView;
+- (GLfloat *)getProjection;
+- (GLfloat *)getModelView;
 
 // Output - camera meta-data for UI/persistence.  The camera outpust perspective/orthographic and a Euler viewing angle;
 // the client code creates the "known" views.
--(CGFloat)zoomPercentage;
--(ProjectionModeT)projectionMode;
--(LocationModeT)locationMode;
--(Tuple3)viewingAngle;
--(Point3)rotationCenter;
+- (CGFloat)zoomPercentage;
+- (ProjectionModeT)projectionMode;
+- (LocationModeT)locationMode;
+- (Tuple3)viewingAngle;
+- (Point3)rotationCenter;
 
 // Call this when the scroller's states change in any way, to force the
 // camera to 'suck in' the camera scroller parameters.  Clients only need
 // to call this when camera scroller properties change; if you call setModelSize,
 // the camera tickles itself.  So tickle should really only be called for scroll-bar
 // induced scrolling and frame dimension changes via a window resize or splitter move.
--(void)tickle;
+- (void)tickle;
 
 // These change the cached representation of the 3-d "thing" the camera is looking at.
--(void)setModelSize: (Box3)modelSize;
--(void)setRotationCenter: (Point3)point;
+- (void)setModelSize:(Box3)modelSize;
+- (void)setRotationCenter:(Point3)point;
 
 // These change the camera-controllable aspects of the scroller via the camera.
--(void)setZoomPercentage: (CGFloat)newPercentage;
--(void)setZoomPercentage: (CGFloat)newPercentage preservePoint: (Point3)modelPoint;
--(void)scrollModelPoint: (Point3)modelPoint toViewportProportionalPoint: (Point2)viewportPoint;
+- (void)setZoomPercentage:(CGFloat)newPercentage;
+- (void)setZoomPercentage:(CGFloat)newPercentage preservePoint:(Point3)modelPoint;
+- (void)scrollModelPoint:(Point3)modelPoint toViewportProportionalPoint:(Point2)viewportPoint;
 
 // These change the camera by sending 'rotation' commands of various kinds to the camera.
--(void)setViewingAngle: (Tuple3)newAngle;
--(void)setProjectionMode: (ProjectionModeT)newProjectionMode;
--(void)setLocationMode: (LocationModeT)newLocationMode;
--(void)rotationDragged: (Vector2)viewDirection;
--(void)rotateByDegrees: (double)angle;
+- (void)setViewingAngle:(Tuple3)newAngle;
+- (void)setProjectionMode:(ProjectionModeT)newProjectionMode;
+- (void)setLocationMode:(LocationModeT)newLocationMode;
+- (void)rotationDragged:(Vector2)viewDirection;
+- (void)rotateByDegrees:(double)angle;
 
 @end
 
@@ -128,14 +128,15 @@ typedef enum
 // Document size, in model units.  The camera can request a document size
 // change; NS code won't change the document size behind the camera's back.
 - (Size2)getDocumentSize;
--(void)setDocumentSize: (Size2)newDocumentSize;
+- (void)setDocumentSize:(Size2)newDocumentSize;
 
 // Scrolling
--(Box2)getVisibleRect;                  // From this we get our scroll position and visible area, in doc units.
--(Size2)getMaxVisibleSizeDoc;           // Max size we can show in doc units before we scroll.
--(Size2)getMaxVisibleSizeGL;            // Max size we can show in GL viewport pixels units before we scroll.
+- (Box2)getVisibleRect;                   // From this we get our scroll position and visible area, in doc units.
+- (Size2)getMaxVisibleSizeDoc;            // Max size we can show in doc units before we scroll.
+- (Size2)getMaxVisibleSizeGL;             // Max size we can show in GL viewport pixels units before we scroll.
 
--(void)setScaleFactor: (CGFloat)newScaleFactor;     // This sets the scale factor from UI points to doc units - 2.0 makes our model look twice as big on screen.
--(void)setScrollOrigin: (Point2)visibleOrigin;      // This scrolls the scroller so that the model point "visibleOrigin" is in the upper right corner of the
+- (void)setScaleFactor:(CGFloat)newScaleFactor;      // This sets the scale factor from UI points to doc units - 2.0 makes our model look twice as big on screen.
+- (void)setScrollOrigin:(Point2)visibleOrigin;       // This scrolls the scroller so that the model point "visibleOrigin" is in the upper right corner of the
+
 // visible screen.
 @end

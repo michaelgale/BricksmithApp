@@ -9,7 +9,6 @@
 // ==============================================================================
 #import "LDrawFileOutlineView.h"
 
-
 @implementation LDrawFileOutlineView
 
 // ========== draggingSourceOperationMaskForLocal: ==============================
@@ -18,7 +17,7 @@
 // enable interapplication drags.
 //
 // ==============================================================================
-- (NSDragOperation) draggingSourceOperationMaskForLocal:(BOOL)isLocal
+- (NSDragOperation)draggingSourceOperationMaskForLocal:(BOOL)isLocal
 {
   if (isLocal == NO) {
     return(NSDragOperationCopy);
@@ -35,7 +34,7 @@
 // visible. Returns the indexes of the selected objects.
 //
 // ==============================================================================
-- (NSIndexSet *) selectObjects:(NSArray *)objects
+- (NSIndexSet *)selectObjects:(NSArray *)objects
 {
   // Select all the objects which have been added.
   id                currentObject    = nil;

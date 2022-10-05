@@ -9,7 +9,6 @@
 // ==============================================================================
 #import "BezierPathCategory.h"
 
-
 @implementation NSBezierPath (BezierPathCategory)
 
 // ---------- bezierPathWithRect:radiusPercentage: --------------------[static]--
@@ -24,7 +23,7 @@
 // become semicircles.
 //
 // ------------------------------------------------------------------------------
-+ (NSBezierPath *) bezierPathWithRect:(NSRect)rect
++ (NSBezierPath *)bezierPathWithRect:(NSRect)rect
   radiusPercentage:(CGFloat)radiusPercentage
 {
   NSBezierPath *roundRect = [NSBezierPath bezierPath];

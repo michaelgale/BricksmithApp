@@ -25,13 +25,12 @@
 @class LDrawDragHandle;
 @class LDrawGLRenderer;
 
-
 ////////////////////////////////////////////////////////////////////////////////
 //
 // LDrawGLView
 //
 ////////////////////////////////////////////////////////////////////////////////
-@interface LDrawGLView: NSOpenGLView <LDrawColorable, LDrawGLRendererDelegate, LDrawGLCameraScroller>
+@interface LDrawGLView : NSOpenGLView <LDrawColorable, LDrawGLRendererDelegate, LDrawGLCameraScroller>
 {
   @private
   // The renderer is responsible for viewport math and OpenGL calls. Because
@@ -43,122 +42,121 @@
   FocusRingView *focusRingView;
 
   IBOutlet id delegate;
-  id target;
-  SEL backAction;
-  SEL forwardAction;
-  SEL nudgeAction;
+  id          target;
+  SEL         backAction;
+  SEL         forwardAction;
+  SEL         nudgeAction;
 
-  BOOL acceptsFirstResponder;       // YES if we can become key
+  BOOL     acceptsFirstResponder;   // YES if we can become key
   NSString *autosaveName;
 
   // Event Tracking
-  NSTimer *mouseDownTimer;          // countdown to beginning drag-and-drop
-  NSTimer *autoscrollTimer;         // timer to keep autoscroll going when mouse is stationary in scroll zone
-  BOOL canBeginDragAndDrop;         // the next mouse-dragged will initiate a drag-and-drop.  This is based on the timeout for delayed drag mode.
-  BOOL dragEndedInOurDocument;      // YES if the drag we initiated ended in the document we display
-  BOOL selectionIsMarquee;          // Remembers when a select-click misses and can thus start a marquee.  Only if we HIT an object can we start dragging.
+  NSTimer        *mouseDownTimer;     // countdown to beginning drag-and-drop
+  NSTimer        *autoscrollTimer;    // timer to keep autoscroll going when mouse is stationary in scroll zone
+  BOOL           canBeginDragAndDrop; // the next mouse-dragged will initiate a drag-and-drop.  This is based on the timeout for delayed drag mode.
+  BOOL           dragEndedInOurDocument; // YES if the drag we initiated ended in the document we display
+  BOOL           selectionIsMarquee;  // Remembers when a select-click misses and can thus start a marquee.  Only if we HIT an object can we start dragging.
   SelectionModeT marqueeSelectionMode;
-  NSEventType startingGestureType;
-  Vector3 nudgeVector;              // direction of nudge action (valid only in nudgeAction callback)
-  BOOL showAxis;
+  NSEventType    startingGestureType;
+  Vector3        nudgeVector;         // direction of nudge action (valid only in nudgeAction callback)
+  BOOL           showAxis;
 }
 
 - (void)internalInit;
 
 // Drawing
--(void)draw;
+- (void)draw;
 
 // Accessors
--(LDrawDirective *)LDrawDirective;
--(Vector3)nudgeVectorForMatrix: (Matrix4)partMatrix;
--(ProjectionModeT)projectionMode;
--(LocationModeT)locationMode;
--(Tuple3)viewingAngle;
--(ViewOrientationT)viewOrientation;
--(CGFloat)zoomPercentage;
+- (LDrawDirective *)LDrawDirective;
+- (Vector3)nudgeVectorForMatrix:(Matrix4)partMatrix;
+- (ProjectionModeT)projectionMode;
+- (LocationModeT)locationMode;
+- (Tuple3)viewingAngle;
+- (ViewOrientationT)viewOrientation;
+- (CGFloat)zoomPercentage;
 
--(void)setBackgroundColor: (NSColor *)newColor;
--(void)setAcceptsFirstResponder: (BOOL)flag;
--(void)setAutosaveName: (NSString *)newName;
--(void)setBackAction: (SEL)newAction;
--(void)setDelegate: (id)object;
--(void)setForwardAction: (SEL)newAction;
--(void)setGridSpacingMode: (gridSpacingModeT)newMode;
--(void)setLDrawDirective: (LDrawDirective *)newFile;
--(void)setNudgeAction: (SEL)newAction;
--(void)setProjectionMode: (ProjectionModeT)newProjectionMode;
--(void)setLocationMode: (LocationModeT)newLocationMode;
--(void)setTarget: (id)target;
--(void)setViewingAngle: (Tuple3)newAngle;
--(void)setViewOrientation: (ViewOrientationT)newAngle;
--(void)setZoomPercentage: (CGFloat)newPercentage;
+- (void)setBackgroundColor:(NSColor *)newColor;
+- (void)setAcceptsFirstResponder:(BOOL)flag;
+- (void)setAutosaveName:(NSString *)newName;
+- (void)setBackAction:(SEL)newAction;
+- (void)setDelegate:(id)object;
+- (void)setForwardAction:(SEL)newAction;
+- (void)setGridSpacingMode:(gridSpacingModeT)newMode;
+- (void)setLDrawDirective:(LDrawDirective *)newFile;
+- (void)setNudgeAction:(SEL)newAction;
+- (void)setProjectionMode:(ProjectionModeT)newProjectionMode;
+- (void)setLocationMode:(LocationModeT)newLocationMode;
+- (void)setTarget:(id)target;
+- (void)setViewingAngle:(Tuple3)newAngle;
+- (void)setViewOrientation:(ViewOrientationT)newAngle;
+- (void)setZoomPercentage:(CGFloat)newPercentage;
 
 // Actions
--(IBAction)viewOrientationSelected: (id)sender;
--(IBAction)zoomIn: (id)sender;
--(IBAction)zoomOut: (id)sender;
--(IBAction)zoomToFit: (id)sender;
+- (IBAction)viewOrientationSelected:(id)sender;
+- (IBAction)zoomIn:(id)sender;
+- (IBAction)zoomOut:(id)sender;
+- (IBAction)zoomToFit:(id)sender;
 
 // Events
--(void)resetCursor;
+- (void)resetCursor;
 
--(void)nudgeKeyDown: (NSEvent *)theEvent;
+- (void)nudgeKeyDown:(NSEvent *)theEvent;
 
--(void)directInteractionDragged: (NSEvent *)theEvent;
--(void)dragAndDropDragged: (NSEvent *)theEvent;
--(void)dragHandleDragged: (NSEvent *)theEvent;
+- (void)directInteractionDragged:(NSEvent *)theEvent;
+- (void)dragAndDropDragged:(NSEvent *)theEvent;
+- (void)dragHandleDragged:(NSEvent *)theEvent;
 
--(void)mousePartSelection: (NSEvent *)theEvent;
--(void)mouseZoomClick: (NSEvent *)theEvent;
+- (void)mousePartSelection:(NSEvent *)theEvent;
+- (void)mouseZoomClick:(NSEvent *)theEvent;
 
--(void)cancelClickAndHoldTimer;
+- (void)cancelClickAndHoldTimer;
 
 // Notifications
 
 // Utilities
--(void)restoreConfiguration;
--(void)saveConfiguration;
--(void)saveImageToPath: (NSString *)path;
--(void)scrollCenterToModelPoint: (Point3)modelPoint;
--(void)takeBackgroundColorFromUserDefaults;
+- (void)restoreConfiguration;
+- (void)saveConfiguration;
+- (void)saveImageToPath:(NSString *)path;
+- (void)scrollCenterToModelPoint:(Point3)modelPoint;
+- (void)takeBackgroundColorFromUserDefaults;
 
--(void)setViewAxisLines: (BOOL)flag;
+- (void)setViewAxisLines:(BOOL)flag;
+
 @end
-
 
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Delegate Methods
 //
 ////////////////////////////////////////////////////////////////////////////////
-@interface NSObject(LDrawGLViewDelegate)
+@interface NSObject (LDrawGLViewDelegate)
 
-- (void)LDrawGLViewBecameFirstResponder: (LDrawGLView *)glView;
+- (void)LDrawGLViewBecameFirstResponder:(LDrawGLView *)glView;
 
--(BOOL)LDrawGLView: (LDrawGLView *)glView writeDirectivesToPasteboard: (NSPasteboard *)pasteboard asCopy: (
-  BOOL)copyFlag;
--(void)LDrawGLView: (LDrawGLView *)glView acceptDrop: (id <NSDraggingInfo>)info directives: (NSArray *)
-directives;
--(void)LDrawGLViewPartsWereDraggedIntoOblivion: (LDrawGLView *)glView;
--(void)LDrawGLViewPartDragEnded: (LDrawGLView *)glView;
+- (BOOL)LDrawGLView:(LDrawGLView *)glView writeDirectivesToPasteboard:(NSPasteboard *)pasteboard asCopy:(
+    BOOL)copyFlag;
+- (void)LDrawGLView:(LDrawGLView *)glView acceptDrop:(id <NSDraggingInfo>)info directives:(NSArray *)
+  directives;
+- (void)LDrawGLViewPartsWereDraggedIntoOblivion:(LDrawGLView *)glView;
+- (void)LDrawGLViewPartDragEnded:(LDrawGLView *)glView;
 
--(TransformComponents)LDrawGLViewPreferredPartTransform: (LDrawGLView *)glView;
+- (TransformComponents)LDrawGLViewPreferredPartTransform:(LDrawGLView *)glView;
 
 // Delegate method is called when the user has changed the selection of parts
 // by clicking in the view. This does not actually do any selecting; that is
 // left entirely to the delegate. Some may rightly question the design of this
 // system.
--(void)LDrawGLView: (LDrawGLView *)glView wantsToSelectDirective: (LDrawDirective *)directiveToSelect
-byExtendingSelection: (BOOL)shouldExtend;
--(void)LDrawGLView: (LDrawGLView *)glView wantsToSelectDirectives: (NSArray *)directivesToSelect selectionMode
-: (SelectionModeT)selectionMode;
--(void)LDrawGLView: (LDrawGLView *)glView willBeginDraggingHandle: (LDrawDragHandle *)dragHandle;
--(void)LDrawGLView: (LDrawGLView *)glView dragHandleDidMove: (LDrawDragHandle *)dragHandle;
--(void)LDrawGLView: (LDrawGLView *)glView mouseIsOverPoint: (Point3)modelPoint confidence: (Tuple3)confidence;
--(void)LDrawGLViewMouseNotPositioning: (LDrawGLView *)glView;
--(void)markPreviousSelection;
--(void)unmarkPreviousSelection;
-
+- (void)LDrawGLView:(LDrawGLView *)glView wantsToSelectDirective:(LDrawDirective *)directiveToSelect
+  byExtendingSelection:(BOOL)shouldExtend;
+- (void)LDrawGLView:(LDrawGLView *)glView wantsToSelectDirectives:(NSArray *)directivesToSelect selectionMode
+  :(SelectionModeT)selectionMode;
+- (void)LDrawGLView:(LDrawGLView *)glView willBeginDraggingHandle:(LDrawDragHandle *)dragHandle;
+- (void)LDrawGLView:(LDrawGLView *)glView dragHandleDidMove:(LDrawDragHandle *)dragHandle;
+- (void)LDrawGLView:(LDrawGLView *)glView mouseIsOverPoint:(Point3)modelPoint confidence:(Tuple3)confidence;
+- (void)LDrawGLViewMouseNotPositioning:(LDrawGLView *)glView;
+- (void)markPreviousSelection;
+- (void)unmarkPreviousSelection;
 
 @end
 
@@ -170,7 +168,9 @@ byExtendingSelection: (BOOL)shouldExtend;
 //
 ////////////////////////////////////////////////////////////////////////////////
 #if MAC_OS_X_VERSION_MAX_ALLOWED <= MAC_OS_X_VERSION_10_5
-@interface NSEvent(GestureMethods)
+
+@interface NSEvent (GestureMethods)
 - (CGFloat)magnification;
+
 @end
 #endif

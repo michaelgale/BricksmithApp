@@ -10,8 +10,7 @@
 // ==============================================================================
 #import <Cocoa/Cocoa.h>
 
-
-@interface MLCadIni: NSObject
+@interface MLCadIni : NSObject
 {
   NSArray *lsynthVisibleTypes;
 
@@ -37,26 +36,26 @@
 + (MLCadIni *)iniFile;
 
 // Accessors
--(NSArray *)lsynthVisibleTypes;
--(NSArray *)minifigureHats;
--(NSArray *)minifigureHeads;
--(NSArray *)minifigureNecks;
--(NSArray *)minifigureTorsos;
--(NSArray *)minifigureHips;
--(NSArray *)minifigureArmsLeft;
--(NSArray *)minifigureArmsRight;
--(NSArray *)minifigureHandsLeft;
--(NSArray *)minifigureHandsLeftAccessories;
--(NSArray *)minifigureHandsRight;
--(NSArray *)minifigureHandsRightAccessories;
--(NSArray *)minifigureLegsLeft;
--(NSArray *)minifigureLegsLeftAcessories;
--(NSArray *)minifigureLegsRight;
--(NSArray *)minifigureLegsRightAccessories;
+- (NSArray *)lsynthVisibleTypes;
+- (NSArray *)minifigureHats;
+- (NSArray *)minifigureHeads;
+- (NSArray *)minifigureNecks;
+- (NSArray *)minifigureTorsos;
+- (NSArray *)minifigureHips;
+- (NSArray *)minifigureArmsLeft;
+- (NSArray *)minifigureArmsRight;
+- (NSArray *)minifigureHandsLeft;
+- (NSArray *)minifigureHandsLeftAccessories;
+- (NSArray *)minifigureHandsRight;
+- (NSArray *)minifigureHandsRightAccessories;
+- (NSArray *)minifigureLegsLeft;
+- (NSArray *)minifigureLegsLeftAcessories;
+- (NSArray *)minifigureLegsRight;
+- (NSArray *)minifigureLegsRightAccessories;
 
--(float)armAngleForTorsoName: (NSString *)torsoName;
+- (float)armAngleForTorsoName:(NSString *)torsoName;
 
 // Parsing
--(void)parseFromPath: (NSString *)path;
+- (void)parseFromPath:(NSString *)path;
 
 @end

@@ -11,7 +11,6 @@
 // ==============================================================================
 #import "IconTextCell.h"
 
-
 @implementation IconTextCell
 
 #pragma mark -
@@ -23,7 +22,7 @@
 // Purpose:		Initialize the object.
 //
 // ==============================================================================
-- (id) init
+- (id)init
 {
   self = [super init];
 
@@ -39,7 +38,7 @@
 // Purpose:		Called by objects in a Nib file. They still need some defaults.
 //
 // ==============================================================================
-- (id) initWithCoder:(NSCoder *)decoder
+- (id)initWithCoder:(NSCoder *)decoder
 {
   self = [super initWithCoder:decoder];
 
@@ -56,7 +55,7 @@
 // time.
 //
 // ==============================================================================
-- (id) copyWithZone:(NSZone *)zone
+- (id)copyWithZone:(NSZone *)zone
 {
   IconTextCell *cell = (IconTextCell *)[super copyWithZone:zone];
 
@@ -78,7 +77,7 @@
 // account the image we have added.
 //
 // ==============================================================================
-- (NSSize) cellSize
+- (NSSize)cellSize
 {
   NSSize cellSize = [super cellSize];
 
@@ -96,7 +95,7 @@
 // Purpose:		Return a vertically-centered title.
 //
 // ==============================================================================
-- (NSRect) titleRectForBounds:(NSRect)theRect
+- (NSRect)titleRectForBounds:(NSRect)theRect
 {
   NSRect titleRect = [super titleRectForBounds:theRect];
   NSSize titleSize = NSZeroSize;
@@ -118,7 +117,7 @@
 // text.
 //
 // ==============================================================================
-- (void) drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
+- (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
   NSRect            textFrame  = cellFrame;
   NSSize            imageSize  = NSZeroSize;
@@ -177,7 +176,7 @@
 // Purpose:		Selects the text to edit; much like editWithFrame
 //
 // ==============================================================================
-- (void) selectWithFrame:(NSRect)cellFrame
+- (void)selectWithFrame:(NSRect)cellFrame
   inView:(NSView *)controlView
   editor:(NSText *)textObject
   delegate:(id)anObject
@@ -214,7 +213,7 @@
 // devoted to the image.
 //
 // ==============================================================================
-- (void) editWithFrame:(NSRect)cellFrame
+- (void)editWithFrame:(NSRect)cellFrame
   inView:(NSView *)controlView
   editor:(NSText *)textObject
   delegate:(id)anObject
@@ -248,7 +247,7 @@
 
 // ========== image ==============================================================
 // ==============================================================================
-- (NSImage *) image
+- (NSImage *)image
 {
   return(image);
 }// end image
@@ -256,7 +255,7 @@
 
 // ========== imagePadding ======================================================
 // ==============================================================================
-- (CGFloat) imagePadding
+- (CGFloat)imagePadding
 {
   return(imagePadding);
 }// end imagePadding
@@ -264,7 +263,7 @@
 
 // ========== verticallyCentersTitle ============================================
 // ==============================================================================
-- (BOOL) verticallyCentersTitle
+- (BOOL)verticallyCentersTitle
 {
   return(self->verticallyCentersTitle);
 }
@@ -277,7 +276,7 @@
 // Purpose:		Changes the image displayed along with the text in this cell.
 //
 // ==============================================================================
-- (void) setImage:(NSImage *)newImage
+- (void)setImage:(NSImage *)newImage
 {
   [newImage retain];
   [image release];
@@ -291,7 +290,7 @@
 // the cell's image.
 //
 // ==============================================================================
-- (void) setImagePadding:(CGFloat)newAmount
+- (void)setImagePadding:(CGFloat)newAmount
 {
   imagePadding = newAmount;
 }// end setImagePadding:
@@ -309,7 +308,7 @@
 // header is out of sight before the view appears.
 //
 // ==============================================================================
-- (void) setVerticallyCentersTitle:(BOOL)flag
+- (void)setVerticallyCentersTitle:(BOOL)flag
 {
   self->verticallyCentersTitle = flag;
 }
@@ -321,7 +320,7 @@
 
 // ========== dealloc ===========================================================
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
   [image release];
   [super dealloc];

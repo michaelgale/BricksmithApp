@@ -12,7 +12,7 @@
 #import "LDrawDirective.h"
 #import "LDrawModel.h"
 
-@interface LDrawMPDModel: LDrawModel <NSCoding>
+@interface LDrawMPDModel : LDrawModel <NSCoding>
 {
   @private
   // MPD submodels have a name to identify them.
@@ -23,17 +23,17 @@
 + (id)model;
 
 // Directives
--(NSString *)writeModel;
+- (NSString *)writeModel;
 
 // Accessors
--(NSString *)modelDisplayName;
--(NSString *)modelName;
--(void)setModelDisplayName: (NSString *)newDisplayName;
--(void)setModelName: (NSString *)newModelName;
+- (NSString *)modelDisplayName;
+- (NSString *)modelName;
+- (void)setModelDisplayName:(NSString *)newDisplayName;
+- (void)setModelName:(NSString *)newModelName;
 
 // Utilities
-+(NSString *)ldrawCompliantNameForName: (NSString *)newDisplayName;
-+(BOOL)lineIsMPDModelStart: (NSString *)line modelName: (NSString **)modelNamePtr;
-+(BOOL)lineIsMPDModelEnd: (NSString *)line;
++ (NSString *)ldrawCompliantNameForName:(NSString *)newDisplayName;
++ (BOOL)lineIsMPDModelStart:(NSString *)line modelName:(NSString **)modelNamePtr;
++ (BOOL)lineIsMPDModelEnd:(NSString *)line;
 
 @end

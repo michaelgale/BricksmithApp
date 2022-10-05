@@ -42,7 +42,6 @@
 // runs just fine if it is not.
 extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 
-
 @implementation LDrawApplication
 
 // ---------- initialize ----------------------------------------------[static]--
@@ -50,7 +49,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // Purpose:		Load things that need to be loaded *extremely* early in startup.
 //
 // ------------------------------------------------------------------------------
-+ (void) initialize
++ (void)initialize
 {
   TransformerIntMinus1 *minus1Transformer = [[[TransformerIntMinus1 alloc] init] autorelease];
 
@@ -64,7 +63,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // Purpose:		Do first-load clean-up.
 //
 // ==============================================================================
-- (void) awakeFromNib
+- (void)awakeFromNib
 {
   OSErr error;
 
@@ -102,16 +101,18 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // Purpose:		Returns the pixel format used in Bricksmith OpenGL views.
 //
 // ------------------------------------------------------------------------------
-+ (NSOpenGLPixelFormat *) openGLPixelFormat
++ (NSOpenGLPixelFormat *)openGLPixelFormat
 {
   NSOpenGLPixelFormat          *pixelFormat      = nil;
   NSOpenGLPixelFormatAttribute pixelAttributes[] =
-  {
-    NSOpenGLPFANoRecovery,   // Enable automatic use of OpenGL "share" contexts for Core Animation.
+  { // Enable automatic use of OpenGL "share" contexts for Core Animation.
+    NSOpenGLPFANoRecovery,
     NSOpenGLPFADoubleBuffer,
     NSOpenGLPFADepthSize,    32,
-    NSOpenGLPFASampleBuffers,1,                          // enable line antialiasing
-    NSOpenGLPFASamples,      4,                          // antialiasing beauty
+    // enable line antialiasing
+    NSOpenGLPFASampleBuffers,1,
+    // antialiasing beauty
+    NSOpenGLPFASamples,      4,
     0
   };
 
@@ -129,7 +130,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // to this class around.
 //
 // ------------------------------------------------------------------------------
-+ (Inspector *) sharedInspector
++ (Inspector *)sharedInspector
 {
   return([[LDrawApplication shared] inspector]);
 }// end sharedInspector
@@ -141,7 +142,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // Every LDrawGLView should share this context.
 //
 // ------------------------------------------------------------------------------
-+ (NSOpenGLContext *) sharedOpenGLContext
++ (NSOpenGLContext *)sharedOpenGLContext
 {
   return([[LDrawApplication shared] openGLContext]);
 }// end sharedOpenGLContext
@@ -155,7 +156,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // to this class around.
 //
 // ------------------------------------------------------------------------------
-+ (PartLibraryController *) sharedPartLibraryController
++ (PartLibraryController *)sharedPartLibraryController
 {
   // Rather than making the part library a global variable, I decided to make
   // it an instance variable of the Application Controller class, of which
@@ -172,7 +173,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // the only copy of it in the program.
 //
 // ==============================================================================
-- (Inspector *) inspector
+- (Inspector *)inspector
 {
   return(inspector);
 }// end inspector
@@ -185,7 +186,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // part library itself through this object.
 //
 // ==============================================================================
-- (PartLibraryController *) partLibraryController
+- (PartLibraryController *)partLibraryController
 {
   return(partLibraryController);
 }// end partLibraryController
@@ -196,7 +197,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // Purpose:		Returns the local instance of the LSynth configuration.
 //
 // ==============================================================================
-- (LSynthConfiguration *) lsynthConfiguration
+- (LSynthConfiguration *)lsynthConfiguration
 {
   return(lsynthConfiguration);
 }// end lsynthConfiguration
@@ -208,7 +209,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // Every LDrawGLView should share this context.
 //
 // ==============================================================================
-- (NSOpenGLContext *) openGLContext
+- (NSOpenGLContext *)openGLContext
 {
   return(self->sharedGLContext);
 }// end openGLContext
@@ -219,7 +220,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 /// @abstract    Returns the singleton LDrawApplication.
 ///
 // ==============================================================================
-+ (LDrawApplication *) shared
++ (LDrawApplication *)shared
 {
   return((LDrawApplication *)[NSApp delegate]);
 }
@@ -237,7 +238,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // Purpose:		Show the preferences window.
 //
 // ==============================================================================
-- (IBAction) doPreferences:(id)sender
+- (IBAction)doPreferences:(id)sender
 {
   [PreferencesDialogController doPreferences];
 }// end doPreferences:
@@ -249,7 +250,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // (Here's hoping.)
 //
 // ==============================================================================
-- (IBAction) doDonate:(id)sender
+- (IBAction)doDonate:(id)sender
 {
   NSURL *donationURL =
     [NSURL URLWithString:@"https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=6985549"];
@@ -267,7 +268,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // not. That's up to the document.
 //
 // ==============================================================================
-- (IBAction) showInspector:(id)sender
+- (IBAction)showInspector:(id)sender
 {
   [inspector show:sender];
 }// end showInspector:
@@ -279,7 +280,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // preference.
 //
 // ==============================================================================
-- (IBAction) doPartBrowser:(id)sender
+- (IBAction)doPartBrowser:(id)sender
 {
   NSUserDefaults             *userDefaults       = [NSUserDefaults standardUserDefaults];
   PartBrowserStyleT          newStyle            = [userDefaults integerForKey:PART_BROWSER_STYLE_KEY];
@@ -312,7 +313,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // mode (e.g., selection, zooming, etc.).
 //
 // ==============================================================================
-- (IBAction) showMouseTools:(id)sender
+- (IBAction)showMouseTools:(id)sender
 {
   [[ToolPalette sharedToolPalette] showToolPalette:sender];
 }// end showMouseTools:
@@ -323,7 +324,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // Purpose:		Closes the mouse tools palette.
 //
 // ==============================================================================
-- (IBAction) hideMouseTools:(id)sender
+- (IBAction)hideMouseTools:(id)sender
 {
   [[ToolPalette sharedToolPalette] hideToolPalette:sender];
 }// end hideMouseTools:
@@ -337,7 +338,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // Purpose:		Opens the colors panel.
 //
 // ==============================================================================
-- (IBAction) showColors:(id)sender
+- (IBAction)showColors:(id)sender
 {
   LDrawColorPanelController *colorPanel = [LDrawColorPanelController sharedColorPanel];
 
@@ -362,7 +363,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // Purpose:		Display the Bricksmith tutorial.
 //
 // ==============================================================================
-- (IBAction) doHelp:(id)sender
+- (IBAction)doHelp:(id)sender
 {
   [self openHelpAnchor:@"index"];
 }// end doHelp:
@@ -375,7 +376,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // Notes:		Don't use Help Viewer. See addendum  in -doHelp:.
 //
 // ==============================================================================
-- (IBAction) doKeyboardShortcutHelp:(id)sender
+- (IBAction)doKeyboardShortcutHelp:(id)sender
 {
   [self openHelpAnchor:@"KeyboardShortcuts"];
 }// end doKeyboardShortcutHelp:
@@ -388,7 +389,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // Notes:		Don't use Help Viewer. See addendum  in -doHelp:.
 //
 // ==============================================================================
-- (IBAction) doGettingNewPartsHelp:(id)sender
+- (IBAction)doGettingNewPartsHelp:(id)sender
 {
   [self openHelpAnchor:@"AboutLDraw"];
 }// end doKeyboardShortcutHelp:
@@ -407,7 +408,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // (i.e., opening files) but after the application is set up.
 //
 // ==============================================================================
-- (void) applicationWillFinishLaunching:(NSNotification *)aNotification
+- (void)applicationWillFinishLaunching:(NSNotification *)aNotification
 {
   NSOpenGLPixelFormat *pixelFormat  = [LDrawApplication openGLPixelFormat];
   NSUserDefaults      *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -467,7 +468,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // Purpose:		The application has finished launching.
 //
 // ==============================================================================
-- (void) applicationDidFinishLaunching:(NSNotification *)aNotification
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
   NSUserDefaults *userDefaults   = [NSUserDefaults standardUserDefaults];
   BOOL           showPartBrowser = [userDefaults boolForKey:PART_BROWSER_PANEL_SHOW_AT_LAUNCH];
@@ -494,7 +495,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // saving out preferences.
 //
 // ==============================================================================
-- (void) applicationWillTerminate:(NSNotification *)notification
+- (void)applicationWillTerminate:(NSNotification *)notification
 {
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
   PartBrowserPanelController *partBrowserPanel = [PartBrowserPanelController sharedPartBrowserPanel];
@@ -519,7 +520,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // this great project, um, monetarily.
 //
 // ==============================================================================
-- (NSApplicationTerminateReply) applicationShouldTerminate:(NSApplication *)sender
+- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
 {
   DonationDialogController *donation = [[DonationDialogController alloc] init];
 
@@ -544,7 +545,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // LDrawDocument.
 //
 // ==============================================================================
-- (BOOL) validateMenuItem:(NSMenuItem *)menuItem
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
   NSInteger tag    = [menuItem tag];
   BOOL      enable = NO;
@@ -584,7 +585,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // Purpose:		Sparkle is about to install an update and relaunch.
 //
 // ==============================================================================
-- (void) updaterWillRelaunchApplication:(SUUpdater *)updater
+- (void)updaterWillRelaunchApplication:(SUUpdater *)updater
 {
   // Asking for money in the middle of an update process is a bit distracting.
   suppressDonationPrompt = YES;
@@ -601,7 +602,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // preferences.
 //
 // ==============================================================================
-- (void) partBrowserStyleDidChange:(NSNotification *)notification
+- (void)partBrowserStyleDidChange:(NSNotification *)notification
 {
   NSUserDefaults       *userDefaults       = [NSUserDefaults standardUserDefaults];
   PartBrowserStyleT    newStyle            = [userDefaults integerForKey:PART_BROWSER_STYLE_KEY];
@@ -666,7 +667,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // That is shockingly unacceptible.
 //
 // ==============================================================================
-- (void) openHelpAnchor:(NSString *)helpAnchor
+- (void)openHelpAnchor:(NSString *)helpAnchor
 {
   NSBundle *applicationBundle = [NSBundle mainBundle];
   NSString *fileName          = helpAnchor; // help anchor is the filename by my convention
@@ -686,7 +687,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // found.
 //
 // ==============================================================================
-- (void) findLDrawPath
+- (void)findLDrawPath
 {
   NSUserDefaults *userDefaults   = [NSUserDefaults standardUserDefaults];
   LDrawPaths     *paths          = [LDrawPaths sharedPaths];
@@ -700,8 +701,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
   // We found one.
   if (ldrawPath != nil) {
     [paths setPreferredLDrawPath:ldrawPath];
-    [userDefaults setObject:ldrawPath
-                     forKey:LDRAW_PATH_KEY];
+    [userDefaults setObject:ldrawPath forKey:LDRAW_PATH_KEY];
   }
   else {
     [self->partLibraryController validateLDrawFolderWithMessage:preferencePath];
@@ -716,7 +716,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // file.
 //
 // ==============================================================================
-- (void) populateLSynthModelMenus
+- (void)populateLSynthModelMenus
 {
   LDrawApplication *appDelegate  = [NSApp delegate];
   NSMenu           *mainMenu     = [NSApp mainMenu];
@@ -858,7 +858,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // Purpose:		Returns the name of the current user of the computer.
 //
 // ==============================================================================
-- (NSString *) userName
+- (NSString *)userName
 {
   NSString *fullName = NSFullUserName();
 
@@ -881,11 +881,11 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // Purpose:		The curtain falls.
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
-  [partLibraryController  release];
-  [inspector        release];
-  [sharedGLContext    release];
+  [partLibraryController release];
+  [inspector release];
+  [sharedGLContext release];
 
   [super dealloc];
 }// end dealloc

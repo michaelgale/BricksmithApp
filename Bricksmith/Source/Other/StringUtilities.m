@@ -9,7 +9,6 @@
 // ==============================================================================
 #import "StringUtilities.h"
 
-
 @implementation StringUtilities
 
 // ---------- nextCopyNameForString: ----------------------------------[static]--
@@ -29,7 +28,7 @@
 // foo copy.txt			foo copy.txt copy
 //
 // ------------------------------------------------------------------------------
-+ (NSString *) nextCopyNameForString:(NSString *)originalString
++ (NSString *)nextCopyNameForString:(NSString *)originalString
 {
   NSString *copyToken       = NSLocalizedString(@"CopySuffix", nil);
   NSRange  rangeOfCopyToken = [originalString rangeOfString:copyToken
@@ -111,7 +110,7 @@
 // foo copy.txt			foo copy 2.txt
 //
 // ------------------------------------------------------------------------------
-+ (NSString *) nextCopyPathForFilePath:(NSString *)basePath
++ (NSString *)nextCopyPathForFilePath:(NSString *)basePath
 {
   NSString *fileName              = [basePath lastPathComponent];
   NSString *enclosingPath         = [basePath stringByDeletingLastPathComponent];

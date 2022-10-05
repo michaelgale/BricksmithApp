@@ -14,20 +14,19 @@
 // Forward declarations
 @class AMSProgressPanel;
 
-
 ////////////////////////////////////////////////////////////////////////////////
 //
 // class PartLibraryController
 //
 ////////////////////////////////////////////////////////////////////////////////
-@interface PartLibraryController: NSObject <PartLibraryDelegate>
+@interface PartLibraryController : NSObject <PartLibraryDelegate>
 {
   AMSProgressPanel *progressPanel;
 }
 
 // Actions
 - (BOOL)loadPartCatalog;
--(BOOL)reloadPartCatalog;
--(BOOL)validateLDrawFolderWithMessage: (NSString *)folderPath;
+- (BOOL)reloadPartCatalog;
+- (BOOL)validateLDrawFolderWithMessage:(NSString *)folderPath;
 
 @end

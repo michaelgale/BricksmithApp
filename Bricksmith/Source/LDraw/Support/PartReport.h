@@ -21,35 +21,34 @@ extern NSString *PART_REPORT_LDRAW_COLOR; // LDrawColor object
 extern NSString *PART_REPORT_COLOR_NAME;  // NSString representing localized name
 extern NSString *PART_REPORT_PART_QUANTITY; // NSNumber of how many of this part there are
 
-
 ////////////////////////////////////////////////////////////////////////////////
 //
 // class PartReport
 //
 ////////////////////////////////////////////////////////////////////////////////
-@interface PartReport: NSObject
+@interface PartReport : NSObject
 {
-  LDrawContainer *reportedObject;
+  LDrawContainer      *reportedObject;
   NSMutableDictionary *partsReport;     // see -registerPart: for a description of this data
-  NSMutableArray *missingParts;
-  NSMutableArray *movedParts;
-  NSUInteger totalNumberOfParts;        // how many parts are in the model.
+  NSMutableArray      *missingParts;
+  NSMutableArray      *movedParts;
+  NSUInteger          totalNumberOfParts; // how many parts are in the model.
 }
 
 // Initialization
-+ (PartReport *)partReportForContainer: (LDrawContainer *)container;
++ (PartReport *)partReportForContainer:(LDrawContainer *)container;
 
 // Collecting Information
--(void)setLDrawContainer: (LDrawContainer *)newContainer;
--(void)getPieceCountReport;
--(void)registerPart: (LDrawPart *)part;
+- (void)setLDrawContainer:(LDrawContainer *)newContainer;
+- (void)getPieceCountReport;
+- (void)registerPart:(LDrawPart *)part;
 
 // Accessing Information
--(NSArray *)allParts;
--(NSArray *)flattenedReport;
--(NSArray *)missingParts;
--(NSArray *)movedParts;
--(NSUInteger)numberOfParts;
--(NSString *)textualRepresentationWithSortDescriptors: (NSArray *)sortDescriptors;
+- (NSArray *)allParts;
+- (NSArray *)flattenedReport;
+- (NSArray *)missingParts;
+- (NSArray *)movedParts;
+- (NSUInteger)numberOfParts;
+- (NSString *)textualRepresentationWithSortDescriptors:(NSArray *)sortDescriptors;
 
 @end

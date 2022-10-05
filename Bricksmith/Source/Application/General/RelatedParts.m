@@ -76,7 +76,7 @@ static NSInteger sort_by_role(id a, id b, void *ref)
 // identifier, which has been pulled off already.
 //
 // ==============================================================================
-- (id) initWithParent:(NSString *)parentName
+- (id)initWithParent:(NSString *)parentName
   offset:(GLfloat *)offset
   relation:(NSString *)relation
   childLine:(NSString *)line
@@ -164,7 +164,7 @@ static NSInteger sort_by_role(id a, id b, void *ref)
 // Purpose:		Beam me out, Scotty!
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
   [parent release];
   [child release];
@@ -179,7 +179,7 @@ static NSInteger sort_by_role(id a, id b, void *ref)
 // Purpose:		Print out a debug view of this relation for diagnostics.
 //
 // ==============================================================================
-- (void) dump
+- (void)dump
 {
   NSLog(@"\t%s\t%s(%s)\t%s		%f,%f,%f		%f %f %f | %f %f %f | %f %f %f\n",
         [self->parent UTF8String], [self->child UTF8String], [self->childName UTF8String],
@@ -198,7 +198,7 @@ static NSInteger sort_by_role(id a, id b, void *ref)
 // relationship.
 //
 // ==============================================================================
-- (NSString *) parent
+- (NSString *)parent
 {
   return(parent);
 }// end parent
@@ -210,7 +210,7 @@ static NSInteger sort_by_role(id a, id b, void *ref)
 // relationship.
 //
 // ==============================================================================
-- (NSString *) child
+- (NSString *)child
 {
   return(child);
 }// end child
@@ -222,7 +222,7 @@ static NSInteger sort_by_role(id a, id b, void *ref)
 // human-readable description of the child part.
 //
 // ==============================================================================
-- (NSString *) childName
+- (NSString *)childName
 {
   return(childName);
 }// end childName
@@ -233,7 +233,7 @@ static NSInteger sort_by_role(id a, id b, void *ref)
 // Purpose:		Return the role name for the related part.
 //
 // ==============================================================================
-- (NSString *) role
+- (NSString *)role
 {
   return(role);
 }// end role
@@ -245,7 +245,7 @@ static NSInteger sort_by_role(id a, id b, void *ref)
 // and a given parent's position.
 //
 // ==============================================================================
-- (TransformComponents) calcChildPosition:(TransformComponents)parentPosition
+- (TransformComponents)calcChildPosition:(TransformComponents)parentPosition
 {
   TransformComponents ret;
   Matrix4             parentMatrix       = Matrix4CreateTransformation(&parentPosition);
@@ -259,7 +259,6 @@ static NSInteger sort_by_role(id a, id b, void *ref)
 
 @end
 
-
 @implementation RelatedParts
 
 static RelatedParts *SharedRelatedParts = nil;
@@ -271,7 +270,7 @@ static RelatedParts *SharedRelatedParts = nil;
 // from an LDR file stored in our bundle.
 //
 // ------------------------------------------------------------------------------
-+ (RelatedParts *) sharedRelatedParts
++ (RelatedParts *)sharedRelatedParts
 {
   if (SharedRelatedParts == nil) {
     NSBundle *mainBundle = [NSBundle mainBundle];
@@ -291,7 +290,7 @@ static RelatedParts *SharedRelatedParts = nil;
 // an LDR file.
 //
 // ==============================================================================
-- (id) initWithFilePath:(NSString *)filePath
+- (id)initWithFilePath:(NSString *)filePath
 {
   NSUInteger i;
   NSUInteger count;
@@ -411,7 +410,7 @@ static RelatedParts *SharedRelatedParts = nil;
 // Purpose:		My name is John D. Alec, but you can call me Mr. Alec.
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
   [self->relatedParts release];
 
@@ -427,7 +426,7 @@ static RelatedParts *SharedRelatedParts = nil;
 // Notes:		Children are returned as NSString's with the filename.
 //
 // ==============================================================================
-- (NSArray *) getChildPartList:(NSString *)parent
+- (NSArray *)getChildPartList:(NSString *)parent
 {
   NSUInteger   i;
   NSUInteger   count = [self->relatedParts count];
@@ -455,7 +454,7 @@ static RelatedParts *SharedRelatedParts = nil;
 // Notes:		Roles are returned as NSStrings.
 //
 // ==============================================================================
-- (NSArray *) getChildRoleList:(NSString *)parent
+- (NSArray *)getChildRoleList:(NSString *)parent
 {
   NSUInteger   i;
   NSUInteger   count = [self->relatedParts count];
@@ -484,7 +483,7 @@ static RelatedParts *SharedRelatedParts = nil;
 // by the description of the child part.
 //
 // ==============================================================================
-- (NSArray *) getRelatedPartList:(NSString *)parent withRole:(NSString *)role
+- (NSArray *)getRelatedPartList:(NSString *)parent withRole:(NSString *)role
 {
   NSUInteger     i;
   NSUInteger     count = [self->relatedParts count];
@@ -514,7 +513,7 @@ static RelatedParts *SharedRelatedParts = nil;
 // by the role.
 //
 // ==============================================================================
-- (NSArray *) getRelatedPartList:(NSString *)parent withChild:(NSString *)child
+- (NSArray *)getRelatedPartList:(NSString *)parent withChild:(NSString *)child
 {
   NSUInteger     i;
   NSUInteger     count = [self->relatedParts count];
@@ -540,7 +539,7 @@ static RelatedParts *SharedRelatedParts = nil;
 // Purpose:		Print the entire related-parts DB.
 //
 // ==============================================================================
-- (void) dump
+- (void)dump
 {
   NSUInteger i, count;
 

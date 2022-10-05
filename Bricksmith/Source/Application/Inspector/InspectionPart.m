@@ -19,7 +19,6 @@
 #import "MacLDraw.h"
 #import "PartLibrary.h"
 
-
 @implementation InspectionPart
 
 // ========== init ==============================================================
@@ -27,12 +26,11 @@
 // Purpose:		Load the interface for this inspector.
 //
 // ==============================================================================
-- (id) init
+- (id)init
 {
   self = [super init];
 
-  if ([NSBundle loadNibNamed:@"InspectorPart"
-                       owner:self] == NO) {
+  if ([NSBundle loadNibNamed:@"InspectorPart" owner:self] == NO) {
     NSLog(@"Couldn't load InspectorPart.nib");
   }
 
@@ -49,7 +47,7 @@
 // Purpose:		Called in response to the conclusion of editing in the palette.
 //
 // ==============================================================================
-- (void) commitChanges:(id)sender
+- (void)commitChanges:(id)sender
 {
   LDrawPart           *representedObject = [self object];
   TransformComponents oldComponents      = [representedObject transformComponents];
@@ -86,7 +84,7 @@
 // the data in their inspector palettes.
 //
 // ==============================================================================
-- (IBAction) revert:(id)sender
+- (IBAction)revert:(id)sender
 {
   LDrawPart           *representedObject = [self object];
   TransformComponents components         = [representedObject transformComponents];
@@ -142,7 +140,7 @@
 //
 //
 // ==============================================================================
-- (void) setRotationAngles
+- (void)setRotationAngles
 {
   LDrawPart           *representedObject = [self object];
   TransformComponents components         = [representedObject transformComponents];
@@ -175,7 +173,7 @@
 // -finishedEditing: which modifies a different set of values.
 //
 // ==============================================================================
-- (IBAction) applyRotationClicked:(id)sender
+- (IBAction)applyRotationClicked:(id)sender
 {
   LDrawPart     *representedObject = [self object];
   LDrawDocument *currentDocument   = [[NSDocumentController sharedDocumentController] currentDocument];
@@ -227,7 +225,7 @@
 // update the object.
 //
 // ==============================================================================
-- (IBAction) locationEndedEditing:(id)sender
+- (IBAction)locationEndedEditing:(id)sender
 {
   Point3 formContents            = [locationForm coordinateValue];
   TransformComponents components = [[self object] transformComponents];
@@ -246,7 +244,7 @@
 // update the object.
 //
 // ==============================================================================
-- (IBAction) partNameEndedEditing:(id)sender
+- (IBAction)partNameEndedEditing:(id)sender
 {
   NSString *newName = [partNameField stringValue];
   NSString *oldName = [[self object] displayName];
@@ -263,7 +261,7 @@
 // Purpose:		The pop-up menu specifying the rotation type has changed.
 //
 // ==============================================================================
-- (IBAction) rotationTypeChanged:(id)sender
+- (IBAction)rotationTypeChanged:(id)sender
 {
   [self setRotationAngles];
 }// end rotationTypeChanged:
@@ -277,7 +275,7 @@
 // update the object.
 //
 // ==============================================================================
-- (IBAction) scalingEndedEditing:(id)sender
+- (IBAction)scalingEndedEditing:(id)sender
 {
   Vector3             formContents = [scalingForm coordinateValue];
   TransformComponents components   = [[self object] transformComponents];
@@ -300,7 +298,7 @@
 // update the object.
 //
 // ==============================================================================
-- (IBAction) shearEndedEditing:(id)sender
+- (IBAction)shearEndedEditing:(id)sender
 {
   Vector3             formContents = [shearForm coordinateValue];
   TransformComponents components   = [[self object] transformComponents];
@@ -325,7 +323,7 @@
 // Purpose:		Abandon all hope ye who enter here.
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
   // Top level nib objects:
   [formatterBasic release];

@@ -23,7 +23,7 @@ static PartBrowserPanelController *sharedPartBrowserPanel = nil;
 // Purpose:		Finish object setup.
 //
 // ==============================================================================
-- (void) awakeFromNib
+- (void)awakeFromNib
 {
   [self->splitView setAutosaveName:@"PartBrowserPanelSplitView"];
   [self->splitView restoreConfiguration];
@@ -32,7 +32,7 @@ static PartBrowserPanelController *sharedPartBrowserPanel = nil;
 
 // ========== windowDidLoad =====================================================
 // ==============================================================================
-- (void) windowDidLoad
+- (void)windowDidLoad
 {
   [self->partsBrowser scrollSelectedCategoryToCenter];
 }
@@ -47,7 +47,7 @@ static PartBrowserPanelController *sharedPartBrowserPanel = nil;
 // Purpose:		Returns the application-wide instance of the PartBrowserPanel.
 //
 // ------------------------------------------------------------------------------
-+ (PartBrowserPanelController *) sharedPartBrowserPanel
++ (PartBrowserPanelController *)sharedPartBrowserPanel
 {
   if (sharedPartBrowserPanel == nil) {
     sharedPartBrowserPanel = [[PartBrowserPanelController alloc] init];
@@ -62,7 +62,7 @@ static PartBrowserPanelController *sharedPartBrowserPanel = nil;
 // Purpose:		Brings the LDraw part chooser panel to life.
 //
 // ==============================================================================
-- (id) init
+- (id)init
 {
   self = [super initWithWindowNibName:@"PartBrowser"];
 
@@ -80,7 +80,7 @@ static PartBrowserPanelController *sharedPartBrowserPanel = nil;
 // information such as the currently-selected part.
 //
 // ==============================================================================
-- (PartBrowserDataSource *) partBrowser
+- (PartBrowserDataSource *)partBrowser
 {
   return(self->partsBrowser);
 }// end partBrowser
@@ -103,7 +103,7 @@ static PartBrowserPanelController *sharedPartBrowserPanel = nil;
 // scratch.
 //
 // ==============================================================================
-- (void) windowWillClose:(NSNotification *)notification
+- (void)windowWillClose:(NSNotification *)notification
 {
   // Make sure our memory is all released.
   sharedPartBrowserPanel = nil;
@@ -118,7 +118,7 @@ static PartBrowserPanelController *sharedPartBrowserPanel = nil;
 // allowing the undo request to forward on to the active document.
 //
 // ==============================================================================
-- (NSUndoManager *) windowWillReturnUndoManager:(NSWindow *)sender
+- (NSUndoManager *)windowWillReturnUndoManager:(NSWindow *)sender
 {
   NSDocument *currentDocument = [[NSDocumentController sharedDocumentController] currentDocument];
 
@@ -131,7 +131,7 @@ static PartBrowserPanelController *sharedPartBrowserPanel = nil;
 // Purpose:		Don't allow the view portions to shrink too much.
 //
 // ==============================================================================
-- (CGFloat) splitView:(NSSplitView *)sender constrainMinCoordinate:(CGFloat)proposedMin ofSubviewAt:(NSInteger)
+- (CGFloat)splitView:(NSSplitView *)sender constrainMinCoordinate:(CGFloat)proposedMin ofSubviewAt:(NSInteger)
   offset
 {
   return(96);
@@ -147,7 +147,7 @@ static PartBrowserPanelController *sharedPartBrowserPanel = nil;
 // Purpose:		We're checking out of this fleabag hotel.
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
   // no need to release top-level nib objects, as this is an NSWindowController
 

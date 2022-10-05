@@ -46,10 +46,11 @@
   int            r;
   LDrawDirective *directive;
 }
-- (void) setX:(int)x;
-- (void) setY:(int)y;
-- (void) setR:(int)r;
-- (Circle *) initWithX:(int)x Y:(int)y R:(int)r;
+- (void)setX:(int)x;
+- (void)setY:(int)y;
+- (void)setR:(int)r;
+- (Circle *)initWithX:(int)x Y:(int)y R:(int)r;
+
 @end
 
 @implementation Circle
@@ -58,7 +59,7 @@
 #pragma mark INITIALISATION
 #pragma mark -
 
-- (id) initWithX:(int)X Y:(int)Y R:(int)R
+- (id)initWithX:(int)X Y:(int)Y R:(int)R
 {
   self = [super init];
   if (self) {
@@ -74,41 +75,41 @@
 #pragma mark ACCESSORS
 #pragma mark -
 
-- (int) x
+- (int)x
 {
   return(self->x);
 }
 
 
-- (void) setX:(int)X
+- (void)setX:(int)X
 {
   self->x = X;
 }
 
 
-- (int) y {
+- (int)y {
   return(self->y);
 }
 
 
-- (void) setY:(int)Y
+- (void)setY:(int)Y
 {
   self->y = Y;
 }
 
 
-- (int) r {
+- (int)r {
   return(self->r);
 }
 
 
-- (void) setR:(int)R
+- (void)setR:(int)R
 {
   self->r = R;
 }
 
 
-- (LDrawDirective *) directive {
+- (LDrawDirective *)directive {
   return(self->directive);
 }
 
@@ -157,7 +158,7 @@
  *  Finds tangent segments between two given circles.
  *
  */
-+ (NSArray *) tangentBetweenCircle:(NSMutableDictionary *)circle1 andCircle:(NSMutableDictionary *)circle2
++ (NSArray *)tangentBetweenCircle:(NSMutableDictionary *)circle1 andCircle:(NSMutableDictionary *)circle2
 {
   // Recast the supplied dictionaries as Circles for clarity in the main algorithm
   Circle *c1 = [[[Circle alloc] initWithX:[[circle1 valueForKey:@"x"] integerValue]
@@ -245,7 +246,7 @@
 // directives) to an existing LSynth's constraints.
 //
 // ==============================================================================
-+ (void) doJarvisMarch:(NSMutableArray *)preparedData
++ (void)doJarvisMarch:(NSMutableArray *)preparedData
 {
   int leftmost;
 
@@ -283,7 +284,7 @@
 // Purpose:		Find the next point on the convex hull
 //
 // ==============================================================================
-+ (int) nextHullPointWithPoints:(NSArray *)points andPointIndex:(int)pIndex
++ (int)nextHullPointWithPoints:(NSArray *)points andPointIndex:(int)pIndex
 {
   int qIndex = pIndex;
   int rIndex;
@@ -332,7 +333,7 @@
 // [R]    (Right)
 //
 // ==============================================================================
-+ (int) turnWithPoints:(NSArray *)points P:(int)pIndex Q:(int)qIndex R:(int)rIndex
++ (int)turnWithPoints:(NSArray *)points P:(int)pIndex Q:(int)qIndex R:(int)rIndex
 {
   // NSLog(@"PQR: %i, %i, %i", pIndex, qIndex, rIndex);
 
@@ -363,7 +364,7 @@
 // an array.
 //
 // ==============================================================================
-+ (int) distanceBetweenPoints:(NSArray *)points P:(int)pIndex Q:(int)qIndex
++ (int)distanceBetweenPoints:(NSArray *)points P:(int)pIndex Q:(int)qIndex
 {
   int dx = [[[points objectAtIndex:qIndex] objectForKey:@"x"] integerValue] -
     [[[points objectAtIndex:pIndex] objectForKey:@"x"] integerValue];
@@ -381,7 +382,7 @@
 // Purpose:		Determine the index of the left-most point in a set of points
 //
 // ==============================================================================
-+ (int) leftmost:(NSMutableArray *)points
++ (int)leftmost:(NSMutableArray *)points
 {
   int leftmost = 0;
   int i;

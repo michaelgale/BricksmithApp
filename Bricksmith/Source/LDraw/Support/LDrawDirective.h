@@ -128,17 +128,19 @@ typedef enum Message
 } MessageT;
 
 @protocol LDrawObserver
-  @required
-- (void)observableSaysGoodbyeCruelWorld: (id <LDrawObservable>)doomedObservable;
-- (void) statusInvalidated:(CacheFlagsT)flags who:(id <LDrawObservable>)observable;
-- (void) receiveMessage:(MessageT)msg who:(id <LDrawObservable>)observable;
+@required
+- (void)observableSaysGoodbyeCruelWorld:(id <LDrawObservable>)doomedObservable;
+- (void)statusInvalidated:(CacheFlagsT)flags who:(id <LDrawObservable>)observable;
+- (void)receiveMessage:(MessageT)msg who:(id <LDrawObservable>)observable;
+
 @end
 
 
 @protocol LDrawObservable
-  @required
-- (void)addObserver: (id <LDrawObserver>)observer;
-- (void) removeObserver:(id <LDrawObserver>)observer;
+@required
+- (void)addObserver:(id <LDrawObserver>)observer;
+- (void)removeObserver:(id <LDrawObserver>)observer;
+
 @end
 
 
@@ -162,73 +164,73 @@ typedef enum Message
 
 typedef void (^LDrawPartVisitor)(LDrawPart *);
 
-
 ////////////////////////////////////////////////////////////////////////////////
 //
 // LDrawDirective
 //
 ////////////////////////////////////////////////////////////////////////////////
-@interface LDrawDirective: NSObject <NSCoding, NSCopying, LDrawObservable>
+@interface LDrawDirective : NSObject <NSCoding, NSCopying, LDrawObservable>
 {
   @private
   LDrawContainer *enclosingDirective; // LDraw files are a hierarchy.
+
   #if NEW_SET
   LDrawFastSet observers;
   #else
   NSMutableSet *observers;          // Any observers watching us.  This is an array of NSValues of pointers to create WEAK references.
   #endif
   CacheFlagsT invalFlags;
-  BOOL isSelected;
-  NSString *iconName;
+  BOOL        isSelected;
+  NSString    *iconName;
 }
 
 // Class methods
 + (NSString *)defaultIconName;
 
 // Initialization
-- (id) initWithLines:(NSArray *)lines inRange:(NSRange)range;
-- (id) initWithLines:(NSArray *)lines inRange:(NSRange)range parentGroup:(dispatch_group_t)parentGroup;
-+ (NSRange) rangeOfDirectiveBeginningAtIndex:(NSUInteger)index inLines:(NSArray *)lines maxIndex:(NSUInteger)
+- (id)initWithLines:(NSArray *)lines inRange:(NSRange)range;
+- (id)initWithLines:(NSArray *)lines inRange:(NSRange)range parentGroup:(dispatch_group_t)parentGroup;
++ (NSRange)rangeOfDirectiveBeginningAtIndex:(NSUInteger)index inLines:(NSArray *)lines maxIndex:(NSUInteger)
   maxIndex;
 
 // Directives
-- (void) draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)parentColor;
-- (void) drawSelf:(id <LDrawRenderer>)renderer;
-- (void) collectSelf:(id <LDrawCollector>)renderer;
-- (Box3) boundingBox3;
-- (void) debugDrawboundingBox;
+- (void)draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)parentColor;
+- (void)drawSelf:(id <LDrawRenderer>)renderer;
+- (void)collectSelf:(id <LDrawCollector>)renderer;
+- (Box3)boundingBox3;
+- (void)debugDrawboundingBox;
 
 // Hit testing primitives
-- (void) hitTest:(Ray3)pickRay transform:(Matrix4)transform viewScale:(double)scaleFactor boundsOnly:(BOOL)
+- (void)hitTest:(Ray3)pickRay transform:(Matrix4)transform viewScale:(double)scaleFactor boundsOnly:(BOOL)
   boundsOnly creditObject:(id)creditObject hits:(NSMutableDictionary *)hits;
-- (BOOL) boxTest:(Box2)bounds transform:(Matrix4)transform boundsOnly:(BOOL)boundsOnly creditObject:(id)
+- (BOOL)boxTest:(Box2)bounds transform:(Matrix4)transform boundsOnly:(BOOL)boundsOnly creditObject:(id)
   creditObject hits:(NSMutableSet *)hits;
-- (void) depthTest:(Point2)testPt inBox:(Box2)bounds transform:(Matrix4)transform creditObject:(id)
+- (void)depthTest:(Point2)testPt inBox:(Box2)bounds transform:(Matrix4)transform creditObject:(id)
   creditObject bestObject:(id *)bestObject bestDepth:(double *)bestDepth;
 
-- (NSString *) write;
+- (NSString *)write;
 
 // Display
-- (NSString *) browsingDescription;
-- (NSString *) iconName;
-- (NSString *) inspectorClassName;
+- (NSString *)browsingDescription;
+- (NSString *)iconName;
+- (NSString *)inspectorClassName;
 
 // Accessors
-- (NSArray *) ancestors;
-- (LDrawContainer *) enclosingDirective;
-- (LDrawFile *) enclosingFile;
-- (LDrawModel *) enclosingModel;
-- (LDrawStep *) enclosingStep;
+- (NSArray *)ancestors;
+- (LDrawContainer *)enclosingDirective;
+- (LDrawFile *)enclosingFile;
+- (LDrawModel *)enclosingModel;
+- (LDrawStep *)enclosingStep;
 
-- (BOOL) isSelected;
+- (BOOL)isSelected;
 
-- (void) setEnclosingDirective:(LDrawContainer *)newParent;
-- (void) setSelected:(BOOL)flag;
-- (void) setIconName:(NSString *)icon;
+- (void)setEnclosingDirective:(LDrawContainer *)newParent;
+- (void)setSelected:(BOOL)flag;
+- (void)setIconName:(NSString *)icon;
 
 // Utilities
-- (BOOL) containsReferenceTo:(NSString *)name;
-- (void) flattenIntoLines:(NSMutableArray *)lines
+- (BOOL)containsReferenceTo:(NSString *)name;
+- (void)flattenIntoLines:(NSMutableArray *)lines
   triangles:(NSMutableArray *)triangles
   quadrilaterals:(NSMutableArray *)quadrilaterals
   other:(NSMutableArray *)everythingElse
@@ -236,15 +238,15 @@ typedef void (^LDrawPartVisitor)(LDrawPart *);
   currentTransform:(Matrix4)transform
   normalTransform:(Matrix3)normalTransform
   recursive:(BOOL)recursive;
-- (BOOL) isAncestorInList:(NSArray *)containers;
-- (void) noteNeedsDisplay;
-- (void) registerUndoActions:(NSUndoManager *)undoManager;
+- (BOOL)isAncestorInList:(NSArray *)containers;
+- (void)noteNeedsDisplay;
+- (void)registerUndoActions:(NSUndoManager *)undoManager;
 
 // These methods should really be "protected" methods for sub-classes to use when acting like observables.
 // Obj-C doesn't give us compiler-level support to stop externals from calling them.
 
-- (void) sendMessageToObservers:(MessageT)msg;      // Send a specific message to all observers.
-- (void) invalCache:(CacheFlagsT)flags;             // Invalidate cache bits - this notifies observers as needed.  Flags are the bits to invalidate, not the net effect.
-- (CacheFlagsT) revalCache:(CacheFlagsT)flags;      // Revalidate flags - no notifications are sent, but internals are updated.  Returns which flags _were_ dirty.
+- (void)sendMessageToObservers:(MessageT)msg;       // Send a specific message to all observers.
+- (void)invalCache:(CacheFlagsT)flags;              // Invalidate cache bits - this notifies observers as needed.  Flags are the bits to invalidate, not the net effect.
+- (CacheFlagsT)revalCache:(CacheFlagsT)flags;       // Revalidate flags - no notifications are sent, but internals are updated.  Returns which flags _were_ dirty.
 
 @end

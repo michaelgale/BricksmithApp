@@ -11,7 +11,7 @@
 
 #import "ObjectInspectionController.h"
 
-@interface InspectionMPDModel: ObjectInspectionController
+@interface InspectionMPDModel : ObjectInspectionController
 {
   IBOutlet NSTextField *modelNameField;
   IBOutlet NSTextField *descriptionField;
@@ -22,8 +22,8 @@
 }
 
 // Actions
-- (IBAction)modelNameFieldChanged: (id)sender;
--(IBAction)descriptionFieldChanged: (id)sender;
--(IBAction)authorFieldChanged: (id)sender;
+- (IBAction)modelNameFieldChanged:(id)sender;
+- (IBAction)descriptionFieldChanged:(id)sender;
+- (IBAction)authorFieldChanged:(id)sender;
 
 @end

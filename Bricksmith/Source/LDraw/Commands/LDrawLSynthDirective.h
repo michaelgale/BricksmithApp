@@ -12,6 +12,6 @@
 #import <Foundation/Foundation.h>
 #import "LDrawMetaCommand.h"
 
-@interface LDrawLSynthDirective: LDrawMetaCommand
+@interface LDrawLSynthDirective : LDrawMetaCommand
 
 @end

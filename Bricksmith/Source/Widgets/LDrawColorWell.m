@@ -46,7 +46,7 @@ static LDrawColorWell *sharedActiveColorWell = nil;
 // Returns nil if no color well is active.
 //
 // ------------------------------------------------------------------------------
-+ (LDrawColorWell *) activeColorWell
++ (LDrawColorWell *)activeColorWell
 {
   return(sharedActiveColorWell);
 }// end activeColorWell
@@ -59,15 +59,15 @@ static LDrawColorWell *sharedActiveColorWell = nil;
 // Pass nil if no color well is active.
 //
 // ------------------------------------------------------------------------------
-+ (void) setActiveColorWell:(LDrawColorWell *)newWell
++ (void)setActiveColorWell:(LDrawColorWell *)newWell
 {
   // change the appearence
   [sharedActiveColorWell setState:NSOffState];
   [newWell setState:NSOnState];
 
   // trade out variable
-  [newWell        retain];
-  [sharedActiveColorWell  release];
+  [newWell retain];
+  [sharedActiveColorWell release];
 
   sharedActiveColorWell = newWell;
 
@@ -90,7 +90,7 @@ static LDrawColorWell *sharedActiveColorWell = nil;
 // Purpose:		Returns the LDraw color code represented by this button.
 //
 // ==============================================================================
-- (LDrawColor *) LDrawColor
+- (LDrawColor *)LDrawColor
 {
   return(color);
 }// end LDrawColor
@@ -102,7 +102,7 @@ static LDrawColorWell *sharedActiveColorWell = nil;
 // redraws the receiever.
 //
 // ==============================================================================
-- (void) setLDrawColor:(LDrawColor *)newColor
+- (void)setLDrawColor:(LDrawColor *)newColor
 {
   GLfloat components[4];
 
@@ -133,7 +133,7 @@ static LDrawColorWell *sharedActiveColorWell = nil;
 // Purpose:		Paints the represented color inside the button.
 //
 // ==============================================================================
-- (void) drawRect:(NSRect)aRect
+- (void)drawRect:(NSRect)aRect
 {
   [super drawRect:aRect];
 
@@ -156,7 +156,7 @@ static LDrawColorWell *sharedActiveColorWell = nil;
 // should be sent in response to this message.
 //
 // ==============================================================================
-- (void) changeLDrawColorWell:(id)sender
+- (void)changeLDrawColorWell:(id)sender
 {
   LDrawColor *newColor = [sender LDrawColor];
 
@@ -188,7 +188,7 @@ static LDrawColorWell *sharedActiveColorWell = nil;
 // happens at the cell level).
 //
 // ==============================================================================
-- (BOOL) sendAction:(SEL)theAction to:(id)theTarget
+- (BOOL)sendAction:(SEL)theAction to:(id)theTarget
 {
   BOOL handledAction = NO;
 
@@ -241,14 +241,14 @@ static LDrawColorWell *sharedActiveColorWell = nil;
 // something.
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
   // if we are the active color well, it's time we ceased to be such!
   if ([LDrawColorWell activeColorWell] == self) {
     [LDrawColorWell setActiveColorWell:nil];
   }
 
-  [self->nsColor  release];
+  [self->nsColor release];
 
   [super dealloc];
 }// end dealloc

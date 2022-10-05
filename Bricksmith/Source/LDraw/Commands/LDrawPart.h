@@ -30,13 +30,12 @@ typedef enum PartType
   PartTypePeerFile    // Part is the first model in another file in the same directory as us.
 } PartTypeT;
 
-
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Class:		LDrawPart
 //
 ////////////////////////////////////////////////////////////////////////////////
-@interface LDrawPart: LDrawDrawableElement <NSCoding, LDrawObserver>
+@interface LDrawPart : LDrawDrawableElement <NSCoding, LDrawObserver>
 {
   @private
   NSString *displayName;
@@ -45,47 +44,46 @@ typedef enum PartType
   GLfloat glTransformation[16];
 
   LDrawDirective *cacheDrawable;      // The drawable is the model we link to OR a VBO that represents it from the part library -- a drawable proxy.
-  LDrawModel *cacheModel;     // The model is the real model we link to.
-  PartTypeT cacheType;
-  NSLock *drawLock;
+  LDrawModel     *cacheModel; // The model is the real model we link to.
+  PartTypeT      cacheType;
+  NSLock         *drawLock;
 
   Box3 cacheBounds;           // Cached bonuding box of resolved parts, in part's coordinate (that is, _not_ in the coordinates of the underlying model.
 }
 
 // Directives
-- (void)drawBoundsWithColor: (LDrawColor *)drawingColor;
--(NSString *)write;
+- (void)drawBoundsWithColor:(LDrawColor *)drawingColor;
+- (NSString *)write;
 
 // Accessors
--(NSString *)displayName;
--(Point3)position;
--(NSString *)referenceName;
--(LDrawModel *)referencedMPDSubmodel;
--(LDrawModel *)referencedPeerFile;
--(TransformComponents)transformComponents;
--(Matrix4)transformationMatrix;
--(void)setDisplayName: (NSString *)newPartName;
--(void)setDisplayName: (NSString *)newPartName parse: (BOOL)shouldParse inGroup: (dispatch_group_t)parentGroup;
--(void)setTransformComponents: (TransformComponents)newComponents;
--(void)setTransformationMatrix: (Matrix4 *)newMatrix;
+- (NSString *)displayName;
+- (Point3)position;
+- (NSString *)referenceName;
+- (LDrawModel *)referencedMPDSubmodel;
+- (LDrawModel *)referencedPeerFile;
+- (TransformComponents)transformComponents;
+- (Matrix4)transformationMatrix;
+- (void)setDisplayName:(NSString *)newPartName;
+- (void)setDisplayName:(NSString *)newPartName parse:(BOOL)shouldParse inGroup:(dispatch_group_t)parentGroup;
+- (void)setTransformComponents:(TransformComponents)newComponents;
+- (void)setTransformationMatrix:(Matrix4 *)newMatrix;
 
 // Actions
--(void)collectPartReport: (PartReport *)report;
--(void)applyToAllParts: (LDrawPartVisitor)visitor;
+- (void)collectPartReport:(PartReport *)report;
+- (void)applyToAllParts:(LDrawPartVisitor)visitor;
 
--(TransformComponents)componentsSnappedToGrid: (double)gridSpacing minimumAngle: (double)degrees;
--(TransformComponents)components: (TransformComponents)components snappedToGrid: (double)gridSpacing
-minimumAngle: (double)degrees;
--(void)rotateByDegrees: (Tuple3)degreesToRotate;
--(void)rotateByDegrees: (Tuple3)degreesToRotate centerPoint: (Point3)center;
+- (TransformComponents)componentsSnappedToGrid:(double)gridSpacing minimumAngle:(double)degrees;
+- (TransformComponents)components:(TransformComponents)components snappedToGrid:(double)gridSpacing
+  minimumAngle:(double)degrees;
+- (void)rotateByDegrees:(Tuple3)degreesToRotate;
+- (void)rotateByDegrees:(Tuple3)degreesToRotate centerPoint:(Point3)center;
 
 // Utilities
--(BOOL)partIsMissing;
+- (BOOL)partIsMissing;
 
--(void)resolvePart;
--(void)unresolvePart;
--(void)unresolvePartIfPartLibrary;
--(void)followRedirectionAndUpdate;
-
+- (void)resolvePart;
+- (void)unresolvePart;
+- (void)unresolvePartIfPartLibrary;
+- (void)followRedirectionAndUpdate;
 
 @end

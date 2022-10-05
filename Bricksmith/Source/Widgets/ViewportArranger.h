@@ -14,7 +14,7 @@
 
 #import "ExtendedSplitView.h"
 
-@class    ExtendedScrollView;
+@class ExtendedScrollView;
 @protocol ViewportArrangerDelegate;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -22,33 +22,33 @@
 // class ViewportArranger
 //
 ////////////////////////////////////////////////////////////////////////////////
-@interface ViewportArranger: ExtendedSplitView <NSSplitViewDelegate>
+@interface ViewportArranger : ExtendedSplitView <NSSplitViewDelegate>
 {
-  id <ViewportArrangerDelegate>    delegate;
+  id <ViewportArrangerDelegate> delegate;
 }
 
 // Accessors
 - (NSArray *)allViewports;
--(id <ViewportArrangerDelegate>)delegate;
+- (id <ViewportArrangerDelegate>)delegate;
 
--(void)setDelegate: (id <ViewportArrangerDelegate>)delegate;
+- (void)setDelegate:(id <ViewportArrangerDelegate>)delegate;
 
 // Actions
--(IBAction)splitViewportClicked: (id)sender;
--(IBAction)closeViewportClicked: (id)sender;
+- (IBAction)splitViewportClicked:(id)sender;
+- (IBAction)closeViewportClicked:(id)sender;
 
 // Utilities
--(NSButton *)newCloseButton;
--(NSButton *)newSplitButton;
--(NSView *)newSplitPlacard;
--(NSView *)newSplitClosePlacard;
--(ExtendedScrollView *)newViewport;
--(void)doFrameSanityCheck;
--(void)doFrameSanityCheckForSplitView: (NSSplitView *)splitView;
--(void)restoreViewportsWithAutosaveName: (NSString *)autosaveName;
--(void)storeViewports;
--(void)updateAutosaveNames;
--(void)updatePlacardsForViewports;
+- (NSButton *)newCloseButton;
+- (NSButton *)newSplitButton;
+- (NSView *)newSplitPlacard;
+- (NSView *)newSplitClosePlacard;
+- (ExtendedScrollView *)newViewport;
+- (void)doFrameSanityCheck;
+- (void)doFrameSanityCheckForSplitView:(NSSplitView *)splitView;
+- (void)restoreViewportsWithAutosaveName:(NSString *)autosaveName;
+- (void)storeViewports;
+- (void)updateAutosaveNames;
+- (void)updatePlacardsForViewports;
 
 @end
 
@@ -61,9 +61,9 @@
 @protocol ViewportArrangerDelegate <NSObject>
 
 @optional
-- (void)viewportArranger: (ViewportArranger *)viewportArranger didAddViewport: (ExtendedScrollView *)
-newViewport sourceViewport: (ExtendedScrollView *)sourceViewport;
--(void)viewportArranger: (ViewportArranger *)viewportArranger willRemoveViewports: (NSSet *)removingViewports;
--(void)viewportArrangerDidRemoveViewports: (ViewportArranger *)viewportArranger;
+- (void)viewportArranger:(ViewportArranger *)viewportArranger didAddViewport:(ExtendedScrollView *)
+  newViewport sourceViewport:(ExtendedScrollView *)sourceViewport;
+- (void)viewportArranger:(ViewportArranger *)viewportArranger willRemoveViewports:(NSSet *)removingViewports;
+- (void)viewportArrangerDidRemoveViewports:(ViewportArranger *)viewportArranger;
 
 @end

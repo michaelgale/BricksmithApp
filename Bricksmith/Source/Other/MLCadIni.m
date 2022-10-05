@@ -65,7 +65,7 @@ static MLCadIni *sharedIniFile = nil;
 // information therein.
 //
 // ------------------------------------------------------------------------------
-+ (MLCadIni *) iniFile
++ (MLCadIni *)iniFile
 {
   MLCadIni *mlcadini = nil;
   NSString *filePath = nil;
@@ -93,7 +93,7 @@ static MLCadIni *sharedIniFile = nil;
 // Purpose:		Creates an empty, unparsed MLCad.ini database.
 //
 // ==============================================================================
-- (id) init
+- (id)init
 {
   self = [super init];
 
@@ -131,7 +131,7 @@ static MLCadIni *sharedIniFile = nil;
 // to show, so this list should be the authoritative filter.
 //
 // ==============================================================================
-- (NSArray *) lsynthVisibleTypes
+- (NSArray *)lsynthVisibleTypes
 {
   return(lsynthVisibleTypes);
 }
@@ -143,7 +143,7 @@ static MLCadIni *sharedIniFile = nil;
 // generator.
 //
 // ==============================================================================
-- (NSArray *) minifigureHats
+- (NSArray *)minifigureHats
 {
   return(minifigureHats);
 }// end minifigureHats
@@ -155,7 +155,7 @@ static MLCadIni *sharedIniFile = nil;
 // generator.
 //
 // ==============================================================================
-- (NSArray *) minifigureHeads
+- (NSArray *)minifigureHeads
 {
   return(minifigureHeads);
 }// end minifigureHeads
@@ -167,7 +167,7 @@ static MLCadIni *sharedIniFile = nil;
 // generator.
 //
 // ==============================================================================
-- (NSArray *) minifigureNecks
+- (NSArray *)minifigureNecks
 {
   return(minifigureNecks);
 }// end minifigureNecks
@@ -179,7 +179,7 @@ static MLCadIni *sharedIniFile = nil;
 // generator.
 //
 // ==============================================================================
-- (NSArray *) minifigureTorsos
+- (NSArray *)minifigureTorsos
 {
   return(minifigureTorsos);
 }// end minifigureTorsos
@@ -191,7 +191,7 @@ static MLCadIni *sharedIniFile = nil;
 // generator.
 //
 // ==============================================================================
-- (NSArray *) minifigureHips
+- (NSArray *)minifigureHips
 {
   return(minifigureHips);
 }// end minifigureHips
@@ -203,7 +203,7 @@ static MLCadIni *sharedIniFile = nil;
 // generator.
 //
 // ==============================================================================
-- (NSArray *) minifigureArmsLeft
+- (NSArray *)minifigureArmsLeft
 {
   return(minifigureArmsLeft);
 }// end minifigureArmsLeft
@@ -215,7 +215,7 @@ static MLCadIni *sharedIniFile = nil;
 // generator.
 //
 // ==============================================================================
-- (NSArray *) minifigureArmsRight
+- (NSArray *)minifigureArmsRight
 {
   return(minifigureArmsRight);
 }// end minifigureArmsRight
@@ -227,7 +227,7 @@ static MLCadIni *sharedIniFile = nil;
 // generator.
 //
 // ==============================================================================
-- (NSArray *) minifigureHandsLeft
+- (NSArray *)minifigureHandsLeft
 {
   return(minifigureHandsLeft);
 }// end minifigureHandsLeft
@@ -239,7 +239,7 @@ static MLCadIni *sharedIniFile = nil;
 // generator.
 //
 // ==============================================================================
-- (NSArray *) minifigureHandsLeftAccessories
+- (NSArray *)minifigureHandsLeftAccessories
 {
   return(minifigureHandsLeftAccessories);
 }// end minifigureHandsLeftAccessories
@@ -251,7 +251,7 @@ static MLCadIni *sharedIniFile = nil;
 // generator.
 //
 // ==============================================================================
-- (NSArray *) minifigureHandsRight
+- (NSArray *)minifigureHandsRight
 {
   return(minifigureHandsRight);
 }// end minifigureHandsRight
@@ -263,7 +263,7 @@ static MLCadIni *sharedIniFile = nil;
 // generator.
 //
 // ==============================================================================
-- (NSArray *) minifigureHandsRightAccessories
+- (NSArray *)minifigureHandsRightAccessories
 {
   return(minifigureHandsRightAccessories);
 }// end minifigureHandsRightAccessories
@@ -275,7 +275,7 @@ static MLCadIni *sharedIniFile = nil;
 // generator.
 //
 // ==============================================================================
-- (NSArray *) minifigureLegsLeft
+- (NSArray *)minifigureLegsLeft
 {
   return(minifigureLegsLeft);
 }// end minifigureLegsLeft
@@ -287,7 +287,7 @@ static MLCadIni *sharedIniFile = nil;
 // generator.
 //
 // ==============================================================================
-- (NSArray *) minifigureLegsLeftAcessories
+- (NSArray *)minifigureLegsLeftAcessories
 {
   return(minifigureLegsLeftAcessories);
 }// end minifigureLegsLeftAcessories
@@ -299,7 +299,7 @@ static MLCadIni *sharedIniFile = nil;
 // generator.
 //
 // ==============================================================================
-- (NSArray *) minifigureLegsRight
+- (NSArray *)minifigureLegsRight
 {
   return(minifigureLegsRight);
 }// end minifigureLegsRight
@@ -311,7 +311,7 @@ static MLCadIni *sharedIniFile = nil;
 // generator.
 //
 // ==============================================================================
-- (NSArray *) minifigureLegsRightAccessories
+- (NSArray *)minifigureLegsRightAccessories
 {
   return(minifigureLegsRightAccessories);
 }// end minifigureLegsRightAccessories
@@ -328,7 +328,7 @@ static MLCadIni *sharedIniFile = nil;
 // I didn't need to do this cheezy hard-coding.
 //
 // ==============================================================================
-- (float) armAngleForTorsoName:(NSString *)torsoName
+- (float)armAngleForTorsoName:(NSString *)torsoName
 {
   // Mechanical torso. No arm rotation
   if ([torsoName isEqualToString:@"30375.dat"] == YES ||
@@ -353,7 +353,7 @@ static MLCadIni *sharedIniFile = nil;
 // all do exactly the same thing.
 //
 // ==============================================================================
-- (void) setParts:(NSArray *)parts
+- (void)setParts:(NSArray *)parts
   intoMinifigurePartList:(NSMutableArray *)partList
 {
   [partList removeAllObjects];
@@ -370,7 +370,7 @@ static MLCadIni *sharedIniFile = nil;
 // Purpose:		Reads the MLCad.ini file at the given path.
 //
 // ==============================================================================
-- (void) parseFromPath:(NSString *)path
+- (void)parseFromPath:(NSString *)path
 {
   NSString     *fileString = [LDrawUtilities stringFromFile:path];
   NSArray      *rawLines   = [fileString separateByLine];
@@ -433,7 +433,7 @@ static MLCadIni *sharedIniFile = nil;
 // as values.
 //
 // ==============================================================================
-- (NSDictionary *) sectionsFromLines:(NSArray *)lines
+- (NSDictionary *)sectionsFromLines:(NSArray *)lines
 {
   NSString            *currentLine            = nil;
   NSCharacterSet      *whitespaceCharacterSet = [NSCharacterSet whitespaceAndNewlineCharacterSet];
@@ -491,7 +491,7 @@ static MLCadIni *sharedIniFile = nil;
 // types.
 //
 // ==============================================================================
-- (NSArray *) lsynthTypesFromLines:(NSArray *)lines
+- (NSArray *)lsynthTypesFromLines:(NSArray *)lines
 {
   NSMutableArray *namesInList   = [NSMutableArray arrayWithCapacity:[lines count]];
   NSString       *currentLine   = nil;
@@ -548,7 +548,7 @@ static MLCadIni *sharedIniFile = nil;
 // standard order of a type 1 part line.
 //
 // ==============================================================================
-- (NSArray *) partsFromMinifigureLines:(NSArray *)lines
+- (NSArray *)partsFromMinifigureLines:(NSArray *)lines
 {
   NSMutableArray *parts       = [NSMutableArray arrayWithCapacity:[lines count]];
   NSMutableArray *namesInList = [NSMutableArray arrayWithCapacity:[lines count]];

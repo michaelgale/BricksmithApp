@@ -21,7 +21,7 @@
 // Purpose:		Return the base icon name for this type of LDraw directive
 //
 // ==============================================================================
-+ (NSString *) defaultIconName
++ (NSString *)defaultIconName
 {
   return(nil);
 }
@@ -37,7 +37,7 @@
 // initialization code.
 //
 // ==============================================================================
-- (id) init
+- (id)init
 {
   self = [super init];
 
@@ -58,7 +58,7 @@
 // Purpose:		Convenience method to perform a blocking parse operation
 //
 // ==============================================================================
-- (id) initWithLines:(NSArray *)lines
+- (id)initWithLines:(NSArray *)lines
   inRange:(NSRange)range
 {
   LDrawDirective   *directive = nil;
@@ -97,7 +97,7 @@
 //// Then initialize whatever subclass we came up with for this line.
 //
 // ==============================================================================
-- (id) initWithLines:(NSArray *)lines
+- (id)initWithLines:(NSArray *)lines
   inRange:(NSRange)range
   parentGroup:(dispatch_group_t)parentGroup
 {
@@ -119,7 +119,7 @@
 // read and write LDraw objects as NSData.
 //
 // ==============================================================================
-- (id) initWithCoder:(NSCoder *)decoder
+- (id)initWithCoder:(NSCoder *)decoder
 {
   // The superclass doesn't support NSCoding. So we just call the default init.
   self = [super init];
@@ -143,7 +143,7 @@
 // read and write LDraw objects as NSData.
 //
 // ==============================================================================
-- (void) encodeWithCoder:(NSCoder *)encoder
+- (void)encodeWithCoder:(NSCoder *)encoder
 {
   // self = [super encodeWithCoder:encoder]; //super doesn't implement this method.
 
@@ -160,7 +160,7 @@
 // This thing has issues. Note caveats in LDrawContainer.
 //
 // ==============================================================================
-- (id) copyWithZone:(NSZone *)zone
+- (id)copyWithZone:(NSZone *)zone
 {
   // Allocate a new instance because we don't inherit -copy: from anybody.
   // Note the code to ensure that the correct subclass is allocated!
@@ -197,7 +197,7 @@
 // +[LDrawUtilities classForDirectiveBeginningWithLine:].
 //
 // ------------------------------------------------------------------------------
-+ (NSRange) rangeOfDirectiveBeginningAtIndex:(NSUInteger)index
++ (NSRange)rangeOfDirectiveBeginningAtIndex:(NSUInteger)index
   inLines:(NSArray *)lines
   maxIndex:(NSUInteger)maxIndex
 {
@@ -219,7 +219,7 @@
 // LDrawDirective's implementation does nothing.
 //
 // ==============================================================================
-- (void) draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)parentColor
+- (void)draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)parentColor
 {
   // subclasses should override this with OpenGL code to draw the line.
 }// end draw:viewScale:parentColor:
@@ -236,7 +236,7 @@
 // The calling code gets us into our GL state ahead of time.
 //
 // ==============================================================================
-- (void) debugDrawboundingBox
+- (void)debugDrawboundingBox
 {
   Box3 my_bounds = [self boundingBox3];
 
@@ -297,7 +297,7 @@
 // directives and comments) can return InvalidBox.
 //
 // ==============================================================================
-- (Box3) boundingBox3
+- (Box3)boundingBox3
 {
   return(InvalidBox);
 }// end boundingBox3
@@ -321,7 +321,7 @@
 // hits - keys are hit objects. Values are NSNumbers of hit depths.
 //
 // ==============================================================================
-- (void) hitTest:(Ray3)pickRay
+- (void)hitTest:(Ray3)pickRay
   transform:(Matrix4)transform
   viewScale:(double)scaleFactor
   boundsOnly:(BOOL)boundsOnly
@@ -371,7 +371,7 @@
 // simpler.)
 //
 // ==============================================================================
-- (BOOL) boxTest:(Box2)bounds
+- (BOOL)boxTest:(Box2)bounds
   transform:(Matrix4)transform
   boundsOnly:(BOOL)boundsOnly
   creditObject:(id)creditObject
@@ -411,7 +411,7 @@
 // point.
 //
 // ==============================================================================
-- (void) depthTest:(Point2)pt
+- (void)depthTest:(Point2)pt
   inBox:(Box2)bounds
   transform:(Matrix4)transform
   creditObject:(id)creditObject
@@ -431,7 +431,7 @@
 // LDrawDirective's implementation does nothing.
 //
 // ==============================================================================
-- (NSString *) write
+- (NSString *)write
 {
   // Returns a representation of the line which can be written out to a file.
   return([NSString string]); // empty string; subclasses should override this method.
@@ -448,7 +448,7 @@
 // which can be presented to the user.
 //
 // ==============================================================================
-- (NSString *) browsingDescription
+- (NSString *)browsingDescription
 {
   return([NSString stringWithFormat:@"%@", [self class]]);
 }// end browsingDescription
@@ -460,7 +460,7 @@
 // object.
 //
 // ==============================================================================
-- (NSString *) iconName
+- (NSString *)iconName
 {
   if (self->iconName) {
     return(self->iconName);
@@ -474,7 +474,7 @@
 // Purpose:		Returns the name of the class used to inspect this one.
 //
 // ==============================================================================
-- (NSString *) inspectorClassName
+- (NSString *)inspectorClassName
 {
   return(@"");
 }// end inspectorClassName
@@ -492,7 +492,7 @@
 // the first index.
 //
 // ==============================================================================
-- (NSArray *) ancestors
+- (NSArray *)ancestors
 {
   NSMutableArray *ancestors       = [NSMutableArray arrayWithCapacity:3];
   LDrawDirective *currentAncestor = self;
@@ -531,7 +531,7 @@
 // Notes:		LDrawFiles return nil.
 //
 // ==============================================================================
-- (LDrawContainer *) enclosingDirective
+- (LDrawContainer *)enclosingDirective
 {
   return(enclosingDirective);
 }// end enclosingDirective
@@ -543,7 +543,7 @@
 // nil if the directive is not in the hierarchy of an LDrawFile.
 //
 // ==============================================================================
-- (LDrawFile *) enclosingFile
+- (LDrawFile *)enclosingFile
 {
   LDrawDirective *currentAncestor = self;
   BOOL           foundIt          = NO;
@@ -572,7 +572,7 @@
 // nil if the directive is not in the hierarchy of an LDrawModel.
 //
 // ==============================================================================
-- (LDrawModel *) enclosingModel
+- (LDrawModel *)enclosingModel
 {
   LDrawDirective *currentAncestor = self;
   BOOL           foundIt          = NO;
@@ -601,7 +601,7 @@
 // nil if the directive is not in the hierarchy of an LDrawStep.
 //
 // ==============================================================================
-- (LDrawStep *) enclosingStep
+- (LDrawStep *)enclosingStep
 {
   LDrawDirective *currentAncestor = self;
   BOOL           foundIt          = NO;
@@ -629,7 +629,7 @@
 // Purpose:		Returns whether this directive thinks it's selected.
 //
 // ==============================================================================
-- (BOOL) isSelected
+- (BOOL)isSelected
 {
   return(self->isSelected);
 }// end isSelected
@@ -643,7 +643,7 @@
 // this is where this method landed.
 //
 // ==============================================================================
-- (void) setEnclosingDirective:(LDrawContainer *)newParent
+- (void)setEnclosingDirective:(LDrawContainer *)newParent
 {
   enclosingDirective = newParent;
 }// end setEnclosingDirective:
@@ -654,7 +654,7 @@
 // Purpose:		Somebody make this a protocol method.
 //
 // ==============================================================================
-- (void) setSelected:(BOOL)flag
+- (void)setSelected:(BOOL)flag
 {
   self->isSelected = flag;
 }// end setSelected:
@@ -665,7 +665,7 @@
 // Purpose:		Set the icon name
 //
 // ==============================================================================
-- (void) setIconName:(NSString *)icon
+- (void)setIconName:(NSString *)icon
 {
   [icon retain];
   [self->iconName release];
@@ -684,7 +684,7 @@
 // its potential children) references a model with the given name.
 //
 // ==============================================================================
-- (BOOL) containsReferenceTo:(NSString *)name
+- (BOOL)containsReferenceTo:(NSString *)name
 {
   return(NO);
 }
@@ -696,7 +696,7 @@
 // suitable for printing to the console.
 //
 // ==============================================================================
-- (NSString *) description
+- (NSString *)description
 {
   return([NSString stringWithFormat:@"%@\n%@", [self class], [self write]]);
 }// end description
@@ -717,7 +717,7 @@
 // This is the core of -[LDrawModel optimizeStructure].
 //
 // ==============================================================================
-- (void) flattenIntoLines:(NSMutableArray *)lines
+- (void)flattenIntoLines:(NSMutableArray *)lines
   triangles:(NSMutableArray *)triangles
   quadrilaterals:(NSMutableArray *)quadrilaterals
   other:(NSMutableArray *)everythingElse
@@ -743,7 +743,7 @@
 // pointer equality tests?
 //
 // ==============================================================================
-- (BOOL) isAncestorInList:(NSArray *)containers
+- (BOOL)isAncestorInList:(NSArray *)containers
 {
   LDrawDirective *ancestor   = self;
   BOOL           foundInList = NO;
@@ -764,7 +764,7 @@
 // a notification, and anyone can pick that up.
 //
 // ==============================================================================
-- (void) noteNeedsDisplay
+- (void)noteNeedsDisplay
 {
   [[NSNotificationCenter defaultCenter]
    postNotificationName:LDrawDirectiveDidChangeNotification
@@ -778,7 +778,7 @@
 // not to any superclass.
 //
 // ==============================================================================
-- (void) registerUndoActions:(NSUndoManager *)undoManager
+- (void)registerUndoActions:(NSUndoManager *)undoManager
 {
   // LDrawDirectives are fairly abstract, so all undoable attributes come
   // from subclasses.
@@ -791,7 +791,7 @@
 // the observable protocol.
 //
 // ================================================================================
-- (void) addObserver:(id <LDrawObserver>)observer
+- (void)addObserver:(id <LDrawObserver>)observer
 {
   #if NEW_SET
   LDrawFastSetInsert(observers, observer);
@@ -811,7 +811,7 @@
 // Implements the observable protocol.
 //
 // ================================================================================
-- (void) removeObserver:(id <LDrawObserver>)observer
+- (void)removeObserver:(id <LDrawObserver>)observer
 {
   #if NEW_SET
   LDrawFastSetRemove(observers, observer);
@@ -841,7 +841,7 @@
 // on document-open - only the ones we can see!
 //
 // ================================================================================
-- (void) drawSelf:(id <LDrawRenderer>)renderer
+- (void)drawSelf:(id <LDrawRenderer>)renderer
 {
   // Default implementation does ... nothing.
 }// end drawSelf:
@@ -865,7 +865,7 @@
 // and LDrawTextures.
 //
 // ================================================================================
-- (void) collectSelf:(id <LDrawCollector>)renderer
+- (void)collectSelf:(id <LDrawCollector>)renderer
 {
   // Default implementation collects...nothing.
 }// end collectSelf:
@@ -885,7 +885,7 @@
 // protocol, we have to notify.
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
   #if NEW_SET
   MESSAGE_FOR_SET(observers, LDrawObserver, observableSaysGoodbyeCruelWorld: self);
@@ -920,7 +920,7 @@
 // set is private.
 //
 // ==============================================================================
-- (void) sendMessageToObservers:(MessageT)msg
+- (void)sendMessageToObservers:(MessageT)msg
 {
   #if NEW_SET
   MESSAGE_FOR_SET(observers, LDrawObserver, receiveMessage: msg who: self);
@@ -949,7 +949,7 @@
 // internals take care of tracking cached state.
 //
 // ==============================================================================
-- (void) invalCache:(CacheFlagsT)flags
+- (void)invalCache:(CacheFlagsT)flags
 {
   CacheFlagsT newFlags = flags & ~invalFlags;
 
@@ -996,7 +996,7 @@
 // notifications rearmed at the same time.
 //
 // ==============================================================================
-- (CacheFlagsT) revalCache:(CacheFlagsT)flags
+- (CacheFlagsT)revalCache:(CacheFlagsT)flags
 {
   CacheFlagsT were_dirty = flags & invalFlags;
 

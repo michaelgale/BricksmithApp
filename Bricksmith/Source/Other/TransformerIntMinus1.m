@@ -10,7 +10,6 @@
 // ==============================================================================
 #import "TransformerIntMinus1.h"
 
-
 @implementation TransformerIntMinus1
 
 // ---------- allowsReverseTransformation -----------------------------[static]--
@@ -18,7 +17,7 @@
 // Purpose:		Returns whether this class knows how to un-transform its value.
 //
 // ------------------------------------------------------------------------------
-+ (BOOL) allowsReverseTransformation
++ (BOOL)allowsReverseTransformation
 {
   return(NO);
 }// end allowsReverseTransformation
@@ -29,7 +28,7 @@
 // Purpose:		Returns the kind of objects we output.
 //
 // ------------------------------------------------------------------------------
-+ (Class) transformedValueClass
++ (Class)transformedValueClass
 {
   return([NSNumber class]);
 }// end transformedValueClass
@@ -40,7 +39,7 @@
 // Purpose:		Transforms the original value, and returns the result.
 //
 // ==============================================================================
-- (id) transformedValue:(id)value
+- (id)transformedValue:(id)value
 {
   NSInteger intValue = [value integerValue];
 

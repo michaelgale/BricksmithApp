@@ -32,7 +32,7 @@ SearchPanelController *sharedSearchPanel = nil;
 // initialization code.
 //
 // ==============================================================================
-- (void) awakeFromNib
+- (void)awakeFromNib
 {
   // Register for dragging operations - we want to be able to drag parts into the search box
   [[self window] registerForDraggedTypes:[NSArray arrayWithObjects:LDrawDirectivePboardType,
@@ -55,7 +55,7 @@ SearchPanelController *sharedSearchPanel = nil;
 // Purpose:		Returns the global instance of the search panel.
 //
 // ------------------------------------------------------------------------------
-+ (SearchPanelController *) searchPanel
++ (SearchPanelController *)searchPanel
 {
   if (sharedSearchPanel == nil) {
     sharedSearchPanel = [[SearchPanelController alloc] init];
@@ -70,7 +70,7 @@ SearchPanelController *sharedSearchPanel = nil;
 // Purpose:		Brings the LDraw search panel to life.
 //
 // ==============================================================================
-- (id) init
+- (id)init
 {
   self = [super initWithWindowNibName:@"SearchPanel"];
   if (self) {
@@ -87,7 +87,7 @@ SearchPanelController *sharedSearchPanel = nil;
 // not.
 //
 // ------------------------------------------------------------------------------
-+ (BOOL) isVisible
++ (BOOL)isVisible
 {
   return(sharedSearchPanel != nil);
 }
@@ -109,7 +109,7 @@ SearchPanelController *sharedSearchPanel = nil;
 // - Select the remaining matching parts
 //
 // ==============================================================================
-- (IBAction) doSearchAndSelect:(id)sender
+- (IBAction)doSearchAndSelect:(id)sender
 {
   NSDocumentController *documentController = [NSDocumentController sharedDocumentController];
   LDrawDocument        *currentDocument    = [documentController currentDocument];
@@ -152,8 +152,8 @@ SearchPanelController *sharedSearchPanel = nil;
         }
       }
       else {
-        if ([currentDocument  documentContents]) {
-          [searchableObjects addObject:[currentDocument  documentContents]];
+        if ([currentDocument documentContents]) {
+          [searchableObjects addObject:[currentDocument documentContents]];
         }
         ;
       }
@@ -314,7 +314,7 @@ SearchPanelController *sharedSearchPanel = nil;
 // Purpose:		Update the UI in response to the user changing the search scope
 //
 // ==============================================================================
-- (IBAction) scopeChanged:(id)sender {
+- (IBAction)scopeChanged:(id)sender {
   [self updateInterfaceForSelection:[self selectedObjects]];
 } // end scopeChanged:
 
@@ -324,7 +324,7 @@ SearchPanelController *sharedSearchPanel = nil;
 // Purpose:		Update the UI in response to the user changing the search color option
 //
 // ==============================================================================
-- (IBAction) colorOptionChanged:(id)sender {
+- (IBAction)colorOptionChanged:(id)sender {
   [self updateInterfaceForSelection:[self selectedObjects]];
 } // end colorOptionChanged:
 
@@ -334,7 +334,7 @@ SearchPanelController *sharedSearchPanel = nil;
 // Purpose:		Update the UI in response to the user changing the search part option
 //
 // ==============================================================================
-- (IBAction) findTypeOptionChanged:(id)sender {
+- (IBAction)findTypeOptionChanged:(id)sender {
   [self updateInterfaceForSelection:[self selectedObjects]];
 } // end findTypeOptionChanged:
 
@@ -349,7 +349,7 @@ SearchPanelController *sharedSearchPanel = nil;
 // Purpose:		Window is closing; clean up.
 //
 // ==============================================================================
-- (void) windowWillClose:(NSNotification *)notification
+- (void)windowWillClose:(NSNotification *)notification
 {
   [self autorelease];
   sharedSearchPanel = nil;
@@ -363,7 +363,7 @@ SearchPanelController *sharedSearchPanel = nil;
 // allowing the undo request to forward on to the active document.
 //
 // ==============================================================================
-- (NSUndoManager *) windowWillReturnUndoManager:(NSWindow *)sender
+- (NSUndoManager *)windowWillReturnUndoManager:(NSWindow *)sender
 {
   NSDocument *currentDocument = [[NSDocumentController sharedDocumentController] currentDocument];
 
@@ -378,7 +378,7 @@ SearchPanelController *sharedSearchPanel = nil;
 // Purpose:		A recursive helper function to find all parts in a container
 //
 // ==============================================================================
-- (NSArray *) partsInContainer:(LDrawContainer *)container
+- (NSArray *)partsInContainer:(LDrawContainer *)container
 {
   NSMutableArray *parts = [[[NSMutableArray alloc] init] autorelease];
 
@@ -411,7 +411,7 @@ SearchPanelController *sharedSearchPanel = nil;
 // options, merely warn them what we'll do.
 //
 // ==============================================================================
-- (void) updateInterfaceForSelection:(NSArray *)selectedObjects
+- (void)updateInterfaceForSelection:(NSArray *)selectedObjects
 {
   // The selection's changed which means we shouldn't be the active color well anymore
   [LDrawColorWell setActiveColorWell:nil];
@@ -475,7 +475,7 @@ SearchPanelController *sharedSearchPanel = nil;
 // Purpose:		Convenience method to return all selected objects in the document
 //
 // ==============================================================================
-- (NSArray *) selectedObjects
+- (NSArray *)selectedObjects
 {
   NSDocumentController *documentController = [NSDocumentController sharedDocumentController];
   LDrawDocument        *currentDocument    = [documentController currentDocument];
@@ -494,7 +494,7 @@ SearchPanelController *sharedSearchPanel = nil;
 // The Link type gives us a nice indicative arrow with our cursor.
 //
 // ==============================================================================
-- (NSDragOperation) draggingEntered:(id <NSDraggingInfo>)sender
+- (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender
 {
   // We want to intercept drops on the part name text field and handle them ourselves
   [partName setEditable:NO];
@@ -507,7 +507,7 @@ SearchPanelController *sharedSearchPanel = nil;
 // Purpose:		The user has dragged the part back out of the window.
 //
 // ==============================================================================
-- (void) draggingExited:(id <NSDraggingInfo>)sender
+- (void)draggingExited:(id <NSDraggingInfo>)sender
 {
   // Reenable normal editing of the part name text field
   [partName setEditable:YES];
@@ -521,7 +521,7 @@ SearchPanelController *sharedSearchPanel = nil;
 // on us.
 //
 // ==============================================================================
-- (BOOL) prepareForDragOperation:(id <NSDraggingInfo>)sender
+- (BOOL)prepareForDragOperation:(id <NSDraggingInfo>)sender
 {
   NSArray        *archivedDirectives = nil;
   NSMutableArray *directiveNames     = [[[NSMutableArray alloc] init] autorelease];
@@ -580,7 +580,7 @@ SearchPanelController *sharedSearchPanel = nil;
 // Purpose:		We're off to the big Brick in the sky
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
   [super dealloc];
 }// end dealloc

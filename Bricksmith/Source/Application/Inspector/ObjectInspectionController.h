@@ -9,13 +9,13 @@
 // ==============================================================================
 #import <Cocoa/Cocoa.h>
 
-
 ////////////////////////////////////////////////////////////////////////////////
 //
 // ObjectInspectionController
 //
 ////////////////////////////////////////////////////////////////////////////////
-@interface ObjectInspectionController: NSObject {
+@interface ObjectInspectionController : NSObject
+{
   IBOutlet NSWindow *window;   // we will vacuum out the content view from this.
 
   @private
@@ -24,13 +24,13 @@
 }
 
 // Accessors
-- (id)object;  // returns the object being edited
--(void)setObject: (id)newObject;
--(NSWindow *)window;
+- (id)object;   // returns the object being edited
+- (void)setObject:(id)newObject;
+- (NSWindow *)window;
 
 // Actions
--(void)commitChanges: (id)sender;
--(IBAction)finishedEditing: (id)sender;
--(IBAction)revert: (id)sender;
+- (void)commitChanges:(id)sender;
+- (IBAction)finishedEditing:(id)sender;
+- (IBAction)revert:(id)sender;
 
 @end

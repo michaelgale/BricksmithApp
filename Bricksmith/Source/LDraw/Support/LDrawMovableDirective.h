@@ -10,6 +10,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 @protocol LDrawMovableDirective
-- (Vector3)displacementForNudge: (Vector3)nudgeVector;
--(void)moveBy: (Vector3)moveVector;
+- (Vector3)displacementForNudge:(Vector3)nudgeVector;
+- (void)moveBy:(Vector3)moveVector;
+
 @end

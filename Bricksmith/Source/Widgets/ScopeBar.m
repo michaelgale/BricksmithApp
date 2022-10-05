@@ -20,7 +20,6 @@
 // ==============================================================================
 #import "ScopeBar.h"
 
-
 @implementation ScopeBar
 
 // ========== initWithFrame: ====================================================
@@ -28,7 +27,7 @@
 // Purpose:
 //
 // ==============================================================================
-- (id) initWithFrame:(NSRect)frame
+- (id)initWithFrame:(NSRect)frame
 {
   self = [super initWithFrame:frame];
   if (self) {
@@ -50,7 +49,7 @@
 // dumping Tiger and then none of it will matter!
 //
 // ==============================================================================
-- (void) drawRect:(NSRect)rect
+- (void)drawRect:(NSRect)rect
 {
   // The default system appearance is better!
 

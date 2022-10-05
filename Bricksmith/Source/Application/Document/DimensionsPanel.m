@@ -39,7 +39,7 @@
 // file.
 //
 // ------------------------------------------------------------------------------
-+ (DimensionsPanel *) dimensionPanelForFile:(LDrawFile *)fileIn
++ (DimensionsPanel *)dimensionPanelForFile:(LDrawFile *)fileIn
 {
   DimensionsPanel *dimensions = nil;
 
@@ -59,7 +59,7 @@
 // in the Nib. Tricky, huh?
 //
 // ==============================================================================
-- (id) initWithFile:(LDrawFile *)fileIn
+- (id)initWithFile:(LDrawFile *)fileIn
 {
   self = [super init];
 
@@ -79,7 +79,7 @@
 // are currently analyzing.
 //
 // ==============================================================================
-- (LDrawMPDModel *) activeModel
+- (LDrawMPDModel *)activeModel
 {
   return(self->activeModel);
 }// end activeModel
@@ -90,7 +90,7 @@
 // Purpose:		Returns the file whose dimensions we are analyzing.
 //
 // ==============================================================================
-- (LDrawFile *) file
+- (LDrawFile *)file
 {
   return(self->file);
 }// end file
@@ -102,7 +102,7 @@
 // of the Nib where my dialog comes from.
 //
 // ==============================================================================
-- (NSString *) panelNibName
+- (NSString *)panelNibName
 {
   return(@"Dimensions");
 }// end panelNibName
@@ -116,7 +116,7 @@
 // are currently analyzing and updates the data view.
 //
 // ==============================================================================
-- (void) setActiveModel:(LDrawMPDModel *)newModel
+- (void)setActiveModel:(LDrawMPDModel *)newModel
 {
   [newModel retain];
   [self->activeModel release];
@@ -131,7 +131,7 @@
 // Purpose:		Sets the file whose dimensions we are analyzing.
 //
 // ==============================================================================
-- (void) setFile:(LDrawFile *)newFile
+- (void)setFile:(LDrawFile *)newFile
 {
   [newFile retain];
   [self->file release];
@@ -150,7 +150,7 @@
 // Purpose:		Explain those Legonian units!
 //
 // ==============================================================================
-- (IBAction) legonianRulerButtonClicked:(id)sender
+- (IBAction)legonianRulerButtonClicked:(id)sender
 {
   NSString *path = [[NSBundle mainBundle] pathForResource:@"Legonian Ruler"
                                                    ofType:@"pdf"];
@@ -171,7 +171,7 @@
 // Purpose:		End the sheet (we are the sheet!)
 //
 // ==============================================================================
-- (NSInteger) numberOfRowsInTableView:(NSTableView *)aTableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
   return(NUMBER_OF_UNITS);
 }// end numberOfRowsInTableView:
@@ -187,7 +187,7 @@
 // integers, floats, and strings in one table.
 //
 // ==============================================================================
-- (id) tableView:(NSTableView *)tableView
+- (id)tableView:(NSTableView *)tableView
   objectValueForTableColumn:(NSTableColumn *)tableColumn
   row:(NSInteger)rowIndex
 {
@@ -317,10 +317,10 @@
 // Purpose:		The end is nigh.
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
-  [file     release];
-  [activeModel  release];
+  [file release];
+  [activeModel release];
 
   [super dealloc];
 }// end dealloc

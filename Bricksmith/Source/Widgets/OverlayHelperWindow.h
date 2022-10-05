@@ -10,33 +10,32 @@
 // ==============================================================================
 #import <Cocoa/Cocoa.h>
 
-
 ////////////////////////////////////////////////////////////////////////////////
 //
 // class OverlayHelperWindow
 //
 ////////////////////////////////////////////////////////////////////////////////
-@interface OverlayHelperWindow: NSWindow
+@interface OverlayHelperWindow : NSWindow
 {
   NSView *parentView;
   NSWindowOrderingMode order;
 }
 
 // Initialization
-- (id)initWithContentRect: (NSRect)contentRect styleMask: (unsigned int)aStyle
-backing: (NSBackingStoreType)bufferingType defer: (BOOL)flag
-ordered: (NSWindowOrderingMode)place;
+- (id)initWithContentRect:(NSRect)contentRect styleMask:(unsigned int)aStyle
+  backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag
+  ordered:(NSWindowOrderingMode)place;
 
 // Accessors
--(NSView *)parentView;
--(void)setParentView: (NSView *)parentViewIn;
+- (NSView *)parentView;
+- (void)setParentView:(NSView *)parentViewIn;
 
 // Notifications
--(void)parentViewWillMoveToWindow: (NSWindow *)window;
--(void)parentViewDidMoveToWindow;
+- (void)parentViewWillMoveToWindow:(NSWindow *)window;
+- (void)parentViewDidMoveToWindow;
 
 // Utilities
--(void)registerNotifications;
--(void)updateFrameToMatchParentView;
+- (void)registerNotifications;
+- (void)updateFrameToMatchParentView;
 
 @end

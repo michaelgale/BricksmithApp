@@ -19,7 +19,7 @@
 // Purpose:		Draw a swatch representing the current color without alpha.
 //
 // ==============================================================================
-- (void) drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
+- (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
   LDrawColor *colorObject = [self objectValue];
   NSColor    *cellColor   = nil;

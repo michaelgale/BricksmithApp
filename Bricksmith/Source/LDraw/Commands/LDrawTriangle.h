@@ -16,7 +16,7 @@
 // Class:		LDrawTriangle
 //
 ////////////////////////////////////////////////////////////////////////////////
-@interface LDrawTriangle: LDrawDrawableElement <NSCoding>
+@interface LDrawTriangle : LDrawDrawableElement <NSCoding>
 {
   Point3 vertex1;
   Point3 vertex2;
@@ -29,13 +29,13 @@
 
 // Accessors
 - (Point3)vertex1;
--(Point3)vertex2;
--(Point3)vertex3;
--(void)setVertex1: (Point3)newVertex;
--(void)setVertex2: (Point3)newVertex;
--(void)setVertex3: (Point3)newVertex;
+- (Point3)vertex2;
+- (Point3)vertex3;
+- (void)setVertex1:(Point3)newVertex;
+- (void)setVertex2:(Point3)newVertex;
+- (void)setVertex3:(Point3)newVertex;
 
 // Utilities
--(void)recomputeNormal;
+- (void)recomputeNormal;
 
 @end

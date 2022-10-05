@@ -35,7 +35,7 @@
 // ready to receive objects.
 //
 // ==============================================================================
-- (id) init
+- (id)init
 {
   self = [super init];
 
@@ -84,7 +84,7 @@
 // 0 SYNTH END
 //
 // ==============================================================================
-- (id) initWithLines:(NSArray *)lines
+- (id)initWithLines:(NSArray *)lines
   inRange:(NSRange)range
   parentGroup:(dispatch_group_t)parentGroup
 {
@@ -230,7 +230,7 @@
 // Purpose:		Returns if line is a 0 SYNTH START
 //
 // ==============================================================================
-+ (BOOL) lineIsLSynthBeginning:(NSString *)line
++ (BOOL)lineIsLSynthBeginning:(NSString *)line
 {
   if ([line isMatchedByRegex:@"0\\s+SYNTH\\s+BEGIN\\s+\\S+?\\s+\\S+"]) {
     return(YES);
@@ -245,7 +245,7 @@
 // line directives)
 //
 // ==============================================================================
-+ (BOOL) lineIsLSynthTerminator:(NSString *)line
++ (BOOL)lineIsLSynthTerminator:(NSString *)line
 {
   if ([line isMatchedByRegex:@"0\\s+SYNTH\\s+END"]) {
     return(YES);
@@ -260,7 +260,7 @@
 // i.e. 0 SYNTH END
 //
 // ------------------------------------------------------------------------------
-+ (NSRange) rangeOfDirectiveBeginningAtIndex:(NSUInteger)index
++ (NSRange)rangeOfDirectiveBeginningAtIndex:(NSUInteger)index
   inLines:(NSArray *)lines
   maxIndex:(NSUInteger)maxIndex
 {
@@ -298,7 +298,7 @@
 // read and write LDraw objects as NSData.
 //
 // ==============================================================================
-- (id) initWithCoder:(NSCoder *)decoder
+- (id)initWithCoder:(NSCoder *)decoder
 {
   // Initialize the object.  We'll have somewhere to synthesize into.
   [self init];
@@ -331,7 +331,7 @@
 // we initWithCoder.
 //
 // ==============================================================================
-- (void) encodeWithCoder:(NSCoder *)encoder
+- (void)encodeWithCoder:(NSCoder *)encoder
 {
   // Encode container-related stuff: containedObjects etc.
   [super encodeWithCoder:encoder];
@@ -354,7 +354,7 @@
 // Purpose:		Returns the name of the class used to inspect this one.
 //
 // ==============================================================================
-- (NSString *) inspectorClassName
+- (NSString *)inspectorClassName
 {
   return(@"InspectionLSynth");
 }// end inspectorClassName
@@ -369,7 +369,7 @@
 // Purpose:		Inserts the new directive into the step.
 //
 // ==============================================================================
-- (void) insertDirective:(LDrawDirective *)directive atIndex:(NSInteger)index
+- (void)insertDirective:(LDrawDirective *)directive atIndex:(NSInteger)index
 {
   [self setSelected:NO];   // Explicitly deselect ourselves.  The newly added constraint gets selected.
 
@@ -387,7 +387,7 @@
 // Purpose:		Remove a contained directive (constraint etc.) and resynthesize
 //
 // ==============================================================================
-- (void) removeDirective:(LDrawDirective *)doomedDirective
+- (void)removeDirective:(LDrawDirective *)doomedDirective
 {
   // We can leave removal to the base class
   [super removeDirective:doomedDirective];
@@ -408,7 +408,7 @@
 // Purpose:		Draw the synthesized part.
 //
 // ==============================================================================
-- (void) drawSelf:(id <LDrawRenderer>)renderer
+- (void)drawSelf:(id <LDrawRenderer>)renderer
 {
   NSArray        *constraints      = [self subdirectives];
   LDrawDirective *currentDirective = nil;
@@ -447,7 +447,7 @@
 // Purpose:		Hit-test the geometry.
 //
 // ==============================================================================
-- (void) hitTest:(Ray3)pickRay
+- (void)hitTest:(Ray3)pickRay
   transform:(Matrix4)transform
   viewScale:(double)scaleFactor
   boundsOnly:(BOOL)boundsOnly
@@ -489,7 +489,7 @@
 // Purpose:		Check for intersections with screen-space geometry.
 //
 // ==============================================================================
-- (BOOL) boxTest:(Box2)bounds
+- (BOOL)boxTest:(Box2)bounds
   transform:(Matrix4)transform
   boundsOnly:(BOOL)boundsOnly
   creditObject:(id)creditObject
@@ -537,7 +537,7 @@
 // overlapping a given point, as well as its device coordinate
 // depth.
 // ==============================================================================
-- (void) depthTest:(Point2)testPt
+- (void)depthTest:(Point2)testPt
   inBox:(Box2)bounds
   transform:(Matrix4)transform
   creditObject:(id)creditObject
@@ -576,7 +576,7 @@
 // Purpose:		Write out all the commands in the part
 //
 // ==============================================================================
-- (NSString *) write
+- (NSString *)write
 {
   NSMutableString *written          = [NSMutableString string];
   NSString        *CRLF             = [NSString CRLF];
@@ -635,7 +635,7 @@
 // which can be presented to the user.
 //
 // ==============================================================================
-- (NSString *) browsingDescription
+- (NSString *)browsingDescription
 {
   LSynthConfiguration *config      = [LSynthConfiguration sharedInstance];
   NSDictionary        *entry       = [config typeForTypeName:self->synthType];
@@ -663,7 +663,7 @@
 // object, or nil if there is no icon.
 //
 // ==============================================================================
-- (NSString *) iconName
+- (NSString *)iconName
 {
   return(@"LSynthPart");
 }// end iconName
@@ -679,7 +679,7 @@
 // perfectly contains this object.
 //
 // ==============================================================================
-- (Box3) boundingBox3 {
+- (Box3)boundingBox3 {
   if ([self revalCache:CacheFlagBounds] == CacheFlagBounds) {
     cachedBounds = [LDrawUtilities boundingBox3ForDirectives:[self subdirectives]];
   }
@@ -693,7 +693,7 @@
 // chain etc.
 //
 // ==============================================================================
-- (void) setLsynthClass:(int)class
+- (void)setLsynthClass:(int)class
 {
   self->lsynthClass = class;
 }// end setLsynthClass:
@@ -705,7 +705,7 @@
 //
 // ==============================================================================
 
-- (int) lsynthClass
+- (int)lsynthClass
 {
   return(self->lsynthClass);
 }// end lsynthClass:
@@ -716,7 +716,7 @@
 // Purpose:		Sets the type of the Synthesized part, band, chain or part
 //
 // ==============================================================================
-- (void) setLsynthType:(NSString *)type
+- (void)setLsynthType:(NSString *)type
 {
   [type retain];
   [self->synthType release];
@@ -729,7 +729,7 @@
 // Purpose:		Return the type of the Synthesized part.
 //
 // ============================================================================
-- (NSString *) lsynthType
+- (NSString *)lsynthType
 {
   return(self->synthType);
 }// end
@@ -743,7 +743,7 @@
 // hiddenness is a temporary state; it is not saved and restored.
 //
 // ==============================================================================
-- (void) setHidden:(BOOL)flag
+- (void)setHidden:(BOOL)flag
 {
   if (self->hidden != flag) {
     self->hidden = flag;
@@ -757,7 +757,7 @@
 // Purpose:		Returns whether this element will be drawn or not.
 //
 // ==============================================================================
-- (BOOL) isHidden
+- (BOOL)isHidden
 {
   return(self->hidden);
 }// end isHidden
@@ -769,7 +769,7 @@
 // applied to this part.
 //
 // ==============================================================================
-- (TransformComponents) transformComponents
+- (TransformComponents)transformComponents
 {
   Matrix4             transformation = [self transformationMatrix];
   TransformComponents components     = IdentityComponents;
@@ -788,7 +788,7 @@
 // when selected.
 //
 // ==============================================================================
-- (void) setSelected:(BOOL)flag
+- (void)setSelected:(BOOL)flag
 {
   [super setSelected:flag];
   // We don't need to resynthesize just to change the colours
@@ -802,7 +802,7 @@
 // Also colors the synthesized parts translucent
 //
 // ==============================================================================
-- (void) setSubdirectiveSelected:(BOOL)flag
+- (void)setSubdirectiveSelected:(BOOL)flag
 {
   self->subdirectiveSelected = flag;
   [self colorSelectedSynthesizedParts:flag];
@@ -817,7 +817,7 @@
 // overridden for certain operations but WILL be the one saved out.
 //
 // ==============================================================================
-- (void) setLDrawColor:(LDrawColor *)newColor
+- (void)setLDrawColor:(LDrawColor *)newColor
 {
   // Store the color
   [newColor retain];
@@ -833,7 +833,7 @@
 // Purpose:		Returns the LDraw color code of the receiver.
 //
 // ==============================================================================
-- (LDrawColor *) LDrawColor
+- (LDrawColor *)LDrawColor
 {
   return(color);
 }// end LDrawColor
@@ -850,7 +850,7 @@
 // same amount.
 //
 // ==============================================================================
-- (Vector3) displacementForNudge:(Vector3)nudgeVector
+- (Vector3)displacementForNudge:(Vector3)nudgeVector
 {
   for (id directive in [self subdirectives]) {
     if ([directive isKindOfClass:[LDrawDrawableElement class]] &&
@@ -870,12 +870,12 @@
 // Optimisation: move all synthesized elements as well to save a resynth
 //
 // ==============================================================================
-- (void) moveBy:(Vector3)moveVector
+- (void)moveBy:(Vector3)moveVector
 {
   // pass on the nudge to drawable subdirectives
   for (LDrawDirective *constraint in [self subdirectives]) {
     if ([constraint conformsToProtocol:@protocol(LDrawMovableDirective)]) {
-      [(LDrawPart *)constraint
+      [(LDrawPart *) constraint
        moveBy:moveVector];
     }
   }
@@ -893,7 +893,7 @@
 // TODO: multithread/background
 //
 // ==============================================================================
-- (void) synthesize
+- (void)synthesize
 {
   // NSLog(@"SYNTHESIZE");
 
@@ -1059,7 +1059,7 @@
 // INSIDE/OUTSIDE directives appropriately.
 //
 // ==============================================================================
-- (void) doAutoHullOnBand
+- (void)doAutoHullOnBand
 {
   // clean out INSIDE/OUTSIDE directives
   int i;
@@ -1154,7 +1154,7 @@
 // calculating the convex hull.
 //
 // ==============================================================================
-- (NSMutableArray *) prepareAutoHullData {
+- (NSMutableArray *)prepareAutoHullData {
   // Used for looking up constraint radii
   LSynthConfiguration *config = [LSynthConfiguration sharedInstance];
 
@@ -1269,7 +1269,7 @@
 //
 // ==============================================================================
 
-- (NSString *) determineIconName:(LDrawDirective *)directive
+- (NSString *)determineIconName:(LDrawDirective *)directive
 {
   // Hose
   if (self->lsynthClass == LSYNTH_HOSE) {
@@ -1301,7 +1301,7 @@
 // its constraints.
 //
 // ==============================================================================
-- (void) colorSelectedSynthesizedParts:(BOOL)yesNo
+- (void)colorSelectedSynthesizedParts:(BOOL)yesNo
 {
   NSUserDefaults       *userDefaults = [NSUserDefaults standardUserDefaults];
   LSynthSelectionModeT selectionMode = [userDefaults integerForKey:LSYNTH_SELECTION_MODE_KEY];
@@ -1361,7 +1361,7 @@
 // (flat column-major of transpose)              Format
 //
 // ==============================================================================
-- (Matrix4) transformationMatrix
+- (Matrix4)transformationMatrix
 {
   return(Matrix4CreateFromGLMatrix4(glTransformation));
 }// end transformationMatrix
@@ -1373,7 +1373,7 @@
 // it.
 //
 // ==============================================================================
-- (BOOL) acceptsDroppedDirective:(LDrawDirective *)directive
+- (BOOL)acceptsDroppedDirective:(LDrawDirective *)directive
 {
   // Only add valid parts as constraints; invalid ones are passed to our container
   // This arises if a synth part is selected and a part is dragged from the
@@ -1396,7 +1396,7 @@
 // TODO: Should be a protocol
 //
 // ==============================================================================
-- (void) cleanupAfterDropIsDonor:(NSNumber *)isDonor
+- (void)cleanupAfterDropIsDonor:(NSNumber *)isDonor
 {
   [self setSelected:NO];
 
@@ -1411,7 +1411,7 @@
 // Purpose:		Returns the number of parts synthesized to create the shape.
 //
 // ==============================================================================
-- (int) synthesizedPartsCount
+- (int)synthesizedPartsCount
 {
   return([synthesizedParts count]);
 }
@@ -1424,7 +1424,7 @@
 // remove the loops.
 //
 // ==============================================================================
-- (LSynthClassT) partClass
+- (LSynthClassT)partClass
 {
   LSynthClassT class = self->lsynthClass;
 
@@ -1459,7 +1459,7 @@
 // eventful happens - we can respond if desired.
 //
 // ==============================================================================
-- (void) receiveMessage:(MessageT)msg who:(id <LDrawObservable>)observable
+- (void)receiveMessage:(MessageT)msg who:(id <LDrawObservable>)observable
 {
   // Typically if one of our child constraints changed we need to resynthesize
   if (msg == MessageObservedChanged) {
@@ -1475,7 +1475,7 @@
 // probably sent from the preferences controller.
 //
 // ==============================================================================
-- (void) selectionDisplayOptionsDidChange:(id)sender
+- (void)selectionDisplayOptionsDidChange:(id)sender
 {
   [self colorSelectedSynthesizedParts:([self isSelected] || self->subdirectiveSelected)];
   [self noteNeedsDisplay];
@@ -1490,7 +1490,7 @@
 // executable or config file change.
 //
 // ==============================================================================
-- (void) requiresResynthesis:(id)sender
+- (void)requiresResynthesis:(id)sender
 {
   [self synthesize];
   [self colorSelectedSynthesizedParts:([self isSelected] || self->subdirectiveSelected)];
@@ -1507,7 +1507,7 @@
 // Purpose:		Like sleeping.  But, like, for ever.
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
   [color release];
   [synthesizedParts release];

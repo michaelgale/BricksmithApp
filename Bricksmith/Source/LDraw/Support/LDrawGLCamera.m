@@ -41,7 +41,7 @@
 // cannot complete its setup.
 //
 // ==============================================================================
-- (id) init
+- (id)init
 {
   self = [super init];
 
@@ -67,7 +67,7 @@
 // light entertainment in the sky.
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
   [super dealloc];
 }// end dealloc
@@ -88,7 +88,7 @@
 // having to have our app's NS structure coded into the camera.
 //
 // ==============================================================================
-- (void) setScroller:(id <LDrawGLCameraScroller>)newScroller
+- (void)setScroller:(id <LDrawGLCameraScroller>)newScroller
 {
   scroller = newScroller;
 }// end setScroller:
@@ -112,7 +112,7 @@
 // custom shaders.
 //
 // ==============================================================================
-- (GLfloat *) getProjection
+- (GLfloat *)getProjection
 {
   return(projection);
 }// end getProjection
@@ -125,7 +125,7 @@
 // rotation and model center changes.
 //
 // ==============================================================================
-- (GLfloat *) getModelView
+- (GLfloat *)getModelView
 {
   return(modelView);
 }// end getModelView
@@ -136,7 +136,7 @@
 // Purpose:		Returns the current zoom percentage.
 //
 // ==============================================================================
-- (CGFloat) zoomPercentage
+- (CGFloat)zoomPercentage
 {
   return(self->zoomFactor);
 }// end zoomPercentage
@@ -147,7 +147,7 @@
 // Purpose:		Returns the current projection mode (perspective or ortho).
 //
 // ==============================================================================
-- (ProjectionModeT) projectionMode
+- (ProjectionModeT)projectionMode
 {
   return(self->projectionMode);
 }// end projectionMode
@@ -158,7 +158,7 @@
 // Purpose:		Returns the current location mode.
 //
 // ==============================================================================
-- (LocationModeT) locationMode
+- (LocationModeT)locationMode
 {
   return(self->locationMode);
 }// end locationMode
@@ -169,7 +169,7 @@
 // Purpose:		Returns the current viewing angle as a triplet of Euler angles.
 //
 // ==============================================================================
-- (Tuple3) viewingAngle
+- (Tuple3)viewingAngle
 {
   Matrix4             transformation = IdentityMatrix4;
   TransformComponents components     = IdentityComponents;
@@ -188,7 +188,7 @@
 }// end viewingAngle
 
 
-- (Point3) rotationCenter
+- (Point3)rotationCenter
 {
   return(self->rotationCenter);
 }
@@ -207,7 +207,7 @@
 // this.
 //
 // ==============================================================================
-- (void) scrollCenterToPoint:(Point2)newCenter
+- (void)scrollCenterToPoint:(Point2)newCenter
 {
   Box2   newVisibleRect = [scroller getVisibleRect];
   Point2 scrollOrigin   = V2Make(newCenter.x - V2BoxWidth([scroller getVisibleRect]) / 2.0,
@@ -234,7 +234,7 @@
 // model origin is centered in this range.
 //
 // ==============================================================================
-- (double) fieldDepth
+- (double)fieldDepth
 {
   double fieldDepth = 0;
 
@@ -254,7 +254,7 @@
 // z = - [self fieldDepth] / 2.
 //
 // ==============================================================================
-- (Box2) nearOrthoClippingRectFromVisibleRect:(Box2)visibleRectIn
+- (Box2)nearOrthoClippingRectFromVisibleRect:(Box2)visibleRectIn
 {
   Box2 visibilityPlane = ZeroBox2;
 
@@ -295,7 +295,7 @@
 // that is *smaller* than the desired size at the origin.)
 //
 // ==============================================================================
-- (Box2) nearFrustumClippingRectFromVisibleRect:(Box2)visibleRectIn
+- (Box2)nearFrustumClippingRectFromVisibleRect:(Box2)visibleRectIn
 {
   Box2   orthoVisibilityPlane = [self nearOrthoClippingRectFromVisibleRect:visibleRectIn];
   Box2   visibilityPlane      = orthoVisibilityPlane;
@@ -326,7 +326,7 @@
 // projection.
 //
 // ==============================================================================
-- (Box2) nearOrthoClippingRectFromNearFrustumClippingRect:(Box2)visibilityPlane
+- (Box2)nearOrthoClippingRectFromNearFrustumClippingRect:(Box2)visibilityPlane
 {
   Box2   orthoVisibilityPlane = ZeroBox2;
   double fieldDepth           = [self fieldDepth];
@@ -357,7 +357,7 @@
 // the given orthographic clipping rect.
 //
 // ==============================================================================
-- (Box2) visibleRectFromNearOrthoClippingRect:(Box2)visibilityPlane
+- (Box2)visibleRectFromNearOrthoClippingRect:(Box2)visibilityPlane
 {
   Box2 newVisibleRect = ZeroBox2;
 
@@ -382,7 +382,7 @@
 // the given frustum clipping rect.
 //
 // ==============================================================================
-- (Box2) visibleRectFromNearFrustumClippingRect:(Box2)visibilityPlane
+- (Box2)visibleRectFromNearFrustumClippingRect:(Box2)visibilityPlane
 {
   Box2 orthoClippingRect = ZeroBox2;
   Box2 newVisibleRect    = ZeroBox2;
@@ -400,7 +400,7 @@
 // the given frustum clipping rect.
 //
 // ==============================================================================
-- (void) makeProjection
+- (void)makeProjection
 {
   double fieldDepth      = [self fieldDepth];
   Box2   visibilityPlane = ZeroBox2;
@@ -463,7 +463,7 @@
 // rotation and center - call this if any of these change.
 //
 // ==============================================================================
-- (void) makeModelView
+- (void)makeModelView
 {
   GLfloat cam_trans[16], center_trans[16], flip[16], temp1[16], temp2[16];
 
@@ -496,7 +496,7 @@
 // properties change, so that the camera can 'react' to the change.
 //
 // ==============================================================================
-- (void) tickle
+- (void)tickle
 {
   if (mute) {
     return;
@@ -603,7 +603,7 @@
 // request a scrolling update.
 //
 // ==============================================================================
-- (void) setModelSize:(Box3)inModelSize
+- (void)setModelSize:(Box3)inModelSize
 {
   assert(inModelSize.min.x != inModelSize.max.x ||
          inModelSize.min.y != inModelSize.max.y ||
@@ -619,7 +619,7 @@
 // location.
 //
 // ==============================================================================
-- (void) setRotationCenter:(Point3)point
+- (void)setRotationCenter:(Point3)point
 {
   if (V3EqualPoints(self->rotationCenter, point) == NO) {
     self->rotationCenter = point;
@@ -637,7 +637,7 @@
 // tickles the camera to make everything take effect.
 //
 // ==============================================================================
-- (void) setZoomPercentage:(CGFloat)newPercentage
+- (void)setZoomPercentage:(CGFloat)newPercentage
 {
   assert(!isnan(newPercentage));
   assert(!isinf(newPercentage));
@@ -693,7 +693,7 @@
 // location.
 //
 // ==============================================================================
-- (void) setZoomPercentage:(CGFloat)newPercentage preservePoint:(Point3)modelPoint
+- (void)setZoomPercentage:(CGFloat)newPercentage preservePoint:(Point3)modelPoint
 {
   Box2 viewport = V2MakeBox(0.0, 0.0, 1.0, 1.0);    // Fake view-port - this gets us our scaled point in viewport-proportional units.
 
@@ -718,7 +718,7 @@
 // of the screen, e.g. 0.5, 0.5 is the center of the screen.
 //
 // ==============================================================================
-- (void) scrollModelPoint:(Point3)modelPoint toViewportProportionalPoint:(Point2)viewportPoint
+- (void)scrollModelPoint:(Point3)modelPoint toViewportProportionalPoint:(Point2)viewportPoint
 {
   if (locationMode == LocationModeWalkthrough) {
     return;
@@ -824,7 +824,7 @@
 // Purpose:		Change the viewing angle to a specific angle.
 //
 // ==============================================================================
-- (void) setViewingAngle:(Tuple3)newAngle
+- (void)setViewingAngle:(Tuple3)newAngle
 {
   GLfloat gl_angle[16], gl_flip[16];
   Matrix4 angle = Matrix4RotateModelview(IdentityMatrix4, newAngle);
@@ -846,7 +846,7 @@
 // projection modes keep the same document size.
 //
 // ==============================================================================
-- (void) setProjectionMode:(ProjectionModeT)newProjectionMode
+- (void)setProjectionMode:(ProjectionModeT)newProjectionMode
 {
   self->projectionMode = newProjectionMode;
   [self makeProjection];    // This doesn't need a full tickle because proj mode doesn't change the doc size.
@@ -858,7 +858,7 @@
 // Purpose:		Change Location modes.
 //
 // ==============================================================================
-- (void) setLocationMode:(LocationModeT)newLocationMode
+- (void)setLocationMode:(LocationModeT)newLocationMode
 {
   if (self->locationMode != newLocationMode) {
     self->locationMode = newLocationMode;
@@ -881,7 +881,7 @@
 // Purpose:		Rotate the camera based on a 2-d drag vector.
 //
 // ==============================================================================
-- (void) rotationDragged:(Vector2)viewDirection
+- (void)rotationDragged:(Vector2)viewDirection
 {
   CGFloat deltaX = viewDirection.x;
   CGFloat deltaY = -viewDirection.y;       // Apple's delta is backwards, for some reason.
@@ -957,7 +957,7 @@
 // gesture, this rotates aronud the screen Y axis.
 //
 // ==============================================================================
-- (void) rotateByDegrees:(double)angle
+- (void)rotateByDegrees:(double)angle
 {
   applyRotationMatrix(orientation, (GLfloat)angle, 0.0, -1.0, 0.0);
   [self makeModelView];

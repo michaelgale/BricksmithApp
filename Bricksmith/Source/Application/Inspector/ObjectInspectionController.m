@@ -16,7 +16,6 @@
 #import "LDrawDocument.h"
 #import "MacLDraw.h"
 
-
 @implementation ObjectInspectionController
 
 // ========== init ==============================================================
@@ -25,7 +24,7 @@
 // inspector.
 //
 // ==============================================================================
-- (id) init
+- (id)init
 {
   self = [super init];
 
@@ -50,7 +49,7 @@
 // Purpose:		Returns the object this inspector is editing.
 //
 // ==============================================================================
-- (id) object
+- (id)object
 {
   return(editingObject);
 }// end object
@@ -62,7 +61,7 @@
 // class.
 //
 // ==============================================================================
-- (void) setObject:(id)newObject
+- (void)setObject:(id)newObject
 {
   if (newObject != editingObject) {
     // De-register any possible notification observer for the previous editing
@@ -99,7 +98,7 @@
 // shared inspector panel.
 //
 // ==============================================================================
-- (NSWindow *) window
+- (NSWindow *)window
 {
   return(window);
 }// end window
@@ -120,7 +119,7 @@
 // Parameters:	sender:	the object passed to -finishedEditing:.
 //
 // ==============================================================================
-- (void) commitChanges:(id)sender
+- (void)commitChanges:(id)sender
 {
   // Subclasses should implement this method to update their editing objects.
 }// end commitChanges:
@@ -131,7 +130,7 @@
 // Purpose:		Called in response to the conclusion of editing in the palette.
 //
 // ==============================================================================
-- (IBAction) finishedEditing:(id)sender
+- (IBAction)finishedEditing:(id)sender
 {
   LDrawDirective *representedObject = [self object];
   LDrawDocument  *currentDocument   = [[NSDocumentController sharedDocumentController] currentDocument];
@@ -168,7 +167,7 @@
 // the data in their inspector palettes.
 //
 // ==============================================================================
-- (IBAction) revert:(id)sender
+- (IBAction)revert:(id)sender
 {
   // does nothing, yet.
 }// end revert:
@@ -184,7 +183,7 @@
 // some external action (like undo/redo).
 //
 // ==============================================================================
-- (void) directiveDidChange:(NSNotification *)notification
+- (void)directiveDidChange:(NSNotification *)notification
 {
   // Update our state so we are not stale.
   [self revert:self];
@@ -200,14 +199,14 @@
 // Purpose:		We're booking a one-way cruise on Charon's ferry.
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
   // Cancel notification registration
   [[NSNotificationCenter defaultCenter] removeObserver:self];
 
   // Release top-level nib objects and instance variables.
-  [window     release];
-  [editingObject  release];
+  [window release];
+  [editingObject release];
 
   [super dealloc];
 }// end dealloc

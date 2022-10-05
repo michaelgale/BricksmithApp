@@ -17,9 +17,8 @@ typedef enum
   LDrawInternalUnofficial = 3,
 } LDrawDomain;
 
-
 ////////////////////////////////////////////////////////////////////////////////
-@interface LDrawPaths: NSObject
+@interface LDrawPaths : NSObject
 {
   NSString *preferredLDrawPath;
 }
@@ -27,22 +26,22 @@ typedef enum
 + (LDrawPaths *)sharedPaths;
 
 // Accessors
--(NSString *)preferredLDrawPath;
--(void)setPreferredLDrawPath: (NSString *)pathIn;
+- (NSString *)preferredLDrawPath;
+- (void)setPreferredLDrawPath:(NSString *)pathIn;
 
 // Standard paths
--(NSString *)partsPathForDomain: (LDrawDomain)domain;
--(NSString *)primitivesPathForDomain: (LDrawDomain)domain;
--(NSString *)primitives48PathForDomain: (LDrawDomain)domain;
--(NSString *)ldconfigPath;
--(NSString *)MLCadIniPath;
--(NSString *)partCatalogPath;
--(NSString *)subpartsPathForDomain: (LDrawDomain)domain;
+- (NSString *)partsPathForDomain:(LDrawDomain)domain;
+- (NSString *)primitivesPathForDomain:(LDrawDomain)domain;
+- (NSString *)primitives48PathForDomain:(LDrawDomain)domain;
+- (NSString *)ldconfigPath;
+- (NSString *)MLCadIniPath;
+- (NSString *)partCatalogPath;
+- (NSString *)subpartsPathForDomain:(LDrawDomain)domain;
 
 // Utilities
--(NSString *)findLDrawPath;
--(NSString *)pathForPartName: (NSString *)partName;
--(NSString *)pathForTextureName: (NSString *)imageName;
--(BOOL)validateLDrawFolder: (NSString *)folderPath;
+- (NSString *)findLDrawPath;
+- (NSString *)pathForPartName:(NSString *)partName;
+- (NSString *)pathForTextureName:(NSString *)imageName;
+- (BOOL)validateLDrawFolder:(NSString *)folderPath;
 
 @end

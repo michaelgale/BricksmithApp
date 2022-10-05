@@ -9,18 +9,17 @@
 // ==============================================================================
 #import <Cocoa/Cocoa.h>
 
-
 ////////////////////////////////////////////////////////////////////////////////
 //
 // class BackgroundColorView
 //
 ////////////////////////////////////////////////////////////////////////////////
-@interface BackgroundColorView: NSView
+@interface BackgroundColorView : NSView
 {
   NSColor *backgroundColor;
 }
 
 // Accessors
-- (void)setBackgroundColor: (NSColor *)colorIn;
+- (void)setBackgroundColor:(NSColor *)colorIn;
 
 @end

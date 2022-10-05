@@ -9,7 +9,6 @@
 // ==============================================================================
 #import "LDrawDocumentWindow.h"
 
-
 @implementation LDrawDocumentWindow
 
 
@@ -22,7 +21,7 @@
 // Purpose:		Time to do something exciting in response to a keypress.
 //
 // ==============================================================================
-- (void) keyDown:(NSEvent *)theEvent
+- (void)keyDown:(NSEvent *)theEvent
 {
   // You can trap certain key events here. But really, why?
 
@@ -49,7 +48,7 @@
 // -[NSWindow disableScreenUpdatesUntilFlush]
 //
 // ==============================================================================
-- (void) disableUpdatesUntilFlush
+- (void)disableUpdatesUntilFlush
 {
 // if(needsEnableUpdate == NO)
 // NSDisableScreenUpdates(); //or DisableScreenUpdates() in Carbon.
@@ -65,7 +64,7 @@
 // they've been turned off.
 //
 // ==============================================================================
-- (void) flushWindow
+- (void)flushWindow
 {
   [super flushWindow];
   if (needsEnableUpdate) {

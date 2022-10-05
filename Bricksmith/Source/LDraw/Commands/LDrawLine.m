@@ -45,7 +45,7 @@
 // 2 colour x1 y1 z1 x2 y2 z2
 //
 // ==============================================================================
-- (id) initWithLines:(NSArray *)lines
+- (id)initWithLines:(NSArray *)lines
   inRange:(NSRange)range
   parentGroup:(dispatch_group_t)parentGroup
 {
@@ -132,7 +132,7 @@
 // read and write LDraw objects as NSData.
 //
 // ==============================================================================
-- (id) initWithCoder:(NSCoder *)decoder
+- (id)initWithCoder:(NSCoder *)decoder
 {
   const uint8_t *temporary = NULL; // pointer to a temporary buffer returned by the decoder.
 
@@ -158,7 +158,7 @@
 // read and write LDraw objects as NSData.
 //
 // ==============================================================================
-- (void) encodeWithCoder:(NSCoder *)encoder
+- (void)encodeWithCoder:(NSCoder *)encoder
 {
   [super encodeWithCoder:encoder];
 
@@ -176,7 +176,7 @@
 // Purpose:		Returns a duplicate of this file.
 //
 // ==============================================================================
-- (id) copyWithZone:(NSZone *)zone
+- (id)copyWithZone:(NSZone *)zone
 {
   LDrawLine *copied = (LDrawLine *)[super copyWithZone:zone];
 
@@ -197,7 +197,7 @@
 // subroutine of -draw: in LDrawDrawableElement.
 //
 // ==============================================================================
-- (void) drawElement:(NSUInteger)optionsMask viewScale:(double)scaleFactor withColor:(LDrawColor *)
+- (void)drawElement:(NSUInteger)optionsMask viewScale:(double)scaleFactor withColor:(LDrawColor *)
   drawingColor
 {
   if (self->dragHandles) {
@@ -221,7 +221,7 @@
 // accumulating a mesh.
 //
 // ================================================================================
-- (void) drawSelf:(id <LDrawRenderer>)renderer
+- (void)drawSelf:(id <LDrawRenderer>)renderer
 {
   [self revalCache:DisplayList];
   if (self->hidden == NO) {
@@ -245,7 +245,7 @@
 // geometry data to the collector.
 //
 // ================================================================================
-- (void) collectSelf:(id <LDrawCollector>)renderer
+- (void)collectSelf:(id <LDrawCollector>)renderer
 {
   [self revalCache:DisplayList];
   if (self->hidden == NO) {
@@ -285,7 +285,7 @@
 // between the pickRay and the directive's drawn content.
 //
 // ==============================================================================
-- (void) hitTest:(Ray3)pickRay
+- (void)hitTest:(Ray3)pickRay
   transform:(Matrix4)transform
   viewScale:(double)scaleFactor
   boundsOnly:(BOOL)boundsOnly
@@ -335,7 +335,7 @@
 // Purpose:		Check for intersections with screen-space bounding box.
 //
 // ==============================================================================
-- (BOOL) boxTest:(Box2)bounds
+- (BOOL)boxTest:(Box2)bounds
   transform:(Matrix4)transform
   boundsOnly:(BOOL)boundsOnly
   creditObject:(id)creditObject
@@ -371,7 +371,7 @@
 // depth.
 //
 // ==============================================================================
-- (void) depthTest:(Point2)pt
+- (void)depthTest:(Point2)pt
   inBox:(Box2)bounds
   transform:(Matrix4)transform
   creditObject:(id)creditObject
@@ -414,7 +414,7 @@
 // 2 colour x1 y1 z1 x2 y2 z2
 //
 // ==============================================================================
-- (NSString *) write
+- (NSString *)write
 {
   return([NSString stringWithFormat:
           @"2 %@ %@ %@ %@ %@ %@ %@",
@@ -438,7 +438,7 @@
 // is to be stored. Store subsequent vertexs after the first.
 //
 // ==============================================================================
-- (VBOVertexData *) writeElementToVertexBuffer:(VBOVertexData *)vertexBuffer
+- (VBOVertexData *)writeElementToVertexBuffer:(VBOVertexData *)vertexBuffer
   withColor:(LDrawColor *)drawingColor
   wireframe:(BOOL)wireframe
 {
@@ -478,7 +478,7 @@
 // which can be presented to the user.
 //
 // ==============================================================================
-- (NSString *) browsingDescription
+- (NSString *)browsingDescription
 {
   return(NSLocalizedString(@"Line", nil));
 }// end browsingDescription
@@ -490,7 +490,7 @@
 // object, or nil if there is no icon.
 //
 // ==============================================================================
-- (NSString *) iconName
+- (NSString *)iconName
 {
   return(@"Line");
 }// end iconName
@@ -501,7 +501,7 @@
 // Purpose:		Returns the name of the class used to inspect this one.
 //
 // ==============================================================================
-- (NSString *) inspectorClassName
+- (NSString *)inspectorClassName
 {
   return(@"InspectionLine");
 }// end inspectorClassName
@@ -517,7 +517,7 @@
 // perfectly contains this object.
 //
 // ==============================================================================
-- (Box3) boundingBox3
+- (Box3)boundingBox3
 {
   [self revalCache:CacheFlagBounds];
 
@@ -537,7 +537,7 @@
 // drag-and-drop. This is not necessarily human-usable information.
 //
 // ==============================================================================
-- (Point3) position
+- (Point3)position
 {
   return(self->vertex1);
 }// end position
@@ -548,7 +548,7 @@
 // Purpose:		Returns the line's start point.
 //
 // ==============================================================================
-- (Point3) vertex1
+- (Point3)vertex1
 {
   return(vertex1);
 }// end vertex1
@@ -559,7 +559,7 @@
 // Purpose:		Returns the line's end point.
 //
 // ==============================================================================
-- (Point3) vertex2
+- (Point3)vertex2
 {
   return(vertex2);
 }// end vertex2
@@ -572,7 +572,7 @@
 // Purpose:		Somebody make this a protocol method.
 //
 // ==============================================================================
-- (void) setSelected:(BOOL)flag
+- (void)setSelected:(BOOL)flag
 {
   [super setSelected:flag];
 
@@ -602,7 +602,7 @@
 // Purpose:		Sets the line's start point.
 //
 // ==============================================================================
-- (void) setVertex1:(Point3)newVertex
+- (void)setVertex1:(Point3)newVertex
 {
   vertex1 = newVertex;
   [self invalCache:(CacheFlagBounds | DisplayList)];
@@ -619,7 +619,7 @@
 // Purpose:		Sets the line's end point.
 //
 // ==============================================================================
-- (void) setVertex2:(Point3)newVertex
+- (void)setVertex2:(Point3)newVertex
 {
   vertex2 = newVertex;
   [self invalCache:(CacheFlagBounds | DisplayList)];
@@ -640,7 +640,7 @@
 // Purpose:		One of the drag handles on our vertexes has changed.
 //
 // ==============================================================================
-- (void) dragHandleChanged:(id)sender
+- (void)dragHandleChanged:(id)sender
 {
   LDrawDragHandle *handle      = (LDrawDragHandle *)sender;
   Point3          newPosition  = [handle position];
@@ -660,7 +660,7 @@
 // Purpose:		Moves the receiver in the specified direction.
 //
 // ==============================================================================
-- (void) moveBy:(Vector3)moveVector
+- (void)moveBy:(Vector3)moveVector
 {
   Point3 newVertex1 = V3Add(self->vertex1, moveVector);
   Point3 newVertex2 = V3Add(self->vertex2, moveVector);
@@ -679,7 +679,7 @@
 // Purpose:		Appends the directive into the appropriate container.
 //
 // ==============================================================================
-- (void) flattenIntoLines:(NSMutableArray *)lines
+- (void)flattenIntoLines:(NSMutableArray *)lines
   triangles:(NSMutableArray *)triangles
   quadrilaterals:(NSMutableArray *)quadrilaterals
   other:(NSMutableArray *)everythingElse
@@ -710,7 +710,7 @@
 // not to any superclass.
 //
 // ==============================================================================
-- (void) registerUndoActions:(NSUndoManager *)undoManager
+- (void)registerUndoActions:(NSUndoManager *)undoManager
 {
   [super registerUndoActions:undoManager];
 
@@ -730,7 +730,7 @@
 // Purpose:		Sleeping with the fishes.
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
   [dragHandles release];
 

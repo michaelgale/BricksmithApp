@@ -74,7 +74,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // Purpose:		Show the preferences window.
 //
 // ==============================================================================
-- (void) awakeFromNib
+- (void)awakeFromNib
 {
   // Grab the current window content from the Nib (it should be blank).
   // We will display this while changing panes.
@@ -106,7 +106,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // Purpose:		Show the preferences window.
 //
 // ------------------------------------------------------------------------------
-+ (void) doPreferences
++ (void)doPreferences
 {
   if (preferencesDialog == nil) {
     preferencesDialog = [[PreferencesDialogController alloc] init];
@@ -121,7 +121,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // Purpose:		Make us an object. Load us our window.
 //
 // ==============================================================================
-- (id) init
+- (id)init
 {
   self = [super init];
 
@@ -137,7 +137,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // Purpose:		Brings the window on screen.
 //
 // ==============================================================================
-- (void) showPreferencesWindow
+- (void)showPreferencesWindow
 {
   [self setDialogValues];
   [preferencesWindow makeKeyAndOrderFront:nil];
@@ -151,7 +151,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // Purpose:		Brings the window on screen.
 //
 // ==============================================================================
-- (void) setDialogValues
+- (void)setDialogValues
 {
   // Make sure there are actually preferences to read before attempting to
   // retrieve them.
@@ -170,7 +170,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // disk.
 //
 // ==============================================================================
-- (void) setGeneralTabValues
+- (void)setGeneralTabValues
 {
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
@@ -207,7 +207,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // Purpose:		Updates the data in the Styles tab to match what is on the disk.
 //
 // ==============================================================================
-- (void) setStylesTabValues
+- (void)setStylesTabValues
 {
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
@@ -237,7 +237,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // Purpose:		Updates the data in the LDraw tab to match what is on the disk.
 //
 // ==============================================================================
-- (void) setLDrawTabValues
+- (void)setLDrawTabValues
 {
   NSUserDefaults    *userDefaults    = [NSUserDefaults standardUserDefaults];
   NSString          *ldrawPath       = [userDefaults stringForKey:LDRAW_PATH_KEY];
@@ -260,7 +260,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // Purpose:		Updates the data in the LSynth tab to match what is on the disk.
 //
 // ==============================================================================
-- (void) setLSynthTabValues
+- (void)setLSynthTabValues
 {
   // Get preference values
   NSUserDefaults       *userDefaults         = [NSUserDefaults standardUserDefaults];
@@ -311,7 +311,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // should change.
 //
 // ==============================================================================
-- (void) changeTab:(id)sender
+- (void)changeTab:(id)sender
 {
   NSString *itemIdentifier = [sender itemIdentifier];
 
@@ -328,7 +328,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // grid modes.
 //
 // ==============================================================================
-- (IBAction) gridSpacingChanged:(id)sender
+- (IBAction)gridSpacingChanged:(id)sender
 {
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
@@ -351,7 +351,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // Purpose:		Mouse drag-and-drop behavior was changed.
 //
 // ==============================================================================
-- (IBAction) mouseDraggingChanged:(id)sender
+- (IBAction)mouseDraggingChanged:(id)sender
 {
   NSUserDefaults     *userDefaults = [NSUserDefaults standardUserDefaults];
   MouseDragBehaviorT mouseBehavior = [self->mouseDraggingRadioButtons selectedTag];
@@ -361,7 +361,7 @@ PreferencesDialogController * preferencesDialog = nil;
 }// end mouseDraggingChanged:
 
 
-- (IBAction) rightButtonChanged:(id)sender
+- (IBAction)rightButtonChanged:(id)sender
 {
   NSUserDefaults       *userDefaults = [NSUserDefaults standardUserDefaults];
   RightButtonBehaviorT rbBehavior    = [self->rightButtonRadioButtons selectedTag];
@@ -371,7 +371,7 @@ PreferencesDialogController * preferencesDialog = nil;
 }
 
 
-- (IBAction) rotateModeChanged:(id)sender
+- (IBAction)rotateModeChanged:(id)sender
 {
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
   RotateModeT    rBehavior     = [self->rotateModeRadioButtons selectedTag];
@@ -381,7 +381,7 @@ PreferencesDialogController * preferencesDialog = nil;
 }
 
 
-- (IBAction) mouseWheelChanged:(id)sender
+- (IBAction)mouseWheelChanged:(id)sender
 {
   NSUserDefaults      *userDefaults = [NSUserDefaults standardUserDefaults];
   MouseWheelBeahviorT wBehavior     = [self->mouseWheelRadioButtons selectedTag];
@@ -399,7 +399,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // Purpose:		We have multiple ways of showing the part browser.
 //
 // ==============================================================================
-- (IBAction) partBrowserStyleChanged:(id)sender
+- (IBAction)partBrowserStyleChanged:(id)sender
 {
   NSUserDefaults    *userDefaults = [NSUserDefaults standardUserDefaults];
   PartBrowserStyleT newStyle      = [self->partBrowserStyleRadioButtons selectedTag];
@@ -421,7 +421,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // Purpose:		Present a folder choose dialog to find the LDraw folder.
 //
 // ==============================================================================
-- (IBAction) chooseLDrawFolder:(id)sender
+- (IBAction)chooseLDrawFolder:(id)sender
 {
   // Create a standard "Choose" dialog.
   NSOpenPanel *folderChooser = [NSOpenPanel openPanel];
@@ -456,7 +456,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // LDraw folder path.
 //
 // ==============================================================================
-- (IBAction) pathTextFieldChanged:(id)sender
+- (IBAction)pathTextFieldChanged:(id)sender
 {
   NSString *newPath = [LDrawPathTextField stringValue];
 
@@ -472,7 +472,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // Is it fast? No. Is it easy to code? Yes.
 //
 // ==============================================================================
-- (IBAction) reloadParts:(id)sender
+- (IBAction)reloadParts:(id)sender
 {
   PartLibraryController *libraryController = [LDrawApplication sharedPartLibraryController];
 
@@ -489,7 +489,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // Update the value in the preferences.
 //
 // ==============================================================================
-- (IBAction) backgroundColorWellChanged:(id)sender
+- (IBAction)backgroundColorWellChanged:(id)sender
 {
   NSColor        *newColor     = [sender color];
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -508,7 +508,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // Purpose:		This syntax-color well changed. Update the value in preferences.
 //
 // ==============================================================================
-- (IBAction) modelsColorWellChanged:(id)sender
+- (IBAction)modelsColorWellChanged:(id)sender
 {
   NSColor        *newColor     = [sender color];
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -527,7 +527,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // Purpose:		This syntax-color well changed. Update the value in preferences.
 //
 // ==============================================================================
-- (IBAction) stepsColorWellChanged:(id)sender
+- (IBAction)stepsColorWellChanged:(id)sender
 {
   NSColor        *newColor     = [sender color];
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -546,7 +546,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // Purpose:		This syntax-color well changed. Update the value in preferences.
 //
 // ==============================================================================
-- (IBAction) partsColorWellChanged:(id)sender
+- (IBAction)partsColorWellChanged:(id)sender
 {
   NSColor        *newColor     = [sender color];
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -565,7 +565,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // Purpose:		This syntax-color well changed. Update the value in preferences.
 //
 // ==============================================================================
-- (IBAction) primitivesColorWellChanged:(id)sender
+- (IBAction)primitivesColorWellChanged:(id)sender
 {
   NSColor        *newColor     = [sender color];
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -584,7 +584,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // Purpose:		This syntax-color well changed. Update the value in preferences.
 //
 // ==============================================================================
-- (IBAction) colorsColorWellChanged:(id)sender
+- (IBAction)colorsColorWellChanged:(id)sender
 {
   NSColor        *newColor     = [sender color];
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -603,7 +603,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // Purpose:		This syntax-color well changed. Update the value in preferences.
 //
 // ==============================================================================
-- (IBAction) commentsColorWellChanged:(id)sender
+- (IBAction)commentsColorWellChanged:(id)sender
 {
   NSColor        *newColor     = [sender color];
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -622,7 +622,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // Purpose:		This syntax-color well changed. Update the value in preferences.
 //
 // ==============================================================================
-- (IBAction) unknownColorWellChanged:(id)sender
+- (IBAction)unknownColorWellChanged:(id)sender
 {
   NSColor        *newColor     = [sender color];
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -644,7 +644,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // Purpose:		The user wishes to choose their own LSynth executable.
 //
 // ==============================================================================
-- (IBAction) lsynthChooseExecutable:(id)sender
+- (IBAction)lsynthChooseExecutable:(id)sender
 {
   // Create a standard "Choose" dialog.
   NSOpenPanel *lsynthExecutableChooser = [NSOpenPanel openPanel];
@@ -682,7 +682,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // Purpose:		The user wishes to choose their own LSynth configuration file.
 //
 // ==============================================================================
-- (IBAction) lsynthChooseConfiguration:(id)sender
+- (IBAction)lsynthChooseConfiguration:(id)sender
 {
   NSUserDefaults *userDefaults         = [NSUserDefaults standardUserDefaults];
   NSString       *currentConfiguration = [userDefaults stringForKey:LSYNTH_CONFIGURATION_PATH_KEY];
@@ -727,7 +727,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // Purpose:		The user has changed the LSynth selection transparency
 //
 // ==============================================================================
-- (IBAction) lsynthTransparencySliderChanged:(id)sender
+- (IBAction)lsynthTransparencySliderChanged:(id)sender
 {
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
@@ -743,7 +743,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // Purpose:		The user has changed the LSynth selection transparency
 //
 // ==============================================================================
-- (IBAction) lsynthTransparencyTextChanged:(id)sender
+- (IBAction)lsynthTransparencyTextChanged:(id)sender
 {
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
@@ -759,7 +759,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // Purpose:		The user has changed the LSynth selection color
 //
 // ==============================================================================
-- (IBAction) lsynthSelectionColorWellClicked:(id)sender
+- (IBAction)lsynthSelectionColorWellClicked:(id)sender
 {
   NSColor        *newColor     = [sender color];
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -775,7 +775,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // Purpose:		User has chosen between transparency, color or both
 //
 // ==============================================================================
-- (IBAction) lsynthSelectionModeChanged:(id)sender
+- (IBAction)lsynthSelectionModeChanged:(id)sender
 {
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
@@ -792,7 +792,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // Purpose:		User has toggled the 'Save synthesized parts' checkbox
 //
 // ==============================================================================
-- (IBAction) lsynthSaveSynthesizedPartsChanged:(id)sender {
+- (IBAction)lsynthSaveSynthesizedPartsChanged:(id)sender {
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
   [userDefaults setBool:[lsynthSaveSynthesizedParts state]
@@ -805,7 +805,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // Purpose:		User has toggled the 'Show simple parts list' checkbox
 //
 // ==============================================================================
-- (IBAction) lsynthShowBasicPartsListChanged:(id)sender {
+- (IBAction)lsynthShowBasicPartsListChanged:(id)sender {
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
   [userDefaults setBool:[lsynthShowBasicPartsList state]
@@ -823,7 +823,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // or config files have changed.
 //
 // ==============================================================================
-- (void) lsynthRequiresRedisplay
+- (void)lsynthRequiresRedisplay
 {
   [[NSNotificationCenter defaultCenter]
    postNotificationName:LSynthSelectionDisplayDidChangeNotification
@@ -837,7 +837,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // resyntheisze if the  executable or config files have changed.
 //
 // ==============================================================================
-- (void) lsynthRequiresResynthesis
+- (void)lsynthRequiresResynthesis
 {
   [[NSNotificationCenter defaultCenter]
    postNotificationName:LSynthResynthesisRequiredNotification
@@ -855,7 +855,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // Purpose:		The tabs allowed in the preferences window.
 //
 // ==============================================================================
-- (NSArray *) toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar
+- (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar
 {
   return([NSArray arrayWithObjects:
           PREFS_GENERAL_TAB_IDENTIFIER,
@@ -872,7 +872,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // Purpose:		The tabs shown by default in the preferences window.
 //
 // ==============================================================================
-- (NSArray *) toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar
+- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar
 {
   return([self toolbarAllowedItemIdentifiers:toolbar]);
 }// end toolbarDefaultItemIdentifiers:
@@ -884,7 +884,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // Purpose:		The tabs selectable in the preferences window.
 //
 // ==============================================================================
-- (NSArray *) toolbarSelectableItemIdentifiers:(NSToolbar *)toolbar
+- (NSArray *)toolbarSelectableItemIdentifiers:(NSToolbar *)toolbar
 {
   return([self toolbarAllowedItemIdentifiers:toolbar]);
 }// end toolbarSelectableItemIdentifiers:
@@ -896,7 +896,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // Purpose:		Creates the "tabs" used in the preferences window.
 //
 // ==============================================================================
-- (NSToolbarItem *) toolbar:(NSToolbar *)toolbar
+- (NSToolbarItem *)toolbar:(NSToolbar *)toolbar
   itemForItemIdentifier:(NSString *)itemIdentifier
   willBeInsertedIntoToolbar:(BOOL)flag
 {
@@ -934,7 +934,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // Purpose:		Used to release the preferences controller.
 //
 // ==============================================================================
-- (BOOL) windowShouldClose:(id)sender
+- (BOOL)windowShouldClose:(id)sender
 {
   // Save out the last tab view.
   NSUserDefaults *userDefaults   = [NSUserDefaults standardUserDefaults];
@@ -969,7 +969,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // error-checking.
 //
 // ------------------------------------------------------------------------------
-+ (void) ensureDefaults
++ (void)ensureDefaults
 {
   NSUserDefaults      *userDefaults    = [NSUserDefaults standardUserDefaults];
   NSMutableDictionary *initialDefaults = [NSMutableDictionary dictionary];
@@ -1266,7 +1266,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // check it out and reload the parts from it.
 //
 // ==============================================================================
-- (void) changeLDrawFolderPath:(NSString *)folderPath
+- (void)changeLDrawFolderPath:(NSString *)folderPath
 {
   PartLibraryController *libraryController = [LDrawApplication sharedPartLibraryController];
   NSUserDefaults        *userDefaults      = [NSUserDefaults standardUserDefaults];
@@ -1292,7 +1292,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // represented by itemIdentifier.
 //
 // ==============================================================================
-- (void) selectPanelWithIdentifier:(NSString *)itemIdentifier
+- (void)selectPanelWithIdentifier:(NSString *)itemIdentifier
 {
   NSView *newContentView = nil;
   NSRect newFrameRect    = NSZeroRect;
@@ -1336,7 +1336,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // the LSynth pane to validate and resynthesize in a timely fashion.
 //
 // ==============================================================================
-- (void) controlTextDidEndEditing:(NSNotification *)aNotification
+- (void)controlTextDidEndEditing:(NSNotification *)aNotification
 {
   NSTextField    *textField            = [aNotification object];
   NSUserDefaults *userDefaults         = [NSUserDefaults standardUserDefaults];
@@ -1415,11 +1415,11 @@ PreferencesDialogController * preferencesDialog = nil;
 // Purpose:		It's time to get fitted for a halo.
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
-  [generalTabContentView  release];
-  [preferencesWindow    release];
-  [blankContent     release];
+  [generalTabContentView release];
+  [preferencesWindow release];
+  [blankContent release];
 
   // clear out our global preferences controller.
   // It will be reinitialized when needed.

@@ -1,1 +1,2 @@
-uncrustify -c uncrustify.cfg --if-changed --replace --no-backup -F lintfiles.txt 
+uncrustify -c uncrustify.cfg --if-changed --replace --no-backup -F lintauto.txt 
+uncrustify -c uncrustify.cfg --if-changed --replace --no-backup -l OC -F lintoc.txt 

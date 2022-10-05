@@ -9,9 +9,8 @@
 // ==============================================================================
 #import <Cocoa/Cocoa.h>
 
+@interface NSBezierPath (BezierPathCategory)
 
-@interface NSBezierPath(BezierPathCategory)
-
-+ (NSBezierPath *)bezierPathWithRect: (NSRect)rect radiusPercentage: (CGFloat)radiusPercentage;
++ (NSBezierPath *)bezierPathWithRect:(NSRect)rect radiusPercentage:(CGFloat)radiusPercentage;
 
 @end

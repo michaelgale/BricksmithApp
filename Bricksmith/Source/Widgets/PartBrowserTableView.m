@@ -23,7 +23,7 @@
 // it is dragged into.
 //
 // ==============================================================================
-- (NSImage *) dragImageForRowsWithIndexes:(NSIndexSet *)dragRows
+- (NSImage *)dragImageForRowsWithIndexes:(NSIndexSet *)dragRows
   tableColumns:(NSArray *)tableColumns
   event:(NSEvent *)dragEvent
   offset:(NSPointPointer)dragImageOffset
@@ -58,7 +58,7 @@
 // double-click.
 //
 // ==============================================================================
-- (void) keyDown:(NSEvent *)theEvent
+- (void)keyDown:(NSEvent *)theEvent
 {
   NSString *characters = [theEvent charactersIgnoringModifiers];
   unichar  firstChar   = '\0';

@@ -31,7 +31,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // Purpose:		Initialize a new object.
 //
 // ==============================================================================
-- (id) init
+- (id)init
 {
   self = [super init];
 
@@ -53,7 +53,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // read and write LDraw objects as NSData.
 //
 // ==============================================================================
-- (id) initWithCoder:(NSCoder *)decoder
+- (id)initWithCoder:(NSCoder *)decoder
 {
   self = [super initWithCoder:decoder];
 
@@ -86,7 +86,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // read and write LDraw objects as NSData.
 //
 // ==============================================================================
-- (void) encodeWithCoder:(NSCoder *)encoder
+- (void)encodeWithCoder:(NSCoder *)encoder
 {
   [super encodeWithCoder:encoder];
 
@@ -136,7 +136,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // LDrawVertexes.
 //
 // ==============================================================================
-- (id) copyWithZone:(NSZone *)zone
+- (id)copyWithZone:(NSZone *)zone
 {
   // Since almost all colors are supposed to be from libraries, and since copy
   // must be efficient because dictionary keys are copied, and particularly
@@ -175,7 +175,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // This is probably not an efficient method
 //
 // ==============================================================================
-- (id) fullCopyWithZone:(NSZone *)zone
+- (id)fullCopyWithZone:(NSZone *)zone
 {
   LDrawColor *copied = (LDrawColor *)[super copyWithZone:zone];
 
@@ -203,7 +203,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // color-command specific syntax.
 //
 // ==============================================================================
-- (BOOL) finishParsing:(NSScanner *)scanner
+- (BOOL)finishParsing:(NSScanner *)scanner
 {
   NSString *field           = nil;
   int      scannedAlpha     = 0;
@@ -355,7 +355,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // be sent back to the early nineties where it deserved to die.
 //
 // ------------------------------------------------------------------------------
-+ (LDrawColor *) blendedColorForCode:(LDrawColorT)colorCode
++ (LDrawColor *)blendedColorForCode:(LDrawColorT)colorCode
 {
   uint8_t ldrawEXEColorTable[16][3] =
   {
@@ -415,7 +415,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // Purpose:		"Draws" the color.
 //
 // ==============================================================================
-- (void) draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)parentColor
+- (void)draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)parentColor
 
 {
   // Need to add this color to the model's color library.
@@ -437,7 +437,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // because %17@ doesn't work.
 //
 // ==============================================================================
-- (NSString *) write
+- (NSString *)write
 {
   NSMutableString *line = nil;
 
@@ -512,7 +512,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // which can be presented to the user.
 //
 // ==============================================================================
-- (NSString *) browsingDescription
+- (NSString *)browsingDescription
 {
   return([self name]);
 }// end browsingDescription
@@ -524,7 +524,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // object, or nil if there is no icon.
 //
 // ==============================================================================
-- (NSString *) iconName
+- (NSString *)iconName
 {
   return(@"ColorDroplet");
 }// end iconName
@@ -535,7 +535,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // Purpose:		Returns the name of the class used to inspect this one.
 //
 // ==============================================================================
-- (NSString *) inspectorClassName
+- (NSString *)inspectorClassName
 {
   return(nil);
 }// end inspectorClassName
@@ -547,7 +547,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 
 // ========== alpha =============================================================
 // ==============================================================================
-- (GLfloat) alpha
+- (GLfloat)alpha
 {
   return(colorRGBA[3]);
 }
@@ -555,7 +555,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 
 // ========== colorCode =========================================================
 // ==============================================================================
-- (LDrawColorT) colorCode
+- (LDrawColorT)colorCode
 {
   return(self->colorCode);
 }// end colorCode
@@ -567,7 +567,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // LDrawEdgeColor for this color.
 //
 // ==============================================================================
-- (LDrawColor *) complimentColor
+- (LDrawColor *)complimentColor
 {
   // LDConfig compliment colors look ugly. Bricksmith uses internally-derived
   // compliments which look more like the original LDraw.
@@ -594,7 +594,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // for the actual color values.
 //
 // ==============================================================================
-- (LDrawColorT) edgeColorCode
+- (LDrawColorT)edgeColorCode
 {
   return(self->edgeColorCode);
 }// end edgeColorCode
@@ -606,7 +606,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // color.
 //
 // ==============================================================================
-- (void) getColorRGBA:(GLfloat *)inComponents
+- (void)getColorRGBA:(GLfloat *)inComponents
 {
   memcpy(inComponents, self->colorRGBA, sizeof(GLfloat) * 4);
 }// end getColorRGBA:
@@ -623,7 +623,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // instead. Otherwise, use the values returned by this method.
 //
 // ==============================================================================
-- (void) getEdgeColorRGBA:(GLfloat *)inComponents
+- (void)getEdgeColorRGBA:(GLfloat *)inComponents
 {
   memcpy(inComponents, self->edgeColorRGBA, sizeof(GLfloat) * 4);
 }// end getEdgeColorRGBA:
@@ -642,7 +642,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // name of the standard color. Deal with it.
 //
 // ==============================================================================
-- (NSString *) localizedName
+- (NSString *)localizedName
 {
   NSString *nameKey   = nil;
   NSString *colorName = nil;
@@ -679,7 +679,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 
 // ========== luminance =========================================================
 // ==============================================================================
-- (uint8_t) luminance
+- (uint8_t)luminance
 {
   return(self->luminance);
 }// end luminance
@@ -687,7 +687,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 
 // ========== material ==========================================================
 // ==============================================================================
-- (LDrawColorMaterialT) material
+- (LDrawColorMaterialT)material
 {
   return(self->material);
 }// end material
@@ -695,7 +695,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 
 // ========== materialParameters ================================================
 // ==============================================================================
-- (NSString *) materialParameters
+- (NSString *)materialParameters
 {
   return(self->materialParameters);
 }// end materialParameters
@@ -703,13 +703,13 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 
 // ========== name ==============================================================
 // ==============================================================================
-- (NSString *) name
+- (NSString *)name
 {
   return(self->name);
 }// end name
 
 
-- (BOOL) isFavourite
+- (BOOL)isFavourite
 {
   return(self->isFavourite);
 }
@@ -717,7 +717,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 
 #pragma mark -
 
-- (void) setFavourite:(BOOL)flag
+- (void)setFavourite:(BOOL)flag
 {
   self->isFavourite = flag;
 }
@@ -728,7 +728,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // Purpose:		Sets the LDraw integer code for this color.
 //
 // ==============================================================================
-- (void) setColorCode:(LDrawColorT)newCode
+- (void)setColorCode:(LDrawColorT)newCode
 {
   self->colorCode = newCode;
 }// end setColorCode:
@@ -739,7 +739,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // Purpose:		Sets the actual RGBA component values for this color.
 //
 // ==============================================================================
-- (void) setColorRGBA:(GLfloat *)newComponents
+- (void)setColorRGBA:(GLfloat *)newComponents
 {
   memcpy(self->colorRGBA, newComponents, sizeof(GLfloat[4]));
 }// end setColorRGBA:
@@ -756,7 +756,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // LDrawColorBogus.
 //
 // ==============================================================================
-- (void) setEdgeColorCode:(LDrawColorT)newCode
+- (void)setEdgeColorCode:(LDrawColorT)newCode
 {
   self->edgeColorCode = newCode;
 }// end setEdgeColorCode:
@@ -773,7 +773,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // LDrawColorBogus.
 //
 // ==============================================================================
-- (void) setEdgeColorRGBA:(GLfloat *)newComponents
+- (void)setEdgeColorRGBA:(GLfloat *)newComponents
 {
   memcpy(self->edgeColorRGBA, newComponents, sizeof(GLfloat[4]));
 
@@ -790,7 +790,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // optional.
 //
 // ==============================================================================
-- (void) setLuminance:(uint8_t)newValue
+- (void)setLuminance:(uint8_t)newValue
 {
   self->luminance    = newValue;
   self->hasLuminance = YES;
@@ -805,7 +805,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // color directive.
 //
 // ==============================================================================
-- (void) setMaterial:(LDrawColorMaterialT)newValue
+- (void)setMaterial:(LDrawColorMaterialT)newValue
 {
   self->material = newValue;
 }// end setMaterial:
@@ -820,7 +820,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // color directive.
 //
 // ==============================================================================
-- (void) setMaterialParameters:(NSString *)newValue
+- (void)setMaterialParameters:(NSString *)newValue
 {
   [newValue retain];
   [self->materialParameters release];
@@ -835,7 +835,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // underscores.
 //
 // ==============================================================================
-- (void) setName:(NSString *)newName
+- (void)setName:(NSString *)newName
 {
   [newName retain];
   [self->name release];
@@ -859,7 +859,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // aren't equal.
 //
 // ==============================================================================
-- (BOOL) isEqual:(id)anObject
+- (BOOL)isEqual:(id)anObject
 {
   BOOL isEqual = NO;
 
@@ -882,7 +882,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // LDrawVertexes).
 //
 // ==============================================================================
-- (NSUInteger) hash
+- (NSUInteger)hash
 {
   return((NSUInteger)self);
 }
@@ -893,7 +893,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // Purpose:		Compatibility method directing to our specialized comparison.
 //
 // ==============================================================================
-- (NSComparisonResult) compare:(LDrawColor *)otherColor
+- (NSComparisonResult)compare:(LDrawColor *)otherColor
 {
   return([self HSVACompare:otherColor]);
 }
@@ -905,7 +905,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // Brightness.
 //
 // ==============================================================================
-- (NSComparisonResult) HSVACompare:(LDrawColor *)otherColor
+- (NSComparisonResult)HSVACompare:(LDrawColor *)otherColor
 {
   NSComparisonResult result = NSOrderedSame;
   float ourHSV[4]           = { 0.0 };
@@ -971,7 +971,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // extension.
 //
 // ==============================================================================
-- (NSString *) hexStringForRGB:(GLfloat *)components
+- (NSString *)hexStringForRGB:(GLfloat *)components
 {
   NSString *hexString = [NSString stringWithFormat:@"#%02X%02X%02X",
                          (int)(components[0] * 255),
@@ -995,7 +995,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // Example:		#77CC00 becomes (R = 0.4666; G = 0.8; B = 0.0)
 //
 // ==============================================================================
-- (BOOL) scanHexString:(NSScanner *)hexScanner intoRGB:(GLfloat *)components
+- (BOOL)scanHexString:(NSScanner *)hexScanner intoRGB:(GLfloat *)components
 {
   unsigned hexBytes = 0;
   BOOL     success  = NO;
@@ -1033,12 +1033,12 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // Purpose:		We're turning blue.
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
-  [materialParameters   release];
-  [name         release];
+  [materialParameters release];
+  [name release];
 
-  [fakeComplimentColor  release];
+  [fakeComplimentColor release];
 
   [super dealloc];
 }// end dealloc

@@ -38,13 +38,13 @@
 // Purpose:		Brings the Minifigure Generator dialog onscreen.
 //
 // ==============================================================================
-- (void) awakeFromNib
+- (void)awakeFromNib
 {
   [self->minifigurePreview setAcceptsFirstResponder:NO];
   [self->minifigurePreview setZoomPercentage:180];
 
   [minifigurePreview setAutosaveName:@"MinifigureGeneratorView"];
-  [minifigurePreview  restoreConfiguration];
+  [minifigurePreview restoreConfiguration];
 }// end awakeFromNib
 
 
@@ -57,7 +57,7 @@
 // Purpose:		Brings the Minifigure Generator dialog onscreen.
 //
 // ==============================================================================
-+ (void) doMinifigureGenerator
++ (void)doMinifigureGenerator
 {
   MinifigureDialogController *dialog = [[MinifigureDialogController alloc] init];
 
@@ -72,7 +72,7 @@
 // Purpose:		Creates the Minifigure Generator dialog.
 //
 // ==============================================================================
-- (id) init
+- (id)init
 {
   self = [super init];
 
@@ -99,7 +99,7 @@
 // Purpose:		Returns the minifigure we generated!
 //
 // ==============================================================================
-- (LDrawMPDModel *) minifigure
+- (LDrawMPDModel *)minifigure
 {
   return(minifigure);
 }// end minifigure
@@ -110,9 +110,9 @@
 // Purpose:		Updates the generated minifigure and redisplays him.
 //
 // ==============================================================================
-- (void) setMinifigure:(LDrawMPDModel *)newMinifigure
+- (void)setMinifigure:(LDrawMPDModel *)newMinifigure
 {
-  [newMinifigure    retain];
+  [newMinifigure retain];
   [self->minifigure release];
 
   self->minifigure = newMinifigure;
@@ -127,79 +127,79 @@
 // minifigure.
 //
 // ==============================================================================
-- (void) setHasHat:(BOOL)flag
+- (void)setHasHat:(BOOL)flag
 {
   hasHat = flag;
 }
 
 
-- (void) setHasNeckAccessory:(BOOL)flag
+- (void)setHasNeckAccessory:(BOOL)flag
 {
   hasNeckAccessory = flag;
 }
 
 
-- (void) setHasHips:(BOOL)flag
+- (void)setHasHips:(BOOL)flag
 {
   hasHips = flag;
 }
 
 
-- (void) setHasRightArm:(BOOL)flag
+- (void)setHasRightArm:(BOOL)flag
 {
   hasRightArm = flag;
 }
 
 
-- (void) setHasRightHand:(BOOL)flag
+- (void)setHasRightHand:(BOOL)flag
 {
   hasRightHand = flag;
 }
 
 
-- (void) setHasRightHandAccessory:(BOOL)flag
+- (void)setHasRightHandAccessory:(BOOL)flag
 {
   hasRightHandAccessory = flag;
 }
 
 
-- (void) setHasRightLeg:(BOOL)flag
+- (void)setHasRightLeg:(BOOL)flag
 {
   hasRightLeg = flag;
 }
 
 
-- (void) setHasRightLegAccessory:(BOOL)flag
+- (void)setHasRightLegAccessory:(BOOL)flag
 {
   hasRightLegAccessory = flag;
 }
 
 
-- (void) setHasLeftArm:(BOOL)flag
+- (void)setHasLeftArm:(BOOL)flag
 {
   hasLeftArm = flag;
 }
 
 
-- (void) setHasLeftHand:(BOOL)flag
+- (void)setHasLeftHand:(BOOL)flag
 {
   hasLeftHand = flag;
 }
 
 
-- (void) setHasLeftHandAccessory:(BOOL)flag
+- (void)setHasLeftHandAccessory:(BOOL)flag
 {
   hasLeftHandAccessory = flag;
 }
 
 
-- (void) setHasLeftLeg:(BOOL)flag
+- (void)setHasLeftLeg:(BOOL)flag
 {
   hasLeftLeg = flag;
 }
 
 
-- (void) setHasLeftLegAccessory:(BOOL)flag
+- (void)setHasLeftLegAccessory:(BOOL)flag
 {
   hasLeftLegAccessory = flag;
 }
@@ -211,7 +211,7 @@
 // units.
 //
 // ==============================================================================
-- (void) setHeadElevation:(float)newElevation
+- (void)setHeadElevation:(float)newElevation
 {
   headElevation = newElevation;
 }
@@ -222,79 +222,79 @@
 // Purpose:		Set the angle of the given part.
 //
 // ==============================================================================
-- (void) setAngleOfHat:(float)angle
+- (void)setAngleOfHat:(float)angle
 {
   angleOfHat = angle;
 }
 
 
-- (void) setAngleOfHead:(float)angle
+- (void)setAngleOfHead:(float)angle
 {
   angleOfHead = angle;
 }
 
 
-- (void) setAngleOfNeck:(float)angle
+- (void)setAngleOfNeck:(float)angle
 {
   angleOfNeck = angle;
 }
 
 
-- (void) setAngleOfRightArm:(float)angle
+- (void)setAngleOfRightArm:(float)angle
 {
   angleOfRightArm = angle;
 }
 
 
-- (void) setAngleOfRightHand:(float)angle
+- (void)setAngleOfRightHand:(float)angle
 {
   angleOfRightHand = angle;
 }
 
 
-- (void) setAngleOfRightHandAccessory:(float)angle
+- (void)setAngleOfRightHandAccessory:(float)angle
 {
   angleOfRightHandAccessory = angle;
 }
 
 
-- (void) setAngleOfRightLeg:(float)angle
+- (void)setAngleOfRightLeg:(float)angle
 {
   angleOfRightLeg = angle;
 }
 
 
-- (void) setAngleOfRightLegAccessory:(float)angle
+- (void)setAngleOfRightLegAccessory:(float)angle
 {
   angleOfRightLegAccessory = angle;
 }
 
 
-- (void) setAngleOfLeftArm:(float)angle
+- (void)setAngleOfLeftArm:(float)angle
 {
   angleOfLeftArm = angle;
 }
 
 
-- (void) setAngleOfLeftHand:(float)angle
+- (void)setAngleOfLeftHand:(float)angle
 {
   angleOfLeftHand = angle;
 }
 
 
-- (void) setAngleOfLeftHandAccessory:(float)angle
+- (void)setAngleOfLeftHandAccessory:(float)angle
 {
   angleOfLeftHandAccessory = angle;
 }
 
 
-- (void) setAngleOfLeftLeg:(float)angle
+- (void)setAngleOfLeftLeg:(float)angle
 {
   angleOfLeftLeg = angle;
 }
 
 
-- (void) setAngleOfLeftLegAccessory:(float)angle
+- (void)setAngleOfLeftLegAccessory:(float)angle
 {
   angleOfLeftLegAccessory = angle;
 }
@@ -305,7 +305,7 @@
 // Purpose:		Sets the name which will be given to the new minifigure model.
 //
 // ==============================================================================
-- (void) setMinifigureName:(NSString *)newName
+- (void)setMinifigureName:(NSString *)newName
 {
   [newName retain];
   [self->minifigureName release];
@@ -327,7 +327,7 @@
 // appropriate.
 //
 // ==============================================================================
-- (NSInteger) runModal
+- (NSInteger)runModal
 {
   NSInteger returnCode = NSModalResponseCancel;
 
@@ -347,7 +347,7 @@
 // Purpose:		OK clicked, dismiss dialog.
 //
 // ==============================================================================
-- (IBAction) okButtonClicked:(id)sender
+- (IBAction)okButtonClicked:(id)sender
 {
   [NSApp stopModalWithCode:NSModalResponseOK];
   [self->minifigureGeneratorPanel close];
@@ -359,7 +359,7 @@
 // Purpose:		Cancel clicked, dismiss the dialog.
 //
 // ==============================================================================
-- (IBAction) cancelButtonClicked:(id)sender
+- (IBAction)cancelButtonClicked:(id)sender
 {
   [self->minifigureGeneratorPanel close];
   [NSApp stopModalWithCode:NSModalResponseCancel];
@@ -377,7 +377,7 @@
 // implementing bindings on it. Sigh...
 //
 // ==============================================================================
-- (IBAction) colorWellChanged:(id)sender
+- (IBAction)colorWellChanged:(id)sender
 {
   [self generateMinifigure:sender];
 }// end colorWellChanged:
@@ -388,7 +388,7 @@
 // Purpose:		This is it! It's time to manufacure the minifigure!
 //
 // ==============================================================================
-- (IBAction) generateMinifigure:(id)sender
+- (IBAction)generateMinifigure:(id)sender
 {
   LDrawMPDModel *newMinifigure = [LDrawMPDModel model];
   LDrawStep     *firstStep     = [[newMinifigure steps] objectAtIndex:0];
@@ -701,7 +701,7 @@
 // Purpose:		Dialog is closing; save valuse.
 //
 // ==============================================================================
-- (void) windowWillClose:(NSNotification *)aNotification
+- (void)windowWillClose:(NSNotification *)aNotification
 {
   if ([LDrawColorWell activeColorWell] != nil) {
     [LDrawColorWell setActiveColorWell:nil];
@@ -719,7 +719,7 @@
 // Purpose:		Moves the given nil-terminated list of parts.
 //
 // ==============================================================================
-- (void) moveBy:(Vector3)moveVector
+- (void)moveBy:(Vector3)moveVector
   parts:(LDrawPart *)firstPart, ...
 {
   LDrawPart *currentObject = nil;
@@ -747,7 +747,7 @@
 // Notes:		This is the first variadic function I ever wrote.
 //
 // ==============================================================================
-- (void) rotateByDegrees:(Tuple3)degrees
+- (void)rotateByDegrees:(Tuple3)degrees
   parts:(LDrawPart *)firstPart, ...
 {
   Point3    theOrigin      = V3Make(0, 0, 0);
@@ -780,7 +780,7 @@
 // Notes:		Wow what a horrific method.
 //
 // ==============================================================================
-- (void) restoreFromPreferences
+- (void)restoreFromPreferences
 {
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
   ColorLibrary   *colorLibrary = [ColorLibrary sharedColorLibrary];
@@ -902,7 +902,7 @@
 // Notes:		Wow what a horrific method.
 //
 // ==============================================================================
-- (void) saveToPreferences
+- (void)saveToPreferences
 {
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
@@ -963,35 +963,35 @@
   [userDefaults setFloat:self->angleOfRightLegAccessory
                   forKey:MINIFIGURE_ANGLE_LEG_RIGHT_ACCESSORY];
 
-  [userDefaults setInteger:[[hatsColorWell          LDrawColor] colorCode]
+  [userDefaults setInteger:[[hatsColorWell LDrawColor] colorCode]
                     forKey:MINIFIGURE_COLOR_HAT];
-  [userDefaults setInteger:[[headsColorWell         LDrawColor] colorCode]
+  [userDefaults setInteger:[[headsColorWell LDrawColor] colorCode]
                     forKey:MINIFIGURE_COLOR_HEAD];
-  [userDefaults setInteger:[[necksColorWell         LDrawColor] colorCode]
+  [userDefaults setInteger:[[necksColorWell LDrawColor] colorCode]
                     forKey:MINIFIGURE_COLOR_NECK];
-  [userDefaults setInteger:[[torsosColorWell          LDrawColor] colorCode]
+  [userDefaults setInteger:[[torsosColorWell LDrawColor] colorCode]
                     forKey:MINIFIGURE_COLOR_TORSO];
-  [userDefaults setInteger:[[rightArmsColorWell       LDrawColor] colorCode]
+  [userDefaults setInteger:[[rightArmsColorWell LDrawColor] colorCode]
                     forKey:MINIFIGURE_COLOR_ARM_RIGHT];
-  [userDefaults setInteger:[[rightHandsColorWell        LDrawColor] colorCode]
+  [userDefaults setInteger:[[rightHandsColorWell LDrawColor] colorCode]
                     forKey:MINIFIGURE_COLOR_HAND_RIGHT];
-  [userDefaults setInteger:[[rightHandAccessoriesColorWell  LDrawColor] colorCode]
+  [userDefaults setInteger:[[rightHandAccessoriesColorWell LDrawColor] colorCode]
                     forKey:MINIFIGURE_COLOR_HAND_RIGHT_ACCESSORY];
-  [userDefaults setInteger:[[leftArmsColorWell        LDrawColor] colorCode]
+  [userDefaults setInteger:[[leftArmsColorWell LDrawColor] colorCode]
                     forKey:MINIFIGURE_COLOR_ARM_LEFT];
-  [userDefaults setInteger:[[leftHandsColorWell       LDrawColor] colorCode]
+  [userDefaults setInteger:[[leftHandsColorWell LDrawColor] colorCode]
                     forKey:MINIFIGURE_COLOR_HAND_LEFT];
-  [userDefaults setInteger:[[leftHandAccessoriesColorWell   LDrawColor] colorCode]
+  [userDefaults setInteger:[[leftHandAccessoriesColorWell LDrawColor] colorCode]
                     forKey:MINIFIGURE_COLOR_HAND_LEFT_ACCESSORY];
-  [userDefaults setInteger:[[hipsColorWell          LDrawColor] colorCode]
+  [userDefaults setInteger:[[hipsColorWell LDrawColor] colorCode]
                     forKey:MINIFIGURE_COLOR_HIPS];
-  [userDefaults setInteger:[[rightLegsColorWell       LDrawColor] colorCode]
+  [userDefaults setInteger:[[rightLegsColorWell LDrawColor] colorCode]
                     forKey:MINIFIGURE_COLOR_LEG_RIGHT];
-  [userDefaults setInteger:[[rightLegAccessoriesColorWell   LDrawColor] colorCode]
+  [userDefaults setInteger:[[rightLegAccessoriesColorWell LDrawColor] colorCode]
                     forKey:MINIFIGURE_COLOR_LEG_RIGHT_ACCESSORY];
-  [userDefaults setInteger:[[leftLegsColorWell        LDrawColor] colorCode]
+  [userDefaults setInteger:[[leftLegsColorWell LDrawColor] colorCode]
                     forKey:MINIFIGURE_COLOR_LEG_LEFT];
-  [userDefaults setInteger:[[leftLegAccessoriesColorWell    LDrawColor] colorCode]
+  [userDefaults setInteger:[[leftLegAccessoriesColorWell LDrawColor] colorCode]
                     forKey:MINIFIGURE_COLOR_LEG_LEFT_ACCESSORY];
 
   [self savePartControllerSelection:hatsController
@@ -1037,7 +1037,7 @@
 // based on the name.
 //
 // ==============================================================================
-- (void) selectPartWithName:(NSString *)name
+- (void)selectPartWithName:(NSString *)name
   inController:(NSArrayController *)controller
 {
   NSArray    *parts       = [controller arrangedObjects];
@@ -1064,7 +1064,7 @@
 // on the currently-selected part object in the controller.
 //
 // ==============================================================================
-- (void) savePartControllerSelection:(NSArrayController *)controller
+- (void)savePartControllerSelection:(NSArrayController *)controller
   underKey:(NSString *)key
 {
   LDrawPart      *currentPart  = [[controller selectedObjects] objectAtIndex:0];
@@ -1084,7 +1084,7 @@
 // Purpose:
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
   [hatsColorWell release];
   [headsColorWell release];

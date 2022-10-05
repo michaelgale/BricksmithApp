@@ -9,10 +9,10 @@
 // ==============================================================================
 #import <Cocoa/Cocoa.h>
 
-
-@interface LDrawFileOutlineView: NSOutlineView {
+@interface LDrawFileOutlineView : NSOutlineView
+{
 }
 
-- (NSIndexSet *)selectObjects: (NSArray *)objects;
+- (NSIndexSet *)selectObjects:(NSArray *)objects;
 
 @end

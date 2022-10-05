@@ -24,7 +24,6 @@
 // Note that each time a service table opens a model, that model in turn gets
 // a service table!  This is how recursive resolution of models works.
 
-
 ////////////////////////////////////////////////////////////////////////////////
 //
 // ModelManager private API
@@ -36,10 +35,9 @@
 // it has to start service on THAT model too to make recursive peer files work!
 // The formula for this is a little bit different than the case when a user-edited
 // document is opened.
-- (void) documentSignInInternal:(NSString *)docPath withFile:(LDrawFile *)file;
+- (void)documentSignInInternal:(NSString *)docPath withFile:(LDrawFile *)file;
 
 @end
-
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -60,10 +58,10 @@
   NSMutableDictionary *trackedFiles;    // NSString * filepath -> LDrawFile* modelfile
 }
 
-- (id) initWithFileName:(NSString *)fileName parentDir:(NSString *)parentDir file:(LDrawFile *)file;
-- (void) dealloc;
-- (LDrawFile *) beginService:(NSString *)relativePath;  // Weird: begin service is by partial path, drop is by full path.
-- (BOOL) dropService:(NSString *)fullPath;        // Returns true if it really did find this thing and drop it!
+- (id)initWithFileName:(NSString *)fileName parentDir:(NSString *)parentDir file:(LDrawFile *)file;
+- (void)dealloc;
+- (LDrawFile *)beginService:(NSString *)relativePath;   // Weird: begin service is by partial path, drop is by full path.
+- (BOOL)dropService:(NSString *)fullPath;         // Returns true if it really did find this thing and drop it!
 
 @end
 
@@ -79,7 +77,7 @@
 // updating the table to note when new files pop up.
 //
 // ==============================================================================
-- (id) initWithFileName:(NSString *)inFileName parentDir:(NSString *)inParentDir file:(LDrawFile *)inFile;
+- (id)initWithFileName:(NSString *)inFileName parentDir:(NSString *)inParentDir file:(LDrawFile *)inFile;
 {
   // NSLog(@"Starting service on file %p as %@/%@\n",inFile,inParentDir,inFileName);
   self = [super init];
@@ -117,7 +115,7 @@
 // use obj lifetime for management here, so we manually signal.
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
   // NSLog(@"Nuking sevice table %p\n",self);
 
@@ -146,7 +144,7 @@
 // Purpose:		Grab a peer model from a peer file for a client.
 //
 // ==============================================================================
-- (LDrawFile *) beginService:(NSString *)inPartialPath
+- (LDrawFile *)beginService:(NSString *)inPartialPath
 {
   // Calculate full path for this model from our root + the "partial" we were asked about.
   // NSLog(@"%p: Loading model for part name: %@\n", self, inPartialPath);
@@ -181,8 +179,7 @@
 #endif
   if (parsedFile) {
     [parsedFile setPath:fullPath];
-    [trackedFiles setObject:parsedFile
-                     forKey:fullPath];
+    [trackedFiles setObject:parsedFile forKey:fullPath];
     [parsedFile release];     // Hash table tracked files retains the ONLY
     // ref count - our "init" ref count gets tossed!
 
@@ -212,7 +209,7 @@
 // duplicate that doc.
 //
 // ==============================================================================
-- (BOOL) dropService:(NSString *)inFilePath
+- (BOOL)dropService:(NSString *)inFilePath
 {
   LDrawFile *deadFile = [trackedFiles objectForKey:inFilePath];
 
@@ -233,7 +230,6 @@
 
 @end
 
-
 @implementation ModelManager
 
 static ModelManager *SharedModelManager = nil;
@@ -243,7 +239,7 @@ static ModelManager *SharedModelManager = nil;
 // Purpose:		return the singleton model manager.
 //
 // ==============================================================================
-+ (ModelManager *) sharedModelManager
++ (ModelManager *)sharedModelManager
 {
   if (SharedModelManager == nil) {
     SharedModelManager = [[ModelManager alloc] init];
@@ -258,7 +254,7 @@ static ModelManager *SharedModelManager = nil;
 // Purpose:		initialize the model manager.
 //
 // ==============================================================================
-- (id) init
+- (id)init
 {
   self          = [super init];
   serviceTables = [[NSMutableDictionary alloc] init];
@@ -272,7 +268,7 @@ static ModelManager *SharedModelManager = nil;
 // Purpose:		This is the end...my beautiful friend...the end...
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
   // NSLog(@"model mgr gone - why?\n");
 // for(NSValue * key in serviceTables)
@@ -294,7 +290,7 @@ static ModelManager *SharedModelManager = nil;
 // it is open to someone else, then swap in the user's doc.
 //
 // ==============================================================================
-- (void) documentSignIn:(NSString *)docPath withFile:(LDrawFile *)file
+- (void)documentSignIn:(NSString *)docPath withFile:(LDrawFile *)file
 {
   if ([serviceTables objectForKey:[NSValue valueWithPointer:file]] != nil) {
     return;
@@ -333,8 +329,7 @@ static ModelManager *SharedModelManager = nil;
   ModelServiceTable *newTable = [[ModelServiceTable alloc] initWithFileName:docFileName
                                                                   parentDir:docParentDir
                                                                        file:file];
-  [serviceTables setObject:newTable
-                    forKey:[NSValue valueWithPointer:file]];
+  [serviceTables setObject:newTable forKey:[NSValue valueWithPointer:file]];
   [newTable release];
 }// end documentSignIn:withFile:
 
@@ -347,7 +342,7 @@ static ModelManager *SharedModelManager = nil;
 // user but by the model manager itself in reponse to a part.
 //
 // ==============================================================================
-- (void) documentSignInInternal:(NSString *)docPath withFile:(LDrawFile *)file
+- (void)documentSignInInternal:(NSString *)docPath withFile:(LDrawFile *)file
 {
   if ([serviceTables objectForKey:[NSValue valueWithPointer:file]] != nil) {
     return;
@@ -361,8 +356,7 @@ static ModelManager *SharedModelManager = nil;
   ModelServiceTable *newTable = [[ModelServiceTable alloc] initWithFileName:docFileName
                                                                   parentDir:docParentDir
                                                                        file:file];
-  [serviceTables setObject:newTable
-                    forKey:[NSValue valueWithPointer:file]];
+  [serviceTables setObject:newTable forKey:[NSValue valueWithPointer:file]];
   [newTable release];
 }
 
@@ -374,7 +368,7 @@ static ModelManager *SharedModelManager = nil;
 // Notes:		This can be called recursively, from a table being torn down.
 //
 // ==============================================================================
-- (void) documentSignOut:(LDrawFile *)doc
+- (void)documentSignOut:(LDrawFile *)doc
 {
   ModelServiceTable *t = [serviceTables objectForKey:[NSValue valueWithPointer:doc]];
 
@@ -422,7 +416,7 @@ static ModelManager *SharedModelManager = nil;
 // table for the requestor.
 //
 // ==============================================================================
-- (LDrawModel *) requestModel:(NSString *)partName withDocument:(LDrawFile *)whoIsAsking
+- (LDrawModel *)requestModel:(NSString *)partName withDocument:(LDrawFile *)whoIsAsking
 {
   ModelServiceTable *table = [serviceTables objectForKey:[NSValue valueWithPointer:whoIsAsking]];
 
@@ -434,8 +428,7 @@ static ModelManager *SharedModelManager = nil;
 
   NSString *fullPath = [table->parentDirectory stringByAppendingPathComponent:partName];
 
-  fullPath = [fullPath stringByReplacingOccurrencesOfString:@"\\"
-                                                 withString:@"/"];
+  fullPath = [fullPath stringByReplacingOccurrencesOfString:@"\\" withString:@"/"];
 
 
   for (LDrawFile *key in serviceTables) {

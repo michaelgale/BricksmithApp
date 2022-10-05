@@ -14,7 +14,6 @@
 // ==============================================================================
 #import "DialogPanel.h"
 
-
 @implementation DialogPanel
 
 #pragma mark -
@@ -37,7 +36,7 @@
 // in the Nib. Tricky, huh?
 //
 // ==============================================================================
-- (id) init
+- (id)init
 {
   [NSBundle loadNibNamed:[self panelNibName]
                    owner:self];
@@ -66,7 +65,7 @@
 // connections are made.
 //
 // ==============================================================================
-- (NSString *) panelNibName
+- (NSString *)panelNibName
 {
   NSLog(@"No Nib name has been specified for this panel!");
 
@@ -83,7 +82,7 @@
 // Purpose:		End the sheet (we are the sheet--or at least we'd better be!)
 //
 // ==============================================================================
-- (IBAction) okButtonClicked:(id)sender
+- (IBAction)okButtonClicked:(id)sender
 {
   [NSApp endSheet:self];
   [self close];
@@ -103,7 +102,7 @@
 // Purpose:		Our goose is cooked.
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
   [objectController release];
 

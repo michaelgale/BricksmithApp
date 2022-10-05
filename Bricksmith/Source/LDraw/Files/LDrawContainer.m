@@ -27,7 +27,7 @@
 // ready to receive objects.
 //
 // ==============================================================================
-- (id) init
+- (id)init
 {
   self = [super init];
 
@@ -45,7 +45,7 @@
 // read and write LDraw objects as NSData.
 //
 // ==============================================================================
-- (id) initWithCoder:(NSCoder *)decoder
+- (id)initWithCoder:(NSCoder *)decoder
 {
   self = [super initWithCoder:decoder];
 
@@ -66,12 +66,11 @@
 // read and write LDraw objects as NSData.
 //
 // ==============================================================================
-- (void) encodeWithCoder:(NSCoder *)encoder
+- (void)encodeWithCoder:(NSCoder *)encoder
 {
   [super encodeWithCoder:encoder];
 
-  [encoder encodeObject:containedObjects
-                 forKey:@"containedObjects"];
+  [encoder encodeObject:containedObjects forKey:@"containedObjects"];
 }// end encodeWithCoder:
 
 
@@ -82,7 +81,7 @@
 // receiver.
 //
 // ==============================================================================
-- (id) copyWithZone:(NSZone *)zone
+- (id)copyWithZone:(NSZone *)zone
 {
   LDrawContainer *copiedContainer = (LDrawContainer *)[super copyWithZone:zone];
   id             currentObject    = nil;
@@ -92,8 +91,7 @@
   // Copy each subdirective and transfer it into the copied container.
   for (currentObject in self->containedObjects) {
     copiedObject = [currentObject copy];
-    [copiedContainer insertDirective:copiedObject
-                             atIndex:counter];
+    [copiedContainer insertDirective:copiedObject atIndex:counter];
     [copiedObject release];
   }
 
@@ -112,7 +110,7 @@
 // the enclosed containers themselves.
 //
 // ==============================================================================
-- (NSArray *) allEnclosedElements
+- (NSArray *)allEnclosedElements
 {
   NSMutableArray *subelements     = [NSMutableArray array];
   id             currentDirective = nil;
@@ -145,7 +143,7 @@
 
 // ========== postsNotifications ================================================
 // ==============================================================================
-- (BOOL) postsNotifications
+- (BOOL)postsNotifications
 {
   return(self->postsNotifications);
 }
@@ -157,7 +155,7 @@
 // object's bounds.
 //
 // ==============================================================================
-- (Box3) projectedBoundingBoxWithModelView:(Matrix4)modelView
+- (Box3)projectedBoundingBoxWithModelView:(Matrix4)modelView
   projection:(Matrix4)projection
   view:(Box2)viewport;
 {
@@ -186,7 +184,7 @@
 // Purpose:		Adds directive into the collection at position index.
 //
 // ==============================================================================
-- (NSInteger) indexOfDirective:(LDrawDirective *)directive
+- (NSInteger)indexOfDirective:(LDrawDirective *)directive
 {
   return([containedObjects indexOfObjectIdenticalTo:directive]);
 }// end indexOfDirective:
@@ -197,7 +195,7 @@
 // Purpose:		Returns the LDraw directives stored in this collection.
 //
 // ==============================================================================
-- (NSMutableArray *) subdirectives
+- (NSMutableArray *)subdirectives
 {
   return(containedObjects);
 }// end subdirectives
@@ -216,7 +214,7 @@
 // this flag off except in parseable directives.
 //
 // ==============================================================================
-- (void) setPostsNotifications:(BOOL)flag
+- (void)setPostsNotifications:(BOOL)flag
 {
   self->postsNotifications = flag;
 
@@ -238,12 +236,11 @@
 // Purpose:		Adds directive into the collection at the end of the list.
 //
 // ==============================================================================
-- (void) addDirective:(LDrawDirective *)directive
+- (void)addDirective:(LDrawDirective *)directive
 {
   NSInteger index = [containedObjects count];
 
-  [self insertDirective:directive
-                atIndex:index];
+  [self insertDirective:directive atIndex:index];
 }// end addDirective:
 
 
@@ -253,7 +250,7 @@
 // how deeply they may be contained.
 //
 // ==============================================================================
-- (void) collectPartReport:(PartReport *)report
+- (void)collectPartReport:(PartReport *)report
 {
   id        currentDirective = nil;
   NSInteger counter          = 0;
@@ -274,7 +271,7 @@
 // Introspect our sub-directives and recurse where we can.
 //
 // ==============================================================================
-- (void) applyToAllParts:(LDrawPartVisitor)visitor
+- (void)applyToAllParts:(LDrawPartVisitor)visitor
 {
   id        currentDirective = nil;
   NSInteger counter          = 0;
@@ -296,7 +293,7 @@
 // If it isn't in the collection, well, that's that.
 //
 // ==============================================================================
-- (void) removeDirective:(LDrawDirective *)doomedDirective
+- (void)removeDirective:(LDrawDirective *)doomedDirective
 {
   // First, find the object (making sure it's actually there in the process)
   NSInteger indexOfObject = [self indexOfDirective:doomedDirective];
@@ -313,17 +310,16 @@
 // Purpose:		Adds directive into the collection at position index.
 //
 // ==============================================================================
-- (void) insertDirective:(LDrawDirective *)directive atIndex:(NSInteger)index
+- (void)insertDirective:(LDrawDirective *)directive atIndex:(NSInteger)index
 {
   // Insert
-  [containedObjects insertObject:directive
-                         atIndex:index];
+  [containedObjects insertObject:directive atIndex:index];
   [directive setEnclosingDirective:self];
 
   // Apply notification policy to new children
   if ([directive respondsToSelector:@selector(setPostsNotifications:)] == YES) {
-    if ([(LDrawContainer *)directive postsNotifications] != self->postsNotifications) {
-      [(LDrawContainer *)directive
+    if ([(LDrawContainer *) directive postsNotifications] != self->postsNotifications) {
+      [(LDrawContainer *) directive
        setPostsNotifications:self->postsNotifications];
     }
   }
@@ -343,7 +339,7 @@
 // Purpose:		Removes the LDraw directive stored at index in this collection.
 //
 // ==============================================================================
-- (void) removeDirectiveAtIndex:(NSInteger)index
+- (void)removeDirectiveAtIndex:(NSInteger)index
 {
   LDrawDirective *doomedDirective = [self->containedObjects objectAtIndex:index];
 
@@ -369,7 +365,7 @@
 // subclasses.
 //
 // ==============================================================================
-- (void) setSubdirectiveSelected:(BOOL)subdirective
+- (void)setSubdirectiveSelected:(BOOL)subdirective
 {
   // stub
 }
@@ -385,7 +381,7 @@
 // model with the given name.
 //
 // ==============================================================================
-- (BOOL) containsReferenceTo:(NSString *)name
+- (BOOL)containsReferenceTo:(NSString *)name
 {
   NSArray        *subdirectives    = [self subdirectives];
   LDrawDirective *currentDirective = 0;
@@ -409,7 +405,7 @@
 // it.  Intended to be overridden by subclasses
 //
 // ==============================================================================
-- (BOOL) acceptsDroppedDirective:(LDrawDirective *)directive
+- (BOOL)acceptsDroppedDirective:(LDrawDirective *)directive
 {
   return(YES);
 }// end acceptsDroppedDirective:
@@ -420,7 +416,7 @@
 // Purpose:		Appends the directive into the appropriate container.
 //
 // ==============================================================================
-- (void) flattenIntoLines:(NSMutableArray *)lines
+- (void)flattenIntoLines:(NSMutableArray *)lines
   triangles:(NSMutableArray *)triangles
   quadrilaterals:(NSMutableArray *)quadrilaterals
   other:(NSMutableArray *)everythingElse
@@ -454,7 +450,7 @@
 // Purpose:		IT'S THE END OF THE WORLD AS WE KNOW IT!!!
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
   for (id <LDrawObservable> i in self->containedObjects) {
     [i removeObserver:self];
@@ -487,7 +483,7 @@
 // Just log it out for now?
 //
 // ==============================================================================
-- (void) observableSaysGoodbyeCruelWorld:(id <LDrawObservable>)doomedObservable
+- (void)observableSaysGoodbyeCruelWorld:(id <LDrawObservable>)doomedObservable
 {
   if ([self->containedObjects indexOfObject:doomedObservable] != NSNotFound) {
     NSLog(@"Observer's observable is dying but we have no idea who it is...");
@@ -502,7 +498,7 @@
 // on that data.
 //
 // ==============================================================================
-- (void) statusInvalidated:(CacheFlagsT)flags who:(id <LDrawObservable>)observable
+- (void)statusInvalidated:(CacheFlagsT)flags who:(id <LDrawObservable>)observable
 {
   [self invalCache:flags];
 }
@@ -514,7 +510,7 @@
 // eventful happens - we can respond if desired.
 //
 // ==============================================================================
-- (void) receiveMessage:(MessageT)msg who:(id <LDrawObservable>)observable
+- (void)receiveMessage:(MessageT)msg who:(id <LDrawObservable>)observable
 {
 }
 

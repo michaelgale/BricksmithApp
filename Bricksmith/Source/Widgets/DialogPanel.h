@@ -11,8 +11,8 @@
 // ==============================================================================
 #import <Cocoa/Cocoa.h>
 
-
-@interface DialogPanel: NSPanel {
+@interface DialogPanel : NSPanel
+{
   // A referece to the actual panel which will become "us."
   IBOutlet DialogPanel *dialogPanel;
 
@@ -26,6 +26,6 @@
 - (NSString *)panelNibName;
 
 // Actions
--(IBAction)okButtonClicked: (id)sender;
+- (IBAction)okButtonClicked:(id)sender;
 
 @end

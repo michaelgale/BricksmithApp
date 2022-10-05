@@ -22,7 +22,6 @@
 
 #import "ObjectInspectionController.h"
 
-
 @implementation Inspector
 
 
@@ -35,7 +34,7 @@
 // Purpose:		Ready the inspector palette.
 //
 // ==============================================================================
-- (id) init
+- (id)init
 {
   self = [super init];
 
@@ -65,7 +64,7 @@
 // Purpose:		Convenience method for -inspectObjects
 //
 // ==============================================================================
-- (void) inspectObject:(id)object
+- (void)inspectObject:(id)object
 {
   NSArray *objectList;
 
@@ -90,7 +89,7 @@
 // element.
 //
 // ==============================================================================
-- (void) inspectObjects:(NSArray *)objects
+- (void)inspectObjects:(NSArray *)objects
 {
   BOOL     foundInspector  = NO;
   NSString *errorString    = nil;
@@ -142,7 +141,7 @@
 // class.
 //
 // ==============================================================================
-- (BOOL) loadInspectorForObject:(id)objectToInspect
+- (BOOL)loadInspectorForObject:(id)objectToInspect
 {
   BOOL foundInspector = NO; // not yet, anyway.
 
@@ -177,7 +176,7 @@
 // Purpose:		Destroys the current inspector object.
 //
 // ==============================================================================
-- (void) unloadInspector
+- (void)unloadInspector
 {
   // End any editing happening in the current inspector. It is very important
   // to do this *before* attempting to replace the inspector!
@@ -192,7 +191,7 @@
 // Purpose:		Open the inspector panel for all the world to see.
 //
 // ==============================================================================
-- (void) show:(id)sender
+- (void)show:(id)sender
 {
   [inspectorPanel makeKeyAndOrderFront:sender];
 }// end show:
@@ -208,7 +207,7 @@
 // Purpose:		Window is losing editing ability.
 //
 // ==============================================================================
-- (void) windowDidResignKey:(NSNotification *)notification
+- (void)windowDidResignKey:(NSNotification *)notification
 {
   // End any editing happening in the current inspector. We need to do this
   // because once the inspector is no longer key, you can do nasty things to
@@ -228,7 +227,7 @@
 // allowing the undo request to forward on to the active document.
 //
 // ==============================================================================
-- (NSUndoManager *) windowWillReturnUndoManager:(NSWindow *)sender
+- (NSUndoManager *)windowWillReturnUndoManager:(NSWindow *)sender
 {
   NSDocument *currentDocument = [[NSDocumentController sharedDocumentController] currentDocument];
 
@@ -245,12 +244,12 @@
 // Purpose:		The Class Vanishes.
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
-  [inspectorPanel     release];
-  [emptyInspectorTitle  release];
-  [emptyInspectorView   release];
-  [currentInspector   release];
+  [inspectorPanel release];
+  [emptyInspectorTitle release];
+  [emptyInspectorView release];
+  [currentInspector release];
 
   [super dealloc];
 }// end dealloc

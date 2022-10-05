@@ -30,28 +30,27 @@ typedef enum
   EraserTool       = 7      // delete clicked parts (for pen tablet erasers)
 } ToolModeT;
 
-
 ////////////////////////////////////////////////////////////////////////////////
 //
 // ToolPalette
 //
 ////////////////////////////////////////////////////////////////////////////////
-@interface ToolPalette: NSObject
+@interface ToolPalette : NSObject
 {
   ToolModeT baseToolMode;             // as selected in the palette
   ToolModeT effectiveToolMode;        // accounting for modifiers.
 
   // Event Tracking
-  NSString *currentKeyCharacters;     // identifies the current keys down, independent of modifiers (empty string if no keys down)
-  NSUInteger currentKeyModifiers;     // identifiers the current modifiers down (including device-dependent)
-  BOOL mouseButton3IsDown;
+  NSString             *currentKeyCharacters; // identifies the current keys down, independent of modifiers (empty string if no keys down)
+  NSUInteger           currentKeyModifiers; // identifiers the current modifiers down (including device-dependent)
+  BOOL                 mouseButton3IsDown;
   NSPointingDeviceType tabletPointingDevice;    // current pen-tablet device currently in proximity
 
   NSPanel *palettePanel;
 
   // Nib connections
-  IBOutlet NSView *paletteContents;
-  IBOutlet NSMatrix *toolButtons;
+  IBOutlet NSView         *paletteContents;
+  IBOutlet NSMatrix       *toolButtons;
   IBOutlet LDrawColorWell *colorWell;
 }
 
@@ -60,23 +59,23 @@ typedef enum
 + (ToolPalette *)sharedToolPalette;
 
 // Accessors
-+(ToolModeT)toolMode;
--(BOOL)isVisible;
--(ToolModeT)toolMode;
--(void)setToolMode: (ToolModeT)newToolMode;
++ (ToolModeT)toolMode;
+- (BOOL)isVisible;
+- (ToolModeT)toolMode;
+- (void)setToolMode:(ToolModeT)newToolMode;
 
 // Actions
--(void)hideToolPalette: (id)sender;
--(void)showToolPalette: (id)sender;
--(IBAction)toolButtonClicked: (id)sender;
+- (void)hideToolPalette:(id)sender;
+- (void)showToolPalette:(id)sender;
+- (IBAction)toolButtonClicked:(id)sender;
 
 // Event notifiers
--(void)mouseButton3DidChange: (NSEvent *)theEvent;
+- (void)mouseButton3DidChange:(NSEvent *)theEvent;
 
 // Utilities
--(void)resolveCurrentToolMode;
-+(NSString *)keysForToolMode: (ToolModeT)toolMode modifiers: (NSUInteger *)modifiersOut;
-+(BOOL)toolMode: (ToolModeT)toolMode matchesCharacters: (NSString *)characters modifiers: (NSUInteger)
-modifiers;
+- (void)resolveCurrentToolMode;
++ (NSString *)keysForToolMode:(ToolModeT)toolMode modifiers:(NSUInteger *)modifiersOut;
++ (BOOL)toolMode:(ToolModeT)toolMode matchesCharacters:(NSString *)characters modifiers:(NSUInteger)
+  modifiers;
 
 @end

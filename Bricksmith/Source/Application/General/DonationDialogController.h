@@ -12,27 +12,26 @@
 @class BackgroundColorView;
 @class LDrawGLView;
 
-
 ////////////////////////////////////////////////////////////////////////////////
 //
 // class DonationDialogController
 //
 ////////////////////////////////////////////////////////////////////////////////
-@interface DonationDialogController: NSWindowController
+@interface DonationDialogController : NSWindowController
 {
   IBOutlet BackgroundColorView *mainBackground;
   IBOutlet BackgroundColorView *bottomBar;
-  IBOutlet LDrawGLView *bumModelView;
-  IBOutlet NSButton *suppressionCheckbox;
+  IBOutlet LDrawGLView         *bumModelView;
+  IBOutlet NSButton            *suppressionCheckbox;
 }
 
 // Show dialog
 - (void)runModal;
--(BOOL)shouldShowDialog;
+- (BOOL)shouldShowDialog;
 
 // Actions
--(IBAction)laterButtonClicked: (id)sender;
--(IBAction)donateButtonClicked: (id)sender;
--(IBAction)suppressionCheckboxClicked: (id)sender;
+- (IBAction)laterButtonClicked:(id)sender;
+- (IBAction)donateButtonClicked:(id)sender;
+- (IBAction)suppressionCheckboxClicked:(id)sender;
 
 @end

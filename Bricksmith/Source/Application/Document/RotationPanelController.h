@@ -20,15 +20,15 @@ typedef enum
   RotateAroundFixedPoint      = 2
 } RotationModeT;
 
-@interface RotationPanelController: NSWindowController
+@interface RotationPanelController : NSWindowController
 {
   RotationModeT rotationMode;
-  float angleX;
-  float angleY;
-  float angleZ;
-  float fixedPointX;
-  float fixedPointY;
-  float fixedPointZ;
+  float         angleX;
+  float         angleY;
+  float         angleZ;
+  float         fixedPointX;
+  float         fixedPointY;
+  float         fixedPointZ;
 
   IBOutlet NSObjectController *objectController;
 }
@@ -37,12 +37,12 @@ typedef enum
 + (id)rotationPanel;
 
 // accessors
--(BOOL)enableFixedPointCoordinates;
--(Tuple3)angles;
--(Point3)fixedPoint;
--(RotationModeT)rotationMode;
+- (BOOL)enableFixedPointCoordinates;
+- (Tuple3)angles;
+- (Point3)fixedPoint;
+- (RotationModeT)rotationMode;
 
 // Actions
--(IBAction)rotateButtonClicked: (id)sender;
+- (IBAction)rotateButtonClicked:(id)sender;
 
 @end

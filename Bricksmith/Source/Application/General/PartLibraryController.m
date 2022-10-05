@@ -26,7 +26,7 @@
 // library itself).
 //
 // ==============================================================================
-- (id) init
+- (id)init
 {
   self = [super init];
 
@@ -48,7 +48,7 @@
 // success.
 //
 // ==============================================================================
-- (BOOL) loadPartCatalog
+- (BOOL)loadPartCatalog
 {
   PartLibrary *library   = [PartLibrary sharedPartLibrary];
   NSArray     *favorites = [[NSUserDefaults standardUserDefaults] objectForKey:FAVORITE_PARTS_KEY];
@@ -73,7 +73,7 @@
 // Mac-friendly index of parts, displaying a progress bar.
 //
 // ==============================================================================
-- (BOOL) reloadPartCatalog
+- (BOOL)reloadPartCatalog
 {
   BOOL success = NO;
 
@@ -106,7 +106,7 @@
 // folder and contains the vital Parts and P directories.
 //
 // ==============================================================================
-- (BOOL) validateLDrawFolderWithMessage:(NSString *)folderPath
+- (BOOL)validateLDrawFolderWithMessage:(NSString *)folderPath
 {
   BOOL folderIsValid = [[LDrawPaths sharedPaths] validateLDrawFolder:folderPath];
 
@@ -137,7 +137,7 @@
 // Purpose:		Save new favorites into preferences.
 //
 // ==============================================================================
-- (void) partLibrary:(PartLibrary *)partLibrary didChangeFavorites:(NSArray *)newFavorites
+- (void)partLibrary:(PartLibrary *)partLibrary didChangeFavorites:(NSArray *)newFavorites
 {
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
@@ -152,7 +152,7 @@
 // expect.
 //
 // ==============================================================================
-- (void) partLibrary:(PartLibrary *)partLibrary
+- (void)partLibrary:(PartLibrary *)partLibrary
   maximumPartCountToLoad:(NSUInteger)maxPartCount
 {
   [self->progressPanel setMaxValue:maxPartCount];
@@ -164,7 +164,7 @@
 // Purpose:		Tells us that the reloader has loaded one additional item.
 //
 // ==============================================================================
-- (void) partLibraryIncrementLoadProgressCount:(PartLibrary *)partLibrary
+- (void)partLibraryIncrementLoadProgressCount:(PartLibrary *)partLibrary
 {
   [self->progressPanel increment];
 }// end partLibraryIncrementLoadProgressCount:
@@ -179,7 +179,7 @@
 // Purpose:		We're, uh, checking out.
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
   [super dealloc];
 }// end dealloc

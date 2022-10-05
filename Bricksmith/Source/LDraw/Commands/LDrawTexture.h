@@ -11,9 +11,9 @@
 
 #import "LDrawContainer.h"
 
-@interface LDrawTexture: LDrawContainer
+@interface LDrawTexture : LDrawContainer
 {
-  NSArray *fallback;
+  NSArray  *fallback;
   NSString *imageDisplayName;
   NSString *imageReferenceName;
   NSString *glossmapName;
@@ -23,25 +23,25 @@
   Point3 planePoint3;
 
   NSArray *dragHandles;
-  Box3 cachedBounds;        // cached bounds of the enclosed directives
+  Box3    cachedBounds;     // cached bounds of the enclosed directives
 
   GLuint textureTag;
 }
 
 // Accessors
 - (NSString *)glossmapName;
--(NSString *)imageDisplayName;
--(NSString *)imageReferenceName;
+- (NSString *)imageDisplayName;
+- (NSString *)imageReferenceName;
 
--(void)setGlossmapName: (NSString *)newName;
--(void)setImageDisplayName: (NSString *)newName;
--(void)setImageDisplayName: (NSString *)newName parse: (BOOL)shouldParse inGroup: (dispatch_group_t)
-parentGroup;
+- (void)setGlossmapName:(NSString *)newName;
+- (void)setImageDisplayName:(NSString *)newName;
+- (void)setImageDisplayName:(NSString *)newName parse:(BOOL)shouldParse inGroup:(dispatch_group_t)
+  parentGroup;
 
 // Utilities
-+(BOOL)lineIsTextureBeginning: (NSString *)line;
-+(BOOL)lineIsTextureFallback: (NSString *)line;
-+(BOOL)lineIsTextureTerminator: (NSString *)line;
--(BOOL)parsePlanarTextureFromLine: (NSString *)line parentGroup: (dispatch_group_t)parentGroup;
++ (BOOL)lineIsTextureBeginning:(NSString *)line;
++ (BOOL)lineIsTextureFallback:(NSString *)line;
++ (BOOL)lineIsTextureTerminator:(NSString *)line;
+- (BOOL)parsePlanarTextureFromLine:(NSString *)line parentGroup:(dispatch_group_t)parentGroup;
 
 @end

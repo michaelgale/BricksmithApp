@@ -11,11 +11,12 @@
 
 #import "ObjectInspectionController.h"
 
-@interface InspectionUnknownCommand: ObjectInspectionController {
+@interface InspectionUnknownCommand : ObjectInspectionController
+{
   IBOutlet NSTextField *commandField;
 }
 
 // Actions
-- (IBAction)commandFieldChanged: (id)sender;
+- (IBAction)commandFieldChanged:(id)sender;
 
 @end

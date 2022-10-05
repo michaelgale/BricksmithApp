@@ -35,7 +35,6 @@ NSString *PART_REPORT_LDRAW_COLOR   = @"LDraw Color";
 NSString *PART_REPORT_COLOR_NAME    = @"Color Name";
 NSString *PART_REPORT_PART_QUANTITY = @"QuantityKey";
 
-
 @implementation PartReport
 
 #pragma mark -
@@ -48,7 +47,7 @@ NSString *PART_REPORT_PART_QUANTITY = @"QuantityKey";
 // model to be filled up with information.
 //
 // ------------------------------------------------------------------------------
-+ (PartReport *) partReportForContainer:(LDrawContainer *)container
++ (PartReport *)partReportForContainer:(LDrawContainer *)container
 {
   PartReport *partReport = [PartReport new];
 
@@ -64,7 +63,7 @@ NSString *PART_REPORT_PART_QUANTITY = @"QuantityKey";
 // to be filled up with information.
 //
 // ==============================================================================
-- (id) init
+- (id)init
 {
   self = [super init];
 
@@ -83,9 +82,9 @@ NSString *PART_REPORT_PART_QUANTITY = @"QuantityKey";
 // Purpose:		Sets the object on which we will collect report data.
 //
 // ==============================================================================
-- (void) setLDrawContainer:(LDrawContainer *)newContainer
+- (void)setLDrawContainer:(LDrawContainer *)newContainer
 {
-  [newContainer     retain];
+  [newContainer retain];
   [self->reportedObject release];
 
   self->reportedObject = newContainer;
@@ -98,7 +97,7 @@ NSString *PART_REPORT_PART_QUANTITY = @"QuantityKey";
 // Container, as well as the attributes of those parts.
 //
 // ==============================================================================
-- (void) getPieceCountReport
+- (void)getPieceCountReport
 {
   // Unfortunately, the reporting responsibility falls on the container
   // itself. The reason is that the parts we are reporting might wind up being
@@ -114,7 +113,7 @@ NSString *PART_REPORT_PART_QUANTITY = @"QuantityKey";
 // can't be found or have been moved.
 //
 // ==============================================================================
-- (void) getMissingPiecesReport
+- (void)getMissingPiecesReport
 {
   PartLibrary *partLibrary   = [PartLibrary sharedPartLibrary];
   NSArray     *elements      = [self->reportedObject allEnclosedElements];
@@ -168,7 +167,7 @@ NSString *PART_REPORT_PART_QUANTITY = @"QuantityKey";
 // of this type and color
 //
 // ==============================================================================
-- (void) registerPart:(LDrawPart *)part
+- (void)registerPart:(LDrawPart *)part
 {
   NSString   *partName  = [part referenceName];
   LDrawColor *partColor = [part LDrawColor];
@@ -206,7 +205,7 @@ NSString *PART_REPORT_PART_QUANTITY = @"QuantityKey";
 // Purpose:		Returns all the LDrawParts contained in this model.
 //
 // ==============================================================================
-- (NSArray *) allParts
+- (NSArray *)allParts
 {
   NSArray        *elements      = [self->reportedObject allEnclosedElements];
   id             currentElement = nil;
@@ -236,7 +235,7 @@ NSString *PART_REPORT_PART_QUANTITY = @"QuantityKey";
 // PART_REPORT_NUMBER_KEY, LDRAW_COLOR, PART_QUANTITY
 //
 // ==============================================================================
-- (NSArray *) flattenedReport
+- (NSArray *)flattenedReport
 {
   NSMutableArray *flattenedReport   = [NSMutableArray array];
   NSArray        *allPartNames      = [partsReport allKeys];
@@ -292,7 +291,7 @@ NSString *PART_REPORT_PART_QUANTITY = @"QuantityKey";
 // ~Moved aliases to new files.
 //
 // ==============================================================================
-- (NSArray *) missingParts
+- (NSArray *)missingParts
 {
   // haven't gotten the report yet; get it.
   if (self->missingParts == nil) {
@@ -309,7 +308,7 @@ NSString *PART_REPORT_PART_QUANTITY = @"QuantityKey";
 // ~Moved aliases to new files.
 //
 // ==============================================================================
-- (NSArray *) movedParts
+- (NSArray *)movedParts
 {
   // haven't gotten the report yet; get it.
   if (self->movedParts == nil) {
@@ -325,7 +324,7 @@ NSString *PART_REPORT_PART_QUANTITY = @"QuantityKey";
 // Purpose:		Returns the total number of parts registered in this report.
 //
 // ==============================================================================
-- (NSUInteger) numberOfParts
+- (NSUInteger)numberOfParts
 {
   return(self->totalNumberOfParts);
 }// end numberOfParts
@@ -347,7 +346,7 @@ NSString *PART_REPORT_PART_QUANTITY = @"QuantityKey";
 // Notes:		We should also (or instead) support Bricklink XML format.
 //
 // ==============================================================================
-- (NSString *) textualRepresentationWithSortDescriptors:(NSArray *)sortDescriptors
+- (NSString *)textualRepresentationWithSortDescriptors:(NSArray *)sortDescriptors
 {
   NSArray         *flattenedReport = [self flattenedReport];
   NSMutableString *text            = [NSMutableString stringWithCapacity:1024];
@@ -390,12 +389,12 @@ NSString *PART_REPORT_PART_QUANTITY = @"QuantityKey";
 // Purpose:		Quoth the Raven: "Nevermore!"
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
   [reportedObject release];
-  [partsReport  release];
+  [partsReport release];
   [missingParts release];
-  [movedParts   release];
+  [movedParts release];
 
   [super dealloc];
 }// end dealloc

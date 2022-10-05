@@ -25,7 +25,6 @@
 #import "LDrawTexture.h"
 #import "LDrawUtilities.h"
 
-
 @implementation LDrawMetaCommand
 
 
@@ -38,7 +37,7 @@
 // Purpose:		Initialize an empty command.
 //
 // ==============================================================================
-- (id) init
+- (id)init
 {
   self = [super init];
   [self setStringValue:@""];
@@ -61,7 +60,7 @@
 // than the receiver.
 //
 // ==============================================================================
-- (id) initWithLines:(NSArray *)lines
+- (id)initWithLines:(NSArray *)lines
   inRange:(NSRange)range
   parentGroup:(dispatch_group_t)parentGroup
 {
@@ -161,7 +160,7 @@
 // read and write LDraw objects as NSData.
 //
 // ==============================================================================
-- (id) initWithCoder:(NSCoder *)decoder
+- (id)initWithCoder:(NSCoder *)decoder
 {
   self = [super initWithCoder:decoder];
 
@@ -178,7 +177,7 @@
 // read and write LDraw objects as NSData.
 //
 // ==============================================================================
-- (void) encodeWithCoder:(NSCoder *)encoder
+- (void)encodeWithCoder:(NSCoder *)encoder
 {
   [super encodeWithCoder:encoder];
 
@@ -192,7 +191,7 @@
 // Purpose:		Returns a duplicate of this file.
 //
 // ==============================================================================
-- (id) copyWithZone:(NSZone *)zone
+- (id)copyWithZone:(NSZone *)zone
 {
   LDrawMetaCommand *copied = (LDrawMetaCommand *)[super copyWithZone:zone];
 
@@ -211,7 +210,7 @@
 // Returns:		YES on success; NO on a syntax error.
 //
 // ==============================================================================
-- (BOOL) finishParsing:(NSScanner *)scanner
+- (BOOL)finishParsing:(NSScanner *)scanner
 {
   // LDrawMetaCommand itself doesn't have any special syntax, so we shouldn't
   // be getting any in this method.
@@ -228,7 +227,7 @@
 // Purpose:		Draws the part.
 //
 // ==============================================================================
-- (void) draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)parentColor
+- (void)draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)parentColor
 
 {
   // Nothing to do here.
@@ -242,7 +241,7 @@
 // 0 command...
 //
 // ==============================================================================
-- (NSString *) write
+- (NSString *)write
 {
   return([NSString stringWithFormat:
           @"0 %@",
@@ -262,7 +261,7 @@
 // which can be presented to the user.
 //
 // ==============================================================================
-- (NSString *) browsingDescription
+- (NSString *)browsingDescription
 {
 // return NSLocalizedString(@"Unknown Metacommand", nil);
   return(commandString);
@@ -275,7 +274,7 @@
 // object, or nil if there is no icon.
 //
 // ==============================================================================
-- (NSString *) iconName
+- (NSString *)iconName
 {
   return(@"Unknown");
 }// end iconName
@@ -286,7 +285,7 @@
 // Purpose:		Returns the name of the class used to inspect this one.
 //
 // ==============================================================================
-- (NSString *) inspectorClassName
+- (NSString *)inspectorClassName
 {
   return(@"InspectionUnknownCommand");
 }// end inspectorClassName
@@ -301,7 +300,7 @@
 // Purpose:		updates the basic command string.
 //
 // ==============================================================================
-- (void) setStringValue:(NSString *)newString
+- (void)setStringValue:(NSString *)newString
 {
   [newString retain];
   [commandString release];
@@ -315,7 +314,7 @@
 // Purpose:
 //
 // ==============================================================================
-- (NSString *) stringValue
+- (NSString *)stringValue
 {
   return(commandString);
 }// end stringValue
@@ -331,7 +330,7 @@
 // not to any superclass.
 //
 // ==============================================================================
-- (void) registerUndoActions:(NSUndoManager *)undoManager
+- (void)registerUndoActions:(NSUndoManager *)undoManager
 {
   [super registerUndoActions:undoManager];
 
@@ -351,7 +350,7 @@
 // Purpose:		Embraced by the light.
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
   [commandString release];
 

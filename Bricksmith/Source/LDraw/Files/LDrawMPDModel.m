@@ -29,7 +29,6 @@
 #import "LDrawUtilities.h"
 #import "StringCategory.h"
 
-
 @implementation LDrawMPDModel
 
 #pragma mark -
@@ -41,7 +40,7 @@
 // Purpose:		Creates a new model ready to be edited.
 //
 // ------------------------------------------------------------------------------
-+ (id) model
++ (id)model
 {
   LDrawMPDModel *newModel = [super model];
   NSString      *name     = nil;
@@ -59,7 +58,7 @@
 // Purpose:		Creates a blank submodel.
 //
 // ==============================================================================
-- (id) init
+- (id)init
 {
   [super init];
 
@@ -80,7 +79,7 @@
 // an MPD submodel object.
 //
 // ==============================================================================
-- (id) initWithLines:(NSArray *)lines
+- (id)initWithLines:(NSArray *)lines
   inRange:(NSRange)range
   parentGroup:(dispatch_group_t)parentGroup
 {
@@ -139,7 +138,7 @@
 // read and write LDraw objects as NSData.
 //
 // ==============================================================================
-- (id) initWithCoder:(NSCoder *)decoder
+- (id)initWithCoder:(NSCoder *)decoder
 {
   self = [super initWithCoder:decoder];
 
@@ -156,7 +155,7 @@
 // read and write LDraw objects as NSData.
 //
 // ==============================================================================
-- (void) encodeWithCoder:(NSCoder *)encoder
+- (void)encodeWithCoder:(NSCoder *)encoder
 {
   [super encodeWithCoder:encoder];
 
@@ -170,7 +169,7 @@
 // Purpose:		Returns a duplicate of this file.
 //
 // ==============================================================================
-- (id) copyWithZone:(NSZone *)zone
+- (id)copyWithZone:(NSZone *)zone
 {
   LDrawMPDModel *copied = (LDrawMPDModel *)[super copyWithZone:zone];
 
@@ -187,7 +186,7 @@
 // Purpose:		Returns the range from the beginning to the end of the model.
 //
 // ------------------------------------------------------------------------------
-+ (NSRange) rangeOfDirectiveBeginningAtIndex:(NSUInteger)index
++ (NSRange)rangeOfDirectiveBeginningAtIndex:(NSUInteger)index
   inLines:(NSArray *)lines
   maxIndex:(NSUInteger)maxIndex
 {
@@ -202,8 +201,7 @@
   if (testRange.length > 1) {
     // See if we have to look for MPD syntax.
     firstLine  = [lines objectAtIndex:testRange.location];
-    isMPDModel = [[self class] lineIsMPDModelStart:firstLine
-                                         modelName:NULL];
+    isMPDModel = [[self class] lineIsMPDModelStart:firstLine modelName:NULL];
 
     // Find the end of the MPD model. MPD models can end with 0 NOFILE, or
     // they can just stop where the next model starts.
@@ -219,8 +217,7 @@
           modelEndIndex = counter;
           break;
         }
-        else if ([[self class] lineIsMPDModelStart:currentLine
-                                         modelName:NULL]) {
+        else if ([[self class] lineIsMPDModelStart:currentLine modelName:NULL]) {
           modelEndIndex = counter - 1;
           break;
         }
@@ -246,7 +243,7 @@
 // Purpose:		Writes out the MPD submodel, wrapped in the MPD file commands.
 //
 // ==============================================================================
-- (NSString *) write
+- (NSString *)write
 {
   NSString *CRLF = [NSString CRLF]; // we need a DOS line-end marker, because
   // LDraw is predominantly DOS-based.
@@ -272,7 +269,7 @@
 // Purpose:		Writes out the submodel, without the MPD file commands.
 //
 // ==============================================================================
-- (NSString *) writeModel
+- (NSString *)writeModel
 {
   return([super write]);
 }// end writeModel
@@ -288,7 +285,7 @@
 // which can be presented to the user.
 //
 // ==============================================================================
-- (NSString *) browsingDescription
+- (NSString *)browsingDescription
 {
   return([self modelDisplayName]);
 }// end browsingDescription
@@ -299,13 +296,13 @@
 // Purpose:		Returns the name of the class used to inspect this one.
 //
 // ==============================================================================
-- (NSString *) inspectorClassName
+- (NSString *)inspectorClassName
 {
   return(@"InspectionMPDModel");
 }// end inspectorClassName
 
 
-- (void) setEnclosingDirective:(LDrawContainer *)newParent
+- (void)setEnclosingDirective:(LDrawContainer *)newParent
 {
   [super setEnclosingDirective:newParent];
   [self sendMessageToObservers:MessageScopeChanged];
@@ -322,7 +319,7 @@
 // which can be presented to the user.
 //
 // ==============================================================================
-- (NSString *) modelDisplayName
+- (NSString *)modelDisplayName
 {
   // Chop off that hideous un-Maclike .ldr extension that the LDraw File
   // Specification forces us to add.
@@ -336,7 +333,7 @@
 // the part name to describe the entire submodel.
 //
 // ==============================================================================
-- (NSString *) modelName
+- (NSString *)modelName
 {
   return(modelName);
 }// end modelName
@@ -348,7 +345,7 @@
 // the part name to describe the entire submodel.
 //
 // ==============================================================================
-- (void) setModelName:(NSString *)newModelName
+- (void)setModelName:(NSString *)newModelName
 {
   [newModelName retain];
   [modelName release];
@@ -370,7 +367,7 @@
 // value as close to newDisplayName as possible.
 //
 // ==============================================================================
-- (void) setModelDisplayName:(NSString *)newDisplayName
+- (void)setModelDisplayName:(NSString *)newDisplayName
 {
   NSString *acceptableName = [LDrawMPDModel ldrawCompliantNameForName:newDisplayName];
 
@@ -390,7 +387,7 @@
 // representation thereof which is still LDraw-compliant.
 //
 // ------------------------------------------------------------------------------
-+ (NSString *) ldrawCompliantNameForName:(NSString *)newDisplayName
++ (NSString *)ldrawCompliantNameForName:(NSString *)newDisplayName
 {
   NSString *acceptableName = nil;
 
@@ -420,7 +417,7 @@
 // as simple as [line hasPrefix:@"0 FILE"]
 //
 // ==============================================================================
-+ (BOOL) lineIsMPDModelStart:(NSString *)line modelName:(NSString **)modelNamePtr
++ (BOOL)lineIsMPDModelStart:(NSString *)line modelName:(NSString **)modelNamePtr
 {
   NSString *parsedField = nil;
   NSString *workingLine = line;
@@ -454,7 +451,7 @@
 // Purpose:		Returns if the line is a 0 NOFILE line.
 //
 // ==============================================================================
-+ (BOOL) lineIsMPDModelEnd:(NSString *)line
++ (BOOL)lineIsMPDModelEnd:(NSString *)line
 {
   NSString *parsedField  = nil;
   NSString *workingLine  = line;
@@ -481,7 +478,7 @@
 // not to any superclass.
 //
 // ==============================================================================
-- (void) registerUndoActions:(NSUndoManager *)undoManager
+- (void)registerUndoActions:(NSUndoManager *)undoManager
 {
   LDrawFile *enclosingFile = [self enclosingFile];
   NSString  *oldName       = [self modelName];
@@ -512,9 +509,9 @@
 // Purpose:		Time to send the cows home.
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
-  [modelName  release];
+  [modelName release];
 
   [super dealloc];
 }// end dealloc

@@ -11,13 +11,12 @@
 
 #import "LDrawDrawableElement.h"
 
-
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Class:		LDrawLine
 //
 ////////////////////////////////////////////////////////////////////////////////
-@interface LDrawLine: LDrawDrawableElement
+@interface LDrawLine : LDrawDrawableElement
 {
   Point3 vertex1;
   Point3 vertex2;
@@ -29,9 +28,9 @@
 - (NSString *)write;
 
 // Accessors
--(Point3)vertex1;
--(Point3)vertex2;
--(void)setVertex1: (Point3)newVertex;
--(void)setVertex2: (Point3)newVertex;
+- (Point3)vertex1;
+- (Point3)vertex2;
+- (void)setVertex1:(Point3)newVertex;
+- (void)setVertex2:(Point3)newVertex;
 
 @end

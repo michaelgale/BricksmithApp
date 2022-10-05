@@ -23,24 +23,23 @@ typedef enum
   rotationRelative = 1
 } RotationT;
 
-
 ////////////////////////////////////////////////////////////////////////////////
 //
 // class InspectionPart
 //
 ////////////////////////////////////////////////////////////////////////////////
-@interface InspectionPart: ObjectInspectionController
+@interface InspectionPart : ObjectInspectionController
 {
-  IBOutlet NSTextField *partDescriptionField;
-  IBOutlet NSTextField *partNameField;
+  IBOutlet NSTextField    *partDescriptionField;
+  IBOutlet NSTextField    *partNameField;
   IBOutlet LDrawColorWell *colorWell;
-  IBOutlet NSForm *locationForm;
-  IBOutlet NSPopUpButton *rotationTypePopUp;
-  IBOutlet NSTextField *rotationXField;
-  IBOutlet NSTextField *rotationYField;
-  IBOutlet NSTextField *rotationZField;
-  IBOutlet NSForm *scalingForm;
-  IBOutlet NSForm *shearForm;
+  IBOutlet NSForm         *locationForm;
+  IBOutlet NSPopUpButton  *rotationTypePopUp;
+  IBOutlet NSTextField    *rotationXField;
+  IBOutlet NSTextField    *rotationYField;
+  IBOutlet NSTextField    *rotationZField;
+  IBOutlet NSForm         *scalingForm;
+  IBOutlet NSForm         *shearForm;
 
   IBOutlet NSNumberFormatter *formatterBasic;
   IBOutlet NSNumberFormatter *formatterAngle;
@@ -50,11 +49,11 @@ typedef enum
 - (void)setRotationAngles;
 
 // Actions
--(IBAction)applyRotationClicked: (id)sender;
--(IBAction)locationEndedEditing: (id)sender;
--(IBAction)partNameEndedEditing: (id)sender;
--(IBAction)rotationTypeChanged: (id)sender;
--(IBAction)scalingEndedEditing: (id)sender;
--(IBAction)shearEndedEditing: (id)sender;
+- (IBAction)applyRotationClicked:(id)sender;
+- (IBAction)locationEndedEditing:(id)sender;
+- (IBAction)partNameEndedEditing:(id)sender;
+- (IBAction)rotationTypeChanged:(id)sender;
+- (IBAction)scalingEndedEditing:(id)sender;
+- (IBAction)shearEndedEditing:(id)sender;
 
 @end

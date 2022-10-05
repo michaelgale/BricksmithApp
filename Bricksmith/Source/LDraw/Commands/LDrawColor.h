@@ -117,7 +117,6 @@ typedef enum LDrawColorMaterial
   LDrawColorMaterialCustom        = 6,
 } LDrawColorMaterialT;
 
-
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Class:	LDrawColor
@@ -126,56 +125,56 @@ typedef enum LDrawColorMaterial
 // color picker changes affecting the values of these objects.
 //
 ////////////////////////////////////////////////////////////////////////////////
-@interface LDrawColor: LDrawMetaCommand
+@interface LDrawColor : LDrawMetaCommand
 {
-  LDrawColorT colorCode;
-  GLfloat colorRGBA[4];           // range [0.0 - 1.0]
-  LDrawColorT edgeColorCode;      // == LDrawColorBogus if not used
-  GLfloat edgeColorRGBA[4];
-  BOOL hasExplicitAlpha;
-  BOOL hasLuminance;
-  uint8_t luminance;
+  LDrawColorT         colorCode;
+  GLfloat             colorRGBA[4]; // range [0.0 - 1.0]
+  LDrawColorT         edgeColorCode; // == LDrawColorBogus if not used
+  GLfloat             edgeColorRGBA[4];
+  BOOL                hasExplicitAlpha;
+  BOOL                hasLuminance;
+  uint8_t             luminance;
   LDrawColorMaterialT material;
-  BOOL isFavourite;
-  NSString *materialParameters;
-  NSString *name;
+  BOOL                isFavourite;
+  NSString            *materialParameters;
+  NSString            *name;
 
   LDrawColor *fakeComplimentColor;      // synthesized, not according to !COLOUR rules
 }
 
 // Initialization
-+ (LDrawColor *)blendedColorForCode: (LDrawColorT)colorCode;
++ (LDrawColor *)blendedColorForCode:(LDrawColorT)colorCode;
 
 // Accessors
 
--(GLfloat)alpha;
--(LDrawColorT)colorCode;
--(LDrawColor *)complimentColor;
--(LDrawColorT)edgeColorCode;
--(void)getColorRGBA: (GLfloat *)inComponents;
--(void)getEdgeColorRGBA: (GLfloat *)inComponents;
--(NSString *)localizedName;
--(uint8_t)luminance;
--(LDrawColorMaterialT)material;
--(NSString *)materialParameters;
--(NSString *)name;
--(BOOL)isFavourite;
+- (GLfloat)alpha;
+- (LDrawColorT)colorCode;
+- (LDrawColor *)complimentColor;
+- (LDrawColorT)edgeColorCode;
+- (void)getColorRGBA:(GLfloat *)inComponents;
+- (void)getEdgeColorRGBA:(GLfloat *)inComponents;
+- (NSString *)localizedName;
+- (uint8_t)luminance;
+- (LDrawColorMaterialT)material;
+- (NSString *)materialParameters;
+- (NSString *)name;
+- (BOOL)isFavourite;
 
--(void)setColorCode: (LDrawColorT)newCode;
--(void)setColorRGBA: (GLfloat *)newComponents;
--(void)setEdgeColorCode: (LDrawColorT)newCode;
--(void)setEdgeColorRGBA: (GLfloat *)newComponents;
--(void)setLuminance: (uint8_t)newValue;
--(void)setMaterial: (LDrawColorMaterialT)newValue;
--(void)setMaterialParameters: (NSString *)newValue;
--(void)setName: (NSString *)newName;
--(void)setFavourite: (BOOL)flag;
+- (void)setColorCode:(LDrawColorT)newCode;
+- (void)setColorRGBA:(GLfloat *)newComponents;
+- (void)setEdgeColorCode:(LDrawColorT)newCode;
+- (void)setEdgeColorRGBA:(GLfloat *)newComponents;
+- (void)setLuminance:(uint8_t)newValue;
+- (void)setMaterial:(LDrawColorMaterialT)newValue;
+- (void)setMaterialParameters:(NSString *)newValue;
+- (void)setName:(NSString *)newName;
+- (void)setFavourite:(BOOL)flag;
 
 // Utilities
--(NSComparisonResult)HSVACompare: (LDrawColor *)otherColor;
--(NSString *)hexStringForRGB: (GLfloat *)components;
--(BOOL)scanHexString: (NSScanner *)hexScanner intoRGB: (GLfloat *)components;
--(id)fullCopyWithZone: (NSZone *)zone;
+- (NSComparisonResult)HSVACompare:(LDrawColor *)otherColor;
+- (NSString *)hexStringForRGB:(GLfloat *)components;
+- (BOOL)scanHexString:(NSScanner *)hexScanner intoRGB:(GLfloat *)components;
+- (id)fullCopyWithZone:(NSZone *)zone;
 
 @end
 

@@ -26,33 +26,33 @@ typedef struct {
 // class LDrawDrawableElement
 //
 ////////////////////////////////////////////////////////////////////////////////
-@interface LDrawDrawableElement: LDrawDirective <LDrawColorable, NSCoding, LDrawMovableDirective>
+@interface LDrawDrawableElement : LDrawDirective <LDrawColorable, NSCoding, LDrawMovableDirective>
 {
   LDrawColor *color;
-  BOOL hidden;          // YES if we don't draw this.
+  BOOL       hidden;    // YES if we don't draw this.
 }
 
 // Directives
-- (VBOVertexData *)writeToVertexBuffer: (VBOVertexData *)vertexBuffer parentColor: (LDrawColor *)parentColor
-wireframe: (BOOL)wireframe;
--(void)drawElement: (NSUInteger)optionsMask viewScale: (double)scaleFactor withColor: (LDrawColor *)
-drawingColor;
--(VBOVertexData *)writeElementToVertexBuffer: (VBOVertexData *)vertexBuffer withColor: (LDrawColor *)
-drawingColor wireframe: (BOOL)wireframe;
+- (VBOVertexData *)writeToVertexBuffer:(VBOVertexData *)vertexBuffer parentColor:(LDrawColor *)parentColor
+  wireframe:(BOOL)wireframe;
+- (void)drawElement:(NSUInteger)optionsMask viewScale:(double)scaleFactor withColor:(LDrawColor *)
+  drawingColor;
+- (VBOVertexData *)writeElementToVertexBuffer:(VBOVertexData *)vertexBuffer withColor:(LDrawColor *)
+  drawingColor wireframe:(BOOL)wireframe;
 
 
 // Accessors
--(Box3)projectedBoundingBoxWithModelView: (Matrix4)modelView
-projection: (Matrix4)projection
-view: (Box2)viewport;
--(BOOL)isHidden;
--(Point3)position;
+- (Box3)projectedBoundingBoxWithModelView:(Matrix4)modelView
+  projection:(Matrix4)projection
+  view:(Box2)viewport;
+- (BOOL)isHidden;
+- (Point3)position;
 
--(void)setHidden: (BOOL)flag;
+- (void)setHidden:(BOOL)flag;
 
 // Actions
 // - (Vector3) displacementForNudge:(Vector3)nudgeVector;
 // - (void) moveBy:(Vector3)moveVector;
--(Point3)position: (Point3)position snappedToGrid: (double)gridSpacing;
+- (Point3)position:(Point3)position snappedToGrid:(double)gridSpacing;
 
 @end

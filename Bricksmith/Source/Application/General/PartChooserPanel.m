@@ -24,7 +24,7 @@
 // Purpose:		Returns a brand new part chooser ready to run.
 //
 // ------------------------------------------------------------------------------
-+ (PartChooserPanel *) partChooserPanel
++ (PartChooserPanel *)partChooserPanel
 {
   return([[[PartChooserPanel alloc] init] autorelease]);
 }// end partChooserPanel
@@ -35,7 +35,7 @@
 // Purpose:		Brings the LDraw part chooser panel to life.
 //
 // ==============================================================================
-- (id) init
+- (id)init
 {
   [NSBundle loadNibNamed:@"PartChooser"
                    owner:self];
@@ -62,7 +62,7 @@
 // i.e., "3001.dat"
 //
 // ==============================================================================
-- (NSString *) selectedPartName
+- (NSString *)selectedPartName
 {
   return([partsBrowser selectedPartName]);
 }// end selectedPartName
@@ -79,7 +79,7 @@
 // appropriate.
 //
 // ==============================================================================
-- (NSInteger) runModal
+- (NSInteger)runModal
 {
   NSInteger returnCode = NSModalResponseCancel;
 
@@ -99,7 +99,7 @@
 // Purpose:		The dialog has ended and the part should be inserted.
 //
 // ==============================================================================
-- (IBAction) insertPartClicked:(id)sender
+- (IBAction)insertPartClicked:(id)sender
 {
   [NSApp stopModalWithCode:NSModalResponseOK];
 }// end insertPartClicked:
@@ -110,7 +110,7 @@
 // Purpose:		The dialog has ended and the part should NOT be inserted.
 //
 // ==============================================================================
-- (IBAction) cancelClicked:(id)sender
+- (IBAction)cancelClicked:(id)sender
 {
   [NSApp stopModalWithCode:NSModalResponseCancel];
 }// end cancelClicked:
@@ -125,9 +125,9 @@
 // Purpose:		We're checking out of this fleabag hotel.
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
-  [oldSelf    release];
+  [oldSelf release];
   [partsBrowser release];
 
   [super dealloc];

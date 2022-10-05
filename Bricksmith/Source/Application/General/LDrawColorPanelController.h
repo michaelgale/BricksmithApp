@@ -18,11 +18,11 @@
 // Class:		LDrawColorPanelController
 //
 ////////////////////////////////////////////////////////////////////////////////
-@interface LDrawColorPanelController: NSWindowController <LDrawColorable>
+@interface LDrawColorPanelController : NSWindowController <LDrawColorable>
 {
   IBOutlet LDrawColorBar *colorBar;
   IBOutlet NSPopUpButton *materialPopUpButton;
-  IBOutlet NSTableView *colorTable;
+  IBOutlet NSTableView   *colorTable;
   IBOutlet NSSearchField *searchField;
 
   IBOutlet NSArrayController *colorListController;
@@ -36,15 +36,15 @@
 + (LDrawColorPanelController *)sharedColorPanel;
 
 // Actions
--(void)focusSearchField: (id)sender;
--(IBAction)materialPopUpButtonChanged: (id)sender;
--(void)sendAction;
--(IBAction)searchFieldChanged: (id)sender;
--(IBAction)favButtonPressed: (id)sender;
--(void)updateSelectionWithObjects: (NSArray *)selectedObjects;
+- (void)focusSearchField:(id)sender;
+- (IBAction)materialPopUpButtonChanged:(id)sender;
+- (void)sendAction;
+- (IBAction)searchFieldChanged:(id)sender;
+- (IBAction)favButtonPressed:(id)sender;
+- (void)updateSelectionWithObjects:(NSArray *)selectedObjects;
 
 // Utilities
--(NSInteger)indexOfColor: (LDrawColor *)colorSought;
--(void)loadInitialSortDescriptors;
+- (NSInteger)indexOfColor:(LDrawColor *)colorSought;
+- (void)loadInitialSortDescriptors;
 
 @end

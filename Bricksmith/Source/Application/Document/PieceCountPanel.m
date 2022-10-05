@@ -20,7 +20,6 @@
 #import "PartLibrary.h"
 #import "PartReport.h"
 
-
 @implementation PieceCountPanel
 
 // ========== awakeFromNib ======================================================
@@ -28,7 +27,7 @@
 // Purpose:		Readies things that need to be readied.
 //
 // ==============================================================================
-- (void) awakeFromNib
+- (void)awakeFromNib
 {
   LDrawColorCell *colorCell   = [[[LDrawColorCell alloc] init] autorelease];
   NSTableColumn  *colorColumn = [pieceCountTable tableColumnWithIdentifier:PART_REPORT_LDRAW_COLOR];
@@ -52,7 +51,7 @@
 // file.
 //
 // ------------------------------------------------------------------------------
-+ (PieceCountPanel *) pieceCountPanelForFile:(LDrawFile *)fileIn
++ (PieceCountPanel *)pieceCountPanelForFile:(LDrawFile *)fileIn
 {
   PieceCountPanel *panel = nil;
 
@@ -72,7 +71,7 @@
 // in the Nib. Tricky, huh?
 //
 // ==============================================================================
-- (id) initWithFile:(LDrawFile *)fileIn
+- (id)initWithFile:(LDrawFile *)fileIn
 {
   self = [super init];
 
@@ -92,7 +91,7 @@
 // are currently analyzing.
 //
 // ==============================================================================
-- (LDrawMPDModel *) activeModel
+- (LDrawMPDModel *)activeModel
 {
   return(self->activeModel);
 }// end activeModel
@@ -103,7 +102,7 @@
 // Purpose:		Returns the container whose dimensions we are analyzing.
 //
 // ==============================================================================
-- (LDrawFile *) file
+- (LDrawFile *)file
 {
   return(self->file);
 }// end file
@@ -115,7 +114,7 @@
 // Called by our superclass.
 //
 // ==============================================================================
-- (NSString *) panelNibName
+- (NSString *)panelNibName
 {
   return(@"PieceCountPanel");
 }// end panelNibName
@@ -127,7 +126,7 @@
 // are currently analyzing and updates the data view.
 //
 // ==============================================================================
-- (PartReport *) partReport
+- (PartReport *)partReport
 {
   return(self->partReport);
 }// end partReport
@@ -141,7 +140,7 @@
 // are currently analyzing, and also updates the data view.
 //
 // ==============================================================================
-- (void) setActiveModel:(LDrawMPDModel *)newModel
+- (void)setActiveModel:(LDrawMPDModel *)newModel
 {
   PartReport *modelReport = nil;
 
@@ -163,7 +162,7 @@
 // Purpose:		Sets the file we are reporting on.
 //
 // ==============================================================================
-- (void) setFile:(LDrawFile *)newFile
+- (void)setFile:(LDrawFile *)newFile
 {
   [newFile retain];
   [self->file release];
@@ -181,7 +180,7 @@
 // Notes:		You should never call this method directly.
 //
 // ==============================================================================
-- (void) setPartReport:(PartReport *)newPartReport
+- (void)setPartReport:(PartReport *)newPartReport
 {
   NSMutableArray *flattened = nil;
 
@@ -207,7 +206,7 @@
 // The new parts are then displayed in the table.
 //
 // ==============================================================================
-- (void) setTableDataSource:(NSMutableArray *)newReport
+- (void)setTableDataSource:(NSMutableArray *)newReport
 {
   // Sort the parts based on whatever the current sort order is for the table.
   [newReport sortUsingDescriptors:[pieceCountTable sortDescriptors]];
@@ -233,7 +232,7 @@
 // Purpose:		Export a tab-delimited text file of the part list.
 //
 // ==============================================================================
-- (IBAction) exportButtonClicked:(id)sender
+- (IBAction)exportButtonClicked:(id)sender
 {
   NSSavePanel *savePanel       = [NSSavePanel savePanel];
   NSURL       *savePath        = nil;
@@ -272,7 +271,7 @@
 // Purpose:		How many parts?
 //
 // ==============================================================================
-- (NSInteger) numberOfRowsInTableView:(NSTableView *)aTableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
   return([flattenedReport count]);
 }// end numberOfRowsInTableView:
@@ -284,7 +283,7 @@
 // Purpose:		Provide the information for each part row.
 //
 // ==============================================================================
-- (id) tableView:(NSTableView *)tableView
+- (id)tableView:(NSTableView *)tableView
   objectValueForTableColumn:(NSTableColumn *)tableColumn
   row:(NSInteger)rowIndex
 {
@@ -317,7 +316,7 @@
 // Purpose:		Resort the table elements.
 //
 // ==============================================================================
-- (void) tableView:(NSTableView *)tableView sortDescriptorsDidChange:(NSArray *)oldDescriptors
+- (void)tableView:(NSTableView *)tableView sortDescriptorsDidChange:(NSArray *)oldDescriptors
 {
   NSArray *newDescriptors = [tableView sortDescriptors];
 
@@ -332,7 +331,7 @@
 // Purpose:		A new selection! Update the part preview accordingly.
 //
 // ==============================================================================
-- (void) tableViewSelectionDidChange:(NSNotification *)aNotification
+- (void)tableViewSelectionDidChange:(NSNotification *)aNotification
 {
   [self syncSelectionAndPartDisplayed];
 }// end tableViewSelectionDidChange:
@@ -348,7 +347,7 @@
 // table.
 //
 // ==============================================================================
-- (void) syncSelectionAndPartDisplayed
+- (void)syncSelectionAndPartDisplayed
 {
   NSDictionary *partRecord = nil;
   NSString     *partName   = nil;
@@ -388,12 +387,12 @@
 // Purpose:		The end is nigh.
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
-  [file       release];
-  [activeModel    release];
-  [partReport     release];
-  [flattenedReport  release];
+  [file release];
+  [activeModel release];
+  [partReport release];
+  [flattenedReport release];
 
   [super dealloc];
 }// end dealloc

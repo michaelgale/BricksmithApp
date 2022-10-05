@@ -33,7 +33,6 @@
 
 #import <math.h>
 
-
 @implementation CenteringClipView
 
 // ========== centerDocumentView ================================================
@@ -43,7 +42,7 @@
 // larger than the document view.
 //
 // ==============================================================================
-- (void) centerDocumentView
+- (void)centerDocumentView
 {
   NSRect docRect  = [[self documentView] frame];
   NSRect clipRect = [self bounds];
@@ -72,7 +71,7 @@
 // our new origin point is invalid.
 //
 // ==============================================================================
-- (NSPoint) constrainScrollPoint:(NSPoint)proposedNewOrigin
+- (NSPoint)constrainScrollPoint:(NSPoint)proposedNewOrigin
 {
   NSRect  docRect          = [[self documentView] frame];
   NSRect  clipRect         = [self bounds];
@@ -96,7 +95,7 @@
 // Purpose:		If the view changes, we must recenter.
 //
 // ==============================================================================
-- (void) viewBoundsChanged:(NSNotification *)notification
+- (void)viewBoundsChanged:(NSNotification *)notification
 {
   [super viewBoundsChanged:notification];
   [self centerDocumentView];
@@ -108,7 +107,7 @@
 // Purpose:		If the view changes, we must recenter.
 //
 // ==============================================================================
-- (void) viewFrameChanged:(NSNotification *)notification
+- (void)viewFrameChanged:(NSNotification *)notification
 {
   [super viewFrameChanged:notification];
   [self centerDocumentView];
@@ -129,7 +128,7 @@
 
 // ========== setFrame: =========================================================
 // ==============================================================================
-- (void) setFrame:(NSRect)frameRect
+- (void)setFrame:(NSRect)frameRect
 {
   [super setFrame:frameRect];
   [self centerDocumentView];
@@ -138,7 +137,7 @@
 
 // ========== setFrameOrigin: ===================================================
 // ==============================================================================
-- (void) setFrameOrigin:(NSPoint)newOrigin
+- (void)setFrameOrigin:(NSPoint)newOrigin
 {
   [super setFrameOrigin:newOrigin];
   [self centerDocumentView];
@@ -147,7 +146,7 @@
 
 // ========== setFrameSize: =====================================================
 // ==============================================================================
-- (void) setFrameSize:(NSSize)newSize
+- (void)setFrameSize:(NSSize)newSize
 {
   [super setFrameSize:newSize];
   [self centerDocumentView];
@@ -156,7 +155,7 @@
 
 // ========== setFrameRotation: =================================================
 // ==============================================================================
-- (void) setFrameRotation:(CGFloat)angle
+- (void)setFrameRotation:(CGFloat)angle
 {
   [super setFrameRotation:angle];
   [self centerDocumentView];
@@ -165,7 +164,7 @@
 
 // ========== setBoundsSize: ====================================================
 // ==============================================================================
-- (void) setBoundsSize:(NSSize)newSize
+- (void)setBoundsSize:(NSSize)newSize
 {
   [super setBoundsSize:newSize];
   [self centerDocumentView];

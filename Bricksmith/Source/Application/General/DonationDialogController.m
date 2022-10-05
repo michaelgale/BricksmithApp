@@ -16,7 +16,6 @@
 #import "LDrawGLView.h"
 #import "MacLDraw.h"
 
-
 @implementation DonationDialogController
 
 // ========== awakeFromNib ======================================================
@@ -26,7 +25,7 @@
 // Notes:		Bad things happened when I tried to use windowDidLoad.
 //
 // ==============================================================================
-- (void) awakeFromNib
+- (void)awakeFromNib
 {
   NSString  *modelPath = nil;
   LDrawFile *bumModel  = nil;
@@ -43,7 +42,7 @@
   [self->bumModelView setLDrawDirective:bumModel];
   [self->bumModelView setAcceptsFirstResponder:NO];
 
-  [self->bumModelView   reshape]; // must get projection set up to call zoomToFit:
+  [self->bumModelView reshape];   // must get projection set up to call zoomToFit:
   [self->bumModelView zoomToFit:nil];
 }// end awakeFromNib
 
@@ -57,7 +56,7 @@
 // Purpose:		Initialize the object
 //
 // ==============================================================================
-- (id) init
+- (id)init
 {
   self = [super initWithWindowNibName:@"Donation"];
 
@@ -77,7 +76,7 @@
 // Purpose:		Brings the dialog up.
 //
 // ==============================================================================
-- (void) runModal
+- (void)runModal
 {
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
   CFBundleRef    mainBundle    = CFBundleGetMainBundle();
@@ -104,7 +103,7 @@
 // Purpose:		Returns whether we should nag the user to pay us this time.
 //
 // ==============================================================================
-- (BOOL) shouldShowDialog
+- (BOOL)shouldShowDialog
 {
   NSUserDefaults *userDefaults            = [NSUserDefaults standardUserDefaults];
   CFBundleRef    mainBundle               = CFBundleGetMainBundle();
@@ -139,7 +138,7 @@
 // Purpose:		Whisk them away to a website at which they can remunerate me.
 //
 // ==============================================================================
-- (IBAction) donateButtonClicked:(id)sender
+- (IBAction)donateButtonClicked:(id)sender
 {
   LDrawApplication *appDelegate = [NSApp delegate];
 
@@ -152,7 +151,7 @@
 // Purpose:		OK clicked, dismiss dialog.
 //
 // ==============================================================================
-- (IBAction) laterButtonClicked:(id)sender
+- (IBAction)laterButtonClicked:(id)sender
 {
   [NSApp stopModalWithCode:NSModalResponseOK];
   [self close];
@@ -164,7 +163,7 @@
 // Purpose:		They want us to stop nagging for this version.
 //
 // ==============================================================================
-- (IBAction) suppressionCheckboxClicked:(id)sender
+- (IBAction)suppressionCheckboxClicked:(id)sender
 {
   NSUserDefaults *userDefaults            = [NSUserDefaults standardUserDefaults];
   BOOL           userRequestedSuppression = [self->suppressionCheckbox state];

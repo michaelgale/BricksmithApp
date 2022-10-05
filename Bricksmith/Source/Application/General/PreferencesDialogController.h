@@ -24,24 +24,23 @@ typedef enum
   TransparentColoredSelection = 2
 } LSynthSelectionModeT;
 
-
 ////////////////////////////////////////////////////////////////////////////////
 //
 // class PreferencesDialogController
 //
 ////////////////////////////////////////////////////////////////////////////////
-@interface PreferencesDialogController: NSObject <NSToolbarDelegate, NSTextFieldDelegate>
+@interface PreferencesDialogController : NSObject <NSToolbarDelegate, NSTextFieldDelegate>
 {
   IBOutlet NSWindow *preferencesWindow;
 
-  NSView *blankContent;          // the initial, empty content of the window in the Nib.
+  NSView          *blankContent; // the initial, empty content of the window in the Nib.
   IBOutlet NSView *generalTabContentView;
   IBOutlet NSView *stylesContentView;
   IBOutlet NSView *ldrawContentView;
   IBOutlet NSView *lsynthContentView;
 
   // General Tab
-  IBOutlet NSForm *gridSpacingForm;
+  IBOutlet NSForm   *gridSpacingForm;
   IBOutlet NSMatrix *mouseDraggingRadioButtons;
 
   IBOutlet NSMatrix *rotateModeRadioButtons;
@@ -50,7 +49,7 @@ typedef enum
 
   // Parts Tab
   IBOutlet NSTextField *LDrawPathTextField;
-  IBOutlet NSMatrix *partBrowserStyleRadioButtons;
+  IBOutlet NSMatrix    *partBrowserStyleRadioButtons;
 
   // Style Tab
   IBOutlet NSColorWell *backgroundColorWell;
@@ -66,15 +65,15 @@ typedef enum
   // LSynth Tab
   IBOutlet NSTextField *lsynthExecutablePath;
   IBOutlet NSTextField *lsynthConfigurationPath;
-  IBOutlet NSMatrix *lsynthSelectionModeMatrix;
-  IBOutlet NSSlider *lsynthTransparencySlider;
+  IBOutlet NSMatrix    *lsynthSelectionModeMatrix;
+  IBOutlet NSSlider    *lsynthTransparencySlider;
   IBOutlet NSTextField *lsynthTransparencyText;
   IBOutlet NSColorWell *lsynthSelectionColorWell;
-  IBOutlet NSButton *lsynthSaveSynthesizedParts;
-  IBOutlet NSView *lsynthExecutableChooserAccessoryView;
-  IBOutlet NSView *lsynthConfigurationChooserAccessoryView;
-  NSTextField *lsynthTransparencyNumberChanged;
-  IBOutlet NSButton *lsynthShowBasicPartsList;
+  IBOutlet NSButton    *lsynthSaveSynthesizedParts;
+  IBOutlet NSView      *lsynthExecutableChooserAccessoryView;
+  IBOutlet NSView      *lsynthConfigurationChooserAccessoryView;
+  NSTextField          *lsynthTransparencyNumberChanged;
+  IBOutlet NSButton    *lsynthShowBasicPartsList;
 
   // Miscellaneous
   IBOutlet NSView *folderChooserAccessoryView;
@@ -82,53 +81,53 @@ typedef enum
 
 // Initialization
 + (void)doPreferences;
-- (void) showPreferencesWindow;
+- (void)showPreferencesWindow;
 
-- (void) setDialogValues;
-- (void) setGeneralTabValues;
-- (void) setStylesTabValues;
-- (void) setLDrawTabValues;
-- (void) setLSynthTabValues;
+- (void)setDialogValues;
+- (void)setGeneralTabValues;
+- (void)setStylesTabValues;
+- (void)setLDrawTabValues;
+- (void)setLSynthTabValues;
 
 // Actions
-- (void) changeTab:(id)sender;
+- (void)changeTab:(id)sender;
 
 // - General Tab
-- (IBAction) gridSpacingChanged:(id)sender;
-- (IBAction) mouseDraggingChanged:(id)sender;
-- (IBAction) rightButtonChanged:(id)sender;
-- (IBAction) rotateModeChanged:(id)sender;
-- (IBAction) mouseWheelChanged:(id)sender;
+- (IBAction)gridSpacingChanged:(id)sender;
+- (IBAction)mouseDraggingChanged:(id)sender;
+- (IBAction)rightButtonChanged:(id)sender;
+- (IBAction)rotateModeChanged:(id)sender;
+- (IBAction)mouseWheelChanged:(id)sender;
 
 // - Styles Tab
-- (IBAction) backgroundColorWellChanged:(id)sender;
-- (IBAction) modelsColorWellChanged:(id)sender;
-- (IBAction) stepsColorWellChanged:(id)sender;
-- (IBAction) partsColorWellChanged:(id)sender;
-- (IBAction) primitivesColorWellChanged:(id)sender;
-- (IBAction) colorsColorWellChanged:(id)sender;
-- (IBAction) commentsColorWellChanged:(id)sender;
-- (IBAction) unknownColorWellChanged:(id)sender;
+- (IBAction)backgroundColorWellChanged:(id)sender;
+- (IBAction)modelsColorWellChanged:(id)sender;
+- (IBAction)stepsColorWellChanged:(id)sender;
+- (IBAction)partsColorWellChanged:(id)sender;
+- (IBAction)primitivesColorWellChanged:(id)sender;
+- (IBAction)colorsColorWellChanged:(id)sender;
+- (IBAction)commentsColorWellChanged:(id)sender;
+- (IBAction)unknownColorWellChanged:(id)sender;
 
 // - LDraw Tab
-- (IBAction) chooseLDrawFolder:(id)sender;
-- (IBAction) pathTextFieldChanged:(id)sender;
-- (IBAction) reloadParts:(id)sender;
-- (IBAction) partBrowserStyleChanged:(id)sender;
+- (IBAction)chooseLDrawFolder:(id)sender;
+- (IBAction)pathTextFieldChanged:(id)sender;
+- (IBAction)reloadParts:(id)sender;
+- (IBAction)partBrowserStyleChanged:(id)sender;
 
 // - LSynth Tab
-- (IBAction) lsynthChooseExecutable:(id)sender;
-- (IBAction) lsynthChooseConfiguration:(id)sender;
-- (IBAction) lsynthTransparencySliderChanged:(id)sender;
-- (IBAction) lsynthTransparencyTextChanged:(id)sender;
-- (IBAction) lsynthSelectionColorWellClicked:(id)sender;
-- (IBAction) lsynthSelectionModeChanged:(id)sender;
-- (IBAction) lsynthSaveSynthesizedPartsChanged:(id)sender;
-- (IBAction) lsynthShowBasicPartsListChanged:(id)sender;
+- (IBAction)lsynthChooseExecutable:(id)sender;
+- (IBAction)lsynthChooseConfiguration:(id)sender;
+- (IBAction)lsynthTransparencySliderChanged:(id)sender;
+- (IBAction)lsynthTransparencyTextChanged:(id)sender;
+- (IBAction)lsynthSelectionColorWellClicked:(id)sender;
+- (IBAction)lsynthSelectionModeChanged:(id)sender;
+- (IBAction)lsynthSaveSynthesizedPartsChanged:(id)sender;
+- (IBAction)lsynthShowBasicPartsListChanged:(id)sender;
 
 // Utilities
-+ (void) ensureDefaults;
-- (void) changeLDrawFolderPath:(NSString *)folderPath;
-- (void) selectPanelWithIdentifier:(NSString *)itemIdentifier;
++ (void)ensureDefaults;
+- (void)changeLDrawFolderPath:(NSString *)folderPath;
+- (void)selectPanelWithIdentifier:(NSString *)itemIdentifier;
 
 @end

@@ -34,7 +34,7 @@ static NSString *DEFAULT_BAND_TYPE       = @"TECHNIC_CHAIN_LINK";
 // Purpose: Return the default hose constraint
 //
 // ==============================================================================
-+ (NSString *) defaultHoseConstraint
++ (NSString *)defaultHoseConstraint
 {
   return(DEFAULT_HOSE_CONSTRAINT);
 }// end defaultHoseConstraint
@@ -45,7 +45,7 @@ static NSString *DEFAULT_BAND_TYPE       = @"TECHNIC_CHAIN_LINK";
 // Purpose: Return the default band constraint
 //
 // ==============================================================================
-+ (NSString *) defaultBandConstraint
++ (NSString *)defaultBandConstraint
 {
   return(DEFAULT_BAND_CONSTRAINT);
 }// end defaultBandConstraint
@@ -56,7 +56,7 @@ static NSString *DEFAULT_BAND_TYPE       = @"TECHNIC_CHAIN_LINK";
 // Purpose: Return the default hose type
 //
 // ==============================================================================
-+ (NSString *) defaultHoseType
++ (NSString *)defaultHoseType
 {
   return(DEFAULT_HOSE_TYPE);
 }// end defaultHoseType
@@ -67,7 +67,7 @@ static NSString *DEFAULT_BAND_TYPE       = @"TECHNIC_CHAIN_LINK";
 // Purpose: Return the default band type
 //
 // ==============================================================================
-+ (NSString *) defaultBandType
++ (NSString *)defaultBandType
 {
   return(DEFAULT_BAND_TYPE);
 }// end defaultBandType
@@ -85,7 +85,7 @@ static LSynthConfiguration *instance = nil;
 // Purpose: Return the singleton LSynthConfiguration instance.
 //
 // ==============================================================================
-+ (LSynthConfiguration *) sharedInstance
++ (LSynthConfiguration *)sharedInstance
 {
   @synchronized(self)
   {
@@ -102,7 +102,7 @@ static LSynthConfiguration *instance = nil;
 // Purpose:		initialize the LSynthConfiguration instance.
 //
 // ==============================================================================
-- (id) init
+- (id)init
 {
   self = [super init];
   if (self) {
@@ -117,7 +117,7 @@ static LSynthConfiguration *instance = nil;
 // Purpose:		initialize the LSynthConfiguration arrays.
 //
 // ==============================================================================
-- (void) initializeArrays
+- (void)initializeArrays
 {
   parts            = [[NSMutableArray alloc] init];
   hose_constraints = [[NSMutableArray alloc] init];
@@ -138,7 +138,7 @@ static LSynthConfiguration *instance = nil;
 // Purpose:		Return the default config path in the main bundle
 //
 // ==============================================================================
-- (NSString *) defaultConfigPath
+- (NSString *)defaultConfigPath
 {
   return([[NSBundle mainBundle] pathForResource:@"lsynth"
                                          ofType:@"mpd"]);;
@@ -156,7 +156,7 @@ static LSynthConfiguration *instance = nil;
 // TODO: do we need to parse in as much detail?  Surely we just need
 // description + part + type
 // ==============================================================================
-- (void) parseLsynthConfig:(NSString *)lsynthConfigurationPath
+- (void)parseLsynthConfig:(NSString *)lsynthConfigurationPath
 {
   // Initialise all arrays, since we may be called after a config file change
   [self initializeArrays];
@@ -561,7 +561,7 @@ static LSynthConfiguration *instance = nil;
 // object.
 //
 // ==============================================================================
-- (BOOL) isLSynthConstraint:(LDrawPart *)part
+- (BOOL)isLSynthConstraint:(LDrawPart *)part
 {
   if ([quickRefBandConstraints containsObject:[part referenceName]] ||
       [quickRefHoseConstraints containsObject:[part referenceName]]) {
@@ -577,61 +577,61 @@ static LSynthConfiguration *instance = nil;
 
 // TODO: move to properties
 
-- (NSMutableArray *) getParts
+- (NSMutableArray *)getParts
 {
   return(self->parts);
 }
 
 
-- (NSMutableArray *) getHoseTypes
+- (NSMutableArray *)getHoseTypes
 {
   return(self->hose_types);
 }
 
 
-- (NSMutableArray *) getHoseConstraints
+- (NSMutableArray *)getHoseConstraints
 {
   return(self->hose_constraints);
 }
 
 
-- (NSMutableArray *) getBandTypes
+- (NSMutableArray *)getBandTypes
 {
   return(self->band_types);
 }
 
 
-- (NSMutableArray *) getBandConstraints
+- (NSMutableArray *)getBandConstraints
 {
   return(self->band_constraints);
 }
 
 
-- (NSMutableArray *) getQuickRefBands
+- (NSMutableArray *)getQuickRefBands
 {
   return(self->quickRefBands);
 }
 
 
-- (NSMutableArray *) getQuickRefHoses
+- (NSMutableArray *)getQuickRefHoses
 {
   return(self->quickRefHoses);
 }
 
 
-- (NSMutableArray *) getQuickRefParts
+- (NSMutableArray *)getQuickRefParts
 {
   return(self->quickRefParts);
 }
 
 
-- (NSMutableArray *) getQuickRefBandContstraints
+- (NSMutableArray *)getQuickRefBandContstraints
 {
   return(self->quickRefBandConstraints);
 }
 
 
-- (NSMutableArray *) getQuickRefHoseConstraints
+- (NSMutableArray *)getQuickRefHoseConstraints
 {
   return(self->quickRefHoseConstraints);
 }
@@ -643,7 +643,7 @@ static LSynthConfiguration *instance = nil;
 // Consider adding a dictionary for lookup?
 //
 // ==============================================================================
-- (NSDictionary *) constraintDefinitionForPart:(LDrawPart *)directive
+- (NSDictionary *)constraintDefinitionForPart:(LDrawPart *)directive
 {
   for (NSDictionary *constraint in self->hose_constraints) {
     if ([[[constraint objectForKey:@"partName"] lowercaseString] isEqualToString:[directive referenceName]]) {
@@ -667,7 +667,7 @@ static LSynthConfiguration *instance = nil;
 // is changed.  Not especially performant.
 //
 // ==============================================================================
-- (NSDictionary *) typeForTypeName:(NSString *)typeName
+- (NSDictionary *)typeForTypeName:(NSString *)typeName
 {
   for (NSDictionary *type in band_types) {
     if ([[type valueForKey:@"LSYNTH_TYPE"] isEqualToString:typeName]) {
@@ -689,7 +689,7 @@ static LSynthConfiguration *instance = nil;
 // Purpose:		Set the class of an LSynthDirective based on the part type name
 //
 // ==============================================================================
-- (void) setLSynthClassForDirective:(LDrawLSynth *)directive withType:(NSString *)type
+- (void)setLSynthClassForDirective:(LDrawLSynth *)directive withType:(NSString *)type
 {
   // Determine the class - hose, band or part
   if ([[self getQuickRefHoses] containsObject:type]) {

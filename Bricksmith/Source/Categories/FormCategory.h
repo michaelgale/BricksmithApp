@@ -13,9 +13,9 @@
 #import "LDrawDirective.h"
 #import "MatrixMath.h"
 
-@interface NSForm(FormCategory)
+@interface NSForm (FormCategory)
 
 - (Point3)coordinateValue;
--(void)setCoordinateValue: (Point3)newPoint;
+- (void)setCoordinateValue:(Point3)newPoint;
 
 @end

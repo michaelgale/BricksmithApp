@@ -30,15 +30,15 @@
 // going away, and the next call to requestModel will return the new correct
 // model.
 
-
 ////////////////////////////////////////////////////////////////////////////////
 //
 // class ModelManager
 //
 ////////////////////////////////////////////////////////////////////////////////
-@interface ModelManager: NSObject {
+@interface ModelManager : NSObject
+{
   NSMutableDictionary *serviceTables;   // Maps NSValue<LDrawfile*> -> ServiceTable.  Service table is in the cpp.
-  NSCharacterSet *dirChars;
+  NSCharacterSet      *dirChars;
 }
 
 // Singleton access
@@ -46,15 +46,14 @@
 
 // Accept docs signing in.  Begin service on their dir with a scan, and sub out any
 // previously opened "reference" files.
--(void)documentSignIn: (NSString *)docPath withFile: (LDrawFile *)file;
+- (void)documentSignIn:(NSString *)docPath withFile:(LDrawFile *)file;
 
 // Terminate service: close out the file, purge the dir if needed, purge any files they use.
--(void)documentSignOut: (LDrawFile *)doc;
+- (void)documentSignOut:(LDrawFile *)doc;
 
 // Signed in document (ID-ed by its ldraw-doc) can request a part by name.
 // Code will search its service table and load the part if needed.  The model is
 // retained by the model manager until the document signs out.
--(LDrawModel *)requestModel: (NSString *)partName withDocument: (LDrawFile *)whoIsAsking;
-
+- (LDrawModel *)requestModel:(NSString *)partName withDocument:(LDrawFile *)whoIsAsking;
 
 @end

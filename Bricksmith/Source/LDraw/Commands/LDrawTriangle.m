@@ -29,7 +29,6 @@
 #import "LDrawUtilities.h"
 #include "GLMatrixMath.h"
 
-
 @implementation LDrawTriangle
 
 #pragma mark -
@@ -46,7 +45,7 @@
 // 3 colour x1 y1 z1 x2 y2 z2 x3 y3 z3
 //
 // ==============================================================================
-- (id) initWithLines:(NSArray *)lines
+- (id)initWithLines:(NSArray *)lines
   inRange:(NSRange)range
   parentGroup:(dispatch_group_t)parentGroup
 {
@@ -148,7 +147,7 @@
 // read and write LDraw objects as NSData.
 //
 // ==============================================================================
-- (id) initWithCoder:(NSCoder *)decoder
+- (id)initWithCoder:(NSCoder *)decoder
 {
   const uint8_t *temporary = NULL; // pointer to a temporary buffer returned by the decoder.
 
@@ -182,7 +181,7 @@
 // read and write LDraw objects as NSData.
 //
 // ==============================================================================
-- (void) encodeWithCoder:(NSCoder *)encoder
+- (void)encodeWithCoder:(NSCoder *)encoder
 {
   [super encodeWithCoder:encoder];
 
@@ -206,7 +205,7 @@
 // Purpose:		Returns a duplicate of this file.
 //
 // ==============================================================================
-- (id) copyWithZone:(NSZone *)zone
+- (id)copyWithZone:(NSZone *)zone
 {
   LDrawTriangle *copied = (LDrawTriangle *)[super copyWithZone:zone];
 
@@ -228,7 +227,7 @@
 // subroutine of -draw: in LDrawDrawableElement.
 //
 // ==============================================================================
-- (void) drawElement:(NSUInteger)optionsMask viewScale:(double)scaleFactor withColor:(LDrawColor *)
+- (void)drawElement:(NSUInteger)optionsMask viewScale:(double)scaleFactor withColor:(LDrawColor *)
   drawingColor
 {
   if (self->dragHandles) {
@@ -252,7 +251,7 @@
 // accumulating a mesh.
 //
 // ================================================================================
-- (void) drawSelf:(id <LDrawRenderer>)renderer
+- (void)drawSelf:(id <LDrawRenderer>)renderer
 {
   if (self->hidden == NO) {
     if (self->dragHandles) {
@@ -275,7 +274,7 @@
 // geometry data to the collector.
 //
 // ================================================================================
-- (void) collectSelf:(id <LDrawCollector>)renderer
+- (void)collectSelf:(id <LDrawCollector>)renderer
 {
   // We must mark our DL as valid - otherwise we will not invalidate our
   // DL when edited, and if we don't do that, we won't pass the message
@@ -320,7 +319,7 @@
 // between the pickRay and the directive's drawn content.
 //
 // ==============================================================================
-- (void) hitTest:(Ray3)pickRay
+- (void)hitTest:(Ray3)pickRay
   transform:(Matrix4)transform
   viewScale:(double)scaleFactor
   boundsOnly:(BOOL)boundsOnly
@@ -364,7 +363,7 @@
 // Purpose:		Check for intersections with screen-space geometry.
 //
 // ==============================================================================
-- (BOOL) boxTest:(Box2)bounds
+- (BOOL)boxTest:(Box2)bounds
   transform:(Matrix4)transform
   boundsOnly:(BOOL)boundsOnly
   creditObject:(id)creditObject
@@ -414,7 +413,7 @@
 // depth.
 //
 // ==============================================================================
-- (void) depthTest:(Point2)pt
+- (void)depthTest:(Point2)pt
   inBox:(Box2)bounds
   transform:(Matrix4)transform
   creditObject:(id)creditObject
@@ -472,7 +471,7 @@
 // 3 colour x1 y1 z1 x2 y2 z2 x3 y3 z3
 //
 // ==============================================================================
-- (NSString *) write
+- (NSString *)write
 {
   return([NSString stringWithFormat:
           @"3 %@ %@ %@ %@ %@ %@ %@ %@ %@ %@",
@@ -501,7 +500,7 @@
 // is to be stored. Store subsequent vertexs after the first.
 //
 // ==============================================================================
-- (VBOVertexData *) writeElementToVertexBuffer:(VBOVertexData *)vertexBuffer
+- (VBOVertexData *)writeElementToVertexBuffer:(VBOVertexData *)vertexBuffer
   withColor:(LDrawColor *)drawingColor
   wireframe:(BOOL)wireframe
 {
@@ -643,7 +642,7 @@
 // which can be presented to the user.
 //
 // ==============================================================================
-- (NSString *) browsingDescription
+- (NSString *)browsingDescription
 {
   return(NSLocalizedString(@"Triangle", nil));
 }// end browsingDescription
@@ -655,7 +654,7 @@
 // object, or nil if there is no icon.
 //
 // ==============================================================================
-- (NSString *) iconName
+- (NSString *)iconName
 {
   return(@"Triangle");
 }// end iconName
@@ -666,7 +665,7 @@
 // Purpose:		Returns the name of the class used to inspect this one.
 //
 // ==============================================================================
-- (NSString *) inspectorClassName
+- (NSString *)inspectorClassName
 {
   return(@"InspectionTriangle");
 }// end inspectorClassName
@@ -682,7 +681,7 @@
 // perfectly contains this object.
 //
 // ==============================================================================
-- (Box3) boundingBox3
+- (Box3)boundingBox3
 {
   // Raw directive doesn't cache - we just compute our bbox on the fly.  But
   // keep our parents "in sync".
@@ -710,7 +709,7 @@
 // drag-and-drop. This is not necessarily human-usable information.
 //
 // ==============================================================================
-- (Point3) position
+- (Point3)position
 {
   return(self->vertex1);
 }// end position
@@ -718,7 +717,7 @@
 
 // ========== vertex1 ===========================================================
 // ==============================================================================
-- (Point3) vertex1
+- (Point3)vertex1
 {
   return(self->vertex1);
 }// end vertex1
@@ -726,7 +725,7 @@
 
 // ========== vertex2 ===========================================================
 // ==============================================================================
-- (Point3) vertex2
+- (Point3)vertex2
 {
   return(self->vertex2);
 }// end vertex2
@@ -734,7 +733,7 @@
 
 // ========== vertex3 ===========================================================
 // ==============================================================================
-- (Point3) vertex3
+- (Point3)vertex3
 {
   return(self->vertex3);
 }// end vertex3
@@ -747,7 +746,7 @@
 // Purpose:		Somebody make this a protocol method.
 //
 // ==============================================================================
-- (void) setSelected:(BOOL)flag
+- (void)setSelected:(BOOL)flag
 {
   [super setSelected:flag];
 
@@ -781,7 +780,7 @@
 // Purpose:		Sets the triangle's first vertex.
 //
 // ==============================================================================
-- (void) setVertex1:(Point3)newVertex
+- (void)setVertex1:(Point3)newVertex
 {
   self->vertex1 = newVertex;
   [self recomputeNormal];
@@ -799,7 +798,7 @@
 // Purpose:		Sets the triangle's second vertex.
 //
 // ==============================================================================
-- (void) setVertex2:(Point3)newVertex
+- (void)setVertex2:(Point3)newVertex
 {
   self->vertex2 = newVertex;
   [self recomputeNormal];
@@ -817,7 +816,7 @@
 // Purpose:		Sets the triangle's last vertex.
 //
 // ==============================================================================
-- (void) setVertex3:(Point3)newVertex
+- (void)setVertex3:(Point3)newVertex
 {
   self->vertex3 = newVertex;
   [self recomputeNormal];
@@ -839,7 +838,7 @@
 // Purpose:		One of the drag handles on our vertexes has changed.
 //
 // ==============================================================================
-- (void) dragHandleChanged:(id)sender
+- (void)dragHandleChanged:(id)sender
 {
   LDrawDragHandle *handle      = (LDrawDragHandle *)sender;
   Point3          newPosition  = [handle position];
@@ -861,7 +860,7 @@
 // Purpose:		Moves the receiver in the specified direction.
 //
 // ==============================================================================
-- (void) moveBy:(Vector3)moveVector
+- (void)moveBy:(Vector3)moveVector
 {
   Point3 newVertex1 = V3Add(self->vertex1, moveVector);
   Point3 newVertex2 = V3Add(self->vertex2, moveVector);
@@ -882,7 +881,7 @@
 // Purpose:		Appends the directive into the appropriate container.
 //
 // ==============================================================================
-- (void) flattenIntoLines:(NSMutableArray *)lines
+- (void)flattenIntoLines:(NSMutableArray *)lines
   triangles:(NSMutableArray *)triangles
   quadrilaterals:(NSMutableArray *)quadrilaterals
   other:(NSMutableArray *)everythingElse
@@ -915,7 +914,7 @@
 // Purpose:		Finds the normal vector for this surface.
 //
 // ==============================================================================
-- (void) recomputeNormal
+- (void)recomputeNormal
 {
   Vector3 vector1, vector2;
 
@@ -932,7 +931,7 @@
 // not to any superclass.
 //
 // ==============================================================================
-- (void) registerUndoActions:(NSUndoManager *)undoManager
+- (void)registerUndoActions:(NSUndoManager *)undoManager
 {
   [super registerUndoActions:undoManager];
 
@@ -953,7 +952,7 @@
 // Purpose:		Taking a dirt nap.
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
   [dragHandles release];
 

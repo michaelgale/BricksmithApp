@@ -28,7 +28,6 @@
 #import "LDrawStep.h"
 #import "LDrawUtilities.h"
 
-
 @implementation InspectionStep
 
 #pragma mark -
@@ -40,12 +39,11 @@
 // Purpose:		Load the interface for this inspector.
 //
 // ==============================================================================
-- (id) init
+- (id)init
 {
   self = [super init];
 
-  if ([NSBundle loadNibNamed:@"InspectorStep"
-                       owner:self] == NO) {
+  if ([NSBundle loadNibNamed:@"InspectorStep" owner:self] == NO) {
     NSLog(@"Couldn't load InspectorStep.nib");
   }
 
@@ -63,7 +61,7 @@
 // enabled.
 //
 // ==============================================================================
-- (void) updateConstraints
+- (void)updateConstraints
 {
   LDrawStep          *representedObject  = [self object];
   BOOL               enableAngleField    = NO;
@@ -104,7 +102,7 @@
 // Purpose:		Called in response to the conclusion of editing in the palette.
 //
 // ==============================================================================
-- (void) commitChanges:(id)sender
+- (void)commitChanges:(id)sender
 {
   LDrawStep *representedObject = [self object];
 
@@ -130,7 +128,7 @@
 // the data in their inspector palettes.
 //
 // ==============================================================================
-- (IBAction) revert:(id)sender
+- (IBAction)revert:(id)sender
 {
   LDrawStep *representedObject = [self object];
 
@@ -189,7 +187,7 @@
 // Purpose:		Master rotation type has changed.
 //
 // ==============================================================================
-- (void) rotationTypeRadioButtonsClicked:(id)sender
+- (void)rotationTypeRadioButtonsClicked:(id)sender
 {
 // LDrawStepRotationT	stepRotationType	= [[self->rotationTypeRadioButtons selectedCell] tag];
 
@@ -205,7 +203,7 @@
 // Purpose:		User has chosen a new shortcut from the relative rotation menu.
 //
 // ==============================================================================
-- (void) relativeRotationPopUpMenuChanged:(id)sender
+- (void)relativeRotationPopUpMenuChanged:(id)sender
 {
   // set the angle values in the UI.
   [self setAngleUIAccordingToPopUp];
@@ -220,7 +218,7 @@
 // Purpose:		User has chosen a new shortcut from the relative rotation menu.
 //
 // ==============================================================================
-- (void) absoluteRotationPopUpMenuChanged:(id)sender
+- (void)absoluteRotationPopUpMenuChanged:(id)sender
 {
   // set the angle values in the UI.
   [self setAngleUIAccordingToPopUp];
@@ -238,7 +236,7 @@
 // Notes:		Only applicable to absolute rotations.
 //
 // ==============================================================================
-- (IBAction) useCurrentViewingAngleClicked:(id)sender
+- (IBAction)useCurrentViewingAngleClicked:(id)sender
 {
   LDrawDocument *currentDocument = [[NSDocumentController sharedDocumentController] currentDocument];
   Tuple3        viewingAngle     = [currentDocument viewingAngle];
@@ -264,7 +262,7 @@
 // in the heck all this stuff does.
 //
 // ==============================================================================
-- (void) doHelp:(id)sender
+- (void)doHelp:(id)sender
 {
   LDrawApplication *application = [[NSApplication sharedApplication] delegate];
 
@@ -282,7 +280,7 @@
 // selection in the pop-up menu.
 //
 // ==============================================================================
-- (void) setAngleUIAccordingToPopUp
+- (void)setAngleUIAccordingToPopUp
 {
   LDrawStepRotationT stepRotationType = [self->rotationTypeRadioButtons selectedTag];
   NSInteger          shortcut         = 0;

@@ -73,7 +73,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // Purpose:		The default icon name for this class.
 //
 // ==============================================================================
-+ (NSString *) defaultIconName
++ (NSString *)defaultIconName
 {
   return(@"Brick");
 } // end defaultIconName
@@ -88,7 +88,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // Purpose:		Creates an empty part.
 //
 // ==============================================================================
-- (id) init
+- (id)init
 {
   self = [super init];
 
@@ -118,7 +118,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // +-       -+
 //
 // ==============================================================================
-- (id) initWithLines:(NSArray *)lines
+- (id)initWithLines:(NSArray *)lines
   inRange:(NSRange)range
   parentGroup:(dispatch_group_t)parentGroup
 {
@@ -248,7 +248,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // read and write LDraw objects as NSData.
 //
 // ==============================================================================
-- (id) initWithCoder:(NSCoder *)decoder
+- (id)initWithCoder:(NSCoder *)decoder
 {
   const uint8_t *temporary = NULL; // pointer to a temporary buffer returned by the decoder.
 
@@ -275,7 +275,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // read and write LDraw objects as NSData.
 //
 // ==============================================================================
-- (void) encodeWithCoder:(NSCoder *)encoder
+- (void)encodeWithCoder:(NSCoder *)encoder
 {
   [super encodeWithCoder:encoder];
 
@@ -296,7 +296,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // Purpose:		Returns a duplicate of this file.
 //
 // ==============================================================================
-- (id) copyWithZone:(NSZone *)zone
+- (id)copyWithZone:(NSZone *)zone
 {
   LDrawPart *copied        = (LDrawPart *)[super copyWithZone:zone];
   Matrix4   transformation = [self transformationMatrix];
@@ -318,7 +318,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // subroutine of -draw: in LDrawDrawableElement.
 //
 // ==============================================================================
-- (void) drawElement:(NSUInteger)optionsMask viewScale:(double)scaleFactor withColor:(LDrawColor *)
+- (void)drawElement:(NSUInteger)optionsMask viewScale:(double)scaleFactor withColor:(LDrawColor *)
   drawingColor
 {
   LDrawDirective *drawable      = nil;
@@ -390,7 +390,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // backing the part, if it exists.
 //
 // ================================================================================
-- (void) drawSelf:(id <LDrawRenderer>)renderer
+- (void)drawSelf:(id <LDrawRenderer>)renderer
 {
   if (self->hidden == NO) {
     [self resolvePart];
@@ -473,7 +473,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // Purpose:		Draws the part's bounds as a solid box. Nonrecursive.
 //
 // ==============================================================================
-- (void) drawBoundsWithColor:(LDrawColor *)drawingColor
+- (void)drawBoundsWithColor:(LDrawColor *)drawingColor
 {
   assert(!"Deprecated draw path.");
   // Pull the bounds directly from the model; we can't use the part's because
@@ -489,7 +489,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // bounding box caching.
 //
 // ==============================================================================
-- (void) debugDrawboundingBox
+- (void)debugDrawboundingBox
 {
   [self resolvePart];
   LDrawModel *modelToDraw = cacheModel;
@@ -511,7 +511,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // Purpose:		Hit-test the geometry.
 //
 // ==============================================================================
-- (void) hitTest:(Ray3)pickRay
+- (void)hitTest:(Ray3)pickRay
   transform:(Matrix4)transform
   viewScale:(double)scaleFactor
   boundsOnly:(BOOL)boundsOnly
@@ -527,7 +527,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // Purpose:		Check for intersections with screen-space geometry.
 //
 // ==============================================================================
-- (BOOL) boxTest:(Box2)bounds
+- (BOOL)boxTest:(Box2)bounds
   transform:(Matrix4)transform
   boundsOnly:(BOOL)boundsOnly
   creditObject:(id)creditObject
@@ -575,7 +575,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // depth.
 //
 // ==============================================================================
-- (void) depthTest:(Point2)pt
+- (void)depthTest:(Point2)pt
   inBox:(Box2)bounds
   transform:(Matrix4)transform
   creditObject:(id)creditObject
@@ -626,7 +626,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // +-       -+
 //
 // ==============================================================================
-- (NSString *) write
+- (NSString *)write
 {
   Matrix4 transformation = [self transformationMatrix];
 
@@ -667,7 +667,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // Here we want the part name displayed.
 //
 // ==============================================================================
-- (NSString *) browsingDescription
+- (NSString *)browsingDescription
 {
   return([[PartLibrary sharedPartLibrary] descriptionForPart:self]);
 }// end browsingDescription
@@ -678,7 +678,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // Purpose:		Returns the name of the class used to inspect this one.
 //
 // ==============================================================================
-- (NSString *) inspectorClassName
+- (NSString *)inspectorClassName
 {
   return(@"InspectionPart");
 }// end inspectorClassName
@@ -695,7 +695,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // cannot be found.
 //
 // ==============================================================================
-- (Box3) boundingBox3
+- (Box3)boundingBox3
 {
   if ([self revalCache:CacheFlagBounds] == CacheFlagBounds) {
     [self resolvePart];
@@ -755,7 +755,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // maintains the user's upper- and lower-case usage.
 //
 // ==============================================================================
-- (NSString *) displayName
+- (NSString *)displayName
 {
   return(displayName);
 }// end displayName
@@ -771,7 +771,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // Components.
 //
 // ==============================================================================
-- (Point3) position
+- (Point3)position
 {
   TransformComponents components = [self transformComponents];
   Point3 position = components.translate;
@@ -811,7 +811,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // I have adopted lower-case as the standard for names.
 //
 // ==============================================================================
-- (NSString *) referenceName
+- (NSString *)referenceName
 {
   return(referenceName);
 }// end referenceName
@@ -828,7 +828,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // should call -modelForPart: in the PartLibrary!
 //
 // ==============================================================================
-- (LDrawModel *) referencedMPDSubmodel
+- (LDrawModel *)referencedMPDSubmodel
 {
   LDrawModel *model         = nil;
   LDrawFile  *enclosingFile = [self enclosingFile];
@@ -860,7 +860,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // parts.
 //
 // ==============================================================================
-- (LDrawModel *) referencedPeerFile
+- (LDrawModel *)referencedPeerFile
 {
   if (cacheType == PartTypeUnresolved) {
     [self resolvePart];
@@ -878,7 +878,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // applied to this part.
 //
 // ==============================================================================
-- (TransformComponents) transformComponents
+- (TransformComponents)transformComponents
 {
   Matrix4             transformation = [self transformationMatrix];
   TransformComponents components     = IdentityComponents;
@@ -906,7 +906,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // (flat column-major of transpose)              Format
 //
 // ==============================================================================
-- (Matrix4) transformationMatrix
+- (Matrix4)transformationMatrix
 {
   return(Matrix4CreateFromGLMatrix4(glTransformation));
 }// end transformationMatrix
@@ -916,7 +916,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 
 // ========== setEnclosingDirective: ============================================
 // ==============================================================================
-- (void) setEnclosingDirective:(LDrawContainer *)newParent
+- (void)setEnclosingDirective:(LDrawContainer *)newParent
 {
   [self unresolvePart];
   [super setEnclosingDirective:newParent];
@@ -928,7 +928,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // Purpose:		Sets the color of this element.
 //
 // ==============================================================================
-- (void) setLDrawColor:(LDrawColor *)newColor
+- (void)setLDrawColor:(LDrawColor *)newColor
 {
   [super setLDrawColor:newColor];
 
@@ -943,7 +943,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // part library.
 //
 // ==============================================================================
-- (void) setDisplayName:(NSString *)newPartName
+- (void)setDisplayName:(NSString *)newPartName
 {
   [self setDisplayName:newPartName
                  parse:YES
@@ -968,7 +968,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // handle the s\ prefix.
 //
 // ==============================================================================
-- (void) setDisplayName:(NSString *)newPartName
+- (void)setDisplayName:(NSString *)newPartName
   parse:(BOOL)shouldParse
   inGroup:(dispatch_group_t)parentGroup
 {
@@ -1024,7 +1024,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // internal transformation matrix represenation.
 //
 // ==============================================================================
-- (void) setTransformComponents:(TransformComponents)newComponents
+- (void)setTransformComponents:(TransformComponents)newComponents
 {
   Matrix4 transformation = Matrix4CreateTransformation(&newComponents);
 
@@ -1049,7 +1049,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // (also Matrix4 format)
 //
 // ==============================================================================
-- (void) setTransformationMatrix:(Matrix4 *)newMatrix
+- (void)setTransformationMatrix:(Matrix4 *)newMatrix
 {
   [self invalCache:CacheFlagBounds];
   Matrix4GetGLMatrix4(*newMatrix, self->glTransformation);
@@ -1061,7 +1061,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // Purpose:		Somebody make this a protocol method.
 //
 // ==============================================================================
-- (void) setSelected:(BOOL)flag
+- (void)setSelected:(BOOL)flag
 {
   [super setSelected:flag];
 
@@ -1085,7 +1085,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // horizontally.
 //
 // ==============================================================================
-- (Vector3) displacementForNudge:(Vector3)nudgeVector
+- (Vector3)displacementForNudge:(Vector3)nudgeVector
 {
   Matrix4 transformationMatrix = IdentityMatrix4;
   Matrix4 inverseMatrix        = IdentityMatrix4;
@@ -1140,7 +1140,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // the grid. Kinda a weird legacy API.
 //
 // ==============================================================================
-- (TransformComponents) componentsSnappedToGrid:(double)gridSpacing
+- (TransformComponents)componentsSnappedToGrid:(double)gridSpacing
   minimumAngle:(double)degrees
 {
   TransformComponents components = [self transformComponents];
@@ -1169,7 +1169,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // unchanged.
 //
 // ==============================================================================
-- (TransformComponents) components:(TransformComponents)components
+- (TransformComponents)components:(TransformComponents)components
   snappedToGrid:(double)gridSpacing
   minimumAngle:(double)degrees
 {
@@ -1256,7 +1256,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // Purpose:		Moves the receiver in the specified direction.
 //
 // ==============================================================================
-- (void) moveBy:(Vector3)moveVector
+- (void)moveBy:(Vector3)moveVector
 {
   Matrix4 transformationMatrix = [self transformationMatrix];
 
@@ -1283,7 +1283,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // -[LDrawPart components:snappedToGrid:minimumAngle:].
 //
 // ==============================================================================
-- (Point3) position:(Point3)position
+- (Point3)position:(Point3)position
   snappedToGrid:(double)gridSpacing
 {
   TransformComponents components = IdentityComponents;
@@ -1308,7 +1308,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // Purpose:		Rotates the part by the specified angles around its centerpoint.
 //
 // ==============================================================================
-- (void) rotateByDegrees:(Tuple3)degreesToRotate
+- (void)rotateByDegrees:(Tuple3)degreesToRotate
 {
   Point3 partCenter = [self position];
 
@@ -1340,7 +1340,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // centerpoint.
 //
 // ==============================================================================
-- (void) rotateByDegrees:(Tuple3)degreesToRotate
+- (void)rotateByDegrees:(Tuple3)degreesToRotate
   centerPoint:(Point3)rotationCenter
 {
   Matrix4 transform            = [self transformationMatrix];
@@ -1366,7 +1366,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // Purpose:
 //
 // ==============================================================================
-- (void) observableSaysGoodbyeCruelWorld:(id <LDrawObservable>)doomedObservable
+- (void)observableSaysGoodbyeCruelWorld:(id <LDrawObservable>)doomedObservable
 {
   if (cacheType == PartTypeUnresolved || cacheType == PartTypeNotFound) {
     NSLog(
@@ -1388,7 +1388,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // bbox need recalculating when a sub-model changes.
 //
 // ==============================================================================
-- (void) statusInvalidated:(CacheFlagsT)flags who:(id <LDrawObservable>)observable
+- (void)statusInvalidated:(CacheFlagsT)flags who:(id <LDrawObservable>)observable
 {
   [self invalCache:(flags & CacheFlagBounds)];
 }// end statusInvalidated:who:
@@ -1399,7 +1399,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // Purpose:
 //
 // ==============================================================================
-- (void) receiveMessage:(MessageT)msg who:(id <LDrawObservable>)observable
+- (void)receiveMessage:(MessageT)msg who:(id <LDrawObservable>)observable
 {
   if (msg == MessageNameChanged) {
     [self unresolvePart];
@@ -1420,7 +1420,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // is used by containers to detect circular references.
 //
 // ==============================================================================
-- (BOOL) containsReferenceTo:(NSString *)name
+- (BOOL)containsReferenceTo:(NSString *)name
 {
   BOOL isMatch = [referenceName isEqualToString:name];
 
@@ -1434,7 +1434,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // to look for it.
 //
 // ==============================================================================
-- (BOOL) partIsMissing
+- (BOOL)partIsMissing
 {
   [self resolvePart];
   return(cacheType == PartTypeNotFound);
@@ -1448,7 +1448,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // Purpose:		Appends the directive into the appropriate container.
 //
 // ==============================================================================
-- (void) flattenIntoLines:(NSMutableArray *)lines
+- (void)flattenIntoLines:(NSMutableArray *)lines
   triangles:(NSMutableArray *)triangles
   quadrilaterals:(NSMutableArray *)quadrilaterals
   other:(NSMutableArray *)everythingElse
@@ -1518,7 +1518,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // actual part.
 //
 // ==============================================================================
-- (void) collectPartReport:(PartReport *)report
+- (void)collectPartReport:(PartReport *)report
 {
   [self resolvePart];
   if (cacheType == PartTypeSubmodel || cacheType == PartTypePeerFile) {
@@ -1542,7 +1542,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // Since we are a part, we simply call it on ourselves.
 //
 // ==============================================================================
-- (void) applyToAllParts:(LDrawPartVisitor)visitor
+- (void)applyToAllParts:(LDrawPartVisitor)visitor
 {
   visitor(self);
 }// end applyToAllParts:
@@ -1554,7 +1554,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // not to any superclass.
 //
 // ==============================================================================
-- (void) registerUndoActions:(NSUndoManager *)undoManager
+- (void)registerUndoActions:(NSUndoManager *)undoManager
 {
   [super registerUndoActions:undoManager];
 
@@ -1572,7 +1572,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // re-resolving to the newly added part.
 //
 // ==============================================================================
-- (void) addedMPDModel:(NSNotification *)notification
+- (void)addedMPDModel:(NSNotification *)notification
 {
   if (cacheType == PartTypeNotFound) {
     [self unresolvePart];
@@ -1586,7 +1586,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // it was found.
 //
 // ==============================================================================
-- (void) resolvePart
+- (void)resolvePart
 {
   if (cacheType == PartTypeUnresolved) {
     LDrawModel *mdpModel = [self referencedMPDSubmodel];
@@ -1652,7 +1652,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // theory happen).
 //
 // ==============================================================================
-- (void) unresolvePart
+- (void)unresolvePart
 {
   if (cacheType != PartTypeUnresolved) {
     if (cacheModel != nil && (cacheType == PartTypeSubmodel || cacheType == PartTypePeerFile)) {
@@ -1683,7 +1683,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // This is used by unresolveLibraryParts to reload the library.
 //
 // ==============================================================================
-- (void) unresolvePartIfPartLibrary
+- (void)unresolvePartIfPartLibrary
 {
   if (cacheType == PartTypeLibrary || cacheType == PartTypeNotFound) {
     [self unresolvePart];
@@ -1706,7 +1706,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // directive, because it is ambiguous what the move is.
 ///
 // ==============================================================================
-- (void) followRedirectionAndUpdate
+- (void)followRedirectionAndUpdate
 {
   [self resolvePart]; // We need this to have a valid cache type and make sure we are
   // a library part.
@@ -1792,13 +1792,13 @@ int doubleNearGrid(double v, double grid, double epsi)
 // bricks never discolor.
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
   [self unresolvePart];
 
   // release instance variables.
-  [displayName  release];
-  [referenceName  release];
+  [displayName release];
+  [referenceName release];
 
   cacheDrawable = (id)0xDEADBEEF;
   cacheModel    = (id)0xDEADBEEF;

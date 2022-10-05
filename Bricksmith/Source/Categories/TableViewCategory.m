@@ -11,7 +11,6 @@
 
 #import <math.h>
 
-
 @implementation NSTableView (TableViewCategory)
 
 // ========== scrollRowToCenter: ================================================
@@ -20,7 +19,7 @@
 // in the scroll view.
 //
 // ==============================================================================
-- (void) scrollRowToCenter:(NSInteger)rowIndex
+- (void)scrollRowToCenter:(NSInteger)rowIndex
 {
   NSRect  rowRect     = [self rectOfRow:rowIndex];
   NSRect  scrollFrame = [[self enclosingScrollView] documentVisibleRect];

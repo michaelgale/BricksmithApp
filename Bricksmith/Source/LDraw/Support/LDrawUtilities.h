@@ -30,49 +30,48 @@ typedef enum
   ViewOrientationWalkThrough = 7
 } ViewOrientationT;
 
-
 ////////////////////////////////////////////////////////////////////////////////
 //
 // LDrawUtilities
 //
 ////////////////////////////////////////////////////////////////////////////////
-@interface LDrawUtilities: NSObject
+@interface LDrawUtilities : NSObject
 {
 }
 
 // Configuration
 + (NSString *)defaultAuthor;
 
-+(void)setColumnizesOutput: (BOOL)flag;
-+(void)setDefaultAuthor: (NSString *)nameIn;
++ (void)setColumnizesOutput:(BOOL)flag;
++ (void)setDefaultAuthor:(NSString *)nameIn;
 
 // Parsing
-+(Class)classForDirectiveBeginningWithLine: (NSString *)line;
-+(LDrawColor *)parseColorFromField: (NSString *)colorField;
-+(NSString *)readNextField: (NSString *)partialDirective
-remainder: (NSString **)remainder;
-+(NSString *)scanQuotableToken: (NSScanner *)scanner;
-+(NSString *)stringFromFile: (NSString *)path;
-+(NSString *)stringFromFileData: (NSData *)fileData;
++ (Class)classForDirectiveBeginningWithLine:(NSString *)line;
++ (LDrawColor *)parseColorFromField:(NSString *)colorField;
++ (NSString *)readNextField:(NSString *)partialDirective
+  remainder:(NSString **)remainder;
++ (NSString *)scanQuotableToken:(NSScanner *)scanner;
++ (NSString *)stringFromFile:(NSString *)path;
++ (NSString *)stringFromFileData:(NSData *)fileData;
 
 // Writing
-+(NSString *)outputStringForColor: (LDrawColor *)color;
-+(NSString *)outputStringForFloat: (float)number;
++ (NSString *)outputStringForColor:(LDrawColor *)color;
++ (NSString *)outputStringForFloat:(float)number;
 
 // Hit Detection
-+(void)registerHitForObject: (id)hitObject depth: (double)depth creditObject: (id)creditObject hits: (
-  NSMutableDictionary *)hits;
-+(void)registerHitForObject: (id)hitObject creditObject: (id)creditObject hits: (NSMutableSet *)hits;
++ (void)registerHitForObject:(id)hitObject depth:(double)depth creditObject:(id)creditObject hits:(
+    NSMutableDictionary *)hits;
++ (void)registerHitForObject:(id)hitObject creditObject:(id)creditObject hits:(NSMutableSet *)hits;
 
 // Images
-+(CGImageRef)imageAtPath: (NSString *)imagePath;
++ (CGImageRef)imageAtPath:(NSString *)imagePath;
 
 // Miscellaneous
-+(Tuple3)angleForViewOrientation: (ViewOrientationT)orientation;
-+(Box3)boundingBox3ForDirectives: (NSArray *)directives;
-+(BOOL)isLDrawFilenameValid: (NSString *)fileName;
-+(void)updateNameForMovedPart: (LDrawPart *)movedPart;
-+(ViewOrientationT)viewOrientationForAngle: (Tuple3)rotationAngle;
-+(void)unresolveLibraryParts: (LDrawDirective *)directive;
++ (Tuple3)angleForViewOrientation:(ViewOrientationT)orientation;
++ (Box3)boundingBox3ForDirectives:(NSArray *)directives;
++ (BOOL)isLDrawFilenameValid:(NSString *)fileName;
++ (void)updateNameForMovedPart:(LDrawPart *)movedPart;
++ (ViewOrientationT)viewOrientationForAngle:(Tuple3)rotationAngle;
++ (void)unresolveLibraryParts:(LDrawDirective *)directive;
 
 @end

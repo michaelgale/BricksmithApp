@@ -22,7 +22,6 @@ static GLuint vboVertexCount = 0;
 
 static const double HandleDiameter = 7.0;
 
-
 @implementation LDrawDragHandle
 
 // ========== initWithTag:position: =============================================
@@ -31,7 +30,7 @@ static const double HandleDiameter = 7.0;
 // connected to.
 //
 // ==============================================================================
-- (id) initWithTag:(NSInteger)tagIn
+- (id)initWithTag:(NSInteger)tagIn
   position:(Point3)positionIn
 {
   self = [super init];
@@ -57,7 +56,7 @@ static const double HandleDiameter = 7.0;
 // Purpose:		Returns the coordinate this handle what at when initialized.
 //
 // ==============================================================================
-- (Point3) initialPosition
+- (Point3)initialPosition
 {
   return(self->initialPosition);
 }
@@ -70,7 +69,7 @@ static const double HandleDiameter = 7.0;
 // more transparent to the view selection code.
 //
 // ==============================================================================
-- (BOOL) isSelected
+- (BOOL)isSelected
 {
   return(YES);
 }
@@ -81,7 +80,7 @@ static const double HandleDiameter = 7.0;
 // Purpose:		Returns the world-coordinate location of the handle.
 //
 // ==============================================================================
-- (Point3) position
+- (Point3)position
 {
   return(self->position);
 }
@@ -93,7 +92,7 @@ static const double HandleDiameter = 7.0;
 // handle with a vertex.
 //
 // ==============================================================================
-- (NSInteger) tag
+- (NSInteger)tag
 {
   return(self->tag);
 }
@@ -104,7 +103,7 @@ static const double HandleDiameter = 7.0;
 // Purpose:		Returns the object which owns the drag handle.
 //
 // ==============================================================================
-- (id) target
+- (id)target
 {
   return(self->target);
 }
@@ -117,7 +116,7 @@ static const double HandleDiameter = 7.0;
 // Purpose:		Sets the method to invoke when the handle is repositioned.
 //
 // ==============================================================================
-- (void) setAction:(SEL)actionIn
+- (void)setAction:(SEL)actionIn
 {
   self->action = actionIn;
 }
@@ -129,8 +128,7 @@ static const double HandleDiameter = 7.0;
 // update flag is YES.
 //
 // ==============================================================================
-- (void) setPosition:(Point3)positionIn
-  updateTarget:(BOOL)update
+- (void)setPosition:(Point3)positionIn updateTarget:(BOOL)update
 {
   self->position = positionIn;
 
@@ -146,7 +144,7 @@ static const double HandleDiameter = 7.0;
 // Purpose:		Sets the object to invoke the action on.
 //
 // ==============================================================================
-- (void) setTarget:(id)sender
+- (void)setTarget:(id)sender
 {
   self->target = sender;
 }
@@ -161,7 +159,7 @@ static const double HandleDiameter = 7.0;
 // Purpose:		Draw the drag handle.
 //
 // ==============================================================================
-- (void) draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)parentColor
+- (void)draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)parentColor
 {
   double handleScale = 0.0;
   double drawRadius  = 0.0;
@@ -193,7 +191,7 @@ static const double HandleDiameter = 7.0;
 // to the renderer immediately.
 //
 // ================================================================================
-- (void) drawSelf:(id <LDrawRenderer>)renderer
+- (void)drawSelf:(id <LDrawRenderer>)renderer
 {
   GLfloat xyz[3] = { position.x, position.y, position.z };
 
@@ -208,7 +206,7 @@ static const double HandleDiameter = 7.0;
 // spherical drag handle.
 //
 // ==============================================================================
-- (void) hitTest:(Ray3)pickRay
+- (void)hitTest:(Ray3)pickRay
   transform:(Matrix4)transform
   viewScale:(double)scaleFactor
   boundsOnly:(BOOL)boundsOnly
@@ -243,7 +241,7 @@ static const double HandleDiameter = 7.0;
 // depth.
 //
 // ==============================================================================
-- (void) depthTest:(Point2)pt
+- (void)depthTest:(Point2)pt
   inBox:(Box2)bounds
   transform:(Matrix4)transform
   creditObject:(id)creditObject
@@ -276,12 +274,11 @@ static const double HandleDiameter = 7.0;
 // -displacementForNudge:.
 //
 // ==============================================================================
-- (void) moveBy:(Vector3)moveVector
+- (void)moveBy:(Vector3)moveVector
 {
   Point3 newPosition = V3Add(self->position, moveVector);
 
-  [self setPosition:newPosition
-       updateTarget:YES];
+  [self setPosition:newPosition updateTarget:YES];
 }// end moveBy:
 
 
@@ -292,7 +289,7 @@ static const double HandleDiameter = 7.0;
 // The sphere has a radius of 1.
 //
 // ------------------------------------------------------------------------------
-+ (void) makeSphereWithLongitudinalCount:(int)longitudeSections
++ (void)makeSphereWithLongitudinalCount:(int)longitudeSections
   latitudinalCount:(int)latitudeSections
 {
   // Bail if we've already done it.
@@ -395,7 +392,7 @@ static const double HandleDiameter = 7.0;
 // Purpose:		Party like it's May 21, 2011!
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
   [super dealloc];
 }

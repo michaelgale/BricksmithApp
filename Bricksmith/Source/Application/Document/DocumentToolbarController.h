@@ -37,7 +37,7 @@
 // class DocumentToolbarController
 //
 ////////////////////////////////////////////////////////////////////////////////
-@interface DocumentToolbarController: NSObject <NSToolbarDelegate>
+@interface DocumentToolbarController : NSObject <NSToolbarDelegate>
 {
   IBOutlet LDrawDocument *document;      // link to the documnt to which this is attached.
 
@@ -52,32 +52,32 @@
 
 // Button factories
 - (NSToolbarItem *)makeGridSpacingItem;
-- (NSToolbarItem *) makeGridOrientationItem;
-- (NSToolbarItem *) makeRotationPlusXItem;
-- (NSToolbarItem *) makeRotationMinusXItem;
-- (NSToolbarItem *) makeRotationPlusYItem;
-- (NSToolbarItem *) makeRotationMinusYItem;
-- (NSToolbarItem *) makeRotationPlusZItem;
-- (NSToolbarItem *) makeRotationMinusZItem;
-- (NSToolbarItem *) makeShowColorsItem;
-- (NSToolbarItem *) makeShowInspectorItem;
-- (NSToolbarItem *) makePartBrowserItem;
-- (NSToolbarItem *) makeSnapToGridItem;
-- (NSToolbarItem *) makeZoomInItem;
-- (NSToolbarItem *) makeZoomOutItem;
-- (NSToolbarItem *) makeZoomItem;
+- (NSToolbarItem *)makeGridOrientationItem;
+- (NSToolbarItem *)makeRotationPlusXItem;
+- (NSToolbarItem *)makeRotationMinusXItem;
+- (NSToolbarItem *)makeRotationPlusYItem;
+- (NSToolbarItem *)makeRotationMinusYItem;
+- (NSToolbarItem *)makeRotationPlusZItem;
+- (NSToolbarItem *)makeRotationMinusZItem;
+- (NSToolbarItem *)makeShowColorsItem;
+- (NSToolbarItem *)makeShowInspectorItem;
+- (NSToolbarItem *)makePartBrowserItem;
+- (NSToolbarItem *)makeSnapToGridItem;
+- (NSToolbarItem *)makeZoomInItem;
+- (NSToolbarItem *)makeZoomOutItem;
+- (NSToolbarItem *)makeZoomItem;
 
 // Accessors
-- (void) setGridSpacingMode:(gridSpacingModeT)newMode;
-- (void) setGridOrientationMode:(gridOrientationModeT)newMode;
+- (void)setGridSpacingMode:(gridSpacingModeT)newMode;
+- (void)setGridOrientationMode:(gridOrientationModeT)newMode;
 
 // Actions
-- (IBAction) gridSpacingSegmentedControlClicked:(id)sender;
-- (IBAction) gridOrientationSegmentedControlClicked:(id)sender;
-- (IBAction) nudgeXClicked:(id)sender;
-- (IBAction) nudgeYClicked:(id)sender;
-- (IBAction) nudgeZClicked:(id)sender;
-- (IBAction) zoomSegmentedControlClicked:(id)sender;
-- (IBAction) zoomScaleChanged:(id)sender;
+- (IBAction)gridSpacingSegmentedControlClicked:(id)sender;
+- (IBAction)gridOrientationSegmentedControlClicked:(id)sender;
+- (IBAction)nudgeXClicked:(id)sender;
+- (IBAction)nudgeYClicked:(id)sender;
+- (IBAction)nudgeZClicked:(id)sender;
+- (IBAction)zoomSegmentedControlClicked:(id)sender;
+- (IBAction)zoomScaleChanged:(id)sender;
 
 @end

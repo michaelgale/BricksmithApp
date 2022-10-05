@@ -28,12 +28,11 @@
 // Purpose:		Load the interface for this inspector.
 //
 // ==============================================================================
-- (id) init
+- (id)init
 {
   self = [super init];
 
-  if ([NSBundle loadNibNamed:@"InspectorLSynth"
-                       owner:self] == NO) {
+  if ([NSBundle loadNibNamed:@"InspectorLSynth" owner:self] == NO) {
     NSLog(@"Couldn't load InspectorLSynth.xib");
   }
 
@@ -50,7 +49,7 @@
 // Purpose:		Called in response to the conclusion of editing in the palette.
 //
 // ==============================================================================
-- (void) commitChanges:(id)sender
+- (void)commitChanges:(id)sender
 {
   LDrawLSynth *representedObject = [self object];
 
@@ -66,11 +65,11 @@
   for (LDrawDirective *directive in [representedObject subdirectives]) {
     if ([directive isKindOfClass:[LDrawPart class]]) {
       if ([[sender selectedCell] tag] == LSYNTH_BAND) {
-        [(LDrawPart *)directive
+        [(LDrawPart *) directive
          setDisplayName:[LSynthConfiguration defaultBandConstraint]];
       }
       else if ([[sender selectedCell] tag] == LSYNTH_HOSE) {
-        [(LDrawPart *)directive
+        [(LDrawPart *) directive
          setDisplayName:[LSynthConfiguration defaultHoseConstraint]];
       }
 
@@ -92,7 +91,7 @@
 // object we refer to.
 //
 // ==============================================================================
-- (void) setObject:(id)newObject
+- (void)setObject:(id)newObject
 {
   [super setObject:newObject];
 
@@ -110,7 +109,7 @@
 // is set.
 //
 // ==============================================================================
-- (IBAction) revert:(id)sender
+- (IBAction)revert:(id)sender
 {
   LDrawLSynth *representedObject = [self object];
 
@@ -150,7 +149,7 @@
 // Purpose:		Populate the Types dropdown
 //
 // ==============================================================================
-- (void) populateTypes:(int)classTag
+- (void)populateTypes:(int)classTag
 {
   NSArray *types = [self typesForLSynthClass:classTag];
 
@@ -179,7 +178,7 @@
 //
 // ==============================================================================
 
-- (void) populateDefaultConstraint:(int)classTag
+- (void)populateDefaultConstraint:(int)classTag
 {
   NSMutableArray *constraints = nil;
   NSString       *defaultConstraint;
@@ -253,7 +252,7 @@
 // to the part.
 //
 // ==============================================================================
-- (IBAction) partClassChanged:(id)sender
+- (IBAction)partClassChanged:(id)sender
 {
   LDrawLSynth *representedObject = [self object];
 
@@ -298,12 +297,12 @@
 // TODO: Our defaults are arbitrary but could be preferences
 //
 // ==============================================================================
-- (IBAction) makeConstraintsDefaultForClass:(id)sender {
+- (IBAction)makeConstraintsDefaultForClass:(id)sender {
   LDrawLSynth *representedObject = [self object];
 
   for (LDrawDirective *directive in [representedObject subdirectives]) {
     if ([directive isKindOfClass:[LDrawPart class]]) {
-      [(LDrawPart *)directive
+      [(LDrawPart *) directive
        setDisplayName:[[[constraintDefaultPopup selectedItem] representedObject] valueForKey:@"partName"]];
     }
   }
@@ -319,7 +318,7 @@
 // Purpose:		The user has changed the part type in the dropdown.
 //
 // ==============================================================================
-- (IBAction) partTypeChanged:(id)sender
+- (IBAction)partTypeChanged:(id)sender
 {
   // Finish and invoke redisplay
   [self finishedEditing:sender];
@@ -336,7 +335,7 @@
 // Purpose:		Convenience method to return types for a synth class
 //
 // ==============================================================================
-- (NSArray *) typesForLSynthClass:(LSynthClassT)classTag
+- (NSArray *)typesForLSynthClass:(LSynthClassT)classTag
 {
   LSynthConfiguration *lsynthConfig = [[LDrawApplication shared] lsynthConfiguration];
 
@@ -363,7 +362,7 @@
 // Purpose:		Show the label type.
 //
 // ==============================================================================
-- (void) updateSynthTypeLabel:(LSynthClassT)tag
+- (void)updateSynthTypeLabel:(LSynthClassT)tag
 {
   // Update the type title according to our class of synthesized part
   if (tag == LSYNTH_PART) {
@@ -387,7 +386,7 @@
 // Purpose:		Cockle warming for larger ladies
 //
 // ==============================================================================
-- (void) dealloc {
+- (void)dealloc {
   // [typePopup release];
   [super dealloc];
 }// end dealloc

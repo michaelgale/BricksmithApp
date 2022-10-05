@@ -12,7 +12,6 @@
 // ==============================================================================
 #import "RotationPanelController.h"
 
-
 @implementation RotationPanelController
 
 RotationPanelController *sharedRotationPanel = nil;
@@ -26,7 +25,7 @@ RotationPanelController *sharedRotationPanel = nil;
 // Purpose:		Returns a rotation panel to open.
 //
 // ------------------------------------------------------------------------------
-+ (id) rotationPanel
++ (id)rotationPanel
 {
   if (sharedRotationPanel == nil) {
     sharedRotationPanel = [[RotationPanelController alloc] init];
@@ -41,7 +40,7 @@ RotationPanelController *sharedRotationPanel = nil;
 // Purpose:		Initialize the object.
 //
 // ==============================================================================
-- (id) init
+- (id)init
 {
   self = [super initWithWindowNibName:@"RotationPanel"];
 
@@ -58,7 +57,7 @@ RotationPanelController *sharedRotationPanel = nil;
 // Purpose:		Identifies to our superclass the nib to load.
 //
 // ==============================================================================
-- (BOOL) enableFixedPointCoordinates
+- (BOOL)enableFixedPointCoordinates
 {
   return(self->rotationMode == RotateAroundFixedPoint);
 }// end enableFixedPointCoordinates
@@ -70,7 +69,7 @@ RotationPanelController *sharedRotationPanel = nil;
 // selection should be rotated.
 //
 // ==============================================================================
-- (Tuple3) angles
+- (Tuple3)angles
 {
   return(V3Make(angleX, angleY, angleZ));
 }// end angles
@@ -84,7 +83,7 @@ RotationPanelController *sharedRotationPanel = nil;
 // RotateAroundFixedPoint.
 //
 // ==============================================================================
-- (Point3) fixedPoint
+- (Point3)fixedPoint
 {
   return(V3Make(fixedPointX, fixedPointY, fixedPointZ));
 }// end fixedPoint
@@ -95,7 +94,7 @@ RotationPanelController *sharedRotationPanel = nil;
 // Purpose:		Returns the current rotation behavior.
 //
 // ==============================================================================
-- (RotationModeT) rotationMode
+- (RotationModeT)rotationMode
 {
   return(self->rotationMode);
 }// end rotationMode
@@ -106,7 +105,7 @@ RotationPanelController *sharedRotationPanel = nil;
 // Purpose:		Register bindings stuff.
 //
 // ------------------------------------------------------------------------------
-+ (NSSet *) keyPathsForValuesAffectingValueForKey:(NSString *)key
++ (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)key
 {
   NSSet *triggerKeys = nil;
 
@@ -131,7 +130,7 @@ RotationPanelController *sharedRotationPanel = nil;
 // action and sets the sender to the RotationPanel itself.
 //
 // ==============================================================================
-- (IBAction) rotateButtonClicked:(id)sender
+- (IBAction)rotateButtonClicked:(id)sender
 {
   // Validate, and guarantee that Undo points to the document and not some
   // typed-in text field.
@@ -152,7 +151,7 @@ RotationPanelController *sharedRotationPanel = nil;
 // Purpose:		Window is closing; clean up.
 //
 // ==============================================================================
-- (void) windowWillClose:(NSNotification *)notification
+- (void)windowWillClose:(NSNotification *)notification
 {
   // The object controller apparently retains its content. We must break that
   // cycle in order to fully deallocate.
@@ -171,7 +170,7 @@ RotationPanelController *sharedRotationPanel = nil;
 // rotation text fields.
 //
 // ==============================================================================
-- (NSUndoManager *) windowWillReturnUndoManager:(NSWindow *)window
+- (NSUndoManager *)windowWillReturnUndoManager:(NSWindow *)window
 {
   NSDocument *currentDocument = [[NSDocumentController sharedDocumentController] currentDocument];
 
@@ -190,7 +189,7 @@ RotationPanelController *sharedRotationPanel = nil;
 // a time to DIE!!!/(turn, turn, turn)/...
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
   [super dealloc];
 }// end dealloc

@@ -12,22 +12,21 @@
 // ==============================================================================
 #import <AppKit/AppKit.h>
 
-
 ////////////////////////////////////////////////////////////////////////////////
 //
 // category OverlayViewCategory
 //
 ////////////////////////////////////////////////////////////////////////////////
-@interface NSView(OverlayViewCategory)
+@interface NSView (OverlayViewCategory)
 
 // Add/remove
-- (void)addOverlayView: (NSView *)theView;
--(void)removeOverlayView: (NSView *)theView;
+- (void)addOverlayView:(NSView *)theView;
+- (void)removeOverlayView:(NSView *)theView;
 
 // Optional "delegate"-style methods
--(void)viewWillBecomeOverlay;
--(void)viewDidBecomeOverlay;
--(void)viewWillResignOverlay;
--(void)viewDidResignOverlay;
+- (void)viewWillBecomeOverlay;
+- (void)viewDidBecomeOverlay;
+- (void)viewWillResignOverlay;
+- (void)viewDidResignOverlay;
 
 @end

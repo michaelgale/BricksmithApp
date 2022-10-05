@@ -15,7 +15,6 @@
 #import "BezierPathCategory.h"
 #import "MacLDraw.h"
 
-
 @implementation BricksmithUtilities
 
 // ---------- dragImageWithOffset: ------------------------------------[static]--
@@ -26,7 +25,7 @@
 // just when using physically moving parts within the model.
 //
 // ------------------------------------------------------------------------------
-+ (NSImage *) dragImageWithOffset:(NSPointPointer)dragImageOffset
++ (NSImage *)dragImageWithOffset:(NSPointPointer)dragImageOffset
 {
   NSImage *brickImage   = [NSImage imageNamed:@"Brick"];
   CGFloat border        = 3;
@@ -76,7 +75,7 @@
 // horizontal along the brick. Vertical distances may be adjusted.
 //
 // ------------------------------------------------------------------------------
-+ (float) gridSpacingForMode:(gridSpacingModeT)gridMode
++ (float)gridSpacingForMode:(gridSpacingModeT)gridMode
 {
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
   float          gridSpacing   = 0.0;

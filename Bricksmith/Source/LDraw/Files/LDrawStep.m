@@ -39,7 +39,6 @@
 #import "StringCategory.h"
 #import "LDrawLSynthDirective.h"
 
-
 @implementation LDrawStep
 
 #pragma mark -
@@ -51,7 +50,7 @@
 // Purpose:		Creates a new step ready to be edited, with nothing inside it.
 //
 // ------------------------------------------------------------------------------
-+ (id) emptyStep
++ (id)emptyStep
 {
   LDrawStep *newStep = [[LDrawStep alloc] init];
 
@@ -65,7 +64,7 @@
 // only directives of the flavorType will be added.
 //
 // ------------------------------------------------------------------------------
-+ (id) emptyStepWithFlavor:(LDrawStepFlavorT)flavorType
++ (id)emptyStepWithFlavor:(LDrawStepFlavorT)flavorType
 {
   LDrawStep *newStep = [LDrawStep emptyStep];
 
@@ -82,7 +81,7 @@
 // Purpose:		Creates a new step ready to be edited, with nothing inside it.
 //
 // ==============================================================================
-- (id) init
+- (id)init
 {
   [super init];
 
@@ -100,7 +99,7 @@
 // Purpose:		Parses a step beginning at the specified line of LDraw code.
 //
 // ==============================================================================
-- (id) initWithLines:(NSArray *)lines
+- (id)initWithLines:(NSArray *)lines
   inRange:(NSRange)range
   parentGroup:(dispatch_group_t)parentGroup
 {
@@ -242,7 +241,7 @@
 // read and write LDraw objects as NSData.
 //
 // ==============================================================================
-- (id) initWithCoder:(NSCoder *)decoder
+- (id)initWithCoder:(NSCoder *)decoder
 {
   const uint8_t *temporary = NULL; // pointer to a temporary buffer returned by the decoder.
 
@@ -267,7 +266,7 @@
 // read and write LDraw objects as NSData.
 //
 // ==============================================================================
-- (void) encodeWithCoder:(NSCoder *)encoder
+- (void)encodeWithCoder:(NSCoder *)encoder
 {
   [super encodeWithCoder:encoder];
 
@@ -284,7 +283,7 @@
 // Purpose:		Returns a duplicate of this file.
 //
 // ==============================================================================
-- (id) copyWithZone:(NSZone *)zone
+- (id)copyWithZone:(NSZone *)zone
 {
   LDrawStep *copied = (LDrawStep *)[super copyWithZone:zone];
 
@@ -304,7 +303,7 @@
 // Purpose:		Returns the range from the beginning to the end of the step.
 //
 // ------------------------------------------------------------------------------
-+ (NSRange) rangeOfDirectiveBeginningAtIndex:(NSUInteger)index
++ (NSRange)rangeOfDirectiveBeginningAtIndex:(NSUInteger)index
   inLines:(NSArray *)lines
   maxIndex:(NSUInteger)maxIndex
 {
@@ -351,7 +350,7 @@
 // so we need call glBegin only once for the entire step.
 //
 // ==============================================================================
-- (void) draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)parentColor
+- (void)draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)parentColor
 
 {
   NSArray        *commandsInStep   = [self subdirectives];
@@ -376,7 +375,7 @@
 // not "collect" themselves.
 //
 // ================================================================================
-- (void) drawSelf:(id <LDrawRenderer>)renderer
+- (void)drawSelf:(id <LDrawRenderer>)renderer
 {
   NSArray        *commandsInStep   = [self subdirectives];
   LDrawDirective *currentDirective = nil;
@@ -398,7 +397,7 @@
 // The step does this by recursively collecting its directives.
 //
 // ================================================================================
-- (void) collectSelf:(id <LDrawCollector>)renderer
+- (void)collectSelf:(id <LDrawCollector>)renderer
 {
   NSArray        *commandsInStep   = [self subdirectives];
   LDrawDirective *currentDirective = nil;
@@ -417,7 +416,7 @@
 // bounding box caching.
 //
 // ==============================================================================
-- (void) debugDrawboundingBox
+- (void)debugDrawboundingBox
 {
   NSArray        *commandsInStep   = [self subdirectives];
   LDrawDirective *currentDirective = nil;
@@ -436,7 +435,7 @@
 // Purpose:		Hit-test the geometry.
 //
 // ==============================================================================
-- (void) hitTest:(Ray3)pickRay
+- (void)hitTest:(Ray3)pickRay
   transform:(Matrix4)transform
   viewScale:(double)scaleFactor
   boundsOnly:(BOOL)boundsOnly
@@ -466,7 +465,7 @@
 // Purpose:		Check for intersections with screen-space geometry.
 //
 // ==============================================================================
-- (BOOL) boxTest:(Box2)bounds
+- (BOOL)boxTest:(Box2)bounds
   transform:(Matrix4)transform
   boundsOnly:(BOOL)boundsOnly
   creditObject:(id)creditObject
@@ -508,7 +507,7 @@
 // depth.
 //
 // ==============================================================================
-- (void) depthTest:(Point2)pt
+- (void)depthTest:(Point2)pt
   inBox:(Box2)bounds
   transform:(Matrix4)transform
   creditObject:(id)creditObject
@@ -543,7 +542,7 @@
 // 0 STEP
 //
 // ==============================================================================
-- (NSString *) write
+- (NSString *)write
 {
   return([self writeWithStepCommand:YES]);
 }// end write
@@ -561,7 +560,7 @@
 // get the step command no matter what.
 //
 // ==============================================================================
-- (NSString *) writeWithStepCommand:(BOOL)flag
+- (NSString *)writeWithStepCommand:(BOOL)flag
 {
   NSMutableString *written = [NSMutableString string];
   NSString        *CRLF    = [NSString CRLF];
@@ -637,7 +636,7 @@
 // which can be presented to the user.
 //
 // ==============================================================================
-- (NSString *) browsingDescription
+- (NSString *)browsingDescription
 {
   LDrawModel *enclosingModel = [self enclosingModel];
   NSString   *description    = nil;
@@ -667,7 +666,7 @@
 // object, or nil if there is no icon.
 //
 // ==============================================================================
-- (NSString *) iconName
+- (NSString *)iconName
 {
   NSString *iconName = nil;
 
@@ -695,7 +694,7 @@
 // Purpose:		Returns the name of the class used to inspect this one.
 //
 // ==============================================================================
-- (NSString *) inspectorClassName
+- (NSString *)inspectorClassName
 {
   return(@"InspectionStep");
 }// end inspectorClassName
@@ -707,7 +706,7 @@
 
 // ========== boundingBox3 ======================================================
 // ==============================================================================
-- (Box3) boundingBox3
+- (Box3)boundingBox3
 {
   if ([self revalCache:CacheFlagBounds] == CacheFlagBounds) {
     cachedBounds = [LDrawUtilities boundingBox3ForDirectives:[self subdirectives]];
@@ -721,7 +720,7 @@
 // Purpose:		Returns the model of which this step is a part.
 //
 // ==============================================================================
-- (LDrawModel *) enclosingModel
+- (LDrawModel *)enclosingModel
 {
   return((LDrawModel *)[self enclosingDirective]);
 }// end enclosingModel
@@ -733,7 +732,7 @@
 // be interpreted according to the step rotation type.
 //
 // ==============================================================================
-- (Tuple3) rotationAngle
+- (Tuple3)rotationAngle
 {
   return(self->rotationAngle);
 }// end rotationAngle
@@ -749,7 +748,7 @@
 // angle, so we have to save to the file in this format.
 //
 // ==============================================================================
-- (Tuple3) rotationAngleZYX
+- (Tuple3)rotationAngleZYX
 {
   // ---------- Convert XYZ to ZYX --------------------------------------------
 
@@ -805,7 +804,7 @@
 // directives into a single step).
 //
 // ==============================================================================
-- (LDrawStepFlavorT) stepFlavor
+- (LDrawStepFlavorT)stepFlavor
 {
   return(self->stepFlavor);
 }// end stepFlavor
@@ -816,7 +815,7 @@
 // Purpose:		Returns what kind of rotation is attached to this step.
 //
 // ==============================================================================
-- (LDrawStepRotationT) stepRotationType
+- (LDrawStepRotationT)stepRotationType
 {
   return(self->stepRotationType);
 }// end stepRotationType
@@ -830,7 +829,7 @@
 // Called automatically by -addStep:
 //
 // ==============================================================================
-- (void) setModel:(LDrawModel *)enclosingModel
+- (void)setModel:(LDrawModel *)enclosingModel
 {
   [self setEnclosingDirective:enclosingModel];
 }// end setModel:
@@ -845,7 +844,7 @@
 // unsuitable for feeding directly to this method.
 //
 // ==============================================================================
-- (void) setRotationAngle:(Tuple3)newAngle
+- (void)setRotationAngle:(Tuple3)newAngle
 {
   self->rotationAngle = newAngle;
 
@@ -868,7 +867,7 @@
 // Bricksmith.
 //
 // ==============================================================================
-- (void) setRotationAngleZYX:(Tuple3)newAngleZYX
+- (void)setRotationAngleZYX:(Tuple3)newAngleZYX
 {
   Matrix4 rotationMatrix = IdentityMatrix4;
   Tuple3  newAngleXYZ    = ZeroPoint3;
@@ -911,7 +910,7 @@
 // starting a new group for each directive encountered.
 //
 // ==============================================================================
-- (void) setStepFlavor:(LDrawStepFlavorT)newFlavor
+- (void)setStepFlavor:(LDrawStepFlavorT)newFlavor
 {
   self->stepFlavor = newFlavor;
 
@@ -931,7 +930,7 @@
 // drawing the model, not the step itself.
 //
 // ==============================================================================
-- (void) setStepRotationType:(LDrawStepRotationT)newValue
+- (void)setStepRotationType:(LDrawStepRotationT)newValue
 {
   self->stepRotationType = newValue;
 
@@ -950,7 +949,7 @@
 // Purpose:		Inserts the new directive into the step.
 //
 // ==============================================================================
-- (void) insertDirective:(LDrawDirective *)directive atIndex:(NSInteger)index
+- (void)insertDirective:(LDrawDirective *)directive atIndex:(NSInteger)index
 {
   [self invalCache:CacheFlagBounds | DisplayList];
   [super insertDirective:directive
@@ -963,7 +962,7 @@
 // Purpose:		Removes the directive from the step.
 //
 // ==============================================================================
-- (void) removeDirectiveAtIndex:(NSInteger)index
+- (void)removeDirectiveAtIndex:(NSInteger)index
 {
   [self invalCache:CacheFlagBounds | DisplayList];
   LDrawDirective *directive = [[[self subdirectives] objectAtIndex:index] retain];
@@ -983,7 +982,7 @@
 // Purpose:		Returns if line is a 0 STEP
 //
 // ==============================================================================
-+ (BOOL) lineIsStepTerminator:(NSString *)line
++ (BOOL)lineIsStepTerminator:(NSString *)line
 {
   NSString *parsedField = nil;
   NSString *workingLine = line;
@@ -1011,7 +1010,7 @@
 // and self-referencing model "parts"
 //
 // ==============================================================================
-- (BOOL) acceptsDroppedDirective:(LDrawDirective *)directive
+- (BOOL)acceptsDroppedDirective:(LDrawDirective *)directive
 {
   // explicitly disregard LSynth directives
   if ([directive isKindOfClass:[LDrawLSynthDirective class]]) {
@@ -1033,7 +1032,7 @@
 // Purpose:		Returns if line is a 0 ROTSTEP
 //
 // ==============================================================================
-+ (BOOL) lineIsRotationStepTerminator:(NSString *)line
++ (BOOL)lineIsRotationStepTerminator:(NSString *)line
 {
   NSString *parsedField   = nil;
   NSString *workingLine   = line;
@@ -1072,7 +1071,7 @@
 // Returns:		YES on success.
 //
 // ==============================================================================
-- (BOOL) parseRotationStepFromLine:(NSString *)rotstep
+- (BOOL)parseRotationStepFromLine:(NSString *)rotstep
 {
   NSScanner *scanner = [NSScanner scannerWithString:rotstep];
   Tuple3    angles   = ZeroPoint3;
@@ -1165,7 +1164,7 @@
 // not to any superclass.
 //
 // ==============================================================================
-- (void) registerUndoActions:(NSUndoManager *)undoManager
+- (void)registerUndoActions:(NSUndoManager *)undoManager
 {
   [super registerUndoActions:undoManager];
 
@@ -1185,7 +1184,7 @@
 // Purpose:		The Fat Lady has sung.
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
   [super dealloc];
 }// end dealloc

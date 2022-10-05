@@ -19,7 +19,7 @@
 // Purpose:		Inform the directive that it's been (de)selected.
 //
 // ==============================================================================
-- (void) setSelected:(BOOL)flag
+- (void)setSelected:(BOOL)flag
 {
   [super setSelected:flag];
 
@@ -40,7 +40,7 @@
 // which can be presented to the user.
 //
 // ==============================================================================
-- (NSString *) browsingDescription
+- (NSString *)browsingDescription
 {
   if ([[self stringValue] isEqualToString:@"INSIDE"]) {
     return(@"Inside");
@@ -62,7 +62,7 @@
 // object, or nil if there is no icon.
 //
 // ==============================================================================
-- (NSString *) iconName
+- (NSString *)iconName
 {
   return(@"LSynthDirection");
 }// end iconName
@@ -79,7 +79,7 @@
 // 0 SYNTH [INSIDE|OUTSIDE]
 //
 // ==============================================================================
-- (NSString *) write
+- (NSString *)write
 {
   return([NSString stringWithFormat:@"0 SYNTH %@", [self stringValue]]);
 }// end write

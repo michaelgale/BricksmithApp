@@ -9,13 +9,12 @@
 // ==============================================================================
 #import "LDrawLine.h"
 
-
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Class:		LDrawConditionalLine
 //
 ////////////////////////////////////////////////////////////////////////////////
-@interface LDrawConditionalLine: LDrawLine <NSCoding>
+@interface LDrawConditionalLine : LDrawLine <NSCoding>
 {
   Point3 conditionalVertex1;
   Point3 conditionalVertex2;
@@ -23,8 +22,8 @@
 
 // Accessors
 - (Point3)conditionalVertex1;
--(Point3)conditionalVertex2;
--(void)setConditionalVertex1: (Point3)newVertex;
--(void)setConditionalVertex2: (Point3)newVertex;
+- (Point3)conditionalVertex2;
+- (void)setConditionalVertex1:(Point3)newVertex;
+- (void)setConditionalVertex2:(Point3)newVertex;
 
 @end

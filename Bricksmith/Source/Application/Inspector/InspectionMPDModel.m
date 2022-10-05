@@ -22,7 +22,7 @@
 // Purpose:		Load the interface for this inspector.
 //
 // ==============================================================================
-- (id) init
+- (id)init
 {
   self = [super init];
 
@@ -44,7 +44,7 @@
 // Purpose:		Called in response to the conclusion of editing in the palette.
 //
 // ==============================================================================
-- (void) commitChanges:(id)sender
+- (void)commitChanges:(id)sender
 {
   LDrawMPDModel *representedObject = [self object];
   LDrawFile     *enclosingFile     = [representedObject enclosingFile];
@@ -52,7 +52,7 @@
   NSString *oldName        = [representedObject modelName];
   NSString *newName        = [modelNameField stringValue];
   NSString *newDescription = [descriptionField stringValue];
-  NSString *newAuthor      = [authorField    stringValue];
+  NSString *newAuthor      = [authorField stringValue];
 
   // For the sake of simplicity, we group these similar fields of the MPD and
   // regular model together.
@@ -82,7 +82,7 @@
 // the data in their inspector palettes.
 //
 // ==============================================================================
-- (IBAction) revert:(id)sender
+- (IBAction)revert:(id)sender
 {
   LDrawMPDModel *representedObject = [self object];
 
@@ -107,7 +107,7 @@
 // modelname too. Beware!
 //
 // ==============================================================================
-- (IBAction) modelNameFieldChanged:(id)sender
+- (IBAction)modelNameFieldChanged:(id)sender
 {
   NSString *newValue       = [sender stringValue];
   NSString *oldValue       = [[self object] modelName];
@@ -162,7 +162,7 @@
 // Purpose:		The user has changed the model description.
 //
 // ==============================================================================
-- (IBAction) descriptionFieldChanged:(id)sender
+- (IBAction)descriptionFieldChanged:(id)sender
 {
   NSString *newValue = [sender stringValue];
   NSString *oldValue = [[self object] modelDescription];
@@ -179,7 +179,7 @@
 // Purpose:		The user has changed the author name.
 //
 // ==============================================================================
-- (IBAction) authorFieldChanged:(id)sender
+- (IBAction)authorFieldChanged:(id)sender
 {
   NSString *newValue = [sender stringValue];
   NSString *oldValue = [[self object] author];

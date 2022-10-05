@@ -16,17 +16,17 @@
 // Class:		LDrawColorWell
 //
 ////////////////////////////////////////////////////////////////////////////////
-@interface LDrawColorWell: NSButton <LDrawColorable>
+@interface LDrawColorWell : NSButton <LDrawColorable>
 {
   LDrawColor *color;
-  NSColor *nsColor;
+  NSColor    *nsColor;
 }
 
 // Active color well
 + (LDrawColorWell *)activeColorWell;
-+(void)setActiveColorWell: (LDrawColorWell *)newWell;
++ (void)setActiveColorWell:(LDrawColorWell *)newWell;
 
 // Actions
--(void)changeLDrawColorWell: (id)sender;
+- (void)changeLDrawColorWell:(id)sender;
 
 @end

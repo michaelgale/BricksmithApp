@@ -16,11 +16,11 @@
 @class LDrawMPDModel;
 @class PartReport;
 
-@interface PieceCountPanel: DialogPanel
+@interface PieceCountPanel : DialogPanel
 {
-  LDrawFile *file;
-  LDrawMPDModel *activeModel;
-  PartReport *partReport;
+  LDrawFile      *file;
+  LDrawMPDModel  *activeModel;
+  PartReport     *partReport;
   NSMutableArray *flattenedReport;
 
   IBOutlet NSTableView *pieceCountTable;
@@ -28,23 +28,23 @@
 }
 
 // Initialization
-+ (PieceCountPanel *)pieceCountPanelForFile: (LDrawFile *)fileIn;
--(id)initWithFile: (LDrawFile *)file;
++ (PieceCountPanel *)pieceCountPanelForFile:(LDrawFile *)fileIn;
+- (id)initWithFile:(LDrawFile *)file;
 
 // Accessors
--(LDrawMPDModel *)activeModel;
--(LDrawFile *)file;
--(PartReport *)partReport;
+- (LDrawMPDModel *)activeModel;
+- (LDrawFile *)file;
+- (PartReport *)partReport;
 
--(void)setActiveModel: (LDrawMPDModel *)newModel;
--(void)setFile: (LDrawFile *)newFile;
--(void)setPartReport: (PartReport *)newPartReport;
--(void)setTableDataSource: (NSMutableArray *)newReport;
+- (void)setActiveModel:(LDrawMPDModel *)newModel;
+- (void)setFile:(LDrawFile *)newFile;
+- (void)setPartReport:(PartReport *)newPartReport;
+- (void)setTableDataSource:(NSMutableArray *)newReport;
 
 // Actions
--(IBAction)exportButtonClicked: (id)sender;
+- (IBAction)exportButtonClicked:(id)sender;
 
 // Utilities
--(void)syncSelectionAndPartDisplayed;
+- (void)syncSelectionAndPartDisplayed;
 
 @end

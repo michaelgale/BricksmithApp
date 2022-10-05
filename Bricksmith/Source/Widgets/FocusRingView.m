@@ -15,7 +15,6 @@
 // ==============================================================================
 #import "FocusRingView.h"
 
-
 @implementation FocusRingView
 
 // ========== initWithFrame: ====================================================
@@ -23,7 +22,7 @@
 // Purpose:		Nothing to do here, actually.
 //
 // ==============================================================================
-- (id) initWithFrame:(NSRect)frame
+- (id)initWithFrame:(NSRect)frame
 {
   self = [super initWithFrame:frame];
   if (self) {
@@ -44,7 +43,7 @@
 // Notes:		The view is still responsible for telling us when to redisplay!
 //
 // ==============================================================================
-- (void) setFocusSource:(NSView *)newObject
+- (void)setFocusSource:(NSView *)newObject
 {
   self->focusSource = newObject;
 }
@@ -59,7 +58,7 @@
 // Purpose:		Draw the focus ring.
 //
 // ==============================================================================
-- (void) drawRect:(NSRect)dirtyRect
+- (void)drawRect:(NSRect)dirtyRect
 {
   BOOL inFocus = NO;
 
@@ -104,7 +103,7 @@
 // the one it's covering.
 //
 // ==============================================================================
-- (NSView *) hitTest:(NSPoint)aPoint
+- (NSView *)hitTest:(NSPoint)aPoint
 {
   return([self superview]);
 }// end hitTest:
@@ -119,7 +118,7 @@
 // Purpose:		Out of focus.
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
   [super dealloc];
 }

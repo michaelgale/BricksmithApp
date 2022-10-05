@@ -10,23 +10,22 @@
 // ==============================================================================
 #import <Cocoa/Cocoa.h>
 
-
 ////////////////////////////////////////////////////////////////////////////////
 //
 // class ExtendedScrollView
 //
 ////////////////////////////////////////////////////////////////////////////////
-@interface ExtendedScrollView: NSScrollView
+@interface ExtendedScrollView : NSScrollView
 {
   NSPoint documentScrollCenterPoint;
-  BOOL preservesScrollCenterDuringLiveResize;
-  BOOL storesScrollCenterAsFraction;
-  NSView *verticalPlacard;
+  BOOL    preservesScrollCenterDuringLiveResize;
+  BOOL    storesScrollCenterAsFraction;
+  NSView  *verticalPlacard;
 }
 
 // Accessors
-- (void)setPreservesScrollCenterDuringLiveResize: (BOOL)flag;
--(void)setStoresScrollCenterAsFraction: (BOOL)flag;
--(void)setVerticalPlacard: (NSView *)placardView;
+- (void)setPreservesScrollCenterDuringLiveResize:(BOOL)flag;
+- (void)setStoresScrollCenterAsFraction:(BOOL)flag;
+- (void)setVerticalPlacard:(NSView *)placardView;
 
 @end

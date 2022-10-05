@@ -9,7 +9,6 @@
 // ==============================================================================
 #import "WindowCategory.h"
 
-
 @implementation NSWindow (WindowCategory)
 
 // ========== frameRectForContentSize: ==========================================
@@ -21,7 +20,7 @@
 // differently-sized panes, like a preferences window.
 //
 // ==============================================================================
-- (NSRect) frameRectForContentSize:(NSSize)newSize
+- (NSRect)frameRectForContentSize:(NSSize)newSize
 {
   // Get the current size.
   NSSize currentContentSize = [[self contentView] frame].size;
@@ -45,7 +44,7 @@
 // position in the upper-left of the original window frame.
 //
 // ==============================================================================
-- (void) resizeToSize:(NSSize)newSize animate:(BOOL)animate
+- (void)resizeToSize:(NSSize)newSize animate:(BOOL)animate
 {
   NSRect  currentFrame = [self frame];
   NSPoint upperLeft    = NSMakePoint(NSMinX(currentFrame), NSMaxY(currentFrame));

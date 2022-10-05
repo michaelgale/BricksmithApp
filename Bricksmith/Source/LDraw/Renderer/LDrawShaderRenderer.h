@@ -50,14 +50,15 @@ struct  LDrawDLBuilder;
 struct  LDrawBDP;
 struct  LDrawDragHandleInstance;
 
-@interface LDrawShaderRenderer: NSObject <LDrawRenderer, LDrawCollector> {
+@interface LDrawShaderRenderer : NSObject <LDrawRenderer, LDrawCollector>
+{
   struct LDrawDLSession *session;                      // DL session - this accumulates draw calls and sorts them.
   struct LDrawBDP       *pool;
 
   GLfloat color_now[4];                                // Color stack.
   GLfloat compl_now[4];
   GLfloat color_stack[COLOR_STACK_DEPTH * 4];
-  int color_stack_top;
+  int     color_stack_top;
 
   int wire_frame_count;                                // wire frame stack is just a count.
 
@@ -67,7 +68,7 @@ struct  LDrawDragHandleInstance;
   struct LDrawTextureSpec tex_now;
 
   GLfloat transform_stack[TRANSFORM_STACK_DEPTH * 16]; // Transform stack from push/pop matrix.
-  int transform_stack_top;
+  int     transform_stack_top;
   GLfloat transform_now[16];
   GLfloat cull_now[16];
 
@@ -81,8 +82,8 @@ struct  LDrawDragHandleInstance;
   GLfloat scale;                                       // Needed to code Allen's res-independent drag handles...someday get this from viewport?
 }
 
-- (id)initWithScale: (double)scale modelView: (GLfloat *)mv_matrix projection: (GLfloat *)proj_matrix;
+- (id)initWithScale:(double)scale modelView:(GLfloat *)mv_matrix projection:(GLfloat *)proj_matrix;
 
--(void)drawDragHandleImm: (GLfloat *)xyz withSize: (GLfloat)size;
+- (void)drawDragHandleImm:(GLfloat *)xyz withSize:(GLfloat)size;
 
 @end

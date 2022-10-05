@@ -21,13 +21,12 @@ typedef enum
     // the rest of the tags match ViewOrientationT
 } StepInspectorRotationShortcutT;
 
-
 ////////////////////////////////////////////////////////////////////////////////
 //
 // class InspectionStep
 //
 ////////////////////////////////////////////////////////////////////////////////
-@interface InspectionStep: ObjectInspectionController
+@interface InspectionStep : ObjectInspectionController
 {
   IBOutlet NSMatrix *rotationTypeRadioButtons;
 
@@ -37,20 +36,20 @@ typedef enum
   IBOutlet NSTextField *rotationXField;
   IBOutlet NSTextField *rotationYField;
   IBOutlet NSTextField *rotationZField;
-  IBOutlet NSButton *useCurrentAngleButton;
+  IBOutlet NSButton    *useCurrentAngleButton;
 }
 
 // Constraints
 - (void)updateConstraints;
 
 // Actions
--(IBAction)rotationTypeRadioButtonsClicked: (id)sender;
--(IBAction)relativeRotationPopUpMenuChanged: (id)sender;
--(IBAction)absoluteRotationPopUpMenuChanged: (id)sender;
--(IBAction)useCurrentViewingAngleClicked: (id)sender;
--(IBAction)doHelp: (id)sender;
+- (IBAction)rotationTypeRadioButtonsClicked:(id)sender;
+- (IBAction)relativeRotationPopUpMenuChanged:(id)sender;
+- (IBAction)absoluteRotationPopUpMenuChanged:(id)sender;
+- (IBAction)useCurrentViewingAngleClicked:(id)sender;
+- (IBAction)doHelp:(id)sender;
 
 // Utilities
--(void)setAngleUIAccordingToPopUp;
+- (void)setAngleUIAccordingToPopUp;
 
 @end

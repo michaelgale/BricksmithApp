@@ -22,7 +22,7 @@
 // Purpose:		Draw a rectangle outline.
 //
 // ==============================================================================
-- (void) drawRect:(NSRect)rect
+- (void)drawRect:(NSRect)rect
 {
   NSBezierPath *trianglePath = [NSBezierPath bezierPath];
   NSRect       frame         = NSInsetRect([self bounds], 2, 2);
@@ -41,7 +41,6 @@
 
 @end
 
-
 @implementation InspectionQuadrilateral
 
 // ========== init ==============================================================
@@ -49,7 +48,7 @@
 // Purpose:		Load the interface for this inspector.
 //
 // ==============================================================================
-- (id) init
+- (id)init
 {
   self = [super init];
 
@@ -71,7 +70,7 @@
 // Purpose:		Called in response to the conclusion of editing in the palette.
 //
 // ==============================================================================
-- (void) commitChanges:(id)sender
+- (void)commitChanges:(id)sender
 {
   LDrawQuadrilateral *representedObject = [self object];
 
@@ -97,7 +96,7 @@
 // the data in their inspector palettes.
 //
 // ==============================================================================
-- (IBAction) revert:(id)sender
+- (IBAction)revert:(id)sender
 {
   LDrawQuadrilateral *representedObject = [self object];
 
@@ -126,7 +125,7 @@
 // update the object.
 //
 // ==============================================================================
-- (IBAction) vertex1EndedEditing:(id)sender
+- (IBAction)vertex1EndedEditing:(id)sender
 {
   Point3 formContents = [vertex1Form coordinateValue];
   Point3 vertex1      = [[self object] vertex1];
@@ -145,7 +144,7 @@
 // update the object.
 //
 // ==============================================================================
-- (IBAction) vertex2EndedEditing:(id)sender
+- (IBAction)vertex2EndedEditing:(id)sender
 {
   Point3 formContents = [vertex2Form coordinateValue];
   Point3 vertex2      = [[self object] vertex2];
@@ -164,7 +163,7 @@
 // update the object.
 //
 // ==============================================================================
-- (IBAction) vertex3EndedEditing:(id)sender
+- (IBAction)vertex3EndedEditing:(id)sender
 {
   Point3 formContents = [vertex3Form coordinateValue];
   Point3 vertex3      = [[self object] vertex3];
@@ -183,7 +182,7 @@
 // update the object.
 //
 // ==============================================================================
-- (IBAction) vertex4EndedEditing:(id)sender
+- (IBAction)vertex4EndedEditing:(id)sender
 {
   Point3 formContents = [vertex4Form coordinateValue];
   Point3 vertex4      = [[self object] vertex4];

@@ -37,7 +37,7 @@ ToolPalette *sharedToolPalette = nil;
 // Purpose:		Do the things that Interface Builder cannot.
 //
 // ==============================================================================
-- (void) awakeFromNib
+- (void)awakeFromNib
 {
   NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
 
@@ -76,7 +76,7 @@ ToolPalette *sharedToolPalette = nil;
 // throughout the application, creating it if necessary.
 //
 // ------------------------------------------------------------------------------
-+ (ToolPalette *) sharedToolPalette
++ (ToolPalette *)sharedToolPalette
 {
   if (sharedToolPalette == nil) {
     sharedToolPalette = [[ToolPalette alloc] init];
@@ -91,7 +91,7 @@ ToolPalette *sharedToolPalette = nil;
 // Purpose:		Bring us into the world.
 //
 // ==============================================================================
-- (id) init
+- (id)init
 {
   self = [super init];
 
@@ -100,8 +100,7 @@ ToolPalette *sharedToolPalette = nil;
   currentKeyCharacters = @"";
   currentKeyModifiers  = 0;
 
-  [NSBundle loadNibNamed:@"ToolPalette"
-                   owner:self];
+  [NSBundle loadNibNamed:@"ToolPalette" owner:self];
 
   // ---------- Create the tool window ----------------------------------------
 
@@ -143,7 +142,7 @@ ToolPalette *sharedToolPalette = nil;
 // selection plus any modifiers and keys that may be down.
 //
 // ------------------------------------------------------------------------------
-+ (ToolModeT) toolMode
++ (ToolModeT)toolMode
 {
   return([[ToolPalette sharedToolPalette] toolMode]);
 }// end toolMode
@@ -154,7 +153,7 @@ ToolPalette *sharedToolPalette = nil;
 // Purpose:		True if the tools are onscreen
 //
 // ==============================================================================
-- (BOOL) isVisible
+- (BOOL)isVisible
 {
   return([self->palettePanel isVisible]);
 }
@@ -166,7 +165,7 @@ ToolPalette *sharedToolPalette = nil;
 // selection plus any modifiers and keys that may be down.
 //
 // ==============================================================================
-- (ToolModeT) toolMode
+- (ToolModeT)toolMode
 {
   return(self->effectiveToolMode);
 }// end toolMode
@@ -179,7 +178,7 @@ ToolPalette *sharedToolPalette = nil;
 // the correct mode.
 //
 // ==============================================================================
-- (void) setToolMode:(ToolModeT)newToolMode
+- (void)setToolMode:(ToolModeT)newToolMode
 {
   if (self->effectiveToolMode != newToolMode) {
     self->effectiveToolMode = newToolMode;
@@ -202,13 +201,12 @@ ToolPalette *sharedToolPalette = nil;
 // Purpose:		Closes the mouse Tool Palette.
 //
 // ==============================================================================
-- (void) hideToolPalette:(id)sender
+- (void)hideToolPalette:(id)sender
 {
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
   // record this preference.
-  [userDefaults setBool:YES
-                 forKey:TOOL_PALETTE_HIDDEN];
+  [userDefaults setBool:YES forKey:TOOL_PALETTE_HIDDEN];
 
   // open the window.
   [palettePanel close];
@@ -220,13 +218,12 @@ ToolPalette *sharedToolPalette = nil;
 // Purpose:		Brings the mouse Tool Palette onscreen.
 //
 // ==============================================================================
-- (void) showToolPalette:(id)sender
+- (void)showToolPalette:(id)sender
 {
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
   // record this preference.
-  [userDefaults setBool:NO
-                 forKey:TOOL_PALETTE_HIDDEN];
+  [userDefaults setBool:NO forKey:TOOL_PALETTE_HIDDEN];
 
   // open the window.
   [palettePanel orderFront:self];
@@ -240,7 +237,7 @@ ToolPalette *sharedToolPalette = nil;
 // pressed.
 //
 // ==============================================================================
-- (IBAction) toolButtonClicked:(id)sender
+- (IBAction)toolButtonClicked:(id)sender
 {
   ToolModeT newMode = [self->toolButtons selectedTag];
 
@@ -260,7 +257,7 @@ ToolPalette *sharedToolPalette = nil;
 // Purpose:		The current color changed.
 //
 // ==============================================================================
-- (void) colorDidChange:(NSNotification *)notification
+- (void)colorDidChange:(NSNotification *)notification
 {
   LDrawColor *newColor = [[LDrawColorPanelController sharedColorPanel] LDrawColor];
 
@@ -278,7 +275,7 @@ ToolPalette *sharedToolPalette = nil;
 // keys.
 //
 // ==============================================================================
-- (void) keyboardDidChange:(NSNotification *)notification
+- (void)keyboardDidChange:(NSNotification *)notification
 {
   NSEvent *theEvent = [notification object];
 
@@ -316,7 +313,7 @@ ToolPalette *sharedToolPalette = nil;
 // targeted--only mouse button 3 in LDrawGLViews counts.
 //
 // ==============================================================================
-- (void) mouseButton3DidChange:(NSEvent *)theEvent
+- (void)mouseButton3DidChange:(NSEvent *)theEvent
 {
   if ([theEvent type] == NSEventTypeOtherMouseDown) {
     self->mouseButton3IsDown = YES;
@@ -351,7 +348,7 @@ ToolPalette *sharedToolPalette = nil;
 // info!
 //
 // ==============================================================================
-- (void) pointingDeviceDidChange:(NSNotification *)notification
+- (void)pointingDeviceDidChange:(NSNotification *)notification
 {
   NSEvent *theEvent = [notification object];
 
@@ -374,7 +371,7 @@ ToolPalette *sharedToolPalette = nil;
 // current. We just need to start tracking them all over.
 //
 // ==============================================================================
-- (void) applicationDidBecomeActive:(NSNotification *)notification
+- (void)applicationDidBecomeActive:(NSNotification *)notification
 {
   // clear the keys. We don't know what they are now, since Bricksmith wasn't
   // active to keep track of them.
@@ -401,12 +398,11 @@ ToolPalette *sharedToolPalette = nil;
 // know that the user really is trying to close the window here.
 //
 // ==============================================================================
-- (BOOL) windowShouldClose:(id)sender
+- (BOOL)windowShouldClose:(id)sender
 {
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
-  [userDefaults setBool:YES
-                 forKey:TOOL_PALETTE_HIDDEN];
+  [userDefaults setBool:YES forKey:TOOL_PALETTE_HIDDEN];
 
   return(YES);
 }// end windowShouldClose:
@@ -422,7 +418,7 @@ ToolPalette *sharedToolPalette = nil;
 // effective tool mode based on it.
 //
 // ==============================================================================
-- (void) resolveCurrentToolMode
+- (void)resolveCurrentToolMode
 {
   ToolModeT newToolMode;
 
@@ -432,8 +428,7 @@ ToolPalette *sharedToolPalette = nil;
   NSString   *effectiveCharacters = nil;
   NSUInteger effectiveModifiers   = 0;
 
-  baseCharacters = [ToolPalette keysForToolMode:baseToolMode
-                                      modifiers:&baseModifiers];
+  baseCharacters = [ToolPalette keysForToolMode:baseToolMode modifiers:&baseModifiers];
 
   // the "effective keys" are the result of what we *would be pressing* to get
   // the currently-selected tool, plus the keys we *actually are pressing*.
@@ -499,7 +494,7 @@ ToolPalette *sharedToolPalette = nil;
 // If no characters are required, this will be an empty string.
 //
 // ------------------------------------------------------------------------------
-+ (NSString *) keysForToolMode:(ToolModeT)toolMode
++ (NSString *)keysForToolMode:(ToolModeT)toolMode
   modifiers:(NSUInteger *)modifiersOut
 {
   NSString *characters = nil; // characters required with this modifier
@@ -555,7 +550,7 @@ ToolPalette *sharedToolPalette = nil;
 // given characters and modifiers.
 //
 // ------------------------------------------------------------------------------
-+ (BOOL) toolMode:(ToolModeT)toolMode
++ (BOOL)toolMode:(ToolModeT)toolMode
   matchesCharacters:(NSString *)characters
   modifiers:(NSUInteger)modifiers
 {
@@ -563,12 +558,10 @@ ToolPalette *sharedToolPalette = nil;
   NSUInteger testModifiers   = 0;
   BOOL       matches         = NO;
 
-  testCharacters = [ToolPalette keysForToolMode:toolMode
-                                      modifiers:&testModifiers];
+  testCharacters = [ToolPalette keysForToolMode:toolMode modifiers:&testModifiers];
 
   // keys match exactly, modifiers must merely be present.
-  if ([characters ams_containsString:testCharacters
-                             options:0]
+  if ([characters ams_containsString:testCharacters options:0]
       && (modifiers & testModifiers) == testModifiers) {
     matches = YES;
   }
@@ -586,7 +579,7 @@ ToolPalette *sharedToolPalette = nil;
 // Purpose:		We're off to push up daisies.
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   sharedToolPalette = nil;

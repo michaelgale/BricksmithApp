@@ -12,7 +12,7 @@
 
 #import "ExtendedTableView.h"
 
-@interface PartBrowserTableView: ExtendedTableView
+@interface PartBrowserTableView : ExtendedTableView
 {
 }
 

@@ -9,26 +9,25 @@
 // ==============================================================================
 #import "LDrawDirective.h"
 
-
 ////////////////////////////////////////////////////////////////////////////////
 //
 // Class:		LDrawMetaCommand
 //
 ////////////////////////////////////////////////////////////////////////////////
-@interface LDrawMetaCommand: LDrawDirective
+@interface LDrawMetaCommand : LDrawDirective
 {
   NSString *commandString;
 }
 
 // Initialization
-- (BOOL)finishParsing: (NSScanner *)scanner;
+- (BOOL)finishParsing:(NSScanner *)scanner;
 
 // Directives
--(void)draw: (NSUInteger)optionsMask viewScale: (double)scaleFactor parentColor: (LDrawColor *)parentColor;
--(NSString *)write;
+- (void)draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)parentColor;
+- (NSString *)write;
 
 // Accessors
--(void)setStringValue: (NSString *)newString;
--(NSString *)stringValue;
+- (void)setStringValue:(NSString *)newString;
+- (NSString *)stringValue;
 
 @end

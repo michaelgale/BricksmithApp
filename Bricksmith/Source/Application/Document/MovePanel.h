@@ -12,7 +12,7 @@
 #import "DialogPanel.h"
 #import "MatrixMath.h"
 
-@interface MovePanel: DialogPanel
+@interface MovePanel : DialogPanel
 {
   float movementX;
   float movementY;
@@ -25,9 +25,9 @@
 + (id)movePanel;
 
 // accessors
--(Vector3)movementVector;
+- (Vector3)movementVector;
 
 // actions
--(IBAction)moveButtonClicked: (id)sender;
+- (IBAction)moveButtonClicked:(id)sender;
 
 @end

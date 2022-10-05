@@ -10,7 +10,6 @@
 // ==============================================================================
 #import "ExtendedScrollView.h"
 
-
 @implementation ExtendedScrollView
 
 #pragma mark -
@@ -22,7 +21,7 @@
 // Purpose:		Create one.
 //
 // ==============================================================================
-- (id) initWithFrame:(NSRect)frame
+- (id)initWithFrame:(NSRect)frame
 {
   self = [super initWithFrame:frame];
 
@@ -43,7 +42,7 @@
 // the scrollbars will also move somehow too.
 //
 // ==============================================================================
-- (void) setFrame:(NSRect)frameRect
+- (void)setFrame:(NSRect)frameRect
 {
   [super setFrame:frameRect];
 
@@ -85,7 +84,7 @@
 // rect at the center of the scroll view during live resize.
 //
 // ==============================================================================
-- (void) setPreservesScrollCenterDuringLiveResize:(BOOL)flag
+- (void)setPreservesScrollCenterDuringLiveResize:(BOOL)flag
 {
   self->preservesScrollCenterDuringLiveResize = flag;
 }
@@ -107,7 +106,7 @@
 // Effective maintained center = (256, 384)
 //
 // ==============================================================================
-- (void) setStoresScrollCenterAsFraction:(BOOL)flag
+- (void)setStoresScrollCenterAsFraction:(BOOL)flag
 {
   self->storesScrollCenterAsFraction = flag;
 }// end setTreatsScrollCenterAsFraction:
@@ -121,7 +120,7 @@
 // provide additional compact document functionality.
 //
 // ==============================================================================
-- (void) setVerticalPlacard:(NSView *)newPlacard
+- (void)setVerticalPlacard:(NSView *)newPlacard
 {
   NSScroller *verticalScroller = [self verticalScroller];
   NSView     *superview        = [verticalScroller superview];
@@ -150,7 +149,7 @@
 // automatic view resizing.
 //
 // ==============================================================================
-- (void) reflectScrolledClipView:(NSClipView *)aClipView
+- (void)reflectScrolledClipView:(NSClipView *)aClipView
 {
   [super reflectScrolledClipView:aClipView];
 
@@ -183,7 +182,7 @@
 // opportunity to make room for our poor placard.
 //
 // ==============================================================================
-- (void) tile
+- (void)tile
 {
   [super tile];
 
@@ -217,7 +216,7 @@
 // Purpose:		Eulogy of a placard: "Here rests a good and noble sign."
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
   [verticalPlacard release];
   [super dealloc];

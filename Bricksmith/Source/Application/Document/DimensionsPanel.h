@@ -14,25 +14,25 @@
 @class LDrawFile;
 @class LDrawMPDModel;
 
-@interface DimensionsPanel: DialogPanel
+@interface DimensionsPanel : DialogPanel
 {
-  LDrawFile *file;
+  LDrawFile     *file;
   LDrawMPDModel *activeModel;
 
   IBOutlet NSTableView *dimensionsTable;
 }
 
 // Initialization
-+ (DimensionsPanel *)dimensionPanelForFile: (LDrawFile *)fileIn;
--(id)initWithFile: (LDrawFile *)file;
++ (DimensionsPanel *)dimensionPanelForFile:(LDrawFile *)fileIn;
+- (id)initWithFile:(LDrawFile *)file;
 
 // Accessors
--(LDrawMPDModel *)activeModel;
--(LDrawFile *)file;
--(void)setActiveModel: (LDrawMPDModel *)newModel;
--(void)setFile: (LDrawFile *)newFile;
+- (LDrawMPDModel *)activeModel;
+- (LDrawFile *)file;
+- (void)setActiveModel:(LDrawMPDModel *)newModel;
+- (void)setFile:(LDrawFile *)newFile;
 
 // Actions
--(IBAction)legonianRulerButtonClicked: (id)sender;
+- (IBAction)legonianRulerButtonClicked:(id)sender;
 
 @end

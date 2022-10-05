@@ -37,7 +37,7 @@
 // first responder.
 //
 // ==============================================================================
-- (void) sendEvent:(NSEvent *)theEvent
+- (void)sendEvent:(NSEvent *)theEvent
 {
   // We want to track keyboard events in our own little place, completely
   // separate from the responder chain.
@@ -85,7 +85,7 @@
 // minifigure dialog or part browser, that is not the case.
 //
 // ==============================================================================
-- (BOOL) shouldPropogateEvent:(NSEvent *)theEvent
+- (BOOL)shouldPropogateEvent:(NSEvent *)theEvent
 {
   if ([theEvent type] == NSEventTypeKeyDown &&
       [[theEvent characters] isEqualToString:@" "] == YES &&

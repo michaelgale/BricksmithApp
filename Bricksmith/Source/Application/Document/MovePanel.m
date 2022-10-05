@@ -11,7 +11,6 @@
 // ==============================================================================
 #import "MovePanel.h"
 
-
 @implementation MovePanel
 
 MovePanel *sharedMovePanel = nil;
@@ -25,7 +24,7 @@ MovePanel *sharedMovePanel = nil;
 // Purpose:		Returns a move panel to open.
 //
 // ------------------------------------------------------------------------------
-+ (id) movePanel
++ (id)movePanel
 {
   if (sharedMovePanel == nil) {
     sharedMovePanel = [[MovePanel alloc] init];
@@ -44,7 +43,7 @@ MovePanel *sharedMovePanel = nil;
 // Purpose:		Identifies to our superclass the nib to load.
 //
 // ==============================================================================
-- (NSString *) panelNibName
+- (NSString *)panelNibName
 {
   return(@"MovePanel");
 }// end panelNibName
@@ -55,7 +54,7 @@ MovePanel *sharedMovePanel = nil;
 // Purpose:		Returns the number of LDraw units to move along x, y, and z.
 //
 // ==============================================================================
-- (Vector3) movementVector
+- (Vector3)movementVector
 {
   return(V3Make(movementX, movementY, movementZ));
 }// end movementVector
@@ -71,7 +70,7 @@ MovePanel *sharedMovePanel = nil;
 // and sets the sender to the MovePanel itself.
 //
 // ==============================================================================
-- (IBAction) moveButtonClicked:(id)sender
+- (IBAction)moveButtonClicked:(id)sender
 {
   [NSApp sendAction:@selector(panelMoveParts:)
                  to:nil
@@ -88,7 +87,7 @@ MovePanel *sharedMovePanel = nil;
 // Purpose:		Moving on to greener pastures.
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
   [formatterPoints release];
 

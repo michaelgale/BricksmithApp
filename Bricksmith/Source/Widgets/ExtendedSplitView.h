@@ -9,17 +9,17 @@
 // ==============================================================================
 #import <Cocoa/Cocoa.h>
 
-
-@interface ExtendedSplitView: NSSplitView {
+@interface ExtendedSplitView : NSSplitView
+{
   NSString *autosaveName;
 }
 
 // Accessors
 - (NSString *)autosaveName;
--(void)setAutosaveName: (NSString *)newName;
+- (void)setAutosaveName:(NSString *)newName;
 
 // Persistence
--(void)restoreConfiguration;
--(void)saveConfiguration;
+- (void)restoreConfiguration;
+- (void)saveConfiguration;
 
 @end

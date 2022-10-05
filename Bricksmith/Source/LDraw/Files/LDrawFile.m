@@ -26,7 +26,6 @@
 #import "StringCategory.h"
 #import "LDrawLSynthDirective.h"
 
-
 @implementation LDrawFile
 
 #pragma mark -
@@ -39,7 +38,7 @@
 // include one submodel with one step inside it.
 //
 // ------------------------------------------------------------------------------
-+ (LDrawFile *) file
++ (LDrawFile *)file
 {
   LDrawFile     *newFile    = [[LDrawFile alloc] init];
   LDrawMPDModel *firstModel = [LDrawMPDModel model];
@@ -57,7 +56,7 @@
 // Purpose:		Reads a file from the specified path.
 //
 // ------------------------------------------------------------------------------
-+ (LDrawFile *) fileFromContentsAtPath:(NSString *)path
++ (LDrawFile *)fileFromContentsAtPath:(NSString *)path
 {
   NSString  *fileContents = [LDrawUtilities stringFromFile:path];
   LDrawFile *parsedFile   = nil;
@@ -76,7 +75,7 @@
 // Purpose:		Reads a file out of the raw file contents.
 //
 // ------------------------------------------------------------------------------
-+ (LDrawFile *) parseFromFileContents:(NSString *)fileContents
++ (LDrawFile *)parseFromFileContents:(NSString *)fileContents
 {
   LDrawFile *newFile = nil;
   NSArray   *lines   = [fileContents separateByLine];
@@ -95,7 +94,7 @@
 // Purpose:		Creates a new file with absolutely nothing in it.
 //
 // ==============================================================================
-- (id) init
+- (id)init
 {
   self = [super init]; // initializes an empty list of subdirectives--in this
   // case, the models in the file.
@@ -114,7 +113,7 @@
 // itself.
 //
 // ==============================================================================
-- (void) updateModelLookupTable
+- (void)updateModelLookupTable
 {
   NSArray        *submodels = [self submodels];
   NSMutableArray *names     = [NSMutableArray arrayWithCapacity:[submodels count]];
@@ -125,8 +124,7 @@
   }
 
   [self->nameModelDict release];
-  self->nameModelDict = [[NSDictionary alloc] initWithObjects:submodels
-                                                      forKeys:names];
+  self->nameModelDict = [[NSDictionary alloc] initWithObjects:submodels forKeys:names];
 }
 
 
@@ -136,7 +134,7 @@
 // single non-MPD model, it will be wrapped in an MPD model.
 //
 // ==============================================================================
-- (id) initWithLines:(NSArray *)lines
+- (id)initWithLines:(NSArray *)lines
   inRange:(NSRange)range
   parentGroup:(dispatch_group_t)parentGroup
 {
@@ -237,7 +235,7 @@
 // read and write LDraw objects as NSData.
 //
 // ==============================================================================
-- (id) initWithCoder:(NSCoder *)decoder
+- (id)initWithCoder:(NSCoder *)decoder
 {
   self = [super initWithCoder:decoder];
 
@@ -257,7 +255,7 @@
 // Purpose:		Returns a duplicate of this file.
 //
 // ==============================================================================
-- (id) copyWithZone:(NSZone *)zone
+- (id)copyWithZone:(NSZone *)zone
 {
   LDrawFile *copiedFile        = (LDrawFile *)[super copyWithZone:zone];
   NSInteger indexOfActiveModel = [self indexOfDirective:self->activeModel];
@@ -289,7 +287,7 @@
 // complete. Thus, no draws can happen during that time.
 //
 // ==============================================================================
-- (void) draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)parentColor
+- (void)draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)parentColor
 
 {
   //
@@ -308,7 +306,7 @@
 // the passed in renderer, then calling drawSelf on children.
 //
 // ================================================================================
-- (void) drawSelf:(id <LDrawRenderer>)renderer
+- (void)drawSelf:(id <LDrawRenderer>)renderer
 {
   [activeModel drawSelf:renderer];
 }// end drawSelf:
@@ -327,7 +325,7 @@
 // the message on, we have an assert to catch this case.
 //
 // ================================================================================
-- (void) collectSelf:(id <LDrawCollector>)renderer
+- (void)collectSelf:(id <LDrawCollector>)renderer
 {
   assert(!"Why are we here?");
   [activeModel collectSelf:renderer];
@@ -340,7 +338,7 @@
 // bounding box caching.
 //
 // ==============================================================================
-- (void) debugDrawboundingBox
+- (void)debugDrawboundingBox
 {
   [activeModel debugDrawboundingBox];
 }// end debugDrawboundingBox
@@ -351,7 +349,7 @@
 // Purpose:		Hit-test the geometry.
 //
 // ==============================================================================
-- (void) hitTest:(Ray3)pickRay
+- (void)hitTest:(Ray3)pickRay
   transform:(Matrix4)transform
   viewScale:(double)scaleFactor
   boundsOnly:(BOOL)boundsOnly
@@ -372,7 +370,7 @@
 // Purpose:		Check for intersections with screen-space geometry.
 //
 // ==============================================================================
-- (BOOL) boxTest:(Box2)bounds
+- (BOOL)boxTest:(Box2)bounds
   transform:(Matrix4)transform
   boundsOnly:(BOOL)boundsOnly
   creditObject:(id)creditObject
@@ -393,7 +391,7 @@
 // depth.
 //
 // ==============================================================================
-- (void) depthTest:(Point2)pt
+- (void)depthTest:(Point2)pt
   inBox:(Box2)bounds
   transform:(Matrix4)transform
   creditObject:(id)creditObject
@@ -414,7 +412,7 @@
 // Purpose:		Write out all the submodels sequentially.
 //
 // ==============================================================================
-- (NSString *) write
+- (NSString *)write
 {
   NSMutableString *written      = [NSMutableString string];
   NSString        *CRLF         = [NSString CRLF];
@@ -456,7 +454,7 @@
 // Purpose:		Returns the name of the currently-active model in the file.
 //
 // ==============================================================================
-- (LDrawMPDModel *) activeModel
+- (LDrawMPDModel *)activeModel
 {
   return(activeModel);
 }// end activeModel
@@ -468,7 +466,7 @@
 // when referred to from a separate peer file.
 //
 // ==============================================================================
-- (LDrawMPDModel *) firstModel
+- (LDrawMPDModel *)firstModel
 {
   return([[self subdirectives] objectAtIndex:0]);
 }// end firstModel
@@ -480,7 +478,7 @@
 // of drag-and-drop.
 //
 // ==============================================================================
-- (NSArray *) draggingDirectives
+- (NSArray *)draggingDirectives
 {
   return([[self activeModel] draggingDirectives]);
 }// end draggingDirectives
@@ -491,7 +489,7 @@
 // Purpose:		Returns the the names of all the submodels in the file.
 //
 // ==============================================================================
-- (NSArray *) modelNames
+- (NSArray *)modelNames
 {
   NSArray        *submodels    = [self subdirectives];
   NSInteger      numberModels  = [submodels count];
@@ -514,7 +512,7 @@
 // be found.
 //
 // ==============================================================================
-- (LDrawMPDModel *) modelWithName:(NSString *)soughtName
+- (LDrawMPDModel *)modelWithName:(NSString *)soughtName
 {
   NSString      *referenceName = [soughtName lowercaseString]; // we standardized on lower-case names for searching.
   LDrawMPDModel *foundModel    = [self->nameModelDict objectForKey:referenceName];
@@ -531,7 +529,7 @@
 // library disregard this information.
 //
 // ==============================================================================
-- (NSString *) path
+- (NSString *)path
 {
   return(self->filePath);
 }// end path
@@ -543,7 +541,7 @@
 // LDrawMPDModels) which constitute this file.
 //
 // ==============================================================================
-- (NSArray *) submodels
+- (NSArray *)submodels
 {
   return([self subdirectives]);
 }// end submodels
@@ -557,7 +555,7 @@
 // The active model is the only one drawn.
 //
 // ==============================================================================
-- (void) setActiveModel:(LDrawMPDModel *)newModel
+- (void)setActiveModel:(LDrawMPDModel *)newModel
 {
   NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
 
@@ -596,7 +594,7 @@
 // in the model.
 //
 // ==============================================================================
-- (void) setDraggingDirectives:(NSArray *)directives
+- (void)setDraggingDirectives:(NSArray *)directives
 {
   [[self activeModel] setDraggingDirectives:directives];
 }// end setDraggingDirectives:
@@ -610,7 +608,7 @@
 // method should have no effect.
 //
 // ==============================================================================
-- (void) setEnclosingDirective:(LDrawContainer *)newParent
+- (void)setEnclosingDirective:(LDrawContainer *)newParent
 {
   // Do Nothing.
 }// end setEnclosingDirective:
@@ -623,9 +621,9 @@
 // from the library disregard this information.
 //
 // ==============================================================================
-- (void) setPath:(NSString *)newPath
+- (void)setPath:(NSString *)newPath
 {
-  [newPath    retain];
+  [newPath retain];
   [self->filePath release];
 
   self->filePath = newPath;
@@ -640,7 +638,7 @@
 // method should have no effect.
 //
 // ==============================================================================
-- (void) removeDirective:(LDrawDirective *)doomedDirective
+- (void)removeDirective:(LDrawDirective *)doomedDirective
 {
   BOOL removedActiveModel = NO;
 
@@ -672,7 +670,7 @@
 // outside of MPD models.
 //
 // ==============================================================================
-- (void) addSubmodel:(LDrawMPDModel *)newSubmodel
+- (void)addSubmodel:(LDrawMPDModel *)newSubmodel
 {
   [self insertDirective:newSubmodel
                 atIndex:[[self subdirectives] count]];
@@ -684,7 +682,7 @@
 // Purpose:		Adds directive into the collection at position index.
 //
 // ==============================================================================
-- (void) insertDirective:(LDrawDirective *)directive atIndex:(NSInteger)index
+- (void)insertDirective:(LDrawDirective *)directive atIndex:(NSInteger)index
 {
   [super insertDirective:directive
                  atIndex:index];
@@ -703,7 +701,7 @@
 // Purpose:		Removes the LDraw directive stored at index in this collection.
 //
 // ==============================================================================
-- (void) removeDirectiveAtIndex:(NSInteger)index
+- (void)removeDirectiveAtIndex:(NSInteger)index
 {
   [super removeDirectiveAtIndex:index];
   [self updateModelLookupTable];
@@ -720,7 +718,7 @@
 // it.  Explicitly excludes LDrawLSynthDirectives such as INSIDE/OUTSIDE
 //
 // ==============================================================================
-- (BOOL) acceptsDroppedDirective:(LDrawDirective *)directive
+- (BOOL)acceptsDroppedDirective:(LDrawDirective *)directive
 {
   // explicitly disregard LSynth directives
   if ([directive isKindOfClass:[LDrawLSynthDirective class]]) {
@@ -736,7 +734,7 @@
 // perfectly contains the part of this file being displayed.
 //
 // ==============================================================================
-- (Box3) boundingBox3
+- (Box3)boundingBox3
 {
   [self revalCache:CacheFlagBounds];
   Box3 ret = [[self activeModel] boundingBox3];
@@ -750,7 +748,7 @@
 // object's bounds.
 //
 // ==============================================================================
-- (Box3) projectedBoundingBoxWithModelView:(Matrix4)modelView
+- (Box3)projectedBoundingBoxWithModelView:(Matrix4)modelView
   projection:(Matrix4)projection
   view:(Box2)viewport;
 {
@@ -769,7 +767,7 @@
 // library.
 //
 // ==============================================================================
-- (void) optimizeStructure
+- (void)optimizeStructure
 {
   LDrawMPDModel *currentModel = nil;
   NSArray       *modelsInFile = [self subdirectives];
@@ -791,7 +789,7 @@
 // name as well.
 //
 // ==============================================================================
-- (void) renameModel:(LDrawMPDModel *)submodel
+- (void)renameModel:(LDrawMPDModel *)submodel
   toName:(NSString *)newName
 {
   NSArray    *submodels       = [self submodels];
@@ -841,7 +839,7 @@
 // But since renames are rare it's probably not worth it.
 //
 // ==============================================================================
-- (void) receiveMessage:(MessageT)msg who:(id <LDrawObservable>)observable
+- (void)receiveMessage:(MessageT)msg who:(id <LDrawObservable>)observable
 {
   if (msg == MessageNameChanged) {
     [self updateModelLookupTable];
@@ -861,12 +859,12 @@
 // Purpose:		Takin' care o' business.
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
   // NSLog(@"File %s going away.\n", [filePath UTF8String]);
-  [nameModelDict  release];
-  [activeModel  release];
-  [filePath   release];
+  [nameModelDict release];
+  [activeModel release];
+  [filePath release];
 
   [super dealloc];
 }// end dealloc

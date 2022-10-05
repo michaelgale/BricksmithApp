@@ -12,14 +12,15 @@
 #import "ObjectInspectionController.h"
 #import "LDrawColorWell.h"
 
-@interface InspectionLine: ObjectInspectionController {
+@interface InspectionLine : ObjectInspectionController
+{
   IBOutlet LDrawColorWell *colorWell;
-  IBOutlet NSForm *startPoint;
-  IBOutlet NSForm *endPoint;
+  IBOutlet NSForm         *startPoint;
+  IBOutlet NSForm         *endPoint;
 }
 
 // Actions
-- (IBAction)startPointEndedEditing: (id)sender;
--(IBAction)endPointEndedEditing: (id)sender;
+- (IBAction)startPointEndedEditing:(id)sender;
+- (IBAction)endPointEndedEditing:(id)sender;
 
 @end

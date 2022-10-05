@@ -9,13 +9,12 @@
 // ==============================================================================
 #import <Foundation/Foundation.h>
 
+@interface NSString (StringCategory)
 
-@interface NSString(StringCategory)
-
-- (BOOL)ams_containsString: (NSString *)substring options: (NSUInteger)mask;
-+(NSString *)CRLF;
--(NSComparisonResult)numericCompare: (NSString *)string;
--(NSArray *)separateByLine;
--(NSString *)ams_stringByRemovingWhitespace;
+- (BOOL)ams_containsString:(NSString *)substring options:(NSUInteger)mask;
++ (NSString *)CRLF;
+- (NSComparisonResult)numericCompare:(NSString *)string;
+- (NSArray *)separateByLine;
+- (NSString *)ams_stringByRemovingWhitespace;
 
 @end

@@ -49,7 +49,7 @@ LDrawColorPanelController *sharedColorPanel = nil;
 // table's data is even loaded, so you can't sort the data here.
 //
 // ==============================================================================
-- (void) windowDidLoad
+- (void)windowDidLoad
 {
   LDrawColorCell *colorCell   = [[[LDrawColorCell alloc] init] autorelease];
   NSTableColumn  *colorColumn = [colorTable tableColumnWithIdentifier:@"colorCode"];
@@ -73,7 +73,7 @@ LDrawColorPanelController *sharedColorPanel = nil;
 // Purpose:		Returns the global instance of the color panel.
 //
 // ------------------------------------------------------------------------------
-+ (LDrawColorPanelController *) sharedColorPanel
++ (LDrawColorPanelController *)sharedColorPanel
 {
   if (sharedColorPanel == nil) {
     sharedColorPanel = [[LDrawColorPanelController alloc] init];
@@ -88,7 +88,7 @@ LDrawColorPanelController *sharedColorPanel = nil;
 // Purpose:		Brings the LDraw color panel to life.
 //
 // ==============================================================================
-- (id) init
+- (id)init
 {
   self = [super initWithWindowNibName:@"ColorPanel"];
   if (self) {
@@ -159,7 +159,7 @@ LDrawColorPanelController *sharedColorPanel = nil;
 // Purpose:		Returns the color code of the panel's currently-selected color.
 //
 // ==============================================================================
-- (LDrawColor *) LDrawColor
+- (LDrawColor *)LDrawColor
 {
   NSArray    *selection     = [self->colorListController selectedObjects];
   LDrawColor *selectedColor = nil;
@@ -185,7 +185,7 @@ LDrawColorPanelController *sharedColorPanel = nil;
 // change the found set.
 //
 // ==============================================================================
-- (void) setLDrawColor:(LDrawColor *)newColor
+- (void)setLDrawColor:(LDrawColor *)newColor
 {
   // Try to find the color we are after in the current list.
   NSInteger rowToSelect = [self indexOfColor:newColor]; // will be the row index for the color we want.
@@ -217,7 +217,7 @@ LDrawColorPanelController *sharedColorPanel = nil;
 // keyboard combination, the color code can be typed in.
 //
 // ==============================================================================
-- (void) focusSearchField:(id)sender
+- (void)focusSearchField:(id)sender
 {
   [[self window] makeFirstResponder:self->searchField];
 }// end focusSearchField:
@@ -228,7 +228,7 @@ LDrawColorPanelController *sharedColorPanel = nil;
 // Purpose:		Chose a different material filter for the color search.
 //
 // ==============================================================================
-- (void) materialPopUpButtonChanged:(id)sender
+- (void)materialPopUpButtonChanged:(id)sender
 {
   [self updateColorFilter];
 }
@@ -242,7 +242,7 @@ LDrawColorPanelController *sharedColorPanel = nil;
 // will be dispatched.
 //
 // ==============================================================================
-- (void) sendAction
+- (void)sendAction
 {
   LDrawColorWell *activeColorWell = [LDrawColorWell activeColorWell];
 
@@ -285,13 +285,13 @@ LDrawColorPanelController *sharedColorPanel = nil;
 // search. After all, we only have 64 colors; that's no time.
 //
 // ==============================================================================
-- (IBAction) searchFieldChanged:(id)sender
+- (IBAction)searchFieldChanged:(id)sender
 {
   [self updateColorFilter];
 }// end searchFieldChanged:
 
 
-- (IBAction) favButtonPressed:(id)sender
+- (IBAction)favButtonPressed:(id)sender
 {
   // if a favourite is marked in any "material" filter other than Favourite
   // then the colour is marked as a favourite. Otherwise, if selected in the
@@ -332,7 +332,7 @@ LDrawColorPanelController *sharedColorPanel = nil;
 // the color selection remains unchanged.
 //
 // ==============================================================================
-- (void) updateSelectionWithObjects:(NSArray *)selectedObjects
+- (void)updateSelectionWithObjects:(NSArray *)selectedObjects
 {
   id         currentObject = [selectedObjects lastObject];
   LDrawColor *objectColor  = [self LDrawColor];
@@ -361,7 +361,7 @@ LDrawColorPanelController *sharedColorPanel = nil;
 // or NSNotFound if colorCodeSought is not displayed.
 //
 // ==============================================================================
-- (NSInteger) indexOfColor:(LDrawColor *)colorSought
+- (NSInteger)indexOfColor:(LDrawColor *)colorSought
 {
   NSArray     *visibleColors  = [self->colorListController arrangedObjects];
   NSInteger   numberColors    = [visibleColors count];
@@ -398,7 +398,7 @@ LDrawColorPanelController *sharedColorPanel = nil;
 // much.
 //
 // ==============================================================================
-- (void) loadInitialSortDescriptors
+- (void)loadInitialSortDescriptors
 {
   NSData           *savedDescriptorData = nil;
   NSArray          *savedDescriptors    = nil;
@@ -431,7 +431,7 @@ LDrawColorPanelController *sharedColorPanel = nil;
 // predicate will search for colors having that exact integer code.
 //
 // ==============================================================================
-- (NSPredicate *) predicateForSearchString:(NSString *)searchString
+- (NSPredicate *)predicateForSearchString:(NSString *)searchString
   material:(MaterialPopUpTagT)material
 {
   NSString        *keywordFormat      = nil;
@@ -573,7 +573,7 @@ LDrawColorPanelController *sharedColorPanel = nil;
 // parameters.
 //
 // ==============================================================================
-- (void) updateColorFilter
+- (void)updateColorFilter
 {
   NSString          *searchString            = [searchField stringValue];
   MaterialPopUpTagT materialType             = [[materialPopUpButton selectedItem] tag];
@@ -608,7 +608,7 @@ LDrawColorPanelController *sharedColorPanel = nil;
 // Key-Value Observing.
 //
 // ==============================================================================
-- (void) observeValueForKeyPath:(NSString *)keyPath
+- (void)observeValueForKeyPath:(NSString *)keyPath
   ofObject:(id)object
   change:(NSDictionary *)change
   context:(void *)context
@@ -646,7 +646,7 @@ LDrawColorPanelController *sharedColorPanel = nil;
 // well, it needs to deactivate.
 //
 // ==============================================================================
-- (void) windowWillClose:(NSNotification *)notification
+- (void)windowWillClose:(NSNotification *)notification
 {
   // deactivate active color well.
   if ([LDrawColorWell activeColorWell] != nil) {
@@ -661,7 +661,7 @@ LDrawColorPanelController *sharedColorPanel = nil;
 // allowing the undo request to forward on to the active document.
 //
 // ==============================================================================
-- (NSUndoManager *) windowWillReturnUndoManager:(NSWindow *)sender
+- (NSUndoManager *)windowWillReturnUndoManager:(NSWindow *)sender
 {
   NSDocument *currentDocument = [[NSDocumentController sharedDocumentController] currentDocument];
 
@@ -678,14 +678,14 @@ LDrawColorPanelController *sharedColorPanel = nil;
 // Purpose:		The Roll has been called up Yonder, and we will be there.
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
   [colorListController removeObserver:self
                            forKeyPath:@"selectedObjects"];
   [colorListController removeObserver:self
                            forKeyPath:@"sortDescriptors"];
 
-  [colorListController  release];
+  [colorListController release];
 
   [super dealloc];
 }// end dealloc

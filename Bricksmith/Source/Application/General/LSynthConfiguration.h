@@ -20,7 +20,7 @@ typedef enum
   LSYNTH_CLASSES_COUNT
 } LSynthClassT;
 
-@interface LSynthConfiguration: NSObject
+@interface LSynthConfiguration : NSObject
 {
   NSMutableArray *parts;
   NSMutableArray *hose_constraints;
@@ -39,42 +39,42 @@ typedef enum
 #pragma mark Class Methods
 #pragma mark -
 
-+(LSynthConfiguration *)sharedInstance;
++ (LSynthConfiguration *)sharedInstance;
 
 #pragma mark -
 #pragma mark Instance Methods
 #pragma mark -
 
--(NSString *)defaultConfigPath;
--(void)parseLsynthConfig: (NSString *)lsynthConfigurationPath;
--(BOOL)isLSynthConstraint: (LDrawPart *)part;
+- (NSString *)defaultConfigPath;
+- (void)parseLsynthConfig:(NSString *)lsynthConfigurationPath;
+- (BOOL)isLSynthConstraint:(LDrawPart *)part;
 
 #pragma mark -
 #pragma mark CONSTANT ACCESSORS
 #pragma mark -
 
-+(NSString *)defaultHoseConstraint;
-+(NSString *)defaultBandConstraint;
-+(NSString *)defaultHoseType;
-+(NSString *)defaultBandType;
++ (NSString *)defaultHoseConstraint;
++ (NSString *)defaultBandConstraint;
++ (NSString *)defaultHoseType;
++ (NSString *)defaultBandType;
 
 #pragma mark -
 #pragma mark ACCESSORS
 #pragma mark -
 
--(NSMutableArray *)getParts;
--(NSMutableArray *)getHoseTypes;
--(NSMutableArray *)getBandTypes;
--(NSMutableArray *)getHoseConstraints;
--(NSMutableArray *)getBandConstraints;
--(NSMutableArray *)getQuickRefBands;
--(NSMutableArray *)getQuickRefHoses;
--(NSMutableArray *)getQuickRefParts;
--(NSMutableArray *)getQuickRefBandContstraints;
--(NSMutableArray *)getQuickRefHoseConstraints;
--(NSDictionary *)constraintDefinitionForPart: (LDrawPart *)directive;
--(NSDictionary *)typeForTypeName: (NSString *)typeName;
+- (NSMutableArray *)getParts;
+- (NSMutableArray *)getHoseTypes;
+- (NSMutableArray *)getBandTypes;
+- (NSMutableArray *)getHoseConstraints;
+- (NSMutableArray *)getBandConstraints;
+- (NSMutableArray *)getQuickRefBands;
+- (NSMutableArray *)getQuickRefHoses;
+- (NSMutableArray *)getQuickRefParts;
+- (NSMutableArray *)getQuickRefBandContstraints;
+- (NSMutableArray *)getQuickRefHoseConstraints;
+- (NSDictionary *)constraintDefinitionForPart:(LDrawPart *)directive;
+- (NSDictionary *)typeForTypeName:(NSString *)typeName;
 
--(void)setLSynthClassForDirective: (LDrawLSynth *)directive withType: (NSString *)type;
+- (void)setLSynthClassForDirective:(LDrawLSynth *)directive withType:(NSString *)type;
 
 @end

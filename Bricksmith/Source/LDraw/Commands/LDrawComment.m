@@ -38,7 +38,7 @@
 // comment command.
 //
 // ==============================================================================
-- (BOOL) finishParsing:(NSScanner *)scanner
+- (BOOL)finishParsing:(NSScanner *)scanner
 {
   NSString *remainder = nil;
 
@@ -70,7 +70,7 @@
 // preferred. http://ldraw.org/Article218.html#lt0
 //
 // ==============================================================================
-- (NSString *) write
+- (NSString *)write
 {
   return([NSString stringWithFormat:@"0 %@ %@",
           LDRAW_COMMENT_SLASH,
@@ -88,7 +88,7 @@
 // which can be presented to the user.
 //
 // ==============================================================================
-- (NSString *) browsingDescription
+- (NSString *)browsingDescription
 {
   return([self stringValue]);
 }// end browsingDescription
@@ -100,7 +100,7 @@
 // object, or nil if there is no icon.
 //
 // ==============================================================================
-- (NSString *) iconName
+- (NSString *)iconName
 {
   return(@"Comment");
 }// end iconName
@@ -111,7 +111,7 @@
 // Purpose:		Returns the name of the class used to inspect this one.
 //
 // ==============================================================================
-- (NSString *) inspectorClassName
+- (NSString *)inspectorClassName
 {
   return(@"InspectionComment");
 }// end inspectorClassName

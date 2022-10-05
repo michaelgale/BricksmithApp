@@ -36,7 +36,7 @@
 // as a subset and would break Bricksmith.
 //
 // ==============================================================================
-- (BOOL) ams_containsString:(NSString *)substring options:(NSUInteger)mask
+- (BOOL)ams_containsString:(NSString *)substring options:(NSUInteger)mask
 {
   NSRange foundRange = [self rangeOfString:substring
                                    options:mask];
@@ -57,7 +57,7 @@
 // in length.
 //
 // ------------------------------------------------------------------------------
-+ (NSString *) CRLF
++ (NSString *)CRLF
 {
   unichar  CRLFchars[] = { 0x000D, 0x000A }; // DOS linefeed.
   NSString *CRLF       = [NSString stringWithCharacters:CRLFchars
@@ -73,7 +73,7 @@
 // doing a numeric sort.
 //
 // ==============================================================================
-- (NSComparisonResult) numericCompare:(NSString *)string
+- (NSComparisonResult)numericCompare:(NSString *)string
 {
   return([self compare:string
                options:NSNumericSearch]);
@@ -86,7 +86,7 @@
 // terminators removed.
 //
 // ==============================================================================
-- (NSArray *) separateByLine
+- (NSArray *)separateByLine
 {
   NSMutableArray *lines       = [NSMutableArray array];
   NSUInteger     stringLength = [self length];
@@ -125,7 +125,7 @@
 // "stringByRemovingWhitespace" too.
 //
 // ==============================================================================
-- (NSString *) ams_stringByRemovingWhitespace
+- (NSString *)ams_stringByRemovingWhitespace
 {
   NSInteger      originalLength   = [self length];
   unichar        *resultBuffer    = malloc(sizeof(unichar) * originalLength);

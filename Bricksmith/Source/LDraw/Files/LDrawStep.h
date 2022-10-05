@@ -47,20 +47,19 @@ typedef enum
   LDrawStepConditionalLines // etc.
 } LDrawStepFlavorT;
 
-
 ////////////////////////////////////////////////////////////////////////////////
 //
 // class LDrawStep
 //
 ////////////////////////////////////////////////////////////////////////////////
-@interface LDrawStep: LDrawContainer
+@interface LDrawStep : LDrawContainer
 {
   LDrawStepRotationT stepRotationType;
-  Tuple3 rotationAngle;       // in degrees
+  Tuple3             rotationAngle; // in degrees
   Box3 cachedBounds;          // cached bounds of the step
   // Optimization variables
   LDrawStepFlavorT stepFlavor;  // defaults to LDrawStepAnyDirectives
-  LDrawColorT colorOfAllDirectives;
+  LDrawColorT      colorOfAllDirectives;
 
   // Inherited from the superclasses:
   // NSMutableArray	*containedObjects; //the commands that make up the step.
@@ -69,27 +68,27 @@ typedef enum
 
 // Initialization
 + (id)emptyStep;
-+ (id) emptyStepWithFlavor:(LDrawStepFlavorT)flavorType;
++ (id)emptyStepWithFlavor:(LDrawStepFlavorT)flavorType;
 
 // Directives
-- (NSString *) writeWithStepCommand:(BOOL)flag;
+- (NSString *)writeWithStepCommand:(BOOL)flag;
 
 // Accessors
-- (LDrawModel *) enclosingModel;
-- (Tuple3) rotationAngle;
-- (Tuple3) rotationAngleZYX;
-- (LDrawStepFlavorT) stepFlavor;
-- (LDrawStepRotationT) stepRotationType;
+- (LDrawModel *)enclosingModel;
+- (Tuple3)rotationAngle;
+- (Tuple3)rotationAngleZYX;
+- (LDrawStepFlavorT)stepFlavor;
+- (LDrawStepRotationT)stepRotationType;
 
-- (void) setModel:(LDrawModel *)enclosingModel;
-- (void) setRotationAngle:(Tuple3)newAngle;
-- (void) setRotationAngleZYX:(Tuple3)newAngleZYX;
-- (void) setStepFlavor:(LDrawStepFlavorT)newFlavor;
-- (void) setStepRotationType:(LDrawStepRotationT)newValue;
+- (void)setModel:(LDrawModel *)enclosingModel;
+- (void)setRotationAngle:(Tuple3)newAngle;
+- (void)setRotationAngleZYX:(Tuple3)newAngleZYX;
+- (void)setStepFlavor:(LDrawStepFlavorT)newFlavor;
+- (void)setStepRotationType:(LDrawStepRotationT)newValue;
 
 // Utilities
-+ (BOOL) lineIsStepTerminator:(NSString *)line;
-+ (BOOL) lineIsRotationStepTerminator:(NSString *)line;
-- (BOOL) parseRotationStepFromLine:(NSString *)rotstep;
++ (BOOL)lineIsStepTerminator:(NSString *)line;
++ (BOOL)lineIsRotationStepTerminator:(NSString *)line;
+- (BOOL)parseRotationStepFromLine:(NSString *)rotstep;
 
 @end

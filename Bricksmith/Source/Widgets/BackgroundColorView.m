@@ -9,7 +9,6 @@
 // ==============================================================================
 #import "BackgroundColorView.h"
 
-
 @implementation BackgroundColorView
 
 // ========== initWithFrame: ====================================================
@@ -17,7 +16,7 @@
 // Purpose:
 //
 // ==============================================================================
-- (id) initWithFrame:(NSRect)frame
+- (id)initWithFrame:(NSRect)frame
 {
   self = [super initWithFrame:frame];
   if (self) {
@@ -37,7 +36,7 @@
 // Purpose:		Sets the color to draw on the view.
 //
 // ==============================================================================
-- (void) setBackgroundColor:(NSColor *)colorIn
+- (void)setBackgroundColor:(NSColor *)colorIn
 {
   [colorIn retain];
   [self->backgroundColor release];
@@ -51,7 +50,7 @@
 // Purpose:		Paint the colors.
 //
 // ==============================================================================
-- (void) drawRect:(NSRect)rect
+- (void)drawRect:(NSRect)rect
 {
   [self->backgroundColor set];
   NSRectFill(rect);
@@ -67,7 +66,7 @@
 // Purpose:		Turning a shade of blue.
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
   [self->backgroundColor release];
 

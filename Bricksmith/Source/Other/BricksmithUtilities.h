@@ -34,11 +34,11 @@ typedef enum gridOrientationMode
 // BricksmithUtilities
 //
 ////////////////////////////////////////////////////////////////////////////////
-@interface BricksmithUtilities: NSObject
+@interface BricksmithUtilities : NSObject
 {
 }
 
-+ (NSImage *)dragImageWithOffset: (NSPointPointer)dragImageOffset;
-+(float)gridSpacingForMode: (gridSpacingModeT)gridMode;
++ (NSImage *)dragImageWithOffset:(NSPointPointer)dragImageOffset;
++ (float)gridSpacingForMode:(gridSpacingModeT)gridMode;
 
 @end

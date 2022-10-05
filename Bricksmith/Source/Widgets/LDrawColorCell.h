@@ -9,8 +9,8 @@
 // ==============================================================================
 #import <Cocoa/Cocoa.h>
 
-
-@interface LDrawColorCell: NSCell {
+@interface LDrawColorCell : NSCell
+{
 }
 
 @end

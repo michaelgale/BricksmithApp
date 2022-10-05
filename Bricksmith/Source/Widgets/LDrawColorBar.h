@@ -19,10 +19,10 @@
 // Closs:		LDrawColorBar
 //
 ////////////////////////////////////////////////////////////////////////////////
-@interface LDrawColorBar: NSView <LDrawColorable>
+@interface LDrawColorBar : NSView <LDrawColorable>
 {
   LDrawColor *color;
-  NSColor *nsColor;
+  NSColor    *nsColor;
 }
 
 @end

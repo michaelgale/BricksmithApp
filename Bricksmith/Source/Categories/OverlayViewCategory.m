@@ -43,7 +43,6 @@
 #import "OverlayHelperView.h"
 #import "OverlayHelperWindow.h"
 
-
 @implementation NSView (OverlayView)
 
 // ========== addOverlayView: ===================================================
@@ -57,7 +56,7 @@
 // subviews to hardware-backed views such as OpenGL views.
 //
 // ==============================================================================
-- (void) addOverlayView:(NSView *)overlayView
+- (void)addOverlayView:(NSView *)overlayView
 {
   OverlayHelperView *helperView = nil;
 
@@ -79,7 +78,7 @@
 // automatically.
 //
 // ==============================================================================
-- (void) removeOverlayView:(NSView *)overlayViewIn
+- (void)removeOverlayView:(NSView *)overlayViewIn
 {
   NSView *currentView    = nil;
   NSView *overlayHelper  = nil;
@@ -88,7 +87,7 @@
   // Find the helper view which manages the given overlay
   for (currentView in [self subviews]) {
     if ([currentView respondsToSelector:@selector(overlayView)]) {
-      currentOverlay = [(OverlayHelperView *)currentView overlayView];
+      currentOverlay = [(OverlayHelperView *) currentView overlayView];
 
       if (currentOverlay == overlayViewIn) {
         overlayHelper = currentView;

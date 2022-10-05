@@ -12,18 +12,19 @@
 #import "ObjectInspectionController.h"
 #import "LDrawColorWell.h"
 
-@interface InspectionConditionalLine: ObjectInspectionController {
+@interface InspectionConditionalLine : ObjectInspectionController
+{
   IBOutlet LDrawColorWell *colorWell;
-  IBOutlet NSForm *vertex1Form;
-  IBOutlet NSForm *vertex2Form;
-  IBOutlet NSForm *conditionalVertex1Form;
-  IBOutlet NSForm *conditionalVertex2Form;
+  IBOutlet NSForm         *vertex1Form;
+  IBOutlet NSForm         *vertex2Form;
+  IBOutlet NSForm         *conditionalVertex1Form;
+  IBOutlet NSForm         *conditionalVertex2Form;
 }
 
 // Actions
-- (IBAction)vertex1EndedEditing: (id)sender;
--(IBAction)vertex2EndedEditing: (id)sender;
--(IBAction)conditionalVertex1EndedEditing: (id)sender;
--(IBAction)conditionalVertex2EndedEditing: (id)sender;
+- (IBAction)vertex1EndedEditing:(id)sender;
+- (IBAction)vertex2EndedEditing:(id)sender;
+- (IBAction)conditionalVertex1EndedEditing:(id)sender;
+- (IBAction)conditionalVertex2EndedEditing:(id)sender;
 
 @end

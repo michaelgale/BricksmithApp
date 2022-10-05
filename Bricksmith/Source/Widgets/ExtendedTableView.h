@@ -9,8 +9,7 @@
 // ==============================================================================
 #import <Cocoa/Cocoa.h>
 
-
-@interface ExtendedTableView: NSTableView
+@interface ExtendedTableView : NSTableView
 {
 }
 

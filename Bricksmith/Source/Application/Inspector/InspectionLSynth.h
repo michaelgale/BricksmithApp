@@ -13,15 +13,15 @@
 #import "LSynthConfiguration.h"
 #import "LDrawColorWell.h"
 
-@interface InspectionLSynth: ObjectInspectionController <NSTableViewDelegate, NSTableViewDataSource>
+@interface InspectionLSynth : ObjectInspectionController <NSTableViewDelegate, NSTableViewDataSource>
 {
-  IBOutlet NSTextField *lsynthPartLabel;
-  IBOutlet NSTextField *synthesizedPartCount;
-  IBOutlet NSMatrix *lsynthClassChooserMatrix;
-  IBOutlet NSTextField *SynthTypeLabel;
-  IBOutlet NSPopUpButton *typePopup;
-  IBOutlet NSPopUpButton *constraintDefaultPopup;
-  IBOutlet NSPopUpButton *defaultConstraints;
+  IBOutlet NSTextField    *lsynthPartLabel;
+  IBOutlet NSTextField    *synthesizedPartCount;
+  IBOutlet NSMatrix       *lsynthClassChooserMatrix;
+  IBOutlet NSTextField    *SynthTypeLabel;
+  IBOutlet NSPopUpButton  *typePopup;
+  IBOutlet NSPopUpButton  *constraintDefaultPopup;
+  IBOutlet NSPopUpButton  *defaultConstraints;
   IBOutlet LDrawColorWell *colorWell;
 }
 
@@ -29,15 +29,15 @@
 
 
 // Actions
-- (IBAction)partTypeChanged: (id)sender;
--(IBAction)partClassChanged: (id)sender;
--(IBAction)makeConstraintsDefaultForClass: (id)sender;
+- (IBAction)partTypeChanged:(id)sender;
+- (IBAction)partClassChanged:(id)sender;
+- (IBAction)makeConstraintsDefaultForClass:(id)sender;
 
--(void)populateTypes: (int)lsynthClass;
--(void)populateDefaultConstraint: (int)class;
+- (void)populateTypes:(int)lsynthClass;
+- (void)populateDefaultConstraint:(int)class;
 
 // Utilities
--(NSArray *)typesForLSynthClass: (LSynthClassT)classTag;
--(void)updateSynthTypeLabel: (LSynthClassT)tag;
+- (NSArray *)typesForLSynthClass:(LSynthClassT)classTag;
+- (void)updateSynthTypeLabel:(LSynthClassT)tag;
 
 @end

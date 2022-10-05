@@ -11,7 +11,6 @@
 
 #import "LDrawPathNames.h"
 
-
 @implementation LDrawPaths
 
 // ---------- sharedPaths ---------------------------------------------[static]--
@@ -19,7 +18,7 @@
 // Purpose:		Returns the global object.
 //
 // ------------------------------------------------------------------------------
-+ (LDrawPaths *) sharedPaths
++ (LDrawPaths *)sharedPaths
 {
   static LDrawPaths *sharedObject = nil;
 
@@ -36,7 +35,7 @@
 // Purpose:		Initialize the object.
 //
 // ==============================================================================
-- (id) init
+- (id)init
 {
   self = [super init];
 
@@ -56,7 +55,7 @@
 // some unofficial parts.
 //
 // ==============================================================================
-- (NSString *) internalLDrawPath
+- (NSString *)internalLDrawPath
 {
   NSBundle *mainBundle  = nil;
   NSString *builtInPath = nil;
@@ -70,7 +69,7 @@
 
 // ========== preferredLDrawPath ================================================
 // ==============================================================================
-- (NSString *) preferredLDrawPath
+- (NSString *)preferredLDrawPath
 {
   return(self->preferredLDrawPath);
 }
@@ -81,7 +80,7 @@
 // Purpose:		Sets the user's preferred location for the LDraw directory.
 //
 // ==============================================================================
-- (void) setPreferredLDrawPath:(NSString *)pathIn
+- (void)setPreferredLDrawPath:(NSString *)pathIn
 {
   [pathIn retain];
   [self->preferredLDrawPath release];
@@ -95,7 +94,7 @@
 
 // ========== partsPathForDomain: ===============================================
 // ==============================================================================
-- (NSString *) partsPathForDomain:(LDrawDomain)domain
+- (NSString *)partsPathForDomain:(LDrawDomain)domain
 {
   NSString *baseLDrawPath = nil;
   NSString *path          = nil;
@@ -121,7 +120,7 @@
 
 // ========== primitivesPathForDomain: ==========================================
 // ==============================================================================
-- (NSString *) primitivesPathForDomain:(LDrawDomain)domain
+- (NSString *)primitivesPathForDomain:(LDrawDomain)domain
 {
   NSString *baseLDrawPath = nil;
   NSString *path          = nil;
@@ -147,7 +146,7 @@
 
 // ========== primitives48PathForDomain: ========================================
 // ==============================================================================
-- (NSString *) primitives48PathForDomain:(LDrawDomain)domain
+- (NSString *)primitives48PathForDomain:(LDrawDomain)domain
 {
   NSString *path = [self primitivesPathForDomain:domain];
 
@@ -165,7 +164,7 @@
 // application bundle.
 //
 // ==============================================================================
-- (NSString *) ldconfigPath
+- (NSString *)ldconfigPath
 {
   NSFileManager *fileManager   = [[[NSFileManager alloc] init] autorelease];
   NSBundle      *mainBundle    = nil;
@@ -208,7 +207,7 @@
 // use the one in LDraw/ if it exists.
 //
 // ==============================================================================
-- (NSString *) MLCadIniPath
+- (NSString *)MLCadIniPath
 {
   NSFileManager *fileManager   = [[[NSFileManager alloc] init] autorelease];
   NSString      *preferredPath =
@@ -251,7 +250,7 @@
 // not actually exist there; this method doesn't check.)
 //
 // ==============================================================================
-- (NSString *) partCatalogPath
+- (NSString *)partCatalogPath
 {
   NSString *pathToPartList = nil;
 
@@ -266,7 +265,7 @@
 
 // ========== subpartsPathForDomain: ============================================
 // ==============================================================================
-- (NSString *) subpartsPathForDomain:(LDrawDomain)domain
+- (NSString *)subpartsPathForDomain:(LDrawDomain)domain
 {
   NSString *path = [self partsPathForDomain:domain];
 
@@ -285,7 +284,7 @@
 // Purpose:		Attempts to search out an LDraw path on the system.
 //
 // ==============================================================================
-- (NSString *) findLDrawPath
+- (NSString *)findLDrawPath
 {
   NSInteger counter    = 0;
   BOOL      foundAPath = NO;
@@ -366,7 +365,7 @@
 // nil if the part is not defined in the LDraw folder.
 //
 // ==============================================================================
-- (NSString *) pathForPartName:(NSString *)partName
+- (NSString *)pathForPartName:(NSString *)partName
 {
   NSFileManager   *fileManager   = [[[NSFileManager alloc] init] autorelease];
   static NSArray  *searchPaths   = nil;
@@ -419,7 +418,7 @@
 // Purpose:		Searches the LDraw folder for a texture with the given name.
 //
 // ==============================================================================
-- (NSString *) pathForTextureName:(NSString *)imageName
+- (NSString *)pathForTextureName:(NSString *)imageName
 {
   NSString *nameInTextureDirectory = [TEXTURES_DIRECTORY_NAME stringByAppendingPathComponent:imageName];
   NSString *imagePath = nil;
@@ -442,7 +441,7 @@
 // folder and contains the vital Parts and P directories.
 //
 // ==============================================================================
-- (BOOL) validateLDrawFolder:(NSString *)folderPath
+- (BOOL)validateLDrawFolder:(NSString *)folderPath
 {
   // Check and see if this folder is any good.
   NSString *partsFolderPath      = [folderPath stringByAppendingPathComponent:PARTS_DIRECTORY_NAME];

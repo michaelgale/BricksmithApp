@@ -16,7 +16,6 @@
 #import "LDrawContainer.h"
 #import "LDrawUtilities.h"
 
-
 @implementation LDrawDrawableElement
 
 #pragma mark -
@@ -29,7 +28,7 @@
 // Purpose:		Create a fresh object. This is the default initializer.
 //
 // ==============================================================================
-- (id) init
+- (id)init
 {
   self = [super init];
 
@@ -46,7 +45,7 @@
 // read and write LDraw objects as NSData.
 //
 // ==============================================================================
-- (id) initWithCoder:(NSCoder *)decoder
+- (id)initWithCoder:(NSCoder *)decoder
 {
   self = [super initWithCoder:decoder];
 
@@ -79,7 +78,7 @@
 // read and write LDraw objects as NSData.
 //
 // ==============================================================================
-- (void) encodeWithCoder:(NSCoder *)encoder
+- (void)encodeWithCoder:(NSCoder *)encoder
 {
   [super encodeWithCoder:encoder];
 
@@ -95,7 +94,7 @@
 // Purpose:		Returns a duplicate of this file.
 //
 // ==============================================================================
-- (id) copyWithZone:(NSZone *)zone
+- (id)copyWithZone:(NSZone *)zone
 {
   LDrawDrawableElement *copied = (LDrawDrawableElement *)[super copyWithZone:zone];
 
@@ -117,7 +116,7 @@
 // actually draws the element.
 //
 // ==============================================================================
-- (void) draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)parentColor
+- (void)draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)parentColor
 
 {
   // [super draw]; //does nothing anyway; don't call it.
@@ -157,7 +156,7 @@
 // Purpose:		Resolve the correct color
 //
 // ==============================================================================
-- (VBOVertexData *) writeToVertexBuffer:(VBOVertexData *)vertexBuffer
+- (VBOVertexData *)writeToVertexBuffer:(VBOVertexData *)vertexBuffer
   parentColor:(LDrawColor *)parentColor
   wireframe:(BOOL)wireframe
 {
@@ -207,7 +206,7 @@
 // shared functionality such as setting colors.
 //
 // ==============================================================================
-- (void) drawElement:(NSUInteger)optionsMask viewScale:(double)scaleFactor withColor:(LDrawColor *)
+- (void)drawElement:(NSUInteger)optionsMask viewScale:(double)scaleFactor withColor:(LDrawColor *)
   drawingColor
 {
   // implemented by subclasses.
@@ -220,7 +219,7 @@
 // has been done in -writeToVertexBuffer:
 //
 // ==============================================================================
-- (VBOVertexData *) writeElementToVertexBuffer:(VBOVertexData *)vertexBuffer
+- (VBOVertexData *)writeElementToVertexBuffer:(VBOVertexData *)vertexBuffer
   withColor:(LDrawColor *)drawingColor
   wireframe:(BOOL)wireframe
 {
@@ -239,7 +238,7 @@
 // perfectly contains this object.
 //
 // ==============================================================================
-- (Box3) boundingBox3
+- (Box3)boundingBox3
 {
   Box3 bounds = InvalidBox;
 
@@ -255,7 +254,7 @@
 // object's bounds.
 //
 // ==============================================================================
-- (Box3) projectedBoundingBoxWithModelView:(Matrix4)modelView
+- (Box3)projectedBoundingBoxWithModelView:(Matrix4)modelView
   projection:(Matrix4)projection
   view:(Box2)viewport;
 {
@@ -314,7 +313,7 @@
 // Purpose:		Returns whether this element will be drawn or not.
 //
 // ==============================================================================
-- (BOOL) isHidden
+- (BOOL)isHidden
 {
   return(self->hidden);
 }// end isHidden
@@ -325,7 +324,7 @@
 // Purpose:		Returns the LDraw color code of the receiver.
 //
 // ==============================================================================
-- (LDrawColor *) LDrawColor
+- (LDrawColor *)LDrawColor
 {
   return(color);
 }// end LDrawColor
@@ -337,7 +336,7 @@
 // drag-and-drop. This is not necessarily human-usable information.
 //
 // ==============================================================================
-- (Point3) position
+- (Point3)position
 {
   return(ZeroPoint3);
 }// end position
@@ -353,7 +352,7 @@
 // hiddenness is a temporary state; it is not saved and restored.
 //
 // ==============================================================================
-- (void) setHidden:(BOOL)flag
+- (void)setHidden:(BOOL)flag
 {
   if (self->hidden != flag) {
     self->hidden = flag;
@@ -367,7 +366,7 @@
 // Purpose:		Sets the color of this element.
 //
 // ==============================================================================
-- (void) setLDrawColor:(LDrawColor *)newColor
+- (void)setLDrawColor:(LDrawColor *)newColor
 {
   [newColor retain];
   [self->color release];
@@ -388,7 +387,7 @@
 // are perfectly welcome to scale this value. (LDrawParts do this.)
 //
 // ==============================================================================
-- (Vector3) displacementForNudge:(Vector3)nudgeVector
+- (Vector3)displacementForNudge:(Vector3)nudgeVector
 {
   // possibly refined by subclasses.
   return(nudgeVector);
@@ -406,7 +405,7 @@
 // -displacementForNudge:.
 //
 // ==============================================================================
-- (void) moveBy:(Vector3)moveVector
+- (void)moveBy:(Vector3)moveVector
 {
   // implemented by subclasses.
 }// end moveBy:
@@ -426,7 +425,7 @@
 // -[LDrawPart components:snappedToGrid:minimumAngle:].
 //
 // ==============================================================================
-- (Point3) position:(Point3)position
+- (Point3)position:(Point3)position
   snappedToGrid:(double)gridSpacing
 {
   position.x = round(position.x / gridSpacing) * gridSpacing;
@@ -455,7 +454,7 @@
 // This is the core of -[LDrawModel optimizeStructure].
 //
 // ==============================================================================
-- (void) flattenIntoLines:(NSMutableArray *)lines
+- (void)flattenIntoLines:(NSMutableArray *)lines
   triangles:(NSMutableArray *)triangles
   quadrilaterals:(NSMutableArray *)quadrilaterals
   other:(NSMutableArray *)everythingElse

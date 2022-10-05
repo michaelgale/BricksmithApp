@@ -12,16 +12,16 @@
 @class ExtendedSplitView;
 @class PartBrowserDataSource;
 
-@interface PartBrowserPanelController: NSWindowController
+@interface PartBrowserPanelController : NSWindowController
 {
   IBOutlet PartBrowserDataSource *partsBrowser;
-  IBOutlet ExtendedSplitView *splitView;
+  IBOutlet ExtendedSplitView     *splitView;
 }
 
 // Initialization
 + (PartBrowserPanelController *)sharedPartBrowserPanel;
 
 // Accessors
--(PartBrowserDataSource *)partBrowser;
+- (PartBrowserDataSource *)partBrowser;
 
 @end

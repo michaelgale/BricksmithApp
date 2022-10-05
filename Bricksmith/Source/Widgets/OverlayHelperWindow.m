@@ -33,7 +33,6 @@
 
 #import "OverlayViewCategory.h"
 
-
 @implementation OverlayHelperWindow
 
 #pragma mark -
@@ -47,7 +46,7 @@
 // window's overlay content.
 //
 // ==============================================================================
-- (id) initWithContentRect:(NSRect)contentRect
+- (id)initWithContentRect:(NSRect)contentRect
   styleMask:(unsigned int)aStyle
   backing:(NSBackingStoreType)bufferingType
   defer:(BOOL)flag
@@ -75,7 +74,7 @@
 
 // ========== parentView ========================================================
 // ==============================================================================
-- (NSView *) parentView
+- (NSView *)parentView
 {
   return(parentView);
 }
@@ -89,7 +88,7 @@
 // subviews.
 //
 // ==============================================================================
-- (void) setParentView:(NSView *)parentViewIn
+- (void)setParentView:(NSView *)parentViewIn
 {
   self->parentView = parentViewIn;
 
@@ -108,7 +107,7 @@
 // content is actually a subview of the parentView.
 //
 // ==============================================================================
-- (void) parentViewChanged:(NSNotification *)note
+- (void)parentViewChanged:(NSNotification *)note
 {
   [self updateFrameToMatchParentView];
 }// end parentViewChanged:
@@ -126,7 +125,7 @@
 // the parent view is in a sheet.)
 //
 // ==============================================================================
-- (void) windowDidUpdateNotification:(NSNotification *)note
+- (void)windowDidUpdateNotification:(NSNotification *)note
 {
   // Force synchronize with the parent view's size. If we don't do this here,
   // the overlay can open in the wrong location if it hasn't been
@@ -158,7 +157,7 @@
 // notifications.
 //
 // ==============================================================================
-- (void) parentViewWillMoveToWindow:(NSWindow *)window
+- (void)parentViewWillMoveToWindow:(NSWindow *)window
 {
   if (window == nil && window != [self parentWindow]) {
     NSView *overlayView = [self contentView];
@@ -182,7 +181,7 @@
 // notifications.
 //
 // ==============================================================================
-- (void) parentViewDidMoveToWindow
+- (void)parentViewDidMoveToWindow
 {
   NSView   *overlayView     = [self contentView];
   NSWindow *newParentWindow = [self->parentView window];
@@ -223,7 +222,7 @@
 // keep its size in sync.
 //
 // ==============================================================================
-- (void) registerNotifications
+- (void)registerNotifications
 {
   NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
   NSView *currentView = nil;
@@ -276,7 +275,7 @@
 // that our content is actually a subview of the parentView.
 //
 // ==============================================================================
-- (void) updateFrameToMatchParentView
+- (void)updateFrameToMatchParentView
 {
   NSRect viewRect   = NSZeroRect;
   NSRect windowRect = NSZeroRect;

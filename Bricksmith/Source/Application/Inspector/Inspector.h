@@ -11,19 +11,20 @@
 
 @class ObjectInspectionController;
 
-@interface Inspector: NSObject {
-  IBOutlet NSPanel *inspectorPanel;       // the main window.
-  NSString *emptyInspectorTitle;        // window title for empty selection
-  NSView *emptyInspectorView;           // content view used for invalid inspections
+@interface Inspector : NSObject
+{
+  IBOutlet NSPanel     *inspectorPanel;   // the main window.
+  NSString             *emptyInspectorTitle; // window title for empty selection
+  NSView               *emptyInspectorView;  // content view used for invalid inspections
   IBOutlet NSTextField *errorTextField;     // inside emptyInspectorView; use to explain the problem.
 
   ObjectInspectionController *currentInspector;   // controller for the loaded inspector.
 }
 
-- (void)inspectObject: (id)object;
--(void)inspectObjects: (NSArray *)objects;
--(BOOL)loadInspectorForObject: (id)objectToInspect;
--(void)unloadInspector;
--(void)show: (id)sender;
+- (void)inspectObject:(id)object;
+- (void)inspectObjects:(NSArray *)objects;
+- (BOOL)loadInspectorForObject:(id)objectToInspect;
+- (void)unloadInspector;
+- (void)show:(id)sender;
 
 @end

@@ -9,12 +9,11 @@
 // ==============================================================================
 #import <Cocoa/Cocoa.h>
 
-
-@interface StringUtilities: NSObject
+@interface StringUtilities : NSObject
 {
 }
 
-+ (NSString *)nextCopyNameForString: (NSString *)originalString;
-+(NSString *)nextCopyPathForFilePath: (NSString *)basePath;
++ (NSString *)nextCopyNameForString:(NSString *)originalString;
++ (NSString *)nextCopyPathForFilePath:(NSString *)basePath;
 
 @end

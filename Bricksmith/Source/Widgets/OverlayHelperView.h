@@ -17,15 +17,15 @@
 // class OverlayHelperView
 //
 ////////////////////////////////////////////////////////////////////////////////
-@interface OverlayHelperView: NSView
+@interface OverlayHelperView : NSView
 {
   OverlayHelperWindow *helperWindow;
 }
 
 // Initialization
-- (id)initWithOverlayView: (NSView *)overlayView;
+- (id)initWithOverlayView:(NSView *)overlayView;
 
 // Accessors
--(NSView *)overlayView;
+- (NSView *)overlayView;
 
 @end

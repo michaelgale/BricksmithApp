@@ -34,7 +34,7 @@ static NSString *defaultAuthor   = @"anonymous";
 
 // ---------- defaultAuthor -------------------------------------------[static]--
 // ------------------------------------------------------------------------------
-+ (NSString *) defaultAuthor
++ (NSString *)defaultAuthor
 {
   return(defaultAuthor);
 }
@@ -65,7 +65,7 @@ static NSString *defaultAuthor   = @"anonymous";
 // already contain the necessary padding spaces.
 //
 // ------------------------------------------------------------------------------
-+ (void) setColumnizesOutput:(BOOL)flag
++ (void)setColumnizesOutput:(BOOL)flag
 {
   ColumnizesOutput = flag;
 }
@@ -76,7 +76,7 @@ static NSString *defaultAuthor   = @"anonymous";
 // Purpose:		Sets the default author name used in new models.
 //
 // ------------------------------------------------------------------------------
-+ (void) setDefaultAuthor:(NSString *)nameIn
++ (void)setDefaultAuthor:(NSString *)nameIn
 {
   // LLW: If the incoming nameIn is nil, leave this alone.
   if (nameIn != nil) {
@@ -97,14 +97,13 @@ static NSString *defaultAuthor   = @"anonymous";
 // found at the beginning of an LDraw line.
 //
 // ------------------------------------------------------------------------------
-+ (Class) classForDirectiveBeginningWithLine:(NSString *)line
++ (Class)classForDirectiveBeginningWithLine:(NSString *)line
 {
   Class     classForType       = Nil;
   NSString  *commandCodeString = nil;
   NSInteger lineType           = 0;
 
-  commandCodeString = [LDrawUtilities readNextField:line
-                                          remainder:NULL];
+  commandCodeString = [LDrawUtilities readNextField:line remainder:NULL];
   // We may need to check for nil here someday.
   lineType = [commandCodeString integerValue];
 
@@ -164,7 +163,7 @@ static NSString *defaultAuthor   = @"anonymous";
 // this.)
 //
 // ------------------------------------------------------------------------------
-+ (LDrawColor *) parseColorFromField:(NSString *)colorField
++ (LDrawColor *)parseColorFromField:(NSString *)colorField
 {
   NSScanner   *scanner       = [NSScanner scannerWithString:colorField];
   LDrawColorT colorCode      = LDrawColorBogus;
@@ -269,7 +268,7 @@ static NSString *defaultAuthor   = @"anonymous";
 // distinguish between "0 WRITE blah" and "0 COMMENT blah".
 //
 // ------------------------------------------------------------------------------
-+ (NSString *) readNextField:(NSString *)partialDirective
++ (NSString *)readNextField:(NSString *)partialDirective
   remainder:(NSString **)remainder
 {
   NSCharacterSet *whitespaceCharacterSet = [NSCharacterSet whitespaceAndNewlineCharacterSet];
@@ -309,22 +308,19 @@ static NSString *defaultAuthor   = @"anonymous";
 // trimmed and the field ends at the first whitespace character.
 //
 // ------------------------------------------------------------------------------
-+ (NSString *) scanQuotableToken:(NSScanner *)scanner
++ (NSString *)scanQuotableToken:(NSScanner *)scanner
 {
   NSCharacterSet  *doubleQuote = [NSCharacterSet characterSetWithCharactersInString:@"\""];
   NSMutableString *token       = [NSMutableString string];
   NSString        *temp        = nil;
 
-  if ([scanner scanCharactersFromSet:doubleQuote
-                          intoString:NULL] == YES) {
+  if ([scanner scanCharactersFromSet:doubleQuote intoString:NULL] == YES) {
     // String is wrapped in double quotes.
     // Watch out for embedded " characters, escaped as \"
     // and \ characters, escaped as \\        .
 
-    [scanner scanUpToCharactersFromSet:doubleQuote
-                            intoString:&temp];
-    [scanner scanCharactersFromSet:doubleQuote
-                        intoString:NULL];
+    [scanner scanUpToCharactersFromSet:doubleQuote intoString:&temp];
+    [scanner scanCharactersFromSet:doubleQuote intoString:NULL];
     [token appendString:temp];
     while ([token hasSuffix:@"\\"] == YES)
     {
@@ -332,10 +328,8 @@ static NSString *defaultAuthor   = @"anonymous";
       [token deleteCharactersInRange:NSMakeRange([token length] - 1, 1)];
       [token appendString:@"\""];
 
-      [scanner scanUpToCharactersFromSet:doubleQuote
-                              intoString:&temp];
-      [scanner scanCharactersFromSet:doubleQuote
-                          intoString:NULL];
+      [scanner scanUpToCharactersFromSet:doubleQuote intoString:&temp];
+      [scanner scanCharactersFromSet:doubleQuote intoString:NULL];
       [token appendString:temp];
     }
 
@@ -361,7 +355,7 @@ static NSString *defaultAuthor   = @"anonymous";
 // Purpose:		Reads the contents of the file at the given path into a string.
 //
 // ------------------------------------------------------------------------------
-+ (NSString *) stringFromFile:(NSString *)path
++ (NSString *)stringFromFile:(NSString *)path
 {
   NSData   *fileData   = [NSData dataWithContentsOfFile:path];
   NSString *fileString = [self stringFromFileData:fileData];
@@ -376,26 +370,23 @@ static NSString *defaultAuthor   = @"anonymous";
 // string. We try a few different encodings.
 //
 // ------------------------------------------------------------------------------
-+ (NSString *) stringFromFileData:(NSData *)fileData
++ (NSString *)stringFromFileData:(NSData *)fileData
 {
   NSString *fileString = nil;
 
   if (fileData) {
     // Try UTF-8 first, because it's so nice.
-    fileString = [[NSString alloc] initWithData:fileData
-                                       encoding:NSUTF8StringEncoding];
+    fileString = [[NSString alloc] initWithData:fileData encoding:NSUTF8StringEncoding];
 
     // Uh-oh. Maybe Windows Latin?
     if (fileString == nil) {
-      fileString = [[NSString alloc] initWithData:fileData
-                                         encoding:NSISOLatin1StringEncoding];
+      fileString = [[NSString alloc] initWithData:fileData encoding:NSISOLatin1StringEncoding];
     }
 
     // Yikes. Not even Windows. MacRoman will do it, even if it doesn't look
     // right.
     if (fileString == nil) {
-      fileString = [[NSString alloc] initWithData:fileData
-                                         encoding:NSMacOSRomanStringEncoding];
+      fileString = [[NSString alloc] initWithData:fileData encoding:NSMacOSRomanStringEncoding];
     }
   }
 
@@ -415,7 +406,7 @@ static NSString *defaultAuthor   = @"anonymous";
 // Notes:		This supports the non-standard custom RGB extension.
 //
 // ------------------------------------------------------------------------------
-+ (NSString *) outputStringForColor:(LDrawColor *)color
++ (NSString *)outputStringForColor:(LDrawColor *)color
 {
   NSString    *outputString = nil;
   GLfloat     components[4] = {};
@@ -458,7 +449,7 @@ static NSString *defaultAuthor   = @"anonymous";
 // LDraw file.
 //
 // ------------------------------------------------------------------------------
-+ (NSString *) outputStringForFloat:(float)number
++ (NSString *)outputStringForFloat:(float)number
 {
   NSString *outputString = nil;
 
@@ -515,7 +506,7 @@ static NSString *defaultAuthor   = @"anonymous";
 // hits - the list of hit records to modify
 //
 // ------------------------------------------------------------------------------
-+ (void) registerHitForObject:(id)hitObject depth:(double)hitDepth creditObject:(id)creditObject hits:(
++ (void)registerHitForObject:(id)hitObject depth:(double)hitDepth creditObject:(id)creditObject hits:(
     NSMutableDictionary *)hits
 {
   NSNumber *existingRecord = [hits objectForKey:creditObject];
@@ -541,8 +532,7 @@ static NSString *defaultAuthor   = @"anonymous";
 
   // Found a shallower intersection point? Record the hit.
   if (hitDepth < existingDepth) {
-    [hits setObject:[NSNumber numberWithFloat:hitDepth]
-             forKey:key];
+    [hits setObject:[NSNumber numberWithFloat:hitDepth] forKey:key];
   }
 }
 
@@ -558,7 +548,7 @@ static NSString *defaultAuthor   = @"anonymous";
 // hits - the hit set
 //
 // ------------------------------------------------------------------------------
-+ (void) registerHitForObject:(id)hitObject creditObject:(id)creditObject hits:(NSMutableSet *)hits
++ (void)registerHitForObject:(id)hitObject creditObject:(id)creditObject hits:(NSMutableSet *)hits
 {
   NSValue *key = nil;
 
@@ -584,7 +574,7 @@ static NSString *defaultAuthor   = @"anonymous";
 // Purpose:		Creates an image from the file at the given path.
 //
 // ------------------------------------------------------------------------------
-+ (CGImageRef) imageAtPath:(NSString *)imagePath
++ (CGImageRef)imageAtPath:(NSString *)imagePath
 {
   NSURL            *fileURL    = nil;
   CGImageSourceRef imageSource = NULL;
@@ -601,7 +591,7 @@ static NSString *defaultAuthor   = @"anonymous";
 
   if (imageSource) { CFRelease(imageSource); }
 
-  return((CGImageRef)[(id)image autorelease]);
+  return((CGImageRef)[(id) image autorelease]);
 }
 
 
@@ -615,7 +605,7 @@ static NSString *defaultAuthor   = @"anonymous";
 // Purpose:		Returns the viewing angle in degrees for the given orientation.
 //
 // ------------------------------------------------------------------------------
-+ (Tuple3) angleForViewOrientation:(ViewOrientationT)orientation
++ (Tuple3)angleForViewOrientation:(ViewOrientationT)orientation
 {
   Tuple3 angle = ZeroPoint3;
 
@@ -671,7 +661,7 @@ static NSString *defaultAuthor   = @"anonymous";
 // could do bounds testing on ad-hoc collections of directives.
 //
 // ------------------------------------------------------------------------------
-+ (Box3) boundingBox3ForDirectives:(NSArray *)directives
++ (Box3)boundingBox3ForDirectives:(NSArray *)directives
 {
   Box3       bounds             = InvalidBox;
   Box3       partBounds         = InvalidBox;
@@ -705,7 +695,7 @@ static NSString *defaultAuthor   = @"anonymous";
 // 1990s.
 //
 // ------------------------------------------------------------------------------
-+ (BOOL) isLDrawFilenameValid:(NSString *)fileName
++ (BOOL)isLDrawFilenameValid:(NSString *)fileName
 {
   NSString *extension = [fileName pathExtension];
   BOOL     isValid    = NO;
@@ -735,7 +725,7 @@ static NSString *defaultAuthor   = @"anonymous";
 // 193.dat (~Moved to 193a) becomes 193a.dat
 //
 // ------------------------------------------------------------------------------
-+ (void) updateNameForMovedPart:(LDrawPart *)movedPart
++ (void)updateNameForMovedPart:(LDrawPart *)movedPart
 {
   NSString *description = [[PartLibrary sharedPartLibrary] descriptionForPart:movedPart];
 
@@ -752,7 +742,7 @@ static NSString *defaultAuthor   = @"anonymous";
 // be returned.
 //
 // ------------------------------------------------------------------------------
-+ (ViewOrientationT) viewOrientationForAngle:(Tuple3)rotationAngle
++ (ViewOrientationT)viewOrientationForAngle:(Tuple3)rotationAngle
 {
   ViewOrientationT viewOrientation = ViewOrientation3D;
   NSUInteger       counter         = 0;
@@ -789,17 +779,17 @@ static NSString *defaultAuthor   = @"anonymous";
 // library.
 //
 // ------------------------------------------------------------------------------
-+ (void) unresolveLibraryParts:(LDrawDirective *)directive
++ (void)unresolveLibraryParts:(LDrawDirective *)directive
 {
   if ([directive respondsToSelector:@selector(allEnclosedElements)]) {
-    NSArray *subs = [(LDrawContainer *)directive allEnclosedElements];
+    NSArray *subs = [(LDrawContainer *) directive allEnclosedElements];
     for (LDrawDirective *d in subs) {
       [self unresolveLibraryParts:d];
     }
   }
 
   if ([directive respondsToSelector:@selector(unresolvePartIfPartLibrary)]) {
-    [(LDrawPart *)directive unresolvePartIfPartLibrary];
+    [(LDrawPart *) directive unresolvePartIfPartLibrary];
   }
 }// end unresolveLibraryParts
 

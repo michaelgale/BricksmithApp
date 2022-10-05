@@ -16,7 +16,7 @@
 // Class:		LDrawQuadrilateral
 //
 ////////////////////////////////////////////////////////////////////////////////
-@interface LDrawQuadrilateral: LDrawDrawableElement <NSCoding>
+@interface LDrawQuadrilateral : LDrawDrawableElement <NSCoding>
 {
   Point3 vertex1;
   Point3 vertex2;
@@ -32,17 +32,17 @@
 - (NSString *)write;
 
 // Accessors
--(Point3)vertex1;
--(Point3)vertex2;
--(Point3)vertex3;
--(Point3)vertex4;
--(void)setVertex1: (Point3)newVertex;
--(void)setVertex2: (Point3)newVertex;
--(void)setVertex3: (Point3)newVertex;
--(void)setVertex4: (Point3)newVertex;
+- (Point3)vertex1;
+- (Point3)vertex2;
+- (Point3)vertex3;
+- (Point3)vertex4;
+- (void)setVertex1:(Point3)newVertex;
+- (void)setVertex2:(Point3)newVertex;
+- (void)setVertex3:(Point3)newVertex;
+- (void)setVertex4:(Point3)newVertex;
 
 // Utilities
--(void)fixBowtie;
--(void)recomputeNormal;
+- (void)fixBowtie;
+- (void)recomputeNormal;
 
 @end

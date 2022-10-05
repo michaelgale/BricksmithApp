@@ -12,7 +12,6 @@
 // ==============================================================================
 #import "ExtendedSplitView.h"
 
-
 @implementation ExtendedSplitView
 
 #pragma mark -
@@ -27,7 +26,7 @@
 // Notes:		Obsolete under Leopard.
 //
 // ==============================================================================
-- (NSString *) autosaveName
+- (NSString *)autosaveName
 {
   // Use the Leopard implementation if we can.
   if ([NSSplitView instancesRespondToSelector:@selector(autosaveName)]) {
@@ -48,7 +47,7 @@
 // Notes:		Obsolete under Leopard.
 //
 // ==============================================================================
-- (void) setAutosaveName:(NSString *)newName
+- (void)setAutosaveName:(NSString *)newName
 {
   // Use the Leopard implementation if we can.
   if ([NSSplitView instancesRespondToSelector:@selector(setAutosaveName:)]) {
@@ -91,7 +90,7 @@
 // Notes:		Obsolete under Leopard.
 //
 // ==============================================================================
-- (void) restoreConfiguration
+- (void)restoreConfiguration
 {
   // Unnecessary under Leopard
   if ([NSSplitView instancesRespondToSelector:@selector(setAutosaveName:)] == NO) {
@@ -150,7 +149,7 @@
 // Notes:		Obsolete under Leopard.
 //
 // ==============================================================================
-- (void) saveConfiguration
+- (void)saveConfiguration
 {
   if (self->autosaveName != nil) {
     // Unnecessary under Leopard
@@ -192,7 +191,7 @@
 // Notes:		Other likely candidates, such as -adjustSubviews, don't work.
 //
 // ==============================================================================
-- (void) subviewFrameDidChange:(NSNotification *)notification
+- (void)subviewFrameDidChange:(NSNotification *)notification
 {
   [self saveConfiguration];
 }// end subviewFrameDidChange:
@@ -204,7 +203,7 @@
 // here for completeness!
 //
 // ==============================================================================
-- (void) didAddSubview:(NSView *)subview
+- (void)didAddSubview:(NSView *)subview
 {
   NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
 
@@ -223,7 +222,7 @@
 // be very important. I hope this class doesn't live that long.
 //
 // ==============================================================================
-- (void) willRemoveSubview:(NSView *)subview
+- (void)willRemoveSubview:(NSView *)subview
 {
   NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
 
@@ -244,7 +243,7 @@
 // Purpose:		Let's split!
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
 

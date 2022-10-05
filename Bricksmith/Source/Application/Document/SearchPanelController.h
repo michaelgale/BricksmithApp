@@ -34,31 +34,31 @@ typedef enum
   SearchSelectedParts = 3
 } SearchPartCriteriaT;
 
-@interface SearchPanelController: NSWindowController <NSWindowDelegate, NSDraggingDestination>
+@interface SearchPanelController : NSWindowController <NSWindowDelegate, NSDraggingDestination>
 {
-  IBOutlet NSMatrix *scopeMatrix;
-  IBOutlet NSMatrix *colorMatrix;
+  IBOutlet NSMatrix       *scopeMatrix;
+  IBOutlet NSMatrix       *colorMatrix;
   IBOutlet LDrawColorWell *colorWell;
-  IBOutlet NSMatrix *findTypeMatrix;
-  IBOutlet NSButton *searchInsideLSynthContainers;
-  IBOutlet NSButton *searchHiddenParts;
-  IBOutlet NSTextField *partName;
-  IBOutlet NSTextField *warningText;
+  IBOutlet NSMatrix       *findTypeMatrix;
+  IBOutlet NSButton       *searchInsideLSynthContainers;
+  IBOutlet NSButton       *searchHiddenParts;
+  IBOutlet NSTextField    *partName;
+  IBOutlet NSTextField    *warningText;
 }
 
 // Initialization
 + (SearchPanelController *)searchPanel;
 
 // Accessors
-+(BOOL)isVisible;
++ (BOOL)isVisible;
 
 // Actions
--(IBAction)doSearchAndSelect: (id)sender;
--(IBAction)scopeChanged: (id)sender;
--(IBAction)colorOptionChanged: (id)sender;
--(IBAction)findTypeOptionChanged: (id)sender;
+- (IBAction)doSearchAndSelect:(id)sender;
+- (IBAction)scopeChanged:(id)sender;
+- (IBAction)colorOptionChanged:(id)sender;
+- (IBAction)findTypeOptionChanged:(id)sender;
 
 // Utility
--(void)updateInterfaceForSelection: (NSArray *)selectedObjects;
+- (void)updateInterfaceForSelection:(NSArray *)selectedObjects;
 
 @end

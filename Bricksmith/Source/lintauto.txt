@@ -1,0 +1,11 @@
+
+LDraw/Renderer/MeshSmooth.c
+LDraw/Renderer/MeshSmooth.h
+LDraw/Support/GLMatrixMath.c
+LDraw/Support/GLMatrixMath.h
+LDraw/Support/MatrixMath.c
+LDraw/Support/MatrixMath.h
+LDraw/Support/OpenGLUtilities.c
+LDraw/Support/OpenGLUtilities.h
+Other/MacLDraw.h
+Application/General/AppConstants.h

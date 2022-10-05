@@ -34,7 +34,6 @@
 #import "StringCategory.h"
 #import "TableViewCategory.h"
 
-
 @implementation PartBrowserDataSource
 
 
@@ -44,7 +43,7 @@
 // So when awaking, we grab the actual data source for the class.
 //
 // ==============================================================================
-- (void) awakeFromNib
+- (void)awakeFromNib
 {
   NSUserDefaults *userDefaults       = [NSUserDefaults standardUserDefaults];
   NSString       *startingCategory   = [userDefaults stringForKey:PART_BROWSER_PREVIOUS_CATEGORY];
@@ -174,8 +173,8 @@
 
     // ---------- Free Memory -----------------------------------------------
     [searchMenuTemplate release];
-    [recentsItem    release];
-    [noRecentsItem    release];
+    [recentsItem release];
+    [noRecentsItem release];
   }
   // Loading "PartBrowserAccessories.nib"
   else {
@@ -188,7 +187,7 @@
 // Purpose:		This is very basic; it's not where the action is.
 //
 // ==============================================================================
-- (id) init
+- (id)init
 {
   self = [super init];
 
@@ -214,7 +213,7 @@
 // Purpose:		Returns the currently-selected category.
 //
 // ==============================================================================
-- (NSString *) category
+- (NSString *)category
 {
   return(self->selectedCategory);
 }// end category
@@ -226,7 +225,7 @@
 // i.e., "3001.dat"
 //
 // ==============================================================================
-- (NSString *) selectedPartName
+- (NSString *)selectedPartName
 {
   NSInteger    rowIndex    = [partsTable selectedRow];
   NSDictionary *partRecord = nil;
@@ -249,7 +248,7 @@
 // newCategory.
 //
 // ==============================================================================
-- (BOOL) loadCategory:(NSString *)newCategory
+- (BOOL)loadCategory:(NSString *)newCategory
 {
   NSArray        *partsInCategory = nil;
   NSMutableArray *allPartRecords  = [NSMutableArray array];
@@ -289,7 +288,7 @@
 // set up the data sources to reflect it.
 //
 // ==============================================================================
-- (void) setPartLibrary:(PartLibrary *)partLibraryIn
+- (void)setPartLibrary:(PartLibrary *)partLibraryIn
 {
   NSArray *categories = nil;
 
@@ -311,7 +310,7 @@
 // the category combo box's data source.
 //
 // ==============================================================================
-- (void) setCategoryList:(NSArray *)newCategoryList
+- (void)setCategoryList:(NSArray *)newCategoryList
 {
   // swap the variable
   [newCategoryList retain];
@@ -338,7 +337,7 @@
 // The new parts are then displayed in the table.
 //
 // ==============================================================================
-- (void) setTableDataSource:(NSMutableArray *)allPartRecords
+- (void)setTableDataSource:(NSMutableArray *)allPartRecords
 {
   NSString   *originalSelectedPartName = [self selectedPartName];
   NSUInteger newSelectedIndex          = NSNotFound;
@@ -375,7 +374,7 @@
 // Purpose:		The search should be performed on all the parts in the catalog.
 //
 // ==============================================================================
-- (IBAction) searchAllCategoriesButtonClicked:(id)sender
+- (IBAction)searchAllCategoriesButtonClicked:(id)sender
 {
   self->searchMode = SearchModeAllCategories;
   [[NSUserDefaults standardUserDefaults] setInteger:SearchModeAllCategories
@@ -390,7 +389,7 @@
 // Purpose:		The search should be limited to the selected category only.
 //
 // ==============================================================================
-- (IBAction) searchSelectedCategoryButtonClicked:(id)sender
+- (IBAction)searchSelectedCategoryButtonClicked:(id)sender
 {
   self->searchMode = SearchModeSelectedCategory;
   [[NSUserDefaults standardUserDefaults] setInteger:SearchModeSelectedCategory
@@ -407,7 +406,7 @@
 // likely be picked up by the foremost document.
 //
 // ==============================================================================
-- (IBAction) addPartClicked:(id)sender
+- (IBAction)addPartClicked:(id)sender
 {
   // anyone who implements this message will know what to do.
   [NSApp sendAction:@selector(insertLDrawPart:)
@@ -422,7 +421,7 @@
 // "favorite" parts. It seems users like to have a list like this.
 //
 // ==============================================================================
-- (IBAction) addFavoriteClicked:(id)sender
+- (IBAction)addFavoriteClicked:(id)sender
 {
   NSString *selectedPartName = [self selectedPartName];
 
@@ -437,7 +436,7 @@
 // Purpose:		We mean this to insert a part.
 //
 // ==============================================================================
-- (void) doubleClickedInPartTable:(id)sender
+- (void)doubleClickedInPartTable:(id)sender
 {
   [self addPartClicked:sender];
 }// end doubleClickedInPartTable:
@@ -449,7 +448,7 @@
 // "favorites" list, if it happens to be in it.
 //
 // ==============================================================================
-- (IBAction) removeFavoriteClicked:(id)sender
+- (IBAction)removeFavoriteClicked:(id)sender
 {
   NSString *selectedPartName = [self selectedPartName];
 
@@ -465,7 +464,7 @@
 // part library.
 //
 // ==============================================================================
-- (IBAction) searchFieldChanged:(id)sender
+- (IBAction)searchFieldChanged:(id)sender
 {
   [self performSearch];
 }// end searchFieldChanged:
@@ -479,7 +478,7 @@
 
 // ========== outlineView:numberOfChildrenOfItem: ===============================
 // ==============================================================================
-- (NSInteger) outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
+- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
   NSArray *children = nil;
 
@@ -496,7 +495,7 @@
 
 // ========== outlineView:child:ofItem: =========================================
 // ==============================================================================
-- (id) outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
+- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
 {
   NSArray *children = nil;
 
@@ -513,7 +512,7 @@
 
 // ========== outlineView:objectValueForTableColumn:byItem: =====================
 // ==============================================================================
-- (id) outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(
+- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(
     id)item
 {
   BOOL isGroupHeading = [self outlineView:outlineView
@@ -538,7 +537,7 @@
 
 // ========== outlineView:isItemExpandable: =====================================
 // ==============================================================================
-- (BOOL) outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
+- (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
 {
   NSUInteger childCount = [self outlineView:outlineView
                      numberOfChildrenOfItem          :item];
@@ -557,7 +556,7 @@
 // being browsed.
 //
 // ==============================================================================
-- (NSInteger) numberOfRowsInTableView:(NSTableView *)tableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
   return([tableDataSource count]);
 }// end numberOfRowsInTableView
@@ -569,7 +568,7 @@
 // Purpose:		Displays information for the part in the record.
 //
 // ==============================================================================
-- (id) tableView:(NSTableView *)tableView
+- (id)tableView:(NSTableView *)tableView
   objectValueForTableColumn:(NSTableColumn *)tableColumn
   row:(NSInteger)rowIndex
 {
@@ -593,7 +592,7 @@
 // Purpose:		Resort the table elements.
 //
 // ==============================================================================
-- (void) tableView:(NSTableView *)tableView sortDescriptorsDidChange:(NSArray *)oldDescriptors
+- (void)tableView:(NSTableView *)tableView sortDescriptorsDidChange:(NSArray *)oldDescriptors
 {
   NSArray *newDescriptors = [tableView sortDescriptors];
 
@@ -613,7 +612,7 @@
 // parameter is irrelevant.
 //
 // ==============================================================================
-- (BOOL) tableView:(NSTableView *)aTableView
+- (BOOL)tableView:(NSTableView *)aTableView
   writeRowsWithIndexes:(NSIndexSet *)rowIndexes
   toPasteboard:(NSPasteboard *)pasteboard
 {
@@ -641,7 +640,7 @@
 // view.
 //
 // ==============================================================================
-- (BOOL) LDrawGLView:(LDrawGLView *)glView
+- (BOOL)LDrawGLView:(LDrawGLView *)glView
   writeDirectivesToPasteboard:(NSPasteboard *)pasteboard
   asCopy:(BOOL)copyFlag
 {
@@ -664,7 +663,7 @@
 // Regular outline views get a gray bar across the cell.
 //
 // ==============================================================================
-- (BOOL) outlineView:(NSOutlineView *)outlineView isGroupItem:(id)item
+- (BOOL)outlineView:(NSOutlineView *)outlineView isGroupItem:(id)item
 {
   BOOL hasChildren = ([self outlineView:outlineView
                  numberOfChildrenOfItem          :item] > 0);
@@ -675,7 +674,7 @@
 
 // ========== outlineView:shouldSelectItem: =====================================
 // ==============================================================================
-- (BOOL) outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item
+- (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item
 {
   BOOL isGroupHeading = [self outlineView:outlineView
                               isGroupItem:item];
@@ -689,7 +688,7 @@
 // Purpose:		Hide the disclosure triangle.
 //
 // ==============================================================================
-- (BOOL) outlineView:(NSOutlineView *)outlineView shouldShowOutlineCellForItem:(id)item
+- (BOOL)outlineView:(NSOutlineView *)outlineView shouldShowOutlineCellForItem:(id)item
 {
   return(NO);
 }
@@ -700,7 +699,7 @@
 // Purpose:		Select a new category.
 //
 // ==============================================================================
-- (void) outlineViewSelectionDidChange:(NSNotification *)notification
+- (void)outlineViewSelectionDidChange:(NSNotification *)notification
 {
   NSUserDefaults *userDefaults   = [NSUserDefaults standardUserDefaults];
   NSDictionary   *categoryRecord = [self->categoryTable itemAtRow:[categoryTable selectedRow]];
@@ -729,7 +728,7 @@
 // Purpose:		A new part has been selected.
 //
 // ==============================================================================
-- (void) tableViewSelectionDidChange:(NSNotification *)aNotification
+- (void)tableViewSelectionDidChange:(NSNotification *)aNotification
 {
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
   NSInteger      newRow        = [self->partsTable selectedRow];
@@ -756,7 +755,7 @@
 // folder. Data sources must be updated accordingly.
 //
 // ==============================================================================
-- (void) sharedPartCatalogDidChange:(NSNotification *)notification
+- (void)sharedPartCatalogDidChange:(NSNotification *)notification
 {
   PartLibrary *newLibrary = [notification object];
   NSString    *originalSelectedCategory = [self->selectedCategory retain];
@@ -808,7 +807,7 @@
 // cheeseball approach.
 //
 // ==============================================================================
-- (NSMutableArray *) filterPartRecords:(NSArray *)partRecords
+- (NSMutableArray *)filterPartRecords:(NSArray *)partRecords
   bySearchString:(NSString *)searchString
   excludeParts:(NSSet *)excludedParts
 {
@@ -903,7 +902,7 @@
 // currently-displayed part list.
 //
 // ==============================================================================
-- (NSUInteger) indexOfPartNamed:(NSString *)searchName
+- (NSUInteger)indexOfPartNamed:(NSString *)searchName
 {
   NSDictionary *partRecord  = nil;
   NSString     *partName    = nil;
@@ -938,7 +937,7 @@
 // Purpose:		Executes the search based on the current search settings.
 //
 // ==============================================================================
-- (void) performSearch
+- (void)performSearch
 {
   NSString       *searchString  = [self->searchField stringValue];
   NSArray        *allParts      = nil;
@@ -973,7 +972,7 @@
 // browser.
 //
 // ==============================================================================
-- (void) setConstraints
+- (void)setConstraints
 {
   NSString *selectedPart          = [self selectedPartName];
   NSArray  *favorites             = [self->partLibrary favoritePartNames];
@@ -1027,7 +1026,7 @@
 // been already been resized to its final height.
 //
 // ==============================================================================
-- (void) scrollSelectedCategoryToCenter
+- (void)scrollSelectedCategoryToCenter
 {
   NSInteger selectedRow = [self->categoryTable selectedRow];
 
@@ -1040,7 +1039,7 @@
 // Purpose:		Selects the current category in the category table.
 //
 // ==============================================================================
-- (void) syncSelectionAndCategoryDisplayed
+- (void)syncSelectionAndCategoryDisplayed
 {
   id        categoryItem = nil;
   NSInteger categoryRow  = 0;
@@ -1068,7 +1067,7 @@
 // table.
 //
 // ==============================================================================
-- (void) syncSelectionAndPartDisplayed
+- (void)syncSelectionAndPartDisplayed
 {
   NSString  *selectedPartName = [self selectedPartName];
   LDrawPart *newPart          = nil;
@@ -1095,7 +1094,7 @@
 // Purpose:		Writes the current part-browser selection onto the pasteboard.
 //
 // ==============================================================================
-- (BOOL) writeSelectedPartToPasteboard:(NSPasteboard *)pasteboard
+- (BOOL)writeSelectedPartToPasteboard:(NSPasteboard *)pasteboard
 {
   NSMutableArray *archivedParts = [NSMutableArray array];
   NSString       *partName      = [self selectedPartName];
@@ -1143,15 +1142,15 @@
 // Purpose:		It's AppKit, in the Library, with the Lead Pipe!!!
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
   // Remove notifications
   [[NSNotificationCenter defaultCenter] removeObserver:self];
 
   // Release data
-  [categoryList   release];
-  [tableDataSource  release];
-  [contextualMenu   release];
+  [categoryList release];
+  [tableDataSource release];
+  [contextualMenu release];
 
   [super dealloc];
 }// end dealloc

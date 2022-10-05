@@ -9,7 +9,6 @@
 // ==============================================================================
 #import "ExtendedTableView.h"
 
-
 @implementation ExtendedTableView
 
 
@@ -28,7 +27,7 @@
 // menu.
 //
 // ==============================================================================
-- (NSMenu *) menuForEvent:(NSEvent *)theEvent
+- (NSMenu *)menuForEvent:(NSEvent *)theEvent
 {
   NSPoint clickedPoint = [self convertPoint:[theEvent locationInWindow]
                                    fromView:nil];

@@ -20,7 +20,6 @@
 
 #import "OverlayHelperWindow.h"
 
-
 @implementation OverlayHelperView
 
 
@@ -35,7 +34,7 @@
 // Parameters:	overlayView	- the "subview" of the hardware-accelerated surface.
 //
 // ==============================================================================
-- (id) initWithOverlayView:(NSView *)overlayView
+- (id)initWithOverlayView:(NSView *)overlayView
 {
   self = [super initWithFrame:NSZeroRect];
 
@@ -66,7 +65,7 @@
 // child window).
 //
 // ==============================================================================
-- (NSView *) overlayView
+- (NSView *)overlayView
 {
   return([self->helperWindow contentView]);
 }// end overlayView
@@ -81,7 +80,7 @@
 // Purpose:		Pass this important info along!
 //
 // ==============================================================================
-- (void) viewWillMoveToWindow:(NSWindow *)theWindow
+- (void)viewWillMoveToWindow:(NSWindow *)theWindow
 {
   [helperWindow parentViewWillMoveToWindow:theWindow];
 }// end viewWillMoveToWindow:
@@ -92,7 +91,7 @@
 // Purpose:		Pass this important info along!
 //
 // ==============================================================================
-- (void) viewDidMoveToWindow
+- (void)viewDidMoveToWindow
 {
   [helperWindow parentViewDidMoveToWindow];
 }// end viewDidMoveToWindow
@@ -105,7 +104,7 @@
 // on its own.
 //
 // ==============================================================================
-- (void) viewWillMoveToSuperview:(NSView *)newSuperview
+- (void)viewWillMoveToSuperview:(NSView *)newSuperview
 {
   // The child window needs to watch the frame of the hardware-accelerated
   // view.
@@ -122,7 +121,7 @@
 // Purpose:		We are of help no more.
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
   [helperWindow release];
 

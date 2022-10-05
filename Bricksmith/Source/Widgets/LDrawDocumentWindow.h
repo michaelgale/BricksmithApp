@@ -9,8 +9,8 @@
 // ==============================================================================
 #import <Cocoa/Cocoa.h>
 
-
-@interface LDrawDocumentWindow: NSWindow {
+@interface LDrawDocumentWindow : NSWindow
+{
   BOOL needsEnableUpdate;
 }
 - (void)disableUpdatesUntilFlush;

@@ -19,7 +19,7 @@
 // view when it does not entirely fill the scroll view.
 //
 // ==============================================================================
-- (void) centerDocumentView
+- (void)centerDocumentView
 {
   NSView            *documentView      = [[self documentView] retain];
   NSClipView        *oldClipView       = [self contentView];
@@ -38,8 +38,8 @@
   [[self documentView] scrollRectToVisible:visibleRect];
 
   // Let My Bits Go!
-  [documentView   release];
-  [centeringClipView  release];
+  [documentView release];
+  [centeringClipView release];
 }// end centerDocumentView
 
 

@@ -22,12 +22,11 @@
 // Purpose:		Load the interface for this inspector.
 //
 // ==============================================================================
-- (id) init
+- (id)init
 {
   self = [super init];
 
-  if ([NSBundle loadNibNamed:@"InspectorLine"
-                       owner:self] == NO) {
+  if ([NSBundle loadNibNamed:@"InspectorLine" owner:self] == NO) {
     NSLog(@"Couldn't load InspectorLine.nib");
   }
   return(self);
@@ -43,7 +42,7 @@
 // Purpose:		Called in response to the conclusion of editing in the palette.
 //
 // ==============================================================================
-- (void) commitChanges:(id)sender
+- (void)commitChanges:(id)sender
 {
   LDrawLine *representedObject = [self object];
 
@@ -65,7 +64,7 @@
 // the data in their inspector palettes.
 //
 // ==============================================================================
-- (IBAction) revert:(id)sender
+- (IBAction)revert:(id)sender
 {
   LDrawLine *representedObject = [self object];
 
@@ -90,7 +89,7 @@
 // update the object.
 //
 // ==============================================================================
-- (IBAction) startPointEndedEditing:(id)sender
+- (IBAction)startPointEndedEditing:(id)sender
 {
   Point3 formContents = [startPoint coordinateValue];
   Point3 vertex1      = [[self object] vertex1];
@@ -109,7 +108,7 @@
 // update the object.
 //
 // ==============================================================================
-- (IBAction) endPointEndedEditing:(id)sender
+- (IBAction)endPointEndedEditing:(id)sender
 {
   Point3 formContents = [endPoint coordinateValue];
   Point3 vertex2      = [[self object] vertex2];

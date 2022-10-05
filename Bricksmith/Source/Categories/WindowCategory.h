@@ -9,10 +9,9 @@
 // ==============================================================================
 #import <Cocoa/Cocoa.h>
 
+@interface NSWindow (WindowCategory)
 
-@interface NSWindow(WindowCategory)
-
-- (NSRect)frameRectForContentSize: (NSSize)newSize;
--(void)resizeToSize: (NSSize)newSize animate: (BOOL)animate;
+- (NSRect)frameRectForContentSize:(NSSize)newSize;
+- (void)resizeToSize:(NSSize)newSize animate:(BOOL)animate;
 
 @end

@@ -19,7 +19,6 @@
 #import "MacLDraw.h"
 #import "MatrixMath.h"
 
-
 @implementation DocumentToolbarController
 
 // ========== awakeFromNib ======================================================
@@ -27,7 +26,7 @@
 // Purpose:		Creates things!
 //
 // ==============================================================================
-- (void) awakeFromNib
+- (void)awakeFromNib
 {
   // Retain all our custom views for toolbar items. Why? Because all of these
   // could be inserted into the toolbar's view hierarchy, thereby *removing*
@@ -36,17 +35,17 @@
   // deallocated once added then removed from the toolbar!
   [gridSegmentedControl retain];
   [orientationSegmentedControl retain];
-  [nudgeXToolView     retain];
-  [nudgeYToolView     retain];
-  [nudgeZToolView     retain];
-  [zoomToolView     retain];
+  [nudgeXToolView retain];
+  [nudgeYToolView retain];
+  [nudgeZToolView retain];
+  [zoomToolView retain];
 
   [gridSegmentedControl removeFromSuperview];
   [orientationSegmentedControl removeFromSuperview];
-  [nudgeXToolView     removeFromSuperview];
-  [nudgeYToolView     removeFromSuperview];
-  [nudgeZToolView     removeFromSuperview];
-  [zoomToolView     removeFromSuperview];
+  [nudgeXToolView removeFromSuperview];
+  [nudgeYToolView removeFromSuperview];
+  [nudgeZToolView removeFromSuperview];
+  [zoomToolView removeFromSuperview];
 }// end awakeFromNib
 
 
@@ -59,7 +58,7 @@
 // Purpose:		Returns the list of all possible toolbar buttons.
 //
 // ==============================================================================
-- (NSArray *) toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar
+- (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar
 {
   return([NSArray arrayWithObjects:
           TOOLBAR_GRID_SPACING_IDENTIFIER,
@@ -96,7 +95,7 @@
 // will appear when the application is opened for the first time.
 //
 // ==============================================================================
-- (NSArray *) toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar
+- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar
 {
   return([NSArray arrayWithObjects:
 // TOOLBAR_ZOOM_IN,
@@ -124,7 +123,7 @@
 // Purpose:		The toolbar buttons themselves are created here.
 //
 // ==============================================================================
-- (NSToolbarItem *) toolbar:(NSToolbar *)toolbar
+- (NSToolbarItem *)toolbar:(NSToolbar *)toolbar
   itemForItemIdentifier:(NSString *)itemIdentifier
   willBeInsertedIntoToolbar:(BOOL)flag
 {
@@ -212,7 +211,7 @@
 // We need to update our indicator to this new state.
 //
 // ==============================================================================
-- (void) setGridSpacingMode:(gridSpacingModeT)newMode
+- (void)setGridSpacingMode:(gridSpacingModeT)newMode
 {
   [self->gridSegmentedControl selectSegmentWithTag:newMode];
 }// end setGridSpacingMode:
@@ -224,7 +223,7 @@
 // We need to update our indicator to this new state.
 //
 // ==============================================================================
-- (void) setGridOrientationMode:(gridOrientationModeT)newMode
+- (void)setGridOrientationMode:(gridOrientationModeT)newMode
 {
   [self->orientationSegmentedControl selectSegmentWithTag:newMode];
 }// end setGridOrientationMode:
@@ -240,7 +239,7 @@
 // Currently, this is implemented as a segmented control.
 //
 // ==============================================================================
-- (NSToolbarItem *) makeGridSpacingItem
+- (NSToolbarItem *)makeGridSpacingItem
 {
   NSToolbarItem    *newItem = [[NSToolbarItem alloc] initWithItemIdentifier:TOOLBAR_GRID_SPACING_IDENTIFIER];
   gridSpacingModeT gridMode = [self->document gridSpacingMode];
@@ -262,7 +261,7 @@
 // Currently, this is implemented as a segmented control.
 //
 // ==============================================================================
-- (NSToolbarItem *) makeGridOrientationItem
+- (NSToolbarItem *)makeGridOrientationItem
 {
   NSToolbarItem *newItem =
     [[NSToolbarItem alloc] initWithItemIdentifier:TOOLBAR_GRID_ORIENTATION_IDENTIFIER];
@@ -284,7 +283,7 @@
 // Purpose:		Button that shows the Lego Part Browser.
 //
 // ==============================================================================
-- (NSToolbarItem *) makePartBrowserItem
+- (NSToolbarItem *)makePartBrowserItem
 {
   NSToolbarItem *newItem = [[NSToolbarItem alloc]
                             initWithItemIdentifier:TOOLBAR_PART_BROWSER];
@@ -307,7 +306,7 @@
 // Purpose:		Button that rotates counterclockwise around the X axis
 //
 // ==============================================================================
-- (NSToolbarItem *) makeRotationPlusXItem
+- (NSToolbarItem *)makeRotationPlusXItem
 {
   NSToolbarItem *newItem = [[NSToolbarItem alloc]
                             initWithItemIdentifier:TOOLBAR_ROTATE_POSITIVE_X];
@@ -329,7 +328,7 @@
 // Purpose:		Button that rotates clockwise around the X axis
 //
 // ==============================================================================
-- (NSToolbarItem *) makeRotationMinusXItem
+- (NSToolbarItem *)makeRotationMinusXItem
 {
   NSToolbarItem *newItem = [[NSToolbarItem alloc]
                             initWithItemIdentifier:TOOLBAR_ROTATE_NEGATIVE_X];
@@ -351,7 +350,7 @@
 // Purpose:		Button that rotates counterclockwise around the Y axis
 //
 // ==============================================================================
-- (NSToolbarItem *) makeRotationPlusYItem
+- (NSToolbarItem *)makeRotationPlusYItem
 {
   NSToolbarItem *newItem = [[NSToolbarItem alloc]
                             initWithItemIdentifier:TOOLBAR_ROTATE_POSITIVE_Y];
@@ -373,7 +372,7 @@
 // Purpose:		Button that rotates clockwise around the Y axis
 //
 // ==============================================================================
-- (NSToolbarItem *) makeRotationMinusYItem
+- (NSToolbarItem *)makeRotationMinusYItem
 {
   NSToolbarItem *newItem = [[NSToolbarItem alloc]
                             initWithItemIdentifier:TOOLBAR_ROTATE_NEGATIVE_Y];
@@ -395,7 +394,7 @@
 // Purpose:		Button that rotates counterclockwise around the Z axis
 //
 // ==============================================================================
-- (NSToolbarItem *) makeRotationPlusZItem
+- (NSToolbarItem *)makeRotationPlusZItem
 {
   NSToolbarItem *newItem = [[NSToolbarItem alloc]
                             initWithItemIdentifier:TOOLBAR_ROTATE_POSITIVE_Z];
@@ -417,7 +416,7 @@
 // Purpose:		Button that rotates clockwise around the Z axis
 //
 // ==============================================================================
-- (NSToolbarItem *) makeRotationMinusZItem
+- (NSToolbarItem *)makeRotationMinusZItem
 {
   NSToolbarItem *newItem = [[NSToolbarItem alloc]
                             initWithItemIdentifier:TOOLBAR_ROTATE_NEGATIVE_Z];
@@ -439,7 +438,7 @@
 // Purpose:		Button that displays the colors panel
 //
 // ==============================================================================
-- (NSToolbarItem *) makeShowColorsItem
+- (NSToolbarItem *)makeShowColorsItem
 {
   NSToolbarItem *newItem = [[NSToolbarItem alloc]
                             initWithItemIdentifier:TOOLBAR_SHOW_COLORS];
@@ -461,7 +460,7 @@
 // Purpose:		Button that displays the inspector (info) window
 //
 // ==============================================================================
-- (NSToolbarItem *) makeShowInspectorItem
+- (NSToolbarItem *)makeShowInspectorItem
 {
   NSToolbarItem *newItem = [[NSToolbarItem alloc]
                             initWithItemIdentifier:TOOLBAR_SHOW_INSPECTOR];
@@ -483,7 +482,7 @@
 // Purpose:		Button that aligns a part to the grid.
 //
 // ==============================================================================
-- (NSToolbarItem *) makeSnapToGridItem
+- (NSToolbarItem *)makeSnapToGridItem
 {
   NSToolbarItem *newItem = [[NSToolbarItem alloc]
                             initWithItemIdentifier:TOOLBAR_SNAP_TO_GRID];
@@ -506,7 +505,7 @@
 // Note:		Obsoleted in Bricksmith 2.5 by unified zoom control.
 //
 // ==============================================================================
-- (NSToolbarItem *) makeZoomInItem
+- (NSToolbarItem *)makeZoomInItem
 {
   NSToolbarItem *newItem = [[NSToolbarItem alloc]
                             initWithItemIdentifier:TOOLBAR_ZOOM_IN];
@@ -529,7 +528,7 @@
 // Note:		Obsoleted in Bricksmith 2.5 by unified zoom control.
 //
 // ==============================================================================
-- (NSToolbarItem *) makeZoomOutItem
+- (NSToolbarItem *)makeZoomOutItem
 {
   NSToolbarItem *newItem = [[NSToolbarItem alloc]
                             initWithItemIdentifier:TOOLBAR_ZOOM_OUT];
@@ -554,7 +553,7 @@
 // into a single unit, produced by this method.
 //
 // ==============================================================================
-- (NSToolbarItem *) makeZoomItem
+- (NSToolbarItem *)makeZoomItem
 {
   NSToolbarItem *newItem = [[NSToolbarItem alloc]
                             initWithItemIdentifier:TOOLBAR_ZOOM_SPECIFY];
@@ -578,7 +577,7 @@
 // grid spacing.
 //
 // ==============================================================================
-- (void) gridSpacingSegmentedControlClicked:(id)sender
+- (void)gridSpacingSegmentedControlClicked:(id)sender
 {
   NSInteger        selectedSegment = [sender selectedSegment];
   gridSpacingModeT newGridMode     = [[sender cell] tagForSegment:selectedSegment];
@@ -595,7 +594,7 @@
 // grid orientation.
 //
 // ==============================================================================
-- (IBAction) gridOrientationSegmentedControlClicked:(id)sender
+- (IBAction)gridOrientationSegmentedControlClicked:(id)sender
 {
   NSInteger            selectedSegment = [sender selectedSegment];
   gridOrientationModeT newGridMode     = [[sender cell] tagForSegment:selectedSegment];
@@ -612,7 +611,7 @@
 // movement.
 //
 // ==============================================================================
-- (IBAction) nudgeXClicked:(id)sender
+- (IBAction)nudgeXClicked:(id)sender
 {
   Vector3 nudgeVector = V3Make(1, 0, 0);
 
@@ -630,7 +629,7 @@
 // movement.
 //
 // ==============================================================================
-- (IBAction) nudgeYClicked:(id)sender
+- (IBAction)nudgeYClicked:(id)sender
 {
   Vector3 nudgeVector = V3Make(0, 1, 0);
 
@@ -648,7 +647,7 @@
 // movement.
 //
 // ==============================================================================
-- (IBAction) nudgeZClicked:(id)sender
+- (IBAction)nudgeZClicked:(id)sender
 {
   Vector3 nudgeVector = V3Make(0, 0, 1);
 
@@ -664,7 +663,7 @@
 // which acts like push buttons.
 //
 // ==============================================================================
-- (void) zoomSegmentedControlClicked:(id)sender
+- (void)zoomSegmentedControlClicked:(id)sender
 {
   NSUInteger selectedSegment = [sender selectedSegment];
 
@@ -685,7 +684,7 @@
 // The document needs to update something with that.
 //
 // ==============================================================================
-- (IBAction) zoomScaleChanged:(id)sender
+- (IBAction)zoomScaleChanged:(id)sender
 {
   CGFloat newZoom = [sender doubleValue];
 
@@ -704,7 +703,7 @@
 // a crawl.
 //
 // ==============================================================================
-- (BOOL) validateToolbarItem:(NSToolbarItem *)item
+- (BOOL)validateToolbarItem:(NSToolbarItem *)item
 {
   LDrawPart *selectedPart  = [self->document selectedPart];
   NSArray   *selectedItems = [self->document selectedObjects];
@@ -751,13 +750,13 @@
 // (which comes with our NSDocument) does that automagically.
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
   [gridSegmentedControl release];
-  [nudgeXToolView     release];
-  [nudgeYToolView     release];
-  [nudgeZToolView     release];
-  [zoomToolView     release];
+  [nudgeXToolView release];
+  [nudgeYToolView release];
+  [nudgeZToolView release];
+  [zoomToolView release];
 
   [super dealloc];
 }// end dealloc

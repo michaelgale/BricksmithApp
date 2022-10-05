@@ -14,39 +14,39 @@
 
 #import "LDrawDrawableElement.h"
 
-
 ////////////////////////////////////////////////////////////////////////////////
 //
 // LDrawDragHandle
 //
 ////////////////////////////////////////////////////////////////////////////////
-@interface LDrawDragHandle: LDrawDrawableElement
+@interface LDrawDragHandle : LDrawDrawableElement
 {
   NSInteger tag;
-  Point3 position;
-  Point3 initialPosition;
+  Point3    position;
+  Point3    initialPosition;
 
-  id target;
+  id  target;
   SEL action;
 }
 
-- (id)initWithTag: (NSInteger)tag position: (Point3)positionIn;
+- (id)initWithTag:(NSInteger)tag position:(Point3)positionIn;
 
 // Accessors
--(Point3)initialPosition;
--(Point3)position;
--(NSInteger)tag;
--(id)target;
+- (Point3)initialPosition;
+- (Point3)position;
+- (NSInteger)tag;
+- (id)target;
 
--(void)setAction: (SEL)action;
--(void)setPosition: (Point3)positionIn updateTarget: (BOOL)update;
--(void)setTarget: (id)sender;
+- (void)setAction:(SEL)action;
+- (void)setPosition:(Point3)positionIn updateTarget:(BOOL)update;
+- (void)setTarget:(id)sender;
 
 // Draw
--(void)draw: (NSUInteger)optionsMask viewScale: (double)scaleFactor parentColor: (LDrawColor *)parentColor
+- (void)draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)parentColor
 ;
 
 // Utilities
-+(void)makeSphereWithLongitudinalCount: (int)longitudeSections
-latitudinalCount: (int)latitudeSections;
++ (void)makeSphereWithLongitudinalCount:(int)longitudeSections
+  latitudinalCount:(int)latitudeSections;
+
 @end

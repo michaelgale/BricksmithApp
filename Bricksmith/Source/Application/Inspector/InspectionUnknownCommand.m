@@ -20,12 +20,11 @@
 // Purpose:		Load the interface for this inspector.
 //
 // ==============================================================================
-- (id) init
+- (id)init
 {
   self = [super init];
 
-  if ([NSBundle loadNibNamed:@"InspectorUnknownCommand"
-                       owner:self] == NO) {
+  if ([NSBundle loadNibNamed:@"InspectorUnknownCommand" owner:self] == NO) {
     NSLog(@"Couldn't load InspectorUnknownCommand.nib");
   }
 
@@ -42,7 +41,7 @@
 // Purpose:		Called in response to the conclusion of editing in the palette.
 //
 // ==============================================================================
-- (void) commitChanges:(id)sender
+- (void)commitChanges:(id)sender
 {
   LDrawMetaCommand *representedObject = [self object];
 
@@ -62,7 +61,7 @@
 // the data in their inspector palettes.
 //
 // ==============================================================================
-- (IBAction) revert:(id)sender
+- (IBAction)revert:(id)sender
 {
   LDrawMetaCommand *representedObject = [self object];
 
@@ -79,7 +78,7 @@
 // Purpose:		The user has changed the string that makes up this command.
 //
 // ==============================================================================
-- (IBAction) commandFieldChanged:(id)sender
+- (IBAction)commandFieldChanged:(id)sender
 {
   NSString *newCommand = [commandField stringValue];
   NSString *oldCommand = [[self object] stringValue];

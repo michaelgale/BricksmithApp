@@ -78,7 +78,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
 // Purpose: initialize our renderer, and grab all basic OpenGL state we need.
 //
 // ================================================================================
-- (id) initWithScale:(double)initial_scale
+- (id)initWithScale:(double)initial_scale
   modelView:(GLfloat *)mv_matrix
   projection:(GLfloat *)proj_matrix
 {
@@ -138,7 +138,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
 // display list session that has stored up some of our draw calls.
 //
 // ================================================================================
-- (void) dealloc
+- (void)dealloc
 {
   struct LDrawDragHandleInstance *dh;
 
@@ -196,7 +196,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
 // shader.
 //
 // ================================================================================
-- (void) pushMatrix:(GLfloat *)matrix
+- (void)pushMatrix:(GLfloat *)matrix
 {
   assert(transform_stack_top < TRANSFORM_STACK_DEPTH);
   memcpy(transform_stack + 16 * transform_stack_top, transform_now, sizeof(transform_now));
@@ -229,7 +229,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
 // TODO:	change hard-coded values to be compensated for aspect ratio, etc.
 //
 // ================================================================================
-- (int) checkCull:(GLfloat *)minXYZ to:(GLfloat *)maxXYZ
+- (int)checkCull:(GLfloat *)minXYZ to:(GLfloat *)maxXYZ
 {
   if (minXYZ[0] > maxXYZ[0] ||
       minXYZ[1] > maxXYZ[1] ||
@@ -272,7 +272,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
 // keep the cube statically.
 //
 // ================================================================================
-- (void) drawBoxFrom:(GLfloat *)minXyz to:(GLfloat *)maxXyz
+- (void)drawBoxFrom:(GLfloat *)minXyz to:(GLfloat *)maxXyz
 {
   static struct LDrawDL *unit_cube = NULL;
 
@@ -331,7 +331,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
 // Purpose: reset one level of the matrix stack.
 //
 // ================================================================================
-- (void) popMatrix
+- (void)popMatrix
 {
   // We always push a texture frame with every matrix frame for now, so that
   // we can re-transform the tex projection.  We simply have 2x the slots
@@ -351,7 +351,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
 // current and compliment color for DLs that use the current color.
 //
 // ================================================================================
-- (void) pushColor:(GLfloat *)color
+- (void)pushColor:(GLfloat *)color
 {
   assert(color_stack_top < COLOR_STACK_DEPTH);
   GLfloat *top = color_stack + color_stack_top * 4;
@@ -378,7 +378,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
 // Purpose: pop the stack of current colors that has previously been pushed.
 //
 // ================================================================================
-- (void) popColor
+- (void)popColor
 {
   assert(color_stack_top > 0);
   --color_stack_top;
@@ -397,7 +397,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
 // textures and projection.
 //
 // ================================================================================
-- (void) pushTexture:(struct LDrawTextureSpec *)spec;
+- (void)pushTexture:(struct LDrawTextureSpec *)spec;
 {
   assert(texture_stack_top < TEXTURE_STACK_DEPTH);
   memcpy(tex_stack + texture_stack_top, &tex_now, sizeof(tex_now));
@@ -416,7 +416,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
 // last texture is popped, we go back to being untextured.
 //
 // ================================================================================
-- (void) popTexture
+- (void)popTexture
 {
   assert(texture_stack_top > 0);
   --texture_stack_top;
@@ -434,7 +434,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
 // "wire frame" is popped, we are no longer wire frame.
 //
 // ================================================================================
-- (void) pushWireFrame
+- (void)pushWireFrame
 {
   if (wire_frame_count++ == 0) {
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -448,7 +448,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
 // balanced.
 //
 // ================================================================================
-- (void) popWireFrame
+- (void)popWireFrame
 {
   if (--wire_frame_count == 0) {
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -465,7 +465,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
 // first.
 //
 // ================================================================================
-- (void) drawQuad:(GLfloat *)vertices normal:(GLfloat *)normal color:(GLfloat *)color;
+- (void)drawQuad:(GLfloat *)vertices normal:(GLfloat *)normal color:(GLfloat *)color;
 {
   assert(dl_stack_top);
   GLfloat c[4];
@@ -481,7 +481,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
 // Purpose: Adds one triangle to the current display list.
 //
 // ================================================================================
-- (void) drawTri:(GLfloat *)vertices normal:(GLfloat *)normal color:(GLfloat *)color;
+- (void)drawTri:(GLfloat *)vertices normal:(GLfloat *)normal color:(GLfloat *)color;
 {
   assert(dl_stack_top);
 
@@ -498,7 +498,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
 // Purpose: Adds one line to the current display list.
 //
 // ================================================================================
-- (void) drawLine:(GLfloat *)vertices normal:(GLfloat *)normal color:(GLfloat *)color;
+- (void)drawLine:(GLfloat *)vertices normal:(GLfloat *)normal color:(GLfloat *)color;
 {
   assert(dl_stack_top);
 
@@ -522,7 +522,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
 // that could deform our handle.
 //
 // ================================================================================
-- (void) drawDragHandle:(GLfloat *)xyz withSize:(GLfloat)size
+- (void)drawDragHandle:(GLfloat *)xyz withSize:(GLfloat)size
 {
   struct LDrawDragHandleInstance *dh =
     (struct LDrawDragHandleInstance *)LDrawBDPAllocate(pool, sizeof(struct LDrawDragHandleInstance));
@@ -558,7 +558,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
 // of the drawing system.
 //
 // ================================================================================
-- (void) drawDragHandleImm:(GLfloat *)xyz withSize:(GLfloat)size
+- (void)drawDragHandleImm:(GLfloat *)xyz withSize:(GLfloat)size
 {
   static GLuint vaoTag         = 0;
   static GLuint vboTag         = 0;
@@ -666,7 +666,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
 // Purpose:	This begins accumulating a display list.
 //
 // ================================================================================
-- (id <LDrawCollector>) beginDL
+- (id <LDrawCollector>)beginDL
 {
   assert(dl_stack_top < DL_STACK_DEPTH);
 
@@ -683,7 +683,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
 // Purpose: close off a DL, returning the display list if there is one.
 //
 // ================================================================================
-- (void) endDL:(LDrawDLHandle *)outHandle cleanupFunc:(LDrawDLCleanup_f *)func
+- (void)endDL:(LDrawDLHandle *)outHandle cleanupFunc:(LDrawDLCleanup_f *)func
 {
   assert(dl_stack_top > 0);
   struct LDrawDL *dl = dl_now ? LDrawDLBuilderFinish(dl_now) : NULL;
@@ -701,7 +701,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
 // that sorts out how to actually do tihs.
 //
 // ================================================================================
-- (void) drawDL:(LDrawDLHandle)dl
+- (void)drawDL:(LDrawDLHandle)dl
 {
   LDrawDLDraw(
     session,

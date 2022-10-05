@@ -41,7 +41,7 @@ static ColorLibrary *sharedColorLibrary = nil;
 // The colors are dynamically read from ldconfig.ldr.
 //
 // ------------------------------------------------------------------------------
-+ (ColorLibrary *) sharedColorLibrary
++ (ColorLibrary *)sharedColorLibrary
 {
   NSString  *ldconfigPath = nil;
   LDrawFile *ldconfigFile = nil;
@@ -109,7 +109,7 @@ static ColorLibrary *sharedColorLibrary = nil;
 // Purpose:		Initialize the object.
 //
 // ==============================================================================
-- (id) init
+- (id)init
 {
   self = [super init];
 
@@ -136,7 +136,7 @@ static ColorLibrary *sharedColorLibrary = nil;
 // them slip to the outside world (especially the color picker!)
 //
 // ==============================================================================
-- (NSArray *) colors
+- (NSArray *)colors
 {
   return([self->colors allValues]);
 }// end LDrawColors
@@ -147,7 +147,7 @@ static ColorLibrary *sharedColorLibrary = nil;
 // Purpose:		Returns a list of the LDrawColor objects marked as favorites
 //
 // ==============================================================================
-- (NSArray *) favoriteColors
+- (NSArray *)favoriteColors
 {
   return(self->favorites);
 }
@@ -158,7 +158,7 @@ static ColorLibrary *sharedColorLibrary = nil;
 // Purpose:		Sets the colors which should appear in the Favorites category.
 //
 // ==============================================================================
-- (void) setFavorites:(NSArray *)favoritesIn
+- (void)setFavorites:(NSArray *)favoritesIn
 {
   [self->favorites removeAllObjects];
   [self->favorites addObjectsFromArray:favoritesIn];
@@ -170,7 +170,7 @@ static ColorLibrary *sharedColorLibrary = nil;
 // Purpose:		Adds the given color to the "Favorites" category.
 //
 // ==============================================================================
-- (void) addColorToFavorites:(LDrawColorT)color
+- (void)addColorToFavorites:(LDrawColorT)color
 {
   NSString *colorStr = [NSString stringWithFormat:@"%d", color];
 
@@ -184,7 +184,7 @@ static ColorLibrary *sharedColorLibrary = nil;
 // Purpose:		Removes the color from the "Favorites" category.
 //
 // ==============================================================================
-- (void) removeColorFromFavorites:(LDrawColorT)color
+- (void)removeColorFromFavorites:(LDrawColorT)color
 {
   NSString *colorStr = [NSString stringWithFormat:@"%d", color];
 
@@ -198,12 +198,11 @@ static ColorLibrary *sharedColorLibrary = nil;
 // Purpose:		Writes the favorite colours list to preferences.
 //
 // ==============================================================================
-- (void) saveFavoritesToUserDefaults
+- (void)saveFavoritesToUserDefaults
 {
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
-  [userDefaults setObject:self->favorites
-                   forKey:FAVORITE_COLORS_KEY];
+  [userDefaults setObject:self->favorites forKey:FAVORITE_COLORS_KEY];
 }// end saveFavoritesToUserDefaults
 
 
@@ -214,7 +213,7 @@ static ColorLibrary *sharedColorLibrary = nil;
 // the shared library, since its colors have global scope.
 //
 // ==============================================================================
-- (LDrawColor *) colorForCode:(LDrawColorT)colorCode
+- (LDrawColor *)colorForCode:(LDrawColorT)colorCode
 {
   NSNumber   *key   = [NSNumber numberWithInteger:colorCode];
   LDrawColor *color = [self->colors objectForKey:key];
@@ -258,7 +257,7 @@ static ColorLibrary *sharedColorLibrary = nil;
 // say, pink.
 //
 // ==============================================================================
-- (void) getComplimentRGBA:(GLfloat *)complimentRGBA
+- (void)getComplimentRGBA:(GLfloat *)complimentRGBA
   forCode:(LDrawColorT)colorCode
 {
   LDrawColor  *mainColor    = [self colorForCode:colorCode];
@@ -288,7 +287,7 @@ static ColorLibrary *sharedColorLibrary = nil;
 // Purpose:		Adds the given color to the receiver.
 //
 // ==============================================================================
-- (void) addColor:(LDrawColor *)newColor
+- (void)addColor:(LDrawColor *)newColor
 {
   LDrawColorT colorCode = [newColor colorCode];
   NSNumber    *key      = [NSNumber numberWithInteger:colorCode];
@@ -310,7 +309,7 @@ static ColorLibrary *sharedColorLibrary = nil;
 // them to otherwise pollute the user experience.
 //
 // ==============================================================================
-- (void) addPrivateColor:(LDrawColor *)newColor
+- (void)addPrivateColor:(LDrawColor *)newColor
 {
   LDrawColorT colorCode = [newColor colorCode];
   NSNumber    *key      = [NSNumber numberWithInteger:colorCode];
@@ -372,7 +371,7 @@ void complimentColor(const GLfloat *originalColor, GLfloat *complimentColor)
 // consider the ultimate fate of being deallocated.
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
   [colors release];
 

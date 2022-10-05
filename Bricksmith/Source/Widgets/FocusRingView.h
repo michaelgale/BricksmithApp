@@ -10,16 +10,16 @@
 // ==============================================================================
 #import <Cocoa/Cocoa.h>
 
-
 ////////////////////////////////////////////////////////////////////////////////
 //
 // class FocusRingView
 //
 ////////////////////////////////////////////////////////////////////////////////
-@interface FocusRingView: NSView
+@interface FocusRingView : NSView
 {
   NSView *focusSource;  // the view which, if in focus, prompts us to draw a focus ring.
 }
 
-- (void)setFocusSource: (NSView *)newObject;
+- (void)setFocusSource:(NSView *)newObject;
+
 @end

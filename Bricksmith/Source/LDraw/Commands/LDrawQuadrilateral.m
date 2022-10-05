@@ -43,7 +43,7 @@
 // 4 colour x1 y1 z1 x2 y2 z2 x3 y3 z3 x4 y4 z4
 //
 // ==============================================================================
-- (id) initWithLines:(NSArray *)lines
+- (id)initWithLines:(NSArray *)lines
   inRange:(NSRange)range
   parentGroup:(dispatch_group_t)parentGroup
 {
@@ -164,7 +164,7 @@
 // read and write LDraw objects as NSData.
 //
 // ==============================================================================
-- (id) initWithCoder:(NSCoder *)decoder
+- (id)initWithCoder:(NSCoder *)decoder
 {
   const uint8_t *temporary = NULL; // pointer to a temporary buffer returned by the decoder.
 
@@ -202,7 +202,7 @@
 // read and write LDraw objects as NSData.
 //
 // ==============================================================================
-- (void) encodeWithCoder:(NSCoder *)encoder
+- (void)encodeWithCoder:(NSCoder *)encoder
 {
   [super encodeWithCoder:encoder];
 
@@ -229,7 +229,7 @@
 // Purpose:		Returns a duplicate of this file.
 //
 // ==============================================================================
-- (id) copyWithZone:(NSZone *)zone
+- (id)copyWithZone:(NSZone *)zone
 {
   LDrawQuadrilateral *copied = (LDrawQuadrilateral *)[super copyWithZone:zone];
 
@@ -252,7 +252,7 @@
 // subroutine of -draw: in LDrawDrawableElement.
 //
 // ==============================================================================
-- (void) drawElement:(NSUInteger)optionsMask viewScale:(double)scaleFactor withColor:(LDrawColor *)
+- (void)drawElement:(NSUInteger)optionsMask viewScale:(double)scaleFactor withColor:(LDrawColor *)
   drawingColor
 {
   if (self->dragHandles) {
@@ -276,7 +276,7 @@
 // accumulating a mesh.
 //
 // ================================================================================
-- (void) drawSelf:(id <LDrawRenderer>)renderer
+- (void)drawSelf:(id <LDrawRenderer>)renderer
 {
   if (self->hidden == NO) {
     if (self->dragHandles) {
@@ -299,7 +299,7 @@
 // geometry data to the collector.
 //
 // ================================================================================
-- (void) collectSelf:(id <LDrawCollector>)renderer
+- (void)collectSelf:(id <LDrawCollector>)renderer
 {
   [self revalCache:DisplayList];
   if (self->hidden == NO) {
@@ -340,7 +340,7 @@
 // between the pickRay and the directive's drawn content.
 //
 // ==============================================================================
-- (void) hitTest:(Ray3)pickRay
+- (void)hitTest:(Ray3)pickRay
   transform:(Matrix4)transform
   viewScale:(double)scaleFactor
   boundsOnly:(BOOL)boundsOnly
@@ -395,7 +395,7 @@
 // Purpose:		Check for intersections with screen-space geometry.
 //
 // ==============================================================================
-- (BOOL) boxTest:(Box2)bounds
+- (BOOL)boxTest:(Box2)bounds
   transform:(Matrix4)transform
   boundsOnly:(BOOL)boundsOnly
   creditObject:(id)creditObject
@@ -454,7 +454,7 @@
 // depth.
 //
 // ==============================================================================
-- (void) depthTest:(Point2)pt
+- (void)depthTest:(Point2)pt
   inBox:(Box2)bounds
   transform:(Matrix4)transform
   creditObject:(id)creditObject
@@ -521,7 +521,7 @@
 // 4 colour x1 y1 z1 x2 y2 z2 x3 y3 z3 x4 y4 z4
 //
 // ==============================================================================
-- (NSString *) write
+- (NSString *)write
 {
   return([NSString stringWithFormat:
           @"4 %@ %@ %@ %@ %@ %@ %@ %@ %@ %@ %@ %@ %@",
@@ -554,7 +554,7 @@
 // is to be stored. Store subsequent vertexs after the first.
 //
 // ==============================================================================
-- (VBOVertexData *) writeElementToVertexBuffer:(VBOVertexData *)vertexBuffer
+- (VBOVertexData *)writeElementToVertexBuffer:(VBOVertexData *)vertexBuffer
   withColor:(LDrawColor *)drawingColor
   wireframe:(BOOL)wireframe
 {
@@ -732,7 +732,7 @@
 // which can be presented to the user.
 //
 // ==============================================================================
-- (NSString *) browsingDescription
+- (NSString *)browsingDescription
 {
   return(NSLocalizedString(@"Quadrilateral", nil));
 }// end browsingDescription
@@ -744,7 +744,7 @@
 // object, or nil if there is no icon.
 //
 // ==============================================================================
-- (NSString *) iconName
+- (NSString *)iconName
 {
   return(@"Quadrilateral");
 }// end iconName
@@ -755,7 +755,7 @@
 // Purpose:		Returns the name of the class used to inspect this one.
 //
 // ==============================================================================
-- (NSString *) inspectorClassName
+- (NSString *)inspectorClassName
 {
   return(@"InspectionQuadrilateral");
 }// end inspectorClassName
@@ -771,7 +771,7 @@
 // perfectly contains this object.
 //
 // ==============================================================================
-- (Box3) boundingBox3
+- (Box3)boundingBox3
 {
   [self revalCache:CacheFlagBounds];
 
@@ -795,7 +795,7 @@
 // drag-and-drop. This is not necessarily human-usable information.
 //
 // ==============================================================================
-- (Point3) position
+- (Point3)position
 {
   return(self->vertex1);
 }// end position
@@ -803,7 +803,7 @@
 
 // ========== vertex1 ===========================================================
 // ==============================================================================
-- (Point3) vertex1
+- (Point3)vertex1
 {
   return(self->vertex1);
 }// end vertex1
@@ -811,7 +811,7 @@
 
 // ========== vertex2 ===========================================================
 // ==============================================================================
-- (Point3) vertex2
+- (Point3)vertex2
 {
   return(self->vertex2);
 }// end vertex2
@@ -819,7 +819,7 @@
 
 // ========== vertex3 ===========================================================
 // ==============================================================================
-- (Point3) vertex3
+- (Point3)vertex3
 {
   return(self->vertex3);
 }// end vertex3
@@ -827,7 +827,7 @@
 
 // ========== vertex4 ===========================================================
 // ==============================================================================
-- (Point3) vertex4
+- (Point3)vertex4
 {
   return(self->vertex4);
 }// end vertex4
@@ -840,7 +840,7 @@
 // Purpose:		Identifies the object as selected.
 //
 // ==============================================================================
-- (void) setSelected:(BOOL)flag
+- (void)setSelected:(BOOL)flag
 {
   [super setSelected:flag];
 
@@ -879,7 +879,7 @@
 // Purpose:		Sets the quadrilateral's first vertex.
 //
 // ==============================================================================
-- (void) setVertex1:(Point3)newVertex
+- (void)setVertex1:(Point3)newVertex
 {
   self->vertex1 = newVertex;
   [self recomputeNormal];
@@ -897,7 +897,7 @@
 // Purpose:		Sets the quadrilateral's second vertex.
 //
 // ==============================================================================
-- (void) setVertex2:(Point3)newVertex
+- (void)setVertex2:(Point3)newVertex
 {
   self->vertex2 = newVertex;
   [self recomputeNormal];
@@ -915,7 +915,7 @@
 // Purpose:		Sets the quadrilateral's third vertex.
 //
 // ==============================================================================
-- (void) setVertex3:(Point3)newVertex
+- (void)setVertex3:(Point3)newVertex
 {
   self->vertex3 = newVertex;
   [self recomputeNormal];
@@ -933,7 +933,7 @@
 // Purpose:		Sets the quadrilateral's fourth vertex.
 //
 // ==============================================================================
-- (void) setVertex4:(Point3)newVertex
+- (void)setVertex4:(Point3)newVertex
 {
   self->vertex4 = newVertex;
   [self recomputeNormal];
@@ -955,7 +955,7 @@
 // Purpose:		One of the drag handles on our vertexes has changed.
 //
 // ==============================================================================
-- (void) dragHandleChanged:(id)sender
+- (void)dragHandleChanged:(id)sender
 {
   LDrawDragHandle *handle      = (LDrawDragHandle *)sender;
   Point3          newPosition  = [handle position];
@@ -979,7 +979,7 @@
 // Purpose:		Moves the receiver in the specified direction.
 //
 // ==============================================================================
-- (void) moveBy:(Vector3)moveVector
+- (void)moveBy:(Vector3)moveVector
 {
   Point3 newVertex1 = V3Add(self->vertex1, moveVector);
   Point3 newVertex2 = V3Add(self->vertex2, moveVector);
@@ -1020,7 +1020,7 @@
 // switch 3 & 4   switch 2 & 3
 //
 // ==============================================================================
-- (void) fixBowtie
+- (void)fixBowtie
 {
   // If correct, the crosses of these three pairs should all point up.
   Vector3 vector1_2, vector1_4; // 1 to 2, 1 to 4
@@ -1065,7 +1065,7 @@
 // Purpose:		Appends the directive into the appropriate container.
 //
 // ==============================================================================
-- (void) flattenIntoLines:(NSMutableArray *)lines
+- (void)flattenIntoLines:(NSMutableArray *)lines
   triangles:(NSMutableArray *)triangles
   quadrilaterals:(NSMutableArray *)quadrilaterals
   other:(NSMutableArray *)everythingElse
@@ -1099,7 +1099,7 @@
 // Purpose:		Finds the normal vector for this surface.
 //
 // ==============================================================================
-- (void) recomputeNormal
+- (void)recomputeNormal
 {
   Vector3 vector1, vector2;
 
@@ -1116,7 +1116,7 @@
 // not to any superclass.
 //
 // ==============================================================================
-- (void) registerUndoActions:(NSUndoManager *)undoManager
+- (void)registerUndoActions:(NSUndoManager *)undoManager
 {
   [super registerUndoActions:undoManager];
 
@@ -1138,7 +1138,7 @@
 // Purpose:		The Big Sleep.
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
   [dragHandles release];
 

@@ -10,8 +10,8 @@
 // ==============================================================================
 #import <Cocoa/Cocoa.h>
 
-
-@interface TransformerIntMinus1: NSValueTransformer {
+@interface TransformerIntMinus1 : NSValueTransformer
+{
 }
 
 @end

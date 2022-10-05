@@ -58,7 +58,7 @@
 // Purpose:		Initialize the object.
 //
 // ==============================================================================
-- (id) initWithBounds:(Size2)boundsIn
+- (id)initWithBounds:(Size2)boundsIn
 {
   self = [super init];
 
@@ -85,7 +85,7 @@
 // state.
 //
 // ==============================================================================
-- (void) prepareOpenGL
+- (void)prepareOpenGL
 {
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_BLEND);
@@ -193,7 +193,7 @@
 // OpenGL implementation is. Which is to say, not very much.
 //
 // ==============================================================================
-- (void) draw
+- (void)draw
 {
   NSDate         *startTime       = nil;
   NSUInteger     options          = DRAW_NO_OPTIONS;
@@ -408,7 +408,7 @@
 // it is flipped, though.
 //
 // ==============================================================================
-- (BOOL) isFlipped
+- (BOOL)isFlipped
 {
   return(YES);
 }// end isFlipped
@@ -420,7 +420,7 @@
 // reminder; NSOpenGLViews are opaque by default.)
 //
 // ==============================================================================
-- (BOOL) isOpaque
+- (BOOL)isOpaque
 {
   return(YES);
 }
@@ -436,7 +436,7 @@
 // drag-handle drag. Otherwise returns nil.
 //
 // ==============================================================================
-- (LDrawDragHandle *) activeDragHandle
+- (LDrawDragHandle *)activeDragHandle
 {
   return(self->activeDragHandle);
 }
@@ -449,7 +449,7 @@
 // determining the point being viewed in the scroll view.
 //
 // ==============================================================================
-- (Point2) centerPoint
+- (Point2)centerPoint
 {
   return(V2Make(V2BoxMidX([scroller getVisibleRect]), V2BoxMidY([scroller getVisibleRect])));
 }// end centerPoint
@@ -462,7 +462,7 @@
 // mouse click.
 //
 // ==============================================================================
-- (BOOL) didPartSelection
+- (BOOL)didPartSelection
 {
   return(self->didPartSelection);
 }
@@ -481,7 +481,7 @@
 // correspond to points in the LDraw model itself.
 //
 // ==============================================================================
-- (Matrix4) getInverseMatrix
+- (Matrix4)getInverseMatrix
 {
   Matrix4 transformation = Matrix4CreateFromGLMatrix4([camera getModelView]);
   Matrix4 inversed       = Matrix4Invert(transformation);
@@ -501,7 +501,7 @@
 // correspond to points in the LDraw model itself.
 //
 // ==============================================================================
-- (Matrix4) getMatrix
+- (Matrix4)getMatrix
 {
   return(Matrix4CreateFromGLMatrix4([camera getModelView]));
 }// end getMatrix
@@ -512,7 +512,7 @@
 // Purpose:		Returns YES if a mouse-drag is currently in progress.
 //
 // ==============================================================================
-- (BOOL) isTrackingDrag
+- (BOOL)isTrackingDrag
 {
   return(self->isTrackingDrag);
 }
@@ -523,7 +523,7 @@
 // Purpose:		Returns the LDraw color code of the receiver.
 //
 // ==============================================================================
-- (LDrawColor *) LDrawColor
+- (LDrawColor *)LDrawColor
 {
   return(self->color);
 }// end color
@@ -534,7 +534,7 @@
 // Purpose:		Returns the file or model being drawn by this view.
 //
 // ==============================================================================
-- (LDrawDirective *) LDrawDirective
+- (LDrawDirective *)LDrawDirective
 {
   return(self->fileBeingDrawn);
 }// end LDrawDirective
@@ -546,7 +546,7 @@
 // orthographic) used in the view.
 //
 // ==============================================================================
-- (ProjectionModeT) projectionMode
+- (ProjectionModeT)projectionMode
 {
   return([camera projectionMode]);
 }// end projectionMode
@@ -557,7 +557,7 @@
 // Purpose:		Returns the current location mode (model or walkthrough).
 //
 // ==============================================================================
-- (LocationModeT) locationMode
+- (LocationModeT)locationMode
 {
   return([camera locationMode]);
 }// end locationMode
@@ -565,7 +565,7 @@
 
 // ========== selectionMarquee ==================================================
 // ==============================================================================
-- (Box2) selectionMarquee
+- (Box2)selectionMarquee
 {
   return(self->selectionMarquee);
 }
@@ -580,7 +580,7 @@
 // (0,0,0), that means "Front, looking right-side up."
 //
 // ==============================================================================
-- (Tuple3) viewingAngle
+- (Tuple3)viewingAngle
 {
   return([camera viewingAngle]);
 }// end viewingAngle
@@ -591,7 +591,7 @@
 // Purpose:		Returns the current camera orientation for this view.
 //
 // ==============================================================================
-- (ViewOrientationT) viewOrientation
+- (ViewOrientationT)viewOrientation
 {
   return(self->viewOrientation);
 }// end viewOrientation
@@ -602,7 +602,7 @@
 // Purpose:		Returns the viewport. Origin is the lower-left.
 //
 // ==============================================================================
-- (Box2) viewport
+- (Box2)viewport
 {
   Box2 viewport = ZeroBox2;
 
@@ -618,7 +618,7 @@
 // zoom the user sees - it should be used by UI and tool code.
 //
 // ==============================================================================
-- (CGFloat) zoomPercentage
+- (CGFloat)zoomPercentage
 {
   return([camera zoomPercentage]);
 }// end zoomPercentage
@@ -639,7 +639,7 @@
 // checks the camera mode and just returns 100.0.
 //
 // ==============================================================================
-- (CGFloat) zoomPercentageForGL
+- (CGFloat)zoomPercentageForGL
 {
   if ([self locationMode] == LocationModeWalkthrough) {
     return(100.0);
@@ -657,7 +657,7 @@
 // Notes:		Querying a delegate isn't sufficient.
 //
 // ==============================================================================
-- (void) setAllowsEditing:(BOOL)flag
+- (void)setAllowsEditing:(BOOL)flag
 {
   self->allowsEditing = flag;
 }
@@ -671,7 +671,7 @@
 // window manager to do things like scrolling.
 //
 // ==============================================================================
-- (void) setDelegate:(id <LDrawGLRendererDelegate>)object withScroller:(id <LDrawGLCameraScroller>)newScroller
+- (void)setDelegate:(id <LDrawGLRendererDelegate>)object withScroller:(id <LDrawGLCameraScroller>)newScroller
 {
   // weak link.
   self->delegate = object;
@@ -685,7 +685,7 @@
 // Purpose:		Sets the canvas background color.
 //
 // ==============================================================================
-- (void) setBackgroundColorRed:(float)red green:(float)green blue:(float)blue
+- (void)setBackgroundColorRed:(float)red green:(float)green blue:(float)blue
 {
   glBackgroundColor[0] = red;
   glBackgroundColor[1] = green;
@@ -720,7 +720,7 @@
 // their document.
 //
 // ==============================================================================
-- (void) setDragEndedInOurDocument:(BOOL)flag
+- (void)setDragEndedInOurDocument:(BOOL)flag
 {
   self->dragEndedInOurDocument = flag;
 }// end setDragEndedInOurDocument:
@@ -736,7 +736,7 @@
 // allows us to translate between the two.
 //
 // ==============================================================================
-- (void) setDraggingOffset:(Vector3)offsetIn
+- (void)setDraggingOffset:(Vector3)offsetIn
 {
   self->draggingOffset = offsetIn;
 }
@@ -747,7 +747,7 @@
 // Purpose:		Sets the grid amount by which things are dragged.
 //
 // ==============================================================================
-- (void) setGridSpacing:(double)newValue
+- (void)setGridSpacing:(double)newValue
 {
   self->gridSpacing = newValue;
 }
@@ -759,7 +759,7 @@
 // color themselves.
 //
 // ==============================================================================
-- (void) setLDrawColor:(LDrawColor *)newColor
+- (void)setLDrawColor:(LDrawColor *)newColor
 {
   [newColor retain];
   [self->color release];
@@ -777,7 +777,7 @@
 // model. We also automatically center the model in the view.
 //
 // ==============================================================================
-- (void) setLDrawDirective:(LDrawDirective *)newFile
+- (void)setLDrawDirective:(LDrawDirective *)newFile
 {
   BOOL virginView = (self->fileBeingDrawn == nil);
   Box3 bounds     = InvalidBox;
@@ -840,7 +840,7 @@
 // visible rect should be permitted to grow.
 //
 // ==============================================================================
-- (void) setMaximumVisibleSize:(Size2)size
+- (void)setMaximumVisibleSize:(Size2)size
 {
   [camera tickle];
   [self->delegate LDrawGLRendererNeedsRedisplay:self];
@@ -856,7 +856,7 @@
 // this is how humans see the world.
 //
 // ==============================================================================
-- (void) setProjectionMode:(ProjectionModeT)newProjectionMode
+- (void)setProjectionMode:(ProjectionModeT)newProjectionMode
 {
   [camera setProjectionMode:newProjectionMode];
 
@@ -871,7 +871,7 @@
 // - walk-through puts the camera _on_ the model center.
 //
 // ==============================================================================
-- (void) setLocationMode:(LocationModeT)newLocationMode
+- (void)setLocationMode:(LocationModeT)newLocationMode
 {
   [camera setLocationMode:newLocationMode];
 
@@ -885,7 +885,7 @@
 // marquee.
 //
 // ==============================================================================
-- (void) setSelectionMarquee:(Box2)newBox_view
+- (void)setSelectionMarquee:(Box2)newBox_view
 {
   self->selectionMarquee = newBox_view;
 }
@@ -897,7 +897,7 @@
 // methods.
 //
 // ==============================================================================
-- (void) setTarget:(id)newTarget
+- (void)setTarget:(id)newTarget
 {
   self->target = newTarget;
 }// end setTarget:
@@ -913,7 +913,7 @@
 // (0,0,0), that means "Front, looking right-side up."
 //
 // ==============================================================================
-- (void) setViewingAngle:(Tuple3)newAngle
+- (void)setViewingAngle:(Tuple3)newAngle
 {
   [camera setViewingAngle:newAngle];
   [self->delegate LDrawGLRendererNeedsRedisplay:self];
@@ -926,7 +926,7 @@
 // i.e., ViewOrientationFront means we see the model head-on.
 //
 // ==============================================================================
-- (void) setViewOrientation:(ViewOrientationT)newOrientation
+- (void)setViewOrientation:(ViewOrientationT)newOrientation
 {
   Tuple3 newAngle = [LDrawUtilities angleForViewOrientation:newOrientation];
 
@@ -949,7 +949,7 @@
 // constrained to a minimum of 1%.
 //
 // ==============================================================================
-- (void) setZoomPercentage:(CGFloat)newPercentage
+- (void)setZoomPercentage:(CGFloat)newPercentage
 {
   [camera setZoomPercentage:newPercentage];
 }
@@ -962,7 +962,7 @@
 // center of rotation for the model camera.
 //
 // ==============================================================================
-- (void) moveCamera:(Vector3)delta
+- (void)moveCamera:(Vector3)delta
 {
   [camera setRotationCenter:V3Add([camera rotationCenter], delta)];
   [delegate LDrawGLRendererNeedsRedisplay:self];
@@ -978,7 +978,7 @@
 // Purpose:		Enlarge the scale of the current LDraw view.
 //
 // ==============================================================================
-- (IBAction) zoomIn:(id)sender
+- (IBAction)zoomIn:(id)sender
 {
   CGFloat currentZoom = [self zoomPercentage];
   CGFloat newZoom     = currentZoom * 2;
@@ -992,7 +992,7 @@
 // Purpose:		Shrink the scale of the current LDraw view.
 //
 // ==============================================================================
-- (IBAction) zoomOut:(id)sender
+- (IBAction)zoomOut:(id)sender
 {
   CGFloat currentZoom = [self zoomPercentage];
   CGFloat newZoom     = currentZoom / 2;
@@ -1007,7 +1007,7 @@
 // image perfectly fills the visible area of the view
 //
 // ==============================================================================
-- (IBAction) zoomToFit:(id)sender
+- (IBAction)zoomToFit:(id)sender
 {
   Size2   maxContentSize  = ZeroSize2;
   Box3    boundingBox     = InvalidBox;
@@ -1081,7 +1081,7 @@
 // optional.)
 //
 // ==============================================================================
-- (void) mouseMoved:(Point2)point_view
+- (void)mouseMoved:(Point2)point_view
 {
   [self publishMouseOverPoint:point_view];
 }
@@ -1097,7 +1097,7 @@
 // renderer class.
 //
 // ==============================================================================
-- (void) mouseDown
+- (void)mouseDown
 {
   // Reset event tracking flags.
   self->isTrackingDrag   = NO;
@@ -1121,7 +1121,7 @@
 // renderer class.
 //
 // ==============================================================================
-- (void) mouseDragged
+- (void)mouseDragged
 {
   self->isStartingDrag = (self->isTrackingDrag == NO);    // first drag if none to date
   self->isTrackingDrag = YES;
@@ -1138,7 +1138,7 @@
 // renderer class.
 //
 // ==============================================================================
-- (void) mouseUp
+- (void)mouseUp
 {
   // Redraw from our dragging operations, if necessary.
   if ((self->isTrackingDrag == YES && rotationDrawMode == LDrawGLDrawExtremelyFast) ||
@@ -1162,7 +1162,7 @@
 // our view on the point clicked.
 //
 // ==============================================================================
-- (void) mouseCenterClick:(Point2)viewClickedPoint
+- (void)mouseCenterClick:(Point2)viewClickedPoint
 {
   // Ben says: this function used to have a special case for ortho-viewing.
   // But since perspective-case code is fully general, we just now use it alway.
@@ -1194,7 +1194,7 @@
 // on a part or on empty space.
 //
 // ==============================================================================
-- (BOOL) mouseSelectionClick:(Point2)point_view
+- (BOOL)mouseSelectionClick:(Point2)point_view
   selectionMode:(SelectionModeT)selectionMode
 {
   LDrawDirective *clickedDirective = nil;
@@ -1309,7 +1309,7 @@
 // want to center the view on whatever we clicked on.
 //
 // ==============================================================================
-- (void) mouseZoomInClick:(Point2)viewClickedPoint
+- (void)mouseZoomInClick:(Point2)viewClickedPoint
 {
   CGFloat currentZoom = [self zoomPercentage];
   CGFloat newZoom     = currentZoom * 2;
@@ -1325,7 +1325,7 @@
 // want to center the view on whatever we clicked on.
 //
 // ==============================================================================
-- (void) mouseZoomOutClick:(Point2)viewClickedPoint
+- (void)mouseZoomOutClick:(Point2)viewClickedPoint
 {
   CGFloat currentZoom = [self zoomPercentage];
   CGFloat newZoom     = currentZoom / 2;
@@ -1342,7 +1342,7 @@
 // Purpose:		Move the active drag handle
 //
 // ==============================================================================
-- (void) dragHandleDraggedToPoint:(Point2)point_view
+- (void)dragHandleDraggedToPoint:(Point2)point_view
   constrainDragAxis:(BOOL)constrainDragAxis
 {
   Point3 modelReferencePoint = [self->activeDragHandle position];
@@ -1379,7 +1379,7 @@
 // Purpose:		Scroll the view as the mouse is dragged across it.
 //
 // ==============================================================================
-- (void) panDragged:(Vector2)viewDirection location:(Point2)point_view
+- (void)panDragged:(Vector2)viewDirection location:(Point2)point_view
 {
   if (isStartingDrag) {
     self->initialDragLocation = [self modelPointForPoint:point_view];
@@ -1443,7 +1443,7 @@
 // -1 in order to make it go the right direction.
 //
 // ==============================================================================
-- (void) rotationDragged:(Vector2)viewDirection
+- (void)rotationDragged:(Vector2)viewDirection
 {
   if ([self projectionMode] != ProjectionModePerspective) {
     [self setProjectionMode:ProjectionModePerspective];
@@ -1465,7 +1465,7 @@
 // Purpose:		Drag up means zoom in, drag down means zoom out. 1 px = 1 %.
 //
 // ==============================================================================
-- (void) zoomDragged:(Vector2)viewDirection
+- (void)zoomDragged:(Vector2)viewDirection
 {
   CGFloat pixelChange   = -viewDirection.y;       // Negative means down
   CGFloat magnification = pixelChange / 100;      // 1 px = 1%
@@ -1486,7 +1486,7 @@
 // the rectangle itself.
 //
 // ==============================================================================
-- (void) mouseSelectionDragToPoint:(Point2)point_view
+- (void)mouseSelectionDragToPoint:(Point2)point_view
   selectionMode:(SelectionModeT)selectionMode
 {
 #if TIME_BOXTEST
@@ -1532,7 +1532,7 @@
 // gesture tracking.
 //
 // ==============================================================================
-- (void) beginGesture
+- (void)beginGesture
 {
   self->isGesturing = YES;
 }
@@ -1544,7 +1544,7 @@
 // gesture tracking.
 //
 // ==============================================================================
-- (void) endGesture
+- (void)endGesture
 {
   self->isGesturing = NO;
 
@@ -1563,7 +1563,7 @@
 // plane of the model (that is, spinning around -y).
 //
 // ==============================================================================
-- (void) rotateByDegrees:(double)angle
+- (void)rotateByDegrees:(double)angle
 {
   if ([self projectionMode] != ProjectionModePerspective) {
     [self setProjectionMode:ProjectionModePerspective];
@@ -1584,7 +1584,7 @@
 // initiate interactive dragging.
 //
 // ==============================================================================
-- (void) draggingEnteredAtPoint:(Point2)point_view
+- (void)draggingEnteredAtPoint:(Point2)point_view
   directives:(NSArray *)directives
   setTransform:(BOOL)setTransform
   originatedLocally:(BOOL)originatedLocally
@@ -1656,7 +1656,7 @@
 // Purpose:		Ends part drag-and-drop.
 //
 // ==============================================================================
-- (void) endDragging
+- (void)endDragging
 {
   if ([self->fileBeingDrawn respondsToSelector:@selector(setDraggingDirectives:)]) {
     [(id)self->fileBeingDrawn
@@ -1673,7 +1673,7 @@
 // location, in window coordinates.
 //
 // ==============================================================================
-- (void) updateDragWithPosition:(Point2)point_view
+- (void)updateDragWithPosition:(Point2)point_view
   constrainAxis:(BOOL)constrainAxis
 {
   NSArray *directives                  = nil;
@@ -1706,7 +1706,7 @@
 // location, in window coordinates.
 //
 // ==============================================================================
-- (BOOL) updateDirectives:(NSArray *)directives
+- (BOOL)updateDirectives:(NSArray *)directives
   withDragPosition:(Point2)point_view
   depthReferencePoint:(Point3)modelReferencePoint
   constrainAxis:(BOOL)constrainAxis
@@ -1782,7 +1782,7 @@
 // Purpose:		The selected MPD model changed.
 //
 // ==============================================================================
-- (void) activeModelDidChange:(NSNotification *)notification
+- (void)activeModelDidChange:(NSNotification *)notification
 {
   [self updateRotationCenter];
   if (fileBeingDrawn != nil) {
@@ -1801,7 +1801,7 @@
 // We also use this opportunity to grow the canvas if necessary.
 //
 // ==============================================================================
-- (void) displayNeedsUpdating:(NSNotification *)notification
+- (void)displayNeedsUpdating:(NSNotification *)notification
 {
   [camera setModelSize:[fileBeingDrawn boundingBox3]];
   [self->delegate LDrawGLRendererNeedsRedisplay:self];
@@ -1813,7 +1813,7 @@
 // Purpose:		The active model changed the point around which it is to be spun.
 //
 // ==============================================================================
-- (void) rotationCenterChanged:(NSNotification *)notification
+- (void)rotationCenterChanged:(NSNotification *)notification
 {
   [self updateRotationCenter];
 
@@ -1833,7 +1833,7 @@
 // Returns 1.0 if there is no object under the point.
 //
 // ==============================================================================
-- (double) getDepthUnderPoint:(Point2)point_view
+- (double)getDepthUnderPoint:(Point2)point_view
 {
   Point2 point_viewport = [self convertPointToViewport:point_view];
   Point2 bl             = V2Make(point_viewport.x - HANDLE_SIZE, point_viewport.y - HANDLE_SIZE);
@@ -1890,7 +1890,7 @@
 //
 // ==============================================================================
 #if 0 // replaced by direct depthTest.
-- (NSArray *) getDirectivesUnderPoint:(Point2)point_view
+- (NSArray *)getDirectivesUnderPoint:(Point2)point_view
   amongDirectives:(NSArray *)directives
   fastDraw:(BOOL)fastDraw
 {
@@ -1964,7 +1964,7 @@
 // in screen space.
 //
 // ==============================================================================
-- (NSArray *) getDirectivesUnderRect:(Box2)rect_view
+- (NSArray *)getDirectivesUnderRect:(Box2)rect_view
   amongDirectives:(NSArray *)directives
   fastDraw:(BOOL)fastDraw
 {
@@ -2034,7 +2034,7 @@
 // ==============================================================================
 #if 0
 // not used due to depth test
-- (NSArray *) getPartsFromHits:(NSDictionary *)hits
+- (NSArray *)getPartsFromHits:(NSDictionary *)hits
 {
   NSMutableArray *clickedDirectives = [NSMutableArray arrayWithCapacity:[hits count]];
   LDrawDirective *currentDirective  = nil;
@@ -2075,7 +2075,7 @@
 // point under the view point.
 //
 // ==============================================================================
-- (void) publishMouseOverPoint:(Point2)point_view
+- (void)publishMouseOverPoint:(Point2)point_view
 {
   Point3  modelPoint    = ZeroPoint3;
   Vector3 modelAxisForX = ZeroPoint3;
@@ -2110,7 +2110,7 @@
 // location.
 //
 // ==============================================================================
-- (void) setZoomPercentage:(CGFloat)newPercentage
+- (void)setZoomPercentage:(CGFloat)newPercentage
   preservePoint:(Point2)viewPoint
 {
   Point3 modelPoint = [self modelPointForPoint:viewPoint];
@@ -2127,7 +2127,7 @@
 // given in LDraw model coordinates.
 //
 // ==============================================================================
-- (void) scrollCenterToModelPoint:(Point3)modelPoint
+- (void)scrollCenterToModelPoint:(Point3)modelPoint
 {
   [self scrollModelPoint:modelPoint
    toViewportProportionalPoint:V2Make(0.5, 0.5)];
@@ -2142,7 +2142,7 @@
 // center; (1.0, 1.0) means the top-right.
 //
 // ==============================================================================
-- (void) scrollModelPoint:(Point3)modelPoint
+- (void)scrollModelPoint:(Point3)modelPoint
   toViewportProportionalPoint:(Point2)viewportPoint
 {
   [camera scrollModelPoint:modelPoint
@@ -2156,22 +2156,22 @@
 // model.
 //
 // ==============================================================================
-- (void) updateRotationCenter
+- (void)updateRotationCenter
 {
   Point3 point = ZeroPoint3;
 
   if ([fileBeingDrawn isKindOfClass:[LDrawFile class]]) {
-    point = [[(LDrawFile *)fileBeingDrawn activeModel] rotationCenter];
+    point = [[(LDrawFile *) fileBeingDrawn activeModel] rotationCenter];
   }
   else if ([fileBeingDrawn isKindOfClass:[LDrawModel class]]) {
-    point = [(LDrawModel *)fileBeingDrawn rotationCenter];
+    point = [(LDrawModel *) fileBeingDrawn rotationCenter];
   }
 
   [camera setRotationCenter:point];
 }
 
 
-- (void) showAxisLines:(BOOL)flag;
+- (void)showAxisLines:(BOOL)flag;
 {
   self->showAxisLines = flag;
 }
@@ -2185,7 +2185,7 @@
 // view bounds' coordinate system.
 //
 // ==============================================================================
-- (Point2) convertPointFromViewport:(Point2)viewportPoint
+- (Point2)convertPointFromViewport:(Point2)viewportPoint
 {
   Point2 point_visibleRect = ZeroPoint2;
   Point2 point_view        = ZeroPoint2;
@@ -2220,7 +2220,7 @@
 // the viewport's coordinate system.
 //
 // ==============================================================================
-- (Point2) convertPointToViewport:(Point2)point_view
+- (Point2)convertPointToViewport:(Point2)point_view
 {
   Point2 point_visibleRect = ZeroPoint2;
   Point2 point_viewport    = ZeroPoint2;
@@ -2266,7 +2266,7 @@
 // sensible-looking choice.
 //
 // ==============================================================================
-- (void) getModelAxesForViewX:(Vector3 *)outModelX
+- (void)getModelAxesForViewX:(Vector3 *)outModelX
   Y:(Vector3 *)outModelY
   Z:(Vector3 *)outModelZ
 {
@@ -2329,7 +2329,7 @@
 // matrix.
 //
 // ==============================================================================
-- (Point3) modelPointForPoint:(Point2)viewPoint
+- (Point3)modelPointForPoint:(Point2)viewPoint
 {
   Point2 viewportPoint = [self convertPointToViewport:viewPoint];
   double depth         = 0.0;
@@ -2395,7 +2395,7 @@
 // returned z-axis indicates the unreliable point.
 //
 // ==============================================================================
-- (Point3) modelPointForPoint:(Point2)viewPoint
+- (Point3)modelPointForPoint:(Point2)viewPoint
   depthReferencePoint:(Point3)depthPoint
 {
   Box2 viewport = [self viewport];
@@ -2482,7 +2482,7 @@
 // Purpose:		glFinishForever();
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
 

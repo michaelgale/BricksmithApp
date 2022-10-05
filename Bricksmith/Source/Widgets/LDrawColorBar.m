@@ -23,7 +23,7 @@
 // border.
 //
 // ==============================================================================
-- (void) drawRect:(NSRect)aRect
+- (void)drawRect:(NSRect)aRect
 {
   [super drawRect:aRect]; // does nothing.
 
@@ -55,7 +55,7 @@
 // Purpose:		Returns the LDraw color code represented by this button.
 //
 // ==============================================================================
-- (LDrawColor *) LDrawColor
+- (LDrawColor *)LDrawColor
 {
   return(color);
 }// end LDrawColor
@@ -67,7 +67,7 @@
 // redraws the receiever.
 //
 // ==============================================================================
-- (void) setLDrawColor:(LDrawColor *)newColor
+- (void)setLDrawColor:(LDrawColor *)newColor
 {
   NSString *description = nil;
   GLfloat  components[4];
@@ -103,9 +103,9 @@
 // Purpose:		Entering the long dark night.
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
-  [self->nsColor  release];
+  [self->nsColor release];
 
   [super dealloc];
 }// end dealloc

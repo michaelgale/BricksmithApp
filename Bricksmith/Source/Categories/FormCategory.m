@@ -10,7 +10,6 @@
 // ==============================================================================
 #import "FormCategory.h"
 
-
 @implementation NSForm (FormCategory)
 
 // ========== setCoordinateValue: ===============================================
@@ -19,7 +18,7 @@
 // fields of the form.
 //
 // ==============================================================================
-- (Point3) coordinateValue
+- (Point3)coordinateValue
 {
   Point3 representedPoint = ZeroPoint3;
 
@@ -37,7 +36,7 @@
 // newPoint.
 //
 // ==============================================================================
-- (void) setCoordinateValue:(Point3)newPoint
+- (void)setCoordinateValue:(Point3)newPoint
 {
   [[self cellAtIndex:0] setFloatValue:newPoint.x];
   [[self cellAtIndex:1] setFloatValue:newPoint.y];

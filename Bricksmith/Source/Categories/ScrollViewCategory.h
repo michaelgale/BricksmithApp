@@ -9,13 +9,12 @@
 // ==============================================================================
 #import <Cocoa/Cocoa.h>
 
-
 ////////////////////////////////////////////////////////////////////////////////
 //
 // category ScrollViewCategory
 //
 ////////////////////////////////////////////////////////////////////////////////
-@interface NSScrollView(ScrollViewCategory)
+@interface NSScrollView (ScrollViewCategory)
 
 - (void)centerDocumentView;
 

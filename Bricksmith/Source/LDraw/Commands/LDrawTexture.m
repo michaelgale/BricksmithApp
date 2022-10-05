@@ -15,7 +15,6 @@
 #import "PartLibrary.h"
 #import "StringCategory.h"
 
-
 @implementation LDrawTexture
 
 // ========== initWithLines:inRange:parentGroup: ================================
@@ -23,7 +22,7 @@
 // Purpose:		Initializes the texture with the lines.
 //
 // ==============================================================================
-- (id) initWithLines:(NSArray *)lines
+- (id)initWithLines:(NSArray *)lines
   inRange:(NSRange)range
   parentGroup:(dispatch_group_t)parentGroup
 {
@@ -131,7 +130,7 @@
 // read and write LDraw objects as NSData.
 //
 // ==============================================================================
-- (id) initWithCoder:(NSCoder *)decoder
+- (id)initWithCoder:(NSCoder *)decoder
 {
   const uint8_t *temporary = NULL; // pointer to a temporary buffer returned by the decoder.
 
@@ -167,7 +166,7 @@
 // read and write LDraw objects as NSData.
 //
 // ==============================================================================
-- (void) encodeWithCoder:(NSCoder *)encoder
+- (void)encodeWithCoder:(NSCoder *)encoder
 {
   [super encodeWithCoder:encoder];
 
@@ -195,7 +194,7 @@
 // Purpose:		Returns a duplicate of this file.
 //
 // ==============================================================================
-- (id) copyWithZone:(NSZone *)zone
+- (id)copyWithZone:(NSZone *)zone
 {
   LDrawTexture *copied = (LDrawTexture *)[super copyWithZone:zone];
 
@@ -218,7 +217,7 @@
 // Purpose:		Returns the range from the beginning to the end of the step.
 //
 // ------------------------------------------------------------------------------
-+ (NSRange) rangeOfDirectiveBeginningAtIndex:(NSUInteger)index
++ (NSRange)rangeOfDirectiveBeginningAtIndex:(NSUInteger)index
   inLines:(NSArray *)lines
   maxIndex:(NSUInteger)maxIndex
 {
@@ -303,7 +302,7 @@
 // Purpose:		Bind the texture and draw all the subparts in it.
 //
 // ==============================================================================
-- (void) draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)parentColor
+- (void)draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)parentColor
 {
   assert(!"Not used.");
 }// end draw:viewScale:parentColor:
@@ -321,7 +320,7 @@
 // calls for.
 //
 // ================================================================================
-- (void) drawSelf:(id <LDrawRenderer>)renderer
+- (void)drawSelf:(id <LDrawRenderer>)renderer
 {
   NSArray        *commands         = [self subdirectives];
   LDrawDirective *currentDirective = nil;
@@ -376,7 +375,7 @@
 // collector and then recurse.
 //
 // ================================================================================
-- (void) collectSelf:(id <LDrawCollector>)renderer
+- (void)collectSelf:(id <LDrawCollector>)renderer
 {
   NSArray        *commands         = [self subdirectives];
   LDrawDirective *currentDirective = nil;
@@ -425,7 +424,7 @@
 // Purpose:		Hit-test the geometry.
 //
 // ==============================================================================
-- (void) hitTest:(Ray3)pickRay
+- (void)hitTest:(Ray3)pickRay
   transform:(Matrix4)transform
   viewScale:(double)scaleFactor
   boundsOnly:(BOOL)boundsOnly
@@ -465,7 +464,7 @@
 // Purpose:		Check for intersections with screen-space geometry.
 //
 // ==============================================================================
-- (BOOL) boxTest:(Box2)bounds
+- (BOOL)boxTest:(Box2)bounds
   transform:(Matrix4)transform
   boundsOnly:(BOOL)boundsOnly
   creditObject:(id)creditObject
@@ -499,7 +498,7 @@
 // depth.
 //
 // ==============================================================================
-- (void) depthTest:(Point2)testPt
+- (void)depthTest:(Point2)testPt
   inBox:(Box2)bounds
   transform:(Matrix4)transform
   creditObject:(id)creditObject
@@ -542,7 +541,7 @@
 // 0 STEP
 //
 // ==============================================================================
-- (NSString *) write
+- (NSString *)write
 {
   NSMutableString *written        = [NSMutableString string];
   NSString        *CRLF           = [NSString CRLF];
@@ -623,7 +622,7 @@
 // which can be presented to the user.
 //
 // ==============================================================================
-- (NSString *) browsingDescription
+- (NSString *)browsingDescription
 {
   return(imageDisplayName);
 }// end browsingDescription
@@ -635,7 +634,7 @@
 // object, or nil if there is no icon.
 //
 // ==============================================================================
-- (NSString *) iconName
+- (NSString *)iconName
 {
   return(@"Texture");
 }// end iconName
@@ -647,7 +646,7 @@
 
 // ========== boundingBox3 ======================================================
 // ==============================================================================
-- (Box3) boundingBox3
+- (Box3)boundingBox3
 {
   if ([self revalCache:CacheFlagBounds] == CacheFlagBounds) {
     cachedBounds = [LDrawUtilities boundingBox3ForDirectives:[self subdirectives]];
@@ -658,7 +657,7 @@
 
 // ========== glossmapName ======================================================
 // ==============================================================================
-- (NSString *) glossmapName
+- (NSString *)glossmapName
 {
   return(glossmapName);
 }
@@ -666,7 +665,7 @@
 
 // ========== imageDisplayName ==================================================
 // ==============================================================================
-- (NSString *) imageDisplayName
+- (NSString *)imageDisplayName
 {
   return(self->imageDisplayName);
 }
@@ -679,7 +678,7 @@
 // I have adopted lower-case as the standard for names.
 //
 // ==============================================================================
-- (NSString *) imageReferenceName
+- (NSString *)imageReferenceName
 {
   return(self->imageReferenceName);
 }
@@ -693,7 +692,7 @@
 // map. Unused.
 //
 // ==============================================================================
-- (void) setGlossmapName:(NSString *)newName
+- (void)setGlossmapName:(NSString *)newName
 {
   [newName retain];
   [self->glossmapName release];
@@ -706,7 +705,7 @@
 // Purpose:		Sets the filename of the image to use as the texture.
 //
 // ==============================================================================
-- (void) setImageDisplayName:(NSString *)newName
+- (void)setImageDisplayName:(NSString *)newName
 {
   [self setImageDisplayName:newName
                       parse:YES
@@ -725,7 +724,7 @@
 // progress bar.
 //
 // ==============================================================================
-- (void) setImageDisplayName:(NSString *)newName
+- (void)setImageDisplayName:(NSString *)newName
   parse:(BOOL)shouldParse
   inGroup:(dispatch_group_t)parentGroup
 {
@@ -771,7 +770,7 @@
 // Purpose:		Sets the texture's first planePoint.
 //
 // ==============================================================================
-- (void) setPlanePoint1:(Point3)newPlanePoint
+- (void)setPlanePoint1:(Point3)newPlanePoint
 {
   self->planePoint1 = newPlanePoint;
 
@@ -787,7 +786,7 @@
 // Purpose:		Sets the texture's second planePoint.
 //
 // ==============================================================================
-- (void) setPlanePoint2:(Point3)newPlanePoint
+- (void)setPlanePoint2:(Point3)newPlanePoint
 {
   self->planePoint2 = newPlanePoint;
 
@@ -803,7 +802,7 @@
 // Purpose:		Sets the texture's last planePoint.
 //
 // ==============================================================================
-- (void) setPlanePoint3:(Point3)newPlanePoint
+- (void)setPlanePoint3:(Point3)newPlanePoint
 {
   self->planePoint3 = newPlanePoint;
 
@@ -819,7 +818,7 @@
 // Purpose:		Somebody make this a protocol method.
 //
 // ==============================================================================
-- (void) setSelected:(BOOL)flag
+- (void)setSelected:(BOOL)flag
 {
   [super setSelected:flag];
 
@@ -858,7 +857,7 @@
 // Purpose:		Inserts the new directive into the step.
 //
 // ==============================================================================
-- (void) insertDirective:(LDrawDirective *)directive atIndex:(NSInteger)index
+- (void)insertDirective:(LDrawDirective *)directive atIndex:(NSInteger)index
 {
   [super insertDirective:directive
                  atIndex:index];
@@ -872,7 +871,7 @@
 // Purpose:		Removes the directive from the step.
 //
 // ==============================================================================
-- (void) removeDirectiveAtIndex:(NSInteger)index
+- (void)removeDirectiveAtIndex:(NSInteger)index
 {
   LDrawDirective *directive = [[[self subdirectives] objectAtIndex:index] retain];
 
@@ -893,7 +892,7 @@
 // Purpose:		One of the drag handles on our vertexes has changed.
 //
 // ==============================================================================
-- (void) dragHandleChanged:(id)sender
+- (void)dragHandleChanged:(id)sender
 {
   LDrawDragHandle *handle      = (LDrawDragHandle *)sender;
   Point3          newPosition  = [handle position];
@@ -919,7 +918,7 @@
 // Purpose:		Returns if line is a 0 !TEXMAP FALLBACK
 //
 // ==============================================================================
-+ (BOOL) lineIsTextureFallback:(NSString *)line
++ (BOOL)lineIsTextureFallback:(NSString *)line
 {
   NSString *parsedField = nil;
   NSString *workingLine = line;
@@ -949,7 +948,7 @@
 // Purpose:		Returns if line is a 0 !TEXMAP START
 //
 // ==============================================================================
-+ (BOOL) lineIsTextureBeginning:(NSString *)line
++ (BOOL)lineIsTextureBeginning:(NSString *)line
 {
   NSString *parsedField = nil;
   NSString *workingLine = line;
@@ -984,7 +983,7 @@
 // Purpose:		Returns if line is a 0 !TEXMAP END
 //
 // ==============================================================================
-+ (BOOL) lineIsTextureTerminator:(NSString *)line
++ (BOOL)lineIsTextureTerminator:(NSString *)line
 {
   NSString *parsedField = nil;
   NSString *workingLine = line;
@@ -1014,7 +1013,7 @@
 // Purpose:		Pulls out the fields of a planar texture.
 //
 // ==============================================================================
-- (BOOL) parsePlanarTextureFromLine:(NSString *)line
+- (BOOL)parsePlanarTextureFromLine:(NSString *)line
   parentGroup:(dispatch_group_t)parentGroup
 {
   NSScanner *scanner = [NSScanner scannerWithString:line];
@@ -1155,7 +1154,7 @@
 // appropriate container.
 //
 // ==============================================================================
-- (void) flattenIntoLines:(NSMutableArray *)lines
+- (void)flattenIntoLines:(NSMutableArray *)lines
   triangles:(NSMutableArray *)triangles
   quadrilaterals:(NSMutableArray *)quadrilaterals
   other:(NSMutableArray *)everythingElse
@@ -1234,7 +1233,7 @@
 // Purpose:		Think black fabric. Loosely cut. In a hood.
 //
 // ==============================================================================
-- (void) dealloc
+- (void)dealloc
 {
   [fallback release];
   [imageDisplayName release];
