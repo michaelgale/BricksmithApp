@@ -126,6 +126,9 @@
                                     <menuItem title="Rubber" tag="5" id="wte-p8-m4v"/>
                                     <menuItem title="Metal" tag="6" id="71p-6c-9NG"/>
                                     <menuItem title="Other" tag="7" id="Eng-PV-a8s"/>
+                                    <menuItem title="Favourites" tag="8" id="kWb-aw-uWc">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
                                 </items>
                             </menu>
                         </popUpButtonCell>
@@ -139,10 +142,10 @@
                         <buttonCell key="cell" type="push" title="Fav" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Ksi-05-95B">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="smallSystem"/>
+                            <connections>
+                                <action selector="favButtonPressed:" target="-1" id="xRI-4Y-0jI"/>
+                            </connections>
                         </buttonCell>
-                        <connections>
-                            <action selector="favButtonPressed:" target="-1" id="gdO-Ql-fr1"/>
-                        </connections>
                     </button>
                     <searchField wantsLayer="YES" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="62">
                         <rect key="frame" x="58" y="4" width="150" height="19"/>

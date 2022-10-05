@@ -32,6 +32,7 @@
 #define LDRAW_COLOR_DEF_MATERIAL_MATTE_METALLIC    @"MATTE_METALLIC"
 #define LDRAW_COLOR_DEF_MATERIAL_METAL             @"METAL"
 #define LDRAW_COLOR_DEF_MATERIAL_CUSTOM            @"MATERIAL"
+#define LDRAW_COLOR_DEF_FAV                        @"FAV"
 
 // Model header
 #define LDRAW_HEADER_NAME                          @"Name:"

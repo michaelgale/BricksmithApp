@@ -42,6 +42,7 @@
 {
   NSMutableDictionary *colors;    // keys are LDrawColorT codes; objects are LDrawColors
   NSMutableDictionary *privateColors; // colors we might be asked to display, but should NOT be in the color picker
+  NSMutableArray *favorites;       // colours in "Favorites"
 }
 
 // Initialization
@@ -49,8 +50,13 @@
 
 // Accessors
 -(NSArray *)colors;
+-(NSArray *)favoriteColors;
 -(LDrawColor *)colorForCode: (LDrawColorT)colorCode;
 -(void)getComplimentRGBA: (GLfloat *)complimentRGBA forCode: (LDrawColorT)colorCode;
+-(void)setFavorites: (NSArray *)favoritesIn;
+-(void)addColorToFavorites: (LDrawColorT)color;
+-(void)removeColorFromFavorites: (LDrawColorT)color;
+-(void)saveFavoritesToUserDefaults;
 
 // Registering Colors
 -(void)addColor: (LDrawColor *)newColor;

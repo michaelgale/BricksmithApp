@@ -24,6 +24,7 @@
 #import "LDrawFile.h"
 #import "LDrawModel.h"
 #import "LDrawPaths.h"
+#import "MacLDraw.h"
 
 @implementation ColorLibrary
 
@@ -112,8 +113,11 @@ static ColorLibrary *sharedColorLibrary = nil;
 {
   self = [super init];
 
-  colors = [[NSMutableDictionary alloc] init];
+  colors    = [[NSMutableDictionary alloc] init];
+  favorites = [[NSMutableArray alloc] init];
 
+  NSArray *defaultFavs = [[NSUserDefaults standardUserDefaults] objectForKey:FAVORITE_COLORS_KEY];
+  [self setFavorites:defaultFavs];
   return(self);
 }// end init
 
@@ -136,6 +140,71 @@ static ColorLibrary *sharedColorLibrary = nil;
 {
   return([self->colors allValues]);
 }// end LDrawColors
+
+
+// ========== favoriteColors ============================================================
+//
+// Purpose:		Returns a list of the LDrawColor objects marked as favorites
+//
+// ==============================================================================
+- (NSArray *) favoriteColors
+{
+  return(self->favorites);
+}
+
+
+// ========== setFavorites: =====================================================
+//
+// Purpose:		Sets the colors which should appear in the Favorites category.
+//
+// ==============================================================================
+- (void) setFavorites:(NSArray *)favoritesIn
+{
+  [self->favorites removeAllObjects];
+  [self->favorites addObjectsFromArray:favoritesIn];
+}
+
+
+// ========== addColorToFavorites: ===========================================
+//
+// Purpose:		Adds the given color to the "Favorites" category.
+//
+// ==============================================================================
+- (void) addColorToFavorites:(LDrawColorT)color
+{
+  NSString *colorStr = [NSString stringWithFormat:@"%d", color];
+
+  [self->favorites addObject:colorStr];
+  [self saveFavoritesToUserDefaults];
+}// end addPartNameToFavorites:
+
+
+// ========== removeColorFromFavorites: ======================================
+//
+// Purpose:		Removes the color from the "Favorites" category.
+//
+// ==============================================================================
+- (void) removeColorFromFavorites:(LDrawColorT)color
+{
+  NSString *colorStr = [NSString stringWithFormat:@"%d", color];
+
+  [self->favorites removeObject:colorStr];
+  [self saveFavoritesToUserDefaults];
+}// end removePartNameFromFavorites:
+
+
+// ========== saveFavoritesToUserDefaults =======================================
+//
+// Purpose:		Writes the favorite colours list to preferences.
+//
+// ==============================================================================
+- (void) saveFavoritesToUserDefaults
+{
+  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+
+  [userDefaults setObject:self->favorites
+                   forKey:FAVORITE_COLORS_KEY];
+}// end saveFavoritesToUserDefaults
 
 
 // ========== colorForCode: =====================================================

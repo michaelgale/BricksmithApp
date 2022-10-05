@@ -1084,6 +1084,12 @@ PreferencesDialogController * preferencesDialog = nil;
                       forKey:FAVORITE_PARTS_KEY];
 
   //
+  // Favourite colours
+  //
+  [initialDefaults setObject:[NSArray array]
+                      forKey:FAVORITE_COLORS_KEY];
+
+  //
   // Tool Palette
   //
   [initialDefaults setObject:[NSNumber numberWithBool:NO]

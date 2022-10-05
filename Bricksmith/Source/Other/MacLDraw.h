@@ -26,6 +26,7 @@
 #define DONATION_SCREEN_LAST_VERSION_DISPLAYED      @"DonationRequestLastVersion"
 #define DONATION_SCREEN_SUPPRESS_THIS_VERSION       @"DonationRequestSuppressThisVersion"
 #define FAVORITE_PARTS_KEY                          @"FavoriteParts"
+#define FAVORITE_COLORS_KEY                         @"FavoriteColors"
 #define FILE_CONTENTS_DRAWER_STATE                  @"File Contents Drawer State" // obsolete
 #define GRID_SPACING_COARSE                         @"Grid Spacing: Coarse"
 #define GRID_SPACING_FINE                           @"Grid Spacing: Fine"

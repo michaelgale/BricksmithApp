@@ -120,6 +120,31 @@ LDrawColorPanelController *sharedColorPanel = nil;
 
     [self setLDrawColor:[colorLibrary colorForCode:LDrawRed]];
     updatingToReflectFile = NO;
+
+    NSArray     *favorites    = [colorLibrary favoriteColors];
+    NSArray     *allColors    = [self->colorListController content];
+    NSInteger   numberColors  = [[self->colorListController content] count];
+    NSInteger   numberFavs    = [favorites count];
+    LDrawColor  *currentColor = nil;
+    NSString    *currentFav   = @"";
+    LDrawColorT favCode       = LDrawColorBogus;
+    LDrawColorT currentCode   = LDrawColorBogus;
+    NSInteger   counter       = 0;
+    NSInteger   favCounter    = 0;
+    if (numberFavs > 0) {
+      for (counter = 0; counter < numberColors; counter++) {
+        currentColor = [allColors objectAtIndex:counter];
+        currentCode  = [currentColor colorCode];
+        for (favCounter = 0; favCounter < numberFavs; favCounter++) {
+          currentFav = [favorites objectAtIndex:favCounter];
+          favCode    = [currentFav intValue];
+          if (currentCode == favCode) {
+            [currentColor setFavourite:YES];
+            break;
+          }
+        }
+      }
+    }
   }
   return(self);
 }// end init
@@ -268,7 +293,29 @@ LDrawColorPanelController *sharedColorPanel = nil;
 
 - (IBAction) favButtonPressed:(id)sender
 {
-  printf("Fav colour\n");
+  // if a favourite is marked in any "material" filter other than Favourite
+  // then the colour is marked as a favourite. Otherwise, if selected in the
+  // the Favourites view, then it clears the favourite flag and removes it from
+  // the list of favourites
+  ColorLibrary      *colorLibrary  = [ColorLibrary sharedColorLibrary];
+  LDrawColor        *selectedColor = [self LDrawColor];
+  MaterialPopUpTagT materialType   = [[materialPopUpButton selectedItem] tag];
+
+  if (materialType == MaterialTypeFavourite) {
+    // remove the color from favourites
+    [[self LDrawColor] setFavourite:NO];
+    [colorLibrary removeColorFromFavorites:[selectedColor colorCode]];
+    // jiggle the filter selection to update the list
+    [materialPopUpButton selectItemWithTag:MaterialTypeAll];
+    [self updateColorFilter];
+    [materialPopUpButton selectItemWithTag:MaterialTypeFavourite];
+    [self updateColorFilter];
+  }
+  else {
+    // add the color to favourites
+    [selectedColor setFavourite:YES];
+    [colorLibrary addColorToFavorites:[selectedColor colorCode]];
+  }
 }
 
 
@@ -298,7 +345,6 @@ LDrawColorPanelController *sharedColorPanel = nil;
       objectColor = [currentObject LDrawColor];
     }
   }
-
   updatingToReflectFile = YES;
   [self setLDrawColor:objectColor];
   updatingToReflectFile = NO;
@@ -486,6 +532,10 @@ LDrawColorPanelController *sharedColorPanel = nil;
       break;
 
     case MaterialTypeFavourite :
+      materialFormat    = @"(%K == %@)";
+      materialArguments =
+        [NSArray arrayWithObjects:NSStringFromSelector(@selector(isFavourite)), @(YES),
+         nil];
       break;
   }
 
@@ -533,7 +583,6 @@ LDrawColorPanelController *sharedColorPanel = nil;
 
   searchPredicate = [self predicateForSearchString:searchString
                                           material:materialType];
-
   // Update the table with our results.
   [self->colorListController setFilterPredicate:searchPredicate];
 

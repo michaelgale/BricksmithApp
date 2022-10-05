@@ -69,6 +69,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
   self->edgeColorRGBA[3]   = [decoder decodeFloatForKey:@"edgeColorRGBAAlpha"];
   self->hasExplicitAlpha   = [decoder decodeBoolForKey:@"hasExplicitAlpha"];
   self->hasLuminance       = [decoder decodeBoolForKey:@"hasLuminance"];
+  self->isFavourite        = [decoder decodeBoolForKey:@"isFavourite"];
   self->luminance          = (uint8_t)[decoder decodeIntForKey:@"luminance"];
   self->material           = [decoder decodeIntForKey:@"material"];
   self->materialParameters = [[decoder decodeObjectForKey:@"materialParameters"] retain];
@@ -113,6 +114,8 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
                forKey:@"hasExplicitAlpha"];
   [encoder encodeBool:hasLuminance
                forKey:@"hasLuminance"];
+  [encoder encodeBool:isFavourite
+               forKey:@"isFavourite"];
   [encoder encodeInt:luminance
               forKey:@"luminance"];
   [encoder encodeInt:material
@@ -183,6 +186,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
   copied->hasExplicitAlpha = self->hasExplicitAlpha;
   copied->hasLuminance     = self->hasLuminance;
   copied->luminance        = self->luminance;
+  copied->isFavourite      = self->isFavourite;
   copied->material         = self->material;
   [copied setMaterialParameters:[self materialParameters]];
   [copied setName:[self name]];
@@ -275,6 +279,11 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
                intoString:nil] == YES) {
     [scanner scanInt:&scannedLuminance];
     [self setLuminance:scannedLuminance];
+  }
+  // - Favourite
+  if ([scanner scanString:LDRAW_COLOR_DEF_FAV
+               intoString:nil] == YES) {
+    self->isFavourite = YES;
   }
 
   // - Material
@@ -454,6 +463,9 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 
   if (self->hasLuminance == YES) {
     [line appendFormat:@" %@ %d", LDRAW_COLOR_DEF_LUMINANCE, self->luminance];
+  }
+  if (self->isFavourite == YES) {
+    [line appendFormat:@" %@", LDRAW_COLOR_DEF_FAV];
   }
 
   switch (self->material)
