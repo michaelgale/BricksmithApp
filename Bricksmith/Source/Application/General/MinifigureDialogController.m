@@ -127,67 +127,80 @@
 // minifigure.
 //
 // ==============================================================================
-- (void) setHasHat:(BOOL)flag           {
+- (void) setHasHat:(BOOL)flag
+{
   hasHat = flag;
 }
 
 
-- (void) setHasNeckAccessory:(BOOL)flag       {
+- (void) setHasNeckAccessory:(BOOL)flag
+{
   hasNeckAccessory = flag;
 }
 
 
-- (void) setHasHips:(BOOL)flag            {
+- (void) setHasHips:(BOOL)flag
+{
   hasHips = flag;
 }
 
 
-- (void) setHasRightArm:(BOOL)flag          {
+- (void) setHasRightArm:(BOOL)flag
+{
   hasRightArm = flag;
 }
 
 
-- (void) setHasRightHand:(BOOL)flag         {
+- (void) setHasRightHand:(BOOL)flag
+{
   hasRightHand = flag;
 }
 
 
-- (void) setHasRightHandAccessory:(BOOL)flag    {
+- (void) setHasRightHandAccessory:(BOOL)flag
+{
   hasRightHandAccessory = flag;
 }
 
 
-- (void) setHasRightLeg:(BOOL)flag          {
+- (void) setHasRightLeg:(BOOL)flag
+{
   hasRightLeg = flag;
 }
 
 
-- (void) setHasRightLegAccessory:(BOOL)flag     {
+- (void) setHasRightLegAccessory:(BOOL)flag
+{
   hasRightLegAccessory = flag;
 }
 
 
-- (void) setHasLeftArm:(BOOL)flag         {
+- (void) setHasLeftArm:(BOOL)flag
+{
   hasLeftArm = flag;
 }
 
 
-- (void) setHasLeftHand:(BOOL)flag          {
+- (void) setHasLeftHand:(BOOL)flag
+{
   hasLeftHand = flag;
 }
 
 
-- (void) setHasLeftHandAccessory:(BOOL)flag     {
+- (void) setHasLeftHandAccessory:(BOOL)flag
+{
   hasLeftHandAccessory = flag;
 }
 
 
-- (void) setHasLeftLeg:(BOOL)flag         {
+- (void) setHasLeftLeg:(BOOL)flag
+{
   hasLeftLeg = flag;
 }
 
 
-- (void) setHasLeftLegAccessory:(BOOL)flag      {
+- (void) setHasLeftLegAccessory:(BOOL)flag
+{
   hasLeftLegAccessory = flag;
 }
 
@@ -198,7 +211,8 @@
 // units.
 //
 // ==============================================================================
-- (void) setHeadElevation:(float)newElevation   {
+- (void) setHeadElevation:(float)newElevation
+{
   headElevation = newElevation;
 }
 
@@ -208,67 +222,80 @@
 // Purpose:		Set the angle of the given part.
 //
 // ==============================================================================
-- (void) setAngleOfHat:(float)angle         {
+- (void) setAngleOfHat:(float)angle
+{
   angleOfHat = angle;
 }
 
 
-- (void) setAngleOfHead:(float)angle        {
+- (void) setAngleOfHead:(float)angle
+{
   angleOfHead = angle;
 }
 
 
-- (void) setAngleOfNeck:(float)angle        {
+- (void) setAngleOfNeck:(float)angle
+{
   angleOfNeck = angle;
 }
 
 
-- (void) setAngleOfRightArm:(float)angle      {
+- (void) setAngleOfRightArm:(float)angle
+{
   angleOfRightArm = angle;
 }
 
 
-- (void) setAngleOfRightHand:(float)angle     {
+- (void) setAngleOfRightHand:(float)angle
+{
   angleOfRightHand = angle;
 }
 
 
-- (void) setAngleOfRightHandAccessory:(float)angle  {
+- (void) setAngleOfRightHandAccessory:(float)angle
+{
   angleOfRightHandAccessory = angle;
 }
 
 
-- (void) setAngleOfRightLeg:(float)angle      {
+- (void) setAngleOfRightLeg:(float)angle
+{
   angleOfRightLeg = angle;
 }
 
 
-- (void) setAngleOfRightLegAccessory:(float)angle {
+- (void) setAngleOfRightLegAccessory:(float)angle
+{
   angleOfRightLegAccessory = angle;
 }
 
 
-- (void) setAngleOfLeftArm:(float)angle       {
+- (void) setAngleOfLeftArm:(float)angle
+{
   angleOfLeftArm = angle;
 }
 
 
-- (void) setAngleOfLeftHand:(float)angle      {
+- (void) setAngleOfLeftHand:(float)angle
+{
   angleOfLeftHand = angle;
 }
 
 
-- (void) setAngleOfLeftHandAccessory:(float)angle {
+- (void) setAngleOfLeftHandAccessory:(float)angle
+{
   angleOfLeftHandAccessory = angle;
 }
 
 
-- (void) setAngleOfLeftLeg:(float)angle       {
+- (void) setAngleOfLeftLeg:(float)angle
+{
   angleOfLeftLeg = angle;
 }
 
 
-- (void) setAngleOfLeftLegAccessory:(float)angle  {
+- (void) setAngleOfLeftLegAccessory:(float)angle
+{
   angleOfLeftLegAccessory = angle;
 }
 
@@ -309,7 +336,8 @@
   [self generateMinifigure:self];
 
   // Run the dialog.
-  returnCode = [NSApp runModalForWindow:minifigureGeneratorPanel];
+  returnCode = [NSApp runModalForWindow:self->minifigureGeneratorPanel];
+
   return(returnCode);
 }// end runModal
 
@@ -322,7 +350,7 @@
 - (IBAction) okButtonClicked:(id)sender
 {
   [NSApp stopModalWithCode:NSModalResponseOK];
-  [minifigureGeneratorPanel close];
+  [self->minifigureGeneratorPanel close];
 }// end okButtonClicked
 
 
@@ -333,8 +361,8 @@
 // ==============================================================================
 - (IBAction) cancelButtonClicked:(id)sender
 {
+  [self->minifigureGeneratorPanel close];
   [NSApp stopModalWithCode:NSModalResponseCancel];
-  [minifigureGeneratorPanel close];
 }// end cancelButtonClicked
 
 
@@ -368,37 +396,37 @@
   [newMinifigure setModelDisplayName:self->minifigureName];
 
   // create the parts based on the current selections
-  LDrawPart *hat                = [[[hatsController         selectedObjects] objectAtIndex:0] copy];
-  LDrawPart *head               = [[[headsController        selectedObjects] objectAtIndex:0] copy];
-  LDrawPart *neck               = [[[necksController        selectedObjects] objectAtIndex:0] copy];
-  LDrawPart *torso              = [[[torsosController       selectedObjects] objectAtIndex:0] copy];
-  LDrawPart *leftArm            = [[[leftArmsController       selectedObjects] objectAtIndex:0] copy];
-  LDrawPart *leftHand           = [[[leftHandsController      selectedObjects] objectAtIndex:0] copy];
-  LDrawPart *leftHandAccessory  = [[[leftHandAccessoriesController  selectedObjects] objectAtIndex:0] copy];
-  LDrawPart *rightArm           = [[[rightArmsController      selectedObjects] objectAtIndex:0] copy];
-  LDrawPart *rightHand          = [[[rightHandsController     selectedObjects] objectAtIndex:0] copy];
+  LDrawPart *hat                = [[[hatsController selectedObjects] objectAtIndex:0] copy];
+  LDrawPart *head               = [[[headsController selectedObjects] objectAtIndex:0] copy];
+  LDrawPart *neck               = [[[necksController selectedObjects] objectAtIndex:0] copy];
+  LDrawPart *torso              = [[[torsosController selectedObjects] objectAtIndex:0] copy];
+  LDrawPart *leftArm            = [[[leftArmsController selectedObjects] objectAtIndex:0] copy];
+  LDrawPart *leftHand           = [[[leftHandsController selectedObjects] objectAtIndex:0] copy];
+  LDrawPart *leftHandAccessory  = [[[leftHandAccessoriesController selectedObjects] objectAtIndex:0] copy];
+  LDrawPart *rightArm           = [[[rightArmsController selectedObjects] objectAtIndex:0] copy];
+  LDrawPart *rightHand          = [[[rightHandsController selectedObjects] objectAtIndex:0] copy];
   LDrawPart *rightHandAccessory = [[[rightHandAccessoriesController selectedObjects] objectAtIndex:0] copy];
-  LDrawPart *hips               = [[[hipsController         selectedObjects] objectAtIndex:0] copy];
-  LDrawPart *leftLeg            = [[[leftLegsController       selectedObjects] objectAtIndex:0] copy];
+  LDrawPart *hips               = [[[hipsController selectedObjects] objectAtIndex:0] copy];
+  LDrawPart *leftLeg            = [[[leftLegsController selectedObjects] objectAtIndex:0] copy];
   LDrawPart *leftLegAccessory   = [[[leftLegAccessoriesController selectedObjects] objectAtIndex:0] copy];
-  LDrawPart *rightLeg           = [[[rightLegsController      selectedObjects] objectAtIndex:0] copy];
-  LDrawPart *rightLegAccessory  = [[[rightLegAccessoriesController  selectedObjects] objectAtIndex:0] copy];
+  LDrawPart *rightLeg           = [[[rightLegsController selectedObjects] objectAtIndex:0] copy];
+  LDrawPart *rightLegAccessory  = [[[rightLegAccessoriesController selectedObjects] objectAtIndex:0] copy];
 
   // Assign the colors
-  [hat setLDrawColor:[self->hatsColorWell          LDrawColor]];
-  [head setLDrawColor:[self->headsColorWell         LDrawColor]];
-  [neck setLDrawColor:[self->necksColorWell         LDrawColor]];
-  [torso setLDrawColor:[self->torsosColorWell        LDrawColor]];
-  [leftArm setLDrawColor:[self->leftArmsColorWell        LDrawColor]];
-  [leftHand setLDrawColor:[self->leftHandsColorWell       LDrawColor]];
+  [hat setLDrawColor:[self->hatsColorWell LDrawColor]];
+  [head setLDrawColor:[self->headsColorWell LDrawColor]];
+  [neck setLDrawColor:[self->necksColorWell LDrawColor]];
+  [torso setLDrawColor:[self->torsosColorWell LDrawColor]];
+  [leftArm setLDrawColor:[self->leftArmsColorWell LDrawColor]];
+  [leftHand setLDrawColor:[self->leftHandsColorWell LDrawColor]];
   [leftHandAccessory setLDrawColor:[self->leftHandAccessoriesColorWell LDrawColor]];
-  [rightArm setLDrawColor:[self->rightArmsColorWell       LDrawColor]];
-  [rightHand setLDrawColor:[self->rightHandsColorWell      LDrawColor]];
-  [rightHandAccessory setLDrawColor:[self->rightHandAccessoriesColorWell  LDrawColor]];
-  [hips setLDrawColor:[self->hipsColorWell          LDrawColor]];
-  [leftLeg setLDrawColor:[self->leftLegsColorWell        LDrawColor]];
-  [leftLegAccessory setLDrawColor:[self->leftLegAccessoriesColorWell  LDrawColor]];
-  [rightLeg setLDrawColor:[self->rightLegsColorWell       LDrawColor]];
+  [rightArm setLDrawColor:[self->rightArmsColorWell LDrawColor]];
+  [rightHand setLDrawColor:[self->rightHandsColorWell LDrawColor]];
+  [rightHandAccessory setLDrawColor:[self->rightHandAccessoriesColorWell LDrawColor]];
+  [hips setLDrawColor:[self->hipsColorWell LDrawColor]];
+  [leftLeg setLDrawColor:[self->leftLegsColorWell LDrawColor]];
+  [leftLegAccessory setLDrawColor:[self->leftLegAccessoriesColorWell LDrawColor]];
+  [rightLeg setLDrawColor:[self->rightLegsColorWell LDrawColor]];
   [rightLegAccessory setLDrawColor:[self->rightLegAccessoriesColorWell LDrawColor]];
 
   // other values
@@ -646,21 +674,21 @@
 
 
   // Free memory
-  [hat        release];
-  [head       release];
-  [neck       release];
-  [torso        release];
-  [leftArm      release];
-  [leftHand     release];
-  [leftHandAccessory  release];
-  [rightArm     release];
-  [rightHand      release];
+  [hat release];
+  [head release];
+  [neck release];
+  [torso release];
+  [leftArm release];
+  [leftHand release];
+  [leftHandAccessory release];
+  [rightArm release];
+  [rightHand release];
   [rightHandAccessory release];
-  [hips       release];
-  [leftLeg      release];
+  [hips release];
+  [leftLeg release];
   [leftLegAccessory release];
-  [rightLeg     release];
-  [rightLegAccessory  release];
+  [rightLeg release];
+  [rightLegAccessory release];
 }// end generateMinifigure
 
 
@@ -675,6 +703,9 @@
 // ==============================================================================
 - (void) windowWillClose:(NSNotification *)aNotification
 {
+  if ([LDrawColorWell activeColorWell] != nil) {
+    [LDrawColorWell setActiveColorWell:nil];
+  }
   [self saveToPreferences];
 }// end windowWillClose:
 
@@ -1055,9 +1086,38 @@
 // ==============================================================================
 - (void) dealloc
 {
-  [iniFile      release];
+  [hatsColorWell release];
+  [headsColorWell release];
+  [necksColorWell release];
+  [torsosColorWell release];
+  [rightArmsColorWell release];
+  [rightHandsColorWell release];
+  [rightHandAccessoriesColorWell release];
+  [leftArmsColorWell release];
+  [leftHandsColorWell release];
+  [leftHandAccessoriesColorWell release];
+  [hipsColorWell release];
+  [rightLegsColorWell release];
+  [rightLegAccessoriesColorWell release];
+  [leftLegsColorWell release];
+  [leftLegAccessoriesColorWell release];
 
-  [headsController  release];
+  [hatsController release];
+  [headsController release];
+  [necksController release];
+  [torsosController release];
+  [rightArmsController release];
+  [rightHandsController release];
+  [rightHandAccessoriesController release];
+  [leftArmsController release];
+  [leftHandsController release];
+  [leftHandAccessoriesController release];
+  [hipsController release];
+  [rightLegsController release];
+  [rightLegAccessoriesController release];
+  [leftLegsController release];
+  [leftLegAccessoriesController release];
+  [iniFile release];
 
   [super dealloc];
 }// end dealloc

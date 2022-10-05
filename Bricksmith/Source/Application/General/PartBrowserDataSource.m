@@ -73,6 +73,8 @@
     [self->categoryTable setFocusRingType:NSFocusRingTypeNone];
     [self->categoryTable setDelegate:self];
     [self->categoryTable setDataSource:self];
+    self->categoryTable.floatsGroupRows = NO;
+    self->categoryTable.rowSizeStyle    = NSTableViewRowSizeStyleSmall;
     [[self->categoryTable window] makeFirstResponder:self->categoryTable];
 
     // - Parts Table

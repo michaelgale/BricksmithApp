@@ -142,7 +142,6 @@
 -(void)moveBy: (Vector3)moveVector parts: (LDrawPart *)firstPart, ...;
 -(void)rotateByDegrees: (Tuple3)degrees parts: (LDrawPart *)firstPart, ...;
 
-
 // Persistence
 -(void)restoreFromPreferences;
 -(void)saveToPreferences;
