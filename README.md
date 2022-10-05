@@ -18,6 +18,7 @@ Some (but not all) of my changes/customizations include:
 * menu command to insert step at current step (rather than append to the end)
 * navigating the tree view in step mode also changes the current step
 * almost all math computation converted to double precision floating point
+* favorite colour list added to colour picker inspector with a button to mark favorite colours
 
 ## References
 
