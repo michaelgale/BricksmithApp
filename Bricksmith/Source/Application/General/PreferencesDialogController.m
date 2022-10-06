@@ -975,10 +975,10 @@ PreferencesDialogController * preferencesDialog = nil;
   NSMutableDictionary *initialDefaults = [NSMutableDictionary dictionary];
 
   NSColor *backgroundColor = [NSColor controlBackgroundColor];
-  NSColor *modelsColor     = [NSColor blackColor];
-  NSColor *stepsColor      = [NSColor blackColor];
-  NSColor *partsColor      = [NSColor blackColor];
-  NSColor *primitivesColor = [NSColor blueColor];
+  NSColor *modelsColor     = [NSColor textColor];
+  NSColor *stepsColor      = [NSColor textColor];
+  NSColor *partsColor      = [NSColor textColor];
+  NSColor *primitivesColor = [NSColor systemBlueColor];
   NSColor *colorsColor     = [NSColor colorWithDeviceRed:0. / 255
                                                    green:128. / 255
                                                     blue:128. / 255
@@ -1098,7 +1098,7 @@ PreferencesDialogController * preferencesDialog = nil;
   //
   // LSynth Palette
   //
-  NSColor *lsynthSelectionColor = [NSColor redColor];
+  NSColor *lsynthSelectionColor = [NSColor systemRedColor];
 
   [initialDefaults setObject:@""
                       forKey:LSYNTH_EXECUTABLE_PATH_KEY];

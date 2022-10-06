@@ -3104,7 +3104,7 @@ static NSSize Size2ToNSSize(Size2 size)
   NSColor        *rgbColor     = nil;
 
   if (newColor == nil) {
-    newColor = [NSColor controlBackgroundColor];
+    newColor = [NSColor windowBackgroundColor];
   }
   // the new color may not be in the RGB colorspace, so we need to convert.
   rgbColor = [newColor colorUsingColorSpaceName:NSDeviceRGBColorSpace];
