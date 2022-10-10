@@ -127,7 +127,8 @@
   itemForItemIdentifier:(NSString *)itemIdentifier
   willBeInsertedIntoToolbar:(BOOL)flag
 {
-  NSToolbarItem *newItem = [[[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier] autorelease];
+  NSToolbarItem *newItem =
+    [[[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier] autorelease];
 
   if ([itemIdentifier isEqualToString:TOOLBAR_NUDGE_X_IDENTIFIER]) {
     [newItem setLabel:NSLocalizedString(@"NudgeX", nil)];
@@ -241,7 +242,8 @@
 // ==============================================================================
 - (NSToolbarItem *)makeGridSpacingItem
 {
-  NSToolbarItem    *newItem = [[NSToolbarItem alloc] initWithItemIdentifier:TOOLBAR_GRID_SPACING_IDENTIFIER];
+  NSToolbarItem *newItem =
+    [[NSToolbarItem alloc] initWithItemIdentifier:TOOLBAR_GRID_SPACING_IDENTIFIER];
   gridSpacingModeT gridMode = [self->document gridSpacingMode];
 
   [self->gridSegmentedControl selectSegmentWithTag:gridMode];

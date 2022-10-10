@@ -22,12 +22,12 @@ typedef enum
 {
   RotateSelectTool = 0,       // click to select, drag to rotate
 // AddToSelectionTool			= 1,	//    check key directly, so we can click around in different views.
-  PanScrollTool    = 2,     // "grabber" to scroll around while dragging
-  SmoothZoomTool   = 3,       // zoom in and out based on drag direction
-  ZoomInTool       = 4,     // click to zoom in
-  ZoomOutTool      = 5,     // click to zoom out
+  PanScrollTool    = 2,   // "grabber" to scroll around while dragging
+  SmoothZoomTool   = 3,   // zoom in and out based on drag direction
+  ZoomInTool       = 4,   // click to zoom in
+  ZoomOutTool      = 5,   // click to zoom out
   SpinTool         = 6,   // spin the model in space
-  EraserTool       = 7      // delete clicked parts (for pen tablet erasers)
+  EraserTool       = 7    // delete clicked parts (for pen tablet erasers)
 } ToolModeT;
 
 ////////////////////////////////////////////////////////////////////////////////

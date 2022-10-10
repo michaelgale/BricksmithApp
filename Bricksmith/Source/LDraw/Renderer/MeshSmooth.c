@@ -141,11 +141,10 @@ struct RTree_node {
 };
 
 struct RTree_leaf {
-  float min_bounds[3];
-  float max_bounds[3];
-  int   count;        // Number of actual vertices, might be less than
-  struct Vertex *       // leaf DIM.
-        vertices[LEAF_DIM];
+  float         min_bounds[3];
+  float         max_bounds[3];
+  int           count; // Number of actual vertices, might be less than leaf dim
+  struct Vertex *vertices[LEAF_DIM];
 };
 
 // Macros to determine if a ptr is a leaf, cast it and clean the LSB.
@@ -180,11 +179,13 @@ struct RTree_leaf {
 #endif
 
 #if !defined(MIN)
-    #define MIN(A, B)    ({ __typeof__(A) __a = (A); __typeof__(B) __b = (B); __a < __b ? __a : __b; })
+    #define MIN(A, \
+                B)    ({ __typeof__(A) __a = (A); __typeof__(B) __b = (B); __a < __b ? __a : __b; })
 #endif
 
 #if !defined(MAX)
-    #define MAX(A, B)    ({ __typeof__(A) __a = (A); __typeof__(B) __b = (B); __a < __b ? __b : __a; })
+    #define MAX(A, \
+                B)    ({ __typeof__(A) __a = (A); __typeof__(B) __b = (B); __a < __b ? __b : __a; })
 #endif
 
 // Ptr for a neighbor that isn't
@@ -238,7 +239,8 @@ static int compare_points(const float * __restrict p1, const float * __restrict 
 
 // Compare two vertices for complete match-up of all vertices - vertex, normal, color.
 // If these all match, we could merge the vertices on the graphics card.
-static int compare_vertices(const struct Vertex * __restrict v1, const struct Vertex * __restrict v2)
+static int compare_vertices(const struct Vertex * __restrict v1,
+                            const struct Vertex * __restrict v2)
 {
   if (v1->location[0] < v2->location[0]) { return(-1); }
   if (v1->location[0] > v2->location[0]) { return(1); }
@@ -269,7 +271,9 @@ static int compare_vertices(const struct Vertex * __restrict v1, const struct Ve
 
 // Compare only the "Nth" location field, e.g. only x, y, or z.
 // Used to organize points along a single axis.
-static int compare_nth(const struct Vertex * __restrict v1, const struct Vertex * __restrict v2, int n)
+static int compare_nth(const struct Vertex * __restrict v1,
+                       const struct Vertex * __restrict v2,
+                       int n)
 {
   if (v1->location[n] < v2->location[n]) { return(-1); }
   if (v1->location[n] > v2->location[n]) { return(1); }
@@ -335,7 +339,8 @@ static void quickSort_3(struct Vertex *arr, int left, int right)
   int i = left, j = right;
 
   struct Vertex *pivot_ptr = arr + (left + right) / 2;
-  float         pivot[3] = { pivot_ptr->location[0], pivot_ptr->location[1], pivot_ptr->location[2] };
+  float         pivot[3] =
+  { pivot_ptr->location[0], pivot_ptr->location[1], pivot_ptr->location[2] };
 
   /* partition */
 
@@ -693,7 +698,9 @@ static inline float vec3f_dot(const float * __restrict v1, const float * __restr
 
 
 // vec3: dst = b - a.  (or: vector dst points from A to B).
-static inline void vec3f_diff(float * __restrict dst, const float * __restrict a, const float * __restrict b)
+static inline void vec3f_diff(float * __restrict dst,
+                              const float * __restrict a,
+                              const float * __restrict b)
 {
   dst[0] = b[0] - a[0];
   dst[1] = b[1] - a[1];
@@ -851,7 +858,8 @@ static struct Vertex *    circulate_cw(struct Vertex *v, int *did_reverse)
   int M = v->face->index[v->index];
 
   *did_reverse       = face_1->flip[v->index];
-  struct Vertex *ret = (face_1->flip[v->index]) ? face_2->vertex[M] : face_2->vertex[CCW(face_2, M)];
+  struct Vertex *ret =
+    (face_1->flip[v->index]) ? face_2->vertex[M] : face_2->vertex[CCW(face_2, M)];
 
   assert(compare_points(v->location, ret->location) == 0);
   assert(ret != v);
@@ -1212,8 +1220,9 @@ void        finish_faces_and_sort(struct Mesh *mesh)
     if (v == 0 || compare_points(mesh->vertices[v - 1].location, mesh->vertices[v].location) != 0) {
       ++total_before;
       struct Vertex *vi    = mesh->vertices + v;
-      float         mib[3] = { vi->location[0] - EPSI, vi->location[1] - EPSI, vi->location[2] - EPSI };
-      float         mab[3] = { vi->location[0] + EPSI, vi->location[1] + EPSI, vi->location[2] + EPSI };
+      float         mib[3] =
+      { vi->location[0] - EPSI, vi->location[1] - EPSI, vi->location[2] - EPSI };
+      float mab[3] = { vi->location[0] + EPSI, vi->location[1] + EPSI, vi->location[2] + EPSI };
       scan_rtree(mesh->index, mib, mab, visit_vertex_to_snap, vi);
     }
   }
@@ -1316,7 +1325,8 @@ void        finish_faces_and_sort(struct Mesh *mesh)
     for (i = 0; i < mesh->vertex_count; ++i) {
       for (j = 0; j < i; ++j) {
         if (!vec3f_eq(mesh->vertices[i].location, mesh->vertices[j].location)) {
-          if (vec3f_length2(mesh->vertices[i].location, mesh->vertices[j].location) <= CHECK_EPSI2) {
+          if (vec3f_length2(mesh->vertices[i].location,
+                            mesh->vertices[j].location) <= CHECK_EPSI2) {
             mesh->flags |= TINY_RESULTING_GEOM;
           }
         }
@@ -1893,7 +1903,7 @@ struct t_finder_info_t {
   // count so we must track it.
   struct Vertex *v1;      // Start and end vertices of the edge we are testing.
   struct Vertex *v2;
-  struct Face   *f;     // The face that v1/v2 belong to.
+  struct Face   *f; // The face that v1/v2 belong to.
   int           i;  // The side index i of face f that we are tracking, e.g. f->vertices[i] == v1
   float         line_dir[3]; // A normalized direction vector from v1 to v2, used to order the intrusions.
 };
@@ -1968,7 +1978,11 @@ void visit_possible_t_junc(struct Vertex *v, void *ref)
 //
 // (BEC is added as a new trinagle.)
 
-void add_ear_and_remove(float *poly, int pt_count, struct Mesh *target_mesh, const float *color, int tid)
+void add_ear_and_remove(float *poly,
+                        int pt_count,
+                        struct Mesh *target_mesh,
+                        const float *color,
+                        int tid)
 {
   int   i, p, n, b = -1;
   float best_dot = -99.0;

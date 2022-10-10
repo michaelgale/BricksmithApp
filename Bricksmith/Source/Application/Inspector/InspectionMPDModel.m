@@ -132,7 +132,8 @@
     NSAlert  *alert   = [[NSAlert alloc] init];
     NSString *message = nil;
 
-    message = [NSString stringWithFormat:NSLocalizedString(@"DuplicateModelnameMessage", nil), newValue];
+    message =
+      [NSString stringWithFormat:NSLocalizedString(@"DuplicateModelnameMessage", nil), newValue];
 
     [alert setMessageText:message];
     [alert setInformativeText:NSLocalizedString(@"DuplicateModelnameInformative", nil)];

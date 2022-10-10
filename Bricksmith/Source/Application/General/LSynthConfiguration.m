@@ -216,7 +216,8 @@ static LSynthConfiguration *instance = nil;
             // Extract description
             // Big assumption: that we have useful contents in the previous line
             // TODO: harden
-            NSString *desc = [[previousLine componentsSeparatedByString:@"- Type "] objectAtIndex:1];
+            NSString *desc =
+              [[previousLine componentsSeparatedByString:@"- Type "] objectAtIndex:1];
 
             NSMutableDictionary *hose_constraint =
               [NSMutableDictionary dictionaryWithObjects:[NSArray
@@ -346,7 +347,8 @@ static LSynthConfiguration *instance = nil;
               // 0 // Technic Axle 2 Notched
               // 1 8 0 0 0 0 0 1 0 1 0 -1 0 0 32062.DAT
 
-      else if ([[lines objectAtIndex:lineIndex] isEqualToString:@"0 SYNTH BEGIN DEFINE BAND CONSTRAINTS"]) {
+      else if ([[lines objectAtIndex:lineIndex] isEqualToString:
+                @"0 SYNTH BEGIN DEFINE BAND CONSTRAINTS"]) {
         lineIndex++;
 
         // Local block line-parsing variables.  TODO: move to top
@@ -370,70 +372,95 @@ static LSynthConfiguration *instance = nil;
             // TODO: harden
             NSString *desc = [[previousLine componentsSeparatedByString:@"// "] objectAtIndex:1];
 
-            NSDictionary *band_constraint = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:
+            NSDictionary *band_constraint =
+              [NSDictionary dictionaryWithObjects:[NSArray
+                                                   arrayWithObjects:
 
-                                                                                 // radius
-                                                                                 [NSNumber numberWithInt:
-                                                                                  radius],
+                                                   // radius
+                                                   [NSNumber
+                                                    numberWithInt:
+                                                    radius],
 
-                                                                                 // offset
-                                                                                 [NSArray arrayWithObjects:
-                                                                                  [NSNumber numberWithFloat:
-                                                                                   offset[0]],
-                                                                                  [NSNumber numberWithFloat:
-                                                                                   offset[1]],
-                                                                                  [NSNumber numberWithFloat:
-                                                                                   offset[2]],
-                                                                                  nil],
+                                                   // offset
+                                                   [NSArray
+                                                    arrayWithObjects:
+                                                    [NSNumber
+                                                     numberWithFloat:
+                                                     offset[0]],
+                                                    [NSNumber
+                                                     numberWithFloat:
+                                                     offset[1]],
+                                                    [NSNumber
+                                                     numberWithFloat:
+                                                     offset[2]],
+                                                    nil],
 
-                                                                                 // orient
-                                                                                 [NSArray arrayWithObjects:
-                                                                                  [NSArray arrayWithObjects:
-                                                                                   [NSNumber numberWithFloat:
-                                                                                    orient[0][0]],
-                                                                                   [NSNumber numberWithFloat:
-                                                                                    orient[0][1]],
-                                                                                   [NSNumber numberWithFloat:
-                                                                                    orient[0][2]],
-                                                                                   nil],
-                                                                                  [NSArray arrayWithObjects:
-                                                                                   [NSNumber numberWithFloat:
-                                                                                    orient[1][0]],
-                                                                                   [NSNumber numberWithFloat:
-                                                                                    orient[1][1]],
-                                                                                   [NSNumber numberWithFloat:
-                                                                                    orient[1][2]],
-                                                                                   nil],
-                                                                                  [NSArray arrayWithObjects:
-                                                                                   [NSNumber numberWithFloat:
-                                                                                    orient[2][0]],
-                                                                                   [NSNumber numberWithFloat:
-                                                                                    orient[2][1]],
-                                                                                   [NSNumber numberWithFloat:
-                                                                                    orient[2][2]],
-                                                                                   nil],
-                                                                                  nil],
+                                                   // orient
+                                                   [NSArray
+                                                    arrayWithObjects:
+                                                    [NSArray
+                                                     arrayWithObjects:
+                                                     [NSNumber
+                                                      numberWithFloat:
+                                                      orient[0][0]],
+                                                     [NSNumber
+                                                      numberWithFloat:
+                                                      orient[0][1]],
+                                                     [NSNumber
+                                                      numberWithFloat:
+                                                      orient[0][2]],
+                                                     nil],
+                                                    [NSArray
+                                                     arrayWithObjects:
+                                                     [NSNumber
+                                                      numberWithFloat:
+                                                      orient[1][0]],
+                                                     [NSNumber
+                                                      numberWithFloat:
+                                                      orient[1][1]],
+                                                     [NSNumber
+                                                      numberWithFloat:
+                                                      orient[1][2]],
+                                                     nil],
+                                                    [NSArray
+                                                     arrayWithObjects:
+                                                     [NSNumber
+                                                      numberWithFloat:
+                                                      orient[2][0]],
+                                                     [NSNumber
+                                                      numberWithFloat:
+                                                      orient[2][1]],
+                                                     [NSNumber
+                                                      numberWithFloat:
+                                                      orient[2][2]],
+                                                     nil],
+                                                    nil],
 
-                                                                                 // partName
-                                                                                 [NSString
-                                                                                  stringWithUTF8String:type],
+                                                   // partName
+                                                   [NSString
+                                                    stringWithUTF8String
+                                                    :type],
 
-                                                                                 // description
-                                                                                 desc,
+                                                   // description
+                                                   desc,
 
-                                                                                 // LSYNTH_CONSTRAINT_CLASS
-                                                                                 [NSNumber numberWithInt:
-                                                                                  LSYNTH_BAND],
+                                                   // LSYNTH_CONSTRAINT_CLASS
+                                                   [NSNumber
+                                                    numberWithInt:
+                                                    LSYNTH_BAND],
 
-                                                                                 nil
-                                             ]
+                                                   nil
+               ]
 
-                                                                        forKeys:[NSArray arrayWithObjects:
-                                                                                 @"radius", @"offset",
-                                                                                 @"orient", @"partName",
-                                                                                 @"description",
-                                                                                 @"LSYNTH_CONSTRAINT_CLASS",
-                                                                                 nil]
+                                          forKeys:[NSArray
+                        arrayWithObjects:
+                                                   @"radius",
+                                                   @"offset",
+                                                   @"orient",
+                                                   @"partName",
+                                                   @"description",
+                                                   @"LSYNTH_CONSTRAINT_CLASS",
+                                                   nil]
               ];           // end band_constraint
 
             [band_constraints addObject:band_constraint];
@@ -453,27 +480,38 @@ static LSynthConfiguration *instance = nil;
               //
               // 0 SYNTH PART 4297187.dat PLI_ELECTRIC_NXT_CABLE_20CM   ELECTRIC_NXT_CABLE
 
-      else if (sscanf([currentLine UTF8String], "0 SYNTH PART %s %s %s\n", product, title, type) == 3) {
+      else if (sscanf([currentLine UTF8String], "0 SYNTH PART %s %s %s\n", product, title,
+                      type) == 3) {
         NSMutableDictionary *part = [NSMutableDictionary
                                      dictionaryWithObjects:[NSArray arrayWithObjects:[NSString
-                                                                                      stringWithCString:
+                                                                                      stringWithCString
+                                                                                      :
                                                                                       product
                                                                                       encoding
-                                                                                      :NSUTF8StringEncoding],
+                                                                                      :
+                                                                                      NSUTF8StringEncoding
+                                                            ],
                                                             [[[NSString stringWithCString:title
-                                                                                 encoding:NSUTF8StringEncoding
+                                                                                 encoding:
+                                                               NSUTF8StringEncoding
                                                               ]
-                                                              stringByReplacingOccurrencesOfString:@"_"
-                                                                                        withString:@" "]
+                                                              stringByReplacingOccurrencesOfString:
+                                                              @"_"
+                                                                                        withString:
+                                                              @" "]
                                                              capitalizedString],
                                                             [NSString stringWithCString:type
-                                                                               encoding:NSUTF8StringEncoding],
+                                                                               encoding:
+                                                             NSUTF8StringEncoding],
                                                             [NSString stringWithCString:title
-                                                                               encoding:NSUTF8StringEncoding],
+                                                                               encoding:
+                                                             NSUTF8StringEncoding],
                                                             @"",
                                                             nil]
-                                                   forKeys:[NSArray arrayWithObjects:@"product", @"title",
-                                                            @"method", @"LSYNTH_TYPE", @"LSYNTH_CLASS", nil]];
+                                                   forKeys:[NSArray arrayWithObjects:@"product",
+                                                            @"title",
+                                                            @"method", @"LSYNTH_TYPE",
+                                                            @"LSYNTH_CLASS", nil]];
 
 
         [tmp_parts addObject:part];

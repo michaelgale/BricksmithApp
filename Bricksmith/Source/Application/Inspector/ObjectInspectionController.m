@@ -133,7 +133,8 @@
 - (IBAction)finishedEditing:(id)sender
 {
   LDrawDirective *representedObject = [self object];
-  LDrawDocument  *currentDocument   = [[NSDocumentController sharedDocumentController] currentDocument];
+  LDrawDocument  *currentDocument   =
+    [[NSDocumentController sharedDocumentController] currentDocument];
 
   // Note: This code is tightly coupled to the LDrawDocument to support
   // registering undo actions and providing a persistent target for

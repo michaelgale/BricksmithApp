@@ -171,7 +171,8 @@ static PartLibrary *SharedPartLibrary = nil;
 
   [fullCategoryList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
                                @"Library", CategoryNameKey,
-                               NSLocalizedString(@"CategoryGroup_Library", nil), CategoryDisplayNameKey,
+                               NSLocalizedString(@"CategoryGroup_Library", nil),
+                               CategoryDisplayNameKey,
                                libraryItems, CategoryChildrenKey,
                                nil]];
 
@@ -220,7 +221,8 @@ static PartLibrary *SharedPartLibrary = nil;
 
   [fullCategoryList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
                                @"Other", CategoryNameKey,
-                               NSLocalizedString(@"CategoryGroup_Other", nil), CategoryDisplayNameKey,
+                               NSLocalizedString(@"CategoryGroup_Other", nil),
+                               CategoryDisplayNameKey,
                                otherItems, CategoryChildrenKey,
                                nil]];
 
@@ -1167,7 +1169,8 @@ static PartLibrary *SharedPartLibrary = nil;
                                      0,
                                      FloorPowerOfTwo(CGImageGetWidth(image)),
                                      FloorPowerOfTwo(CGImageGetHeight(image)));
-      uint8_t         *imageBuffer  = malloc((canvasRect.size.width) * (canvasRect.size.height) * 4);
+      uint8_t *imageBuffer =
+        malloc((canvasRect.size.width) * (canvasRect.size.height) * 4);
       CGColorSpaceRef colorSpace    = CGColorSpaceCreateDeviceRGB();
       CGContextRef    bitmapContext = CGBitmapContextCreate(imageBuffer,
                                                             canvasRect.size.width,
@@ -1278,9 +1281,11 @@ static PartLibrary *SharedPartLibrary = nil;
   NSMutableDictionary *categoryRecord = nil;
 
   // Get the subreference tables out of the main catalog (they should already exist!).
-  NSMutableDictionary *catalog_partNumbers = [catalog objectForKey:PARTS_LIST_KEY];  // lookup parts by number
-  NSMutableDictionary *catalog_categories  = [catalog objectForKey:PARTS_CATALOG_KEY];  // lookup parts by category
-  NSMutableArray      *catalog_category    = nil;
+  // lookup parts by number
+  NSMutableDictionary *catalog_partNumbers = [catalog objectForKey:PARTS_LIST_KEY];
+  // lookup parts by category
+  NSMutableDictionary *catalog_categories = [catalog objectForKey:PARTS_CATALOG_KEY];
+  NSMutableArray      *catalog_category   = nil;
 
 
   // Loop through the entire contents of the directory and extract the
@@ -1331,8 +1336,7 @@ static PartLibrary *SharedPartLibrary = nil;
             // mistake; it should have been an array of part reference
             // numbers, if not just built up at runtime.
             NSDictionary *categoryEntry =
-              [NSDictionary dictionaryWithObject:[categoryRecord objectForKey:PART_NUMBER_KEY]
-                                          forKey:PART_NUMBER_KEY];
+              [NSDictionary dictionaryWithObject:[categoryRecord objectForKey:PART_NUMBER_KEY] forKey:PART_NUMBER_KEY];
 
             [catalog_category addObject:categoryEntry];
 

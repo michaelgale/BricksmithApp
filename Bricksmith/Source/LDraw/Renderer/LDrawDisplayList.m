@@ -163,8 +163,8 @@ struct LDrawDLInstance {
 // Such DLs also have an instance linked list (instance head/tail/count) for each place they should be drawn.
 // All of those get cleared out when DL is not being used in a session.
 struct LDrawDL {
-  struct LDrawDL         *next_dl;  // Session "linked list of active dLs."
-  struct LDrawDLInstance *instance_head;      // Linked list of instances to draw.
+  struct LDrawDL         *next_dl;       // Session "linked list of active dLs."
+  struct LDrawDLInstance *instance_head; // Linked list of instances to draw.
   struct LDrawDLInstance *instance_tail;
   int                    instance_count;
   int                    flags;     // See flags defs above.
@@ -341,7 +341,8 @@ void LDrawDLBuilderSetTex(struct LDrawDLBuilder *ctx, struct LDrawTextureSpec *s
     // If we get here, we have never seen this texture before in this builder and
     // we need to allocate a new per-texture chunk of build state.
     struct LDrawDLBuilderPerTex *new_tex =
-      (struct LDrawDLBuilderPerTex *)LDrawBDPAllocate(ctx->alloc, sizeof(struct LDrawDLBuilderPerTex));
+      (struct LDrawDLBuilderPerTex *)LDrawBDPAllocate(ctx->alloc,
+                                                      sizeof(struct LDrawDLBuilderPerTex));
     memset(new_tex, 0, sizeof(struct LDrawDLBuilderPerTex));
     memcpy(&new_tex->spec, spec, sizeof(struct LDrawTextureSpec));
     prev->next = new_tex;
@@ -361,24 +362,27 @@ void LDrawDLBuilderSetTex(struct LDrawDLBuilder *ctx, struct LDrawTextureSpec *s
 // onto the triangle list for the current texture.
 //
 // ================================================================================
-void LDrawDLBuilderAddTri(struct LDrawDLBuilder *ctx, const GLfloat v[9], GLfloat n[3], GLfloat c[4])
+void LDrawDLBuilderAddTri(struct LDrawDLBuilder *ctx, const GLfloat v[9], GLfloat n[3],
+                          GLfloat c[4])
 {
   // Alpha = 0 means meta color.  0 < Alpha < 1 means translucency.
   if (c[3] == 0.0f) { ctx->flags |= dl_has_meta; }
   else if (c[3] != 1.0f) { ctx->flags |= dl_has_alpha; }
 
   int i;
-  struct LDrawDLBuilderVertexLink *nl = (struct LDrawDLBuilderVertexLink *)LDrawBDPAllocate(ctx->alloc,
-                                                                                            sizeof(struct
-                                                                                                   LDrawDLBuilderVertexLink) + sizeof(
-                                                                                              GLfloat) * VERT_STRIDE *
-                                                                                            3);
+  struct LDrawDLBuilderVertexLink *nl = (struct LDrawDLBuilderVertexLink *)LDrawBDPAllocate(
+    ctx->alloc,
+    sizeof(
+      struct
+      LDrawDLBuilderVertexLink) + sizeof(
+      GLfloat) * VERT_STRIDE *
+    3);
   nl->next   = NULL;
   nl->vcount = 3;
   for (i = 0; i < 3; ++i) {
-    copy_vec3(nl->data + VERT_STRIDE * i, v + i * 3);  // Vertex data is per vertex.
-    copy_vec3(nl->data + VERT_STRIDE * i + 3, n);  // But color and norm are for the whole tri, for now.  So we replicate it out to get
-    copy_vec4(nl->data + VERT_STRIDE * i + 6, c);  // a uniform DL.
+    copy_vec3(nl->data + VERT_STRIDE * i, v + i * 3); // Vertex data is per vertex.
+    copy_vec3(nl->data + VERT_STRIDE * i + 3, n);     // But color and norm are for the whole tri, for now.  So we replicate it out to get
+    copy_vec4(nl->data + VERT_STRIDE * i + 6, c);     // a uniform DL.
   }
 
   if (ctx->cur->tri_tail) {
@@ -397,24 +401,27 @@ void LDrawDLBuilderAddTri(struct LDrawDLBuilder *ctx, const GLfloat v[9], GLfloa
 // Purpose:	Add one quad to the current DL builder in the current texture.
 //
 // ================================================================================
-void LDrawDLBuilderAddQuad(struct LDrawDLBuilder *ctx, const GLfloat v[12], GLfloat n[3], GLfloat c[4])
+void LDrawDLBuilderAddQuad(struct LDrawDLBuilder *ctx, const GLfloat v[12], GLfloat n[3],
+                           GLfloat c[4])
 {
   if (c[3] == 0.0f) { ctx->flags |= dl_has_meta; }
   else if (c[3] != 1.0f) { ctx->flags |= dl_has_alpha; }
 
   #if ONLY_USE_TRIS
   int i;
-  struct LDrawDLBuilderVertexLink *nl = (struct LDrawDLBuilderVertexLink *)LDrawBDPAllocate(ctx->alloc,
-                                                                                            sizeof(struct
-                                                                                                   LDrawDLBuilderVertexLink) + sizeof(
-                                                                                              GLfloat) * VERT_STRIDE *
-                                                                                            3);
+  struct LDrawDLBuilderVertexLink *nl = (struct LDrawDLBuilderVertexLink *)LDrawBDPAllocate(
+    ctx->alloc,
+    sizeof(
+      struct
+      LDrawDLBuilderVertexLink) + sizeof(
+      GLfloat) * VERT_STRIDE *
+    3);
   nl->next   = NULL;
   nl->vcount = 3;
   for (i = 0; i < 3; ++i) {
-    copy_vec3(nl->data + VERT_STRIDE * i, v + i * 3);  // Vertex data is per vertex.
-    copy_vec3(nl->data + VERT_STRIDE * i + 3, n);  // But color and norm are for the whole tri, for now.  So we replicate it out to get
-    copy_vec4(nl->data + VERT_STRIDE * i + 6, c);  // a uniform DL.
+    copy_vec3(nl->data + VERT_STRIDE * i, v + i * 3); // Vertex data is per vertex.
+    copy_vec3(nl->data + VERT_STRIDE * i + 3, n);     // But color and norm are for the whole tri, for now.  So we replicate it out to get
+    copy_vec4(nl->data + VERT_STRIDE * i + 6, c);     // a uniform DL.
   }
 
   if (ctx->cur->tri_tail) {
@@ -438,9 +445,9 @@ void LDrawDLBuilderAddQuad(struct LDrawDLBuilder *ctx, const GLfloat v[12], GLfl
     copy_vec4(nl->data + VERT_STRIDE * i + 6, c);  // a uniform DL.
   }
 
-  copy_vec3(nl->data + VERT_STRIDE * 0, v);  // Vertex data is per vertex.
-  copy_vec3(nl->data + VERT_STRIDE * 1, v + 6);  // Vertex data is per vertex.
-  copy_vec3(nl->data + VERT_STRIDE * 2, v + 9);  // Vertex data is per vertex.
+  copy_vec3(nl->data + VERT_STRIDE * 0, v);     // Vertex data is per vertex.
+  copy_vec3(nl->data + VERT_STRIDE * 1, v + 6); // Vertex data is per vertex.
+  copy_vec3(nl->data + VERT_STRIDE * 2, v + 9); // Vertex data is per vertex.
 
   if (ctx->cur->tri_tail) {
     ctx->cur->tri_tail->next = nl;
@@ -479,17 +486,22 @@ void LDrawDLBuilderAddQuad(struct LDrawDLBuilder *ctx, const GLfloat v[12], GLfl
 // Purpose:	Add one line to the current DL builder in the current texture.
 //
 // ================================================================================
-void LDrawDLBuilderAddLine(struct LDrawDLBuilder *ctx, const GLfloat v[6], GLfloat n[3], GLfloat c[4])
+void LDrawDLBuilderAddLine(struct LDrawDLBuilder *ctx,
+                           const GLfloat v[6],
+                           GLfloat n[3],
+                           GLfloat c[4])
 {
   if (c[3] == 0.0f) { ctx->flags |= dl_has_meta; }
   else if (c[3] != 1.0f) { ctx->flags |= dl_has_alpha; }
 
   int i;
-  struct LDrawDLBuilderVertexLink *nl = (struct LDrawDLBuilderVertexLink *)LDrawBDPAllocate(ctx->alloc,
-                                                                                            sizeof(struct
-                                                                                                   LDrawDLBuilderVertexLink) + sizeof(
-                                                                                              GLfloat) * VERT_STRIDE *
-                                                                                            2);
+  struct LDrawDLBuilderVertexLink *nl = (struct LDrawDLBuilderVertexLink *)LDrawBDPAllocate(
+    ctx->alloc,
+    sizeof(
+      struct
+      LDrawDLBuilderVertexLink) + sizeof(
+      GLfloat) * VERT_STRIDE *
+    2);
   nl->next   = NULL;
   nl->vcount = 2;
   for (i = 0; i < 2; ++i) {
@@ -1018,8 +1030,18 @@ void LDrawDLSessionDrawAndDestroy(struct LDrawDLSession *session)
         #endif
         float *p = NULL;
         glVertexAttribPointer(attr_position, 3, GL_FLOAT, GL_FALSE, VERT_STRIDE * sizeof(GLfloat), p);
-        glVertexAttribPointer(attr_normal, 3, GL_FLOAT, GL_FALSE, VERT_STRIDE * sizeof(GLfloat), p + 3);
-        glVertexAttribPointer(attr_color, 4, GL_FLOAT, GL_FALSE, VERT_STRIDE * sizeof(GLfloat), p + 6);
+        glVertexAttribPointer(attr_normal,
+                              3,
+                              GL_FLOAT,
+                              GL_FALSE,
+                              VERT_STRIDE * sizeof(GLfloat),
+                              p + 3);
+        glVertexAttribPointer(attr_color,
+                              4,
+                              GL_FLOAT,
+                              GL_FALSE,
+                              VERT_STRIDE * sizeof(GLfloat),
+                              p + 6);
 
         // Now walk the instance list...push instance data into attributes in immediate mode and draw.
         for (inst = dl->instance_head; inst; inst = inst->next) {
@@ -1054,7 +1076,8 @@ void LDrawDLSessionDrawAndDestroy(struct LDrawDLSession *session)
             glDrawElements(GL_LINES, tptr->line_count, GL_UNSIGNED_INT, idx_null + tptr->line_off);
           }
           if (tptr->tri_count) {
-            glDrawElements(GL_TRIANGLES, tptr->tri_count, GL_UNSIGNED_INT, idx_null + tptr->tri_off);
+            glDrawElements(GL_TRIANGLES, tptr->tri_count, GL_UNSIGNED_INT,
+                           idx_null + tptr->tri_off);
           }
           if (tptr->quad_count) {
             glDrawElements(GL_QUADS, tptr->quad_count, GL_UNSIGNED_INT, idx_null + tptr->quad_off);
@@ -1117,14 +1140,29 @@ void LDrawDLSessionDrawAndDestroy(struct LDrawDLSession *session)
         #endif
         float *p = NULL;
         glVertexAttribPointer(attr_position, 3, GL_FLOAT, GL_FALSE, VERT_STRIDE * sizeof(GLfloat), p);
-        glVertexAttribPointer(attr_normal, 3, GL_FLOAT, GL_FALSE, VERT_STRIDE * sizeof(GLfloat), p + 3);
-        glVertexAttribPointer(attr_color, 4, GL_FLOAT, GL_FALSE, VERT_STRIDE * sizeof(GLfloat), p + 6);
+        glVertexAttribPointer(attr_normal,
+                              3,
+                              GL_FLOAT,
+                              GL_FALSE,
+                              VERT_STRIDE * sizeof(GLfloat),
+                              p + 3);
+        glVertexAttribPointer(attr_color,
+                              4,
+                              GL_FLOAT,
+                              GL_FALSE,
+                              VERT_STRIDE * sizeof(GLfloat),
+                              p + 6);
 
         glBindBuffer(GL_ARRAY_BUFFER, inst_vbo_ring[session->inst_ring]);
 
         p = s->inst_base;
         glVertexAttribPointer(attr_color_current, 4, GL_FLOAT, GL_FALSE, 24 * sizeof(GLfloat), p);
-        glVertexAttribPointer(attr_color_compliment, 4, GL_FLOAT, GL_FALSE, 24 * sizeof(GLfloat), p + 4);
+        glVertexAttribPointer(attr_color_compliment,
+                              4,
+                              GL_FLOAT,
+                              GL_FALSE,
+                              24 * sizeof(GLfloat),
+                              p + 4);
         glVertexAttribPointer(attr_transform_x, 4, GL_FLOAT, GL_FALSE, 24 * sizeof(GLfloat), p + 8);
         glVertexAttribPointer(attr_transform_y, 4, GL_FLOAT, GL_FALSE, 24 * sizeof(GLfloat), p + 12);
         glVertexAttribPointer(attr_transform_z, 4, GL_FLOAT, GL_FALSE, 24 * sizeof(GLfloat), p + 16);
@@ -1217,7 +1255,11 @@ void LDrawDLSessionDrawAndDestroy(struct LDrawDLSession *session)
 // for(i = 0; i < 4; ++i)
 // glVertexAttrib4f(attr_transform_x+i,l->transform[i],l->transform[4+i],l->transform[8+i],l->transform[12+i]);
 
-      glVertexAttrib4f(attr_transform_x, l->transform[0], l->transform[4], l->transform[8], l->transform[12]);
+      glVertexAttrib4f(attr_transform_x,
+                       l->transform[0],
+                       l->transform[4],
+                       l->transform[8],
+                       l->transform[12]);
       glVertexAttrib4f(attr_transform_x + 1, l->transform[1], l->transform[5], l->transform[9],
                        l->transform[13]);
       glVertexAttrib4f(attr_transform_x + 2, l->transform[2], l->transform[6], l->transform[10],

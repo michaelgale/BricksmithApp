@@ -147,7 +147,8 @@
   }
   @catch (NSException *exception)
   {
-    NSLog(@"the quadrilateral primitive %@ was fatally invalid", [lines objectAtIndex:range.location]);
+    NSLog(@"the quadrilateral primitive %@ was fatally invalid",
+          [lines objectAtIndex:range.location]);
     NSLog(@" raised exception %@", [exception name]);
     [self release];
     self = nil;

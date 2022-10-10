@@ -24,7 +24,7 @@ enum
 
 enum            // Culling codes from renderer culling checks.
 {
-  cull_skip,      // Don't draw - object is off screen or too-small-to-care.
+  cull_skip,    // Don't draw - object is off screen or too-small-to-care.
   cull_box,     // Draw, but consider replacing with a box for speed - the object is rather small.
   cull_draw     // Draw, the object is on screen and big.
 };
@@ -58,8 +58,8 @@ struct  LDrawTextureSpec {
 // The cleanup function defines a function ptr used to dispose of the display list that a directive
 // might be retaining.
 
-typedef void *LDrawDLHandle;                    // Opaque handle to some kinf of cached drawing representation.
-typedef void (* LDrawDLCleanup_f)(LDrawDLHandle who);       // Cleanup function associated with a given DL.
+typedef void *LDrawDLHandle;                          // Opaque handle to some kinf of cached drawing representation.
+typedef void (* LDrawDLCleanup_f)(LDrawDLHandle who); // Cleanup function associated with a given DL.
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

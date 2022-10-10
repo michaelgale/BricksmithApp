@@ -159,7 +159,8 @@
     NSView  *documentView       = [self documentView];
     NSRect  documentVisibleRect = [documentView visibleRect];
     NSRect  documentFrame       = [documentView frame];
-    NSPoint visibleCenter       = NSMakePoint(NSMidX(documentVisibleRect), NSMidY(documentVisibleRect));
+    NSPoint visibleCenter       =
+      NSMakePoint(NSMidX(documentVisibleRect), NSMidY(documentVisibleRect));
 
     // Careful. Collapsed split views have no visible rect, and we don't
     // want to save THAT!

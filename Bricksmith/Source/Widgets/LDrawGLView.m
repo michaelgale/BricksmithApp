@@ -55,9 +55,11 @@
 // Macros for pref-based UI tricks.
 #define USE_TURNTABLE     ([[NSUserDefaults standardUserDefaults] integerForKey:ROTATE_MODE_KEY] == \
                            RotateModeTurntable)
-#define USE_RIGHT_SPIN    ([[NSUserDefaults standardUserDefaults] integerForKey:RIGHT_BUTTON_BEHAVIOR_KEY] == \
+#define USE_RIGHT_SPIN    ([[NSUserDefaults standardUserDefaults] integerForKey: \
+                            RIGHT_BUTTON_BEHAVIOR_KEY] ==                        \
                            RightButtonRotates)
-#define USE_ZOOM_WHEEL    ([[NSUserDefaults standardUserDefaults] integerForKey:MOUSE_WHEEL_BEHAVIOR_KEY] == \
+#define USE_ZOOM_WHEEL    ([[NSUserDefaults standardUserDefaults] integerForKey: \
+                            MOUSE_WHEEL_BEHAVIOR_KEY] ==                         \
                            MouseWheelZooms)
 
 // ========== NSRectToBox2 ======================================================
@@ -97,6 +99,7 @@ static NSSize Size2ToNSSize(Size2 size)
 
   return(sizeOut);
 }
+
 
 @implementation LDrawGLView
 
@@ -279,7 +282,7 @@ static NSSize Size2ToNSSize(Size2 size)
 - (void)drawRect:(NSRect)rect
 {
   [self draw];
-}// end drawRect:
+}
 
 
 // ========== draw ==============================================================
@@ -298,7 +301,7 @@ static NSSize Size2ToNSSize(Size2 size)
     [self->renderer draw];
   }
   CGLUnlockContext([[self openGLContext] CGLContextObj]);
-}// end draw
+}
 
 
 // ========== isFlipped =========================================================
@@ -311,7 +314,7 @@ static NSSize Size2ToNSSize(Size2 size)
 - (BOOL)isFlipped
 {
   return(YES);
-}// end isFlipped
+}
 
 
 // ========== isOpaque ==========================================================
@@ -338,7 +341,7 @@ static NSSize Size2ToNSSize(Size2 size)
 - (BOOL)acceptsFirstResponder
 {
   return(self->acceptsFirstResponder);
-}// end acceptsFirstResponder
+}
 
 
 // ========== LDrawColor ========================================================
@@ -350,7 +353,7 @@ static NSSize Size2ToNSSize(Size2 size)
 {
   [[self openGLContext] makeCurrentContext];
   return([self->renderer LDrawColor]);
-}// end color
+}
 
 
 // ========== LDrawDirective ====================================================
@@ -361,7 +364,7 @@ static NSSize Size2ToNSSize(Size2 size)
 - (LDrawDirective *)LDrawDirective
 {
   return([self->renderer LDrawDirective]);
-}// end LDrawDirective
+}
 
 
 // ========== setBackgroundColor: ===============================================
@@ -396,7 +399,7 @@ static NSSize Size2ToNSSize(Size2 size)
   CGLUnlockContext([[self openGLContext] CGLContextObj]);
 
   [self setNeedsDisplay:YES];
-} // end setBackgroundColor:
+}
 
 
 // ========== nudgeVectorForMatrix: =============================================
@@ -417,9 +420,15 @@ static NSSize Size2ToNSSize(Size2 size)
   // These 3 axes are the directions the _user_ thinks are right, down, and away, in model coordinates.
   // Note that this assumes that the rotation elements of the camera matrix have no skew or scaling,
   // so we can use the transpose as an inverse.
-  Vector3 xUser = V3Make(cameraMatrix.element[0][0], cameraMatrix.element[1][0], cameraMatrix.element[2][0]);
-  Vector3 yUser = V3Make(cameraMatrix.element[0][1], cameraMatrix.element[1][1], cameraMatrix.element[2][1]);
-  Vector3 zUser = V3Make(cameraMatrix.element[0][2], cameraMatrix.element[1][2], cameraMatrix.element[2][2]);
+  Vector3 xUser = V3Make(cameraMatrix.element[0][0],
+                         cameraMatrix.element[1][0],
+                         cameraMatrix.element[2][0]);
+  Vector3 yUser = V3Make(cameraMatrix.element[0][1],
+                         cameraMatrix.element[1][1],
+                         cameraMatrix.element[2][1]);
+  Vector3 zUser = V3Make(cameraMatrix.element[0][2],
+                         cameraMatrix.element[1][2],
+                         cameraMatrix.element[2][2]);
 
   // If we are in a non-orthographic turn-table view, assume that the user's idea of up is up in model
   // coordinates, no matter how silly the alignment is.  In turn-table view, the user really knows where
@@ -430,9 +439,15 @@ static NSSize Size2ToNSSize(Size2 size)
 
   // Get the axis basis vectors of the model - this is the direction we will nudge, e.g. an "x part"
   // nudge moves the part to its own right.
-  Vector3 xPart = V3Make(partMatrix.element[0][0], partMatrix.element[0][1], partMatrix.element[0][2]);
-  Vector3 yPart = V3Make(partMatrix.element[1][0], partMatrix.element[1][1], partMatrix.element[1][2]);
-  Vector3 zPart = V3Make(partMatrix.element[2][0], partMatrix.element[2][1], partMatrix.element[2][2]);
+  Vector3 xPart = V3Make(partMatrix.element[0][0],
+                         partMatrix.element[0][1],
+                         partMatrix.element[0][2]);
+  Vector3 yPart = V3Make(partMatrix.element[1][0],
+                         partMatrix.element[1][1],
+                         partMatrix.element[1][2]);
+  Vector3 zPart = V3Make(partMatrix.element[2][0],
+                         partMatrix.element[2][1],
+                         partMatrix.element[2][2]);
 
   // Now, take lots o dot products to find the correlation between the user and model axes.
   double xUp = V3Dot(yUser, xPart);
@@ -549,7 +564,7 @@ static NSSize Size2ToNSSize(Size2 size)
            self->nudgeVector.x * xNudge.z +
            self->nudgeVector.y * yNudge.z +
            self->nudgeVector.z * zNudge.z));
-}// end nudgeVectorForMatrix:
+}
 
 
 // ========== projectionMode ====================================================
@@ -558,7 +573,7 @@ static NSSize Size2ToNSSize(Size2 size)
 {
   [[self openGLContext] makeCurrentContext];
   return([self->renderer projectionMode]);
-}// end projectionMode
+}
 
 
 // ========== locationMode ====================================================
@@ -567,7 +582,7 @@ static NSSize Size2ToNSSize(Size2 size)
 {
   [[self openGLContext] makeCurrentContext];
   return([self->renderer locationMode]);
-}// end locationMode
+}
 
 
 // ========== viewingAngle ======================================================
@@ -579,7 +594,7 @@ static NSSize Size2ToNSSize(Size2 size)
   Tuple3 angle = [self->renderer viewingAngle];
 
   return(angle);
-}// end viewingAngle
+}
 
 
 // ========== viewOrientation ===================================================
@@ -591,7 +606,7 @@ static NSSize Size2ToNSSize(Size2 size)
 {
   [[self openGLContext] makeCurrentContext];
   return([self->renderer viewOrientation]);
-}// end viewOrientation
+}
 
 
 // ========== zoomPercentage ====================================================
@@ -604,7 +619,7 @@ static NSSize Size2ToNSSize(Size2 size)
 {
   [[self openGLContext] makeCurrentContext];
   return([self->renderer zoomPercentage]);
-}// end zoomPercentage
+}
 
 
 #pragma mark -
@@ -617,7 +632,7 @@ static NSSize Size2ToNSSize(Size2 size)
 - (void)setAcceptsFirstResponder:(BOOL)flag
 {
   self->acceptsFirstResponder = flag;
-}// end
+}
 
 
 // ========== setAutosaveName: ==================================================
@@ -631,7 +646,7 @@ static NSSize Size2ToNSSize(Size2 size)
   [newName retain];
   [self->autosaveName release];
   self->autosaveName = newName;
-}// end setAutosaveName:
+}
 
 
 // ========== setDelegate: ======================================================
@@ -660,14 +675,14 @@ static NSSize Size2ToNSSize(Size2 size)
     [self unregisterDraggedTypes];
   }
 
-  if ([self->delegate respondsToSelector:@selector(LDrawGLView:wantsToSelectDirective:byExtendingSelection:)])
-  {
+  if ([self->delegate respondsToSelector:@selector(LDrawGLView:wantsToSelectDirective:
+                                                   byExtendingSelection:)]) {
     [self->renderer setAllowsEditing:YES];
   }
   else {
     [self->renderer setAllowsEditing:NO];
   }
-}// end setDelegate:
+}
 
 
 // ========== setBackAction: ====================================================
@@ -679,7 +694,7 @@ static NSSize Size2ToNSSize(Size2 size)
 - (void)setBackAction:(SEL)newAction
 {
   self->backAction = newAction;
-}// end setBackAction:
+}
 
 
 // ========== setDragEndedInOurDocument: ========================================
@@ -704,7 +719,7 @@ static NSSize Size2ToNSSize(Size2 size)
 - (void)setDragEndedInOurDocument:(BOOL)flag
 {
   self->dragEndedInOurDocument = flag;
-}// end setDragEndedInOurDocument:
+}
 
 
 // ========== setForwardAction: =================================================
@@ -716,7 +731,7 @@ static NSSize Size2ToNSSize(Size2 size)
 - (void)setForwardAction:(SEL)newAction
 {
   self->forwardAction = newAction;
-}// end setForwardAction:
+}
 
 
 // ========== setFrame: =========================================================
@@ -745,7 +760,7 @@ static NSSize Size2ToNSSize(Size2 size)
 {
   [[self openGLContext] makeCurrentContext];
   [self->renderer setGridSpacing:[BricksmithUtilities gridSpacingForMode:newMode]];
-}// end setGridSpacingMode:
+}
 
 
 // ========== setLDrawColor: ====================================================
@@ -758,7 +773,7 @@ static NSSize Size2ToNSSize(Size2 size)
 {
   [[self openGLContext] makeCurrentContext];
   [self->renderer setLDrawColor:newColor];
-}// end setColor
+}
 
 
 // ========== LDrawDirective: ===================================================
@@ -782,7 +797,7 @@ static NSSize Size2ToNSSize(Size2 size)
     [self setNeedsDisplay:YES];
   }
   CGLUnlockContext([[self openGLContext] CGLContextObj]);
-}// end setLDrawDirective:
+}
 
 
 // ========== setNeedsDisplay: ==================================================
@@ -808,7 +823,7 @@ static NSSize Size2ToNSSize(Size2 size)
 - (void)setNudgeAction:(SEL)newAction
 {
   self->nudgeAction = newAction;
-}// end setNudgeAction:
+}
 
 
 // ========== setProjectionMode: ================================================
@@ -833,7 +848,7 @@ static NSSize Size2ToNSSize(Size2 size)
   CGLUnlockContext([[self openGLContext] CGLContextObj]);
 
   [self saveConfiguration];
-} // end setProjectionMode:
+}
 
 
 // ========== setLocationMode: ================================================
@@ -852,9 +867,8 @@ static NSSize Size2ToNSSize(Size2 size)
     [self setNeedsDisplay:YES];
   }
   CGLUnlockContext([[self openGLContext] CGLContextObj]);
-
   [self saveConfiguration];
-} // end setLocationMode:
+}
 
 
 // ========== setTarget: ========================================================
@@ -866,7 +880,7 @@ static NSSize Size2ToNSSize(Size2 size)
 - (void)setTarget:(id)newTarget
 {
   self->target = newTarget;
-}// end setTarget:
+}
 
 
 // ========== setViewingAngle: ==================================================
@@ -895,7 +909,7 @@ static NSSize Size2ToNSSize(Size2 size)
     [self setNeedsDisplay:YES];
   }
   CGLUnlockContext([[self openGLContext] CGLContextObj]);
-}// end setViewingAngle:
+}
 
 
 // ========== setViewOrientation: ===============================================
@@ -910,7 +924,7 @@ static NSSize Size2ToNSSize(Size2 size)
   [self->renderer setViewOrientation:newOrientation];
 
   [self saveConfiguration];
-}// end setViewOrientation:
+}
 
 
 // ========== setZoomPercentage: ================================================
@@ -928,7 +942,7 @@ static NSSize Size2ToNSSize(Size2 size)
 {
   [[self openGLContext] makeCurrentContext];
   [self->renderer setZoomPercentage:newPercentage];
-}// end setZoomPercentage
+}
 
 
 #pragma mark -
@@ -966,7 +980,7 @@ static NSSize Size2ToNSSize(Size2 size)
   }
 
   [self saveConfiguration];
-}// end viewOrientationSelected:
+}
 
 
 // ========== zoomIn: ===========================================================
@@ -978,7 +992,7 @@ static NSSize Size2ToNSSize(Size2 size)
 {
   [[self openGLContext] makeCurrentContext];
   [self->renderer zoomIn:sender];
-}// end zoomIn:
+}
 
 
 // ========== zoomOut: ==========================================================
@@ -990,7 +1004,7 @@ static NSSize Size2ToNSSize(Size2 size)
 {
   [[self openGLContext] makeCurrentContext];
   [self->renderer zoomOut:sender];
-}// end zoomOut:
+}
 
 
 // ========== zoomToFit: ========================================================
@@ -1007,7 +1021,7 @@ static NSSize Size2ToNSSize(Size2 size)
     [self->renderer zoomToFit:sender];
   }
   CGLUnlockContext([[self openGLContext] CGLContextObj]);
-}// end zoomToFit:
+}
 
 
 #pragma mark -
@@ -1033,9 +1047,8 @@ static NSSize Size2ToNSSize(Size2 size)
     // need to draw the focus ring now
     [self->focusRingView setNeedsDisplay:YES];
   }
-
   return(success);
-}// end becomeFirstResponder
+}
 
 
 // ========== resignFirstResponder ==============================================
@@ -1052,7 +1065,7 @@ static NSSize Size2ToNSSize(Size2 size)
     [self->focusRingView setNeedsDisplay:YES];
   }
   return(success);
-}// end resignFirstResponder
+}
 
 
 // ========== resetCursor =======================================================
@@ -1069,7 +1082,7 @@ static NSSize Size2ToNSSize(Size2 size)
                cursor:[NSCursor arrowCursor]];
 
   [[self window] invalidateCursorRectsForView:self];
-}// end resetCursor
+}
 
 
 // ========== resetCursorRects ==================================================
@@ -1192,7 +1205,7 @@ static NSSize Size2ToNSSize(Size2 size)
                    afterDelay:0];
     }
   }
-}// end resetCursorRects
+}
 
 
 // ========== worksWhenModal ====================================================
@@ -1209,7 +1222,7 @@ static NSSize Size2ToNSSize(Size2 size)
 - (BOOL)worksWhenModal
 {
   return(YES);
-}// end worksWhenModal
+}
 
 
 #pragma mark -
@@ -1243,45 +1256,6 @@ static NSSize Size2ToNSSize(Size2 size)
       case NSRightArrowFunctionKey :
         [self nudgeKeyDown:theEvent];
         break;
-
-      // handled by menu item
-// case NSDeleteCharacter: //regular delete character, apparently.
-// case NSDeleteFunctionKey: //forward delete--documented! My gosh!
-// [NSApp sendAction:@selector(delete:)
-// to:nil //just send it somewhere!
-// from:self];
-
-// case '\\':
-// [self setNeedsDisplay:YES];
-// break;
-//
-// case 'f':
-// {
-// [[self openGLContext] makeCurrentContext];
-// glReadBuffer(GL_FRONT);
-//
-// NSArray *searchPaths = NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, YES);
-// NSString *path = [searchPaths objectAtIndex:0];
-//
-// path = [path stringByAppendingPathComponent:@"Front"];
-// path = [path stringByAppendingPathExtension:@"tiff"];
-// [self saveImageToPath:path];
-// }
-// break;
-//
-// case 'b':
-// {
-// [[self openGLContext] makeCurrentContext];
-// glReadBuffer(GL_BACK);
-//
-// NSArray *searchPaths = NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, YES);
-// NSString *path = [searchPaths objectAtIndex:0];
-//
-// path = [path stringByAppendingPathComponent:@"Back"];
-// path = [path stringByAppendingPathExtension:@"tiff"];
-// [self saveImageToPath:path];
-// }
-// break;
 
       case ' ' :
         // Swallow the spacebar, since it is a special tool-palette key.
@@ -1337,7 +1311,7 @@ static NSSize Size2ToNSSize(Size2 size)
         break;
     }
   }
-}// end keyDown:
+}
 
 
 // ========== nudgeKeyDown: =====================================================
@@ -1459,7 +1433,7 @@ static NSSize Size2ToNSSize(Size2 size)
     }
   }
   CGLUnlockContext([[self openGLContext] CGLContextObj]);
-}// end nudgeKeyDown:
+}
 
 
 #pragma mark -
@@ -1568,7 +1542,7 @@ static NSSize Size2ToNSSize(Size2 size)
         break;
     }
   }
-}// end mouseDown:
+}
 
 
 // ========== mouseDragged: =====================================================
@@ -1656,7 +1630,7 @@ static NSSize Size2ToNSSize(Size2 size)
   // Don't wait for drag-and-drop anymore. We need to do this after we process
   // the drag, because it clears the can-drag flag.
   [self cancelClickAndHoldTimer];
-}// end mouseDragged
+}
 
 
 // ========== mouseUp: ==========================================================
@@ -1700,7 +1674,7 @@ static NSSize Size2ToNSSize(Size2 size)
     [self->autoscrollTimer invalidate];
     self->autoscrollTimer = nil;
   }
-}// end mouseUp:
+}
 
 
 // ========== rightMouseDown: ===================================================
@@ -1784,7 +1758,7 @@ static NSSize Size2ToNSSize(Size2 size)
   else {
     return(nil);
   }
-}// end menuForEvent:
+}
 
 
 // ========== otherMouseDown: ===================================================
@@ -1806,7 +1780,7 @@ static NSSize Size2ToNSSize(Size2 size)
 
     [self mouseDown:theEvent];
   }
-}// end otherMouseDown:
+}
 
 
 // ========== otherMouseDragged: ================================================
@@ -1822,7 +1796,7 @@ static NSSize Size2ToNSSize(Size2 size)
     // our mouseDragged method will do the right thing based on tool mode
     [self mouseDragged:theEvent];
   }
-}// end otherMouseDragged:
+}
 
 
 // ========== otherMouseUp: =====================================================
@@ -1841,7 +1815,7 @@ static NSSize Size2ToNSSize(Size2 size)
     // event state.
     [[ToolPalette sharedToolPalette] mouseButton3DidChange:theEvent];
   }
-}// end otherMouseUp:
+}
 
 
 // ========== scrollWheel: ======================================================
@@ -1896,7 +1870,7 @@ static NSSize Size2ToNSSize(Size2 size)
   else {
     [self dragAndDropDragged:theEvent];
   }
-}// end directInteractionDragged:
+}
 
 
 // ========== dragAndDropDragged: ===============================================
@@ -1917,17 +1891,11 @@ static NSSize Size2ToNSSize(Size2 size)
   NSArray              *archivedDirectives = nil;
   NSData               *data           = nil;
   LDrawDrawableElement *firstDirective = nil;
-  NSPoint              viewPoint       = [self convertPoint:[theEvent locationInWindow]
-                                                   fromView:nil];
-  Point3  modelPoint    = ZeroPoint3;
-  Point3  firstPosition = ZeroPoint3;
-  Vector3 displacement  = ZeroPoint3;
-  NSImage *dragImage    = nil;
-
-// Box2 vr = [self getVisibleRect];
-//
-// NSPoint viewPoint = NSMakePoint(viewPoint2.x + vr.origin.x, viewPoint2.y + vr.origin.y);
-// printf("ddp: %.1f, %.1f vp: %.1f, %.1f\n", viewPoint2.x, viewPoint2.y, viewPoint.x, viewPoint.y);
+  NSPoint              viewPoint       = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+  Point3               modelPoint      = ZeroPoint3;
+  Point3               firstPosition   = ZeroPoint3;
+  Vector3              displacement    = ZeroPoint3;
+  NSImage              *dragImage      = nil;
 
   if (self->delegate != nil &&
       [self->delegate respondsToSelector:@selector(LDrawGLView:writeDirectivesToPasteboard:asCopy:)]) {
@@ -2013,7 +1981,7 @@ static NSSize Size2ToNSSize(Size2 size)
       // **** -dragImage: BLOCKS until drag is complete. ****
     }
   }
-}// end dragAndDropDragged:
+}
 
 
 // ========== dragHandleDragged: ================================================
@@ -2034,7 +2002,7 @@ static NSSize Size2ToNSSize(Size2 size)
 
   [self->renderer dragHandleDraggedToPoint:V2Make(viewPoint.x, viewPoint.y)
                          constrainDragAxis:constrainDragAxis];
-}// end dragHandleDragged:
+}
 
 
 #pragma mark - Clicking
@@ -2064,11 +2032,7 @@ static NSSize Size2ToNSSize(Size2 size)
   Size2  vdoc = [self getMaxVisibleSizeDoc];
   double xoff = vr.origin.x;
   double yoff = vr.origin.y;
-// printf("getVisibleRect      : %.1f, %.1f - %.1f, %.1f\n", vr.origin.x, vr.origin.y, vr.size.width, vr.size.height);
-// printf("getMaxVisibleSizeGL : %.1f, %.1f\n", vgl.width, vgl.height);
-// printf("getDocumentSize     : %.1f, %.1f\n", rdoc.width, rdoc.height);
-// printf("getMaxVisibleSizeDoc: %.1f, %.1f\n", vdoc.width, vdoc.height);
-  double r = 1.0;
+  double r    = 1.0;
 
   if (vdoc.width > rdoc.width) {
     r = vdoc.width / vr.size.width;
@@ -2087,10 +2051,7 @@ static NSSize Size2ToNSSize(Size2 size)
   if (vdoc.height > vr.size.height) {
     yoff = -(vdoc.height - vr.size.height);
   }
-// printf("vp: %.1f, %.1f off: %.1f, %.1f\n", viewPoint2.x, viewPoint2.y, xoff, yoff);
   NSPoint viewPoint = NSMakePoint(r * viewPoint2.x + xoff, ry * viewPoint2.y + yoff);
-
-// printf("  r=%.2f ry=%.1f vp: %.1f, %.1f\n", r, ry, viewPoint.x, viewPoint.y);
 
   [[self openGLContext] makeCurrentContext];
 
@@ -2126,8 +2087,8 @@ static NSSize Size2ToNSSize(Size2 size)
 
     // This click is a click down to see what we hit - record whether we hit something so
     // we can then marquee or drag and drop.
-    selectionIsMarquee = ![self->renderer mouseSelectionClick:V2Make(viewPoint.x, viewPoint.y)
-                                                selectionMode:selectionMode]
+    selectionIsMarquee =
+      ![self->renderer mouseSelectionClick:V2Make(viewPoint.x, viewPoint.y) selectionMode:selectionMode]
       && [self->delegate respondsToSelector:@selector(markPreviousSelection)];
     if (selectionIsMarquee) {
       // We are starting a marquee select.  We can do this because our part selection is known to have missed
@@ -2142,7 +2103,7 @@ static NSSize Size2ToNSSize(Size2 size)
                                                                    repeats:YES];
     }
   }
-}// end mousePartSelection:
+}
 
 
 // ========== mouseZoomClick: ===================================================
@@ -2168,7 +2129,7 @@ static NSSize Size2ToNSSize(Size2 size)
   else if (toolMode == ZoomOutTool) {
     [self->renderer mouseZoomOutClick:view_point];
   }
-}// end mouseZoomClick:
+}
 
 
 #pragma mark -
@@ -2186,7 +2147,7 @@ static NSSize Size2ToNSSize(Size2 size)
     self->mouseDownTimer = nil;
   }
   self->canBeginDragAndDrop = NO;
-}// end cancelClickAndHoldTimer
+}
 
 
 // ========== autoscrollTimerFired: ===========================================
@@ -2232,7 +2193,7 @@ static NSSize Size2ToNSSize(Size2 size)
   // mouseDragged. So we wait until one of those actually happens to do
   // anything, and set this flag to tell us what to do when the moment comes.
   self->canBeginDragAndDrop = YES;
-}// end clickAndHoldTimerFired:
+}
 
 
 #pragma mark -
@@ -2248,7 +2209,7 @@ static NSSize Size2ToNSSize(Size2 size)
   [[self openGLContext] makeCurrentContext];
   self->startingGestureType = [theEvent type];
   [self->renderer beginGesture];
-}// end beginGestureWithEvent:
+}
 
 
 // ========== endGestureWithEvent: ==============================================
@@ -2260,7 +2221,7 @@ static NSSize Size2ToNSSize(Size2 size)
 {
   [[self openGLContext] makeCurrentContext];
   [self->renderer endGesture];
-}// end endGestureWithEvent:
+}
 
 
 // ========== magnifyWithEvent: =================================================
@@ -2282,7 +2243,7 @@ static NSSize Size2ToNSSize(Size2 size)
   // Negative means down
   [self->renderer setZoomPercentage:(currentZoom * zoomChange)
                       preservePoint:V2Make(viewPoint.x, viewPoint.y)];
-}// end magnifyWithEvent:
+}
 
 
 // ========== rotateWithEvent: ==================================================
@@ -2311,7 +2272,7 @@ static NSSize Size2ToNSSize(Size2 size)
     }
     CGLUnlockContext([[self openGLContext] CGLContextObj]);
   }
-}// end rotateWithEvent:
+}
 
 
 // ========== swipeWithEvent: ===================================================
@@ -2342,7 +2303,7 @@ static NSSize Size2ToNSSize(Size2 size)
                    to:self->target
                  from:self];
   }
-}// end swipeWithEvent:
+}
 
 
 #pragma mark -
@@ -2410,7 +2371,7 @@ static NSSize Size2ToNSSize(Size2 size)
                        originatedLocally:(sourceView == self)];
 
   return(dragOperation);
-}// end draggingEntered:
+}
 
 
 // ========== draggingUpdated: ==================================================
@@ -2453,7 +2414,7 @@ static NSSize Size2ToNSSize(Size2 size)
   }
 
   return(dragOperation);
-}// end draggingUpdated:
+}
 
 
 // ========== draggingExited: ===================================================
@@ -2464,7 +2425,7 @@ static NSSize Size2ToNSSize(Size2 size)
 - (void)draggingExited:(id <NSDraggingInfo>)sender
 {
   [self concludeDragOperation:sender];
-}// end draggingExited:
+}
 
 
 // ========== performDragOperation: =============================================
@@ -2507,7 +2468,7 @@ static NSSize Size2ToNSSize(Size2 size)
   }
 
   return(YES);
-}// end performDragOperation:
+}
 
 
 // ========== concludeDragOperation: ============================================
@@ -2521,7 +2482,7 @@ static NSSize Size2ToNSSize(Size2 size)
   [[self openGLContext] makeCurrentContext];
 
   [self->renderer endDragging];
-}// end concludeDragOperation:
+}
 
 
 // ========== draggedImage:endedAt:operation: ===================================
@@ -2559,7 +2520,7 @@ static NSSize Size2ToNSSize(Size2 size)
     NSShowAnimationEffect(NSAnimationEffectDisappearingItemDefault,
                           aPoint, NSZeroSize, nil, NULL, NULL);
   }
-}// end draggedImage:endedAt:operation:
+}
 
 
 // ========== wantsPeriodicDraggingUpdates ======================================
@@ -2576,7 +2537,7 @@ static NSSize Size2ToNSSize(Size2 size)
 - (BOOL)wantsPeriodicDraggingUpdates
 {
   return(NO);
-}// end wantsPeriodicDraggingUpdates
+}
 
 
 #pragma mark -
@@ -2606,7 +2567,7 @@ static NSSize Size2ToNSSize(Size2 size)
   }
 
   return(YES);
-}// end validateMenuItem:
+}
 
 
 #pragma mark -
@@ -2646,8 +2607,7 @@ static NSSize Size2ToNSSize(Size2 size)
 // Purpose:		Reflect the mouse coordinates in the UI.
 //
 // ==============================================================================
-- (void)LDrawGLRenderer:(LDrawGLRenderer *)renderer mouseIsOverPoint:(Point3)modelPoint confidence:(Tuple3)
-  confidence
+- (void)LDrawGLRenderer:(LDrawGLRenderer *)renderer mouseIsOverPoint:(Point3)modelPoint confidence:(Tuple3)confidence
 {
   if ([self->delegate respondsToSelector:@selector(LDrawGLView:mouseIsOverPoint:confidence:)]) {
     [self->delegate LDrawGLView:self
@@ -2701,8 +2661,8 @@ static NSSize Size2ToNSSize(Size2 size)
   wantsToSelectDirective:(LDrawDirective *)directiveToSelect
   byExtendingSelection:(BOOL)shouldExtend
 {
-  if ([self->delegate respondsToSelector:@selector(LDrawGLView:wantsToSelectDirective:byExtendingSelection:)])
-  {
+  if ([self->delegate respondsToSelector:@selector(LDrawGLView:wantsToSelectDirective:
+                                                   byExtendingSelection:)]) {
     [self->delegate LDrawGLView:self
          wantsToSelectDirective:directiveToSelect
            byExtendingSelection:shouldExtend];
@@ -2718,7 +2678,8 @@ static NSSize Size2ToNSSize(Size2 size)
 - (void)LDrawGLRenderer:(LDrawGLRenderer *)renderer wantsToSelectDirectives:(NSArray *)directivesToSelect
   selectionMode:(SelectionModeT)selectionMode
 {
-  if ([self->delegate respondsToSelector:@selector(LDrawGLView:wantsToSelectDirectives:selectionMode:)]) {
+  if ([self->delegate respondsToSelector:@selector(LDrawGLView:wantsToSelectDirectives:selectionMode
+                                                   :)]) {
     [self->delegate LDrawGLView:self
         wantsToSelectDirectives:directivesToSelect
                   selectionMode:selectionMode];
@@ -2801,7 +2762,7 @@ static NSSize Size2ToNSSize(Size2 size)
   NSColor *color = [notification object];
 
   [self setBackgroundColor:color];
-}// end backgroundColorDidChange:
+}
 
 
 // ========== mouseToolDidChange: ===============================================
@@ -2815,7 +2776,7 @@ static NSSize Size2ToNSSize(Size2 size)
 - (void)mouseToolDidChange:(NSNotification *)notification
 {
   [self resetCursor];
-}// end mouseToolDidChange
+}
 
 
 // ========== scrollViewFrameDidChange: =========================================
@@ -2835,7 +2796,7 @@ static NSSize Size2ToNSSize(Size2 size)
   maxVisibleSize.height = MAX(maxVisibleSize.height, 2.0);
   maxVisibleSize.width  = MAX(maxVisibleSize.width, 2.0);
   [self->renderer setMaximumVisibleSize:V2MakeSize(maxVisibleSize.width, maxVisibleSize.height)];
-}// end scrollViewFrameDidChange:
+}
 
 
 // ========== renewGState =======================================================
@@ -2861,7 +2822,7 @@ static NSSize Size2ToNSSize(Size2 size)
   [window disableScreenUpdatesUntilFlush];
 
   [super renewGState];
-}// end renewGState
+}
 
 
 // ========== reshape ===========================================================
@@ -2887,11 +2848,12 @@ static NSSize Size2ToNSSize(Size2 size)
       glViewport(0, 0, backingPixelWidth, backingPixelHeight);
       // Bit of a hack - this gets called for SCROLLING too, and of course our max visible size has
       // NOT changed - but it tickles the camera, which is what we are REALLY after.
-      [self->renderer setMaximumVisibleSize:V2MakeSize(maxVisibleSize.width, maxVisibleSize.height)];
+      [self->renderer setMaximumVisibleSize:V2MakeSize(maxVisibleSize.width,
+                                                       maxVisibleSize.height)];
     }
   }
   CGLUnlockContext([[self openGLContext] CGLContextObj]);
-}// end reshape
+}
 
 
 // ========== update ============================================================
@@ -2910,7 +2872,7 @@ static NSSize Size2ToNSSize(Size2 size)
     [super update];
   }
   CGLUnlockContext([[self openGLContext] CGLContextObj]);
-}// end update
+}
 
 
 // ========== viewDidMoveToSuperview ============================================
@@ -2937,7 +2899,7 @@ static NSSize Size2ToNSSize(Size2 size)
                                   name:NSViewFrameDidChangeNotification
                                 object:nil];
   }
-}// end viewDidMoveToSuperview
+}
 
 
 #pragma mark -
@@ -2968,7 +2930,7 @@ static NSSize Size2ToNSSize(Size2 size)
     [self setViewOrientation:orientation];
     [self setProjectionMode:projection];
   }
-}// end restoreConfiguration
+}
 
 
 // ========== saveConfiguration =================================================
@@ -2996,7 +2958,7 @@ static NSSize Size2ToNSSize(Size2 size)
 
     [userDefaults synchronize]; // because we may be quitting, we have to force this here.
   }
-}// end saveConfiguration
+}
 
 
 // ========== saveImage =========================================================
@@ -3017,7 +2979,7 @@ static NSSize Size2ToNSSize(Size2 size)
   viewportSize = NSMakeSize(viewport[2], viewport[3]);
 
   byteWidth = viewportSize.width * 4;   // Assume 4 bytes/pixel for now
-  byteWidth = (byteWidth + 3) & ~3;      // Align to 4 bytes
+  byteWidth = (byteWidth + 3) & ~3;     // Align to 4 bytes
 
   byteBuffer = malloc(byteWidth * viewportSize.height);
 
@@ -3027,7 +2989,6 @@ static NSSize Size2ToNSSize(Size2 size)
     glPixelStorei(GL_PACK_ROW_LENGTH, 0);
     glPixelStorei(GL_PACK_SKIP_ROWS, 0);
     glPixelStorei(GL_PACK_SKIP_PIXELS, 0);
-
     glReadPixels(0,
                  0,
                  viewportSize.width,
@@ -3038,7 +2999,6 @@ static NSSize Size2ToNSSize(Size2 size)
     NSLog(@"read error = %d", glGetError());
   }
   glPopClientAttrib();
-
 
   // ---------- Save to image -------------------------------------------------
 
@@ -3059,7 +3019,10 @@ static NSSize Size2ToNSSize(Size2 size)
 
   // Save the image to the file
   dest =
-    CGImageDestinationCreateWithURL((CFURLRef)[NSURL fileURLWithPath:path], CFSTR("public.tiff"), 1, nil);
+    CGImageDestinationCreateWithURL((CFURLRef)[NSURL fileURLWithPath:path],
+                                    CFSTR("public.tiff"),
+                                    1,
+                                    nil);
   NSAssert(dest != 0, @"CGImageDestinationCreateWithURL failed");
 
   // Set the image in the image destination to be `image' with
@@ -3074,7 +3037,7 @@ static NSSize Size2ToNSSize(Size2 size)
   CGImageRelease(image);
   CFRelease(bitmap);
   free(byteBuffer);
-}// end saveImageToPath:
+}
 
 
 // ========== scrollCenterToModelPoint: =========================================
@@ -3129,7 +3092,7 @@ static NSSize Size2ToNSSize(Size2 size)
 
   [self setBackgroundColor:newColor];
   [self setNeedsDisplay:YES];
-}// end takeBackgroundColorFromUserDefaults
+}
 
 
 - (void)setViewAxisLines:(BOOL)flag;
@@ -3317,6 +3280,7 @@ static NSSize Size2ToNSSize(Size2 size)
   [autosaveName release];
 
   [super dealloc];
-}// end dealloc
+}
+
 
 @end

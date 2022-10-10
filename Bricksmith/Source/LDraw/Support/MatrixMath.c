@@ -34,9 +34,9 @@ const TransformComponents IdentityComponents =
   0,                  // shear_XY;
   0,                  // shear_XZ;
   0,                  // shear_YZ;
-  { 0,   0,   0   },      // rotate;		//in radians
-  { 0,   0,   0   },      // translate;
-  { 0,   0,   0, 0}       // perspective;
+  { 0,   0,   0   },  // rotate;		//in radians
+  { 0,   0,   0   },  // translate;
+  { 0,   0,   0, 0}   // perspective;
 };
 
 const Matrix3 IdentityMatrix3 = {   { { 1.0, 0, 0 },
@@ -1132,8 +1132,8 @@ bool V3RayIntersectsSegment(Ray3 segment1, Segment3 segment2,
   double  c          = V3Dot(v, v);         // always >= 0
   double  d          = V3Dot(u, w);
   double  e          = V3Dot(v, w);
-  double  D          = a * c - b * b;     // always >= 0
-  double  sc         = 0;   // sc = sN / sD, default sD = D >= 0
+  double  D          = a * c - b * b; // always >= 0
+  double  sc         = 0;             // sc = sN / sD, default sD = D >= 0
   double  sN         = 0;
   double  sD         = 0;
   double  tc         = 0;   // tc = tN / tD, default tD = D >= 0
@@ -1802,11 +1802,14 @@ Matrix4 Matrix4CreateTransformation(TransformComponents *components)
     (components->shear_XY * rotation[0][2] + rotation[1][2]);
 
   transformation.element[2][0] = components->scale.z *
-    (components->shear_XZ * rotation[0][0] + components->shear_YZ * rotation[1][0] + rotation[2][0]);
+    (components->shear_XZ * rotation[0][0] + components->shear_YZ * rotation[1][0] +
+     rotation[2][0]);
   transformation.element[2][1] = components->scale.z *
-    (components->shear_XZ * rotation[0][1] + components->shear_YZ * rotation[1][1] + rotation[2][1]);
+    (components->shear_XZ * rotation[0][1] + components->shear_YZ * rotation[1][1] +
+     rotation[2][1]);
   transformation.element[2][2] = components->scale.z *
-    (components->shear_XZ * rotation[0][2] + components->shear_YZ * rotation[1][2] + rotation[2][2]);
+    (components->shear_XZ * rotation[0][2] + components->shear_YZ * rotation[1][2] +
+     rotation[2][2]);
 
   // translation is so nice and easy.
   transformation.element[3][0] = components->translate.x;

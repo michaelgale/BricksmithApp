@@ -351,7 +351,6 @@
 //
 // ==============================================================================
 - (void)draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)parentColor
-
 {
   NSArray        *commandsInStep   = [self subdirectives];
   LDrawDirective *currentDirective = nil;
@@ -1018,8 +1017,8 @@
   }
   // explicitly disregard self-references if the dropped directive is a model "part"
   else if ([directive isKindOfClass:[LDrawPart class]] &&
-           [[((LDrawPart *)directive) referenceName] isEqualToString:[((LDrawMPDModel *)[self enclosingModel])
-                                                                      modelName]]) {
+           [[((LDrawPart *)directive) referenceName] isEqualToString:[((LDrawMPDModel *)[self enclosingModel]) modelName
+            ]]) {
     return(NO);
   }
 

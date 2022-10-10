@@ -110,6 +110,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
     NSOpenGLPFADoubleBuffer,
     NSOpenGLPFADepthSize,    32,
     // enable line antialiasing
+    NSOpenGLPFAMultisample,
     NSOpenGLPFASampleBuffers,1,
     // antialiasing beauty
     NSOpenGLPFASamples,      4,
@@ -253,7 +254,8 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 - (IBAction)doDonate:(id)sender
 {
   NSURL *donationURL =
-    [NSURL URLWithString:@"https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=6985549"];
+    [NSURL URLWithString:
+     @"https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=6985549"];
 
   [[NSWorkspace sharedWorkspace] openURL:donationURL];
 }// end doDonate:
@@ -498,7 +500,8 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 - (void)applicationWillTerminate:(NSNotification *)notification
 {
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-  PartBrowserPanelController *partBrowserPanel = [PartBrowserPanelController sharedPartBrowserPanel];
+  PartBrowserPanelController *partBrowserPanel =
+    [PartBrowserPanelController sharedPartBrowserPanel];
 
   [userDefaults setBool:[[partBrowserPanel window] isVisible]
                  forKey:PART_BROWSER_PANEL_SHOW_AT_LAUNCH];
@@ -1041,9 +1044,10 @@ void connexionMessageHandler(io_connect_t connection, natural_t messageType, voi
 
             // Add in translation and rotation from prior events that didn't register
             // enough to actually move.
-            translationAccumulatedSinceLastMove = V3Add(originalNudgeVector,
-                                                        translationAccumulatedSinceLastMove);
-            rotationAccumulatedSinceLastMove = V3Add(originalRotation, rotationAccumulatedSinceLastMove);
+            translationAccumulatedSinceLastMove =
+              V3Add(originalNudgeVector, translationAccumulatedSinceLastMove);
+            rotationAccumulatedSinceLastMove =
+              V3Add(originalRotation, rotationAccumulatedSinceLastMove);
 
             // Make vectors that we will manipulate (note that V3Duplicate allocates memory; we want to use the stack)
             Vector3 translation = V3Make(translationAccumulatedSinceLastMove.x,

@@ -23,8 +23,9 @@
 {
   NSView            *documentView      = [[self documentView] retain];
   NSClipView        *oldClipView       = [self contentView];
-  CenteringClipView *centeringClipView = [[CenteringClipView alloc] initWithFrame:[oldClipView frame]];
-  NSRect            visibleRect        = [self documentVisibleRect];
+  CenteringClipView *centeringClipView =
+    [[CenteringClipView alloc] initWithFrame:[oldClipView frame]];
+  NSRect visibleRect = [self documentVisibleRect];
 
   // replicate settings
   [centeringClipView setBackgroundColor:[NSColor windowBackgroundColor]];

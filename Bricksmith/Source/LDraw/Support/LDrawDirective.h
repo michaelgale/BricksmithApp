@@ -149,8 +149,9 @@ typedef enum Message
 
 // A directive was modified, either explicitly by the user or by undo/redo.
 // Object is the LDrawDirective that changed. No userInfo.
-#define LDrawDirectiveDidChangeNotification              @"LDrawDirectiveDidChangeNotification"
-#define LDrawModelRotationCenterDidChangeNotification    @"LDrawModelRotationCenterDidChangeNotification"
+#define LDrawDirectiveDidChangeNotification    @"LDrawDirectiveDidChangeNotification"
+#define LDrawModelRotationCenterDidChangeNotification \
+  @"LDrawModelRotationCenterDidChangeNotification"
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -190,8 +191,8 @@ typedef void (^LDrawPartVisitor)(LDrawPart *);
 // Initialization
 - (id)initWithLines:(NSArray *)lines inRange:(NSRange)range;
 - (id)initWithLines:(NSArray *)lines inRange:(NSRange)range parentGroup:(dispatch_group_t)parentGroup;
-+ (NSRange)rangeOfDirectiveBeginningAtIndex:(NSUInteger)index inLines:(NSArray *)lines maxIndex:(NSUInteger)
-  maxIndex;
++ (NSRange)rangeOfDirectiveBeginningAtIndex:(NSUInteger)index
+  inLines:(NSArray *)lines maxIndex:(NSUInteger)maxIndex;
 
 // Directives
 - (void)draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)parentColor;
@@ -201,8 +202,8 @@ typedef void (^LDrawPartVisitor)(LDrawPart *);
 - (void)debugDrawboundingBox;
 
 // Hit testing primitives
-- (void)hitTest:(Ray3)pickRay transform:(Matrix4)transform viewScale:(double)scaleFactor boundsOnly:(BOOL)
-  boundsOnly creditObject:(id)creditObject hits:(NSMutableDictionary *)hits;
+- (void)hitTest:(Ray3)pickRay transform:(Matrix4)transform viewScale:(double)scaleFactor boundsOnly:(BOOL)boundsOnly
+  creditObject:(id)creditObject hits:(NSMutableDictionary *)hits;
 - (BOOL)boxTest:(Box2)bounds transform:(Matrix4)transform boundsOnly:(BOOL)boundsOnly creditObject:(id)
   creditObject hits:(NSMutableSet *)hits;
 - (void)depthTest:(Point2)testPt inBox:(Box2)bounds transform:(Matrix4)transform creditObject:(id)

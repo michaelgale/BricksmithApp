@@ -89,7 +89,8 @@
 {
   if ([theEvent type] == NSEventTypeKeyDown &&
       [[theEvent characters] isEqualToString:@" "] == YES &&
-      ([theEvent modifierFlags] & NSEventModifierFlagDeviceIndependentFlagsMask) == NSEventModifierFlagCommand
+      ([theEvent modifierFlags] & NSEventModifierFlagDeviceIndependentFlagsMask) ==
+      NSEventModifierFlagCommand
       ) {
     return(NO);
   }

@@ -296,9 +296,10 @@ static const double HandleDiameter = 7.0;
   if (vboTag != 0) {
     return;
   }
-
-  double        latitudeRadians  = (M_PI / latitudeSections);       // lat. wraps halfway around sphere
-  double        longitudeRadians = (2 * M_PI / longitudeSections);     // long. wraps all the way
+  // lat. wraps halfway around sphere
+  double latitudeRadians = (M_PI / latitudeSections);
+  // long. wraps all the way
+  double        longitudeRadians = (2 * M_PI / longitudeSections);
   int           vertexCount      = 0;
   VBOVertexData *vertexes        = NULL;
   int           latitudeCount    = 0;
@@ -377,7 +378,8 @@ static const double HandleDiameter = 7.0;
   glBindBuffer(GL_ARRAY_BUFFER, vboTag);
   glVertexPointer(3, GL_FLOAT, sizeof(VBOVertexData), NULL);
   glNormalPointer(GL_FLOAT, sizeof(VBOVertexData), (GLvoid *)(sizeof(double) * 3));
-  glColorPointer(4, GL_FLOAT, sizeof(VBOVertexData), (GLvoid *)(sizeof(double) * 3 + sizeof(double) * 3));
+  glColorPointer(4, GL_FLOAT, sizeof(VBOVertexData),
+                 (GLvoid *)(sizeof(double) * 3 + sizeof(double) * 3));
   glBindVertexArrayAPPLE(0);
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 }

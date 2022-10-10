@@ -40,10 +40,10 @@ typedef enum
 // Describes the contents of this step.
 typedef enum
 {
-  LDrawStepAnyDirectives,   // step can hold any type of subdirectives.
-  LDrawStepLines,       // step can hold *only* LDrawLines.
-  LDrawStepTriangles,     // etc.
-  LDrawStepQuadrilaterals,  // etc.
+  LDrawStepAnyDirectives,  // step can hold any type of subdirectives.
+  LDrawStepLines,          // step can hold *only* LDrawLines.
+  LDrawStepTriangles,      // etc.
+  LDrawStepQuadrilaterals, // etc.
   LDrawStepConditionalLines // etc.
 } LDrawStepFlavorT;
 

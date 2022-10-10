@@ -266,8 +266,14 @@ extern bool   V3RayIntersectsTriangle(Ray3 ray,
                                       Point3 vert2,
                                       double *distanceOut,
                                       Point2 *intersectPointOut);
-extern bool   V3RayIntersectsSegment(Ray3 segment1, Segment3 segment2, double tolerance, double *distanceOut);
-extern bool   V3RayIntersectsSphere(Ray3 ray, Point3 sphereCenter, double radius, double *distanceOut);
+extern bool   V3RayIntersectsSegment(Ray3 segment1,
+                                     Segment3 segment2,
+                                     double tolerance,
+                                     double *distanceOut);
+extern bool   V3RayIntersectsSphere(Ray3 ray,
+                                    Point3 sphereCenter,
+                                    double radius,
+                                    double *distanceOut);
 
 extern Box3   V3BoundsFromPoints(Point3 point1, Point3 point2);
 extern Point3 V3CenterOfBox(Box3 box);
@@ -279,9 +285,18 @@ extern Point3 V3MulPointByMatrix(Point3 pin, Matrix3 m);
 extern Vector3  V3MulPointByProjMatrix(Point3 pin, Matrix4 m);
 extern Matrix4  V3LookAt(Point3 eye, Point3 center, Vector3 up, Matrix4 modelview);
 extern Point3 V3Project(Point3 objPoint, Matrix4 modelview, Matrix4 projection, Box2 viewport);
-extern Point3 V3Unproject(Point3 viewportPoint, Matrix4 modelview, Matrix4 projection, Box2 viewport);
+extern Point3 V3Unproject(Point3 viewportPoint, Matrix4 modelview, Matrix4 projection,
+                          Box2 viewport);
 
-extern double Matrix3x3Determinant(double, double, double, double, double, double, double, double, double);
+extern double Matrix3x3Determinant(double,
+                                   double,
+                                   double,
+                                   double,
+                                   double,
+                                   double,
+                                   double,
+                                   double,
+                                   double);
 extern Matrix3  Matrix3MakeNormalTransformFromProjMatrix(Matrix4 transformationMatrix);
 
 // 4-D
@@ -290,7 +305,8 @@ extern Point4 V4FromPoint3(Vector3 originalPoint);
 extern Vector4  V4MulPointByMatrix(Vector4 pin, Matrix4 m);
 extern Matrix4  Matrix4CreateFromGLMatrix4(const GLfloat *glMatrix);
 extern Matrix4  Matrix4CreateTransformation(TransformComponents *);
-extern int    Matrix4DecomposeTransformation(Matrix4 originalMatrix, TransformComponents *decomposed);
+extern int    Matrix4DecomposeTransformation(Matrix4 originalMatrix,
+                                             TransformComponents *decomposed);
 extern Tuple3 Matrix4DecomposeXYZRotation(Matrix4 matrix);
 extern Tuple3 Matrix4DecomposeZYXRotation(Matrix4 matrix);
 extern Matrix4  Matrix4Multiply(Matrix4 a, Matrix4 b);

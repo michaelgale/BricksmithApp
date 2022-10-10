@@ -204,10 +204,17 @@ static NSString *defaultAuthor   = @"anonymous";
 
       // combined opaque color
       case 4 :
-        components[0] = (GLfloat)(((hexBytes >> 5 * 4) & 0xF) + ((hexBytes >> 2 * 4) & 0xF)) / 2 / 255; // Red
-        components[0] = (GLfloat)(((hexBytes >> 4 * 4) & 0xF) + ((hexBytes >> 1 * 4) & 0xF)) / 2 / 255; // Green
-        components[0] = (GLfloat)(((hexBytes >> 3 * 4) & 0xF) + ((hexBytes >> 0 * 4) & 0xF)) / 2 / 255; // Blue
-        components[3] = (GLfloat)1.0;  // alpha
+        // Red
+        components[0] =
+          (GLfloat)(((hexBytes >> 5 * 4) & 0xF) + ((hexBytes >> 2 * 4) & 0xF)) / 2 / 255;
+        // Green
+        components[0] =
+          (GLfloat)(((hexBytes >> 4 * 4) & 0xF) + ((hexBytes >> 1 * 4) & 0xF)) / 2 / 255;
+        // Blue
+        components[0] =
+          (GLfloat)(((hexBytes >> 3 * 4) & 0xF) + ((hexBytes >> 0 * 4) & 0xF)) / 2 / 255;
+        // alpha
+        components[3] = (GLfloat)1.0;
         break;
 
       // bad-looking transparent color
@@ -506,8 +513,8 @@ static NSString *defaultAuthor   = @"anonymous";
 // hits - the list of hit records to modify
 //
 // ------------------------------------------------------------------------------
-+ (void)registerHitForObject:(id)hitObject depth:(double)hitDepth creditObject:(id)creditObject hits:(
-    NSMutableDictionary *)hits
++ (void)registerHitForObject:(id)hitObject depth:(double)hitDepth creditObject:(id)creditObject
+  hits:(NSMutableDictionary *)hits
 {
   NSNumber *existingRecord = [hits objectForKey:creditObject];
   double   existingDepth   = 0;

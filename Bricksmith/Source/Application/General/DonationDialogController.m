@@ -108,8 +108,9 @@
   NSUserDefaults *userDefaults            = [NSUserDefaults standardUserDefaults];
   CFBundleRef    mainBundle               = CFBundleGetMainBundle();
   UInt32         bundleVersion            = CFBundleGetVersionNumber(mainBundle);
-  BOOL           userRequestedSuppression = [userDefaults boolForKey:DONATION_SCREEN_SUPPRESS_THIS_VERSION];
-  UInt32         lastNagVersion           =
+  BOOL           userRequestedSuppression =
+    [userDefaults boolForKey:DONATION_SCREEN_SUPPRESS_THIS_VERSION];
+  UInt32 lastNagVersion =
     [userDefaults integerForKey:DONATION_SCREEN_LAST_VERSION_DISPLAYED];
   BOOL showDonationRequest = YES;
 

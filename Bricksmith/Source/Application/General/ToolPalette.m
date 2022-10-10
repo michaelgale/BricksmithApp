@@ -106,7 +106,8 @@ ToolPalette *sharedToolPalette = nil;
 
   NSScreen *primaryScreen = [[NSScreen screens] objectAtIndex:0];
   NSRect   toolRect       = [primaryScreen visibleFrame];
-  BOOL     showTools      = ([[NSUserDefaults standardUserDefaults] boolForKey:TOOL_PALETTE_HIDDEN] == NO);
+  BOOL     showTools      =
+    ([[NSUserDefaults standardUserDefaults] boolForKey:TOOL_PALETTE_HIDDEN] == NO);
 
   toolRect.size.width  = 34;
   toolRect.size.height = NSHeight([self->paletteContents frame]);
@@ -292,7 +293,8 @@ ToolPalette *sharedToolPalette = nil;
       break;
 
     case NSEventTypeFlagsChanged :
-      self->currentKeyModifiers = ([theEvent modifierFlags] & NSEventModifierFlagDeviceIndependentFlagsMask);
+      self->currentKeyModifiers =
+        ([theEvent modifierFlags] & NSEventModifierFlagDeviceIndependentFlagsMask);
       break;
 
     default :

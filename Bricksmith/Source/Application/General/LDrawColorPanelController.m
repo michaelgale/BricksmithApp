@@ -413,8 +413,9 @@ LDrawColorPanelController *sharedColorPanel = nil;
 
   // Regenerate them if needed
   if (savedDescriptors == nil) {
-    initialDescriptor = [[self->colorTable tableColumnWithIdentifier:@"colorCode"] sortDescriptorPrototype];
-    savedDescriptors  = [NSArray arrayWithObject:initialDescriptor];
+    initialDescriptor =
+      [[self->colorTable tableColumnWithIdentifier:@"colorCode"] sortDescriptorPrototype];
+    savedDescriptors = [NSArray arrayWithObject:initialDescriptor];
   }
 
   // and sort.
@@ -483,49 +484,53 @@ LDrawColorPanelController *sharedColorPanel = nil;
     case MaterialTypeSolid :
       materialFormat    = @"(%K == %@) AND (%K == 1.0)";
       materialArguments =
-        [NSArray arrayWithObjects:NSStringFromSelector(@selector(material)), @(LDrawColorMaterialNone),
+        [NSArray arrayWithObjects:NSStringFromSelector(@selector(material)),
+         @(LDrawColorMaterialNone),
          NSStringFromSelector(@selector(alpha)), nil];
       break;
 
     case MaterialTypeTransparent :
       materialFormat    = @"(%K == %@) AND (%K < 1.0)";
       materialArguments =
-        [NSArray arrayWithObjects:NSStringFromSelector(@selector(material)), @(LDrawColorMaterialNone),
+        [NSArray arrayWithObjects:NSStringFromSelector(@selector(material)),
+         @(LDrawColorMaterialNone),
          NSStringFromSelector(@selector(alpha)), nil];
       break;
 
     case MaterialTypeChrome :
       materialFormat    = @"(%K == %@)";
       materialArguments =
-        [NSArray arrayWithObjects:NSStringFromSelector(@selector(material)), @(LDrawColorMaterialChrome),
-         nil];
+        [NSArray arrayWithObjects:NSStringFromSelector(@selector(material)),
+         @(LDrawColorMaterialChrome), nil];
       break;
 
     case MaterialTypePearlescent :
       materialFormat    = @"(%K == %@)";
       materialArguments =
-        [NSArray arrayWithObjects:NSStringFromSelector(@selector(material)), @(LDrawColorMaterialPearlescent),
-         nil];
+        [NSArray arrayWithObjects:NSStringFromSelector(@selector(material)),
+         @(LDrawColorMaterialPearlescent), nil];
       break;
 
     case MaterialTypeRubber :
       materialFormat    = @"(%K == %@)";
       materialArguments =
-        [NSArray arrayWithObjects:NSStringFromSelector(@selector(material)), @(LDrawColorMaterialRubber),
-         nil];
+        [NSArray arrayWithObjects:NSStringFromSelector(@selector(material)),
+         @(LDrawColorMaterialRubber), nil];
       break;
 
     case MaterialTypeMetal :
       materialFormat    = @"(%K == %@) OR (%K == %@)";
       materialArguments =
-        [NSArray arrayWithObjects:NSStringFromSelector(@selector(material)), @(LDrawColorMaterialMetal),
+        [NSArray arrayWithObjects:NSStringFromSelector(@selector(material)),
+         @(LDrawColorMaterialMetal),
          NSStringFromSelector(@selector(material)), @(LDrawColorMaterialMatteMetallic), nil];
       break;
 
     case MaterialTypeOther :
       materialFormat    = @"((%K == %@) OR (%K == %@) OR (%K == %@))";
       materialArguments =
-        [NSArray arrayWithObjects:NSStringFromSelector(@selector(material)), @(LDrawColorMaterialCustom),
+        [NSArray arrayWithObjects:NSStringFromSelector(@selector(material)),
+         @(LDrawColorMaterialCustom),
          NSStringFromSelector(@selector(colorCode)), @(LDrawCurrentColor),
          NSStringFromSelector(@selector(colorCode)), @(LDrawEdgeColor),
          nil];
@@ -534,8 +539,7 @@ LDrawColorPanelController *sharedColorPanel = nil;
     case MaterialTypeFavourite :
       materialFormat    = @"(%K == %@)";
       materialArguments =
-        [NSArray arrayWithObjects:NSStringFromSelector(@selector(isFavourite)), @(YES),
-         nil];
+        [NSArray arrayWithObjects:NSStringFromSelector(@selector(isFavourite)), @(YES), nil];
       break;
   }
 
@@ -627,9 +631,10 @@ LDrawColorPanelController *sharedColorPanel = nil;
   // Once we are Leopard-only, we can dispense with this and just use the
   // NSKeyedUnarchiveFromData transformer.
   else if ([keyPath isEqualToString:@"sortDescriptors"]) {
-    NSArray        *newDescriptors      = [self->colorListController sortDescriptors];;
-    NSData         *savedDescriptorData = [NSKeyedArchiver archivedDataWithRootObject:newDescriptors];
-    NSUserDefaults *userDefaults        = [NSUserDefaults standardUserDefaults];
+    NSArray *newDescriptors      = [self->colorListController sortDescriptors];;
+    NSData  *savedDescriptorData =
+      [NSKeyedArchiver archivedDataWithRootObject:newDescriptors];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
     // Set the object in preferences.
     [userDefaults setObject:savedDescriptorData

@@ -176,8 +176,9 @@
 - (IBAction)applyRotationClicked:(id)sender
 {
   LDrawPart     *representedObject = [self object];
-  LDrawDocument *currentDocument   = [[NSDocumentController sharedDocumentController] currentDocument];
-  RotationT     rotationType       = [[rotationTypePopUp selectedItem] tag];
+  LDrawDocument *currentDocument   =
+    [[NSDocumentController sharedDocumentController] currentDocument];
+  RotationT rotationType = [[rotationTypePopUp selectedItem] tag];
 
   // Save out the current state.
   [currentDocument preserveDirectiveState:representedObject];

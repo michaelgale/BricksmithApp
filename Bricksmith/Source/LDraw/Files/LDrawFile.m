@@ -288,7 +288,6 @@
 //
 // ==============================================================================
 - (void)draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)parentColor
-
 {
   //
   // Draw!

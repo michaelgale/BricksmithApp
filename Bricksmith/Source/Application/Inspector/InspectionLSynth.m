@@ -58,7 +58,8 @@
   NSArray      *types    = [self typesForLSynthClass:classType];
 
   [representedObject setLsynthClass:[[lsynthClassChooserMatrix selectedCell] tag]];
-  [representedObject setLsynthType:[[types objectAtIndex:[typePopup indexOfSelectedItem]] valueForKey:
+  [representedObject setLsynthType:[[types objectAtIndex:[typePopup indexOfSelectedItem]]
+                                    valueForKey:
                                     @"LSYNTH_TYPE"]];
 
   // Change all constraints to the default one
@@ -266,10 +267,12 @@
     // Select the default type for the class
     NSDictionary *type = nil;
     if ([[sender selectedCell] tag] == LSYNTH_BAND) {
-      type = [[LSynthConfiguration sharedInstance] typeForTypeName:[LSynthConfiguration defaultBandType]];
+      type =
+        [[LSynthConfiguration sharedInstance] typeForTypeName:[LSynthConfiguration defaultBandType]];
     }
     else if ([[sender selectedCell] tag] == LSYNTH_HOSE) {
-      type = [[LSynthConfiguration sharedInstance] typeForTypeName:[LSynthConfiguration defaultHoseType]];
+      type =
+        [[LSynthConfiguration sharedInstance] typeForTypeName:[LSynthConfiguration defaultHoseType]];
     }
 
     if (type != nil) {

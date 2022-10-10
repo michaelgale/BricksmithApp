@@ -18,7 +18,8 @@
 #define CAMERA_DISTANCE_FACTOR    6.5
 
 // Turn-table view changes how rotations work
-#define USE_TURNTABLE             ([[NSUserDefaults standardUserDefaults] integerForKey:ROTATE_MODE_KEY] == \
+#define USE_TURNTABLE             ([[NSUserDefaults standardUserDefaults] integerForKey: \
+                                    ROTATE_MODE_KEY] ==                                  \
                                    RotateModeTurntable)
 
 
@@ -368,8 +369,9 @@
   newVisibleRect.size     = visibilityPlane.size;
 
   if (1) {// [self isFlipped] == YES)
-    newVisibleRect.origin.y = [scroller getDocumentSize].height - V2BoxHeight(visibilityPlane) - V2BoxMinY(
-      newVisibleRect);
+    newVisibleRect.origin.y =
+      [scroller getDocumentSize].height - V2BoxHeight(visibilityPlane)
+      - V2BoxMinY(newVisibleRect);
   }
 
   return(newVisibleRect);
@@ -422,7 +424,8 @@
                        WALKTHROUGH_FAR);
   }
   else if (self->projectionMode == ProjectionModePerspective) {
-    visibilityPlane             = [self nearFrustumClippingRectFromVisibleRect:[scroller getVisibleRect]];
+    visibilityPlane =
+      [self nearFrustumClippingRectFromVisibleRect:[scroller getVisibleRect]];
     visibilityPlane.size.height = MAX(visibilityPlane.size.height, 8.0);
     visibilityPlane.size.width  = MAX(visibilityPlane.size.width, 8.0);
     assert(visibilityPlane.size.width > 0.0);
@@ -437,7 +440,8 @@
                        );
   }
   else {
-    visibilityPlane             = [self nearOrthoClippingRectFromVisibleRect:[scroller getVisibleRect]];
+    visibilityPlane =
+      [self nearOrthoClippingRectFromVisibleRect:[scroller getVisibleRect]];
     visibilityPlane.size.height = MAX(visibilityPlane.size.height, 8.0);
     visibilityPlane.size.width  = MAX(visibilityPlane.size.width, 8.0);
 
@@ -447,12 +451,12 @@
 // printf("proj: %.1f, %.1f - %.1f, %.1f\n", visibilityPlane.origin.x, visibilityPlane.origin.y, visibilityPlane.size.width, visibilityPlane.size.height);
 
     buildOrthoMatrix(projection,
-                     (GLfloat)V2BoxMinX(visibilityPlane),     // left
-                     (GLfloat)V2BoxMaxX(visibilityPlane),     // right
-                     (GLfloat)V2BoxMinY(visibilityPlane),     // bottom
-                     (GLfloat)V2BoxMaxY(visibilityPlane),     // top
-                     (GLfloat)(fabs(cameraDistance) - fieldDepth / 2.0),    // near (points beyond these are clipped)
-                     (GLfloat)(fabs(cameraDistance) + fieldDepth / 2.0));     // far
+                     (GLfloat)V2BoxMinX(visibilityPlane),                 // left
+                     (GLfloat)V2BoxMaxX(visibilityPlane),                 // right
+                     (GLfloat)V2BoxMinY(visibilityPlane),                 // bottom
+                     (GLfloat)V2BoxMaxY(visibilityPlane),                 // top
+                     (GLfloat)(fabs(cameraDistance) - fieldDepth / 2.0),  // near (points beyond these are clipped)
+                     (GLfloat)(fabs(cameraDistance) + fieldDepth / 2.0)); // far
   }
 }// end makeProjection
 
@@ -509,8 +513,9 @@
     ///
 
     Point3 origin      = { 0.0, 0.0, 0.0 };
-    Point2 centerPoint = V2Make(V2BoxMidX([scroller getVisibleRect]), V2BoxMidY([scroller getVisibleRect]));
-    Box3   newBounds   = modelSize;
+    Point2 centerPoint =
+      V2Make(V2BoxMidX([scroller getVisibleRect]), V2BoxMidY([scroller getVisibleRect]));
+    Box3 newBounds = modelSize;
 
     if (V3EqualBoxes(newBounds, InvalidBox) == YES ||
         newBounds.min.x >= newBounds.max.x ||
@@ -550,8 +555,10 @@
       // size of the model, or the same as the scroll view,
       // whichever is larger.
       // added x2 scaling for retina
-      newFrameSize = V2MakeSize(MAX(snugFrameSize.width, [scroller getMaxVisibleSizeDoc].width * 1.5),
-                                MAX(snugFrameSize.height, [scroller getMaxVisibleSizeDoc].height * 1.5));
+      newFrameSize = V2MakeSize(MAX(snugFrameSize.width,
+                                    [scroller getMaxVisibleSizeDoc].width * 1.5),
+                                MAX(snugFrameSize.height,
+                                    [scroller getMaxVisibleSizeDoc].height * 1.5));
       newFrameSize.width  = MIN(MAX_DOC_FRAME_WIDTH, newFrameSize.width);
       newFrameSize.height = MIN(MAX_DOC_FRAME_HEIGHT, newFrameSize.height);
     }
@@ -654,7 +661,8 @@
     return;
   }
 
-  Point2 centerPoint    = V2Make(V2BoxMidX([scroller getVisibleRect]), V2BoxMidY([scroller getVisibleRect]));
+  Point2 centerPoint =
+    V2Make(V2BoxMidX([scroller getVisibleRect]), V2BoxMidY([scroller getVisibleRect]));
   Point2 centerFraction =
     V2Make(centerPoint.x / [scroller getDocumentSize].width,
            centerPoint.y / [scroller getDocumentSize].height);

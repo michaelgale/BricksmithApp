@@ -441,7 +441,8 @@ SearchPanelController *sharedSearchPanel = nil;
     [warningComponents addObject:@"of"];     // preposition
 
     // The color
-    if ([colorMatrix selectedTag] == ColorNoFilter || [colorMatrix selectedTag] == ColorSelectionFilter) {
+    if ([colorMatrix selectedTag] == ColorNoFilter ||
+        [colorMatrix selectedTag] == ColorSelectionFilter) {
       [warningComponents addObject:NSLocalizedString(@"SearchWarningAnyColor", @"")];
     }
     else if ([colorMatrix selectedTag] == ColorFilter) {
@@ -459,8 +460,8 @@ SearchPanelController *sharedSearchPanel = nil;
       [warningComponents addObject:NSLocalizedString(@"SearchWarningModelScope", @"")];
     }
 
-    [warningText setStringValue:[[warningComponents componentsJoinedByString:@" "] stringByAppendingString:
-                                 @"."]];
+    [warningText setStringValue:[[warningComponents componentsJoinedByString:@" "]
+                                 stringByAppendingString:@"."]];
     [warningText setHidden:NO];
   }
   // No warnings

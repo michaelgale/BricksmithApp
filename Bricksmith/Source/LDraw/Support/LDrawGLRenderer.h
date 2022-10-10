@@ -74,9 +74,9 @@ typedef enum
   BOOL            canBeginDragAndDrop;    // the next mouse-dragged will initiate a drag-and-drop.
   BOOL            didPartSelection;       // tried part selection during this click
   BOOL            dragEndedInOurDocument; // YES if the drag we initiated ended in the document we display
-  Vector3         draggingOffset;         // displacement between part 0's position and the initial click point of the drag
-  Point3          initialDragLocation;    // point in model where part was positioned at draggingEntered
-  LDrawDragHandle *activeDragHandle;  // drag handle hit on last mouse-down (or nil)
+  Vector3         draggingOffset;      // displacement between part 0's position and the initial click point of the drag
+  Point3          initialDragLocation; // point in model where part was positioned at draggingEntered
+  LDrawDragHandle *activeDragHandle;   // drag handle hit on last mouse-down (or nil)
   BOOL            showAxisLines;
 }
 
@@ -105,7 +105,8 @@ typedef enum
 
 - (void)setAllowsEditing:(BOOL)flag;
 - (void)setBackgroundColorRed:(float)red green:(float)green blue:(float)blue;
-- (void)setDelegate:(id <LDrawGLRendererDelegate>)object withScroller:(id <LDrawGLCameraScroller>)scroller;
+- (void)setDelegate:(id <LDrawGLRendererDelegate>)object
+  withScroller:(id <LDrawGLCameraScroller>)scroller;
 - (void)setDraggingOffset:(Vector3)offsetIn;
 - (void)setGridSpacing:(double)newValue;
 - (void)setLDrawDirective:(LDrawDirective *)newFile;
@@ -118,6 +119,7 @@ typedef enum
 - (void)setViewOrientation:(ViewOrientationT)newAngle;
 - (void)setZoomPercentage:(CGFloat)newPercentage;
 - (void)moveCamera:(Vector3)delta;
+- (void)setViewAxisLines:(BOOL)flag;
 
 // Actions
 - (IBAction)zoomIn:(id)sender;
@@ -145,24 +147,23 @@ typedef enum
 - (void)rotateByDegrees:(double)angle;                                                        // Track-pad twist gesture
 
 // Drag and Drop
-- (void)draggingEnteredAtPoint:(Point2)point_view directives:(NSArray *)directives setTransform:(BOOL)
-  setTransform originatedLocally:(BOOL)originatedLocally;
+- (void)draggingEnteredAtPoint:(Point2)point_view directives:(NSArray *)directives setTransform:(BOOL)setTransform
+  originatedLocally:(BOOL)originatedLocally;
 - (void)endDragging;
 - (void)updateDragWithPosition:(Point2)point_view constrainAxis:(BOOL)constrainAxis;
-- (BOOL)updateDirectives:(NSArray *)directives withDragPosition:(Point2)point_view depthReferencePoint:(
-    Point3)modelReferencePoint constrainAxis:(BOOL)constrainAxis;
+- (BOOL)updateDirectives:(NSArray *)directives withDragPosition:(Point2)point_view
+  depthReferencePoint:(Point3)modelReferencePoint constrainAxis:(BOOL)constrainAxis;
 
 // Notifications
 - (void)displayNeedsUpdating:(NSNotification *)notification;
 
 // Utilities
 // - (NSArray *) getDirectivesUnderPoint:(Point2)point_view amongDirectives:(NSArray *)directives fastDraw:(BOOL)fastDraw;
-- (NSArray *)getDirectivesUnderRect:(Box2)rect_view amongDirectives:(NSArray *)directives fastDraw:(BOOL)
-  fastDraw;
+- (NSArray *)getDirectivesUnderRect:(Box2)rect_view amongDirectives:(NSArray *)directives fastDraw:(BOOL)fastDraw;
 // - (NSArray *) getPartsFromHits:(NSDictionary *)hits;
 - (void)publishMouseOverPoint:(Point2)viewPoint;
-- (void)setZoomPercentage:(CGFloat)newPercentage preservePoint:(Point2)viewPoint;     // This and setZoomPercentage are how we zoom.
-- (void)scrollCenterToModelPoint:(Point3)modelPoint;         // These two are how we do gesture-based scrolls
+- (void)setZoomPercentage:(CGFloat)newPercentage preservePoint:(Point2)viewPoint; // This and setZoomPercentage are how we zoom.
+- (void)scrollCenterToModelPoint:(Point3)modelPoint;                              // These two are how we do gesture-based scrolls
 - (void)scrollModelPoint:(Point3)modelPoint toViewportProportionalPoint:(Point2)viewportPoint;
 - (void)updateRotationCenter;                                // A camera "property change"
 - (void)showAxisLines:(BOOL)flag;
@@ -189,8 +190,7 @@ typedef enum
 - (void)LDrawGLRendererNeedsRedisplay:(LDrawGLRenderer *)renderer;
 
 @optional
-- (void)LDrawGLRenderer:(LDrawGLRenderer *)renderer mouseIsOverPoint:(Point3)modelPoint confidence:(Tuple3)
-  confidence;
+- (void)LDrawGLRenderer:(LDrawGLRenderer *)renderer mouseIsOverPoint:(Point3)modelPoint confidence:(Tuple3)confidence;
 - (void)LDrawGLRendererMouseNotPositioning:(LDrawGLRenderer *)renderer;
 
 - (TransformComponents)LDrawGLRendererPreferredPartTransform:(LDrawGLRenderer *)renderer;

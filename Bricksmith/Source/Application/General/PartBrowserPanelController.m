@@ -131,8 +131,7 @@ static PartBrowserPanelController *sharedPartBrowserPanel = nil;
 // Purpose:		Don't allow the view portions to shrink too much.
 //
 // ==============================================================================
-- (CGFloat)splitView:(NSSplitView *)sender constrainMinCoordinate:(CGFloat)proposedMin ofSubviewAt:(NSInteger)
-  offset
+- (CGFloat)splitView:(NSSplitView *)sender constrainMinCoordinate:(CGFloat)proposedMin ofSubviewAt:(NSInteger)offset
 {
   return(96);
 }// end splitView:constrainMinCoordinate:ofSubviewAt:

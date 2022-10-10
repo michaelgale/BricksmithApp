@@ -277,7 +277,8 @@
 // their constituents.
 //
 // ==============================================================================
-- (void)draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)parentColor
+- (void)draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)
+  parentColor
 
 {
   NSArray    *steps            = [self subdirectives];
@@ -686,8 +687,9 @@
 
   // If drag-and-drop objects are present, add them into the bounds.
   if (self->draggingDirectives != nil) {
-    draggingBounds = [LDrawUtilities boundingBox3ForDirectives:[self->draggingDirectives subdirectives]];
-    totalBounds    = V3UnionBox(draggingBounds, totalBounds);
+    draggingBounds =
+      [LDrawUtilities boundingBox3ForDirectives:[self->draggingDirectives subdirectives]];
+    totalBounds = V3UnionBox(draggingBounds, totalBounds);
   }
 
   return(totalBounds);
@@ -1139,11 +1141,12 @@
 
   self->rotationCenter = newPoint;
 
-  NSDictionary *info = [NSDictionary dictionaryWithObject:[NSValue valueWithBytes:&oldPoint
-                                                                         objCType:@encode(Point3)]
-                                                   forKey:@"oldRotationCenter"];
+  NSDictionary *info =
+    [NSDictionary dictionaryWithObject:[NSValue valueWithBytes:&oldPoint objCType:@encode(Point3)] forKey:
+     @"oldRotationCenter"];
 
-  [[NSNotificationCenter defaultCenter] postNotificationName:LDrawModelRotationCenterDidChangeNotification
+  [[NSNotificationCenter defaultCenter] postNotificationName:
+   LDrawModelRotationCenterDidChangeNotification
                                                       object:[self enclosingFile]
                                                     userInfo:info];
 }
@@ -1445,7 +1448,8 @@
     // Read the first four lines, and try to get the model info out of
     // them.
     lineValidForHeader = YES;
-    for (counter = firstNonHeaderIndex; counter < firstNonHeaderIndex + 3 && lineValidForHeader == YES;
+    for (counter = firstNonHeaderIndex;
+         counter < firstNonHeaderIndex + 3 && lineValidForHeader == YES;
          counter++) {
       currentLine        = [lines objectAtIndex:counter];
       lineValidForHeader = NO;  // assume not, then disprove
@@ -1512,7 +1516,8 @@
     }
     if (isValid) {
       if (infoPtr) {
-        *infoPtr = [workingLine stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        *infoPtr =
+          [workingLine stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
       }
     }
   }

@@ -222,15 +222,25 @@
   if ([[tableColumn identifier] isEqualToString:UNITS_COLUMN]) {
     switch (rowIndex)
     {
-      case STUDS_ROW_INDEX :            object = NSLocalizedString(@"Studs", nil);            break;
+      case STUDS_ROW_INDEX :
+        object = NSLocalizedString(@"Studs", nil);
+        break;
 
-      case INCHES_ROW_INDEX :            object = NSLocalizedString(@"Inches", nil);            break;
+      case INCHES_ROW_INDEX :
+        object = NSLocalizedString(@"Inches", nil);
+        break;
 
-      case CENTIMETERS_ROW_INDEX :        object = NSLocalizedString(@"Centimeters", nil);    break;
+      case CENTIMETERS_ROW_INDEX :
+        object = NSLocalizedString(@"Centimeters", nil);
+        break;
 
-      case LEGONIAN_FEET_ROW_INDEX :    object = NSLocalizedString(@"LegonianFeet", nil);    break;
+      case LEGONIAN_FEET_ROW_INDEX :
+        object = NSLocalizedString(@"LegonianFeet", nil);
+        break;
 
-      case LDU_ROW_INDEX :             object = NSLocalizedString(@"LDU", nil);            break;
+      case LDU_ROW_INDEX :
+        object = NSLocalizedString(@"LDU", nil);
+        break;
     }
   }
   // Dimension value, then.
@@ -259,17 +269,22 @@
         }
         break;
 
-      case INCHES_ROW_INDEX :            value *= studsPerLDU * mmPerStud * inchesPerMM;
+      case INCHES_ROW_INDEX :
+        value *= studsPerLDU * mmPerStud * inchesPerMM;
         break;
 
-      case CENTIMETERS_ROW_INDEX :        value *= studsPerLDU * mmPerStud / 10.;
+      case CENTIMETERS_ROW_INDEX :
+        value *= studsPerLDU * mmPerStud / 10.;
         break;
 
-      case LEGONIAN_FEET_ROW_INDEX :    value *= studsPerLDU * mmPerStud * inchesPerMM * legoInchPerInch;
+      case LEGONIAN_FEET_ROW_INDEX :
+        value *= studsPerLDU * mmPerStud * inchesPerMM *
+          legoInchPerInch;
         break;
 
-      case LDU_ROW_INDEX :                value *= 1;
-        break;                                                                                                               // nothing to convert for LDU
+      case LDU_ROW_INDEX :
+        value *= 1;
+        break;
     }
 
     // Format output.

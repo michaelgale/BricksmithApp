@@ -144,7 +144,8 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 
   if (makeNewColumn == YES) {
     sourceViewFrame = [sourceColumn frame];
-    newColumn       = [[[ExtendedSplitView alloc] initWithFrame:NSMakeRect(0, 0, 12, 12)] autorelease];
+    newColumn       =
+      [[[ExtendedSplitView alloc] initWithFrame:NSMakeRect(0, 0, 12, 12)] autorelease];
     [newColumn setDelegate:self];
 
 
@@ -573,7 +574,8 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
       rowView = [[self newViewport] autorelease];
       [columnView addSubview:rowView];
 
-      if ([self->delegate respondsToSelector:@selector(viewportArranger:didAddViewport:sourceViewport:)]) {
+      if ([self->delegate respondsToSelector:@selector(viewportArranger:didAddViewport:
+                                                       sourceViewport:)]) {
         [self->delegate viewportArranger:self
                           didAddViewport:rowView
                           sourceViewport:nil];
@@ -650,7 +652,8 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 
   for (counter = 0; counter < [columns count]; counter++) {
     currentColumn      = [columns objectAtIndex:counter];
-    columnAutosaveName = [NSString stringWithFormat:@"%@_Column%ld", baseAutosaveName, (long)counter];
+    columnAutosaveName =
+      [NSString stringWithFormat:@"%@_Column%ld", baseAutosaveName, (long)counter];
 
     [currentColumn setAutosaveName:columnAutosaveName];
   }

@@ -60,8 +60,8 @@
 
 - (id)initWithFileName:(NSString *)fileName parentDir:(NSString *)parentDir file:(LDrawFile *)file;
 - (void)dealloc;
-- (LDrawFile *)beginService:(NSString *)relativePath;   // Weird: begin service is by partial path, drop is by full path.
-- (BOOL)dropService:(NSString *)fullPath;         // Returns true if it really did find this thing and drop it!
+- (LDrawFile *)beginService:(NSString *)relativePath; // Weird: begin service is by partial path, drop is by full path.
+- (BOOL)dropService:(NSString *)fullPath;             // Returns true if it really did find this thing and drop it!
 
 @end
 
@@ -77,7 +77,8 @@
 // updating the table to note when new files pop up.
 //
 // ==============================================================================
-- (id)initWithFileName:(NSString *)inFileName parentDir:(NSString *)inParentDir file:(LDrawFile *)inFile;
+- (id)initWithFileName:(NSString *)inFileName parentDir:(NSString *)inParentDir file:(LDrawFile *)
+  inFile;
 {
   // NSLog(@"Starting service on file %p as %@/%@\n",inFile,inParentDir,inFileName);
   self = [super init];
@@ -434,7 +435,8 @@ static ModelManager *SharedModelManager = nil;
   for (LDrawFile *key in serviceTables) {
     ModelServiceTable *otherDoc = [serviceTables objectForKey:key];
 
-    NSString *otherFullPath = [otherDoc->parentDirectory stringByAppendingPathComponent:otherDoc->fileName];
+    NSString *otherFullPath =
+      [otherDoc->parentDirectory stringByAppendingPathComponent:otherDoc->fileName];
 
     if ([fullPath isEqualToString:otherFullPath]) {
       // NSLog(@" Part was already loaded - returning.\n");

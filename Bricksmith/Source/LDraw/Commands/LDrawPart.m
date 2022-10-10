@@ -214,8 +214,7 @@ int doubleNearGrid(double v, double grid, double epsi)
       // Read Part Name
       // (part.dat) -- It can have spaces (for MPD models), so we just use the whole
       // rest of the line.
-      [self setDisplayName:[workingLine stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet
-                            ]]
+      [self setDisplayName:[workingLine stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]
                      parse:YES
                    inGroup:parentGroup];
 

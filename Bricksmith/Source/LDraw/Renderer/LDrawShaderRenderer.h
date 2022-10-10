@@ -23,8 +23,8 @@
 
 enum
 {
-  attr_position = 0,    // This defines the attribute indices for our particular shader.
-  attr_normal,      // This must be kept in sync with the string list in the .m file.
+  attr_position = 0, // This defines the attribute indices for our particular shader.
+  attr_normal,       // This must be kept in sync with the string list in the .m file.
   attr_color,
   attr_transform_x,
   attr_transform_y,
@@ -52,34 +52,36 @@ struct  LDrawDragHandleInstance;
 
 @interface LDrawShaderRenderer : NSObject <LDrawRenderer, LDrawCollector>
 {
-  struct LDrawDLSession *session;                      // DL session - this accumulates draw calls and sorts them.
+  // DL session - this accumulates draw calls and sorts them.
+  struct LDrawDLSession *session;
   struct LDrawBDP       *pool;
-
-  GLfloat color_now[4];                                // Color stack.
+  // Color stack.
+  GLfloat color_now[4];
   GLfloat compl_now[4];
   GLfloat color_stack[COLOR_STACK_DEPTH * 4];
   int     color_stack_top;
-
-  int wire_frame_count;                                // wire frame stack is just a count.
-
-
-  struct LDrawTextureSpec tex_stack[TEXTURE_STACK_DEPTH]; // Texture stack from push/pop texture.
+  // wire frame stack is just a count.
+  int wire_frame_count;
+  // Texture stack from push/pop texture.
+  struct LDrawTextureSpec tex_stack[TEXTURE_STACK_DEPTH];
   int texture_stack_top;
   struct LDrawTextureSpec tex_now;
-
-  GLfloat transform_stack[TRANSFORM_STACK_DEPTH * 16]; // Transform stack from push/pop matrix.
+  // Transform stack from push/pop matrix.
+  GLfloat transform_stack[TRANSFORM_STACK_DEPTH * 16];
   int     transform_stack_top;
   GLfloat transform_now[16];
   GLfloat cull_now[16];
-
-  struct LDrawDLBuilder *dl_stack[DL_STACK_DEPTH]; // DL stack from begin/end DL builds.
+  // DL stack from begin/end DL builds.
+  struct LDrawDLBuilder *dl_stack[DL_STACK_DEPTH];
   int dl_stack_top;
-  struct LDrawDLBuilder *dl_now;                       // This is the DL being built "right now".
-
-  GLfloat mvp[16];                                     // Cached MVP from when shader is built.
-
-  struct LDrawDragHandleInstance *drag_handles;    // List of drag handles - deferred to draw at the end for perf and correct scaling.
-  GLfloat scale;                                       // Needed to code Allen's res-independent drag handles...someday get this from viewport?
+  // This is the DL being built "right now".
+  struct LDrawDLBuilder *dl_now;
+  // Cached MVP from when shader is built.
+  GLfloat mvp[16];
+  // List of drag handles - deferred to draw at the end for perf and correct scaling.
+  struct LDrawDragHandleInstance *drag_handles;
+  // Needed to code Allen's res-independent drag handles...someday get this from viewport?
+  GLfloat scale;
 }
 
 - (id)initWithScale:(double)scale modelView:(GLfloat *)mv_matrix projection:(GLfloat *)proj_matrix;

@@ -394,7 +394,8 @@
   // Since LDraw is space-delimited, we can't have whitespace at the beginning
   // of the name. We'll chop of ending whitespace for good measure.
   acceptableName =
-    [newDisplayName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    [newDisplayName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet
+     ]];
 
   // The LDraw spec demands that the model name end with a valid LDraw
   // extension. Yuck!
@@ -439,7 +440,8 @@
     // Extract MPD-specific data: the submodel name.
     // Leading and trailing whitespace is ignored, in keeping with the rules
     // for parsing file references (type 1 lines)
-    *modelNamePtr = [workingLine stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    *modelNamePtr =
+      [workingLine stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
   }
 
   return(isMPDModel);

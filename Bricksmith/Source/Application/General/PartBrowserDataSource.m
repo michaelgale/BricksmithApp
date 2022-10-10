@@ -45,12 +45,13 @@
 // ==============================================================================
 - (void)awakeFromNib
 {
-  NSUserDefaults *userDefaults       = [NSUserDefaults standardUserDefaults];
-  NSString       *startingCategory   = [userDefaults stringForKey:PART_BROWSER_PREVIOUS_CATEGORY];
-  NSInteger      startingRow         = [userDefaults integerForKey:PART_BROWSER_PREVIOUS_SELECTED_ROW];
-  NSMenu         *searchMenuTemplate = nil;
-  NSMenuItem     *recentsItem        = nil;
-  NSMenuItem     *noRecentsItem      = nil;
+  NSUserDefaults *userDefaults     = [NSUserDefaults standardUserDefaults];
+  NSString       *startingCategory = [userDefaults stringForKey:PART_BROWSER_PREVIOUS_CATEGORY];
+  NSInteger      startingRow       =
+    [userDefaults integerForKey:PART_BROWSER_PREVIOUS_SELECTED_ROW];
+  NSMenu     *searchMenuTemplate = nil;
+  NSMenuItem *recentsItem        = nil;
+  NSMenuItem *noRecentsItem      = nil;
 
   // Loading main nib (the one in which this helper controller was allocated)
   // By the time this is called, our accessory nib has already been loaded in
@@ -87,9 +88,11 @@
     [self->partPreview setAcceptsFirstResponder:NO];
     [self->partPreview setDelegate:self];
     if ([[self->partPreview enclosingScrollView] isKindOfClass:[ExtendedScrollView class]]) {
-      [(ExtendedScrollView *)[self->partPreview enclosingScrollView] setPreservesScrollCenterDuringLiveResize:
+      [(ExtendedScrollView *)[self->partPreview enclosingScrollView]
+       setPreservesScrollCenterDuringLiveResize:
        YES];
-      [(ExtendedScrollView *)[self->partPreview enclosingScrollView] setStoresScrollCenterAsFraction:YES];
+      [(ExtendedScrollView *)[self->partPreview enclosingScrollView] setStoresScrollCenterAsFraction
+       :YES];
     }
 
 
@@ -139,8 +142,9 @@
 
     // If there is no sort order yet, define one.
     if ([[self->partsTable sortDescriptors] count] == 0) {
-      NSTableColumn    *descriptionColumn = [self->partsTable tableColumnWithIdentifier:PART_NAME_KEY];
-      NSSortDescriptor *sortDescriptor    = [descriptionColumn sortDescriptorPrototype];
+      NSTableColumn *descriptionColumn =
+        [self->partsTable tableColumnWithIdentifier:PART_NAME_KEY];
+      NSSortDescriptor *sortDescriptor = [descriptionColumn sortDescriptorPrototype];
 
       if (sortDescriptor != nil) {
         [self->partsTable setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
@@ -512,8 +516,8 @@
 
 // ========== outlineView:objectValueForTableColumn:byItem: =====================
 // ==============================================================================
-- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(
-    id)item
+- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)
+  tableColumn byItem:(id)item
 {
   BOOL isGroupHeading = [self outlineView:outlineView
                               isGroupItem:item];
@@ -877,8 +881,8 @@
           NSArray *keywords = [record objectForKey:PART_KEYWORDS_KEY];
 
           for (NSString *keyword in keywords) {
-            if ([[keyword ams_stringByRemovingWhitespace] ams_containsString:searchSansWhitespace
-                                                                     options:NSCaseInsensitiveSearch]) {
+            if ([[keyword ams_stringByRemovingWhitespace] ams_containsString:searchSansWhitespace options:
+                 NSCaseInsensitiveSearch]) {
               [matchingParts addObject:record];
               break;
             }
@@ -951,8 +955,7 @@
   else {
     allParts      = [self->partLibrary partCatalogRecordsInCategory:Category_All];
     excludedParts =
-      [NSSet setWithArray:[[self->partLibrary partCatalogRecordsInCategory:Category_Alias] valueForKey:
-                           PART_NUMBER_KEY]];
+      [NSSet setWithArray:[[self->partLibrary partCatalogRecordsInCategory:Category_Alias] valueForKey:PART_NUMBER_KEY]];
   }
 
   // Re-filter the records

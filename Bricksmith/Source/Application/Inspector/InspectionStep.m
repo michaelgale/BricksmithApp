@@ -151,7 +151,8 @@
       [self->relativeRotationPopUpMenu selectItemWithTag:InspectorRotationShortcutClockwise90];
     }
     else if (V3PointsWithinTolerance(rotationAngle, V3Make(0, -90, 0)) == YES) {
-      [self->relativeRotationPopUpMenu selectItemWithTag:InspectorRotationShortcutCounterClockwise90];
+      [self->relativeRotationPopUpMenu selectItemWithTag:InspectorRotationShortcutCounterClockwise90
+      ];
     }
     else if (V3PointsWithinTolerance(rotationAngle, V3Make(0, 180, 0)) == YES ||
              V3PointsWithinTolerance(rotationAngle, V3Make(180, 0, 180)) == YES) { // an alternate decomposition that comes out of Bricksmith's math
@@ -238,8 +239,9 @@
 // ==============================================================================
 - (IBAction)useCurrentViewingAngleClicked:(id)sender
 {
-  LDrawDocument *currentDocument = [[NSDocumentController sharedDocumentController] currentDocument];
-  Tuple3        viewingAngle     = [currentDocument viewingAngle];
+  LDrawDocument *currentDocument =
+    [[NSDocumentController sharedDocumentController] currentDocument];
+  Tuple3 viewingAngle = [currentDocument viewingAngle];
 
   // I seem to be beset by -0. I don't want to display -0!
   viewingAngle.x = round(viewingAngle.x);

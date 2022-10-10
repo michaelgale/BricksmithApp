@@ -11,11 +11,13 @@
 
 
 #if !defined(MIN)
-    #define MIN(A, B)    ({ __typeof__(A) __a = (A); __typeof__(B) __b = (B); __a < __b ? __a : __b; })
+    #define MIN(A, \
+                B)    ({ __typeof__(A) __a = (A); __typeof__(B) __b = (B); __a < __b ? __a : __b; })
 #endif
 
 #if !defined(MAX)
-    #define MAX(A, B)    ({ __typeof__(A) __a = (A); __typeof__(B) __b = (B); __a < __b ? __b : __a; })
+    #define MAX(A, \
+                B)    ({ __typeof__(A) __a = (A); __typeof__(B) __b = (B); __a < __b ? __b : __a; })
 #endif
 
 
@@ -205,10 +207,22 @@ void buildFrustumMatrix(GLfloat m[16],
   GLfloat dy = top - bottom;
   GLfloat dz = zFar - zNear;
 
-  m[0] = 2.0f * zNear / dx;   m[4] = 0;         m[8] = (right + left) / dx;    m[12] = 0;
-  m[1] = 0;         m[5] = 2.0f * zNear / dy;   m[9] = (top + bottom) / dy;    m[13] = 0;
-  m[2] = 0;         m[6] = 0;         m[10] = -(zFar + zNear) / dz;   m[14] = -2.0 * zFar * zNear / dz;
-  m[3] = 0;         m[7] = 0;         m[11] = -1.0;         m[15] = 0;
+  m[0]  = 2.0f * zNear / dx;
+  m[4]  = 0;
+  m[8]  = (right + left) / dx;
+  m[12] = 0;
+  m[1]  = 0;
+  m[5]  = 2.0f * zNear / dy;
+  m[9]  = (top + bottom) / dy;
+  m[13] = 0;
+  m[2]  = 0;
+  m[6]  = 0;
+  m[10] = -(zFar + zNear) / dz;
+  m[14] = -2.0 * zFar * zNear / dz;
+  m[3]  = 0;
+  m[7]  = 0;
+  m[11] = -1.0;
+  m[15] = 0;
 }
 
 

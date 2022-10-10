@@ -72,6 +72,7 @@
   selectionMarquee = ZeroBox2;
   rotationDrawMode = LDrawGLDrawNormal;
   gridSpacing      = 20.0;
+  showAxisLines    = YES;
 
   [self setViewOrientation:ViewOrientation3D];
 
@@ -225,8 +226,7 @@
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
-// if (self->showAxisLines) {
-  if (1) {
+  if (self->showAxisLines) {
     glLineWidth(AXIS_LINE_WIDTH);
 
     glMatrixMode(GL_PROJECTION);
@@ -671,7 +671,8 @@
 // window manager to do things like scrolling.
 //
 // ==============================================================================
-- (void)setDelegate:(id <LDrawGLRendererDelegate>)object withScroller:(id <LDrawGLCameraScroller>)newScroller
+- (void)setDelegate:(id <LDrawGLRendererDelegate>)object withScroller:(id <LDrawGLCameraScroller>)
+  newScroller
 {
   // weak link.
   self->delegate = object;
@@ -969,6 +970,11 @@
 }// end moveCamera
 
 
+- (void)setViewAxisLines:(BOOL)flag;
+{
+  self->showAxisLines = flag;
+}
+
 #pragma mark -
 #pragma mark ACTIONS
 #pragma mark -
@@ -1054,9 +1060,10 @@
       // not. It seems perspective distortion can cause the visual
       // center of the model to be someplace else.
 
-      Point2 graphicalCenter_viewport = V2Make(V2BoxMidX(projectionRect), V2BoxMidY(projectionRect));
-      Point2 graphicalCenter_view     = [self convertPointFromViewport:graphicalCenter_viewport];
-      Point3 graphicalCenter_model    = ZeroPoint3;
+      Point2 graphicalCenter_viewport =
+        V2Make(V2BoxMidX(projectionRect), V2BoxMidY(projectionRect));
+      Point2 graphicalCenter_view  = [self convertPointFromViewport:graphicalCenter_viewport];
+      Point3 graphicalCenter_model = ZeroPoint3;
 
       graphicalCenter_model = [self modelPointForPoint:graphicalCenter_view
                                    depthReferencePoint:center];
@@ -1205,7 +1212,8 @@
   // select it.
   if (self->fileBeingDrawn != nil &&
       self->allowsEditing == YES &&
-      [self->delegate respondsToSelector:@selector(LDrawGLRenderer:wantsToSelectDirective:byExtendingSelection
+      [self->delegate respondsToSelector:@selector(LDrawGLRenderer:wantsToSelectDirective:
+                                                   byExtendingSelection
                                                    :)]) {
     Point2 point_viewport = [self convertPointToViewport:point_view];
     Point2 bl             = V2Make(point_viewport.x - HANDLE_SIZE, point_viewport.y - HANDLE_SIZE);
@@ -1214,8 +1222,10 @@
 
     Box2 viewport = [self viewport];
     // Get view and projection
-    Point2 point_clip = V2Make((point_viewport.x - viewport.origin.x) * 2.0 / V2BoxWidth(viewport) - 1.0,
-                               (point_viewport.y - viewport.origin.y) * 2.0 / V2BoxHeight(viewport) - 1.0);
+    Point2 point_clip = V2Make((point_viewport.x - viewport.origin.x) * 2.0 / V2BoxWidth(
+                                 viewport) - 1.0,
+                               (point_viewport.y - viewport.origin.y) * 2.0 / V2BoxHeight(
+                                 viewport) - 1.0);
 
     double x1 = (MIN(bl.x, tr.x) - viewport.origin.x) * 2.0 / V2BoxWidth(viewport) - 1.0;
     double x2 = (MAX(bl.x, tr.x) - viewport.origin.x) * 2.0 / V2BoxWidth(viewport) - 1.0;
@@ -1248,7 +1258,8 @@
       self->activeDragHandle = nil;
 
       // If we end up actually selecting some single thing, the extension happens if we are intersection (option-shift) or extend (shift).
-      BOOL extendSelection = selectionMode == SelectionExtend || selectionMode == SelectionIntersection;
+      BOOL extendSelection = selectionMode == SelectionExtend ||
+        selectionMode == SelectionIntersection;
 
       BOOL has_sel_directive = clickedDirective != nil && [clickedDirective isSelected];
       BOOL has_any_directive = clickedDirective != nil;
@@ -1501,7 +1512,8 @@
   // select it.
   if (self->fileBeingDrawn != nil &&
       self->allowsEditing == YES &&
-      [self->delegate respondsToSelector:@selector(LDrawGLRenderer:wantsToSelectDirective:byExtendingSelection
+      [self->delegate respondsToSelector:@selector(LDrawGLRenderer:wantsToSelectDirective:
+                                                   byExtendingSelection
                                                    :)]) {
     // First do hit-testing on nothing but the bounding boxes; that is very
     // fast and likely eliminates a lot of parts.

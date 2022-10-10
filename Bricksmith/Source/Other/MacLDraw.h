@@ -342,7 +342,7 @@ typedef enum SelectionMode
   SelectionReplace      = 0,    // Normal drag - take new
   SelectionExtend       = 1,    // Shift drag - take old | new
   SelectionSubtract     = 2,    // Option drag - take old - new
-  SelectionIntersection = 3       // Option-shift drag - take old & new
+  SelectionIntersection = 3     // Option-shift drag - take old & new
 } SelectionModeT;
 
 

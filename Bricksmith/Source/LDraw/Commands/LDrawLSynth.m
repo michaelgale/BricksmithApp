@@ -114,17 +114,15 @@
       if ([currentLine isMatchedByRegex:@"0\\s+SYNTH\\s+BEGIN\\s+(\\S+?)\\s+(\\S+)"] &&
           parserState == PARSER_READY_TO_PARSE) {
         NSArray *paramMatches =
-          [currentLine arrayOfCaptureComponentsMatchedByRegex:@"0\\s+SYNTH\\s+BEGIN\\s+(\\S+?)\\s+(\\S+)"];
+          [currentLine arrayOfCaptureComponentsMatchedByRegex:
+           @"0\\s+SYNTH\\s+BEGIN\\s+(\\S+?)\\s+(\\S+)"];
 
         NSString *type       = [[paramMatches objectAtIndex:0] objectAtIndex:1];
         NSString *synthColor = [[paramMatches objectAtIndex:0] objectAtIndex:2];
 
         [self setLsynthType:type];
-        [self setLDrawColor:[[ColorLibrary sharedColorLibrary] colorForCode:(LDrawColorT)[synthColor
-                                                                                          integerValue]]];
-
-        [[[LDrawApplication shared] lsynthConfiguration] setLSynthClassForDirective:self
-                                                                           withType:type];
+        [self setLDrawColor:[[ColorLibrary sharedColorLibrary] colorForCode:(LDrawColorT)[synthColor integerValue]]];
+        [[[LDrawApplication shared] lsynthConfiguration] setLSynthClassForDirective:self withType:type];
         parserState = PARSER_PARSING_BEGUN;
       }
       // 0 SYNTH END - Synthesized parts may or may not be present
@@ -155,7 +153,8 @@
       else if (parserState == PARSER_PARSING_CONSTRAINTS &&
                [currentLine isMatchedByRegex:@"0\\s+SYNTH\\s+(INSIDE|OUTSIDE|CROSS)"]) {
         NSString *direction =
-          [[[currentLine arrayOfCaptureComponentsMatchedByRegex:@"(INSIDE|OUTSIDE|CROSS)"] objectAtIndex:0]
+          [[[currentLine arrayOfCaptureComponentsMatchedByRegex:@"(INSIDE|OUTSIDE|CROSS)"]
+            objectAtIndex:0]
            objectAtIndex:0];
         LDrawLSynthDirective *directive = [[LDrawLSynthDirective alloc] init];
         [directive setStringValue:direction];
@@ -1025,9 +1024,10 @@
   [lsynthOutput autorelease];
 
   // Split the output into lines
-  NSMutableArray *stringsArray = [NSMutableArray arrayWithArray:[lsynthOutput
-                                                                 componentsSeparatedByCharactersInSet:[
-                                                                   NSCharacterSet newlineCharacterSet]]];
+  NSMutableArray *stringsArray =
+    [NSMutableArray arrayWithArray:[lsynthOutput componentsSeparatedByCharactersInSet:[NSCharacterSet
+                                                                                       newlineCharacterSet]
+     ]];
 
   // Process the synthesized parts
   BOOL extract = NO;
@@ -1038,9 +1038,10 @@
 
     if (extract == YES && partRange.length > 0 && partRange.location == 0) {
       CommandClass = [LDrawUtilities classForDirectiveBeginningWithLine:line];
-      LDrawDirective *newDirective = [[CommandClass alloc] initWithLines:[NSArray arrayWithObject:line]
-                                                                 inRange:NSMakeRange(0, 1)
-                                                             parentGroup:nil];
+      LDrawDirective *newDirective =
+        [[CommandClass alloc] initWithLines:[NSArray arrayWithObject:line]
+                                    inRange:NSMakeRange(0, 1)
+                                parentGroup:nil];
       [synthesizedParts addObject:newDirective];
       [newDirective release];
     }
@@ -1100,7 +1101,8 @@
 
   for (i = 0; i < [[self subdirectives] count]; i++) {
     LDrawPart *part     = [[self subdirectives] objectAtIndex:i];
-    LDrawPart *nextPart = [[self subdirectives] objectAtIndex:((i + 1) % [[self subdirectives] count])];
+    LDrawPart *nextPart =
+      [[self subdirectives] objectAtIndex:((i + 1) % [[self subdirectives] count])];
 
     // The first point is potentially a special case.  Handle it.
     // Not on the hull? Then prepend an OUTSIDE
@@ -1178,11 +1180,14 @@
                                                          [NSNumber numberWithFloat:t.translate.y],
                                                          [NSNumber numberWithInt:[[[config
                                                                                     constraintDefinitionForPart
-                                                                                    :part] valueForKey:
-                                                                                   @"radius"] integerValue]],
+                                                                                    :part]
+                                                                                   valueForKey:
+                                                                                   @"radius"]
+                                                                                  integerValue]],
                                                          [NSMutableArray array],
                                                          nil]
-                                                forKeys:[NSArray arrayWithObjects:@"directive", @"x", @"y",
+                                                forKeys:[NSArray arrayWithObjects:@"directive",
+                                                         @"x", @"y",
                                                          @"r", @"hullPoints", nil]];
     [mappedPoints addObject:point];
   }
@@ -1204,26 +1209,30 @@
       // Tangents are between two circles (i.e. constraints)
       // add both outside tangent points for the current constraint
       [[[mappedPoints objectAtIndex:i] objectForKey:@"hullPoints"] addObject:
-       [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[[tangents objectAtIndex:0] objectAtIndex
+       [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[[tangents objectAtIndex:0]
+                                                                      objectAtIndex
                                                                       :0],
                                             [[tangents objectAtIndex:0] objectAtIndex:1], nil]
                                    forKeys:[NSArray arrayWithObjects:@"x", @"y", nil]]];
 
       [[[mappedPoints objectAtIndex:i] objectForKey:@"hullPoints"] addObject:
-       [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[[tangents objectAtIndex:1] objectAtIndex
+       [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[[tangents objectAtIndex:1]
+                                                                      objectAtIndex
                                                                       :0],
                                             [[tangents objectAtIndex:1] objectAtIndex:1], nil]
                                    forKeys:[NSArray arrayWithObjects:@"x", @"y", nil]]];
 
       // add both outside tangent points for the next constraint
       [[[mappedPoints objectAtIndex:j] objectForKey:@"hullPoints"] addObject:
-       [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[[tangents objectAtIndex:0] objectAtIndex
+       [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[[tangents objectAtIndex:0]
+                                                                      objectAtIndex
                                                                       :2],
                                             [[tangents objectAtIndex:0] objectAtIndex:3], nil]
                                    forKeys:[NSArray arrayWithObjects:@"x", @"y", nil]]];
 
       [[[mappedPoints objectAtIndex:j] objectForKey:@"hullPoints"] addObject:
-       [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[[tangents objectAtIndex:1] objectAtIndex
+       [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[[tangents objectAtIndex:1]
+                                                                      objectAtIndex
                                                                       :2],
                                             [[tangents objectAtIndex:1] objectAtIndex:3], nil]
                                    forKeys:[NSArray arrayWithObjects:@"x", @"y", nil]]];
@@ -1247,13 +1256,16 @@
       [preparedData addObject:[NSMutableDictionary
                                dictionaryWithObjects:[NSArray arrayWithObjects:[point objectForKey:
                                                                                 @"directive"],
-                                                      [NSNumber numberWithInt:[[coords objectForKey:@"x"]
+                                                      [NSNumber numberWithInt:[[coords objectForKey:
+                                                                                @"x"]
                                                                                integerValue]],
-                                                      [NSNumber numberWithInt:[[coords objectForKey:@"y"]
+                                                      [NSNumber numberWithInt:[[coords objectForKey:
+                                                                                @"y"]
                                                                                integerValue]],
                                                       [NSNumber numberWithBool:false],
                                                       nil]
-                                             forKeys:[NSArray arrayWithObjects:@"directive", @"x", @"y",
+                                             forKeys:[NSArray arrayWithObjects:@"directive", @"x",
+                                                      @"y",
                                                       @"inHull", nil]]];
     }
   }

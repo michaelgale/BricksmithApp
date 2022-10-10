@@ -228,7 +228,6 @@
 //
 // ==============================================================================
 - (void)draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)parentColor
-
 {
   // Nothing to do here.
 }// end draw:viewScale:parentColor:

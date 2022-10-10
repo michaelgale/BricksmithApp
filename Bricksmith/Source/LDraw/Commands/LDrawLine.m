@@ -381,7 +381,8 @@
   if (self->hidden == NO) {
     Vector3 worldVertex1 = V3MulPointByProjMatrix(self->vertex1, transform);
     Vector3 worldVertex2 = V3MulPointByProjMatrix(self->vertex2, transform);
-    double  tolerance2   = (bounds.size.width * bounds.size.width + bounds.size.height * bounds.size.height) *
+    double  tolerance2   =
+      (bounds.size.width * bounds.size.width + bounds.size.height * bounds.size.height) *
       0.25;
 
     Point3 probe = { pt.x, pt.y, *bestDepth };

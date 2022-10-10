@@ -293,9 +293,11 @@
   NSString *applicationFolder = [applicationPath stringByDeletingLastPathComponent];
   NSString *siblingFolder     = [applicationFolder stringByDeletingLastPathComponent];
   NSString *library           =
-    [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSLocalDomainMask, YES) objectAtIndex:0];
+    [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSLocalDomainMask,
+                                         YES) objectAtIndex:0];
   NSString *userLibrary =
-    [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask,
+                                         YES) objectAtIndex:0];
   NSString *applicationSupport =
     [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSLocalDomainMask,
                                          YES) objectAtIndex:0];
@@ -315,7 +317,8 @@
   library                = [library stringByAppendingPathComponent:LDRAW_DIRECTORY_NAME];
   userLibrary            = [userLibrary stringByAppendingPathComponent:LDRAW_DIRECTORY_NAME];
   applicationSupport     = [applicationSupport stringByAppendingPathComponent:LDRAW_DIRECTORY_NAME];
-  userApplicationSupport = [userApplicationSupport stringByAppendingPathComponent:LDRAW_DIRECTORY_NAME];
+  userApplicationSupport =
+    [userApplicationSupport stringByAppendingPathComponent:LDRAW_DIRECTORY_NAME];
 
   // Tries user defaults first, then others
   NSArray *potentialPaths = [NSArray arrayWithObjects:preferencePath,
@@ -420,7 +423,8 @@
 // ==============================================================================
 - (NSString *)pathForTextureName:(NSString *)imageName
 {
-  NSString *nameInTextureDirectory = [TEXTURES_DIRECTORY_NAME stringByAppendingPathComponent:imageName];
+  NSString *nameInTextureDirectory =
+    [TEXTURES_DIRECTORY_NAME stringByAppendingPathComponent:imageName];
   NSString *imagePath = nil;
 
   // First follow regular search path with /textures prepended
@@ -445,7 +449,8 @@
 {
   // Check and see if this folder is any good.
   NSString *partsFolderPath      = [folderPath stringByAppendingPathComponent:PARTS_DIRECTORY_NAME];
-  NSString *primitivesFolderPath = [folderPath stringByAppendingPathComponent:PRIMITIVES_DIRECTORY_NAME];
+  NSString *primitivesFolderPath =
+    [folderPath stringByAppendingPathComponent:PRIMITIVES_DIRECTORY_NAME];
 
   NSFileManager *fileManager  = [[[NSFileManager alloc] init] autorelease];
   BOOL          folderIsValid = NO;

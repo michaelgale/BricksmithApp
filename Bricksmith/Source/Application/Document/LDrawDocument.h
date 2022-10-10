@@ -216,13 +216,10 @@
 - (void)updateViewportAutosaveNamesAndRestore:(BOOL)shouldRestore;
 
 // Utilities
-- (void)addModel:(LDrawMPDModel *)newModel atIndex:(NSInteger)insertAtIndex preventNameCollisions:(BOOL)
-  renameModels;
+- (void)addModel:(LDrawMPDModel *)newModel atIndex:(NSInteger)insertAtIndex preventNameCollisions:(BOOL)renameModels;
 - (void)addStep:(LDrawStep *)newStep parent:(LDrawMPDModel *)selectedModel index:(NSInteger)insertAtIndex;
 - (void)addPartNamed:(NSString *)partName;
-- (void)addStepComponent:(LDrawDirective *)newDirective parent:(LDrawContainer *)parent index:(NSInteger)
-  insertAtIndex;
-
+- (void)addStepComponent:(LDrawDirective *)newDirective parent:(LDrawContainer *)parent index:(NSInteger)insertAtIndex;
 - (BOOL)canDeleteDirective:(LDrawDirective *)directive displayErrors:(BOOL)errorFlag;
 - (BOOL)elementsAreSelectedOfVisibility:(BOOL)visibleFlag;
 - (NSAttributedString *)formatDirective:(LDrawDirective *)item withStringRepresentation:(NSString *)
@@ -237,8 +234,8 @@
 - (void)updateInspector;
 - (void)updateViewingAngleToMatchStep;
 - (void)writeDirectives:(NSArray *)directives toPasteboard:(NSPasteboard *)pasteboard;
-- (NSArray *)pasteFromPasteboard:(NSPasteboard *)pasteboard preventNameCollisions:(BOOL)renameModels parent:(
-    LDrawContainer *)parent index:(NSInteger)insertAtIndex;
+- (NSArray *)pasteFromPasteboard:(NSPasteboard *)pasteboard preventNameCollisions:(BOOL)renameModels
+  parent:(LDrawContainer *)parent index:(NSInteger)insertAtIndex;
 
 - (void)flushDocChangesAndSelect:(NSArray *)directives;
 

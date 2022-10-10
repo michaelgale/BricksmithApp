@@ -151,7 +151,9 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
   for (dh = drag_handles; dh != NULL; dh = dh->next) {
     GLfloat s     = dh->size / self->scale;
     GLfloat m[16] =
-    { s, 0, 0, 0, 0, s, 0, 0, 0, 0, s, 0, (GLfloat)dh->xyz[0], (GLfloat)dh->xyz[1], (GLfloat)dh->xyz[2],
+    { s,                   0, 0, 0, 0, s, 0, 0, 0, 0, s, 0, (GLfloat)dh->xyz[0],
+      (GLfloat)dh->xyz[1],
+      (GLfloat)dh->xyz[2],
       1.0f };
 
     [self pushMatrix:m];
@@ -525,7 +527,8 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
 - (void)drawDragHandle:(GLfloat *)xyz withSize:(GLfloat)size
 {
   struct LDrawDragHandleInstance *dh =
-    (struct LDrawDragHandleInstance *)LDrawBDPAllocate(pool, sizeof(struct LDrawDragHandleInstance));
+    (struct LDrawDragHandleInstance *)LDrawBDPAllocate(pool,
+                                                       sizeof(struct LDrawDragHandleInstance));
 
   dh->next     = drag_handles;
   drag_handles = dh;

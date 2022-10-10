@@ -30,7 +30,8 @@
 // LDrawGLView
 //
 ////////////////////////////////////////////////////////////////////////////////
-@interface LDrawGLView : NSOpenGLView <LDrawColorable, LDrawGLRendererDelegate, LDrawGLCameraScroller>
+@interface LDrawGLView : NSOpenGLView <LDrawColorable, LDrawGLRendererDelegate,
+                                       LDrawGLCameraScroller>
 {
   @private
   // The renderer is responsible for viewport math and OpenGL calls. Because
@@ -134,8 +135,7 @@
 
 - (void)LDrawGLViewBecameFirstResponder:(LDrawGLView *)glView;
 
-- (BOOL)LDrawGLView:(LDrawGLView *)glView writeDirectivesToPasteboard:(NSPasteboard *)pasteboard asCopy:(
-    BOOL)copyFlag;
+- (BOOL)LDrawGLView:(LDrawGLView *)glView writeDirectivesToPasteboard:(NSPasteboard *)pasteboard asCopy:(BOOL)copyFlag;
 - (void)LDrawGLView:(LDrawGLView *)glView acceptDrop:(id <NSDraggingInfo>)info directives:(NSArray *)
   directives;
 - (void)LDrawGLViewPartsWereDraggedIntoOblivion:(LDrawGLView *)glView;
@@ -149,11 +149,12 @@
 // system.
 - (void)LDrawGLView:(LDrawGLView *)glView wantsToSelectDirective:(LDrawDirective *)directiveToSelect
   byExtendingSelection:(BOOL)shouldExtend;
-- (void)LDrawGLView:(LDrawGLView *)glView wantsToSelectDirectives:(NSArray *)directivesToSelect selectionMode
-  :(SelectionModeT)selectionMode;
+- (void)LDrawGLView:(LDrawGLView *)glView wantsToSelectDirectives:(NSArray *)directivesToSelect
+  selectionMode:(SelectionModeT)selectionMode;
 - (void)LDrawGLView:(LDrawGLView *)glView willBeginDraggingHandle:(LDrawDragHandle *)dragHandle;
 - (void)LDrawGLView:(LDrawGLView *)glView dragHandleDidMove:(LDrawDragHandle *)dragHandle;
-- (void)LDrawGLView:(LDrawGLView *)glView mouseIsOverPoint:(Point3)modelPoint confidence:(Tuple3)confidence;
+- (void)LDrawGLView:(LDrawGLView *)glView mouseIsOverPoint:(Point3)modelPoint confidence:(Tuple3)
+  confidence;
 - (void)LDrawGLViewMouseNotPositioning:(LDrawGLView *)glView;
 - (void)markPreviousSelection;
 - (void)unmarkPreviousSelection;

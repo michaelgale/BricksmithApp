@@ -90,40 +90,23 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 {
   [super encodeWithCoder:encoder];
 
-  [encoder encodeInt:colorCode
-              forKey:@"colorCode"];
-  [encoder encodeFloat:colorRGBA[0]
-                forKey:@"colorRGBARed"];
-  [encoder encodeFloat:colorRGBA[1]
-                forKey:@"colorRGBAGreen"];
-  [encoder encodeFloat:colorRGBA[2]
-                forKey:@"colorRGBABlue"];
-  [encoder encodeFloat:colorRGBA[3]
-                forKey:@"colorRGBAAlpha"];
-  [encoder encodeInt:edgeColorCode
-              forKey:@"edgeColorCode"];
-  [encoder encodeFloat:edgeColorRGBA[0]
-                forKey:@"edgeColorRGBARed"];
-  [encoder encodeFloat:edgeColorRGBA[1]
-                forKey:@"edgeColorRGBAGreen"];
-  [encoder encodeFloat:edgeColorRGBA[2]
-                forKey:@"edgeColorRGBABlue"];
-  [encoder encodeFloat:edgeColorRGBA[3]
-                forKey:@"edgeColorRGBAAlpha"];
-  [encoder encodeBool:hasExplicitAlpha
-               forKey:@"hasExplicitAlpha"];
-  [encoder encodeBool:hasLuminance
-               forKey:@"hasLuminance"];
-  [encoder encodeBool:isFavourite
-               forKey:@"isFavourite"];
-  [encoder encodeInt:luminance
-              forKey:@"luminance"];
-  [encoder encodeInt:material
-              forKey:@"material"];
-  [encoder encodeObject:materialParameters
-                 forKey:@"materialParameters"];
-  [encoder encodeObject:name
-                 forKey:@"name"];
+  [encoder encodeInt:colorCode forKey:@"colorCode"];
+  [encoder encodeFloat:colorRGBA[0] forKey:@"colorRGBARed"];
+  [encoder encodeFloat:colorRGBA[1] forKey:@"colorRGBAGreen"];
+  [encoder encodeFloat:colorRGBA[2] forKey:@"colorRGBABlue"];
+  [encoder encodeFloat:colorRGBA[3] forKey:@"colorRGBAAlpha"];
+  [encoder encodeInt:edgeColorCode forKey:@"edgeColorCode"];
+  [encoder encodeFloat:edgeColorRGBA[0] forKey:@"edgeColorRGBARed"];
+  [encoder encodeFloat:edgeColorRGBA[1] forKey:@"edgeColorRGBAGreen"];
+  [encoder encodeFloat:edgeColorRGBA[2] forKey:@"edgeColorRGBABlue"];
+  [encoder encodeFloat:edgeColorRGBA[3] forKey:@"edgeColorRGBAAlpha"];
+  [encoder encodeBool:hasExplicitAlpha forKey:@"hasExplicitAlpha"];
+  [encoder encodeBool:hasLuminance forKey:@"hasLuminance"];
+  [encoder encodeBool:isFavourite forKey:@"isFavourite"];
+  [encoder encodeInt:luminance forKey:@"luminance"];
+  [encoder encodeInt:material forKey:@"material"];
+  [encoder encodeObject:materialParameters forKey:@"materialParameters"];
+  [encoder encodeObject:name forKey:@"name"];
 }// end encodeWithCoder:
 
 
@@ -267,22 +250,19 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
   // Optional Fields
 
   // - Alpha
-  if ([scanner scanString:LDRAW_COLOR_DEF_ALPHA
-               intoString:nil] == YES) {
+  if ([scanner scanString:LDRAW_COLOR_DEF_ALPHA intoString:nil] == YES) {
     [scanner scanInt:&scannedAlpha];
     self->colorRGBA[3]     = (float)scannedAlpha / 255;
     self->hasExplicitAlpha = YES;
   }
 
   // - Luminance
-  if ([scanner scanString:LDRAW_COLOR_DEF_LUMINANCE
-               intoString:nil] == YES) {
+  if ([scanner scanString:LDRAW_COLOR_DEF_LUMINANCE intoString:nil] == YES) {
     [scanner scanInt:&scannedLuminance];
     [self setLuminance:scannedLuminance];
   }
   // - Favourite
-  if ([scanner scanString:LDRAW_COLOR_DEF_FAV
-               intoString:nil] == YES) {
+  if ([scanner scanString:LDRAW_COLOR_DEF_FAV intoString:nil] == YES) {
     self->isFavourite = YES;
   }
 
@@ -389,13 +369,14 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
   // Derive the components. Hold your nose.
   // Obviously, we don't support dithering. We average the colors to produce
   // something which looks nicer.
-  blendedComponents[0] = (float)(ldrawEXEColorTable[blendCode1][0] + ldrawEXEColorTable[blendCode2][0]) / 2 /
-    255;                                                                                                           // red
-  blendedComponents[1] = (float)(ldrawEXEColorTable[blendCode1][1] + ldrawEXEColorTable[blendCode2][1]) / 2 /
-    255;                                                                                                           // green
-  blendedComponents[2] = (float)(ldrawEXEColorTable[blendCode1][2] + ldrawEXEColorTable[blendCode2][2]) / 2 /
-    255;                                                                                                           // blue
-  blendedComponents[3] = 1.0; // alpha
+  // red
+  blendedComponents[0] = (float)(ldrawEXEColorTable[blendCode1][0] + ldrawEXEColorTable[blendCode2][0]) / 2 / 255;
+  // green
+  blendedComponents[1] = (float)(ldrawEXEColorTable[blendCode1][1] + ldrawEXEColorTable[blendCode2][1]) / 2 / 255;
+  // blue
+  blendedComponents[2] = (float)(ldrawEXEColorTable[blendCode1][2] + ldrawEXEColorTable[blendCode2][2]) / 2 / 255;
+  // alpha
+  blendedComponents[3] = 1.0;
 
   // Create a color to hold them.
   [blendedColor setColorCode:colorCode];
@@ -415,11 +396,13 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // Purpose:		"Draws" the color.
 //
 // ==============================================================================
-- (void)draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)parentColor
+- (void)draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)
+  parentColor
 
 {
   // Need to add this color to the model's color library.
-  ColorLibrary *colorLibrary = [[(LDrawStep *)[self enclosingDirective] enclosingModel] colorLibrary];
+  ColorLibrary *colorLibrary =
+    [[(LDrawStep *)[self enclosingDirective] enclosingModel] colorLibrary];
 
   [colorLibrary addColor:self];
 }// end draw:viewScale:parentColor:

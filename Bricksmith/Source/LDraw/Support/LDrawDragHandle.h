@@ -42,8 +42,7 @@
 - (void)setTarget:(id)sender;
 
 // Draw
-- (void)draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)parentColor
-;
+- (void)draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)parentColor;
 
 // Utilities
 + (void)makeSphereWithLongitudinalCount:(int)longitudeSections

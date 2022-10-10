@@ -263,14 +263,22 @@ PreferencesDialogController * preferencesDialog = nil;
 - (void)setLSynthTabValues
 {
   // Get preference values
-  NSUserDefaults       *userDefaults         = [NSUserDefaults standardUserDefaults];
-  NSString             *executablePath       = [userDefaults stringForKey:LSYNTH_EXECUTABLE_PATH_KEY];
-  NSString             *configurationPath    = [userDefaults stringForKey:LSYNTH_CONFIGURATION_PATH_KEY];
-  int                  selectionTransparency = [userDefaults integerForKey:LSYNTH_SELECTION_TRANSPARENCY_KEY]; // Stored as an int but interpreted as a percentage
-  NSColor              *selectionColor       = [userDefaults colorForKey:LSYNTH_SELECTION_COLOR_KEY];
-  BOOL                 saveSynthesizedParts  = [userDefaults boolForKey:LSYNTH_SAVE_SYNTHESIZED_PARTS_KEY];
-  BOOL                 showBasicPartsList    = [userDefaults boolForKey:LSYNTH_SHOW_BASIC_PARTS_LIST_KEY];
-  LSynthSelectionModeT selectionMode         = [userDefaults integerForKey:LSYNTH_SELECTION_MODE_KEY];
+  NSUserDefaults *userDefaults   = [NSUserDefaults standardUserDefaults];
+  NSString       *executablePath =
+    [userDefaults stringForKey:LSYNTH_EXECUTABLE_PATH_KEY];
+  NSString *configurationPath =
+    [userDefaults stringForKey:LSYNTH_CONFIGURATION_PATH_KEY];
+  // Stored as an int but interpreted as a percentage
+  int selectionTransparency =
+    [userDefaults integerForKey:LSYNTH_SELECTION_TRANSPARENCY_KEY];
+  NSColor *selectionColor =
+    [userDefaults colorForKey:LSYNTH_SELECTION_COLOR_KEY];
+  BOOL saveSynthesizedParts =
+    [userDefaults boolForKey:LSYNTH_SAVE_SYNTHESIZED_PARTS_KEY];
+  BOOL showBasicPartsList =
+    [userDefaults boolForKey:LSYNTH_SHOW_BASIC_PARTS_LIST_KEY];
+  LSynthSelectionModeT selectionMode =
+    [userDefaults integerForKey:LSYNTH_SELECTION_MODE_KEY];
 
   // Set control values
   [lsynthExecutablePath setStringValue:executablePath];
@@ -1247,9 +1255,11 @@ PreferencesDialogController * preferencesDialog = nil;
 
   // OpenGL viewer settings -- see -restoreConfiguration in LDrawGLView.
   [initialDefaults setObject:[NSNumber numberWithInteger:ViewOrientationFront]
-                      forKey:[LDRAW_GL_VIEW_ANGLE stringByAppendingString:@" MinifigureGeneratorView"]];
+                      forKey:[LDRAW_GL_VIEW_ANGLE stringByAppendingString:
+                              @" MinifigureGeneratorView"]];
   [initialDefaults setObject:[NSNumber numberWithInteger:ProjectionModeOrthographic]
-                      forKey:[LDRAW_GL_VIEW_PROJECTION stringByAppendingString:@" MinifigureGeneratorView"]];
+                      forKey:[LDRAW_GL_VIEW_PROJECTION stringByAppendingString:
+                              @" MinifigureGeneratorView"]];
   [initialDefaults setObject:(id)kCFBooleanFalse
                       forKey:@"UseThreads"];
 
@@ -1347,7 +1357,8 @@ PreferencesDialogController * preferencesDialog = nil;
   // TODO: run validating synthesis
   if (textField == lsynthExecutablePath) {
     NSURL *executablePathAsURL = [NSURL fileURLWithPath:[lsynthExecutablePath stringValue]];
-    if ([executablePathAsURL isFileURL] && ![currentExecutable isEqualToString:[executablePathAsURL path]]) {
+    if ([executablePathAsURL isFileURL] &&
+        ![currentExecutable isEqualToString:[executablePathAsURL path]]) {
       [userDefaults setObject:[executablePathAsURL path]
                        forKey:LSYNTH_EXECUTABLE_PATH_KEY];
       [self lsynthRequiresResynthesis];
