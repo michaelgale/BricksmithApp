@@ -36,6 +36,7 @@
                 <outlet property="primitivesColorWell" destination="70" id="112"/>
                 <outlet property="rightButtonRadioButtons" destination="327" id="339"/>
                 <outlet property="rotateModeRadioButtons" destination="331" id="337"/>
+                <outlet property="showAxisLinesButton" destination="Rwd-Sm-FHC" id="BaU-N1-k2P"/>
                 <outlet property="stepsColorWell" destination="128" id="131"/>
                 <outlet property="stylesContentView" destination="63" id="88"/>
                 <outlet property="unknownColorWell" destination="75" id="114"/>
@@ -337,11 +338,11 @@ The LDraw folder contains the folders "p" and "parts."</string>
             <point key="canvasLocation" x="139" y="-893"/>
         </customView>
         <customView id="163" userLabel="General">
-            <rect key="frame" x="0.0" y="0.0" width="540" height="748"/>
+            <rect key="frame" x="0.0" y="0.0" width="540" height="850"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
                 <textField verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="351">
-                    <rect key="frame" x="34" y="179" width="127" height="16"/>
+                    <rect key="frame" x="34" y="281" width="127" height="16"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Right mouse button:" id="352">
                         <font key="font" metaFont="system"/>
@@ -350,7 +351,7 @@ The LDraw folder contains the folders "p" and "parts."</string>
                     </textFieldCell>
                 </textField>
                 <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" translatesAutoresizingMaskIntoConstraints="NO" id="203">
-                    <rect key="frame" x="72" y="386" width="401" height="180"/>
+                    <rect key="frame" x="72" y="488" width="401" height="180"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     <size key="cellSize" width="401" height="18"/>
@@ -384,7 +385,7 @@ The LDraw folder contains the folders "p" and "parts."</string>
                     </connections>
                 </matrix>
                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="215">
-                    <rect key="frame" x="90" y="353" width="366" height="28"/>
+                    <rect key="frame" x="90" y="455" width="366" height="28"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" title="Parts can only be moved with the keyboard. Dragging the mouse will spin the model." id="313">
                         <font key="font" metaFont="smallSystem"/>
@@ -393,7 +394,7 @@ The LDraw folder contains the folders "p" and "parts."</string>
                     </textFieldCell>
                 </textField>
                 <textField verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="212">
-                    <rect key="frame" x="90" y="419" width="368" height="14"/>
+                    <rect key="frame" x="90" y="521" width="368" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Mimics MLCad behavior. (Front, Top, etc. are orthographic views.)" id="312">
                         <font key="font" metaFont="smallSystem"/>
@@ -402,7 +403,7 @@ The LDraw folder contains the folders "p" and "parts."</string>
                     </textFieldCell>
                 </textField>
                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="209">
-                    <rect key="frame" x="91" y="476" width="364" height="14"/>
+                    <rect key="frame" x="91" y="578" width="364" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" title="To spin the model, drag immediately. Mimics Bricksmith 1.x behavior." id="311">
                         <font key="font" metaFont="smallSystem"/>
@@ -411,7 +412,7 @@ The LDraw folder contains the folders "p" and "parts."</string>
                     </textFieldCell>
                 </textField>
                 <textField verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="207">
-                    <rect key="frame" x="90" y="532" width="368" height="14"/>
+                    <rect key="frame" x="90" y="634" width="368" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="To spin the model instead, hold ⌘ and drag." id="310">
                         <font key="font" metaFont="smallSystem"/>
@@ -420,7 +421,7 @@ The LDraw folder contains the folders "p" and "parts."</string>
                     </textFieldCell>
                 </textField>
                 <textField verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="201">
-                    <rect key="frame" x="34" y="574" width="135" height="16"/>
+                    <rect key="frame" x="34" y="676" width="135" height="16"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Begin dragging parts:" id="309">
                         <font key="font" metaFont="system"/>
@@ -429,7 +430,7 @@ The LDraw folder contains the folders "p" and "parts."</string>
                     </textFieldCell>
                 </textField>
                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="151">
-                    <rect key="frame" x="487" y="631" width="17" height="13"/>
+                    <rect key="frame" x="485" y="743" width="17" height="13"/>
                     <autoresizingMask key="autoresizingMask"/>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="20" id="306">
                         <font key="font" metaFont="system" size="10"/>
@@ -438,7 +439,7 @@ The LDraw folder contains the folders "p" and "parts."</string>
                     </textFieldCell>
                 </textField>
                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="152">
-                    <rect key="frame" x="430" y="660" width="17" height="13"/>
+                    <rect key="frame" x="421" y="771" width="17" height="13"/>
                     <autoresizingMask key="autoresizingMask"/>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="24" id="307">
                         <font key="font" metaFont="system" size="10"/>
@@ -447,12 +448,12 @@ The LDraw folder contains the folders "p" and "parts."</string>
                     </textFieldCell>
                 </textField>
                 <imageView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="149">
-                    <rect key="frame" x="434" y="628" width="78" height="77"/>
+                    <rect key="frame" x="428" y="739" width="78" height="77"/>
                     <autoresizingMask key="autoresizingMask"/>
                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="OneBrick" id="304"/>
                 </imageView>
                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="150">
-                    <rect key="frame" x="452" y="628" width="17" height="13"/>
+                    <rect key="frame" x="446" y="738" width="17" height="13"/>
                     <autoresizingMask key="autoresizingMask"/>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="20" id="305">
                         <font key="font" metaFont="system" size="10"/>
@@ -460,38 +461,8 @@ The LDraw folder contains the folders "p" and "parts."</string>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <form verticalHuggingPriority="750" fixedFrame="YES" mode="track" allowsEmptySelection="NO" autosizesCells="NO" translatesAutoresizingMaskIntoConstraints="NO" id="141">
-                    <rect key="frame" x="213" y="616" width="112" height="82"/>
-                    <autoresizingMask key="autoresizingMask"/>
-                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                    <size key="cellSize" width="112" height="22"/>
-                    <size key="intercellSpacing" width="1" height="8"/>
-                    <formCell key="prototype" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" alignment="justified" title="Field:" id="319">
-                        <font key="font" metaFont="system"/>
-                        <font key="titleFont" metaFont="system"/>
-                    </formCell>
-                    <cells>
-                        <column>
-                            <formCell scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" alignment="justified" title="Fine:" id="142">
-                                <font key="font" metaFont="system"/>
-                                <font key="titleFont" metaFont="system"/>
-                            </formCell>
-                            <formCell scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" alignment="justified" tag="1" title="Medium:" id="143">
-                                <font key="font" metaFont="system"/>
-                                <font key="titleFont" metaFont="system"/>
-                            </formCell>
-                            <formCell scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" alignment="justified" tag="2" title="Coarse:" id="144">
-                                <font key="font" metaFont="system"/>
-                                <font key="titleFont" metaFont="system"/>
-                            </formCell>
-                        </column>
-                    </cells>
-                    <connections>
-                        <action selector="gridSpacingChanged:" target="-2" id="155"/>
-                    </connections>
-                </form>
                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="147">
-                    <rect key="frame" x="330" y="678" width="78" height="16"/>
+                    <rect key="frame" x="377" y="805" width="78" height="16"/>
                     <autoresizingMask key="autoresizingMask"/>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="LDraw Units" id="303">
                         <font key="font" metaFont="system"/>
@@ -500,7 +471,7 @@ The LDraw folder contains the folders "p" and "parts."</string>
                     </textFieldCell>
                 </textField>
                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="153">
-                    <rect key="frame" x="425" y="611" width="95" height="13"/>
+                    <rect key="frame" x="419" y="722" width="95" height="13"/>
                     <autoresizingMask key="autoresizingMask"/>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="LDraw Dimensions" id="308">
                         <font key="font" metaFont="system" size="10"/>
@@ -509,7 +480,7 @@ The LDraw folder contains the folders "p" and "parts."</string>
                     </textFieldCell>
                 </textField>
                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="136">
-                    <rect key="frame" x="17" y="711" width="43" height="16"/>
+                    <rect key="frame" x="18" y="828" width="43" height="16"/>
                     <autoresizingMask key="autoresizingMask"/>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Editor" id="301">
                         <font key="font" metaFont="systemBold"/>
@@ -523,7 +494,7 @@ The LDraw folder contains the folders "p" and "parts."</string>
                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="DragAndDrop" id="322"/>
                 </imageView>
                 <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" translatesAutoresizingMaskIntoConstraints="NO" id="327">
-                    <rect key="frame" x="72" y="109" width="401" height="62"/>
+                    <rect key="frame" x="72" y="211" width="401" height="62"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     <size key="cellSize" width="401" height="23"/>
@@ -549,7 +520,7 @@ The LDraw folder contains the folders "p" and "parts."</string>
                     </connections>
                 </matrix>
                 <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" translatesAutoresizingMaskIntoConstraints="NO" id="331">
-                    <rect key="frame" x="72" y="212" width="401" height="100"/>
+                    <rect key="frame" x="72" y="314" width="401" height="100"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     <size key="cellSize" width="401" height="18"/>
@@ -575,7 +546,7 @@ The LDraw folder contains the folders "p" and "parts."</string>
                     </connections>
                 </matrix>
                 <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" translatesAutoresizingMaskIntoConstraints="NO" id="345">
-                    <rect key="frame" x="72" y="20" width="401" height="38"/>
+                    <rect key="frame" x="72" y="122" width="401" height="38"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     <size key="cellSize" width="401" height="18"/>
@@ -601,7 +572,7 @@ The LDraw folder contains the folders "p" and "parts."</string>
                     </connections>
                 </matrix>
                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="353">
-                    <rect key="frame" x="91" y="133" width="368" height="14"/>
+                    <rect key="frame" x="91" y="235" width="368" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" title="Use the ⌘ key to rotate." id="354">
                         <font key="font" metaFont="smallSystem"/>
@@ -610,7 +581,7 @@ The LDraw folder contains the folders "p" and "parts."</string>
                     </textFieldCell>
                 </textField>
                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="355">
-                    <rect key="frame" x="91" y="96" width="368" height="14"/>
+                    <rect key="frame" x="91" y="198" width="368" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" title="Contextual menu is not available." id="356">
                         <font key="font" metaFont="smallSystem"/>
@@ -619,7 +590,7 @@ The LDraw folder contains the folders "p" and "parts."</string>
                     </textFieldCell>
                 </textField>
                 <textField verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="357">
-                    <rect key="frame" x="34" y="66" width="124" height="16"/>
+                    <rect key="frame" x="34" y="168" width="124" height="16"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Mouse scroll wheel:" id="358">
                         <font key="font" metaFont="system"/>
@@ -628,7 +599,7 @@ The LDraw folder contains the folders "p" and "parts."</string>
                     </textFieldCell>
                 </textField>
                 <textField verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="363">
-                    <rect key="frame" x="34" y="320" width="109" height="16"/>
+                    <rect key="frame" x="34" y="422" width="109" height="16"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Camera Rotation:" id="364">
                         <font key="font" metaFont="system"/>
@@ -637,7 +608,7 @@ The LDraw folder contains the folders "p" and "parts."</string>
                     </textFieldCell>
                 </textField>
                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="365">
-                    <rect key="frame" x="94" y="264" width="363" height="28"/>
+                    <rect key="frame" x="94" y="366" width="363" height="28"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" title="Dragging spins the model as if it were a trackball. The model can be rotated into odd orientations." id="366">
                         <font key="font" metaFont="smallSystem"/>
@@ -646,7 +617,7 @@ The LDraw folder contains the folders "p" and "parts."</string>
                     </textFieldCell>
                 </textField>
                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="367">
-                    <rect key="frame" x="94" y="212" width="344" height="28"/>
+                    <rect key="frame" x="94" y="314" width="344" height="28"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" title="The model's base will never be facing the left or right. Simulates working with a model on a turntable or lazy Susan." id="368">
                         <font key="font" metaFont="smallSystem"/>
@@ -655,7 +626,7 @@ The LDraw folder contains the folders "p" and "parts."</string>
                     </textFieldCell>
                 </textField>
                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="146">
-                    <rect key="frame" x="23" y="678" width="149" height="16"/>
+                    <rect key="frame" x="27" y="805" width="149" height="16"/>
                     <autoresizingMask key="autoresizingMask"/>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Horizontal grid spacing:" id="302">
                         <font key="font" metaFont="system"/>
@@ -663,8 +634,49 @@ The LDraw folder contains the folders "p" and "parts."</string>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
+                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Rwd-Sm-FHC">
+                    <rect key="frame" x="27" y="705" width="118" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="Show axis lines" bezelStyle="regularSquare" imagePosition="left" inset="2" id="NQN-7s-jfk">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                        <connections>
+                            <action selector="showAxisLinesChanged:" target="-2" id="XJ4-mB-FJg"/>
+                        </connections>
+                    </buttonCell>
+                </button>
+                <form verticalHuggingPriority="750" fixedFrame="YES" mode="track" allowsEmptySelection="NO" autosizesCells="NO" translatesAutoresizingMaskIntoConstraints="NO" id="141">
+                    <rect key="frame" x="209" y="739" width="132" height="82"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    <size key="cellSize" width="132" height="22"/>
+                    <size key="intercellSpacing" width="1" height="8"/>
+                    <formCell key="prototype" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" alignment="justified" title="Field:" id="319">
+                        <font key="font" metaFont="system"/>
+                        <font key="titleFont" metaFont="system"/>
+                    </formCell>
+                    <cells>
+                        <column>
+                            <formCell scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" alignment="justified" title="Fine:" id="142">
+                                <font key="font" metaFont="system"/>
+                                <font key="titleFont" metaFont="system"/>
+                            </formCell>
+                            <formCell scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" alignment="justified" tag="1" title="Medium:" id="143">
+                                <font key="font" metaFont="system"/>
+                                <font key="titleFont" metaFont="system"/>
+                            </formCell>
+                            <formCell scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" alignment="justified" tag="2" title="Coarse:" id="144">
+                                <font key="font" metaFont="system"/>
+                                <font key="titleFont" metaFont="system"/>
+                            </formCell>
+                        </column>
+                    </cells>
+                    <connections>
+                        <action selector="gridSpacingChanged:" target="-2" id="155"/>
+                    </connections>
+                </form>
             </subviews>
-            <point key="canvasLocation" x="-1079" y="-1379"/>
+            <point key="canvasLocation" x="-1079" y="-1328"/>
         </customView>
         <customView id="Il1-17-yLi" userLabel="LSynth Configuration File Chooser Accessory view">
             <rect key="frame" x="0.0" y="0.0" width="540" height="79"/>

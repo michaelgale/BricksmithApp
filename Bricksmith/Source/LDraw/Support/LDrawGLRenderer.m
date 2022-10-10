@@ -970,9 +970,15 @@
 }// end moveCamera
 
 
+// ========== setViewAxisLines: =======================================================
+//
+// Purpose:		Sets whether the axis lines are show in the view
+//
+// ==============================================================================
 - (void)setViewAxisLines:(BOOL)flag;
 {
   self->showAxisLines = flag;
+  [self->delegate LDrawGLRendererNeedsRedisplay:self];
 }
 
 #pragma mark -

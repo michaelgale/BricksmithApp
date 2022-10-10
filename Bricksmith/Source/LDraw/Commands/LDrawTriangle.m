@@ -54,70 +54,57 @@
   Point3     workingVertex = ZeroPoint3;
   LDrawColor *parsedColor  = nil;
 
-  self = [super initWithLines:lines
-                      inRange:range
-                  parentGroup:parentGroup];
+  self = [super initWithLines:lines inRange:range parentGroup:parentGroup];
 
   // A malformed part could easily cause a string indexing error, which would
   // raise an exception. We don't want this to happen here.
   @try
   {
     // Read in the line code and advance past it.
-    parsedField = [LDrawUtilities readNextField:workingLine
-                                      remainder:&workingLine];
+    parsedField = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
     // Only attempt to create the part if this is a valid line.
     if ([parsedField integerValue] == 3) {
       // Read in the color code.
       // (color)
-      parsedField = [LDrawUtilities readNextField:workingLine
-                                        remainder:&workingLine];
+      parsedField = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
       parsedColor = [LDrawUtilities parseColorFromField:parsedField];
       [self setLDrawColor:parsedColor];
 
       // Read Vertex 1.
       // (x1)
-      parsedField = [LDrawUtilities readNextField:workingLine
-                                        remainder:&workingLine];
+      parsedField     = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
       workingVertex.x = [parsedField floatValue];
       // (y1)
-      parsedField = [LDrawUtilities readNextField:workingLine
-                                        remainder:&workingLine];
+      parsedField     = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
       workingVertex.y = [parsedField floatValue];
       // (z1)
-      parsedField = [LDrawUtilities readNextField:workingLine
-                                        remainder:&workingLine];
+      parsedField     = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
       workingVertex.z = [parsedField floatValue];
 
       [self setVertex1:workingVertex];
 
       // Read Vertex 2.
       // (x2)
-      parsedField = [LDrawUtilities readNextField:workingLine
-                                        remainder:&workingLine];
+      parsedField     = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
       workingVertex.x = [parsedField floatValue];
       // (y2)
-      parsedField = [LDrawUtilities readNextField:workingLine
-                                        remainder:&workingLine];
+      parsedField     = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
       workingVertex.y = [parsedField floatValue];
       // (z2)
-      parsedField = [LDrawUtilities readNextField:workingLine
-                                        remainder:&workingLine];
+      parsedField     = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
       workingVertex.z = [parsedField floatValue];
 
       [self setVertex2:workingVertex];
 
       // Read Vertex 3.
       // (x3)
-      parsedField = [LDrawUtilities readNextField:workingLine
-                                        remainder:&workingLine];
+      parsedField     = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
       workingVertex.x = [parsedField floatValue];
       // (y3)
-      parsedField = [LDrawUtilities readNextField:workingLine
-                                        remainder:&workingLine];
+      parsedField     = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
       workingVertex.y = [parsedField floatValue];
       // (z3)
-      parsedField = [LDrawUtilities readNextField:workingLine
-                                        remainder:&workingLine];
+      parsedField     = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
       workingVertex.z = [parsedField floatValue];
 
       [self setVertex3:workingVertex];
@@ -154,20 +141,16 @@
   self = [super initWithCoder:decoder];
 
   // Decoding structures is a bit messy.
-  temporary = [decoder decodeBytesForKey:@"vertex1"
-                          returnedLength:NULL];
+  temporary = [decoder decodeBytesForKey:@"vertex1" returnedLength:NULL];
   memcpy(&vertex1, temporary, sizeof(Point3));
 
-  temporary = [decoder decodeBytesForKey:@"vertex2"
-                          returnedLength:NULL];
+  temporary = [decoder decodeBytesForKey:@"vertex2" returnedLength:NULL];
   memcpy(&vertex2, temporary, sizeof(Point3));
 
-  temporary = [decoder decodeBytesForKey:@"vertex3"
-                          returnedLength:NULL];
+  temporary = [decoder decodeBytesForKey:@"vertex3" returnedLength:NULL];
   memcpy(&vertex3, temporary, sizeof(Point3));
 
-  temporary = [decoder decodeBytesForKey:@"normal"
-                          returnedLength:NULL];
+  temporary = [decoder decodeBytesForKey:@"normal" returnedLength:NULL];
   memcpy(&normal, temporary, sizeof(Vector3));
 
   return(self);
@@ -185,18 +168,10 @@
 {
   [super encodeWithCoder:encoder];
 
-  [encoder encodeBytes:(void *)&vertex1
-                length:sizeof(Point3)
-                forKey:@"vertex1"];
-  [encoder encodeBytes:(void *)&vertex2
-                length:sizeof(Point3)
-                forKey:@"vertex2"];
-  [encoder encodeBytes:(void *)&vertex3
-                length:sizeof(Point3)
-                forKey:@"vertex3"];
-  [encoder encodeBytes:(void *)&normal
-                length:sizeof(Vector3)
-                forKey:@"normal"];
+  [encoder encodeBytes:(void *)&vertex1 length:sizeof(Point3) forKey:@"vertex1"];
+  [encoder encodeBytes:(void *)&vertex2 length:sizeof(Point3) forKey:@"vertex2"];
+  [encoder encodeBytes:(void *)&vertex3 length:sizeof(Point3) forKey:@"vertex3"];
+  [encoder encodeBytes:(void *)&normal length:sizeof(Vector3) forKey:@"normal"];
 }// end encodeWithCoder:
 
 
@@ -232,9 +207,7 @@
 {
   if (self->dragHandles) {
     for (LDrawDragHandle *handle in self->dragHandles) {
-      [handle draw:optionsMask
-         viewScale:scaleFactor
-       parentColor:drawingColor];
+      [handle draw:optionsMask viewScale:scaleFactor parentColor:drawingColor];
     }
   }
 }// end drawElement:parentColor:
@@ -293,21 +266,15 @@
     GLfloat n[3] = { normal.x, normal.y, normal.z };
 
     if ([self->color colorCode] == LDrawCurrentColor) {
-      [renderer drawTri:v
-                 normal:n
-                  color:LDrawRenderCurrentColor];
+      [renderer drawTri:v normal:n color:LDrawRenderCurrentColor];
     }
     else if ([self->color colorCode] == LDrawEdgeColor) {
-      [renderer drawTri:v
-                 normal:n
-                  color:LDrawRenderComplimentColor];
+      [renderer drawTri:v normal:n color:LDrawRenderComplimentColor];
     }
     else {
       GLfloat rgba[4];
       [self->color getColorRGBA:rgba];
-      [renderer drawTri:v
-                 normal:n
-                  color:rgba];
+      [renderer drawTri:v normal:n color:rgba];
     }
   }
 }// end collectSelf:
@@ -533,19 +500,6 @@
     vertexBuffer[2].normal[1]   = (GLfloat)normal.y;
     vertexBuffer[2].normal[2]   = (GLfloat)normal.z;
     memcpy(&vertexBuffer[2].color, components, sizeof(GLfloat) * 4);
-
-// memcpy(&vertexBuffer[0].position, &vertex1,    sizeof(Point3));
-// memcpy(&vertexBuffer[0].normal,   &normal,     sizeof(Point3));
-// memcpy(&vertexBuffer[0].color,    components,  sizeof(GLfloat)*4);
-//
-// memcpy(&vertexBuffer[1].position, &vertex2,    sizeof(Point3));
-// memcpy(&vertexBuffer[1].normal,   &normal,     sizeof(Point3));
-// memcpy(&vertexBuffer[1].color,    components,  sizeof(GLfloat)*4);
-//
-// memcpy(&vertexBuffer[2].position, &vertex3,    sizeof(Point3));
-// memcpy(&vertexBuffer[2].normal,   &normal,     sizeof(Point3));
-// memcpy(&vertexBuffer[2].color,    components,  sizeof(GLfloat)*4);
-
     vertexCount = 3;
   }
   else {
@@ -596,35 +550,6 @@
     vertexBuffer[5].normal[1]   = (GLfloat)normal.y;
     vertexBuffer[5].normal[2]   = (GLfloat)normal.z;
     memcpy(&vertexBuffer[5].color, components, sizeof(GLfloat) * 4);
-
-
-//// edge1
-// memcpy(&vertexBuffer[0].position, &vertex1,		sizeof(Point3));
-// memcpy(&vertexBuffer[0].normal,   &normal,		sizeof(Point3));
-// memcpy(&vertexBuffer[0].color,    components,	sizeof(GLfloat)*4);
-//
-// memcpy(&vertexBuffer[1].position, &vertex2,		sizeof(Point3));
-// memcpy(&vertexBuffer[1].normal,   &normal,		sizeof(Point3));
-// memcpy(&vertexBuffer[1].color,    components,	sizeof(GLfloat)*4);
-//
-//// edge2
-// memcpy(&vertexBuffer[2].position, &vertex2,		sizeof(Point3));
-// memcpy(&vertexBuffer[2].normal,   &normal,		sizeof(Point3));
-// memcpy(&vertexBuffer[2].color,    components,	sizeof(GLfloat)*4);
-//
-// memcpy(&vertexBuffer[3].position, &vertex3,		sizeof(Point3));
-// memcpy(&vertexBuffer[3].normal,   &normal,		sizeof(Point3));
-// memcpy(&vertexBuffer[3].color,    components,	sizeof(GLfloat)*4);
-//
-//// edge3
-// memcpy(&vertexBuffer[4].position, &vertex3,		sizeof(Point3));
-// memcpy(&vertexBuffer[4].normal,   &normal,		sizeof(Point3));
-// memcpy(&vertexBuffer[4].color,    components,	sizeof(GLfloat)*4);
-//
-// memcpy(&vertexBuffer[5].position, &vertex1,		sizeof(Point3));
-// memcpy(&vertexBuffer[5].normal,   &normal,		sizeof(Point3));
-// memcpy(&vertexBuffer[5].color,    components,	sizeof(GLfloat)*4);
-
     vertexCount = 6;
   }
 
@@ -751,12 +676,12 @@
   [super setSelected:flag];
 
   if (flag == YES) {
-    LDrawDragHandle *handle1 = [[[LDrawDragHandle alloc] initWithTag:1
-                                                            position:self->vertex1] autorelease];
-    LDrawDragHandle *handle2 = [[[LDrawDragHandle alloc] initWithTag:2
-                                                            position:self->vertex2] autorelease];
-    LDrawDragHandle *handle3 = [[[LDrawDragHandle alloc] initWithTag:3
-                                                            position:self->vertex3] autorelease];
+    LDrawDragHandle *handle1 =
+      [[[LDrawDragHandle alloc] initWithTag:1 position:self->vertex1] autorelease];
+    LDrawDragHandle *handle2 =
+      [[[LDrawDragHandle alloc] initWithTag:2 position:self->vertex2] autorelease];
+    LDrawDragHandle *handle3 =
+      [[[LDrawDragHandle alloc] initWithTag:3 position:self->vertex3] autorelease];
 
     [handle1 setTarget:self];
     [handle2 setTarget:self];
@@ -787,8 +712,7 @@
   [self invalCache:(CacheFlagBounds | DisplayList)];
 
   if (dragHandles) {
-    [[self->dragHandles objectAtIndex:0] setPosition:newVertex
-                                        updateTarget:NO];
+    [[self->dragHandles objectAtIndex:0] setPosition:newVertex updateTarget:NO];
   }
 }// end setVertex1:
 
@@ -805,8 +729,7 @@
   [self invalCache:(CacheFlagBounds | DisplayList)];
 
   if (dragHandles) {
-    [[self->dragHandles objectAtIndex:1] setPosition:newVertex
-                                        updateTarget:NO];
+    [[self->dragHandles objectAtIndex:1] setPosition:newVertex updateTarget:NO];
   }
 }// end setVertex2:
 
@@ -823,8 +746,7 @@
   [self invalCache:(CacheFlagBounds | DisplayList)];
 
   if (dragHandles) {
-    [[self->dragHandles objectAtIndex:2] setPosition:newVertex
-                                        updateTarget:NO];
+    [[self->dragHandles objectAtIndex:2] setPosition:newVertex updateTarget:NO];
   }
 }// end setVertex3:
 
@@ -846,11 +768,17 @@
 
   switch (vertexNumber)
   {
-    case 1 :[self setVertex1:newPosition]; break;
+    case 1 :
+      [self setVertex1:newPosition];
+      break;
 
-    case 2 :[self setVertex2:newPosition]; break;
+    case 2 :
+      [self setVertex2:newPosition];
+      break;
 
-    case 3 :[self setVertex3:newPosition]; break;
+    case 3 :
+      [self setVertex3:newPosition];
+      break;
   }
 }// end dragHandleChanged:
 

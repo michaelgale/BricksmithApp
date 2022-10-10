@@ -55,6 +55,7 @@
 #define SYNTAX_COLOR_UNKNOWN_KEY                    @"Syntax Color Unknown"
 #define TOOL_PALETTE_HIDDEN                         @"Tool Palette Hidden"
 #define VIEWPORTS_EXPAND_TO_AVAILABLE_SIZE          @"ViewportsExpandToAvailableSize"
+#define SHOW_AXIS_LINES_KEY                         @"Show Axis Lines"
 
 // LSynth
 #define LSYNTH_EXECUTABLE_PATH_KEY                  @"LSynth Executable Path"
@@ -194,6 +195,8 @@
 
 // The LSynth parts need to resynthesize for some reason - maybe config or exe changes
 #define LSynthResynthesisRequiredNotification          @"LSynthResynthesisRequiredNotification"
+
+#define ShowAxisLinesDidChangeNotification             @"ShowAxisLinesDidChangeNotification"
 
 ////////////////////////////////////////////////////////////////////////////////
 //

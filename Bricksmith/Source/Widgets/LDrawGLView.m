@@ -242,6 +242,12 @@ static NSSize Size2ToNSSize(Size2 size)
                              name:LDrawViewBackgroundColorDidChangeNotification
                            object:nil];
 
+
+  [notificationCenter addObserver:self
+                         selector:@selector(showAxisLinesDidChange:)
+                             name:ShowAxisLinesDidChangeNotification
+                           object:nil];
+
   NSTrackingAreaOptions options = (NSTrackingMouseEnteredAndExited
                                    | NSTrackingMouseMoved
                                    | NSTrackingActiveInActiveApp
@@ -2776,6 +2782,19 @@ static NSSize Size2ToNSSize(Size2 size)
 - (void)mouseToolDidChange:(NSNotification *)notification
 {
   [self resetCursor];
+}
+
+
+// ========== showAxisLinesDidChange: =========================================
+//
+// Purpose:		The global preference for showing the axis lines has changed
+//
+// ==============================================================================
+- (void)showAxisLinesDidChange:(NSNotification *)notification
+{
+  BOOL showAxisLines = [notification object];
+
+  [self->renderer setViewAxisLines:showAxisLines];
 }
 
 

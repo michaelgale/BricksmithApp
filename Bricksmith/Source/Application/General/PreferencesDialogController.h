@@ -47,6 +47,8 @@ typedef enum
   IBOutlet NSMatrix *rightButtonRadioButtons;
   IBOutlet NSMatrix *mouseWheelRadioButtons;
 
+  IBOutlet NSButton *showAxisLinesButton;
+
   // Parts Tab
   IBOutlet NSTextField *LDrawPathTextField;
   IBOutlet NSMatrix    *partBrowserStyleRadioButtons;
@@ -98,6 +100,7 @@ typedef enum
 - (IBAction)rightButtonChanged:(id)sender;
 - (IBAction)rotateModeChanged:(id)sender;
 - (IBAction)mouseWheelChanged:(id)sender;
+- (IBAction)showAxisLinesChanged:(id)sender;
 
 // - Styles Tab
 - (IBAction)backgroundColorWellChanged:(id)sender;

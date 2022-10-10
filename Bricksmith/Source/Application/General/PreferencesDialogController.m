@@ -125,8 +125,7 @@ PreferencesDialogController * preferencesDialog = nil;
 {
   self = [super init];
 
-  [NSBundle loadNibNamed:@"Preferences"
-                   owner:self];
+  [NSBundle loadNibNamed:@"Preferences" owner:self];
 
   return(self);
 }// end init
@@ -183,22 +182,18 @@ PreferencesDialogController * preferencesDialog = nil;
   [[gridSpacingForm cellAtIndex:1] setFloatValue:gridMedium];
   [[gridSpacingForm cellAtIndex:2] setFloatValue:gridCoarse];
 
-  // Mouse Dragging
-  MouseDragBehaviorT mouseBehavior = [userDefaults integerForKey:MOUSE_DRAGGING_BEHAVIOR_KEY];
+  // Mouse Dragging & axis lines
+  MouseDragBehaviorT   mouseBehavior = [userDefaults integerForKey:MOUSE_DRAGGING_BEHAVIOR_KEY];
+  RightButtonBehaviorT rbBehavior    = [userDefaults integerForKey:RIGHT_BUTTON_BEHAVIOR_KEY];
+  RotateModeT          rBehavior     = [userDefaults integerForKey:ROTATE_MODE_KEY];
+  MouseWheelBeahviorT  wBehavior     = [userDefaults integerForKey:MOUSE_WHEEL_BEHAVIOR_KEY];
+  BOOL showAxisLines = [userDefaults boolForKey:SHOW_AXIS_LINES_KEY];
 
   [self->mouseDraggingRadioButtons selectCellWithTag:mouseBehavior];
-
-  RightButtonBehaviorT rbBehavior = [userDefaults integerForKey:RIGHT_BUTTON_BEHAVIOR_KEY];
-
   [self->rightButtonRadioButtons selectCellWithTag:rbBehavior];
-
-  RotateModeT rBehavior = [userDefaults integerForKey:ROTATE_MODE_KEY];
-
   [self->rotateModeRadioButtons selectCellWithTag:rBehavior];
-
-  MouseWheelBeahviorT wBehavior = [userDefaults integerForKey:MOUSE_WHEEL_BEHAVIOR_KEY];
-
   [self->mouseWheelRadioButtons selectCellWithTag:wBehavior];
+  [self->showAxisLinesButton setState:showAxisLines];
 }// end setGeneralTabValues
 
 
@@ -263,22 +258,15 @@ PreferencesDialogController * preferencesDialog = nil;
 - (void)setLSynthTabValues
 {
   // Get preference values
-  NSUserDefaults *userDefaults   = [NSUserDefaults standardUserDefaults];
-  NSString       *executablePath =
-    [userDefaults stringForKey:LSYNTH_EXECUTABLE_PATH_KEY];
-  NSString *configurationPath =
-    [userDefaults stringForKey:LSYNTH_CONFIGURATION_PATH_KEY];
+  NSUserDefaults *userDefaults      = [NSUserDefaults standardUserDefaults];
+  NSString       *executablePath    = [userDefaults stringForKey:LSYNTH_EXECUTABLE_PATH_KEY];
+  NSString       *configurationPath = [userDefaults stringForKey:LSYNTH_CONFIGURATION_PATH_KEY];
   // Stored as an int but interpreted as a percentage
-  int selectionTransparency =
-    [userDefaults integerForKey:LSYNTH_SELECTION_TRANSPARENCY_KEY];
-  NSColor *selectionColor =
-    [userDefaults colorForKey:LSYNTH_SELECTION_COLOR_KEY];
-  BOOL saveSynthesizedParts =
-    [userDefaults boolForKey:LSYNTH_SAVE_SYNTHESIZED_PARTS_KEY];
-  BOOL showBasicPartsList =
-    [userDefaults boolForKey:LSYNTH_SHOW_BASIC_PARTS_LIST_KEY];
-  LSynthSelectionModeT selectionMode =
-    [userDefaults integerForKey:LSYNTH_SELECTION_MODE_KEY];
+  int     selectionTransparency      = [userDefaults integerForKey:LSYNTH_SELECTION_TRANSPARENCY_KEY];
+  NSColor *selectionColor            = [userDefaults colorForKey:LSYNTH_SELECTION_COLOR_KEY];
+  BOOL    saveSynthesizedParts       = [userDefaults boolForKey:LSYNTH_SAVE_SYNTHESIZED_PARTS_KEY];
+  BOOL    showBasicPartsList         = [userDefaults boolForKey:LSYNTH_SHOW_BASIC_PARTS_LIST_KEY];
+  LSynthSelectionModeT selectionMode = [userDefaults integerForKey:LSYNTH_SELECTION_MODE_KEY];
 
   // Set control values
   [lsynthExecutablePath setStringValue:executablePath];
@@ -345,12 +333,9 @@ PreferencesDialogController * preferencesDialog = nil;
   float gridMedium = [[gridSpacingForm cellAtIndex:1] floatValue];
   float gridCoarse = [[gridSpacingForm cellAtIndex:2] floatValue];
 
-  [userDefaults setFloat:gridFine
-                  forKey:GRID_SPACING_FINE];
-  [userDefaults setFloat:gridMedium
-                  forKey:GRID_SPACING_MEDIUM];
-  [userDefaults setFloat:gridCoarse
-                  forKey:GRID_SPACING_COARSE];
+  [userDefaults setFloat:gridFine forKey:GRID_SPACING_FINE];
+  [userDefaults setFloat:gridMedium forKey:GRID_SPACING_MEDIUM];
+  [userDefaults setFloat:gridCoarse forKey:GRID_SPACING_COARSE];
 }// end gridSpacingChanged:
 
 
@@ -364,8 +349,7 @@ PreferencesDialogController * preferencesDialog = nil;
   NSUserDefaults     *userDefaults = [NSUserDefaults standardUserDefaults];
   MouseDragBehaviorT mouseBehavior = [self->mouseDraggingRadioButtons selectedTag];
 
-  [userDefaults setInteger:mouseBehavior
-                    forKey:MOUSE_DRAGGING_BEHAVIOR_KEY];
+  [userDefaults setInteger:mouseBehavior forKey:MOUSE_DRAGGING_BEHAVIOR_KEY];
 }// end mouseDraggingChanged:
 
 
@@ -374,8 +358,7 @@ PreferencesDialogController * preferencesDialog = nil;
   NSUserDefaults       *userDefaults = [NSUserDefaults standardUserDefaults];
   RightButtonBehaviorT rbBehavior    = [self->rightButtonRadioButtons selectedTag];
 
-  [userDefaults setInteger:rbBehavior
-                    forKey:RIGHT_BUTTON_BEHAVIOR_KEY];
+  [userDefaults setInteger:rbBehavior forKey:RIGHT_BUTTON_BEHAVIOR_KEY];
 }
 
 
@@ -384,8 +367,7 @@ PreferencesDialogController * preferencesDialog = nil;
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
   RotateModeT    rBehavior     = [self->rotateModeRadioButtons selectedTag];
 
-  [userDefaults setInteger:rBehavior
-                    forKey:ROTATE_MODE_KEY];
+  [userDefaults setInteger:rBehavior forKey:ROTATE_MODE_KEY];
 }
 
 
@@ -394,8 +376,24 @@ PreferencesDialogController * preferencesDialog = nil;
   NSUserDefaults      *userDefaults = [NSUserDefaults standardUserDefaults];
   MouseWheelBeahviorT wBehavior     = [self->mouseWheelRadioButtons selectedTag];
 
-  [userDefaults setInteger:wBehavior
-                    forKey:MOUSE_WHEEL_BEHAVIOR_KEY];
+  [userDefaults setInteger:wBehavior forKey:MOUSE_WHEEL_BEHAVIOR_KEY];
+}
+
+
+// ========== showAxisLinesChanged: ==================================
+//
+// Purpose:		User has toggled the 'show axis lines' checkbox
+//
+// ==============================================================================
+- (IBAction)showAxisLinesChanged:(id)sender {
+  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+
+  BOOL showAxisLinesState = [showAxisLinesButton state];
+
+  [userDefaults setBool:showAxisLinesState forKey:SHOW_AXIS_LINES_KEY];
+  [[NSNotificationCenter defaultCenter]
+   postNotificationName:ShowAxisLinesDidChangeNotification
+                 object:showAxisLinesState];
 }
 
 
@@ -412,8 +410,7 @@ PreferencesDialogController * preferencesDialog = nil;
   NSUserDefaults    *userDefaults = [NSUserDefaults standardUserDefaults];
   PartBrowserStyleT newStyle      = [self->partBrowserStyleRadioButtons selectedTag];
 
-  [userDefaults setInteger:newStyle
-                    forKey:PART_BROWSER_STYLE_KEY];
+  [userDefaults setInteger:newStyle forKey:PART_BROWSER_STYLE_KEY];
 
   // inform interested parties.
   [[NSNotificationCenter defaultCenter]
@@ -502,8 +499,7 @@ PreferencesDialogController * preferencesDialog = nil;
   NSColor        *newColor     = [sender color];
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
-  [userDefaults setColor:newColor
-                  forKey:LDRAW_VIEWER_BACKGROUND_COLOR_KEY];
+  [userDefaults setColor:newColor forKey:LDRAW_VIEWER_BACKGROUND_COLOR_KEY];
 
   [[NSNotificationCenter defaultCenter]
    postNotificationName:LDrawViewBackgroundColorDidChangeNotification
@@ -521,8 +517,7 @@ PreferencesDialogController * preferencesDialog = nil;
   NSColor        *newColor     = [sender color];
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
-  [userDefaults setColor:newColor
-                  forKey:SYNTAX_COLOR_MODELS_KEY];
+  [userDefaults setColor:newColor forKey:SYNTAX_COLOR_MODELS_KEY];
 
   [[NSNotificationCenter defaultCenter]
    postNotificationName:LDrawSyntaxColorsDidChangeNotification
@@ -540,8 +535,7 @@ PreferencesDialogController * preferencesDialog = nil;
   NSColor        *newColor     = [sender color];
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
-  [userDefaults setColor:newColor
-                  forKey:SYNTAX_COLOR_STEPS_KEY];
+  [userDefaults setColor:newColor forKey:SYNTAX_COLOR_STEPS_KEY];
 
   [[NSNotificationCenter defaultCenter]
    postNotificationName:LDrawSyntaxColorsDidChangeNotification
@@ -559,8 +553,7 @@ PreferencesDialogController * preferencesDialog = nil;
   NSColor        *newColor     = [sender color];
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
-  [userDefaults setColor:newColor
-                  forKey:SYNTAX_COLOR_PARTS_KEY];
+  [userDefaults setColor:newColor forKey:SYNTAX_COLOR_PARTS_KEY];
 
   [[NSNotificationCenter defaultCenter]
    postNotificationName:LDrawSyntaxColorsDidChangeNotification
@@ -578,8 +571,7 @@ PreferencesDialogController * preferencesDialog = nil;
   NSColor        *newColor     = [sender color];
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
-  [userDefaults setColor:newColor
-                  forKey:SYNTAX_COLOR_PRIMITIVES_KEY];
+  [userDefaults setColor:newColor forKey:SYNTAX_COLOR_PRIMITIVES_KEY];
 
   [[NSNotificationCenter defaultCenter]
    postNotificationName:LDrawSyntaxColorsDidChangeNotification
@@ -597,8 +589,7 @@ PreferencesDialogController * preferencesDialog = nil;
   NSColor        *newColor     = [sender color];
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
-  [userDefaults setColor:newColor
-                  forKey:SYNTAX_COLOR_COLORS_KEY];
+  [userDefaults setColor:newColor forKey:SYNTAX_COLOR_COLORS_KEY];
 
   [[NSNotificationCenter defaultCenter]
    postNotificationName:LDrawSyntaxColorsDidChangeNotification
@@ -616,8 +607,7 @@ PreferencesDialogController * preferencesDialog = nil;
   NSColor        *newColor     = [sender color];
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
-  [userDefaults setColor:newColor
-                  forKey:SYNTAX_COLOR_COMMENTS_KEY];
+  [userDefaults setColor:newColor forKey:SYNTAX_COLOR_COMMENTS_KEY];
 
   [[NSNotificationCenter defaultCenter]
    postNotificationName:LDrawSyntaxColorsDidChangeNotification
@@ -635,8 +625,7 @@ PreferencesDialogController * preferencesDialog = nil;
   NSColor        *newColor     = [sender color];
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
-  [userDefaults setColor:newColor
-                  forKey:SYNTAX_COLOR_UNKNOWN_KEY];
+  [userDefaults setColor:newColor forKey:SYNTAX_COLOR_UNKNOWN_KEY];
 
   [[NSNotificationCenter defaultCenter]
    postNotificationName:LDrawSyntaxColorsDidChangeNotification
@@ -1011,7 +1000,7 @@ PreferencesDialogController * preferencesDialog = nil;
                       forKey:ROTATE_MODE_KEY];
   [initialDefaults setObject:[NSNumber numberWithInteger:MouseWheelScrolls]
                       forKey:MOUSE_WHEEL_BEHAVIOR_KEY];
-
+  [initialDefaults setObject:[NSNumber numberWithBool:YES] forKey:SHOW_AXIS_LINES_KEY];
 
   [initialDefaults setObject:[NSNumber numberWithInteger:NSDrawerClosedState]
                       forKey:PART_BROWSER_DRAWER_STATE];
