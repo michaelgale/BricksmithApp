@@ -155,7 +155,6 @@ PreferencesDialogController * preferencesDialog = nil;
   // Make sure there are actually preferences to read before attempting to
   // retrieve them.
   [PreferencesDialogController ensureDefaults];
-
   [self setGeneralTabValues];
   [self setStylesTabValues];
   [self setLDrawTabValues];
@@ -216,7 +215,6 @@ PreferencesDialogController * preferencesDialog = nil;
   NSColor *unknownColor    = [userDefaults colorForKey:SYNTAX_COLOR_UNKNOWN_KEY];
 
   [backgroundColorWell setColor:backgroundColor];
-
   [modelsColorWell setColor:modelsColor];
   [stepsColorWell setColor:stepsColor];
   [partsColorWell setColor:partsColor];
@@ -1004,20 +1002,16 @@ PreferencesDialogController * preferencesDialog = nil;
 
   [initialDefaults setObject:[NSNumber numberWithInteger:NSDrawerClosedState]
                       forKey:PART_BROWSER_DRAWER_STATE];
-  [initialDefaults setObject:(id)kCFBooleanTrue
-                      forKey:PART_BROWSER_PANEL_SHOW_AT_LAUNCH];
+  [initialDefaults setObject:(id)kCFBooleanTrue forKey:PART_BROWSER_PANEL_SHOW_AT_LAUNCH];
 
-  [initialDefaults setObject:(id)kCFBooleanTrue
-                      forKey:VIEWPORTS_EXPAND_TO_AVAILABLE_SIZE];
-  [initialDefaults setObject:(id)kCFBooleanFalse
-                      forKey:COLUMNIZE_OUTPUT_KEY];                                           // appease LDraw traditionalists
+  [initialDefaults setObject:(id)kCFBooleanTrue forKey:VIEWPORTS_EXPAND_TO_AVAILABLE_SIZE];
+  [initialDefaults setObject:(id)kCFBooleanFalse forKey:COLUMNIZE_OUTPUT_KEY];
 
   //
   // Syntax Colors
   //
   [initialDefaults setObject:[NSArchiver archivedDataWithRootObject:backgroundColor]
                       forKey:LDRAW_VIEWER_BACKGROUND_COLOR_KEY];
-
   [initialDefaults setObject:[NSArchiver archivedDataWithRootObject:modelsColor]
                       forKey:SYNTAX_COLOR_MODELS_KEY];
   [initialDefaults setObject:[NSArchiver archivedDataWithRootObject:stepsColor]
@@ -1036,17 +1030,13 @@ PreferencesDialogController * preferencesDialog = nil;
   //
   // Grid Spacing
   //
-  [initialDefaults setObject:[NSNumber numberWithFloat:1]
-                      forKey:GRID_SPACING_FINE];
-  [initialDefaults setObject:[NSNumber numberWithFloat:10]
-                      forKey:GRID_SPACING_MEDIUM];
-  [initialDefaults setObject:[NSNumber numberWithFloat:20]
-                      forKey:GRID_SPACING_COARSE];
+  [initialDefaults setObject:[NSNumber numberWithFloat:1] forKey:GRID_SPACING_FINE];
+  [initialDefaults setObject:[NSNumber numberWithFloat:10] forKey:GRID_SPACING_MEDIUM];
+  [initialDefaults setObject:[NSNumber numberWithFloat:20] forKey:GRID_SPACING_COARSE];
 
   //
   // Initial Window State
   //
-
   // OpenGL viewer settings -- see -restoreConfiguration in LDrawGLView.
   [initialDefaults setObject:[NSNumber numberWithInteger:ViewOrientation3D]
                       forKey:[LDRAW_GL_VIEW_ANGLE stringByAppendingString:@" fileGraphicView_0"]];
@@ -1073,174 +1063,102 @@ PreferencesDialogController * preferencesDialog = nil;
   //
   [initialDefaults setObject:[NSNumber numberWithInteger:SearchModeAllCategories]
                       forKey:PART_BROWSER_SEARCH_MODE];
-  [initialDefaults setObject:NSLocalizedString(@"Brick", nil)
-                      forKey:PART_BROWSER_PREVIOUS_CATEGORY];
-  [initialDefaults setObject:[NSNumber numberWithInteger:0]
-                      forKey:PART_BROWSER_PREVIOUS_SELECTED_ROW];
-  [initialDefaults setObject:[NSArray array]
-                      forKey:FAVORITE_PARTS_KEY];
+  [initialDefaults setObject:NSLocalizedString(@"Brick", nil) forKey:PART_BROWSER_PREVIOUS_CATEGORY];
+  [initialDefaults setObject:[NSNumber numberWithInteger:0] forKey:PART_BROWSER_PREVIOUS_SELECTED_ROW];
+  [initialDefaults setObject:[NSArray array] forKey:FAVORITE_PARTS_KEY];
 
   //
   // Favourite colours
   //
-  [initialDefaults setObject:[NSArray array]
-                      forKey:FAVORITE_COLORS_KEY];
+  [initialDefaults setObject:[NSArray array] forKey:FAVORITE_COLORS_KEY];
 
   //
   // Tool Palette
   //
-  [initialDefaults setObject:[NSNumber numberWithBool:NO]
-                      forKey:TOOL_PALETTE_HIDDEN];
+  [initialDefaults setObject:[NSNumber numberWithBool:NO] forKey:TOOL_PALETTE_HIDDEN];
 
   //
   // LSynth Palette
   //
   NSColor *lsynthSelectionColor = [NSColor systemRedColor];
 
-  [initialDefaults setObject:@""
-                      forKey:LSYNTH_EXECUTABLE_PATH_KEY];
-  [initialDefaults setObject:@""
-                      forKey:LSYNTH_CONFIGURATION_PATH_KEY];
-  [initialDefaults setObject:[NSNumber numberWithInt:20]
-                      forKey:LSYNTH_SELECTION_TRANSPARENCY_KEY];
-  [initialDefaults setObject:[NSNumber numberWithInt:0]
-                      forKey:LSYNTH_SELECTION_MODE_KEY];
+  [initialDefaults setObject:@"" forKey:LSYNTH_EXECUTABLE_PATH_KEY];
+  [initialDefaults setObject:@"" forKey:LSYNTH_CONFIGURATION_PATH_KEY];
+  [initialDefaults setObject:[NSNumber numberWithInt:20] forKey:LSYNTH_SELECTION_TRANSPARENCY_KEY];
+  [initialDefaults setObject:[NSNumber numberWithInt:0] forKey:LSYNTH_SELECTION_MODE_KEY];
   [initialDefaults setObject:[NSArchiver archivedDataWithRootObject:lsynthSelectionColor]
                       forKey:LSYNTH_SELECTION_COLOR_KEY];
-  [initialDefaults setObject:[NSNumber numberWithBool:YES]
-                      forKey:LSYNTH_SAVE_SYNTHESIZED_PARTS_KEY];
-  [initialDefaults setObject:[NSNumber numberWithBool:YES]
-                      forKey:LSYNTH_SHOW_BASIC_PARTS_LIST_KEY];
+  [initialDefaults setObject:[NSNumber numberWithBool:YES] forKey:LSYNTH_SAVE_SYNTHESIZED_PARTS_KEY];
+  [initialDefaults setObject:[NSNumber numberWithBool:YES] forKey:LSYNTH_SHOW_BASIC_PARTS_LIST_KEY];
 
   //
   // Minifigure Generator
   //
-  [initialDefaults setObject:[NSNumber numberWithBool:YES]
-                      forKey:MINIFIGURE_HAS_HAT];
-  [initialDefaults setObject:[NSNumber numberWithBool:YES]
-                      forKey:MINIFIGURE_HAS_HEAD];
-  [initialDefaults setObject:[NSNumber numberWithBool:NO]
-                      forKey:MINIFIGURE_HAS_NECK];
-  [initialDefaults setObject:[NSNumber numberWithBool:YES]
-                      forKey:MINIFIGURE_HAS_TORSO];
-  [initialDefaults setObject:[NSNumber numberWithBool:YES]
-                      forKey:MINIFIGURE_HAS_ARM_RIGHT];
-  [initialDefaults setObject:[NSNumber numberWithBool:YES]
-                      forKey:MINIFIGURE_HAS_ARM_LEFT];
-  [initialDefaults setObject:[NSNumber numberWithBool:YES]
-                      forKey:MINIFIGURE_HAS_HAND_RIGHT];
-  [initialDefaults setObject:[NSNumber numberWithBool:NO]
-                      forKey:MINIFIGURE_HAS_HAND_RIGHT_ACCESSORY];
-  [initialDefaults setObject:[NSNumber numberWithBool:YES]
-                      forKey:MINIFIGURE_HAS_HAND_LEFT];
-  [initialDefaults setObject:[NSNumber numberWithBool:NO]
-                      forKey:MINIFIGURE_HAS_HAND_LEFT_ACCESSORY];
-  [initialDefaults setObject:[NSNumber numberWithBool:YES]
-                      forKey:MINIFIGURE_HAS_HIPS];
-  [initialDefaults setObject:[NSNumber numberWithBool:YES]
-                      forKey:MINIFIGURE_HAS_LEG_RIGHT];
-  [initialDefaults setObject:[NSNumber numberWithBool:NO]
-                      forKey:MINIFIGURE_HAS_LEG_RIGHT_ACCESSORY];
-  [initialDefaults setObject:[NSNumber numberWithBool:YES]
-                      forKey:MINIFIGURE_HAS_LEG_LEFT];
-  [initialDefaults setObject:[NSNumber numberWithBool:NO]
-                      forKey:MINIFIGURE_HAS_LEG_LEFT_ACCESSORY];
+  [initialDefaults setObject:[NSNumber numberWithBool:YES] forKey:MINIFIGURE_HAS_HAT];
+  [initialDefaults setObject:[NSNumber numberWithBool:YES] forKey:MINIFIGURE_HAS_HEAD];
+  [initialDefaults setObject:[NSNumber numberWithBool:NO] forKey:MINIFIGURE_HAS_NECK];
+  [initialDefaults setObject:[NSNumber numberWithBool:YES] forKey:MINIFIGURE_HAS_TORSO];
+  [initialDefaults setObject:[NSNumber numberWithBool:YES] forKey:MINIFIGURE_HAS_ARM_RIGHT];
+  [initialDefaults setObject:[NSNumber numberWithBool:YES] forKey:MINIFIGURE_HAS_ARM_LEFT];
+  [initialDefaults setObject:[NSNumber numberWithBool:YES] forKey:MINIFIGURE_HAS_HAND_RIGHT];
+  [initialDefaults setObject:[NSNumber numberWithBool:NO] forKey:MINIFIGURE_HAS_HAND_RIGHT_ACCESSORY];
+  [initialDefaults setObject:[NSNumber numberWithBool:YES] forKey:MINIFIGURE_HAS_HAND_LEFT];
+  [initialDefaults setObject:[NSNumber numberWithBool:NO] forKey:MINIFIGURE_HAS_HAND_LEFT_ACCESSORY];
+  [initialDefaults setObject:[NSNumber numberWithBool:YES] forKey:MINIFIGURE_HAS_HIPS];
+  [initialDefaults setObject:[NSNumber numberWithBool:YES] forKey:MINIFIGURE_HAS_LEG_RIGHT];
+  [initialDefaults setObject:[NSNumber numberWithBool:NO] forKey:MINIFIGURE_HAS_LEG_RIGHT_ACCESSORY];
+  [initialDefaults setObject:[NSNumber numberWithBool:YES] forKey:MINIFIGURE_HAS_LEG_LEFT];
+  [initialDefaults setObject:[NSNumber numberWithBool:NO] forKey:MINIFIGURE_HAS_LEG_LEFT_ACCESSORY];
 
-  [initialDefaults setObject:@"4485.dat"
-                      forKey:MINIFIGURE_PARTNAME_HAT];                                          // Minifig Cap
-  [initialDefaults setObject:@"3626bp01.dat"
-                      forKey:MINIFIGURE_PARTNAME_HEAD];                                         // Minifig Head with Standard Grin pattern
-  [initialDefaults setObject:@"3838.dat"
-                      forKey:MINIFIGURE_PARTNAME_NECK];                                         // Minifig Airtanks
-  [initialDefaults setObject:@"973p1b.dat"
-                      forKey:MINIFIGURE_PARTNAME_TORSO];                                        // Minifig Torso with Blue Dungarees Pattern
-  [initialDefaults setObject:@"982.dat"
-                      forKey:MINIFIGURE_PARTNAME_ARM_RIGHT];                                    // Minifig Arm Right
-  [initialDefaults setObject:@"981.dat"
-                      forKey:MINIFIGURE_PARTNAME_ARM_LEFT];                                     // Minifig Arm Left
-  [initialDefaults setObject:@"983.dat"
-                      forKey:MINIFIGURE_PARTNAME_HAND_RIGHT];                                   // Minifig Hand
-  [initialDefaults setObject:@"3837.dat"
-                      forKey:MINIFIGURE_PARTNAME_HAND_RIGHT_ACCESSORY];                         // Minifig Shovel
-  [initialDefaults setObject:@"983.dat"
-                      forKey:MINIFIGURE_PARTNAME_HAND_LEFT];                                    // Minifig Hand
-  [initialDefaults setObject:@"4006.dat"
-                      forKey:MINIFIGURE_PARTNAME_HAND_LEFT_ACCESSORY];                          // Minifig Tool Spanner/Screwdriver
-  [initialDefaults setObject:@"970.dat"
-                      forKey:MINIFIGURE_PARTNAME_HIPS];                                         // Minifig Hips
-  [initialDefaults setObject:@"971.dat"
-                      forKey:MINIFIGURE_PARTNAME_LEG_RIGHT];                                    // Minifig Leg Right
-  [initialDefaults setObject:@"6120.dat"
-                      forKey:MINIFIGURE_PARTNAME_LEG_RIGHT_ACCESSORY];                          // Minifig Ski
-  [initialDefaults setObject:@"972.dat"
-                      forKey:MINIFIGURE_PARTNAME_LEG_LEFT];                                     // Minifig Lef Left
-  [initialDefaults setObject:@"6120.dat"
-                      forKey:MINIFIGURE_PARTNAME_LEG_LEFT_ACCESSORY];                           // Minifig Ski
+  [initialDefaults setObject:@"4485.dat" forKey:MINIFIGURE_PARTNAME_HAT];
+  [initialDefaults setObject:@"3626bp01.dat" forKey:MINIFIGURE_PARTNAME_HEAD];
+  [initialDefaults setObject:@"3838.dat" forKey:MINIFIGURE_PARTNAME_NECK];
+  [initialDefaults setObject:@"973p1b.dat" forKey:MINIFIGURE_PARTNAME_TORSO];
+  [initialDefaults setObject:@"982.dat" forKey:MINIFIGURE_PARTNAME_ARM_RIGHT];
+  [initialDefaults setObject:@"981.dat" forKey:MINIFIGURE_PARTNAME_ARM_LEFT];
+  [initialDefaults setObject:@"983.dat" forKey:MINIFIGURE_PARTNAME_HAND_RIGHT];
+  [initialDefaults setObject:@"3837.dat" forKey:MINIFIGURE_PARTNAME_HAND_RIGHT_ACCESSORY];
+  [initialDefaults setObject:@"983.dat" forKey:MINIFIGURE_PARTNAME_HAND_LEFT];
+  [initialDefaults setObject:@"4006.dat" forKey:MINIFIGURE_PARTNAME_HAND_LEFT_ACCESSORY];
+  [initialDefaults setObject:@"970.dat" forKey:MINIFIGURE_PARTNAME_HIPS];
+  [initialDefaults setObject:@"971.dat" forKey:MINIFIGURE_PARTNAME_LEG_RIGHT];
+  [initialDefaults setObject:@"6120.dat" forKey:MINIFIGURE_PARTNAME_LEG_RIGHT_ACCESSORY];
+  [initialDefaults setObject:@"972.dat" forKey:MINIFIGURE_PARTNAME_LEG_LEFT];
+  [initialDefaults setObject:@"6120.dat" forKey:MINIFIGURE_PARTNAME_LEG_LEFT_ACCESSORY];
 
-  [initialDefaults setObject:[NSNumber numberWithFloat:0]
-                      forKey:MINIFIGURE_ANGLE_HAT];
-  [initialDefaults setObject:[NSNumber numberWithFloat:0]
-                      forKey:MINIFIGURE_ANGLE_HEAD];
-  [initialDefaults setObject:[NSNumber numberWithFloat:0]
-                      forKey:MINIFIGURE_ANGLE_NECK];
-  [initialDefaults setObject:[NSNumber numberWithFloat:0]
-                      forKey:MINIFIGURE_ANGLE_TORSO];
-  [initialDefaults setObject:[NSNumber numberWithFloat:0]
-                      forKey:MINIFIGURE_ANGLE_ARM_RIGHT];
-  [initialDefaults setObject:[NSNumber numberWithFloat:0]
-                      forKey:MINIFIGURE_ANGLE_ARM_LEFT];
-  [initialDefaults setObject:[NSNumber numberWithFloat:0]
-                      forKey:MINIFIGURE_ANGLE_HAND_RIGHT];
-  [initialDefaults setObject:[NSNumber numberWithFloat:0]
-                      forKey:MINIFIGURE_ANGLE_HAND_RIGHT_ACCESSORY];
-  [initialDefaults setObject:[NSNumber numberWithFloat:0]
-                      forKey:MINIFIGURE_ANGLE_HAND_LEFT];
-  [initialDefaults setObject:[NSNumber numberWithFloat:0]
-                      forKey:MINIFIGURE_ANGLE_HAND_LEFT_ACCESSORY];
-  [initialDefaults setObject:[NSNumber numberWithFloat:0]
-                      forKey:MINIFIGURE_ANGLE_HIPS];
-  [initialDefaults setObject:[NSNumber numberWithFloat:0]
-                      forKey:MINIFIGURE_ANGLE_LEG_RIGHT];
-  [initialDefaults setObject:[NSNumber numberWithFloat:0]
-                      forKey:MINIFIGURE_ANGLE_LEG_RIGHT_ACCESSORY];
-  [initialDefaults setObject:[NSNumber numberWithFloat:0]
-                      forKey:MINIFIGURE_ANGLE_LEG_LEFT];
-  [initialDefaults setObject:[NSNumber numberWithFloat:0]
-                      forKey:MINIFIGURE_ANGLE_LEG_LEFT_ACCESSORY];
+  [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_HAT];
+  [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_HEAD];
+  [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_NECK];
+  [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_TORSO];
+  [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_ARM_RIGHT];
+  [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_ARM_LEFT];
+  [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_HAND_RIGHT];
+  [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_HAND_RIGHT_ACCESSORY];
+  [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_HAND_LEFT];
+  [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_HAND_LEFT_ACCESSORY];
+  [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_HIPS];
+  [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_LEG_RIGHT];
+  [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_LEG_RIGHT_ACCESSORY];
+  [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_LEG_LEFT];
+  [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_LEG_LEFT_ACCESSORY];
 
-  [initialDefaults setObject:[NSNumber numberWithInt:LDrawBlue]
-                      forKey:MINIFIGURE_COLOR_HAT];
-  [initialDefaults setObject:[NSNumber numberWithInt:LDrawYellow]
-                      forKey:MINIFIGURE_COLOR_HEAD];
-  [initialDefaults setObject:[NSNumber numberWithInt:LDrawBlack]
-                      forKey:MINIFIGURE_COLOR_NECK];
-  [initialDefaults setObject:[NSNumber numberWithInt:LDrawWhite]
-                      forKey:MINIFIGURE_COLOR_TORSO];
-  [initialDefaults setObject:[NSNumber numberWithInt:LDrawWhite]
-                      forKey:MINIFIGURE_COLOR_ARM_RIGHT];
-  [initialDefaults setObject:[NSNumber numberWithInt:LDrawWhite]
-                      forKey:MINIFIGURE_COLOR_ARM_LEFT];
-  [initialDefaults setObject:[NSNumber numberWithInt:LDrawYellow]
-                      forKey:MINIFIGURE_COLOR_HAND_RIGHT];
-  [initialDefaults setObject:[NSNumber numberWithInt:LDrawBlack]
-                      forKey:MINIFIGURE_COLOR_HAND_RIGHT_ACCESSORY];
-  [initialDefaults setObject:[NSNumber numberWithInt:LDrawYellow]
-                      forKey:MINIFIGURE_COLOR_HAND_LEFT];
-  [initialDefaults setObject:[NSNumber numberWithInt:LDrawBlack]
-                      forKey:MINIFIGURE_COLOR_HAND_LEFT_ACCESSORY];
-  [initialDefaults setObject:[NSNumber numberWithInt:LDrawBlue]
-                      forKey:MINIFIGURE_COLOR_HIPS];
-  [initialDefaults setObject:[NSNumber numberWithInt:LDrawBlue]
-                      forKey:MINIFIGURE_COLOR_LEG_RIGHT];
-  [initialDefaults setObject:[NSNumber numberWithInt:LDrawBlack]
-                      forKey:MINIFIGURE_COLOR_LEG_RIGHT_ACCESSORY];
-  [initialDefaults setObject:[NSNumber numberWithInt:LDrawBlue]
-                      forKey:MINIFIGURE_COLOR_LEG_LEFT];
-  [initialDefaults setObject:[NSNumber numberWithInt:LDrawBlack]
-                      forKey:MINIFIGURE_COLOR_LEG_LEFT_ACCESSORY];
+  [initialDefaults setObject:[NSNumber numberWithInt:LDrawBlue] forKey:MINIFIGURE_COLOR_HAT];
+  [initialDefaults setObject:[NSNumber numberWithInt:LDrawYellow] forKey:MINIFIGURE_COLOR_HEAD];
+  [initialDefaults setObject:[NSNumber numberWithInt:LDrawBlack] forKey:MINIFIGURE_COLOR_NECK];
+  [initialDefaults setObject:[NSNumber numberWithInt:LDrawWhite] forKey:MINIFIGURE_COLOR_TORSO];
+  [initialDefaults setObject:[NSNumber numberWithInt:LDrawWhite] forKey:MINIFIGURE_COLOR_ARM_RIGHT];
+  [initialDefaults setObject:[NSNumber numberWithInt:LDrawWhite] forKey:MINIFIGURE_COLOR_ARM_LEFT];
+  [initialDefaults setObject:[NSNumber numberWithInt:LDrawYellow] forKey:MINIFIGURE_COLOR_HAND_RIGHT];
+  [initialDefaults setObject:[NSNumber numberWithInt:LDrawBlack] forKey:MINIFIGURE_COLOR_HAND_RIGHT_ACCESSORY];
+  [initialDefaults setObject:[NSNumber numberWithInt:LDrawYellow] forKey:MINIFIGURE_COLOR_HAND_LEFT];
+  [initialDefaults setObject:[NSNumber numberWithInt:LDrawBlack] forKey:MINIFIGURE_COLOR_HAND_LEFT_ACCESSORY];
+  [initialDefaults setObject:[NSNumber numberWithInt:LDrawBlue] forKey:MINIFIGURE_COLOR_HIPS];
+  [initialDefaults setObject:[NSNumber numberWithInt:LDrawBlue] forKey:MINIFIGURE_COLOR_LEG_RIGHT];
+  [initialDefaults setObject:[NSNumber numberWithInt:LDrawBlack] forKey:MINIFIGURE_COLOR_LEG_RIGHT_ACCESSORY];
+  [initialDefaults setObject:[NSNumber numberWithInt:LDrawBlue] forKey:MINIFIGURE_COLOR_LEG_LEFT];
+  [initialDefaults setObject:[NSNumber numberWithInt:LDrawBlack] forKey:MINIFIGURE_COLOR_LEG_LEFT_ACCESSORY];
 
-  [initialDefaults setObject:[NSNumber numberWithFloat:4.0]
-                      forKey:MINIFIGURE_HEAD_ELEVATION];
+  [initialDefaults setObject:[NSNumber numberWithFloat:4.0] forKey:MINIFIGURE_HEAD_ELEVATION];
 
   // OpenGL viewer settings -- see -restoreConfiguration in LDrawGLView.
   [initialDefaults setObject:[NSNumber numberWithInteger:ViewOrientationFront]
@@ -1249,8 +1167,7 @@ PreferencesDialogController * preferencesDialog = nil;
   [initialDefaults setObject:[NSNumber numberWithInteger:ProjectionModeOrthographic]
                       forKey:[LDRAW_GL_VIEW_PROJECTION stringByAppendingString:
                               @" MinifigureGeneratorView"]];
-  [initialDefaults setObject:(id)kCFBooleanFalse
-                      forKey:@"UseThreads"];
+  [initialDefaults setObject:(id)kCFBooleanFalse forKey:@"UseThreads"];
 
   //
   // COMMIT!

@@ -75,15 +75,12 @@ static MLCadIni *sharedIniFile = nil;
   if (sharedIniFile == nil) {
     mlcadini = [MLCadIni new];
     filePath = [[LDrawPaths sharedPaths] MLCadIniPath];
-
     [mlcadini parseFromPath:filePath];
-
     sharedIniFile = mlcadini;
   }
   else {
     mlcadini = sharedIniFile;
   }
-
   return(mlcadini);
 }// end iniFile
 
@@ -372,10 +369,9 @@ static MLCadIni *sharedIniFile = nil;
 // ==============================================================================
 - (void)parseFromPath:(NSString *)path
 {
-  NSString     *fileString = [LDrawUtilities stringFromFile:path];
-  NSArray      *rawLines   = [fileString separateByLine];
-  NSDictionary *sections   = 0;
-
+  NSString     *fileString        = [LDrawUtilities stringFromFile:path];
+  NSArray      *rawLines          = [fileString separateByLine];
+  NSDictionary *sections          = 0;
   NSDictionary *listsForSections  = nil;
   NSArray      *sectionKeys       = nil;
   NSString     *currentSectionKey = nil;
@@ -383,9 +379,7 @@ static MLCadIni *sharedIniFile = nil;
   NSArray      *sectionParts      = nil;
 
   // ---------- cull out all the comments and blank lines ---------------------
-
   sections = [self sectionsFromLines:rawLines];
-
 
   // ---------- Parse Minifigure Sections -------------------------------------
 
@@ -414,13 +408,11 @@ static MLCadIni *sharedIniFile = nil;
   for (currentSectionKey in sectionKeys) {
     sectionLines = [sections objectForKey:currentSectionKey];
     sectionParts = [self partsFromMinifigureLines:sectionLines];
-
     [self setParts:sectionParts
      intoMinifigurePartList:[listsForSections objectForKey:currentSectionKey]];
   }
 
   // ---------- Parse LSynth Section ------------------------------------------
-
   sectionLines             = [sections objectForKey:MLCAD_SECTION_LSYNTH];
   self->lsynthVisibleTypes = [[self lsynthTypesFromLines:sectionLines] retain];
 }// end parseFromPath:
@@ -450,16 +442,12 @@ static MLCadIni *sharedIniFile = nil;
       if ([currentLine hasPrefix:@"["]) {
         // Finish previous section
         if (currentSectionName) {
-          [sections setObject:currentSectionLines
-                       forKey:currentSectionName];
+          [sections setObject:currentSectionLines forKey:currentSectionName];
         }
-
         // Start new section
         NSScanner *scanner = [NSScanner scannerWithString:currentLine];
-        [scanner scanString:@"["
-                 intoString:NULL];
-        [scanner scanUpToString:@"]"
-                     intoString:&currentSectionName];
+        [scanner scanString:@"[" intoString:NULL];
+        [scanner scanUpToString:@"]" intoString:&currentSectionName];
         currentSectionLines = [NSMutableArray array];
       }
       else {
@@ -467,13 +455,10 @@ static MLCadIni *sharedIniFile = nil;
       }
     }
   }
-
   // Finish last section
   if (currentSectionName) {
-    [sections setObject:currentSectionLines
-                 forKey:currentSectionName];
+    [sections setObject:currentSectionLines forKey:currentSectionName];
   }
-
   return(sections);
 }
 
@@ -508,16 +493,11 @@ static MLCadIni *sharedIniFile = nil;
 
     success = [scanner scanInteger:&typeNumber];
     if (success) {
-      success = [scanner scanString:@"-"
-                         intoString:NULL];
-      success = [scanner scanUpToCharactersFromSet:whitespaceSet
-                                        intoString:&displayName];
-      success = [scanner scanString:@"= SYNTH BEGIN"
-                         intoString:NULL];
+      success = [scanner scanString:@"-" intoString:NULL];
+      success = [scanner scanUpToCharactersFromSet:whitespaceSet intoString:&displayName];
+      success = [scanner scanString:@"= SYNTH BEGIN" intoString:NULL];
       if (success) { // ignore 00 - VERSION 3.1 line
-        [scanner scanUpToCharactersFromSet:whitespaceSet
-                                intoString:&actualName];
-
+        [scanner scanUpToCharactersFromSet:whitespaceSet intoString:&actualName];
         [namesInList addObject:actualName];
       }
     }
@@ -551,16 +531,14 @@ static MLCadIni *sharedIniFile = nil;
 // ==============================================================================
 - (NSArray *)partsFromMinifigureLines:(NSArray *)lines
 {
-  NSMutableArray *parts       = [NSMutableArray arrayWithCapacity:[lines count]];
-  NSMutableArray *namesInList = [NSMutableArray arrayWithCapacity:[lines count]];
-  NSString       *currentLine = nil;
-  NSScanner      *scanner     = nil;
-
-  NSString  *partName      = nil;
-  NSString  *flags         = nil;
-  Matrix4   transformation = IdentityMatrix4;
-  LDrawPart *currentPart   = nil;
-
+  NSMutableArray *parts         = [NSMutableArray arrayWithCapacity:[lines count]];
+  NSMutableArray *namesInList   = [NSMutableArray arrayWithCapacity:[lines count]];
+  NSString       *currentLine   = nil;
+  NSScanner      *scanner       = nil;
+  NSString       *partName      = nil;
+  NSString       *flags         = nil;
+  Matrix4        transformation = IdentityMatrix4;
+  LDrawPart      *currentPart   = nil;
   NSCharacterSet *quoteSet      = [NSCharacterSet characterSetWithCharactersInString:@"\""];
   NSCharacterSet *whitespaceSet = [NSCharacterSet whitespaceCharacterSet];
   NSUInteger     lineCount      = [lines count];
@@ -574,28 +552,19 @@ static MLCadIni *sharedIniFile = nil;
     scanner     = [NSScanner scannerWithString:currentLine];
 
     // skip the display name. We just don't care.
-    [scanner scanUpToCharactersFromSet:quoteSet
-                            intoString:NULL];
-    [scanner scanString:@"\""
-             intoString:NULL];
-    [scanner scanUpToCharactersFromSet:quoteSet
-                            intoString:NULL];
-    [scanner scanString:@"\""
-             intoString:NULL];                          // so we scan "" as two separate characters
+    [scanner scanUpToCharactersFromSet:quoteSet intoString:NULL];
+    [scanner scanString:@"\"" intoString:NULL];
+    [scanner scanUpToCharactersFromSet:quoteSet intoString:NULL];
+    [scanner scanString:@"\"" intoString:NULL];  // so we scan "" as two separate characters
 
     // scan the part name, skipping the first quote.
-    [scanner scanUpToCharactersFromSet:quoteSet
-                            intoString:NULL];
-    [scanner scanString:@"\""
-             intoString:NULL];
-    gotName = [scanner scanUpToCharactersFromSet:quoteSet
-                                      intoString:&partName];
-    [scanner scanString:@"\""
-             intoString:NULL];
+    [scanner scanUpToCharactersFromSet:quoteSet intoString:NULL];
+    [scanner scanString:@"\"" intoString:NULL];
+    gotName = [scanner scanUpToCharactersFromSet:quoteSet intoString:&partName];
+    [scanner scanString:@"\"" intoString:NULL];
 
     // skip the flags; they don't mean anything yet anyway
-    [scanner scanUpToCharactersFromSet:whitespaceSet
-                            intoString:&flags];
+    [scanner scanUpToCharactersFromSet:whitespaceSet intoString:&flags];
 
     // the rest is the transformation matrix, but in a different order from
     // an LDraw type 1 part line.
@@ -608,11 +577,9 @@ static MLCadIni *sharedIniFile = nil;
     [scanner scanDouble:&transformation.element[0][2]];
     [scanner scanDouble:&transformation.element[1][2]];
     [scanner scanDouble:&transformation.element[2][2]];
-
     [scanner scanDouble:&transformation.element[3][0]];
     [scanner scanDouble:&transformation.element[3][1]];
     [scanner scanDouble:&transformation.element[3][2]];
-
 
     // ---------- Create an LDrawPart for the line --------------------------
 
@@ -624,9 +591,7 @@ static MLCadIni *sharedIniFile = nil;
       currentPart = [[[LDrawPart alloc] init] autorelease];
 
       [currentPart setTransformationMatrix:&transformation];
-      [currentPart setDisplayName:partName
-                            parse:NO
-                          inGroup:NULL];
+      [currentPart setDisplayName:partName parse:NO inGroup:NULL];
 
       if (currentPart != nil) {
         // add the part-- but don't allow duplicate names, even if they

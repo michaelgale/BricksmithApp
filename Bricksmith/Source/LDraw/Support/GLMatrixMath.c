@@ -150,13 +150,22 @@ void buildRotationMatrix(GLfloat m[16], GLfloat angle, GLfloat x, GLfloat y, GLf
   GLfloat c = cos(angle * M_PI / 180.0f);
   GLfloat s = sin(angle * M_PI / 180.0f);
 
-  m[0]  = x * x * (1 - c) + c;   m[4] = x * y * (1 - c) - z * s;   m[8] = x * z * (1 - c) + y * s;
+  m[0]  = x * x * (1 - c) + c;
+  m[4]  = x * y * (1 - c) - z * s;
+  m[8]  = x * z * (1 - c) + y * s;
   m[12] = 0;
-  m[1]  = y * x * (1 - c) + z * s; m[5] = y * y * (1 - c) + c;     m[9] = y * z * (1 - c) - x * s;
+  m[1]  = y * x * (1 - c) + z * s;
+  m[5]  = y * y * (1 - c) + c;
+  m[9]  = y * z * (1 - c) - x * s;
   m[13] = 0;
-  m[2]  = x * z * (1 - c) - y * s; m[6] = y * z * (1 - c) + x * s;   m[10] = z * z * (1 - c) + c;
+  m[2]  = x * z * (1 - c) - y * s;
+  m[6]  = y * z * (1 - c) + x * s;
+  m[10] = z * z * (1 - c) + c;
   m[14] = 0;
-  m[3]  = 0;       m[7] = 0;         m[11] = 0;          m[15] = 1.0;
+  m[3]  = 0;
+  m[7]  = 0;
+  m[11] = 0;
+  m[15] = 1.0;
 }
 
 
@@ -168,8 +177,8 @@ void buildRotationMatrix(GLfloat m[16], GLfloat angle, GLfloat x, GLfloat y, GLf
 // ================================================================================
 void buildTranslationMatrix(GLfloat m[16], GLfloat x, GLfloat y, GLfloat z)
 {
-  m[0] = 1; m[4] = 0; m[8] = 0;  m[12] = x;
-  m[1] = 0; m[5] = 1; m[9] = 0;  m[13] = y;
+  m[0] = 1; m[4] = 0; m[8] = 0;   m[12] = x;
+  m[1] = 0; m[5] = 1; m[9] = 0;   m[13] = y;
   m[2] = 0; m[6] = 0; m[10] = 1;  m[14] = z;
   m[3] = 0; m[7] = 0; m[11] = 0;  m[15] = 1;
 }
@@ -182,8 +191,8 @@ void buildTranslationMatrix(GLfloat m[16], GLfloat x, GLfloat y, GLfloat z)
 // ================================================================================
 void buildIdentity(GLfloat m[16])
 {
-  m[0] = 1; m[4] = 0; m[8] = 0;  m[12] = 0;
-  m[1] = 0; m[5] = 1; m[9] = 0;  m[13] = 0;
+  m[0] = 1; m[4] = 0; m[8] = 0;   m[12] = 0;
+  m[1] = 0; m[5] = 1; m[9] = 0;   m[13] = 0;
   m[2] = 0; m[6] = 0; m[10] = 1;  m[14] = 0;
   m[3] = 0; m[7] = 0; m[11] = 0;  m[15] = 1;
 }

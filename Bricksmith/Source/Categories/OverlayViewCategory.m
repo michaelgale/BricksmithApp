@@ -62,9 +62,7 @@
 
   // Add a special NSView to the parent so we can track a few things...
   helperView = [[OverlayHelperView alloc] initWithOverlayView:overlayView];
-
   [self addSubview:helperView];
-
   [helperView release];
 }// end addOverlayView:ordered:
 
@@ -88,18 +86,15 @@
   for (currentView in [self subviews]) {
     if ([currentView respondsToSelector:@selector(overlayView)]) {
       currentOverlay = [(OverlayHelperView *) currentView overlayView];
-
       if (currentOverlay == overlayViewIn) {
         overlayHelper = currentView;
         break;
       }
     }
   }
-
   if (overlayHelper) {
     [overlayHelper removeFromSuperview];
   }
-
   [self setNeedsDisplay:YES];
 }// end removeOverlayView:
 

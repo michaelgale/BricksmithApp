@@ -231,7 +231,6 @@
 
     glMatrixMode(GL_PROJECTION);
     glLoadMatrixf([camera getProjection]);
-
     glMatrixMode(GL_MODELVIEW);
     glLoadMatrixf([camera getModelView]);
 
@@ -282,9 +281,7 @@
   glLoadMatrixf([camera getModelView]);
 
   #if !NEW_RENDERER
-  [self->fileBeingDrawn draw:options
-                   viewScale:[self zoomPercentageForGL]
-                 parentColor:color];
+  [self->fileBeingDrawn draw:options viewScale:[self zoomPercentageForGL] parentColor:color];
   #else
   LDrawShaderRenderer *ren = [[LDrawShaderRenderer alloc] initWithScale:[self zoomPercentageForGL]
                                                               modelView:[camera getModelView]
@@ -333,9 +330,7 @@
     glPushMatrix();
     glLoadIdentity();
     float lw = MAX((2.0 + (1.0 - [self zoomPercentageForGL]) * 20.0), 3.0);
-// printf("lw=%.2f %.1f,%.1f - %.1f,%.1f\n", lw, p1.x, p1.y, p2.x, p2.y);
     glLineWidth(lw);
-//
     GLfloat vertices[8] =
     {
       p1.x, p1.y,
@@ -343,13 +338,12 @@
       p2.x, p2.y,
       p1.x, p2.y
     };
-
-
     glVertexPointer(2, GL_FLOAT, 0, vertices);
     glDisable(GL_TEXTURE_2D);
     glDisableClientState(GL_COLOR_ARRAY);
     glDisableClientState(GL_NORMAL_ARRAY);
-    glColor4f(0.9, 0.4, 0.8, 1.0f);     // light magenta
+    // light magenta
+    glColor4f(0.9, 0.4, 0.8, 1.0f);
 
     glDrawArrays(GL_LINE_LOOP, 0, 4);
     glEnableClientState(GL_COLOR_ARRAY);
@@ -621,7 +615,7 @@
 - (CGFloat)zoomPercentage
 {
   return([camera zoomPercentage]);
-}// end zoomPercentage
+}
 
 
 // ========== zoomPercentage ====================================================
@@ -645,7 +639,7 @@
     return(100.0);
   }
   return([camera zoomPercentage] / 100.0);
-}// end zoomPercentageForGL
+}
 
 
 #pragma mark -
@@ -678,7 +672,7 @@
   self->delegate = object;
   self->scroller = newScroller;
   [self->camera setScroller:newScroller];
-}// end setDelegate:
+}
 
 
 // ========== setBackgroundColorRed:green:blue: =================================
@@ -724,7 +718,7 @@
 - (void)setDragEndedInOurDocument:(BOOL)flag
 {
   self->dragEndedInOurDocument = flag;
-}// end setDragEndedInOurDocument:
+}
 
 
 // ========== setDraggingOffset: ================================================
@@ -767,7 +761,7 @@
   self->color = newColor;
 
   [self->delegate LDrawGLRendererNeedsRedisplay:self];
-}// end setColor
+}
 
 
 // ========== LDrawDirective: ===================================================
@@ -830,7 +824,6 @@
             name:LDrawModelRotationCenterDidChangeNotification
           object:self->fileBeingDrawn];
   }
-
   [self updateRotationCenter];
 }// end setLDrawDirective:
 

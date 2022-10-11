@@ -39,7 +39,8 @@
 
 // Accessors
 - (LDrawMPDModel *)activeModel;
-- (LDrawMPDModel *)firstModel;              // For using another file, we always refer to the FIRST model even if the doc is open and another model is actively edited!
+// For using another file, we always refer to the FIRST model even if the doc is open and another model is actively edited!
+- (LDrawMPDModel *)firstModel;
 - (void)addSubmodel:(LDrawMPDModel *)newSubmodel;
 - (NSArray *)draggingDirectives;
 - (NSArray *)modelNames;

@@ -210,21 +210,20 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 - (IBAction)closeViewportClicked:(id)sender
 {
   NSView *placardView = [sender superview];
-  ExtendedScrollView *sourceViewport  = (ExtendedScrollView *)[placardView superview];    // enclosingScrollView won't work here.
-  NSSplitView        *sourceColumn    = (NSSplitView *)[sourceViewport superview];
-  NSSplitView        *arrangementView = (NSSplitView *)[sourceColumn superview];
-
+  // enclosingScrollView won't work here.
+  ExtendedScrollView *sourceViewport   = (ExtendedScrollView *)[placardView superview];
+  NSSplitView        *sourceColumn     = (NSSplitView *)[sourceViewport superview];
+  NSSplitView        *arrangementView  = (NSSplitView *)[sourceColumn superview];
   NSArray            *columns          = [arrangementView subviews];
   NSArray            *rows             = [sourceColumn subviews];
   NSUInteger         sourceViewIndex   = 0;
   NSSplitView        *preceedingColumn = nil;
   ExtendedScrollView *preceedingRow    = nil;
-
-  NSRect      newViewFrame       = NSZeroRect;
-  BOOL        removingColumn     = [rows count] == 1;          // last row in column?
-  BOOL        isFirstResponder   = NO;
-  NSResponder *newFirstResponder = nil;
-  NSSet       *viewportsToRemove = nil;
+  NSRect             newViewFrame      = NSZeroRect;
+  BOOL        removingColumn           = [rows count] == 1;// last row in column?
+  BOOL        isFirstResponder         = NO;
+  NSResponder *newFirstResponder       = nil;
+  NSSet       *viewportsToRemove       = nil;
 
   // If the doomed viewport is the first responder, then the view which
   // inherits the source's real estate should also inherit responder status.

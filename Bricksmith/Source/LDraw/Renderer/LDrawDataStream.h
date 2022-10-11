@@ -25,7 +25,7 @@
  *
  */
 
-struct  LDrawDataStream;
+struct LDrawDataStream;
 
 struct LDrawDataStream *LDrawDataStreamCreate(int buffer_size);
 void LDrawDataStreamDestroy(struct LDrawDataStream *str);

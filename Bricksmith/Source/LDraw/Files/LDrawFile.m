@@ -683,8 +683,7 @@
 // ==============================================================================
 - (void)insertDirective:(LDrawDirective *)directive atIndex:(NSInteger)index
 {
-  [super insertDirective:directive
-                 atIndex:index];
+  [super insertDirective:directive atIndex:index];
   [self updateModelLookupTable];
 
   // Post a notification on ourself that a model was added - missing parts need
@@ -810,7 +809,6 @@
 
     for (counter = 0; counter < [allParts count]; counter++) {
       currentPart = [allParts objectAtIndex:counter];
-
       // If the part points to the old name, change it to the new one.
       // Since the user can enter these values and Bricksmith is
       // case-insensitive, make sure to ignore case.
@@ -844,8 +842,7 @@
     [self updateModelLookupTable];
   }
 
-  [super receiveMessage:msg
-                    who:observable];
+  [super receiveMessage:msg who:observable];
 }
 
 

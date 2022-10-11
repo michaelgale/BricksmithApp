@@ -97,9 +97,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
   else {
     glUseProgram(prog);
   }
-
-  self = [super init];
-
+  self        = [super init];
   self->scale = initial_scale;
 
   [[[ColorLibrary sharedColorLibrary] colorForCode:LDrawCurrentColor] getColorRGBA:color_now];
@@ -125,7 +123,6 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
   glDisableClientState(GL_COLOR_ARRAY);
   glDisableClientState(GL_NORMAL_ARRAY);
   glDisableClientState(GL_VERTEX_ARRAY);
-
   drag_handles = NULL;
 
   return(self);
@@ -176,7 +173,6 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
   glEnableClientState(GL_COLOR_ARRAY);
   glEnableClientState(GL_NORMAL_ARRAY);
   glEnableClientState(GL_VERTEX_ARRAY);
-
   LDrawBDPDestroy(pool);
 
   [super dealloc];
@@ -259,7 +255,6 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
   if (dim < 10) {
     return(cull_box);
   }
-
   return(cull_draw);
 }// end pushMatrix:to:
 
@@ -309,14 +304,12 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
 
     unit_cube = LDrawDLBuilderFinish(builder);
   }
-
   GLfloat dim[3] =
   {
     maxXyz[0] - minXyz[0],
     maxXyz[1] - minXyz[1],
     maxXyz[2] - minXyz[2]
   };
-
   GLfloat rescale[16] = { dim[0],    0,         0,         0,
                           0,         dim[1],    0,         0,
                           0,         0,         dim[2],    0,
@@ -405,7 +398,6 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
   memcpy(tex_stack + texture_stack_top, &tex_now, sizeof(tex_now));
   ++texture_stack_top;
   memcpy(&tex_now, spec, sizeof(tex_now));
-
   if (dl_stack_top) {
     LDrawDLBuilderSetTex(dl_now, &tex_now);
   }
@@ -423,7 +415,6 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
   assert(texture_stack_top > 0);
   --texture_stack_top;
   memcpy(&tex_now, tex_stack + texture_stack_top, sizeof(tex_now));
-
   if (dl_stack_top) {
     LDrawDLBuilderSetTex(dl_now, &tex_now);
   }
@@ -471,9 +462,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
 {
   assert(dl_stack_top);
   GLfloat c[4];
-
   set_color4fv(color, c);
-
   LDrawDLBuilderAddQuad(dl_now, vertices, normal, c);
 }// end drawQuad:normal:color:
 
@@ -486,11 +475,8 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
 - (void)drawTri:(GLfloat *)vertices normal:(GLfloat *)normal color:(GLfloat *)color;
 {
   assert(dl_stack_top);
-
   GLfloat c[4];
-
   set_color4fv(color, c);
-
   LDrawDLBuilderAddTri(dl_now, vertices, normal, c);
 }// end drawTri:normal:color:
 
@@ -503,11 +489,8 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
 - (void)drawLine:(GLfloat *)vertices normal:(GLfloat *)normal color:(GLfloat *)color;
 {
   assert(dl_stack_top);
-
   GLfloat c[4];
-
   set_color4fv(color, c);
-
   LDrawDLBuilderAddLine(dl_now, vertices, normal, c);
 }// end drawLine:normal:color:
 
@@ -569,18 +552,16 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
 
   if (vaoTag == 0) {
     // Bail if we've already done it.
-
-    int latitudeSections  = 8;
-    int longitudeSections = 8;
-
-    double  latitudeRadians  = (M_PI / latitudeSections);             // lat. wraps halfway around sphere
-    double  longitudeRadians = (2 * M_PI / longitudeSections);        // long. wraps all the way
-    int     vertexCount      = 0;
-    GLfloat *vertexes        = NULL;
-    int     latitudeCount    = 0;
-    int     longitudeCount   = 0;
-    double  latitude         = 0;
-    double  longitude        = 0;
+    int     latitudeSections  = 8;
+    int     longitudeSections = 8;
+    double  latitudeRadians   = (M_PI / latitudeSections);      // lat. wraps halfway around sphere
+    double  longitudeRadians  = (2 * M_PI / longitudeSections); // long. wraps all the way
+    int     vertexCount       = 0;
+    GLfloat *vertexes         = NULL;
+    int     latitudeCount     = 0;
+    int     longitudeCount    = 0;
+    double  latitude          = 0;
+    double  longitude         = 0;
 
     // ---------- Generate Sphere -----------------------------------------------
 
@@ -620,14 +601,12 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
         *vertexes++ = cos(latitude + latitudeRadians);
       }
     }
-
     glUnmapBuffer(GL_ARRAY_BUFFER);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     // ---------- Optimize ------------------------------------------------------
 
     vboVertexCount = vertexCount;
-
     // Encapsulate in a VAO
     glGenVertexArraysAPPLE(1, &vaoTag);
     glBindVertexArrayAPPLE(vaoTag);

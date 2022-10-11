@@ -61,9 +61,7 @@
 - (id)init
 {
   [super init];
-
   modelName = @"";
-
   return(self);
 }// end init
 
@@ -116,7 +114,7 @@
   // Create a basic model.
   [super initWithLines:lines
                inRange:nonMPDRange
-           parentGroup:parentGroup];                                       // parses model into header and steps.
+           parentGroup:parentGroup]; // parses model into header and steps.
 
   // If it wasn't MPD, we still need a model name. We can get that via the
   // parsed model.
@@ -140,10 +138,8 @@
 // ==============================================================================
 - (id)initWithCoder:(NSCoder *)decoder
 {
-  self = [super initWithCoder:decoder];
-
+  self      = [super initWithCoder:decoder];
   modelName = [[decoder decodeObjectForKey:@"modelName"] retain];
-
   return(self);
 }// end initWithCoder:
 
@@ -158,9 +154,7 @@
 - (void)encodeWithCoder:(NSCoder *)encoder
 {
   [super encodeWithCoder:encoder];
-
-  [encoder encodeObject:modelName
-                 forKey:@"modelName"];
+  [encoder encodeObject:modelName forKey:@"modelName"];
 }// end encodeWithCoder:
 
 
@@ -174,7 +168,6 @@
   LDrawMPDModel *copied = (LDrawMPDModel *)[super copyWithZone:zone];
 
   [copied setModelName:[self modelName]];
-
   return(copied);
 }// end copyWithZone:
 
@@ -349,9 +342,7 @@
 {
   [newModelName retain];
   [modelName release];
-
   modelName = newModelName;
-
   [self sendMessageToObservers:MessageNameChanged];
 }// end setModelName:
 
@@ -403,7 +394,6 @@
 // acceptableName = [acceptableName stringByAppendingPathExtension:@"ldr"];
     acceptableName = [acceptableName stringByAppendingString:@".ldr"];
   }
-
   return(acceptableName);
 }// end ldrawCompliantNameForName:
 
@@ -424,12 +414,9 @@
   NSString *workingLine = line;
   BOOL     isMPDModel   = NO;
 
-  parsedField = [LDrawUtilities readNextField:workingLine
-                                    remainder:&workingLine];
+  parsedField = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
   if ([parsedField isEqualToString:@"0"]) {
-    parsedField = [LDrawUtilities readNextField:workingLine
-                                      remainder:&workingLine];
-
+    parsedField = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
     if ([parsedField isEqualToString:LDRAW_MPD_SUBMODEL_START]) {
       isMPDModel = YES;
     }
@@ -459,17 +446,13 @@
   NSString *workingLine  = line;
   BOOL     isMPDModelEnd = NO;
 
-  parsedField = [LDrawUtilities readNextField:workingLine
-                                    remainder:&workingLine];
+  parsedField = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
   if ([parsedField isEqualToString:@"0"]) {
-    parsedField = [LDrawUtilities readNextField:workingLine
-                                      remainder:&workingLine];
-
+    parsedField = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
     if ([parsedField isEqualToString:LDRAW_MPD_SUBMODEL_END]) {
       isMPDModelEnd = YES;
     }
   }
-
   return(isMPDModelEnd);
 }
 
@@ -493,8 +476,7 @@
   // not us.
   if (enclosingFile != nil) {
     [[undoManager prepareWithInvocationTarget:enclosingFile]
-     renameModel:self
-          toName:oldName];
+     renameModel:self toName:oldName];
   }
   else {
     [[undoManager prepareWithInvocationTarget:self] setModelName:oldName];

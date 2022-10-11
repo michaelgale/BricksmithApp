@@ -211,20 +211,14 @@
       double         nx = (vx * c) - sign2 * h * vy;
       double         ny = (vy * c) - sign2 * h * vx;
       NSMutableArray *a = [NSMutableArray arrayWithCapacity:4];
-      [a insertObject:[NSNumber numberWithDouble:([c1 x] + ([c1 r] * nx))]
-              atIndex:0];
-      [a insertObject:[NSNumber numberWithDouble:([c1 y] + ([c1 r] * ny))]
-              atIndex:1];
-      [a insertObject:[NSNumber numberWithDouble:([c2 x] + (sign1 * [c2 r] * nx))]
-              atIndex:2];
-      [a insertObject:[NSNumber numberWithDouble:([c2 y] + (sign1 * [c2 r] * ny))]
-              atIndex:3];
-      [results insertObject:a
-                    atIndex:i];
+      [a insertObject:[NSNumber numberWithDouble:([c1 x] + ([c1 r] * nx))] atIndex:0];
+      [a insertObject:[NSNumber numberWithDouble:([c1 y] + ([c1 r] * ny))] atIndex:1];
+      [a insertObject:[NSNumber numberWithDouble:([c2 x] + (sign1 * [c2 r] * nx))] atIndex:2];
+      [a insertObject:[NSNumber numberWithDouble:([c2 y] + (sign1 * [c2 r] * ny))] atIndex:3];
+      [results insertObject:a atIndex:i];
       i++;
     }
   }
-
   // Return 0, 2 or 4 results.
   return([results subarrayWithRange:NSMakeRange(0, i)]);
 }
@@ -371,8 +365,6 @@
   int dy = [[[points objectAtIndex:qIndex] objectForKey:@"y"] integerValue] -
     [[[points objectAtIndex:pIndex] objectForKey:@"y"] integerValue];
 
-  // NSLog(@"distance: %i", dx * dx + dy * dy);
-
   return(dx * dx + dy * dy);
 }
 
@@ -388,7 +380,6 @@
   int i;
 
   for (i = 0; i < [points count]; i++) {
-    // NSLog(@"Leftmost: %i, %i, %@, %@", i, leftmost, [[points objectAtIndex:i] objectForKey:@"x"], [[points objectAtIndex:leftmost] objectForKey:@"x"]);
     if ([[[points objectAtIndex:i] objectForKey:@"x"] integerValue] <
         [[[points objectAtIndex:leftmost] objectForKey:@"x"] integerValue]) {
       leftmost = i;

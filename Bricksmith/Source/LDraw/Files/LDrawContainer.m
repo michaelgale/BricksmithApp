@@ -349,7 +349,6 @@
   // Do this first...the actual remove may drop the directive's ref count.  In that
   // case we'll puke.
   [doomedDirective removeObserver:self];
-
   [containedObjects removeObjectAtIndex:index]; // or disowned at least.
 
   if (self->postsNotifications == YES) {
@@ -389,12 +388,10 @@
 
   for (currentDirective in subdirectives) {
     containsReference = [currentDirective containsReferenceTo:name];
-
     if (containsReference) {
       break;
     }
   }
-
   return(containsReference);
 }
 
@@ -461,7 +458,6 @@
 
   // release instance variables
   [containedObjects release];
-
   [super dealloc];
 }// end dealloc
 

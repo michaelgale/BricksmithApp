@@ -110,9 +110,7 @@
   NSUInteger lineIndex    = 0;
   NSUInteger insertIndex  = 0;
 
-  self = [super initWithLines:lines
-                      inRange:range
-                  parentGroup:parentGroup];
+  self = [super initWithLines:lines inRange:range parentGroup:parentGroup];
 
   cachedBounds = InvalidBox;
 
@@ -249,8 +247,7 @@
   cachedBounds = InvalidBox;
   [self invalCache:CacheFlagBounds];
 
-  temporary = [decoder decodeBytesForKey:@"rotationAngle"
-                          returnedLength:NULL];
+  temporary = [decoder decodeBytesForKey:@"rotationAngle" returnedLength:NULL];
   memcpy(&rotationAngle, temporary, sizeof(Tuple3));
 
   stepRotationType = [decoder decodeIntForKey:@"stepRotationType"];
@@ -270,11 +267,8 @@
 {
   [super encodeWithCoder:encoder];
 
-  [encoder encodeBytes:(void *)&rotationAngle
-                length:sizeof(Tuple3)
-                forKey:@"rotationAngle"];
-  [encoder encodeInt:stepRotationType
-              forKey:@"stepRotationType"];
+  [encoder encodeBytes:(void *)&rotationAngle length:sizeof(Tuple3) forKey:@"rotationAngle"];
+  [encoder encodeInt:stepRotationType forKey:@"stepRotationType"];
 }// end encodeWithCoder:
 
 
@@ -887,15 +881,12 @@
   if (FloatsApproximatelyEqual(newAngleXYZ.x, -180.0)) {
     newAngleXYZ.x = 180;
   }
-
   if (FloatsApproximatelyEqual(newAngleXYZ.y, -180.0)) {
     newAngleXYZ.y = 180;
   }
-
   if (FloatsApproximatelyEqual(newAngleXYZ.z, -180.0)) {
     newAngleXYZ.z = 180;
   }
-
   [self setRotationAngle:newAngleXYZ];
 }// end setRotationAngleZYX:
 
@@ -912,11 +903,9 @@
 - (void)setStepFlavor:(LDrawStepFlavorT)newFlavor
 {
   self->stepFlavor = newFlavor;
-
   if (self->postsNotifications) {
     [[NSNotificationCenter defaultCenter]
-     postNotificationName:LDrawStepDidChangeNotification
-                   object:self];
+     postNotificationName:LDrawStepDidChangeNotification object:self];
   }
 }// end setStepFlavor:
 
@@ -932,11 +921,9 @@
 - (void)setStepRotationType:(LDrawStepRotationT)newValue
 {
   self->stepRotationType = newValue;
-
   if (self->postsNotifications) {
     [[NSNotificationCenter defaultCenter]
-     postNotificationName:LDrawStepDidChangeNotification
-                   object:self];
+     postNotificationName:LDrawStepDidChangeNotification object:self];
   }
 }// end setStepRotationType:
 
@@ -951,8 +938,7 @@
 - (void)insertDirective:(LDrawDirective *)directive atIndex:(NSInteger)index
 {
   [self invalCache:CacheFlagBounds | DisplayList];
-  [super insertDirective:directive
-                 atIndex:index];
+  [super insertDirective:directive atIndex:index];
 }// end insertDirective:atIndex:
 
 
@@ -965,9 +951,7 @@
 {
   [self invalCache:CacheFlagBounds | DisplayList];
   LDrawDirective *directive = [[[self subdirectives] objectAtIndex:index] retain];
-
   [super removeDirectiveAtIndex:index];
-
   [directive release];
 }// end removeDirectiveAtIndex:
 
@@ -987,17 +971,13 @@
   NSString *workingLine = line;
   BOOL     isStep       = NO;
 
-  parsedField = [LDrawUtilities readNextField:workingLine
-                                    remainder:&workingLine];
+  parsedField = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
   if ([parsedField isEqualToString:@"0"]) {
-    parsedField = [LDrawUtilities readNextField:workingLine
-                                      remainder:&workingLine];
-
+    parsedField = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
     if ([parsedField isEqualToString:LDRAW_STEP_TERMINATOR]) {
       isStep = YES;
     }
   }
-
   return(isStep);
 }
 
@@ -1021,7 +1001,6 @@
             ]]) {
     return(NO);
   }
-
   return(YES);
 }
 
@@ -1037,17 +1016,13 @@
   NSString *workingLine   = line;
   BOOL     isRotationStep = NO;
 
-  parsedField = [LDrawUtilities readNextField:workingLine
-                                    remainder:&workingLine];
+  parsedField = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
   if ([parsedField isEqualToString:@"0"]) {
-    parsedField = [LDrawUtilities readNextField:workingLine
-                                      remainder:&workingLine];
-
+    parsedField = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
     if ([parsedField isEqualToString:LDRAW_ROTATION_STEP_TERMINATOR]) {
       isRotationStep = YES;
     }
   }
-
   return(isRotationStep);
 }
 
@@ -1078,28 +1053,24 @@
 
   @try
   {
-    if ([scanner scanString:@"0"
-                 intoString:NULL] == NO) {
+    if ([scanner scanString:@"0" intoString:NULL] == NO) {
       @throw [NSException exceptionWithName:@"BricksmithParseException"
                                      reason:@"Bad ROTSTEP syntax"
                                    userInfo:nil];
     }
 
-    if ([scanner scanString:LDRAW_ROTATION_STEP_TERMINATOR
-                 intoString:NULL] == NO) {
+    if ([scanner scanString:LDRAW_ROTATION_STEP_TERMINATOR intoString:NULL] == NO) {
       @throw [NSException exceptionWithName:@"BricksmithParseException"
                                      reason:@"Bad ROTSTEP syntax"
                                    userInfo:nil];
     }
 
     // Is it an end rotation?
-    if ([scanner scanString:LDRAW_ROTATION_END
-                 intoString:NULL] == YES) {
+    if ([scanner scanString:LDRAW_ROTATION_END intoString:NULL] == YES) {
       [self setStepRotationType:LDrawStepRotationEnd];
     }
     else {
       // ---------- Angles ------------------------------------------------
-
       if ([scanner scanDouble:&(angles.x)] == NO) {
         @throw [NSException exceptionWithName:@"BricksmithParseException"
                                        reason:@"Bad ROTSTEP syntax"
@@ -1118,19 +1089,14 @@
                                      userInfo:nil];
       }
 
-
       // ---------- Rotation Type -----------------------------------------
-
-      if ([scanner scanString:LDRAW_ROTATION_ABSOLUTE
-                   intoString:NULL] == YES) {
+      if ([scanner scanString:LDRAW_ROTATION_ABSOLUTE intoString:NULL] == YES) {
         [self setStepRotationType:LDrawStepRotationAbsolute];
       }
-      else if ([scanner scanString:LDRAW_ROTATION_ADDITIVE
-                        intoString:NULL] == YES) {
+      else if ([scanner scanString:LDRAW_ROTATION_ADDITIVE intoString:NULL] == YES) {
         [self setStepRotationType:LDrawStepRotationAdditive];
       }
-      else if ([scanner scanString:LDRAW_ROTATION_RELATIVE
-                        intoString:NULL] == YES) {
+      else if ([scanner scanString:LDRAW_ROTATION_RELATIVE intoString:NULL] == YES) {
         [self setStepRotationType:LDrawStepRotationRelative];
       }
       // if no type is explicitly specified, it is a relative rotation.
@@ -1143,7 +1109,6 @@
                                        reason:@"Bad ROTSTEP syntax"
                                      userInfo:nil];
       }
-
       // Set the parsed angles if we successfully got the type.
       [self setRotationAngleZYX:angles];
     }
@@ -1169,7 +1134,6 @@
 
   [[undoManager prepareWithInvocationTarget:self] setRotationAngle:[self rotationAngle]];
   [[undoManager prepareWithInvocationTarget:self] setStepRotationType:[self stepRotationType]];
-
   [undoManager setActionName:NSLocalizedString(@"UndoAttributesStep", nil)];
 }// end registerUndoActions:
 

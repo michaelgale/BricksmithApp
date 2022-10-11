@@ -65,7 +65,7 @@ struct Mesh;
 
 // Create a new mesh that will be smoothed.  Counts of tris, quads and lines
 // must be pre-declared exactly.
-struct Mesh *   create_mesh(
+struct Mesh *create_mesh(
   int tri_count,
   int quad_count,
   int line_count);
@@ -73,7 +73,7 @@ struct Mesh *   create_mesh(
 // Add one face.  Pass NULL for p4 for tris, pass NULL for p3 and p4 for lines.
 // Normals are not needed - the mesh alg calculates them for you.
 // Always submit geometry quads and tris first (in any order), then all lines.
-void        add_face(
+void add_face(
   struct Mesh *mesh,
   const float p1[3],
   const float p2[3],
@@ -88,12 +88,12 @@ void        add_face(
 
 // Call these routines in order to smooth the mesh.
 // Skip find_and_remove_t_junctions if you don't want to remove T junctions.
-void        finish_faces_and_sort(struct Mesh *mesh);
-void        find_and_remove_t_junctions(struct Mesh *mesh);
-void        add_creases(struct Mesh *mesh);
-void        finish_creases_and_join(struct Mesh *mesh);
-void        smooth_vertices(struct Mesh *mesh);
-void        merge_vertices(struct Mesh *mesh);
+void finish_faces_and_sort(struct Mesh *mesh);
+void find_and_remove_t_junctions(struct Mesh *mesh);
+void add_creases(struct Mesh *mesh);
+void finish_creases_and_join(struct Mesh *mesh);
+void smooth_vertices(struct Mesh *mesh);
+void merge_vertices(struct Mesh *mesh);
 
 // ==============================================================================
 // Data output API
@@ -101,7 +101,7 @@ void        merge_vertices(struct Mesh *mesh);
 
 // get_final_mesh_counts returns the total number of vertices and indices that
 // will be output.
-void        get_final_mesh_counts(
+void get_final_mesh_counts(
   struct Mesh *m,
   int *total_vertices,
   int *total_indices);
@@ -114,7 +114,7 @@ void        get_final_mesh_counts(
 // other words, if your mesh has 3 TIDs (0,1,2) then out_line_starts should
 // be an array of 3 ints.  Thus the start and offset of all primitives for
 // all texture IDs are output in TID order.
-void        write_indexed_mesh(
+void write_indexed_mesh(
   struct Mesh *mesh,
   int vertex_table_size,
   volatile float *io_vertex_table,
@@ -129,6 +129,6 @@ void        write_indexed_mesh(
   int out_quad_counts[]);
 
 // This releases all internal storage for the mesh when smoothing is complete.
-void        destroy_mesh(struct Mesh *mesh);
+void destroy_mesh(struct Mesh *mesh);
 
 #endif /* MeshSmooth_H */

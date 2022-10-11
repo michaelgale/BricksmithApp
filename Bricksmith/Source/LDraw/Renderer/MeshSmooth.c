@@ -490,7 +490,7 @@ static void range_for_vertex(struct Vertex *base,
 // that the vertices are sorted by X coordinate already.
 // We return a node ptr with the lsb set or cleared depending on whether we made an internal or
 // leaf node.
-struct RTree_node * index_vertices_recursive(struct Vertex **begin, struct Vertex **end, int depth)
+struct RTree_node *index_vertices_recursive(struct Vertex **begin, struct Vertex **end, int depth)
 {
   int i;
   int count = end - begin;
@@ -812,7 +812,7 @@ int is_crease(const float n1[3], const float n2[3], int flip)
 // the int pointed to by did_reverse is set to 0 if v's and the return vertex's triangle
 // have the same winding direction; it is set to 1 if the winding direction of the two
 // tris is opposite.
-static struct Vertex *    circulate_ccw(struct Vertex *v, int *did_reverse)
+static struct Vertex *circulate_ccw(struct Vertex *v, int *did_reverse)
 {
   // .------V,M		We use "leading neighbor" syntax, so (2) is the cw(v) neighbor of 1.
   // \     / \		Conveniently, "M" is the defining vertex for edge X as defined by 2.
@@ -840,7 +840,7 @@ static struct Vertex *    circulate_ccw(struct Vertex *v, int *did_reverse)
 
 
 // Same as above, but the circulation is done in the clockwise direction.
-static struct Vertex *    circulate_cw(struct Vertex *v, int *did_reverse)
+static struct Vertex *circulate_cw(struct Vertex *v, int *did_reverse)
 {
   // .-------V		V itself defines the edge we want to traverse, but M is out of position - to
   // \     / \		recover V we want CCW(M).  But if we are flipped, we just need M itself.
@@ -872,7 +872,7 @@ static struct Vertex *    circulate_cw(struct Vertex *v, int *did_reverse)
 // If the next triangle reverses winding, *dir is negated so that an
 // additional call with *dir's new value will have the same _effective_
 // direction.
-static struct Vertex * circulate_any(struct Vertex *v, int *dir)
+static struct Vertex *circulate_any(struct Vertex *v, int *dir)
 {
   int           did_reverse = 0;
   struct Vertex *ret;
@@ -1042,13 +1042,13 @@ struct Mesh *   create_mesh(int tri_count, int quad_count, int line_count)
 //
 // The TIDs are used to output sets of draw commands that share common texture state -
 // that is, faces, quads and lines are ouput in TID order.
-void        add_face(struct Mesh *mesh,
-                     const float p1[3],
-                     const float p2[3],
-                     const float p3[3],
-                     const float p4[3],
-                     const float color[4],
-                     int tid)
+void add_face(struct Mesh *mesh,
+              const float p1[3],
+              const float p2[3],
+              const float p3[3],
+              const float p4[3],
+              const float color[4],
+              int tid)
 {
   #if SLOW_CHECKING
   if (vec3f_length2(p1, p2) <= EPSI2) { mesh->flags |= TINY_INITIAL_TRIANGLE; }
@@ -1201,7 +1201,7 @@ static void visit_vertex_to_snap(struct Vertex *v, void *ref)
 // might be a visible triangle) but passing degenerate geometry to the
 // smoother causes problems - so instead we 'seal off' this geometry to
 // avoid further problems.
-void        finish_faces_and_sort(struct Mesh *mesh)
+void finish_faces_and_sort(struct Mesh *mesh)
 {
   int v, f;
   int total_before = 0, total_after = 0;
@@ -1340,7 +1340,7 @@ void        finish_faces_and_sort(struct Mesh *mesh)
 
 // Utility function: this marks one edge as a crease - the edge is identified by its
 // location.
-static void       add_crease(struct Mesh *mesh, const float p1[3], const float p2[3])
+static void add_crease(struct Mesh *mesh, const float p1[3], const float p2[3])
 {
   struct Vertex *begin, *end, *v;
 
@@ -1398,7 +1398,7 @@ void add_creases(struct Mesh *mesh)
 // or creases.  If the potential join between faces is too sharp, it is marked
 // as a crease, otherwise the edges are recorded as neighbors of each other.
 // When we are done every polygon edge is a crease or neighbor of someone.
-void        finish_creases_and_join(struct Mesh *mesh)
+void finish_creases_and_join(struct Mesh *mesh)
 {
   int         fi;
   int         i;
@@ -1562,7 +1562,7 @@ static float weight_for_vertex(struct Vertex *v)
 // the vertex, not just a straight average of all participating triangles.
 // We do not want to bias our normal toward the direction of more small
 // triangles.
-void        smooth_vertices(struct Mesh *mesh)
+void smooth_vertices(struct Mesh *mesh)
 {
   int f;
   int i;
@@ -1654,7 +1654,7 @@ void        smooth_vertices(struct Mesh *mesh)
 // vertices.  This routine rebuilds the ptrs from triangles so that all
 // faces see the 'shared' vertex.  By convention the first of a group
 // of equal vertices in the vertex array is the one we will keep/use.
-void        merge_vertices(struct Mesh *mesh)
+void merge_vertices(struct Mesh *mesh)
 {
   // Once smoothing is done, indexing the mesh is actually pretty easy:
   // First, we re-sort the vertex list; now that our normals and colors
@@ -1703,7 +1703,7 @@ void        merge_vertices(struct Mesh *mesh)
 // This returns the final counts for vertices and indices in a mesh - after merging,
 // subdivising, etc. our original counts may be changed, so clients need to know
 // how much VBO space to allocate.
-void  get_final_mesh_counts(struct Mesh *m, int *total_vertices, int *total_indices)
+void get_final_mesh_counts(struct Mesh *m, int *total_vertices, int *total_indices)
 {
   *total_vertices = m->unique_vertex_count;
   *total_indices  = m->vertex_count;
@@ -1711,7 +1711,7 @@ void  get_final_mesh_counts(struct Mesh *m, int *total_vertices, int *total_indi
 
 
 // This cleans our mesh, deallocating all internal memory.
-void        destroy_mesh(struct Mesh *mesh)
+void destroy_mesh(struct Mesh *mesh)
 {
   int f, i;
 
@@ -1763,7 +1763,7 @@ void        destroy_mesh(struct Mesh *mesh)
 // collection of geometry.  Primitives are also output in order.
 //
 // (In other words, the primary sort key is TID, second is primitive type.)
-void        write_indexed_mesh(
+void write_indexed_mesh(
   struct Mesh *mesh,
   int vertex_table_size,
   volatile float *io_vertex_table,

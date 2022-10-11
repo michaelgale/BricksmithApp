@@ -38,8 +38,7 @@
 // ==============================================================================
 - (BOOL)ams_containsString:(NSString *)substring options:(NSUInteger)mask
 {
-  NSRange foundRange = [self rangeOfString:substring
-                                   options:mask];
+  NSRange foundRange = [self rangeOfString:substring options:mask];
 
   if (foundRange.location == NSNotFound &&
       [substring length] > 0) {
@@ -60,8 +59,7 @@
 + (NSString *)CRLF
 {
   unichar  CRLFchars[] = { 0x000D, 0x000A }; // DOS linefeed.
-  NSString *CRLF       = [NSString stringWithCharacters:CRLFchars
-                                                 length:2];
+  NSString *CRLF       = [NSString stringWithCharacters:CRLFchars length:2];
 
   return(CRLF);
 }// end CRLF
@@ -75,8 +73,7 @@
 // ==============================================================================
 - (NSComparisonResult)numericCompare:(NSString *)string
 {
-  return([self compare:string
-               options:NSNumericSearch]);
+  return([self compare:string options:NSNumericSearch]);
 }// end numericCompare:
 
 
@@ -88,15 +85,13 @@
 // ==============================================================================
 - (NSArray *)separateByLine
 {
-  NSMutableArray *lines       = [NSMutableArray array];
-  NSUInteger     stringLength = [self length];
-
-  NSUInteger lineStartIndex     = 0;
-  NSUInteger nextlineStartIndex = 0;
-  NSUInteger newlineIndex       = 0;       // index of the first newline character in the line.
-
-  NSString  *isolatedLine;
-  NSInteger lineLength = 0;
+  NSMutableArray *lines             = [NSMutableArray array];
+  NSUInteger     stringLength       = [self length];
+  NSUInteger     lineStartIndex     = 0;
+  NSUInteger     nextlineStartIndex = 0;
+  NSUInteger     newlineIndex       = 0;   // index of the first newline character in the line.
+  NSInteger      lineLength         = 0;
+  NSString       *isolatedLine;
 
   while (nextlineStartIndex < stringLength)
   {
@@ -146,12 +141,10 @@
       resultLength++;
     }
   }
-  strippedString = [NSString stringWithCharacters:resultBuffer
-                                           length:resultLength];
+  strippedString = [NSString stringWithCharacters:resultBuffer length:resultLength];
 
   // free memory
   free(resultBuffer);
-
   return(strippedString);
 }// end ams_stringByRemovingWhitespace
 

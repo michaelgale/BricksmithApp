@@ -34,7 +34,7 @@
 typedef enum
 {
   LDrawGLDrawNormal        = 0, // full draw
-  LDrawGLDrawExtremelyFast = 1    // bounds only
+  LDrawGLDrawExtremelyFast = 1  // bounds only
 } RotationDrawModeT;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -49,7 +49,7 @@ typedef enum
   id   target;
   BOOL allowsEditing;
 
-  LDrawDirective *fileBeingDrawn;             // Should only be an LDrawFile or LDrawModel.
+  LDrawDirective *fileBeingDrawn;  // Should only be an LDrawFile or LDrawModel.
   // if you want to do anything else, you must
   // tweak the selection code in LDrawDrawableElement
   // and here in -mouseUp: to handle such cases.
@@ -110,7 +110,8 @@ typedef enum
 - (void)setDraggingOffset:(Vector3)offsetIn;
 - (void)setGridSpacing:(double)newValue;
 - (void)setLDrawDirective:(LDrawDirective *)newFile;
-- (void)setMaximumVisibleSize:(Size2)size;             // This is how we find out that the visible frame of our window is bigger or smaller
+// This is how we find out that the visible frame of our window is bigger or smaller
+- (void)setMaximumVisibleSize:(Size2)size;
 - (void)setProjectionMode:(ProjectionModeT)newProjectionMode;
 - (void)setLocationMode:(LocationModeT)newLocationMode;
 - (void)setSelectionMarquee:(Box2)newBox;
@@ -133,18 +134,21 @@ typedef enum
 - (void)mouseUp;
 
 - (void)mouseCenterClick:(Point2)viewClickedPoint;
-- (BOOL)mouseSelectionClick:(Point2)point_view selectionMode:(SelectionModeT)selectionMode;  // Returns TRUE if we hit any parts at all.
+// Returns TRUE if we hit any parts at all.
+- (BOOL)mouseSelectionClick:(Point2)point_view selectionMode:(SelectionModeT)selectionMode;
 - (void)mouseZoomInClick:(Point2)viewClickedPoint;
 - (void)mouseZoomOutClick:(Point2)viewClickedPoint;
 
 - (void)dragHandleDraggedToPoint:(Point2)point_view constrainDragAxis:(BOOL)constrainDragAxis;
 - (void)panDragged:(Vector2)viewDirection location:(Point2)point_view;
-- (void)rotationDragged:(Vector2)viewDirection;                                               // This is how we get track-balled
+// This is how we get track-balled
+- (void)rotationDragged:(Vector2)viewDirection;
 - (void)zoomDragged:(Vector2)viewDirection;
 - (void)mouseSelectionDragToPoint:(Point2)point_view selectionMode:(SelectionModeT)selectionMode;
 - (void)beginGesture;
 - (void)endGesture;
-- (void)rotateByDegrees:(double)angle;                                                        // Track-pad twist gesture
+// Track-pad twist gesture
+- (void)rotateByDegrees:(double)angle;
 
 // Drag and Drop
 - (void)draggingEnteredAtPoint:(Point2)point_view directives:(NSArray *)directives setTransform:(BOOL)setTransform
@@ -158,14 +162,15 @@ typedef enum
 - (void)displayNeedsUpdating:(NSNotification *)notification;
 
 // Utilities
-// - (NSArray *) getDirectivesUnderPoint:(Point2)point_view amongDirectives:(NSArray *)directives fastDraw:(BOOL)fastDraw;
 - (NSArray *)getDirectivesUnderRect:(Box2)rect_view amongDirectives:(NSArray *)directives fastDraw:(BOOL)fastDraw;
-// - (NSArray *) getPartsFromHits:(NSDictionary *)hits;
 - (void)publishMouseOverPoint:(Point2)viewPoint;
-- (void)setZoomPercentage:(CGFloat)newPercentage preservePoint:(Point2)viewPoint; // This and setZoomPercentage are how we zoom.
-- (void)scrollCenterToModelPoint:(Point3)modelPoint;                              // These two are how we do gesture-based scrolls
+// This and setZoomPercentage are how we zoom.
+- (void)setZoomPercentage:(CGFloat)newPercentage preservePoint:(Point2)viewPoint;
+// These two are how we do gesture-based scrolls
+- (void)scrollCenterToModelPoint:(Point3)modelPoint;
 - (void)scrollModelPoint:(Point3)modelPoint toViewportProportionalPoint:(Point2)viewportPoint;
-- (void)updateRotationCenter;                                // A camera "property change"
+// A camera "property change"
+- (void)updateRotationCenter;
 - (void)showAxisLines:(BOOL)flag;
 
 // - Geometry
@@ -194,13 +199,16 @@ typedef enum
 - (void)LDrawGLRendererMouseNotPositioning:(LDrawGLRenderer *)renderer;
 
 - (TransformComponents)LDrawGLRendererPreferredPartTransform:(LDrawGLRenderer *)renderer;
-
-- (void)LDrawGLRenderer:(LDrawGLRenderer *)renderer wantsToSelectDirective:(LDrawDirective *)
-  directiveToSelect byExtendingSelection:(BOOL)shouldExtend;
-- (void)LDrawGLRenderer:(LDrawGLRenderer *)renderer wantsToSelectDirectives:(NSArray *)directivesToSelect
+- (void)LDrawGLRenderer:(LDrawGLRenderer *)renderer
+  wantsToSelectDirective:(LDrawDirective *)directiveToSelect
+  byExtendingSelection:(BOOL)shouldExtend;
+- (void)LDrawGLRenderer:(LDrawGLRenderer *)renderer
+  wantsToSelectDirectives:(NSArray *)directivesToSelect
   selectionMode:(SelectionModeT)selectionMode;
-- (void)LDrawGLRenderer:(LDrawGLRenderer *)renderer willBeginDraggingHandle:(LDrawDragHandle *)dragHandle;
-- (void)LDrawGLRenderer:(LDrawGLRenderer *)renderer dragHandleDidMove:(LDrawDragHandle *)dragHandle;
+- (void)LDrawGLRenderer:(LDrawGLRenderer *)renderer
+  willBeginDraggingHandle:(LDrawDragHandle *)dragHandle;
+- (void)LDrawGLRenderer:(LDrawGLRenderer *)renderer
+  dragHandleDidMove:(LDrawDragHandle *)dragHandle;
 
 - (void)markPreviousSelection:(LDrawGLRenderer *)renderer;
 - (void)unmarkPreviousSelection:(LDrawGLRenderer *)renderer;

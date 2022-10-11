@@ -1455,7 +1455,6 @@ void LDrawDLDraw(
     glVertexAttrib4f(attr_transform_x + i, transform[i], transform[4 + i], transform[8 + i],
                      transform[12 + i]);
   }
-
   glVertexAttrib4fv(attr_color_current, cur_color);
   glVertexAttrib4fv(attr_color_compliment, cmp_color);
 

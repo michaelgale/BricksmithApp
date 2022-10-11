@@ -204,8 +204,8 @@ typedef void (^LDrawPartVisitor)(LDrawPart *);
 // Hit testing primitives
 - (void)hitTest:(Ray3)pickRay transform:(Matrix4)transform viewScale:(double)scaleFactor boundsOnly:(BOOL)boundsOnly
   creditObject:(id)creditObject hits:(NSMutableDictionary *)hits;
-- (BOOL)boxTest:(Box2)bounds transform:(Matrix4)transform boundsOnly:(BOOL)boundsOnly creditObject:(id)
-  creditObject hits:(NSMutableSet *)hits;
+- (BOOL)boxTest:(Box2)bounds transform:(Matrix4)transform boundsOnly:(BOOL)boundsOnly
+  creditObject:(id)creditObject hits:(NSMutableSet *)hits;
 - (void)depthTest:(Point2)testPt inBox:(Box2)bounds transform:(Matrix4)transform creditObject:(id)
   creditObject bestObject:(id *)bestObject bestDepth:(double *)bestDepth;
 
@@ -224,7 +224,6 @@ typedef void (^LDrawPartVisitor)(LDrawPart *);
 - (LDrawStep *)enclosingStep;
 
 - (BOOL)isSelected;
-
 - (void)setEnclosingDirective:(LDrawContainer *)newParent;
 - (void)setSelected:(BOOL)flag;
 - (void)setIconName:(NSString *)icon;
@@ -246,8 +245,8 @@ typedef void (^LDrawPartVisitor)(LDrawPart *);
 // These methods should really be "protected" methods for sub-classes to use when acting like observables.
 // Obj-C doesn't give us compiler-level support to stop externals from calling them.
 
-- (void)sendMessageToObservers:(MessageT)msg;       // Send a specific message to all observers.
-- (void)invalCache:(CacheFlagsT)flags;              // Invalidate cache bits - this notifies observers as needed.  Flags are the bits to invalidate, not the net effect.
-- (CacheFlagsT)revalCache:(CacheFlagsT)flags;       // Revalidate flags - no notifications are sent, but internals are updated.  Returns which flags _were_ dirty.
+- (void)sendMessageToObservers:(MessageT)msg;  // Send a specific message to all observers.
+- (void)invalCache:(CacheFlagsT)flags;         // Invalidate cache bits - this notifies observers as needed.  Flags are the bits to invalidate, not the net effect.
+- (CacheFlagsT)revalCache:(CacheFlagsT)flags;  // Revalidate flags - no notifications are sent, but internals are updated.  Returns which flags _were_ dirty.
 
 @end

@@ -20,8 +20,7 @@
 {
   NSData *theData = [NSArchiver archivedDataWithRootObject:aColor];
 
-  [self setObject:theData
-           forKey:aKey];
+  [self setObject:theData forKey:aKey];
 }// end setColor:forKey:
 
 

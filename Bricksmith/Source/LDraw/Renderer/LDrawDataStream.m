@@ -79,7 +79,7 @@ void LDrawDataStreamDestroy(struct LDrawDataStream *str)
 // asecnding writes.
 //
 // ================================================================================
-void *  LDrawDataStreamMap(struct LDrawDataStream *str, int size_desired)
+void *LDrawDataStreamMap(struct LDrawDataStream *str, int size_desired)
 {
   assert(size_desired <= str->total_size);
   glBindBuffer(GL_ARRAY_BUFFER, str->vbo);
@@ -90,7 +90,6 @@ void *  LDrawDataStreamMap(struct LDrawDataStream *str, int size_desired)
     str->cur_base = 0;
     str->cur_size = 0;
   }
-
   str->cur_size = size_desired;
   char *r = (char *)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
   glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -107,7 +106,7 @@ void *  LDrawDataStreamMap(struct LDrawDataStream *str, int size_desired)
 // use by glVertexAttribPointer.
 //
 // ================================================================================
-void *  LDrawDataStreamUnmap(struct LDrawDataStream *str)
+void *LDrawDataStreamUnmap(struct LDrawDataStream *str)
 {
   glBindBuffer(GL_ARRAY_BUFFER, str->vbo);
   glUnmapBuffer(GL_ARRAY_BUFFER);
@@ -139,7 +138,7 @@ struct LDrawDataStream {
 // ================================================================================
 
 /* *INDENT-OFF* */
-struct LDrawDataStream *  LDrawDataStreamCreate(int buffer_size)
+struct LDrawDataStream *LDrawDataStreamCreate(int buffer_size)
 {
   struct LDrawDataStream *r = (struct LDrawDataStream *)malloc(sizeof(struct LDrawDataStream));
 
@@ -154,7 +153,7 @@ struct LDrawDataStream *  LDrawDataStreamCreate(int buffer_size)
 // Purpose:		Deallocate a data stream, clean up VBO.
 //
 // ================================================================================
-void            LDrawDataStreamDestroy(struct LDrawDataStream *str)
+void LDrawDataStreamDestroy(struct LDrawDataStream *str)
 {
   glDeleteBuffers(1, &str->vbo);
   free(str);
@@ -176,7 +175,7 @@ void            LDrawDataStreamDestroy(struct LDrawDataStream *str)
 // asecnding writes.
 //
 // ================================================================================
-void *  LDrawDataStreamMap(struct LDrawDataStream *str, int size_desired)
+void *LDrawDataStreamMap(struct LDrawDataStream *str, int size_desired)
 {
   glBindBuffer(GL_ARRAY_BUFFER, str->vbo);
   glBufferData(GL_ARRAY_BUFFER, size_desired, NULL, GL_DYNAMIC_DRAW);
@@ -193,7 +192,7 @@ void *  LDrawDataStreamMap(struct LDrawDataStream *str, int size_desired)
 // use by glVertexAttribPointer.
 //
 // ================================================================================
-void *  LDrawDataStreamUnmap(struct LDrawDataStream *str)
+void *LDrawDataStreamUnmap(struct LDrawDataStream *str)
 {
   glBindBuffer(GL_ARRAY_BUFFER, str->vbo);
   glUnmapBuffer(GL_ARRAY_BUFFER);

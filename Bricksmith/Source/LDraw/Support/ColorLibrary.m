@@ -54,9 +54,7 @@ static ColorLibrary *sharedColorLibrary = nil;
     ldconfigFile = [LDrawFile fileFromContentsAtPath:ldconfigPath];
 
     // "Draw" it so that all the colors are recorded in the library
-    [ldconfigFile draw:DRAW_NO_OPTIONS
-             viewScale:1.0
-           parentColor:nil];
+    [ldconfigFile draw:DRAW_NO_OPTIONS viewScale:1.0 parentColor:nil];
 
     sharedColorLibrary = [[[ldconfigFile activeModel] colorLibrary] retain];
 
@@ -292,8 +290,7 @@ static ColorLibrary *sharedColorLibrary = nil;
   LDrawColorT colorCode = [newColor colorCode];
   NSNumber    *key      = [NSNumber numberWithInteger:colorCode];
 
-  [self->colors setObject:newColor
-                   forKey:key];
+  [self->colors setObject:newColor forKey:key];
 }// end addColor:
 
 
@@ -318,9 +315,7 @@ static ColorLibrary *sharedColorLibrary = nil;
   if (self->privateColors == nil) {
     self->privateColors = [[NSMutableDictionary alloc] init];
   }
-
-  [self->privateColors setObject:newColor
-                          forKey:key];
+  [self->privateColors setObject:newColor forKey:key];
 }// end addPrivateColor:
 
 

@@ -19,15 +19,12 @@
 // =======================================================================
 static GLuint load_shader(NSString *file_path, GLenum shader_type, const char *shader_prefix)
 {
-  GLuint shader_obj = glCreateShader(shader_type);
-
-  NSString *shader_file_text = [LDrawUtilities stringFromFile:file_path];
-
-  const GLchar *shader_text[2] = { shader_prefix, [shader_file_text UTF8String] };
+  GLuint       shader_obj        = glCreateShader(shader_type);
+  NSString     *shader_file_text = [LDrawUtilities stringFromFile:file_path];
+  const GLchar *shader_text[2]   = { shader_prefix, [shader_file_text UTF8String] };
 
   glShaderSource(shader_obj, 2, shader_text, NULL);
   glCompileShader(shader_obj);
-
   GLint result;
 
   glGetShaderiv(shader_obj, GL_COMPILE_STATUS, &result);
@@ -73,7 +70,6 @@ GLuint  LDrawLoadShaderFromFile(NSString *file_path, const char *attrib_list[])
 
   glAttachShader(prog, vshader);
   glAttachShader(prog, fshader);
-
   if (attrib_list) {
     int a = 0;
     while (attrib_list[a])
@@ -84,7 +80,6 @@ GLuint  LDrawLoadShaderFromFile(NSString *file_path, const char *attrib_list[])
   }
 
   glLinkProgram(prog);
-
   GLint result;
 
   glGetProgramiv(prog, GL_LINK_STATUS, &result);

@@ -51,9 +51,7 @@
   NSRect  newRect      = NSMakeRect(upperLeft.x, upperLeft.y - newSize.height,
                                     newSize.width, newSize.height);
 
-  [self setFrame:newRect
-         display:YES
-         animate:animate];
+  [self setFrame:newRect display:YES animate:animate];
 }// end resizeToSize:animate:
 
 

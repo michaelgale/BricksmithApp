@@ -45,11 +45,11 @@
 struct  LDrawBDP;
 
 // Allocate a new pool.
-struct LDrawBDP *   LDrawBDPCreate();
+struct LDrawBDP *LDrawBDPCreate();
 
 // Destroy the pool, freeing all memory allocated from the pool, as well as
 // the pool itself.
-void          LDrawBDPDestroy(struct LDrawBDP *pool);
+void LDrawBDPDestroy(struct LDrawBDP *pool);
 
 // Allocate a new memory block from the pool.
-void *          LDrawBDPAllocate(struct LDrawBDP *pool, size_t sz);
+void *LDrawBDPAllocate(struct LDrawBDP *pool, size_t sz);

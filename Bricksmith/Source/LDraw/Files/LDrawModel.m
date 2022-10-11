@@ -122,19 +122,14 @@
   id         *substeps         = NULL;
 
   // Start with a nice blank model.
-  self = [super initWithLines:lines
-                      inRange:range
-                  parentGroup:parentGroup];
+  self = [super initWithLines:lines inRange:range parentGroup:parentGroup];
   self->cachedBounds = InvalidBox;
-
-  substeps = calloc(range.length, sizeof(LDrawDirective *));
+  substeps           = calloc(range.length, sizeof(LDrawDirective *));
 
   // Try and get the header out of the file. If it's there, the lines returned
   // will not contain it.
-  contentStartIndex = [self parseHeaderFromLines:lines
-                                beginningAtIndex:range.location];
-  maxLineIndex = NSMaxRange(range) - 1;
-
+  contentStartIndex = [self parseHeaderFromLines:lines beginningAtIndex:range.location];
+  maxLineIndex      = NSMaxRange(range) - 1;
   dispatch_group_t modelDispatchGroup = NULL;
 
 /* *INDENT-OFF* */
@@ -148,18 +143,16 @@
   // Parse out steps. Each time we run into a new 0 STEP command, we finish
   // the current step.
   do {
-    stepRange = [LDrawStep rangeOfDirectiveBeginningAtIndex:contentStartIndex
-                                                    inLines:lines
-                                                   maxIndex:maxLineIndex];
+    stepRange =
+      [LDrawStep rangeOfDirectiveBeginningAtIndex:contentStartIndex inLines:lines maxIndex:maxLineIndex];
 /* *INDENT-OFF* */
 #if USE_BLOCKS
 		dispatch_group_async(modelDispatchGroup,queue,
 		^{
 #endif
 /* *INDENT-ON* */
-    LDrawStep *newStep = [[LDrawStep alloc] initWithLines:lines
-                                                  inRange:stepRange
-                                              parentGroup:modelDispatchGroup];
+    LDrawStep *newStep =
+      [[LDrawStep alloc] initWithLines:lines inRange:stepRange parentGroup:modelDispatchGroup];
     substeps[insertIndex] = newStep;
 /* *INDENT-OFF* */
 #if USE_BLOCKS
@@ -167,7 +160,6 @@
 #endif
 /* *INDENT-ON* */
     ++insertIndex;
-
     contentStartIndex = NSMaxRange(stepRange);
   } while (contentStartIndex < NSMaxRange(range));
 
@@ -181,7 +173,6 @@
 
   for (counter = 0; counter < insertIndex; counter++) {
     LDrawStep *step = substeps[counter];
-
     [self addStep:step];
     [step release];
   }
@@ -236,7 +227,6 @@
 - (void)encodeWithCoder:(NSCoder *)encoder
 {
   [super encodeWithCoder:encoder];
-
   [encoder encodeObject:modelDescription forKey:@"modelDescription"];
   [encoder encodeObject:fileName forKey:@"fileName"];
   [encoder encodeObject:author forKey:@"author"];
@@ -253,16 +243,13 @@
   LDrawModel *copied = (LDrawModel *)[super copyWithZone:zone];
 
   copied->cachedBounds = cachedBounds;
-
   [copied setModelDescription:[self modelDescription]];
   [copied setFileName:[self fileName]];
   [copied setAuthor:[self author]];
-
   [copied setStepDisplay:[self stepDisplay]];
   [copied setMaximumStepIndexForStepDisplay:[self maximumStepIndexForStepDisplay]];
 
   // I don't think we care about the cached bounds.
-
   return(copied);
 }// end copyWithZone:
 
@@ -289,16 +276,12 @@
   // Draw all the steps in the model
   for (counter = 0; counter <= maxIndex; counter++) {
     currentDirective = [steps objectAtIndex:counter];
-    [currentDirective draw:optionsMask
-                 viewScale:scaleFactor
-               parentColor:parentColor];
+    [currentDirective draw:optionsMask viewScale:scaleFactor parentColor:parentColor];
   }
 
   // Draw Drag-and-Drop pieces if we've got 'em.
   if (self->draggingDirectives != nil) {
-    [self->draggingDirectives draw:optionsMask
-                         viewScale:scaleFactor
-                       parentColor:parentColor];
+    [self->draggingDirectives draw:optionsMask viewScale:scaleFactor parentColor:parentColor];
   }
 }// end draw:viewScale:parentColor:
 
@@ -329,8 +312,7 @@
   GLfloat minxyz[3] = { my_bounds.min.x, my_bounds.min.y, my_bounds.min.z };
   GLfloat maxxyz[3] = { my_bounds.max.x, my_bounds.max.y, my_bounds.max.z };
 
-  int cull_result = [renderer checkCull:minxyz
-                                     to:maxxyz];
+  int cull_result = [renderer checkCull:minxyz to:maxxyz];
 
   #if !NO_CULL_SMALL_BRICKS
   if (cull_result == cull_skip) {
@@ -338,8 +320,7 @@
   }
 
   if (cull_result == cull_box) {
-    [renderer drawBoxFrom:minxyz
-                       to:maxxyz];
+    [renderer drawBoxFrom:minxyz to:maxxyz];
     return;
   }
   #endif
@@ -364,8 +345,7 @@
   if (!dl) {
     id <LDrawCollector> collector = [renderer beginDL];
     [self collectSelf:collector];
-    [renderer endDL:&dl
-        cleanupFunc:&dl_dtor];
+    [renderer endDL:&dl cleanupFunc:&dl_dtor];
   }
 
   // Finally: if we have a DL (cached or brand new, draw it!!)
@@ -413,7 +393,6 @@
         [renderer drawDL:drag_dl];
         drag_dl_dtor(drag_dl);
       }
-
       [self->draggingDirectives drawSelf:renderer];
     }
   }
@@ -1065,7 +1044,6 @@
 {
   [newDescription retain];
   [modelDescription release];
-
   modelDescription = newDescription;
 }// end setModelDescription:
 
@@ -1082,7 +1060,6 @@
 {
   [newName retain];
   [fileName release];
-
   fileName = newName;
 }// end setFileName:
 
@@ -1101,7 +1078,6 @@
   }
   [newAuthor retain];
   [author release];
-
   author = newAuthor;
 }// end setAuthor:
 
@@ -1180,7 +1156,6 @@
   LDrawStep *newStep = [LDrawStep emptyStep];
 
   [self addDirective:newStep]; // adds the step and tells it who it belongs to.
-
   return(newStep);
 }// end addStep
 
@@ -1227,7 +1202,6 @@
   if (idx <= currentStepDisplayed && currentStepDisplayed > 0) {
     --currentStepDisplayed;
   }
-
   [super removeDirectiveAtIndex:idx];
 }
 
@@ -1235,8 +1209,7 @@
 - (void)insertDirective:(LDrawDirective *)directive atIndex:(NSInteger)index;
 {
   [self invalCache:CacheFlagBounds | DisplayList];
-  [super insertDirective:directive
-                 atIndex:index];
+  [super insertDirective:directive atIndex:index];
 }
 
 #pragma mark -
@@ -1343,18 +1316,16 @@
 {
   NSArray *steps = [self subdirectives];
 
-  NSMutableArray *lines          = [NSMutableArray array];
-  NSMutableArray *triangles      = [NSMutableArray array];
-  NSMutableArray *quadrilaterals = [NSMutableArray array];
-  NSMutableArray *everythingElse = [NSMutableArray array];
-
-  LDrawStep *linesStep          = [LDrawStep emptyStepWithFlavor:LDrawStepLines];
-  LDrawStep *trianglesStep      = [LDrawStep emptyStepWithFlavor:LDrawStepTriangles];
-  LDrawStep *quadrilateralsStep = [LDrawStep emptyStepWithFlavor:LDrawStepQuadrilaterals];
-  LDrawStep *everythingElseStep = [LDrawStep emptyStepWithFlavor:LDrawStepAnyDirectives];
-
-  NSUInteger directiveCount = 0;
-  NSInteger  counter        = 0;
+  NSMutableArray *lines              = [NSMutableArray array];
+  NSMutableArray *triangles          = [NSMutableArray array];
+  NSMutableArray *quadrilaterals     = [NSMutableArray array];
+  NSMutableArray *everythingElse     = [NSMutableArray array];
+  LDrawStep      *linesStep          = [LDrawStep emptyStepWithFlavor:LDrawStepLines];
+  LDrawStep      *trianglesStep      = [LDrawStep emptyStepWithFlavor:LDrawStepTriangles];
+  LDrawStep      *quadrilateralsStep = [LDrawStep emptyStepWithFlavor:LDrawStepQuadrilaterals];
+  LDrawStep      *everythingElseStep = [LDrawStep emptyStepWithFlavor:LDrawStepAnyDirectives];
+  NSUInteger     directiveCount      = 0;
+  NSInteger      counter             = 0;
 
   // Traverse the entire hiearchy of part references and sort out each
   // primitive type into a flat list. This allows staggering speed increases.
@@ -1384,7 +1355,6 @@
     }
     [self addDirective:linesStep];
   }
-
   if ([triangles count] > 0) {
     for (id directive in triangles) {
       [trianglesStep addDirective:directive];
@@ -1486,7 +1456,6 @@
   {
     // Ran out of lines in the file. Oh well. We got what we got.
   }
-
   return(firstNonHeaderIndex);
 }// end parseHeaderFromLines
 
@@ -1521,7 +1490,6 @@
       }
     }
   }
-
   return(isValid);
 }// end line:isValidForHeader:
 
@@ -1539,7 +1507,6 @@
   [[undoManager prepareWithInvocationTarget:self] setAuthor:[self author]];
   [[undoManager prepareWithInvocationTarget:self] setFileName:[self fileName]];
   [[undoManager prepareWithInvocationTarget:self] setModelDescription:[self modelDescription]];
-
   [undoManager setActionName:NSLocalizedString(@"UndoAttributesModel", nil)];
 }// end registerUndoActions:
 
@@ -1562,9 +1529,7 @@
   [modelDescription release];
   [fileName release];
   [author release];
-
   [colorLibrary release];
-
   [super dealloc];
 }// end dealloc
 

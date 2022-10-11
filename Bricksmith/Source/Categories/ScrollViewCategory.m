@@ -29,7 +29,6 @@
 
   // replicate settings
   [centeringClipView setBackgroundColor:[NSColor windowBackgroundColor]];
-// [centeringClipView	setCopiesOnScroll:[oldClipView copiesOnScroll]];
   [centeringClipView setCopiesOnScroll:NO];
   [centeringClipView setDrawsBackground:[oldClipView drawsBackground]];
 

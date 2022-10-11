@@ -122,7 +122,7 @@ typedef struct {
 ////////////////////////////////////////////////////////////////////////////////
 
 #define PI              M_PI
-#define SMALL_NUMBER    1.e-6 // "close enough" zero for floating-point. 1e-8 is too small.
+#define SMALL_NUMBER    1.0e-6 // "close enough" zero for floating-point. 1e-8 is too small.
 
 extern const Size2 ZeroSize2;
 extern const Box2 ZeroBox2;

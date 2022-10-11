@@ -991,7 +991,6 @@ Vector3 V3IsolateGreatestComponent(Vector3 vector)
 {
   if (fabs(vector.x) > fabs(vector.y)) {
     vector.y = 0;
-
     if (fabs(vector.x) > fabs(vector.z)) {
       vector.z = 0;
     }
@@ -1001,7 +1000,6 @@ Vector3 V3IsolateGreatestComponent(Vector3 vector)
   }
   else {
     vector.x = 0;
-
     if (fabs(vector.y) > fabs(vector.z)) {
       vector.z = 0;
     }
@@ -1009,7 +1007,6 @@ Vector3 V3IsolateGreatestComponent(Vector3 vector)
       vector.y = 0;
     }
   }
-
   return(vector);
 }// end V3IsolateGreatestComponent
 
@@ -1127,9 +1124,9 @@ bool V3RayIntersectsSegment(Ray3 segment1, Segment3 segment2,
   Vector3 u          = segment1.direction;  // V3Sub(segment1.point1, segment1.point0);
   Vector3 v          = V3Sub(segment2.point1, segment2.point0);
   Vector3 w          = V3Sub(segment1.origin, segment2.point0);
-  double  a          = V3Dot(u, u);         // always >= 0
+  double  a          = V3Dot(u, u);  // always >= 0
   double  b          = V3Dot(u, v);
-  double  c          = V3Dot(v, v);         // always >= 0
+  double  c          = V3Dot(v, v);  // always >= 0
   double  d          = V3Dot(u, w);
   double  e          = V3Dot(v, w);
   double  D          = a * c - b * b; // always >= 0
@@ -1145,32 +1142,20 @@ bool V3RayIntersectsSegment(Ray3 segment1, Segment3 segment2,
   if (D < SMALL_NUMBER) { // the lines are almost parallel
     sN = 0.0;        // force using point0 on segment S1
     sD = 1.0;        // to prevent possible division by 0.0 later
-
     tN = e;
     tD = c;
   }
   else {
     // get the closest points on the infinite lines
-
     sN = (b * e - c * d);
     sD = D;
-
     tN = (a * e - b * d);
     tD = D;
-
     if (sN < 0.0) { // sc < 0 => the s=0 edge is visible
       sN = 0.0;
       tN = e;
       tD = c;
     }
-// else if (sN > sD)	// sc > 1 => the s=1 edge is visible
-// {
-// I think this is the part needed if the ray had been a segment instead of a ray
-// As it is, we only care that sN >= 0
-// sN = sD;
-// tN = e + b;
-// tD = c;
-// }
   }
 
   if (tN < 0.0) {   // tc < 0 => the t=0 edge is visible
@@ -1179,12 +1164,6 @@ bool V3RayIntersectsSegment(Ray3 segment1, Segment3 segment2,
     if (-d < 0.0) {
       sN = 0.0;
     }
-// else if (-d > a)
-// {
-// I think this is the part needed if the ray had been a segment instead of a ray
-// As it is, we only care that sN >= 0
-// sN = sD;
-// }
     else {
       sN = -d;
       sD = a;
@@ -1196,12 +1175,6 @@ bool V3RayIntersectsSegment(Ray3 segment1, Segment3 segment2,
     if ((-d + b) < 0.0) {
       sN = 0;
     }
-// else if ((-d + b) > a)
-// {
-// I think this is the part needed if the ray had been a segment instead of a ray
-// As it is, we only care that sN >= 0
-// sN = sD;
-// }
     else {
       sN = (-d + b);
       sD = a;
@@ -1214,10 +1187,6 @@ bool V3RayIntersectsSegment(Ray3 segment1, Segment3 segment2,
   // get the difference of the two closest points
   // distance = S1(sc) - S2(tc)
   //
-// Point3  s1  = V3Add(segment1.point0, V3MulScalar(u, sc));
-// Point3  s2  = V3Add(segment2.point0, V3MulScalar(v, tc));
-// Vector3 dP  = V3Sub(s1, s2);
-  // a more compact form: dP  =   w + (sc * u) - (tc * v)   =   S1(sc) - S2(tc)
   Vector3 dP           = V3Add(w, V3Sub(V3MulScalar(u, sc), V3MulScalar(v, tc)));
   double  minCloseness = V3Length(dP);       // return the closest distance
 
@@ -1272,12 +1241,10 @@ bool V3RayIntersectsSphere(Ray3 ray, Point3 sphereCenter, double radius,
 
   if (discriminant >= 0.0) {
     distance = (-b - sqrt(discriminant)) / 2;
-
     if (distance <= 0.0) {
       distance = (-b + sqrt(discriminant)) / 2;
     }
     intersects = true;
-
     if (intersectDepth) { *intersectDepth = distance; }
   }
 
@@ -1330,9 +1297,8 @@ int V3EqualBoxes(Box3 box1, Box3 box2)
 {
   return(box1.min.x == box2.min.x &&
          box1.min.y == box2.min.y &&
-         box1.min.z == box2.min.z
-
-         && box1.max.x == box2.max.x &&
+         box1.min.z == box2.min.z &&
+         box1.max.x == box2.max.x &&
          box1.max.y == box2.max.y &&
          box1.max.z == box2.max.z);
 }// end V3EqualBoxes
@@ -1354,7 +1320,6 @@ Box3 V3UnionBox(Box3 aBox, Box3 bBox)
   bounds.min.x = MIN(aBox.min.x, bBox.min.x);
   bounds.min.y = MIN(aBox.min.y, bBox.min.y);
   bounds.min.z = MIN(aBox.min.z, bBox.min.z);
-
   bounds.max.x = MAX(aBox.max.x, bBox.max.x);
   bounds.max.y = MAX(aBox.max.y, bBox.max.y);
   bounds.max.z = MAX(aBox.max.z, bBox.max.z);
@@ -1376,7 +1341,6 @@ Box3 V3UnionBoxAndPoint(Box3 box, Point3 point)
   bounds.min.x = MIN(box.min.x, point.x);
   bounds.min.y = MIN(box.min.y, point.y);
   bounds.min.z = MIN(box.min.z, point.z);
-
   bounds.max.x = MAX(box.max.x, point.x);
   bounds.max.y = MAX(box.max.y, point.y);
   bounds.max.z = MAX(box.max.z, point.z);
