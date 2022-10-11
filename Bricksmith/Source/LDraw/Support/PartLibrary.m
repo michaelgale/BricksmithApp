@@ -1337,7 +1337,6 @@ static PartLibrary *SharedPartLibrary = nil;
             // numbers, if not just built up at runtime.
             NSDictionary *categoryEntry =
               [NSDictionary dictionaryWithObject:[categoryRecord objectForKey:PART_NUMBER_KEY] forKey:PART_NUMBER_KEY];
-
             [catalog_category addObject:categoryEntry];
 
             // Also file the part in a master list by reference name.
@@ -1381,8 +1380,6 @@ static PartLibrary *SharedPartLibrary = nil;
   else {
     category = [NSString stringWithString:modelDescription];
   }
-
-
   // Deal with any weird notational marks
 
   // Physical Color parts begin with an underscore. Then they got obsoleted,
@@ -1396,7 +1393,6 @@ static PartLibrary *SharedPartLibrary = nil;
   else if ([category hasPrefix:@"~"]) {
     category = [category substringFromIndex:1];
   }
-
   return(category);
 }// end categoryForDescription:
 
@@ -1423,7 +1419,6 @@ static PartLibrary *SharedPartLibrary = nil;
   if (partDescription == nil) {
     partDescription = [part displayName];
   }
-
   return(partDescription);
 }// end descriptionForPart:
 
@@ -1449,7 +1444,6 @@ static PartLibrary *SharedPartLibrary = nil;
   if (partDescription == nil) {
     partDescription = name;
   }
-
   return(partDescription);
 }// end descriptionForPartName:
 
@@ -1601,10 +1595,8 @@ static PartLibrary *SharedPartLibrary = nil;
   else {
     NSLog(@"%@ is not a valid file", filepath);
   }
-
   [catalogInfo retain];
   [pool drain];
-
   return([catalogInfo autorelease]);
 }// end catalogInfoForFileAtPath
 

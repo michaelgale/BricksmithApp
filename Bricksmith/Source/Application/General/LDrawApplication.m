@@ -292,18 +292,14 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
   switch (newStyle)
   {
     case PartBrowserShowAsDrawer :
-
       // toggle the part browser on the foremost document
       [[[documentController currentDocument] partBrowserDrawer] toggle:sender];
-
       break;
 
     case PartBrowserShowAsPanel :
-
       // open the shared part browser.
       partBrowser = [PartBrowserPanelController sharedPartBrowserPanel];
       [[partBrowser window] makeKeyAndOrderFront:sender];
-
       break;
   }
 }// end doPartBrowser:
@@ -530,9 +526,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
   if ([donation shouldShowDialog] == YES && suppressDonationPrompt == NO) {
     [donation runModal];
   }
-
   [donation release];
-
   return(NSTerminateNow);
 }// end applicationShouldTerminate:
 
@@ -617,27 +611,21 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
   switch (newStyle)
   {
     case PartBrowserShowAsDrawer :
-
       // close the shared part browser
       [[PartBrowserPanelController sharedPartBrowserPanel] close];
-
       // open the browser drawer on each document
       for (counter = 0; counter < documentCount; counter++) {
         [[[documents objectAtIndex:counter] partBrowserDrawer] open];
       }
-
       break;
 
     case PartBrowserShowAsPanel :
-
       // close the browser drawer on each document
       for (counter = 0; counter < documentCount; counter++) {
         [[[documents objectAtIndex:counter] partBrowserDrawer] close];
       }
-
       // open the shared part browser.
       [[[PartBrowserPanelController sharedPartBrowserPanel] window] makeKeyAndOrderFront:self];
-
       break;
   }
 }// end partBrowserStyleDidChange:
@@ -865,12 +853,6 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 {
   NSString *fullName = NSFullUserName();
 
-  // 10.8 presents a frightening warning when an application tries to access
-  // the address book. So just use the username.
-// ABPerson    *userInfo   = [[ABAddressBook sharedAddressBook] me];
-// NSString    *firstName  = [userInfo valueForProperty:kABFirstNameProperty];
-// NSString    *lastName   = [userInfo valueForProperty:kABLastNameProperty];
-
   return(fullName);
 }
 
@@ -949,8 +931,9 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // ==============================================================================
 void connexionMessageHandler(io_connect_t connection, natural_t messageType, void *messageArgument)
 {
-  static bool initialized            = false;
-  static bool oneTypeOfMotionAtATime = true; // If true, each event only translates _or_ rotates, not both
+  static bool initialized = false;
+  // If true, each event only translates _or_ rotates, not both
+  static bool oneTypeOfMotionAtATime = true;
   static ConnexionDeviceState lastState;
   static Vector3       translationScaling;
   static Vector3       rotationScaling;
@@ -959,7 +942,7 @@ void connexionMessageHandler(io_connect_t connection, natural_t messageType, voi
   ConnexionDeviceState *state;
   NSDocumentController *documentController = [NSDocumentController sharedDocumentController];
   LDrawDocument        *currentDocument    = [documentController currentDocument];
-  UInt64 lagThreshold = 1000000000;   // 1 second
+  UInt64 lagThreshold = 1000000000;  // 1 second
   static mach_timebase_info_data_t sTimebaseInfo;
 
   UInt64 eventTime, now, deltaT;
@@ -1010,7 +993,7 @@ void connexionMessageHandler(io_connect_t connection, natural_t messageType, voi
 
           // Do the maths. We hope that the multiplication doesn't
           // overflow; the price you pay for working in fixed point.
-          sinceNow = deltaT * sTimebaseInfo.numer / sTimebaseInfo.denom;            // result in is nanoseconds
+          sinceNow = deltaT * sTimebaseInfo.numer / sTimebaseInfo.denom; // result in is nanoseconds
 
           if (sinceNow < lagThreshold) {
             // OK, we will pay attention to this event. First, figure out if the user
@@ -1079,15 +1062,15 @@ void connexionMessageHandler(io_connect_t connection, natural_t messageType, voi
               switch (mode)
               {
                 case gridModeFine :
-                  rotationQuantum = GRID_ROTATION_FINE; // 15 degrees
+                  rotationQuantum = GRID_ROTATION_FINE;
                   break;
 
                 case gridModeMedium :
-                  rotationQuantum = GRID_ROTATION_MEDIUM; // 45 degrees
+                  rotationQuantum = GRID_ROTATION_MEDIUM;
                   break;
 
                 case gridModeCoarse :
-                  rotationQuantum = GRID_ROTATION_COARSE; // 90 degrees
+                  rotationQuantum = GRID_ROTATION_COARSE;
                   break;
               }
               rotation.x = ((int)(rotation.x / rotationQuantum)) * rotationQuantum;

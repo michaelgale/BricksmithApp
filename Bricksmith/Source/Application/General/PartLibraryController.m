@@ -141,8 +141,7 @@
 {
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
-  [userDefaults setObject:newFavorites
-                   forKey:FAVORITE_PARTS_KEY];
+  [userDefaults setObject:newFavorites forKey:FAVORITE_PARTS_KEY];
 }
 
 

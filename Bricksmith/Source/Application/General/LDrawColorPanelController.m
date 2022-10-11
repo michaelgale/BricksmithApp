@@ -51,12 +51,13 @@ LDrawColorPanelController *sharedColorPanel = nil;
 // ==============================================================================
 - (void)windowDidLoad
 {
-  LDrawColorCell *colorCell   = [[[LDrawColorCell alloc] init] autorelease];
-  NSTableColumn  *colorColumn = [colorTable tableColumnWithIdentifier:@"colorCode"];
+  LDrawColorCell *colorCell       = [[[LDrawColorCell alloc] init] autorelease];
+  NSTableColumn  *colorColumn     = [colorTable tableColumnWithIdentifier:@"colorCode"];
+  NSUserDefaults *userDefaults    = [NSUserDefaults standardUserDefaults];
+  NSInteger      selectedCategory = [userDefaults integerForKey:COLOR_PICKER_CATEGORY_KEY];
 
   [colorColumn setDataCell:colorCell];
-
-  [materialPopUpButton selectItemWithTag:MaterialTypeAll];
+  [materialPopUpButton selectItemWithTag:selectedCategory];
 
   [(NSPanel *)[self window] setWorksWhenModal:YES];
   [(NSPanel *)[self window] setLevel:NSStatusWindowLevel];
@@ -145,7 +146,9 @@ LDrawColorPanelController *sharedColorPanel = nil;
         }
       }
     }
+    [self updateColorFilter];
   }
+
   return(self);
 }// end init
 
@@ -230,6 +233,11 @@ LDrawColorPanelController *sharedColorPanel = nil;
 // ==============================================================================
 - (void)materialPopUpButtonChanged:(id)sender
 {
+  NSUserDefaults    *userDefaults = [NSUserDefaults standardUserDefaults];
+  MaterialPopUpTagT materialType  = [[materialPopUpButton selectedItem] tag];
+
+  [userDefaults setObject:[NSNumber numberWithInteger:materialType] forKey:COLOR_PICKER_CATEGORY_KEY];
+
   [self updateColorFilter];
 }
 
@@ -381,7 +389,6 @@ LDrawColorPanelController *sharedColorPanel = nil;
       rowToSelect = counter;
     }
   }
-
   return(rowToSelect);
 }// end indexOfColor:
 
@@ -566,7 +573,6 @@ LDrawColorPanelController *sharedColorPanel = nil;
     searchPredicate = [NSPredicate predicateWithFormat:predicateFormat
                                          argumentArray:predicateArguments];
   }
-
   return(searchPredicate);
 }// end predicateForSearchString:
 

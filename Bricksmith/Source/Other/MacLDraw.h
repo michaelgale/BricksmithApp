@@ -56,6 +56,7 @@
 #define TOOL_PALETTE_HIDDEN                         @"Tool Palette Hidden"
 #define VIEWPORTS_EXPAND_TO_AVAILABLE_SIZE          @"ViewportsExpandToAvailableSize"
 #define SHOW_AXIS_LINES_KEY                         @"Show Axis Lines"
+#define COLOR_PICKER_CATEGORY_KEY                   @"ColorPickerCategory"
 
 // LSynth
 #define LSYNTH_EXECUTABLE_PATH_KEY                  @"LSynth Executable Path"

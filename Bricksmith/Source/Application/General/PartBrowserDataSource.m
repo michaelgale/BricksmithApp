@@ -196,8 +196,7 @@
   self = [super init];
 
   // Load the accessories from our private nib file.
-  [NSBundle loadNibNamed:@"PartBrowserAccessories"
-                   owner:self];
+  [NSBundle loadNibNamed:@"PartBrowserAccessories" owner:self];
 
   // Not displaying anything yet.
   categoryList    = [[NSArray array] retain];

@@ -41,7 +41,8 @@
 #define MLCAD_SECTION_MINIFIGURE_NECK                    @"NECK"
 #define MLCAD_SECTION_MINIFIGURE_ARM_LEFT                @"RARM"
 #define MLCAD_SECTION_MINIFIGURE_ARM_RIGHT               @"LARM"
-#define MLCAD_SECTION_MINIFIGURE_HAND_LEFT               @"RHAND" // MLCad's left is the minifigure's right!
+// MLCad's left is the minifigure's right!
+#define MLCAD_SECTION_MINIFIGURE_HAND_LEFT               @"RHAND"
 #define MLCAD_SECTION_MINIFIGURE_HAND_LEFT_ACCESSORY     @"RHANDA"
 #define MLCAD_SECTION_MINIFIGURE_HAND_RIGHT              @"LHAND"
 #define MLCAD_SECTION_MINIFIGURE_HAND_RIGHT_ACCESSORY    @"LHANDA"
@@ -602,11 +603,11 @@ static MLCadIni *sharedIniFile = nil;
           [parts addObject:currentPart];
           [namesInList addObject:[currentPart referenceName]];
         }
-        else {
-          NSLog(@"%@ %@ is already in the list",
-                [currentPart referenceName],
-                [currentPart browsingDescription]);
-        }
+        // else {
+        // NSLog(@"%@ %@ is already in the list",
+        // [currentPart referenceName],
+        // [currentPart browsingDescription]);
+        // }
       }
     }
   }
@@ -617,7 +618,6 @@ static MLCadIni *sharedIniFile = nil;
                                                                   ascending:YES] autorelease];
 
   [parts sortUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]];
-
   return(parts);
 }// end partsFromMinifigureLines:
 
