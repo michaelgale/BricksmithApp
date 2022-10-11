@@ -605,6 +605,13 @@ LDrawColorPanelController *sharedColorPanel = nil;
   if (indexOfPreviousSelection == NSNotFound) {
     [self->colorListController setSelectionIndex:0];
   }
+
+  if (materialType == MaterialTypeFavorite) {
+    [self->addRemoveFavoriteButton setImage:[NSImage imageNamed:@"FavoriteRemove"]];
+  }
+  else {
+    [self->addRemoveFavoriteButton setImage:[NSImage imageNamed:@"FavoriteAdd"]];
+  }
 }// end updateColorFilter
 
 

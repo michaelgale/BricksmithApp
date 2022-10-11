@@ -716,8 +716,7 @@
   [self syncSelectionAndPartDisplayed];
 
   if (success == YES) {
-    [userDefaults setObject:newCategory
-                     forKey:PART_BROWSER_PREVIOUS_CATEGORY];
+    [userDefaults setObject:newCategory forKey:PART_BROWSER_PREVIOUS_CATEGORY];
   }
 }
 
@@ -742,8 +741,7 @@
 
   // save for posterity.
   if (newRow != -1) {
-    [userDefaults setInteger:newRow
-                      forKey:PART_BROWSER_PREVIOUS_SELECTED_ROW];
+    [userDefaults setInteger:newRow forKey:PART_BROWSER_PREVIOUS_SELECTED_ROW];
   }
 }// end tableViewSelectionDidChange
 

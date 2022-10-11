@@ -24,6 +24,7 @@
   IBOutlet NSPopUpButton *materialPopUpButton;
   IBOutlet NSTableView   *colorTable;
   IBOutlet NSSearchField *searchField;
+  IBOutlet NSButton      *addRemoveFavoriteButton;
 
   IBOutlet NSArrayController *colorListController;
 

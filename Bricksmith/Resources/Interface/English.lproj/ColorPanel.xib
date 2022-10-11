@@ -8,6 +8,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="LDrawColorPanelController">
             <connections>
+                <outlet property="addRemoveFavoriteButton" destination="5fp-xG-WK3" id="twd-vf-XzM"/>
                 <outlet property="colorBar" destination="60" id="dbo-Lo-Ue7"/>
                 <outlet property="colorListController" destination="77" id="mxv-U8-Hpe"/>
                 <outlet property="colorTable" destination="52" id="roG-XJ-cmF"/>
@@ -28,15 +29,15 @@
                 <rect key="frame" x="0.0" y="0.0" width="214" height="341"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <scrollView fixedFrame="YES" horizontalLineScroll="16" horizontalPageScroll="10" verticalLineScroll="16" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="51">
+                    <scrollView fixedFrame="YES" horizontalLineScroll="18" horizontalPageScroll="10" verticalLineScroll="18" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="51">
                         <rect key="frame" x="6" y="33" width="202" height="241"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" id="e43-Mv-UT5">
                             <rect key="frame" x="1" y="1" width="189" height="239"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveName="ColorTable" rowHeight="14" headerView="103" id="52">
-                                    <rect key="frame" x="0.0" y="0.0" width="189" height="222"/>
+                                <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" tableStyle="fullWidth" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveName="ColorTable" rowHeight="16" headerView="103" id="52">
+                                    <rect key="frame" x="0.0" y="0.0" width="213" height="222"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -48,7 +49,7 @@
                                                 <color key="backgroundColor" white="0.33333299" alpha="1" colorSpace="calibratedWhite"/>
                                             </tableHeaderCell>
                                             <textFieldCell key="dataCell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="99">
-                                                <font key="font" metaFont="smallSystem"/>
+                                                <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </textFieldCell>
@@ -62,13 +63,13 @@
                                                 </binding>
                                             </connections>
                                         </tableColumn>
-                                        <tableColumn identifier="localizedName" editable="NO" width="97.0989990234375" minWidth="38.5989990234375" maxWidth="1000" id="50">
+                                        <tableColumn identifier="localizedName" editable="NO" width="150" minWidth="38.5989990234375" maxWidth="1000" id="50">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Name">
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" white="0.33333299" alpha="1" colorSpace="calibratedWhite"/>
                                             </tableHeaderCell>
                                             <textFieldCell key="dataCell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="100">
-                                                <font key="font" metaFont="smallSystem"/>
+                                                <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </textFieldCell>
@@ -100,7 +101,7 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <tableHeaderView key="headerView" wantsLayer="YES" id="103">
-                            <rect key="frame" x="0.0" y="0.0" width="189" height="17"/>
+                            <rect key="frame" x="0.0" y="0.0" width="213" height="17"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </tableHeaderView>
                     </scrollView>
@@ -136,22 +137,11 @@
                             <action selector="materialPopUpButtonChanged:" target="-2" id="c38-Jg-gL0"/>
                         </connections>
                     </popUpButton>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5fp-xG-WK3">
-                        <rect key="frame" x="10" y="0.0" width="46" height="27"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <buttonCell key="cell" type="push" title="Fav" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Ksi-05-95B">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="smallSystem"/>
-                            <connections>
-                                <action selector="favButtonPressed:" target="-1" id="xRI-4Y-0jI"/>
-                            </connections>
-                        </buttonCell>
-                    </button>
                     <searchField wantsLayer="YES" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="62">
-                        <rect key="frame" x="58" y="4" width="150" height="19"/>
+                        <rect key="frame" x="58" y="4" width="150" height="22"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                        <searchFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" alignment="left" placeholderString="Search" bezelStyle="round" id="98">
-                            <font key="font" metaFont="cellTitle"/>
+                        <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" alignment="left" placeholderString="Search" bezelStyle="round" id="98">
+                            <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </searchFieldCell>
@@ -159,6 +149,17 @@
                             <action selector="searchFieldChanged:" target="-2" id="4o3-rk-RZc"/>
                         </connections>
                     </searchField>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5fp-xG-WK3">
+                        <rect key="frame" x="3" y="2" width="26" height="26"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <buttonCell key="cell" type="round" bezelStyle="circular" image="FavoriteAdd" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Ksi-05-95B">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="favButtonPressed:" target="-2" id="A37-zi-Hsz"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
             <connections>
@@ -174,4 +175,7 @@
         </arrayController>
         <userDefaultsController representsSharedInstance="YES" id="93" userLabel="Shared User Defaults Controller"/>
     </objects>
+    <resources>
+        <image name="FavoriteAdd" width="12" height="12"/>
+    </resources>
 </document>
