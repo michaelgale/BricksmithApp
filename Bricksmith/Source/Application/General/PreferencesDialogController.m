@@ -1068,7 +1068,7 @@ PreferencesDialogController * preferencesDialog = nil;
   [initialDefaults setObject:[NSArray array] forKey:FAVORITE_PARTS_KEY];
 
   //
-  // Favourite colours
+  // Favorite colours
   //
   [initialDefaults setObject:[NSArray array] forKey:FAVORITE_COLORS_KEY];
 

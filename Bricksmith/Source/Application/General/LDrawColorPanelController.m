@@ -29,7 +29,7 @@ typedef enum
   MaterialTypeRubber      = 5,
   MaterialTypeMetal       = 6,
   MaterialTypeOther       = 7,
-  MaterialTypeFavourite   = 8
+  MaterialTypeFavorite    = 8
 } MaterialPopUpTagT;
 
 #define COLOR_SORT_DESCRIPTORS_KEY    @"ColorTable Sort Ordering"
@@ -139,7 +139,7 @@ LDrawColorPanelController *sharedColorPanel = nil;
           currentFav = [favorites objectAtIndex:favCounter];
           favCode    = [currentFav intValue];
           if (currentCode == favCode) {
-            [currentColor setFavourite:YES];
+            [currentColor setFavorite:YES];
             break;
           }
         }
@@ -293,27 +293,27 @@ LDrawColorPanelController *sharedColorPanel = nil;
 
 - (IBAction)favButtonPressed:(id)sender
 {
-  // if a favourite is marked in any "material" filter other than Favourite
-  // then the colour is marked as a favourite. Otherwise, if selected in the
-  // the Favourites view, then it clears the favourite flag and removes it from
-  // the list of favourites
+  // if a favorite is marked in any "material" filter other than Favorite
+  // then the colour is marked as a favorite. Otherwise, if selected in the
+  // the Favorites view, then it clears the favorite flag and removes it from
+  // the list of favorites
   ColorLibrary      *colorLibrary  = [ColorLibrary sharedColorLibrary];
   LDrawColor        *selectedColor = [self LDrawColor];
   MaterialPopUpTagT materialType   = [[materialPopUpButton selectedItem] tag];
 
-  if (materialType == MaterialTypeFavourite) {
-    // remove the color from favourites
-    [[self LDrawColor] setFavourite:NO];
+  if (materialType == MaterialTypeFavorite) {
+    // remove the color from favorites
+    [[self LDrawColor] setFavorite:NO];
     [colorLibrary removeColorFromFavorites:[selectedColor colorCode]];
     // jiggle the filter selection to update the list
     [materialPopUpButton selectItemWithTag:MaterialTypeAll];
     [self updateColorFilter];
-    [materialPopUpButton selectItemWithTag:MaterialTypeFavourite];
+    [materialPopUpButton selectItemWithTag:MaterialTypeFavorite];
     [self updateColorFilter];
   }
   else {
-    // add the color to favourites
-    [selectedColor setFavourite:YES];
+    // add the color to favorites
+    [selectedColor setFavorite:YES];
     [colorLibrary addColorToFavorites:[selectedColor colorCode]];
   }
 }
@@ -536,10 +536,10 @@ LDrawColorPanelController *sharedColorPanel = nil;
          nil];
       break;
 
-    case MaterialTypeFavourite :
+    case MaterialTypeFavorite :
       materialFormat    = @"(%K == %@)";
       materialArguments =
-        [NSArray arrayWithObjects:NSStringFromSelector(@selector(isFavourite)), @(YES), nil];
+        [NSArray arrayWithObjects:NSStringFromSelector(@selector(isFavorite)), @(YES), nil];
       break;
   }
 

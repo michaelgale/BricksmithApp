@@ -69,7 +69,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
   self->edgeColorRGBA[3]   = [decoder decodeFloatForKey:@"edgeColorRGBAAlpha"];
   self->hasExplicitAlpha   = [decoder decodeBoolForKey:@"hasExplicitAlpha"];
   self->hasLuminance       = [decoder decodeBoolForKey:@"hasLuminance"];
-  self->isFavourite        = [decoder decodeBoolForKey:@"isFavourite"];
+  self->isFavorite         = [decoder decodeBoolForKey:@"isFavorite"];
   self->luminance          = (uint8_t)[decoder decodeIntForKey:@"luminance"];
   self->material           = [decoder decodeIntForKey:@"material"];
   self->materialParameters = [[decoder decodeObjectForKey:@"materialParameters"] retain];
@@ -102,7 +102,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
   [encoder encodeFloat:edgeColorRGBA[3] forKey:@"edgeColorRGBAAlpha"];
   [encoder encodeBool:hasExplicitAlpha forKey:@"hasExplicitAlpha"];
   [encoder encodeBool:hasLuminance forKey:@"hasLuminance"];
-  [encoder encodeBool:isFavourite forKey:@"isFavourite"];
+  [encoder encodeBool:isFavorite forKey:@"isFavorite"];
   [encoder encodeInt:luminance forKey:@"luminance"];
   [encoder encodeInt:material forKey:@"material"];
   [encoder encodeObject:materialParameters forKey:@"materialParameters"];
@@ -169,7 +169,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
   copied->hasExplicitAlpha = self->hasExplicitAlpha;
   copied->hasLuminance     = self->hasLuminance;
   copied->luminance        = self->luminance;
-  copied->isFavourite      = self->isFavourite;
+  copied->isFavorite       = self->isFavorite;
   copied->material         = self->material;
   [copied setMaterialParameters:[self materialParameters]];
   [copied setName:[self name]];
@@ -261,9 +261,9 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
     [scanner scanInt:&scannedLuminance];
     [self setLuminance:scannedLuminance];
   }
-  // - Favourite
+  // - Favorite
   if ([scanner scanString:LDRAW_COLOR_DEF_FAV intoString:nil] == YES) {
-    self->isFavourite = YES;
+    self->isFavorite = YES;
   }
 
   // - Material
@@ -447,7 +447,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
   if (self->hasLuminance == YES) {
     [line appendFormat:@" %@ %d", LDRAW_COLOR_DEF_LUMINANCE, self->luminance];
   }
-  if (self->isFavourite == YES) {
+  if (self->isFavorite == YES) {
     [line appendFormat:@" %@", LDRAW_COLOR_DEF_FAV];
   }
 
@@ -692,17 +692,17 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 }// end name
 
 
-- (BOOL)isFavourite
+- (BOOL)isFavorite
 {
-  return(self->isFavourite);
+  return(self->isFavorite);
 }
 
 
 #pragma mark -
 
-- (void)setFavourite:(BOOL)flag
+- (void)setFavorite:(BOOL)flag
 {
-  self->isFavourite = flag;
+  self->isFavorite = flag;
 }
 
 

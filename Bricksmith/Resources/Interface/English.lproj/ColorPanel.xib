@@ -126,7 +126,7 @@
                                     <menuItem title="Rubber" tag="5" id="wte-p8-m4v"/>
                                     <menuItem title="Metal" tag="6" id="71p-6c-9NG"/>
                                     <menuItem title="Other" tag="7" id="Eng-PV-a8s"/>
-                                    <menuItem title="Favourites" tag="8" id="kWb-aw-uWc">
+                                    <menuItem title="Favorites" tag="8" id="kWb-aw-uWc">
                                         <modifierMask key="keyEquivalentModifierMask"/>
                                     </menuItem>
                                 </items>

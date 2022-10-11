@@ -135,7 +135,7 @@ typedef enum LDrawColorMaterial
   BOOL                hasLuminance;
   uint8_t             luminance;
   LDrawColorMaterialT material;
-  BOOL                isFavourite;
+  BOOL                isFavorite;
   NSString            *materialParameters;
   NSString            *name;
 
@@ -158,7 +158,7 @@ typedef enum LDrawColorMaterial
 - (LDrawColorMaterialT)material;
 - (NSString *)materialParameters;
 - (NSString *)name;
-- (BOOL)isFavourite;
+- (BOOL)isFavorite;
 
 - (void)setColorCode:(LDrawColorT)newCode;
 - (void)setColorRGBA:(GLfloat *)newComponents;
@@ -168,7 +168,7 @@ typedef enum LDrawColorMaterial
 - (void)setMaterial:(LDrawColorMaterialT)newValue;
 - (void)setMaterialParameters:(NSString *)newValue;
 - (void)setName:(NSString *)newName;
-- (void)setFavourite:(BOOL)flag;
+- (void)setFavorite:(BOOL)flag;
 
 // Utilities
 - (NSComparisonResult)HSVACompare:(LDrawColor *)otherColor;
