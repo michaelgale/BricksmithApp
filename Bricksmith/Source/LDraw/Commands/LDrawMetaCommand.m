@@ -94,7 +94,7 @@
       // be anything. "0\n" is perfectly valid LDraw.
       [scanner scanCharactersFromSet:[NSCharacterSet whitespaceCharacterSet]
                           intoString:nil];
-      metaLineStart = [scanner scanLocation];
+      metaLineStart = (int)[scanner scanLocation];
 
       [scanner scanUpToCharactersFromSet:[NSCharacterSet whitespaceCharacterSet]
                               intoString:&parsedField];

@@ -294,7 +294,7 @@ SearchPanelController *sharedSearchPanel = nil;
   }
 
   // Filter hidden parts out if appropriate
-  if ([searchHiddenParts state] == NSOnState) {
+  if ([searchHiddenParts state] == NSControlStateValueOn) {
     [matchables enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
        if ([obj respondsToSelector:@selector(setHidden:)] && [obj isHidden] &&
            [nonMatchingParts indexOfObject:obj] == NSNotFound) {
@@ -390,7 +390,7 @@ SearchPanelController *sharedSearchPanel = nil;
     else if (([directive isKindOfClass:[LDrawContainer class]] &&
               ![directive isKindOfClass:[LDrawLSynth class]]) ||
              ([directive isKindOfClass:[LDrawLSynth class]] &&
-              [searchInsideLSynthContainers state] == NSOnState)) {
+              [searchInsideLSynthContainers state] == NSControlStateValueOn)) {
       [parts addObjectsFromArray:[self partsInContainer:directive]];
     }
 

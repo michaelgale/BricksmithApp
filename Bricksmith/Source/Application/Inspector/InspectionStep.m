@@ -106,7 +106,7 @@
 {
   LDrawStep *representedObject = [self object];
 
-  LDrawStepRotationT stepRotationType = [[self->rotationTypeRadioButtons selectedCell] tag];
+  LDrawStepRotationT stepRotationType = (int)[[self->rotationTypeRadioButtons selectedCell] tag];
   Tuple3             rotationAngle    = ZeroPoint3;
 
   rotationAngle.x = [self->rotationXField doubleValue];
@@ -284,7 +284,7 @@
 // ==============================================================================
 - (void)setAngleUIAccordingToPopUp
 {
-  LDrawStepRotationT stepRotationType = [self->rotationTypeRadioButtons selectedTag];
+  LDrawStepRotationT stepRotationType = (int)[self->rotationTypeRadioButtons selectedTag];
   NSInteger          shortcut         = 0;
   Tuple3             newAngle         = ZeroPoint3;
 
@@ -327,7 +327,7 @@
 
       default :
         // This is one of the head-on views
-        newAngle = [LDrawUtilities angleForViewOrientation:shortcut];
+        newAngle = [LDrawUtilities angleForViewOrientation:(int)shortcut];
         break;
     }
   }

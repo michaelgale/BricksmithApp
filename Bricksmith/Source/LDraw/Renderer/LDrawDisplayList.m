@@ -101,7 +101,7 @@ enum
 // to an insanely high limit so that we never hit that case.
 //
 // ================================================================================
-static int  get_instance_cutoff()
+static int  get_instance_cutoff(void)
 {
   static int has_instancing = -1;
 
@@ -296,7 +296,7 @@ struct  LDrawDLBuilder {
 // ================================================================================
 
 /* *INDENT-OFF* */
-struct LDrawDLBuilder *LDrawDLBuilderCreate()
+struct LDrawDLBuilder *LDrawDLBuilderCreate(void)
 {
   // All allocs for the builder come from one pool.
   struct LDrawBDP *alloc = LDrawBDPCreate();

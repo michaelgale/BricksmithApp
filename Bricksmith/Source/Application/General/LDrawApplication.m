@@ -285,7 +285,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 - (IBAction)doPartBrowser:(id)sender
 {
   NSUserDefaults             *userDefaults       = [NSUserDefaults standardUserDefaults];
-  PartBrowserStyleT          newStyle            = [userDefaults integerForKey:PART_BROWSER_STYLE_KEY];
+  PartBrowserStyleT          newStyle            = (int)[userDefaults integerForKey:PART_BROWSER_STYLE_KEY];
   NSDocumentController       *documentController = [NSDocumentController sharedDocumentController];
   PartBrowserPanelController *partBrowser        = nil;
 
@@ -602,7 +602,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 - (void)partBrowserStyleDidChange:(NSNotification *)notification
 {
   NSUserDefaults       *userDefaults       = [NSUserDefaults standardUserDefaults];
-  PartBrowserStyleT    newStyle            = [userDefaults integerForKey:PART_BROWSER_STYLE_KEY];
+  PartBrowserStyleT    newStyle            = (int)[userDefaults integerForKey:PART_BROWSER_STYLE_KEY];
   NSDocumentController *documentController = [NSDocumentController sharedDocumentController];
   NSArray              *documents          = [documentController documents];
   NSInteger            documentCount       = [documents count];
@@ -1002,7 +1002,7 @@ void connexionMessageHandler(io_connect_t connection, natural_t messageType, voi
             // to edges and nearby points unless the control key is down). Some other
             // mechanism could be substituted here.
             NSEvent *event        = [NSApp currentEvent];
-            int     modifierFlags = [event modifierFlags];
+            int     modifierFlags = (int)[event modifierFlags];
             bool    controlDown   = (0 != (modifierFlags & NSEventModifierFlagControl));
 
             // Build translation and rotation vectors from the event state.

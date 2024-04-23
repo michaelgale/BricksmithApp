@@ -240,7 +240,7 @@ ToolPalette *sharedToolPalette = nil;
 // ==============================================================================
 - (IBAction)toolButtonClicked:(id)sender
 {
-  ToolModeT newMode = [self->toolButtons selectedTag];
+  ToolModeT newMode = (int)[self->toolButtons selectedTag];
 
   self->baseToolMode = newMode;
 

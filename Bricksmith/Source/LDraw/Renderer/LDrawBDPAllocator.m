@@ -60,7 +60,7 @@ struct  LDrawBDP {
 // ================================================================================
 
 /* *INDENT-OFF* */
-static struct BDPPage *get_new_page()
+static struct BDPPage *get_new_page(void)
 {
   struct  BDPPage *ptr = (struct BDPPage *)malloc(sizeof(struct BDPPage));
 
@@ -80,7 +80,7 @@ static struct BDPPage *get_new_page()
 // ================================================================================
 
 /* *INDENT-OFF* */
-struct LDrawBDP *LDrawBDPCreate()
+struct LDrawBDP *LDrawBDPCreate(void)
 {
   struct LDrawBDP *ret = (struct LDrawBDP *)malloc(sizeof(struct LDrawBDP));
 

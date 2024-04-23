@@ -249,7 +249,7 @@
 
   // run it and export the file if needed
   result = [savePanel runModal];
-  if (result == NSFileHandlingPanelOKButton) {
+  if (result == NSModalResponseOK) {
     savePath = [savePanel URL];
     exported = [self->partReport textualRepresentationWithSortDescriptors:sortDescriptors];
 

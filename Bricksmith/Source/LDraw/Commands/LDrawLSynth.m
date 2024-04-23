@@ -949,7 +949,7 @@
   NSPipe       *errorPipe = nil;
   NSFileHandle *inFile;
   NSFileHandle *outFile;
-  NSFileHandle *errorFile;
+// NSFileHandle *errorFile;
 
   inPipe    = [NSPipe new];
   outPipe   = [NSPipe new];
@@ -970,9 +970,9 @@
   [task setArguments:arguments];
   // [task setArguments:[NSArray arrayWithObject:@"-"]]; // Our built-in LSynth accepts STDIN/STDOUT with this argument
 
-  inFile    = [inPipe fileHandleForWriting];
-  outFile   = [outPipe fileHandleForReading];
-  errorFile = [errorPipe fileHandleForReading];
+  inFile  = [inPipe fileHandleForWriting];
+  outFile = [outPipe fileHandleForReading];
+// errorFile = [errorPipe fileHandleForReading];
 
   [inPipe release];
   [outPipe release];
@@ -1065,7 +1065,7 @@
   // clean out INSIDE/OUTSIDE directives
   int i;
 
-  for (i = [[self subdirectives] count] - 1; i >= 0; i--) {
+  for (i = (int)[[self subdirectives] count] - 1; i >= 0; i--) {
     if ([[[self subdirectives] objectAtIndex:i] isKindOfClass:[LDrawLSynthDirective class]]) {
       [[self subdirectives] removeObjectAtIndex:i];
     }
@@ -1178,12 +1178,12 @@
                                                          arrayWithObjects:part,
                                                          [NSNumber numberWithFloat:t.translate.x],
                                                          [NSNumber numberWithFloat:t.translate.y],
-                                                         [NSNumber numberWithInt:[[[config
-                                                                                    constraintDefinitionForPart
-                                                                                    :part]
-                                                                                   valueForKey:
-                                                                                   @"radius"]
-                                                                                  integerValue]],
+                                                         [NSNumber numberWithInt:(int)[[[config
+                                                                                         constraintDefinitionForPart
+                                                                                         :part]
+                                                                                        valueForKey:
+                                                                                        @"radius"]
+                                                                                       integerValue]],
                                                          [NSMutableArray array],
                                                          nil]
                                                 forKeys:[NSArray arrayWithObjects:@"directive",
@@ -1256,12 +1256,12 @@
       [preparedData addObject:[NSMutableDictionary
                                dictionaryWithObjects:[NSArray arrayWithObjects:[point objectForKey:
                                                                                 @"directive"],
-                                                      [NSNumber numberWithInt:[[coords objectForKey:
-                                                                                @"x"]
-                                                                               integerValue]],
-                                                      [NSNumber numberWithInt:[[coords objectForKey:
-                                                                                @"y"]
-                                                                               integerValue]],
+                                                      [NSNumber numberWithInt:(int)[[coords objectForKey:
+                                                                                     @"x"]
+                                                                                    integerValue]],
+                                                      [NSNumber numberWithInt:(int)[[coords objectForKey:
+                                                                                     @"y"]
+                                                                                    integerValue]],
                                                       [NSNumber numberWithBool:false],
                                                       nil]
                                              forKeys:[NSArray arrayWithObjects:@"directive", @"x",
@@ -1316,7 +1316,7 @@
 - (void)colorSelectedSynthesizedParts:(BOOL)yesNo
 {
   NSUserDefaults       *userDefaults = [NSUserDefaults standardUserDefaults];
-  LSynthSelectionModeT selectionMode = [userDefaults integerForKey:LSYNTH_SELECTION_MODE_KEY];
+  LSynthSelectionModeT selectionMode = (int)[userDefaults integerForKey:LSYNTH_SELECTION_MODE_KEY];
   GLfloat    rgba[4]; // a temporary RGBA color we create and manipulate
   LDrawColor *theColor = [[[LDrawColor alloc] init] autorelease];   // an LDrawColor to set the part's color with
 
@@ -1425,7 +1425,7 @@
 // ==============================================================================
 - (int)synthesizedPartsCount
 {
-  return([synthesizedParts count]);
+  return((int)[synthesizedParts count]);
 }
 
 
@@ -1447,7 +1447,7 @@
     // use that part's class.
     for (NSDictionary *part in partTypes) {
       if ([[self lsynthType] isEqualToString:[part valueForKey:@"LSYNTH_TYPE"]]) {
-        class = [[part valueForKey:@"LSYNTH_CLASS"] integerValue];
+        class = (int)[[part valueForKey:@"LSYNTH_CLASS"] integerValue];
         break;
       }
     }

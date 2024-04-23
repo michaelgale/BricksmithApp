@@ -144,7 +144,7 @@
 {
   LDrawPart           *representedObject = [self object];
   TransformComponents components         = [representedObject transformComponents];
-  RotationT           rotationType       = [[rotationTypePopUp selectedItem] tag];
+  RotationT           rotationType       = (int)[[rotationTypePopUp selectedItem] tag];
 
   if (rotationType == rotationRelative) {
     // Rotations entered will be additive.
@@ -178,7 +178,7 @@
   LDrawPart     *representedObject = [self object];
   LDrawDocument *currentDocument   =
     [[NSDocumentController sharedDocumentController] currentDocument];
-  RotationT rotationType = [[rotationTypePopUp selectedItem] tag];
+  RotationT rotationType = (int)[[rotationTypePopUp selectedItem] tag];
 
   // Save out the current state.
   [currentDocument preserveDirectiveState:representedObject];

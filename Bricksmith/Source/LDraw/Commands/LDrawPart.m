@@ -1761,15 +1761,10 @@ int doubleNearGrid(double v, double grid, double epsi)
       // We found exactly one part.  Unresolve and copy out its names for future use.
       [self unresolvePart];
 
-// referenceName = [redirect referenceName];
-// displayName = [redirect displayName];
-      [[redirect referenceName] retain];
       [referenceName release];
-      referenceName = [redirect referenceName];
-
-      [[redirect displayName] retain];
+      referenceName = [[redirect referenceName] retain];
       [displayName release];
-      displayName = [redirect displayName];
+      displayName = [[redirect displayName] retain];
 
       // Our new location is our old location with the relative transform of that part applied.
       Matrix4 new_loc = Matrix4Multiply([redirect transformationMatrix], [self transformationMatrix]);

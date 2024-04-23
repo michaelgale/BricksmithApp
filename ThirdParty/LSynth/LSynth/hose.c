@@ -357,26 +357,26 @@ merge_segments_count(
     vectorrot(d,end->orient);          // along the end constraint axis, and
     vectoradd(segments[n-1].offset,d); // add it to the end constraint origin.
     
-    if (0) // Debug printouts
-    {
-        extern PRECISION dotprod(PRECISION a[3], PRECISION b[3]); // from curve.c
-        
-        PRECISION last, next;
-        PRECISION dn[3],dp;
-        PRECISION m2[3][3];
-        
-        matrixcp(m2,end->orient);
-        printf("  E =(%g, %g, %g, %g, %g, %g, %g, %g, %g)\n", m2[0][0], m2[0][1], m2[0][2],
-               m2[1][0], m2[1][1], m2[1][2], m2[2][0], m2[2][1], m2[2][2]);
-        printf("  d=(%g, %g, %g)", d[0], d[1], d[2]);
-        
-        vectorsub3(d,segments[n-1].offset,segments[n-2].offset);
-        last = vectorlen(d);
-        vectorsub3(dn,segments[n-2].offset,segments[n-3].offset);
-        next = vectorlen(dn);
-        dp = dotprod(dn,d);
-        printf("  last=%g, next=%g, dp=%g\n", last, next, dp);
-    }
+//    if (0) // Debug printouts
+//    {
+//        extern PRECISION dotprod(PRECISION a[3], PRECISION b[3]); // from curve.c
+//        
+//        PRECISION last, next;
+//        PRECISION dn[3],dp;
+//        PRECISION m2[3][3];
+//        
+//        matrixcp(m2,end->orient);
+//        printf("  E =(%g, %g, %g, %g, %g, %g, %g, %g, %g)\n", m2[0][0], m2[0][1], m2[0][2],
+//               m2[1][0], m2[1][1], m2[1][2], m2[2][0], m2[2][1], m2[2][2]);
+//        printf("  d=(%g, %g, %g)", d[0], d[1], d[2]);
+//        
+//        vectorsub3(d,segments[n-1].offset,segments[n-2].offset);
+//        last = vectorlen(d);
+//        vectorsub3(dn,segments[n-2].offset,segments[n-3].offset);
+//        next = vectorlen(dn);
+//        dp = dotprod(dn,d);
+//        printf("  last=%g, next=%g, dp=%g\n", last, next, dp);
+//    }
     
     printf("Produced %d points (%d segments)\n", *n_segments, *n_segments-1);
     

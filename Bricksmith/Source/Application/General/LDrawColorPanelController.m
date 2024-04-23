@@ -234,7 +234,7 @@ LDrawColorPanelController *sharedColorPanel = nil;
 - (void)materialPopUpButtonChanged:(id)sender
 {
   NSUserDefaults    *userDefaults = [NSUserDefaults standardUserDefaults];
-  MaterialPopUpTagT materialType  = [[materialPopUpButton selectedItem] tag];
+  MaterialPopUpTagT materialType  = (int)[[materialPopUpButton selectedItem] tag];
 
   [userDefaults setObject:[NSNumber numberWithInteger:materialType] forKey:COLOR_PICKER_CATEGORY_KEY];
 
@@ -307,7 +307,7 @@ LDrawColorPanelController *sharedColorPanel = nil;
   // the list of favorites
   ColorLibrary      *colorLibrary  = [ColorLibrary sharedColorLibrary];
   LDrawColor        *selectedColor = [self LDrawColor];
-  MaterialPopUpTagT materialType   = [[materialPopUpButton selectedItem] tag];
+  MaterialPopUpTagT materialType   = (int)[[materialPopUpButton selectedItem] tag];
 
   if (materialType == MaterialTypeFavorite) {
     // remove the color from favorites
@@ -586,7 +586,7 @@ LDrawColorPanelController *sharedColorPanel = nil;
 - (void)updateColorFilter
 {
   NSString          *searchString            = [searchField stringValue];
-  MaterialPopUpTagT materialType             = [[materialPopUpButton selectedItem] tag];
+  MaterialPopUpTagT materialType             = (int)[[materialPopUpButton selectedItem] tag];
   NSPredicate       *searchPredicate         = nil;
   LDrawColor        *currentColor            = [self LDrawColor];
   NSInteger         indexOfPreviousSelection = 0;

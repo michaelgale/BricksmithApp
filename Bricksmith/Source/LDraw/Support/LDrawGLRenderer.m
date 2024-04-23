@@ -214,7 +214,7 @@
   if (considerFastDraw == YES && self->rotationDrawMode == LDrawGLDrawExtremelyFast) {
     options |= DRAW_BOUNDS_ONLY;
   }
-#endif //DEBUG_DRAWING
+#endif // DEBUG_DRAWING
 
   assert(glCheckInteger(GL_VERTEX_ARRAY_BINDING_APPLE, 0));
   assert(glCheckInteger(GL_ARRAY_BUFFER_BINDING, 0));
@@ -391,7 +391,7 @@
     CGFloat period          = timeSinceMark / framesSinceStartTime;
     NSLog(@"fps = %f, period = %f, draw time: %f", framesPerSecond, period, drawTime);
   }
-#endif //DEBUG_DRAWING
+#endif // DEBUG_DRAWING
 }// end draw:to
 
 
@@ -958,7 +958,16 @@
 // ==============================================================================
 - (void)moveCamera:(Vector3)delta
 {
-  [camera setRotationCenter:V3Add([camera rotationCenter], delta)];
+  // Transform the nudge vector from eye to MV space
+  // so walk forward means forwadr where the user is looking.
+  GLfloat *mv           = [camera getModelView];
+  Vector3 invertedDelta = V3Make(
+    mv[0] * delta.x + mv[4] * delta.y + mv[8] * delta.z,
+    mv[1] * delta.x + mv[5] * delta.y + mv[9] * delta.z,
+    mv[2] * delta.x + mv[6] * delta.y + mv[10] * delta.z);
+
+  [camera setRotationCenter:V3Add([camera rotationCenter], invertedDelta)];
+
   [delegate LDrawGLRendererNeedsRedisplay:self];
 }// end moveCamera
 

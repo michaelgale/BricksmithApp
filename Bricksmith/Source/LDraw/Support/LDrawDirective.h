@@ -151,7 +151,7 @@ typedef enum Message
 // Object is the LDrawDirective that changed. No userInfo.
 #define LDrawDirectiveDidChangeNotification    @"LDrawDirectiveDidChangeNotification"
 #define LDrawModelRotationCenterDidChangeNotification \
-  @"LDrawModelRotationCenterDidChangeNotification"
+        @"LDrawModelRotationCenterDidChangeNotification"
 
 
 ////////////////////////////////////////////////////////////////////////////////

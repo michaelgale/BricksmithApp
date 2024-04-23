@@ -1970,7 +1970,7 @@ void AppendChoicesToNewItem(
 // ==============================================================================
 - (IBAction)quickRotateClicked:(id)sender
 {
-  menuTagsT tag      = [sender tag];
+  menuTagsT tag      = (int)[sender tag];
   Vector3   rotation = ZeroPoint3;
 
   switch (tag)
@@ -2727,8 +2727,8 @@ void AppendChoicesToNewItem(
 - (IBAction)insertStepClicked:(id)sender
 {
   LDrawStep *newStep     = [LDrawStep emptyStep];
-  int       currStepIdx  = [[self selectedModel] indexOfDirective:[self selectedStep]];
-  int       stepsInModel = [[self selectedModel] steps].count;
+  int       currStepIdx  = (int)[[self selectedModel] indexOfDirective:[self selectedStep]];
+  int       stepsInModel = (int)[[self selectedModel] steps].count;
 
   if (currStepIdx >= (stepsInModel - 1)) {
     [self addStep:newStep
@@ -2754,7 +2754,7 @@ void AppendChoicesToNewItem(
 {
   NSUserDefaults    *userDefaults    = [NSUserDefaults standardUserDefaults];
   PartBrowserStyleT partBrowserStyle =
-    [userDefaults integerForKey:PART_BROWSER_STYLE_KEY];
+    (int)[userDefaults integerForKey:PART_BROWSER_STYLE_KEY];
   PartBrowserPanelController *partBrowserController = nil;
 
   switch (partBrowserStyle)
@@ -3169,7 +3169,7 @@ void AppendChoicesToNewItem(
     else if ([self->lastSelectedPart isKindOfClass:[LDrawDirective class]]
              && [[fileContentsOutline parentForItem:self->lastSelectedPart] isMemberOfClass:[LDrawLSynth class]]) {
       parent = [fileContentsOutline parentForItem:self->lastSelectedPart];
-      int row = [parent indexOfDirective:self->lastSelectedPart];
+      int row = (int)[parent indexOfDirective:self->lastSelectedPart];
       index             = row + 1;
       synthesizablePart = (LDrawLSynth *)parent;
 
@@ -3246,7 +3246,7 @@ void AppendChoicesToNewItem(
     else if ([self->lastSelectedPart isKindOfClass:[LDrawDirective class]]
              && [[fileContentsOutline parentForItem:self->lastSelectedPart] isMemberOfClass:[LDrawLSynth class]]) {
       parent = [fileContentsOutline parentForItem:self->lastSelectedPart];
-      int row = [parent indexOfDirective:self->lastSelectedPart];
+      int row = (int)[parent indexOfDirective:self->lastSelectedPart];
       index = row + 1;
     }
 
@@ -3921,8 +3921,8 @@ void AppendChoicesToNewItem(
   NSInteger     selectedStepIndex = 0;
   NSInteger     counter           = 0;
   LDrawMPDModel *activeModel      = [[self documentContents] activeModel];
-  int           selectedRow       = [outlineView selectedRow];
-  int           numberRows        = [outlineView numberOfSelectedRows];
+  int           selectedRow       = (int)[outlineView selectedRow];
+  int           numberRows        = (int)[outlineView numberOfSelectedRows];
   bool          isStepView        = [activeModel stepDisplay];
   bool          isStepDirective   = [lastSelectedItem isKindOfClass:[LDrawStep class]];
   bool          setAnyActiveStep  =
@@ -4264,7 +4264,7 @@ void AppendChoicesToNewItem(
     // extending.  Otherwise we only want the new selection.
     NSMutableArray *all;
     NSArray        *sel = (all = (selectionMode != SelectionReplace)
-      ? [NSMutableArray arrayWithArray:markedSelection]
+      ? [NSMutableArray arrayWithArray : markedSelection]
       : [NSMutableArray arrayWithArray:directivesToSelect]);
 
     if (selectionMode == SelectionExtend) {
@@ -5152,7 +5152,7 @@ void AppendChoicesToNewItem(
     // Set (or re-set) the selected state
     //
     if ([[self documentContents] activeModel] == currentModel) {
-      [modelItem setState:NSOnState];
+      [modelItem setState:NSControlStateValueOn];
       [self->submodelPopUpMenu selectItemAtIndex:counter];
     }
   }
@@ -6103,7 +6103,7 @@ void AppendChoicesToNewItem(
   // Pasteboard types.
   NSArray *pboardTypes = [NSArray arrayWithObjects:
                           LDrawDirectivePboardType, // Bricksmith's preferred type.
-                          NSStringPboardType, // representation for other applications.
+                          NSPasteboardTypeString, // representation for other applications.
                           nil];
   LDrawDirective *currentObject = nil;
   NSMutableArray *objectsToCopy = [NSMutableArray array];
@@ -6165,7 +6165,7 @@ void AppendChoicesToNewItem(
   // For other applications, however, we provide the LDraw file contents for
   // the objects. Note that these strings cannot be pasted back into the
   // program.
-  [pasteboard setString:stringedObjects forType:NSStringPboardType];
+  [pasteboard setString:stringedObjects forType:NSPasteboardTypeString];
 }// end writeDirectives:toPasteboard:
 
 

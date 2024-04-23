@@ -43,8 +43,8 @@ enum
 #define TRANSFORM_STACK_DEPTH    64
 #define DL_STACK_DEPTH           64
 
-#define CULL_BOX_X               640
-#define CULL_BOX_Y               640
+#define CULL_BOX_X               1024
+#define CULL_BOX_Y               1024
 
 struct  LDrawDLBuilder;
 struct  LDrawBDP;

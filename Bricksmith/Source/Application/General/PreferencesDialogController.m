@@ -182,10 +182,10 @@ PreferencesDialogController * preferencesDialog = nil;
   [[gridSpacingForm cellAtIndex:2] setFloatValue:gridCoarse];
 
   // Mouse Dragging & axis lines
-  MouseDragBehaviorT   mouseBehavior = [userDefaults integerForKey:MOUSE_DRAGGING_BEHAVIOR_KEY];
-  RightButtonBehaviorT rbBehavior    = [userDefaults integerForKey:RIGHT_BUTTON_BEHAVIOR_KEY];
-  RotateModeT          rBehavior     = [userDefaults integerForKey:ROTATE_MODE_KEY];
-  MouseWheelBeahviorT  wBehavior     = [userDefaults integerForKey:MOUSE_WHEEL_BEHAVIOR_KEY];
+  MouseDragBehaviorT   mouseBehavior = (int)[userDefaults integerForKey:MOUSE_DRAGGING_BEHAVIOR_KEY];
+  RightButtonBehaviorT rbBehavior    = (int)[userDefaults integerForKey:RIGHT_BUTTON_BEHAVIOR_KEY];
+  RotateModeT          rBehavior     = (int)[userDefaults integerForKey:ROTATE_MODE_KEY];
+  MouseWheelBeahviorT  wBehavior     = (int)[userDefaults integerForKey:MOUSE_WHEEL_BEHAVIOR_KEY];
   BOOL showAxisLines = [userDefaults boolForKey:SHOW_AXIS_LINES_KEY];
 
   [self->mouseDraggingRadioButtons selectCellWithTag:mouseBehavior];
@@ -234,7 +234,7 @@ PreferencesDialogController * preferencesDialog = nil;
 {
   NSUserDefaults    *userDefaults    = [NSUserDefaults standardUserDefaults];
   NSString          *ldrawPath       = [userDefaults stringForKey:LDRAW_PATH_KEY];
-  PartBrowserStyleT partBrowserStyle = [userDefaults integerForKey:PART_BROWSER_STYLE_KEY];
+  PartBrowserStyleT partBrowserStyle = (int)[userDefaults integerForKey:PART_BROWSER_STYLE_KEY];
 
   [self->partBrowserStyleRadioButtons selectCellWithTag:partBrowserStyle];
 
@@ -260,11 +260,11 @@ PreferencesDialogController * preferencesDialog = nil;
   NSString       *executablePath    = [userDefaults stringForKey:LSYNTH_EXECUTABLE_PATH_KEY];
   NSString       *configurationPath = [userDefaults stringForKey:LSYNTH_CONFIGURATION_PATH_KEY];
   // Stored as an int but interpreted as a percentage
-  int     selectionTransparency      = [userDefaults integerForKey:LSYNTH_SELECTION_TRANSPARENCY_KEY];
+  int     selectionTransparency      = (int)[userDefaults integerForKey:LSYNTH_SELECTION_TRANSPARENCY_KEY];
   NSColor *selectionColor            = [userDefaults colorForKey:LSYNTH_SELECTION_COLOR_KEY];
   BOOL    saveSynthesizedParts       = [userDefaults boolForKey:LSYNTH_SAVE_SYNTHESIZED_PARTS_KEY];
   BOOL    showBasicPartsList         = [userDefaults boolForKey:LSYNTH_SHOW_BASIC_PARTS_LIST_KEY];
-  LSynthSelectionModeT selectionMode = [userDefaults integerForKey:LSYNTH_SELECTION_MODE_KEY];
+  LSynthSelectionModeT selectionMode = (int)[userDefaults integerForKey:LSYNTH_SELECTION_MODE_KEY];
 
   // Set control values
   [lsynthExecutablePath setStringValue:executablePath];
@@ -345,7 +345,7 @@ PreferencesDialogController * preferencesDialog = nil;
 - (IBAction)mouseDraggingChanged:(id)sender
 {
   NSUserDefaults     *userDefaults = [NSUserDefaults standardUserDefaults];
-  MouseDragBehaviorT mouseBehavior = [self->mouseDraggingRadioButtons selectedTag];
+  MouseDragBehaviorT mouseBehavior = (int)[self->mouseDraggingRadioButtons selectedTag];
 
   [userDefaults setInteger:mouseBehavior forKey:MOUSE_DRAGGING_BEHAVIOR_KEY];
 }// end mouseDraggingChanged:
@@ -354,7 +354,7 @@ PreferencesDialogController * preferencesDialog = nil;
 - (IBAction)rightButtonChanged:(id)sender
 {
   NSUserDefaults       *userDefaults = [NSUserDefaults standardUserDefaults];
-  RightButtonBehaviorT rbBehavior    = [self->rightButtonRadioButtons selectedTag];
+  RightButtonBehaviorT rbBehavior    = (int)[self->rightButtonRadioButtons selectedTag];
 
   [userDefaults setInteger:rbBehavior forKey:RIGHT_BUTTON_BEHAVIOR_KEY];
 }
@@ -363,7 +363,7 @@ PreferencesDialogController * preferencesDialog = nil;
 - (IBAction)rotateModeChanged:(id)sender
 {
   NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-  RotateModeT    rBehavior     = [self->rotateModeRadioButtons selectedTag];
+  RotateModeT    rBehavior     = (int)[self->rotateModeRadioButtons selectedTag];
 
   [userDefaults setInteger:rBehavior forKey:ROTATE_MODE_KEY];
 }
@@ -372,7 +372,7 @@ PreferencesDialogController * preferencesDialog = nil;
 - (IBAction)mouseWheelChanged:(id)sender
 {
   NSUserDefaults      *userDefaults = [NSUserDefaults standardUserDefaults];
-  MouseWheelBeahviorT wBehavior     = [self->mouseWheelRadioButtons selectedTag];
+  MouseWheelBeahviorT wBehavior     = (int)[self->mouseWheelRadioButtons selectedTag];
 
   [userDefaults setInteger:wBehavior forKey:MOUSE_WHEEL_BEHAVIOR_KEY];
 }
@@ -406,7 +406,7 @@ PreferencesDialogController * preferencesDialog = nil;
 - (IBAction)partBrowserStyleChanged:(id)sender
 {
   NSUserDefaults    *userDefaults = [NSUserDefaults standardUserDefaults];
-  PartBrowserStyleT newStyle      = [self->partBrowserStyleRadioButtons selectedTag];
+  PartBrowserStyleT newStyle      = (int)[self->partBrowserStyleRadioButtons selectedTag];
 
   [userDefaults setInteger:newStyle forKey:PART_BROWSER_STYLE_KEY];
 

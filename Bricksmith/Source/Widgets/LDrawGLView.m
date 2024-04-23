@@ -213,7 +213,7 @@ static NSSize Size2ToNSSize(Size2 size)
   GLint swapInterval = 1;
 
   [[self openGLContext] setValues:&swapInterval
-                     forParameter:NSOpenGLCPSwapInterval];
+                     forParameter:NSOpenGLContextParameterSwapInterval];
 
   // GL surface should be under window to allow Cocoa overtop.
   // Huge FPS hit--over 40%! Don't do it!
@@ -963,7 +963,7 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (IBAction)viewOrientationSelected:(id)sender
 {
-  ViewOrientationT newAngle = [sender tag];
+  ViewOrientationT newAngle = (int)[sender tag];
 
   [[self openGLContext] makeCurrentContext];
 
@@ -1484,7 +1484,7 @@ static NSSize Size2ToNSSize(Size2 size)
 - (void)mouseDown:(NSEvent *)theEvent
 {
   NSUserDefaults     *userDefaults    = [NSUserDefaults standardUserDefaults];
-  MouseDragBehaviorT draggingBehavior = [userDefaults integerForKey:MOUSE_DRAGGING_BEHAVIOR_KEY];
+  MouseDragBehaviorT draggingBehavior = (int)[userDefaults integerForKey:MOUSE_DRAGGING_BEHAVIOR_KEY];
   ToolModeT          toolMode         = [ToolPalette toolMode];
 
   if ([theEvent buttonNumber] == 1) {
@@ -1559,7 +1559,7 @@ static NSSize Size2ToNSSize(Size2 size)
 - (void)mouseDragged:(NSEvent *)theEvent
 {
   NSUserDefaults     *userDefaults    = [NSUserDefaults standardUserDefaults];
-  MouseDragBehaviorT draggingBehavior = [userDefaults integerForKey:MOUSE_DRAGGING_BEHAVIOR_KEY];
+  MouseDragBehaviorT draggingBehavior = (int)[userDefaults integerForKey:MOUSE_DRAGGING_BEHAVIOR_KEY];
   ToolModeT          toolMode         = [ToolPalette toolMode];
   Vector2            dragDelta        = V2Make([theEvent deltaX], [theEvent deltaY]);
 
@@ -1905,7 +1905,7 @@ static NSSize Size2ToNSSize(Size2 size)
 
   if (self->delegate != nil &&
       [self->delegate respondsToSelector:@selector(LDrawGLView:writeDirectivesToPasteboard:asCopy:)]) {
-    pasteboard = [NSPasteboard pasteboardWithName:NSDragPboard];
+    pasteboard = [NSPasteboard pasteboardWithName:NSPasteboardNameDrag];
     beginCopy  = ([theEvent modifierFlags] & NSEventModifierFlagOption) != 0;
 
     okayToDrag = [self->delegate LDrawGLView:self
@@ -2565,10 +2565,10 @@ static NSSize Size2ToNSSize(Size2 size)
   // that happen to have a tag which matches one of the viewing angles.)
   if ([menuItem action] == @selector(viewOrientationSelected:)) {
     if ([menuItem tag] == [self->renderer viewOrientation]) {
-      [menuItem setState:NSOnState];
+      [menuItem setState:NSControlStateValueOn];
     }
     else {
-      [menuItem setState:NSOffState];
+      [menuItem setState:NSControlStateValueOff];
     }
   }
 
@@ -2940,8 +2940,8 @@ static NSSize Size2ToNSSize(Size2 size)
       [NSString stringWithFormat:@"%@ %@", LDRAW_GL_VIEW_ANGLE, self->autosaveName];
     NSString *projectionModeKey =
       [NSString stringWithFormat:@"%@ %@", LDRAW_GL_VIEW_PROJECTION, self->autosaveName];
-    ViewOrientationT orientation = [userDefaults integerForKey:viewingAngleKey];
-    ProjectionModeT  projection  = [userDefaults integerForKey:projectionModeKey];
+    ViewOrientationT orientation = (int)[userDefaults integerForKey:viewingAngleKey];
+    ProjectionModeT  projection  = (int)[userDefaults integerForKey:projectionModeKey];
 
     // It's imperative to read the modes from defaults prior to calling this
     // methods, since -setViewOrientation automatically saves current values

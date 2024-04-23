@@ -52,7 +52,7 @@ struct  LDrawDLBuilder;
 struct  LDrawDLSession;
 
 // Display list creation API.
-struct LDrawDLBuilder *LDrawDLBuilderCreate();
+struct LDrawDLBuilder *LDrawDLBuilderCreate(void);
 struct LDrawDL *LDrawDLBuilderFinish(struct LDrawDLBuilder *ctx);
 void LDrawDLDestroy(struct LDrawDL *dl);
 

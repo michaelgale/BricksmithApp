@@ -161,12 +161,12 @@
 + (NSArray *)tangentBetweenCircle:(NSMutableDictionary *)circle1 andCircle:(NSMutableDictionary *)circle2
 {
   // Recast the supplied dictionaries as Circles for clarity in the main algorithm
-  Circle *c1 = [[[Circle alloc] initWithX:[[circle1 valueForKey:@"x"] integerValue]
-                                        Y:[[circle1 valueForKey:@"y"] integerValue]
-                                        R:[[circle1 valueForKey:@"r"] integerValue]] autorelease];
-  Circle *c2 = [[[Circle alloc] initWithX:[[circle2 valueForKey:@"x"] integerValue]
-                                        Y:[[circle2 valueForKey:@"y"] integerValue]
-                                        R:[[circle2 valueForKey:@"r"] integerValue]] autorelease];
+  Circle *c1 = [[[Circle alloc] initWithX:(int)[[circle1 valueForKey:@"x"] integerValue]
+                                        Y:(int)[[circle1 valueForKey:@"y"] integerValue]
+                                        R:(int)[[circle1 valueForKey:@"r"] integerValue]] autorelease];
+  Circle *c2 = [[[Circle alloc] initWithX:(int)[[circle2 valueForKey:@"x"] integerValue]
+                                        Y:(int)[[circle2 valueForKey:@"y"] integerValue]
+                                        R:(int)[[circle2 valueForKey:@"r"] integerValue]] autorelease];
 
   double d_sq = pow([c1 x] - [c2 x], 2) + pow([c1 y] - [c2 y], 2);
 
@@ -331,12 +331,12 @@
 {
   // NSLog(@"PQR: %i, %i, %i", pIndex, qIndex, rIndex);
 
-  int px = [[[points objectAtIndex:pIndex] objectForKey:@"x"] integerValue];
-  int qx = [[[points objectAtIndex:qIndex] objectForKey:@"x"] integerValue];
-  int rx = [[[points objectAtIndex:rIndex] objectForKey:@"x"] integerValue];
-  int py = [[[points objectAtIndex:pIndex] objectForKey:@"y"] integerValue];
-  int qy = [[[points objectAtIndex:qIndex] objectForKey:@"y"] integerValue];
-  int ry = [[[points objectAtIndex:rIndex] objectForKey:@"y"] integerValue];
+  int px = (int)[[[points objectAtIndex:pIndex] objectForKey:@"x"] integerValue];
+  int qx = (int)[[[points objectAtIndex:qIndex] objectForKey:@"x"] integerValue];
+  int rx = (int)[[[points objectAtIndex:rIndex] objectForKey:@"x"] integerValue];
+  int py = (int)[[[points objectAtIndex:pIndex] objectForKey:@"y"] integerValue];
+  int qy = (int)[[[points objectAtIndex:qIndex] objectForKey:@"y"] integerValue];
+  int ry = (int)[[[points objectAtIndex:rIndex] objectForKey:@"y"] integerValue];
 
   // ((q[0] - p[0]) * (r[1] - p[1])   -   (r[0] - p[0]) * (q[1] - p[1])
   int turn = ((qx - px) * (ry - py)) - ((rx - px) * (qy - py));
@@ -360,10 +360,10 @@
 // ==============================================================================
 + (int)distanceBetweenPoints:(NSArray *)points P:(int)pIndex Q:(int)qIndex
 {
-  int dx = [[[points objectAtIndex:qIndex] objectForKey:@"x"] integerValue] -
-    [[[points objectAtIndex:pIndex] objectForKey:@"x"] integerValue];
-  int dy = [[[points objectAtIndex:qIndex] objectForKey:@"y"] integerValue] -
-    [[[points objectAtIndex:pIndex] objectForKey:@"y"] integerValue];
+  int dx = (int)[[[points objectAtIndex:qIndex] objectForKey:@"x"] integerValue] -
+    (int)[[[points objectAtIndex:pIndex] objectForKey:@"x"] integerValue];
+  int dy = (int)[[[points objectAtIndex:qIndex] objectForKey:@"y"] integerValue] -
+    (int)[[[points objectAtIndex:pIndex] objectForKey:@"y"] integerValue];
 
   return(dx * dx + dy * dy);
 }

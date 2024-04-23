@@ -624,7 +624,7 @@ parse_descr(bool custom_config, char *fullpath_progname)
     return 0;
 }
 
-void list_products()
+void list_products(void)
 {
     int i;
     
@@ -987,7 +987,7 @@ char * stripquotes(char *s)
     return(s);
 }
 
-void usage() {
+void usage(void) {
     extern void list_hose_types(void);
     extern void list_band_types(void);
     extern void list_band_constraints(void);
