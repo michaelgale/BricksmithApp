@@ -29,22 +29,22 @@
 
 typedef enum
 {
-  LDrawStepRotationNone     = 0, // inherit previous step rotation (or default view)
-  LDrawStepRotationRelative = 1,  // rotate relative to default 3D viewing angle
-  LDrawStepRotationAbsolute = 2,  // rotate relative to (0, 0, 0)
-  LDrawStepRotationAdditive = 3,  // rotate relative to the previous step's rotation
-  LDrawStepRotationEnd      = 4 // cancel the effect of the previous rotation
+    LDrawStepRotationNone     = 0, // inherit previous step rotation (or default view)
+    LDrawStepRotationRelative = 1, // rotate relative to default 3D viewing angle
+    LDrawStepRotationAbsolute = 2, // rotate relative to (0, 0, 0)
+    LDrawStepRotationAdditive = 3, // rotate relative to the previous step's rotation
+    LDrawStepRotationEnd      = 4 // cancel the effect of the previous rotation
 } LDrawStepRotationT;
 
 
 // Describes the contents of this step.
 typedef enum
 {
-  LDrawStepAnyDirectives,  // step can hold any type of subdirectives.
-  LDrawStepLines,          // step can hold *only* LDrawLines.
-  LDrawStepTriangles,      // etc.
-  LDrawStepQuadrilaterals, // etc.
-  LDrawStepConditionalLines // etc.
+    LDrawStepAnyDirectives, // step can hold any type of subdirectives.
+    LDrawStepLines,         // step can hold *only* LDrawLines.
+    LDrawStepTriangles,     // etc.
+    LDrawStepQuadrilaterals, // etc.
+    LDrawStepConditionalLines // etc.
 } LDrawStepFlavorT;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -54,16 +54,16 @@ typedef enum
 ////////////////////////////////////////////////////////////////////////////////
 @interface LDrawStep : LDrawContainer
 {
-  LDrawStepRotationT stepRotationType;
-  Tuple3             rotationAngle; // in degrees
-  Box3 cachedBounds;          // cached bounds of the step
-  // Optimization variables
-  LDrawStepFlavorT stepFlavor;  // defaults to LDrawStepAnyDirectives
-  LDrawColorT      colorOfAllDirectives;
+    LDrawStepRotationT stepRotationType;
+    Tuple3             rotationAngle; // in degrees
+    Box3 cachedBounds;        // cached bounds of the step
+    // Optimization variables
+    LDrawStepFlavorT stepFlavor; // defaults to LDrawStepAnyDirectives
+    LDrawColorT      colorOfAllDirectives;
 
-  // Inherited from the superclasses:
-  // NSMutableArray	*containedObjects; //the commands that make up the step.
-  // LDrawContainer	*enclosingDirective; //weak link to enclosing model.
+    // Inherited from the superclasses:
+    // NSMutableArray	*containedObjects; //the commands that make up the step.
+    // LDrawContainer	*enclosingDirective; //weak link to enclosing model.
 }
 
 // Initialization

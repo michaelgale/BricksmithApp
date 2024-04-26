@@ -21,8 +21,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 @interface LDrawColorBar : NSView <LDrawColorable>
 {
-  LDrawColor *color;
-  NSColor    *nsColor;
+    LDrawColor *color;
+    NSColor    *nsColor;
 }
 
 @end

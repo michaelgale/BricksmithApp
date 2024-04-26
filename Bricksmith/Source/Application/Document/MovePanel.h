@@ -14,11 +14,11 @@
 
 @interface MovePanel : DialogPanel
 {
-  float movementX;
-  float movementY;
-  float movementZ;
+    float movementX;
+    float movementY;
+    float movementZ;
 
-  IBOutlet NSFormatter *formatterPoints;
+    IBOutlet NSFormatter *formatterPoints;
 }
 
 // initialization

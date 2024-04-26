@@ -73,10 +73,10 @@ void LDrawDLBuilderAddLine(struct LDrawDLBuilder *ctx, const GLfloat v[6], GLflo
 struct LDrawDLSession *LDrawDLSessionCreate(const GLfloat model_view[16]);
 void LDrawDLSessionDrawAndDestroy(struct LDrawDLSession *session);
 void LDrawDLDraw(
-  struct LDrawDLSession *session,
-  struct LDrawDL *dl,
-  struct LDrawTextureSpec *spec,
-  const GLfloat cur_color[4],
-  const GLfloat cmp_color[4],
-  const GLfloat transform[16],
-  int draw_now);
+    struct LDrawDLSession *session,
+    struct LDrawDL *dl,
+    struct LDrawTextureSpec *spec,
+    const GLfloat cur_color[4],
+    const GLfloat cmp_color[4],
+    const GLfloat transform[16],
+    int draw_now);

@@ -30,13 +30,13 @@ const Box3 InvalidBox = { { INFINITY,  INFINITY,  INFINITY  },
 
 const TransformComponents IdentityComponents =
 {
-  { 1.0, 1.0, 1.0 },  // scale;
-  0,                  // shear_XY;
-  0,                  // shear_XZ;
-  0,                  // shear_YZ;
-  { 0,   0,   0   },  // rotate;		//in radians
-  { 0,   0,   0   },  // translate;
-  { 0,   0,   0, 0}   // perspective;
+    { 1.0, 1.0, 1.0 }, // scale;
+    0,                 // shear_XY;
+    0,                 // shear_XZ;
+    0,                 // shear_YZ;
+    { 0,   0,   0   }, // rotate;		//in radians
+    { 0,   0,   0   }, // translate;
+    { 0,   0,   0, 0} // perspective;
 };
 
 const Matrix3 IdentityMatrix3 = {   { { 1.0, 0, 0 },
@@ -59,16 +59,16 @@ const Point4 ZeroPoint4 = { 0.0, 0.0, 0.0, 0.0 };
 // ==============================================================================
 size_t FloorPowerOfTwo(size_t value)
 {
-  size_t mask = 0;
+    size_t mask = 0;
 
-  mask = 1L << (sizeof(size_t) * 8 - 1);
+    mask = 1L << (sizeof(size_t) * 8 - 1);
 
-  while ((value & mask) == 0)
-  {
-    mask = mask >> 1;
-  }
+    while ((value & mask) == 0)
+    {
+        mask = mask >> 1;
+    }
 
-  return(mask);
+    return(mask);
 }
 
 
@@ -98,8 +98,8 @@ size_t FloorPowerOfTwo(size_t value)
 // ==============================================================================
 bool FloatsApproximatelyEqual(double float1, double float2)
 {
-  if (fabs(float1 - float2) < 1e-6) { return(true); }
-  return(false);
+    if (fabs(float1 - float2) < 1e-6) { return(true); }
+    return(false);
 //// Use a union; it's less scary than *(int*)&point1.z;
 // union intFloat
 // {
@@ -161,12 +161,12 @@ bool FloatsApproximatelyEqual(double float1, double float2)
 // ==============================================================================
 Vector2 V2Add(Vector2 a, Vector2 b)
 {
-  Vector2 result;
+    Vector2 result;
 
-  result.x = a.x + b.x;
-  result.y = a.y + b.y;
+    result.x = a.x + b.x;
+    result.y = a.y + b.y;
 
-  return(result);
+    return(result);
 }// end V2Add
 
 
@@ -177,12 +177,12 @@ Vector2 V2Add(Vector2 a, Vector2 b)
 // ==============================================================================
 Vector2 V2Sub(Vector2 a, Vector2 b)
 {
-  Vector2 result;
+    Vector2 result;
 
-  result.x = a.x - b.x;
-  result.y = a.y - b.y;
+    result.x = a.x - b.x;
+    result.y = a.y - b.y;
 
-  return(result);
+    return(result);
 }// end V3Sub
 
 
@@ -193,12 +193,12 @@ Vector2 V2Sub(Vector2 a, Vector2 b)
 // ==============================================================================
 Vector2 V2MulScalar(Vector2 a, float scalar)
 {
-  Vector2 result;
+    Vector2 result;
 
-  result.x = a.x * scalar;
-  result.y = a.y * scalar;
+    result.x = a.x * scalar;
+    result.y = a.y * scalar;
 
-  return(result);
+    return(result);
 } // end V2MulScalar
 
 
@@ -209,12 +209,12 @@ Vector2 V2MulScalar(Vector2 a, float scalar)
 // ==============================================================================
 Point2 V2Make(double x, double y)
 {
-  Point2 point;
+    Point2 point;
 
-  point.x = x;
-  point.y = y;
+    point.x = x;
+    point.y = y;
 
-  return(point);
+    return(point);
 }
 
 
@@ -227,15 +227,15 @@ Point2 V2Make(double x, double y)
 // ==============================================================================
 Box2 V2MakeBox(double x, double y, double width, double height)
 {
-  Box2 box;
+    Box2 box;
 
-  box.origin.x = x;
-  box.origin.y = y;
+    box.origin.x = x;
+    box.origin.y = y;
 
-  box.size.width  = width;
-  box.size.height = height;
+    box.size.width  = width;
+    box.size.height = height;
 
-  return(box);
+    return(box);
 }
 
 
@@ -246,10 +246,10 @@ Box2 V2MakeBox(double x, double y, double width, double height)
 // ==============================================================================
 Box2 V2MakeBoxFromPoints(Point2 origin, Point2 maximum)
 {
-  double width  = maximum.x - origin.x;
-  double height = maximum.y - origin.y;
+    double width  = maximum.x - origin.x;
+    double height = maximum.y - origin.y;
 
-  return(V2MakeBox(origin.x, origin.y, width, height));
+    return(V2MakeBox(origin.x, origin.y, width, height));
 }
 
 
@@ -257,12 +257,12 @@ Box2 V2MakeBoxFromPoints(Point2 origin, Point2 maximum)
 // ==============================================================================
 Size2 V2MakeSize(double width, double height)
 {
-  Size2 size;
+    Size2 size;
 
-  size.width  = width;
-  size.height = height;
+    size.width  = width;
+    size.height = height;
 
-  return(size);
+    return(size);
 }
 
 
@@ -270,10 +270,10 @@ Size2 V2MakeSize(double width, double height)
 // ==============================================================================
 bool V2EqualBoxes(Box2 box1, Box2 box2)
 {
-  return(box1.origin.x == box2.origin.y &&
-         box1.origin.y == box2.origin.y &&
-         box1.size.height == box2.size.height &&
-         box1.size.width == box2.size.width);
+    return(box1.origin.x == box2.origin.y &&
+           box1.origin.y == box2.origin.y &&
+           box1.size.height == box2.size.height &&
+           box1.size.width == box2.size.width);
 }
 
 
@@ -281,8 +281,8 @@ bool V2EqualBoxes(Box2 box1, Box2 box2)
 // ==============================================================================
 bool V2EqualSizes(Size2 size1, Size2 size2)
 {
-  return(size1.width == size2.width &&
-         size1.height == size2.height);
+    return(size1.width == size2.width &&
+           size1.height == size2.height);
 }
 
 
@@ -290,7 +290,7 @@ bool V2EqualSizes(Size2 size1, Size2 size2)
 // ==============================================================================
 double V2BoxHeight(Box2 box)
 {
-  return(box.size.height);
+    return(box.size.height);
 }
 
 
@@ -298,7 +298,7 @@ double V2BoxHeight(Box2 box)
 // ==============================================================================
 double V2BoxWidth(Box2 box)
 {
-  return(box.size.width);
+    return(box.size.width);
 }
 
 
@@ -306,7 +306,7 @@ double V2BoxWidth(Box2 box)
 // ==============================================================================
 double V2BoxMaxX(Box2 box)
 {
-  return(box.origin.x + box.size.width);
+    return(box.origin.x + box.size.width);
 }
 
 
@@ -314,7 +314,7 @@ double V2BoxMaxX(Box2 box)
 // ==============================================================================
 double V2BoxMaxY(Box2 box)
 {
-  return(box.origin.y + box.size.height);
+    return(box.origin.y + box.size.height);
 }
 
 
@@ -322,7 +322,7 @@ double V2BoxMaxY(Box2 box)
 // ==============================================================================
 double V2BoxMidX(Box2 box)
 {
-  return(box.origin.x + V2BoxWidth(box) * 0.5);
+    return(box.origin.x + V2BoxWidth(box) * 0.5);
 }
 
 
@@ -330,7 +330,7 @@ double V2BoxMidX(Box2 box)
 // ==============================================================================
 double V2BoxMidY(Box2 box)
 {
-  return(box.origin.y + V2BoxHeight(box) * 0.5);
+    return(box.origin.y + V2BoxHeight(box) * 0.5);
 }
 
 
@@ -338,7 +338,7 @@ double V2BoxMidY(Box2 box)
 // ==============================================================================
 double V2BoxMinX(Box2 box)
 {
-  return(box.origin.x);
+    return(box.origin.x);
 }
 
 
@@ -346,7 +346,7 @@ double V2BoxMinX(Box2 box)
 // ==============================================================================
 double V2BoxMinY(Box2 box)
 {
-  return(box.origin.y);
+    return(box.origin.y);
 }
 
 
@@ -359,14 +359,14 @@ double V2BoxMinY(Box2 box)
 // ==============================================================================
 Box2 V2BoxInset(Box2 box, double dX, double dY)
 {
-  Box2 insetBox = box;
+    Box2 insetBox = box;
 
-  insetBox.origin.x    += dX;
-  insetBox.origin.y    += dY;
-  insetBox.size.width  -= dX * 2.0;
-  insetBox.size.height -= dY * 2.0;
+    insetBox.origin.x    += dX;
+    insetBox.origin.y    += dY;
+    insetBox.size.width  -= dX * 2.0;
+    insetBox.size.height -= dY * 2.0;
 
-  return(insetBox);
+    return(insetBox);
 }
 
 
@@ -381,19 +381,19 @@ Box2 V2BoxInset(Box2 box, double dX, double dY)
 
 static double seg_y_at_x(Point2 p1, Point2 p2, double x)
 {
-  if (p1.x == p2.x) { return(p1.y); }
-  if (x == p1.x) { return(p1.y); }
-  if (x == p2.x) { return(p2.y); }
-  return(p1.y + (p2.y - p1.y) * (x - p1.x) / (p2.x - p1.x));
+    if (p1.x == p2.x) { return(p1.y); }
+    if (x == p1.x) { return(p1.y); }
+    if (x == p2.x) { return(p2.y); }
+    return(p1.y + (p2.y - p1.y) * (x - p1.x) / (p2.x - p1.x));
 }
 
 
 static double seg_x_at_y(Point2 p1, Point2 p2, double y)
 {
-  if (p1.y == p2.y) { return(p1.x); }
-  if (y == p1.y) { return(p1.x); }
-  if (y == p2.y) { return(p2.x); }
-  return(p1.x + (p2.x - p1.x) * (y - p1.y) / (p2.y - p1.y));
+    if (p1.y == p2.y) { return(p1.x); }
+    if (y == p1.y) { return(p1.x); }
+    if (y == p2.y) { return(p2.x); }
+    return(p1.x + (p2.x - p1.x) * (y - p1.y) / (p2.y - p1.y));
 }
 
 
@@ -404,10 +404,10 @@ static double seg_x_at_y(Point2 p1, Point2 p2, double y)
 // ==============================================================================
 bool    V2BoxContains(Box2 box, Point2 pin)
 {
-  return(pin.x >= V2BoxMinX(box) &&
-         pin.x <= V2BoxMaxX(box) &&
-         pin.y >= V2BoxMinY(box) &&
-         pin.y <= V2BoxMaxY(box));
+    return(pin.x >= V2BoxMinX(box) &&
+           pin.x <= V2BoxMaxX(box) &&
+           pin.y >= V2BoxMinY(box) &&
+           pin.y <= V2BoxMaxY(box));
 }
 
 
@@ -419,48 +419,48 @@ bool    V2BoxContains(Box2 box, Point2 pin)
 // ==============================================================================
 bool V2BoxIntersectsLine(Box2 box, Point2 pin1, Point2 pin2)
 {
-  double x1 = V2BoxMinX(box);
-  double x2 = V2BoxMaxX(box);
-  double y1 = V2BoxMinY(box);
-  double y2 = V2BoxMaxY(box);
+    double x1 = V2BoxMinX(box);
+    double x2 = V2BoxMaxX(box);
+    double y1 = V2BoxMinY(box);
+    double y2 = V2BoxMaxY(box);
 
-  if (!(pin1.x < x1 && pin2.x < x1) &&
-      !(pin1.x > x1 && pin2.x > x1)) {
-    double yp = seg_y_at_x(pin1, pin2, x1);
+    if (!(pin1.x < x1 && pin2.x < x1) &&
+        !(pin1.x > x1 && pin2.x > x1)) {
+        double yp = seg_y_at_x(pin1, pin2, x1);
 
-    if (yp >= y1 && yp <= y2) {
-      return(true);
+        if (yp >= y1 && yp <= y2) {
+            return(true);
+        }
     }
-  }
 
-  if (!(pin1.x < x2 && pin2.x < x2) &&
-      !(pin1.x > x2 && pin2.x > x2)) {
-    double yp = seg_y_at_x(pin1, pin2, x2);
+    if (!(pin1.x < x2 && pin2.x < x2) &&
+        !(pin1.x > x2 && pin2.x > x2)) {
+        double yp = seg_y_at_x(pin1, pin2, x2);
 
-    if (yp >= y1 && yp <= y2) {
-      return(true);
+        if (yp >= y1 && yp <= y2) {
+            return(true);
+        }
     }
-  }
 
-  if (!(pin1.y < y1 && pin2.y < y1) &&
-      !(pin1.y > y1 && pin2.y > y1)) {
-    double xp = seg_x_at_y(pin1, pin2, y1);
+    if (!(pin1.y < y1 && pin2.y < y1) &&
+        !(pin1.y > y1 && pin2.y > y1)) {
+        double xp = seg_x_at_y(pin1, pin2, y1);
 
-    if (xp >= x1 && xp <= x2) {
-      return(true);
+        if (xp >= x1 && xp <= x2) {
+            return(true);
+        }
     }
-  }
 
-  if (!(pin1.y < y2 && pin2.y < y2) &&
-      !(pin1.y > y2 && pin2.y > y2)) {
-    double xp = seg_x_at_y(pin1, pin2, y2);
+    if (!(pin1.y < y2 && pin2.y < y2) &&
+        !(pin1.y > y2 && pin2.y > y2)) {
+        double xp = seg_x_at_y(pin1, pin2, y2);
 
-    if (xp >= x1 && xp <= x2) {
-      return(true);
+        if (xp >= x1 && xp <= x2) {
+            return(true);
+        }
     }
-  }
 
-  return(false);
+    return(false);
 }
 
 
@@ -473,36 +473,36 @@ bool V2BoxIntersectsLine(Box2 box, Point2 pin1, Point2 pin2)
 // ==============================================================================
 bool    V2PolygonContains(const Point2 *begin, int num_pts, Point2 pin)
 {
-  const Point2 *end          = begin + num_pts;
-  int          cross_counter = 0;
-  Point2       first_p       = *begin;
-  Point2       s_p1;
-  Point2       s_p2;
+    const Point2 *end          = begin + num_pts;
+    int          cross_counter = 0;
+    Point2       first_p       = *begin;
+    Point2       s_p1;
+    Point2       s_p2;
 
-  s_p1 = *begin;
-  ++begin;
+    s_p1 = *begin;
+    ++begin;
 
-  while (begin != end)
-  {
-    s_p2 = *begin;
+    while (begin != end)
+    {
+        s_p2 = *begin;
+        if ((s_p1.x < pin.x && pin.x <= s_p2.x) ||
+            (s_p2.x < pin.x && pin.x <= s_p1.x)) {
+            if (pin.y > seg_y_at_x(s_p1, s_p2, pin.x)) {
+                ++cross_counter;
+            }
+        }
+
+        s_p1 = s_p2;
+        ++begin;
+    }
+    s_p2 = first_p;
     if ((s_p1.x < pin.x && pin.x <= s_p2.x) ||
         (s_p2.x < pin.x && pin.x <= s_p1.x)) {
-      if (pin.y > seg_y_at_x(s_p1, s_p2, pin.x)) {
-        ++cross_counter;
-      }
+        if (pin.y > seg_y_at_x(s_p1, s_p2, pin.x)) {
+            ++cross_counter;
+        }
     }
-
-    s_p1 = s_p2;
-    ++begin;
-  }
-  s_p2 = first_p;
-  if ((s_p1.x < pin.x && pin.x <= s_p2.x) ||
-      (s_p2.x < pin.x && pin.x <= s_p1.x)) {
-    if (pin.y > seg_y_at_x(s_p1, s_p2, pin.x)) {
-      ++cross_counter;
-    }
-  }
-  return((cross_counter % 2) == 1);
+    return((cross_counter % 2) == 1);
 }
 
 
@@ -515,32 +515,32 @@ bool    V2PolygonContains(const Point2 *begin, int num_pts, Point2 pin)
 // ==============================================================================
 bool    V2BoxIntersectsPolygon(Box2 bounds, const Point2 *poly, int num_pts)
 {
-  int i, j;
+    int i, j;
 
-  // Easy case: selection box contains a polygon point.  Do this first - it's fastest.
-  for (i = 0; i < num_pts; ++i) {
-    if (V2BoxContains(bounds, poly[i])) {
-      return(true);
+    // Easy case: selection box contains a polygon point.  Do this first - it's fastest.
+    for (i = 0; i < num_pts; ++i) {
+        if (V2BoxContains(bounds, poly[i])) {
+            return(true);
+        }
     }
-  }
 
-  // Next case: if any edge fo the polygon hits the box edge, that's a hit.
-  for (i = 0; i < num_pts; ++i) {
-    j = (i + 1) % num_pts;
-    if (V2BoxIntersectsLine(bounds, poly[i], poly[j])) {
-      return(true);
+    // Next case: if any edge fo the polygon hits the box edge, that's a hit.
+    for (i = 0; i < num_pts; ++i) {
+        j = (i + 1) % num_pts;
+        if (V2BoxIntersectsLine(bounds, poly[i], poly[j])) {
+            return(true);
+        }
     }
-  }
 
-  // Finally: for polygons (tri, quad, etc.) our selection box might be entirely INSIDE the
-  // poylgon.  Test its centroid.
-  if (num_pts < 3) {
-    return(false);
-  }
-  else {
-    // Final case: for non-degenerate case, marquee could be FULLY inside - test one point to be sure.
-    return(V2PolygonContains(poly, num_pts, V2Make(V2BoxMidX(bounds), V2BoxMidY(bounds))));
-  }
+    // Finally: for polygons (tri, quad, etc.) our selection box might be entirely INSIDE the
+    // poylgon.  Test its centroid.
+    if (num_pts < 3) {
+        return(false);
+    }
+    else {
+        // Final case: for non-degenerate case, marquee could be FULLY inside - test one point to be sure.
+        return(V2PolygonContains(poly, num_pts, V2Make(V2BoxMidX(bounds), V2BoxMidY(bounds))));
+    }
 }
 
 
@@ -554,7 +554,7 @@ bool    V2BoxIntersectsPolygon(Box2 bounds, const Point2 *poly, int num_pts)
 double Matrix2x2Determinant(double a, double b, double c, double d)
 {
 // double ans;
-  return(a * d - b * c);
+    return(a * d - b * c);
 // return ans;
 }// end Matrix2x2Determinant
 
@@ -570,10 +570,10 @@ double Matrix2x2Determinant(double a, double b, double c, double d)
 // ==============================================================================
 Vector3 V3Make(double x, double y, double z)
 {
-  Vector3 v;
+    Vector3 v;
 
-  v.x = x;  v.y = y;  v.z = z;
-  return(v);
+    v.x = x;  v.y = y;  v.z = z;
+    return(v);
 }// end V3Make
 
 
@@ -584,10 +584,10 @@ Vector3 V3Make(double x, double y, double z)
 // ==============================================================================
 Vector3 *V3Duplicate(Vector3 *a)
 {
-  Vector3 *v = NEWTYPE(Vector3);
+    Vector3 *v = NEWTYPE(Vector3);
 
-  v->x = a->x;  v->y = a->y;  v->z = a->z;
-  return(v);
+    v->x = a->x;  v->y = a->y;  v->z = a->z;
+    return(v);
 }// end V3Duplicate
 
 
@@ -600,22 +600,22 @@ Vector3 *V3Duplicate(Vector3 *a)
 // ==============================================================================
 Vector3 V3FromV4(Vector4 originalVector)
 {
-  Vector3 newVector;
+    Vector3 newVector;
 
-  // This is very bad.
-  if (originalVector.w != 1.0 && originalVector.w != 0.0) {
-    printf("lossy 4D vector conversion: <%f, %f, %f, %f>\n",
-           originalVector.x,
-           originalVector.y,
-           originalVector.z,
-           originalVector.w);
-  }
+    // This is very bad.
+    if (originalVector.w != 1.0 && originalVector.w != 0.0) {
+        printf("lossy 4D vector conversion: <%f, %f, %f, %f>\n",
+               originalVector.x,
+               originalVector.y,
+               originalVector.z,
+               originalVector.w);
+    }
 
-  newVector.x = originalVector.x;
-  newVector.y = originalVector.y;
-  newVector.z = originalVector.z;
+    newVector.x = originalVector.x;
+    newVector.y = originalVector.y;
+    newVector.z = originalVector.z;
 
-  return(newVector);
+    return(newVector);
 }// end V3FromV4
 
 
@@ -632,18 +632,18 @@ Vector3 V3FromV4(Vector4 originalVector)
 // ==============================================================================
 Vector3 V3FromV4Normalize(Vector4 originalVector)
 {
-  Vector3 newVector;
-  double  recip = 1.0;
+    Vector3 newVector;
+    double  recip = 1.0;
 
-  if (originalVector.w != 0.0) {
-    recip = 1.0 / originalVector.w;
-  }
+    if (originalVector.w != 0.0) {
+        recip = 1.0 / originalVector.w;
+    }
 
-  newVector.x = originalVector.x * recip;
-  newVector.y = originalVector.y * recip;
-  newVector.z = originalVector.z * recip;
+    newVector.x = originalVector.x * recip;
+    newVector.y = originalVector.y * recip;
+    newVector.z = originalVector.z * recip;
 
-  return(newVector);
+    return(newVector);
 }// end V3FromV4Normalize
 
 
@@ -656,14 +656,14 @@ Vector3 V3FromV4Normalize(Vector4 originalVector)
 // ==============================================================================
 bool V3EqualPoints(Point3 point1, Point3 point2)
 {
-  if (point1.x == point2.x &&
-      point1.y == point2.y &&
-      point1.z == point2.z) {
-    return(true);
-  }
-  else {
-    return(false);
-  }
+    if (point1.x == point2.x &&
+        point1.y == point2.y &&
+        point1.z == point2.z) {
+        return(true);
+    }
+    else {
+        return(false);
+    }
 }// end V3EqualPoints
 
 
@@ -678,20 +678,20 @@ bool V3EqualPoints(Point3 point1, Point3 point2)
 // ==============================================================================
 bool V3PointsWithinTolerance(Point3 point1, Point3 point2)
 {
-  bool xEqual = false;
-  bool yEqual = false;
-  bool zEqual = false;
+    bool xEqual = false;
+    bool yEqual = false;
+    bool zEqual = false;
 
-  xEqual = FloatsApproximatelyEqual(point1.x, point2.x);
-  yEqual = FloatsApproximatelyEqual(point1.y, point2.y);
-  zEqual = FloatsApproximatelyEqual(point1.z, point2.z);
+    xEqual = FloatsApproximatelyEqual(point1.x, point2.x);
+    yEqual = FloatsApproximatelyEqual(point1.y, point2.y);
+    zEqual = FloatsApproximatelyEqual(point1.z, point2.z);
 
-  if (xEqual && yEqual && zEqual) {
-    return(true);
-  }
-  else {
-    return(false);
-  }
+    if (xEqual && yEqual && zEqual) {
+        return(true);
+    }
+    else {
+        return(false);
+    }
 }// end V3PointsWithinTolerance
 
 
@@ -704,9 +704,9 @@ bool V3PointsWithinTolerance(Point3 point1, Point3 point2)
 // ==============================================================================
 double V3SquaredLength(Vector3 a)
 {
-  return((a.x * a.x)
-         + (a.y * a.y)
-         + (a.z * a.z));
+    return((a.x * a.x)
+           + (a.y * a.y)
+           + (a.z * a.z));
 }// end V3SquaredLength
 
 
@@ -717,7 +717,7 @@ double V3SquaredLength(Vector3 a)
 // ==============================================================================
 double V3Length(Vector3 a)
 {
-  return(sqrt(V3SquaredLength(a)));
+    return(sqrt(V3SquaredLength(a)));
 }// end V3Length
 
 
@@ -728,11 +728,11 @@ double V3Length(Vector3 a)
 // ==============================================================================
 Vector3 V3Negate(Vector3 v)
 {
-  v.x = -v.x;
-  v.y = -v.y;
-  v.z = -v.z;
+    v.x = -v.x;
+    v.y = -v.y;
+    v.z = -v.z;
 
-  return(v);
+    return(v);
 }// end V3Negate
 
 
@@ -743,14 +743,14 @@ Vector3 V3Negate(Vector3 v)
 // ==============================================================================
 Tuple3  V3AntiEuler(Tuple3 v)
 {
-  Matrix4 forwardTransform = Matrix4Rotate(IdentityMatrix4, v);
-  Matrix4 inverseTransform = Matrix4Invert(forwardTransform);
-  Tuple3  inverse          = Matrix4DecomposeXYZRotation(inverseTransform);
+    Matrix4 forwardTransform = Matrix4Rotate(IdentityMatrix4, v);
+    Matrix4 inverseTransform = Matrix4Invert(forwardTransform);
+    Tuple3  inverse          = Matrix4DecomposeXYZRotation(inverseTransform);
 
-  inverse.x = degrees(inverse.x);
-  inverse.y = degrees(inverse.y);
-  inverse.z = degrees(inverse.z);
-  return(inverse);
+    inverse.x = degrees(inverse.x);
+    inverse.y = degrees(inverse.y);
+    inverse.z = degrees(inverse.z);
+    return(inverse);
 }// end V3AntiEuler
 
 
@@ -761,15 +761,15 @@ Tuple3  V3AntiEuler(Tuple3 v)
 // ==============================================================================
 Vector3 V3Normalize(Vector3 v)
 {
-  double len = V3Length(v);
+    double len = V3Length(v);
 
-  if (len != 0.0) {
-    v.x /= len;
-    v.y /= len;
-    v.z /= len;
-  }
+    if (len != 0.0) {
+        v.x /= len;
+        v.y /= len;
+        v.z /= len;
+    }
 
-  return(v);
+    return(v);
 }// end V3Normalize
 
 
@@ -780,15 +780,15 @@ Vector3 V3Normalize(Vector3 v)
 // ==============================================================================
 Vector3 V3Scale(Vector3 v, double newlen)
 {
-  double len = V3Length(v);
+    double len = V3Length(v);
 
-  if (len != 0.0) {
-    v.x *= newlen / len;
-    v.y *= newlen / len;
-    v.z *= newlen / len;
-  }
+    if (len != 0.0) {
+        v.x *= newlen / len;
+        v.y *= newlen / len;
+        v.z *= newlen / len;
+    }
 
-  return(v);
+    return(v);
 }// end V3Scale
 
 
@@ -799,13 +799,13 @@ Vector3 V3Scale(Vector3 v, double newlen)
 // ==============================================================================
 Vector3 V3Add(Vector3 a, Vector3 b)
 {
-  Vector3 result;
+    Vector3 result;
 
-  result.x = a.x + b.x;
-  result.y = a.y + b.y;
-  result.z = a.z + b.z;
+    result.x = a.x + b.x;
+    result.y = a.y + b.y;
+    result.z = a.z + b.z;
 
-  return(result);
+    return(result);
 }// end V3Add
 
 
@@ -816,13 +816,13 @@ Vector3 V3Add(Vector3 a, Vector3 b)
 // ==============================================================================
 Vector3 V3Sub(Vector3 a, Vector3 b)
 {
-  Vector3 result;
+    Vector3 result;
 
-  result.x = a.x - b.x;
-  result.y = a.y - b.y;
-  result.z = a.z - b.z;
+    result.x = a.x - b.x;
+    result.y = a.y - b.y;
+    result.z = a.z - b.z;
 
-  return(result);
+    return(result);
 }// end V3Sub
 
 
@@ -833,9 +833,9 @@ Vector3 V3Sub(Vector3 a, Vector3 b)
 // ==============================================================================
 double V3Dot(Vector3 a, Vector3 b)
 {
-  return((a.x * b.x)
-         + (a.y * b.y)
-         + (a.z * b.z));
+    return((a.x * b.x)
+           + (a.y * b.y)
+           + (a.z * b.z));
 }// end V3Dot
 
 
@@ -849,13 +849,13 @@ double V3Dot(Vector3 a, Vector3 b)
 // ==============================================================================
 Vector3 V3Lerp(Vector3 lo, Vector3 hi, double alpha)
 {
-  Vector3 result;
+    Vector3 result;
 
-  result.x = LERP(alpha, lo.x, hi.x);
-  result.y = LERP(alpha, lo.y, hi.y);
-  result.z = LERP(alpha, lo.z, hi.z);
+    result.x = LERP(alpha, lo.x, hi.x);
+    result.y = LERP(alpha, lo.y, hi.y);
+    result.z = LERP(alpha, lo.z, hi.z);
 
-  return(result);
+    return(result);
 }// end V3Lerp
 
 
@@ -868,13 +868,13 @@ Vector3 V3Lerp(Vector3 lo, Vector3 hi, double alpha)
 // ==============================================================================
 Vector3 V3Combine(Vector3 a, Vector3 b, double ascl, double bscl)
 {
-  Vector3 result;
+    Vector3 result;
 
-  result.x = (ascl * a.x) + (bscl * b.x);
-  result.y = (ascl * a.y) + (bscl * b.y);
-  result.z = (ascl * a.z) + (bscl * b.z);
+    result.x = (ascl * a.x) + (bscl * b.x);
+    result.y = (ascl * a.y) + (bscl * b.y);
+    result.z = (ascl * a.z) + (bscl * b.z);
 
-  return(result);
+    return(result);
 }// end V3Combine
 
 
@@ -886,13 +886,13 @@ Vector3 V3Combine(Vector3 a, Vector3 b, double ascl, double bscl)
 // ==============================================================================
 Vector3 V3Mul(Vector3 a, Vector3 b)
 {
-  Vector3 result;
+    Vector3 result;
 
-  result.x = a.x * b.x;
-  result.y = a.y * b.y;
-  result.z = a.z * b.z;
+    result.x = a.x * b.x;
+    result.y = a.y * b.y;
+    result.z = a.z * b.z;
 
-  return(result);
+    return(result);
 }// end V3Mul
 
 
@@ -903,13 +903,13 @@ Vector3 V3Mul(Vector3 a, Vector3 b)
 // ==============================================================================
 Vector3 V3MulScalar(Vector3 a, double scalar)
 {
-  Vector3 result;
+    Vector3 result;
 
-  result.x = a.x * scalar;
-  result.y = a.y * scalar;
-  result.z = a.z * scalar;
+    result.x = a.x * scalar;
+    result.y = a.y * scalar;
+    result.z = a.z * scalar;
 
-  return(result);
+    return(result);
 }// end V3Mul
 
 
@@ -920,11 +920,11 @@ Vector3 V3MulScalar(Vector3 a, double scalar)
 // ==============================================================================
 double V3DistanceBetween2Points(Point3 a, Point3 b)
 {
-  double dx = a.x - b.x;
-  double dy = a.y - b.y;
-  double dz = a.z - b.z;
+    double dx = a.x - b.x;
+    double dy = a.y - b.y;
+    double dz = a.z - b.z;
 
-  return(sqrt((dx * dx) + (dy * dy) + (dz * dz)));
+    return(sqrt((dx * dx) + (dy * dy) + (dz * dz)));
 }// end V3DistanceBetween2Points
 
 
@@ -939,7 +939,7 @@ double V3DistanceBetween2Points(Point3 a, Point3 b)
 // ==============================================================================
 double V3DistanceFromPointToPlane(Point3 point, Vector3 planeNormal, Point3 pointOnPlane)
 {
-  return(V3Dot(planeNormal, V3Sub(point, pointOnPlane)));
+    return(V3Dot(planeNormal, V3Sub(point, pointOnPlane)));
 // return distance;
 }// end V3DistanceFromPointToPlane
 
@@ -951,13 +951,13 @@ double V3DistanceFromPointToPlane(Point3 point, Vector3 planeNormal, Point3 poin
 // ==============================================================================
 Vector3 V3Cross(Vector3 a, Vector3 b)
 {
-  Vector3 c;
+    Vector3 c;
 
-  c.x = (a.y * b.z) - (a.z * b.y);
-  c.y = (a.z * b.x) - (a.x * b.z);
-  c.z = (a.x * b.y) - (a.y * b.x);
+    c.x = (a.y * b.z) - (a.z * b.y);
+    c.y = (a.z * b.x) - (a.x * b.z);
+    c.z = (a.x * b.y) - (a.y * b.x);
 
-  return(c);
+    return(c);
 }// end V3Cross
 
 
@@ -969,13 +969,13 @@ Vector3 V3Cross(Vector3 a, Vector3 b)
 // ==============================================================================
 Point3 V3Midpoint(Point3 point1, Point3 point2)
 {
-  Point3 midpoint;
+    Point3 midpoint;
 
-  midpoint.x = (point1.x + point2.x) / 2.0;
-  midpoint.y = (point1.y + point2.y) / 2.0;
-  midpoint.z = (point1.z + point2.z) / 2.0;
+    midpoint.x = (point1.x + point2.x) / 2.0;
+    midpoint.y = (point1.y + point2.y) / 2.0;
+    midpoint.z = (point1.z + point2.z) / 2.0;
 
-  return(midpoint);
+    return(midpoint);
 }// end V3Midpoint
 
 
@@ -989,25 +989,25 @@ Point3 V3Midpoint(Point3 point1, Point3 point2)
 // ==============================================================================
 Vector3 V3IsolateGreatestComponent(Vector3 vector)
 {
-  if (fabs(vector.x) > fabs(vector.y)) {
-    vector.y = 0;
-    if (fabs(vector.x) > fabs(vector.z)) {
-      vector.z = 0;
+    if (fabs(vector.x) > fabs(vector.y)) {
+        vector.y = 0;
+        if (fabs(vector.x) > fabs(vector.z)) {
+            vector.z = 0;
+        }
+        else {
+            vector.x = 0;
+        }
     }
     else {
-      vector.x = 0;
+        vector.x = 0;
+        if (fabs(vector.y) > fabs(vector.z)) {
+            vector.z = 0;
+        }
+        else {
+            vector.y = 0;
+        }
     }
-  }
-  else {
-    vector.x = 0;
-    if (fabs(vector.y) > fabs(vector.z)) {
-      vector.z = 0;
-    }
-    else {
-      vector.y = 0;
-    }
-  }
-  return(vector);
+    return(vector);
 }// end V3IsolateGreatestComponent
 
 
@@ -1018,7 +1018,7 @@ Vector3 V3IsolateGreatestComponent(Vector3 vector)
 // ==============================================================================
 void V3Print(Point3 point)
 {
-  printf("(%12.6f, %12.6f, %12.6f)\n", point.x, point.y, point.z);
+    printf("(%12.6f, %12.6f, %12.6f)\n", point.x, point.y, point.z);
 }// end V3Print
 
 
@@ -1040,58 +1040,58 @@ bool V3RayIntersectsTriangle(Ray3 ray,
                              Point3 vert0, Point3 vert1, Point3 vert2,
                              double *intersectDepth, Point2 *intersectPointOut)
 {
-  Vector3 edge1;
-  Vector3 edge2;
-  Vector3 tvec;
-  Vector3 pvec;
-  Vector3 qvec;
-  double  det      = 0;
-  double  inv_det  = 0;
-  double  distance = 0;
-  double  u        = 0;
-  double  v        = 0;
+    Vector3 edge1;
+    Vector3 edge2;
+    Vector3 tvec;
+    Vector3 pvec;
+    Vector3 qvec;
+    double  det      = 0;
+    double  inv_det  = 0;
+    double  distance = 0;
+    double  u        = 0;
+    double  v        = 0;
 
-  // find vectors for two edges sharing vert0
-  edge1 = V3Sub(vert1, vert0);
-  edge2 = V3Sub(vert2, vert0);
+    // find vectors for two edges sharing vert0
+    edge1 = V3Sub(vert1, vert0);
+    edge2 = V3Sub(vert2, vert0);
 
-  // begin calculating determinant - also used to calculate U parameter
-  pvec = V3Cross(ray.direction, edge2);
+    // begin calculating determinant - also used to calculate U parameter
+    pvec = V3Cross(ray.direction, edge2);
 
-  // if determinant is near zero, ray lies in plane of triangle
-  det = V3Dot(edge1, pvec);
+    // if determinant is near zero, ray lies in plane of triangle
+    det = V3Dot(edge1, pvec);
 
-  if (det > -SMALL_NUMBER && det < SMALL_NUMBER) {
-    return(false);
-  }
-  inv_det = 1.0 / det;
+    if (det > -SMALL_NUMBER && det < SMALL_NUMBER) {
+        return(false);
+    }
+    inv_det = 1.0 / det;
 
-  // calculate distance from vert0 to ray origin
-  tvec = V3Sub(ray.origin, vert0);
+    // calculate distance from vert0 to ray origin
+    tvec = V3Sub(ray.origin, vert0);
 
-  // calculate U parameter and test bounds
-  u = V3Dot(tvec, pvec) * inv_det;
-  if (u < 0.0 || u > 1.0) {
-    return(false);
-  }
+    // calculate U parameter and test bounds
+    u = V3Dot(tvec, pvec) * inv_det;
+    if (u < 0.0 || u > 1.0) {
+        return(false);
+    }
 
-  // prepare to test V parameter
-  qvec = V3Cross(tvec, edge1);
+    // prepare to test V parameter
+    qvec = V3Cross(tvec, edge1);
 
-  // calculate V parameter and test bounds
-  v = V3Dot(ray.direction, qvec) * inv_det;
-  if (v < 0.0 || u + v > 1.0) {
-    return(false);
-  }
+    // calculate V parameter and test bounds
+    v = V3Dot(ray.direction, qvec) * inv_det;
+    if (v < 0.0 || u + v > 1.0) {
+        return(false);
+    }
 
-  // calculate t, ray intersects triangle
-  distance = V3Dot(edge2, qvec) * inv_det;
+    // calculate t, ray intersects triangle
+    distance = V3Dot(edge2, qvec) * inv_det;
 
-  // Intersects; return info
-  if (intersectDepth) { *intersectDepth = distance; }
-  if (intersectPointOut) { *intersectPointOut = V2Make(u, v); }
+    // Intersects; return info
+    if (intersectDepth) { *intersectDepth = distance; }
+    if (intersectPointOut) { *intersectPointOut = V2Make(u, v); }
 
-  return(true);
+    return(true);
 }
 
 
@@ -1121,83 +1121,83 @@ bool V3RayIntersectsSegment(Ray3 segment1, Segment3 segment2,
                             double tolerance,
                             double *intersectDepth)
 {
-  Vector3 u          = segment1.direction;  // V3Sub(segment1.point1, segment1.point0);
-  Vector3 v          = V3Sub(segment2.point1, segment2.point0);
-  Vector3 w          = V3Sub(segment1.origin, segment2.point0);
-  double  a          = V3Dot(u, u);  // always >= 0
-  double  b          = V3Dot(u, v);
-  double  c          = V3Dot(v, v);  // always >= 0
-  double  d          = V3Dot(u, w);
-  double  e          = V3Dot(v, w);
-  double  D          = a * c - b * b; // always >= 0
-  double  sc         = 0;             // sc = sN / sD, default sD = D >= 0
-  double  sN         = 0;
-  double  sD         = 0;
-  double  tc         = 0;   // tc = tN / tD, default tD = D >= 0
-  double  tN         = 0;
-  double  tD         = 0;
-  bool    intersects = false;
+    Vector3 u          = segment1.direction; // V3Sub(segment1.point1, segment1.point0);
+    Vector3 v          = V3Sub(segment2.point1, segment2.point0);
+    Vector3 w          = V3Sub(segment1.origin, segment2.point0);
+    double  a          = V3Dot(u, u); // always >= 0
+    double  b          = V3Dot(u, v);
+    double  c          = V3Dot(v, v); // always >= 0
+    double  d          = V3Dot(u, w);
+    double  e          = V3Dot(v, w);
+    double  D          = a * c - b * b; // always >= 0
+    double  sc         = 0;           // sc = sN / sD, default sD = D >= 0
+    double  sN         = 0;
+    double  sD         = 0;
+    double  tc         = 0; // tc = tN / tD, default tD = D >= 0
+    double  tN         = 0;
+    double  tD         = 0;
+    bool    intersects = false;
 
-  // compute the line parameters of the two closest points
-  if (D < SMALL_NUMBER) { // the lines are almost parallel
-    sN = 0.0;        // force using point0 on segment S1
-    sD = 1.0;        // to prevent possible division by 0.0 later
-    tN = e;
-    tD = c;
-  }
-  else {
-    // get the closest points on the infinite lines
-    sN = (b * e - c * d);
-    sD = D;
-    tN = (a * e - b * d);
-    tD = D;
-    if (sN < 0.0) { // sc < 0 => the s=0 edge is visible
-      sN = 0.0;
-      tN = e;
-      tD = c;
-    }
-  }
-
-  if (tN < 0.0) {   // tc < 0 => the t=0 edge is visible
-    tN = 0.0;
-    // recompute sc for this edge
-    if (-d < 0.0) {
-      sN = 0.0;
+    // compute the line parameters of the two closest points
+    if (D < SMALL_NUMBER) { // the lines are almost parallel
+        sN = 0.0;    // force using point0 on segment S1
+        sD = 1.0;    // to prevent possible division by 0.0 later
+        tN = e;
+        tD = c;
     }
     else {
-      sN = -d;
-      sD = a;
+        // get the closest points on the infinite lines
+        sN = (b * e - c * d);
+        sD = D;
+        tN = (a * e - b * d);
+        tD = D;
+        if (sN < 0.0) { // sc < 0 => the s=0 edge is visible
+            sN = 0.0;
+            tN = e;
+            tD = c;
+        }
     }
-  }
-  else if (tN > tD) { // tc > 1 => the t=1 edge is visible
-    tN = tD;
-    // recompute sc for this edge
-    if ((-d + b) < 0.0) {
-      sN = 0;
-    }
-    else {
-      sN = (-d + b);
-      sD = a;
-    }
-  }
-  // finally do the division to get sc and tc
-  sc = (fabs(sN) < SMALL_NUMBER ? 0.0 : sN / sD);
-  tc = (fabs(tN) < SMALL_NUMBER ? 0.0 : tN / tD);
 
-  // get the difference of the two closest points
-  // distance = S1(sc) - S2(tc)
-  //
-  Vector3 dP           = V3Add(w, V3Sub(V3MulScalar(u, sc), V3MulScalar(v, tc)));
-  double  minCloseness = V3Length(dP);       // return the closest distance
+    if (tN < 0.0) { // tc < 0 => the t=0 edge is visible
+        tN = 0.0;
+        // recompute sc for this edge
+        if (-d < 0.0) {
+            sN = 0.0;
+        }
+        else {
+            sN = -d;
+            sD = a;
+        }
+    }
+    else if (tN > tD) { // tc > 1 => the t=1 edge is visible
+        tN = tD;
+        // recompute sc for this edge
+        if ((-d + b) < 0.0) {
+            sN = 0;
+        }
+        else {
+            sN = (-d + b);
+            sD = a;
+        }
+    }
+    // finally do the division to get sc and tc
+    sc = (fabs(sN) < SMALL_NUMBER ? 0.0 : sN / sD);
+    tc = (fabs(tN) < SMALL_NUMBER ? 0.0 : tN / tD);
+
+    // get the difference of the two closest points
+    // distance = S1(sc) - S2(tc)
+    //
+    Vector3 dP           = V3Add(w, V3Sub(V3MulScalar(u, sc), V3MulScalar(v, tc)));
+    double  minCloseness = V3Length(dP);     // return the closest distance
 
 // printf("closeness = %f\n", minCloseness);
 
-  if (minCloseness <= tolerance) {
-    if (intersectDepth) { *intersectDepth = sc; }
-    intersects = true;
-  }
+    if (minCloseness <= tolerance) {
+        if (intersectDepth) { *intersectDepth = sc; }
+        intersects = true;
+    }
 
-  return(intersects);
+    return(intersects);
 }
 
 
@@ -1216,39 +1216,39 @@ bool V3RayIntersectsSegment(Ray3 segment1, Segment3 segment2,
 bool V3RayIntersectsSphere(Ray3 ray, Point3 sphereCenter, double radius,
                            double *intersectDepth)
 {
-  double b = 0.0;
-  double c = 0.0;
-  double discriminant;
-  double distance   = 0.0;
-  bool   intersects = false;
+    double b = 0.0;
+    double c = 0.0;
+    double discriminant;
+    double distance   = 0.0;
+    bool   intersects = false;
 
-  // b and c stand for terms in the quadratic equation which solves for the
-  // depth of an intersection along the ray. (a is always 1 when the ray is
-  // normalized).
+    // b and c stand for terms in the quadratic equation which solves for the
+    // depth of an intersection along the ray. (a is always 1 when the ray is
+    // normalized).
 
-  b = 2.0 * (ray.direction.x * (ray.origin.x - sphereCenter.x)
-             + ray.direction.y * (ray.origin.y - sphereCenter.y)
-             + ray.direction.z * (ray.origin.z - sphereCenter.z));
+    b = 2.0 * (ray.direction.x * (ray.origin.x - sphereCenter.x)
+               + ray.direction.y * (ray.origin.y - sphereCenter.y)
+               + ray.direction.z * (ray.origin.z - sphereCenter.z));
 
-  c = pow(ray.origin.x - sphereCenter.x, 2.0)
-    + pow(ray.origin.y - sphereCenter.y, 2.0)
-    + pow(ray.origin.z - sphereCenter.z, 2.0)
-    - (radius * radius);
+    c = pow(ray.origin.x - sphereCenter.x, 2.0)
+        + pow(ray.origin.y - sphereCenter.y, 2.0)
+        + pow(ray.origin.z - sphereCenter.z, 2.0)
+        - (radius * radius);
 
-  // Find the discriminant (the part under the square root) of the quadratic
-  // formula to determine if there are solutions (intersections).
-  discriminant = b * b - 4 * c;
+    // Find the discriminant (the part under the square root) of the quadratic
+    // formula to determine if there are solutions (intersections).
+    discriminant = b * b - 4 * c;
 
-  if (discriminant >= 0.0) {
-    distance = (-b - sqrt(discriminant)) / 2;
-    if (distance <= 0.0) {
-      distance = (-b + sqrt(discriminant)) / 2;
+    if (discriminant >= 0.0) {
+        distance = (-b - sqrt(discriminant)) / 2;
+        if (distance <= 0.0) {
+            distance = (-b + sqrt(discriminant)) / 2;
+        }
+        intersects = true;
+        if (intersectDepth) { *intersectDepth = distance; }
     }
-    intersects = true;
-    if (intersectDepth) { *intersectDepth = distance; }
-  }
 
-  return(intersects);
+    return(intersects);
 }
 
 
@@ -1261,17 +1261,17 @@ bool V3RayIntersectsSphere(Ray3 ray, Point3 sphereCenter, double radius,
 // ==============================================================================
 Box3 V3BoundsFromPoints(Point3 point1, Point3 point2)
 {
-  Box3 bounds;
+    Box3 bounds;
 
-  bounds.min.x = MIN(point1.x, point2.x);
-  bounds.min.y = MIN(point1.y, point2.y);
-  bounds.min.z = MIN(point1.z, point2.z);
+    bounds.min.x = MIN(point1.x, point2.x);
+    bounds.min.y = MIN(point1.y, point2.y);
+    bounds.min.z = MIN(point1.z, point2.z);
 
-  bounds.max.x = MAX(point1.x, point2.x);
-  bounds.max.y = MAX(point1.y, point2.y);
-  bounds.max.z = MAX(point1.z, point2.z);
+    bounds.max.x = MAX(point1.x, point2.x);
+    bounds.max.y = MAX(point1.y, point2.y);
+    bounds.max.z = MAX(point1.z, point2.z);
 
-  return(bounds);
+    return(bounds);
 }// end V3BoundsFromPoints
 
 
@@ -1282,9 +1282,9 @@ Box3 V3BoundsFromPoints(Point3 point1, Point3 point2)
 // ==============================================================================
 Point3 V3CenterOfBox(Box3 box)
 {
-  Point3 center = V3Midpoint(box.min, box.max);
+    Point3 center = V3Midpoint(box.min, box.max);
 
-  return(center);
+    return(center);
 }// end V3CenterOfBox
 
 
@@ -1295,12 +1295,12 @@ Point3 V3CenterOfBox(Box3 box)
 // ==============================================================================
 int V3EqualBoxes(Box3 box1, Box3 box2)
 {
-  return(box1.min.x == box2.min.x &&
-         box1.min.y == box2.min.y &&
-         box1.min.z == box2.min.z &&
-         box1.max.x == box2.max.x &&
-         box1.max.y == box2.max.y &&
-         box1.max.z == box2.max.z);
+    return(box1.min.x == box2.min.x &&
+           box1.min.y == box2.min.y &&
+           box1.min.z == box2.min.z &&
+           box1.max.x == box2.max.x &&
+           box1.max.y == box2.max.y &&
+           box1.max.z == box2.max.z);
 }// end V3EqualBoxes
 
 
@@ -1315,16 +1315,16 @@ int V3EqualBoxes(Box3 box1, Box3 box2)
 // ==============================================================================
 Box3 V3UnionBox(Box3 aBox, Box3 bBox)
 {
-  Box3 bounds = InvalidBox;
+    Box3 bounds = InvalidBox;
 
-  bounds.min.x = MIN(aBox.min.x, bBox.min.x);
-  bounds.min.y = MIN(aBox.min.y, bBox.min.y);
-  bounds.min.z = MIN(aBox.min.z, bBox.min.z);
-  bounds.max.x = MAX(aBox.max.x, bBox.max.x);
-  bounds.max.y = MAX(aBox.max.y, bBox.max.y);
-  bounds.max.z = MAX(aBox.max.z, bBox.max.z);
+    bounds.min.x = MIN(aBox.min.x, bBox.min.x);
+    bounds.min.y = MIN(aBox.min.y, bBox.min.y);
+    bounds.min.z = MIN(aBox.min.z, bBox.min.z);
+    bounds.max.x = MAX(aBox.max.x, bBox.max.x);
+    bounds.max.y = MAX(aBox.max.y, bBox.max.y);
+    bounds.max.z = MAX(aBox.max.z, bBox.max.z);
 
-  return(bounds);
+    return(bounds);
 }// end V3UnionBox
 
 
@@ -1336,16 +1336,16 @@ Box3 V3UnionBox(Box3 aBox, Box3 bBox)
 // ==============================================================================
 Box3 V3UnionBoxAndPoint(Box3 box, Point3 point)
 {
-  Box3 bounds = InvalidBox;
+    Box3 bounds = InvalidBox;
 
-  bounds.min.x = MIN(box.min.x, point.x);
-  bounds.min.y = MIN(box.min.y, point.y);
-  bounds.min.z = MIN(box.min.z, point.z);
-  bounds.max.x = MAX(box.max.x, point.x);
-  bounds.max.y = MAX(box.max.y, point.y);
-  bounds.max.z = MAX(box.max.z, point.z);
+    bounds.min.x = MIN(box.min.x, point.x);
+    bounds.min.y = MIN(box.min.y, point.y);
+    bounds.min.z = MIN(box.min.z, point.z);
+    bounds.max.x = MAX(box.max.x, point.x);
+    bounds.max.y = MAX(box.max.y, point.y);
+    bounds.max.z = MAX(box.max.z, point.z);
 
-  return(bounds);
+    return(bounds);
 }// end V3UnionBoxAndPoint
 
 
@@ -1358,21 +1358,21 @@ Box3 V3UnionBoxAndPoint(Box3 box, Point3 point)
 // ==============================================================================
 Point3 V3MulPointByMatrix(Point3 pin, Matrix3 m)
 {
-  Point3 pout = ZeroPoint3;
+    Point3 pout = ZeroPoint3;
 
-  pout.x = (pin.x * m.element[0][0])
-    + (pin.y * m.element[1][0])
-    + (pin.z * m.element[2][0]);
+    pout.x = (pin.x * m.element[0][0])
+        + (pin.y * m.element[1][0])
+        + (pin.z * m.element[2][0]);
 
-  pout.y = (pin.x * m.element[0][1])
-    + (pin.y * m.element[1][1])
-    + (pin.z * m.element[2][1]);
+    pout.y = (pin.x * m.element[0][1])
+        + (pin.y * m.element[1][1])
+        + (pin.z * m.element[2][1]);
 
-  pout.z = (pin.x * m.element[0][2])
-    + (pin.y * m.element[1][2])
-    + (pin.z * m.element[2][2]);
+    pout.z = (pin.x * m.element[0][2])
+        + (pin.y * m.element[1][2])
+        + (pin.z * m.element[2][2]);
 
-  return(pout);
+    return(pout);
 }// end V3MulPointByMatrix
 
 
@@ -1384,36 +1384,36 @@ Point3 V3MulPointByMatrix(Point3 pin, Matrix3 m)
 // ==============================================================================
 Point3 V3MulPointByProjMatrix(Point3 pin, Matrix4 m)
 {
-  Point3 pout = ZeroPoint3;
-  double w    = 0.0;
+    Point3 pout = ZeroPoint3;
+    double w    = 0.0;
 
-  pout.x = (pin.x * m.element[0][0])
-    + (pin.y * m.element[1][0])
-    + (pin.z * m.element[2][0])
-    + m.element[3][0];
+    pout.x = (pin.x * m.element[0][0])
+        + (pin.y * m.element[1][0])
+        + (pin.z * m.element[2][0])
+        + m.element[3][0];
 
-  pout.y = (pin.x * m.element[0][1])
-    + (pin.y * m.element[1][1])
-    + (pin.z * m.element[2][1])
-    + m.element[3][1];
+    pout.y = (pin.x * m.element[0][1])
+        + (pin.y * m.element[1][1])
+        + (pin.z * m.element[2][1])
+        + m.element[3][1];
 
-  pout.z = (pin.x * m.element[0][2])
-    + (pin.y * m.element[1][2])
-    + (pin.z * m.element[2][2])
-    + m.element[3][2];
+    pout.z = (pin.x * m.element[0][2])
+        + (pin.y * m.element[1][2])
+        + (pin.z * m.element[2][2])
+        + m.element[3][2];
 
-  w = (pin.x * m.element[0][3])
-    + (pin.y * m.element[1][3])
-    + (pin.z * m.element[2][3])
-    + m.element[3][3];
+    w = (pin.x * m.element[0][3])
+        + (pin.y * m.element[1][3])
+        + (pin.z * m.element[2][3])
+        + m.element[3][3];
 
-  if (w != 0.0) {
-    pout.x /= w;
-    pout.y /= w;
-    pout.z /= w;
-  }
+    if (w != 0.0) {
+        pout.x /= w;
+        pout.y /= w;
+        pout.z /= w;
+    }
 
-  return(pout);
+    return(pout);
 }// end V3MulPointByProjMatrix
 
 
@@ -1430,39 +1430,39 @@ Matrix4 V3LookAt(Point3 eye,
                  Vector3 up,
                  Matrix4 modelview)
 {
-  Vector3 F            = V3Sub(center, eye);
-  Vector3 f            = V3Normalize(F);
-  Vector3 upNormal     = V3Normalize(up);
-  Vector3 s            = V3Cross(f, upNormal);
-  Vector3 u            = V3Cross(s, f);
-  Matrix4 M            = IdentityMatrix4;
-  Matrix4 newModelview = modelview;
+    Vector3 F            = V3Sub(center, eye);
+    Vector3 f            = V3Normalize(F);
+    Vector3 upNormal     = V3Normalize(up);
+    Vector3 s            = V3Cross(f, upNormal);
+    Vector3 u            = V3Cross(s, f);
+    Matrix4 M            = IdentityMatrix4;
+    Matrix4 newModelview = modelview;
 
-  // Transpose of M used by gluLookAt, which uses column-major notation.
-  M.element[0][0] = s.x;
-  M.element[1][0] = s.y;
-  M.element[2][0] = s.z;
-  M.element[3][0] = 0.0;
+    // Transpose of M used by gluLookAt, which uses column-major notation.
+    M.element[0][0] = s.x;
+    M.element[1][0] = s.y;
+    M.element[2][0] = s.z;
+    M.element[3][0] = 0.0;
 
-  M.element[0][1] = u.x;
-  M.element[1][1] = u.y;
-  M.element[2][1] = u.z;
-  M.element[3][1] = 0.0;
+    M.element[0][1] = u.x;
+    M.element[1][1] = u.y;
+    M.element[2][1] = u.z;
+    M.element[3][1] = 0.0;
 
-  M.element[0][2] = -f.x;
-  M.element[1][2] = -f.y;
-  M.element[2][2] = -f.z;
-  M.element[3][2] = 0.0;
+    M.element[0][2] = -f.x;
+    M.element[1][2] = -f.y;
+    M.element[2][2] = -f.z;
+    M.element[3][2] = 0.0;
 
-  M.element[0][3] = 0.0;
-  M.element[1][3] = 0.0;
-  M.element[2][3] = 0.0;
-  M.element[3][3] = 1.0;
+    M.element[0][3] = 0.0;
+    M.element[1][3] = 0.0;
+    M.element[2][3] = 0.0;
+    M.element[3][3] = 1.0;
 
-  newModelview = Matrix4Translate(newModelview, V3MulScalar(eye, -1.0));
-  newModelview = Matrix4Multiply(newModelview, M);
+    newModelview = Matrix4Translate(newModelview, V3MulScalar(eye, -1.0));
+    newModelview = Matrix4Multiply(newModelview, M);
 
-  return(newModelview);
+    return(newModelview);
 }
 
 
@@ -1475,16 +1475,16 @@ Matrix4 V3LookAt(Point3 eye,
 // ==============================================================================
 Point3 V3Project(Point3 objPoint, Matrix4 modelview, Matrix4 projection, Box2 viewport)
 {
-  Point3 transformedPoint = ZeroPoint3;
-  Point3 windowPoint      = ZeroPoint3;
+    Point3 transformedPoint = ZeroPoint3;
+    Point3 windowPoint      = ZeroPoint3;
 
-  transformedPoint = V3MulPointByProjMatrix(objPoint, Matrix4Multiply(modelview, projection));
+    transformedPoint = V3MulPointByProjMatrix(objPoint, Matrix4Multiply(modelview, projection));
 
-  windowPoint.x = viewport.origin.x + (V2BoxWidth(viewport) * (transformedPoint.x + 1.0)) / 2.0;
-  windowPoint.y = viewport.origin.y + (V2BoxHeight(viewport) * (transformedPoint.y + 1.0)) / 2.0;
-  windowPoint.z = (transformedPoint.z + 1.0) / 2.0;
+    windowPoint.x = viewport.origin.x + (V2BoxWidth(viewport) * (transformedPoint.x + 1.0)) / 2.0;
+    windowPoint.y = viewport.origin.y + (V2BoxHeight(viewport) * (transformedPoint.y + 1.0)) / 2.0;
+    windowPoint.z = (transformedPoint.z + 1.0) / 2.0;
 
-  return(windowPoint);
+    return(windowPoint);
 }// end V3Project
 
 
@@ -1500,18 +1500,18 @@ Point3 V3Project(Point3 objPoint, Matrix4 modelview, Matrix4 projection, Box2 vi
 // ==============================================================================
 Point3 V3Unproject(Point3 viewportPoint, Matrix4 modelview, Matrix4 projection, Box2 viewport)
 {
-  Matrix4 inversePM  = IdentityMatrix4;
-  Point3  normalized = ZeroPoint3;
-  Point3  modelPoint = ZeroPoint3;
+    Matrix4 inversePM  = IdentityMatrix4;
+    Point3  normalized = ZeroPoint3;
+    Point3  modelPoint = ZeroPoint3;
 
-  normalized.x = 2.0 * (viewportPoint.x - viewport.origin.x) / V2BoxWidth(viewport) - 1.0;
-  normalized.y = 2.0 * (viewportPoint.y - viewport.origin.y) / V2BoxHeight(viewport) - 1.0;
-  normalized.z = 2.0 * (viewportPoint.z) - 1.0;
+    normalized.x = 2.0 * (viewportPoint.x - viewport.origin.x) / V2BoxWidth(viewport) - 1.0;
+    normalized.y = 2.0 * (viewportPoint.y - viewport.origin.y) / V2BoxHeight(viewport) - 1.0;
+    normalized.z = 2.0 * (viewportPoint.z) - 1.0;
 
-  inversePM  = Matrix4Invert(Matrix4Multiply(modelview, projection));
-  modelPoint = V3MulPointByProjMatrix(normalized, inversePM);
+    inversePM  = Matrix4Invert(Matrix4Multiply(modelview, projection));
+    modelPoint = V3MulPointByProjMatrix(normalized, inversePM);
 
-  return(modelPoint);
+    return(modelPoint);
 }
 
 
@@ -1534,12 +1534,12 @@ double Matrix3x3Determinant(double a1,
                             double c2,
                             double c3)
 {
-  double ans;
+    double ans;
 
-  ans = a1 * Matrix2x2Determinant(b2, b3, c2, c3)
-    - b1 * Matrix2x2Determinant(a2, a3, c2, c3)
-    + c1 * Matrix2x2Determinant(a2, a3, b2, b3);
-  return(ans);
+    ans = a1 * Matrix2x2Determinant(b2, b3, c2, c3)
+        - b1 * Matrix2x2Determinant(a2, a3, c2, c3)
+        + c1 * Matrix2x2Determinant(a2, a3, b2, b3);
+    return(ans);
 }// end Matrix3x3Determinant
 
 
@@ -1562,26 +1562,26 @@ double Matrix3x3Determinant(double a1,
 // ==============================================================================
 Matrix3 Matrix3MakeNormalTransformFromProjMatrix(Matrix4 transformationMatrix)
 {
-  Matrix4 normalTransform  = IdentityMatrix4;
-  Matrix3 normalTransform3 = IdentityMatrix3;
+    Matrix4 normalTransform  = IdentityMatrix4;
+    Matrix3 normalTransform3 = IdentityMatrix3;
 
-  // The normal transform is the inverse transpose of the vertex transform.
+    // The normal transform is the inverse transpose of the vertex transform.
 
-  normalTransform = Matrix4Invert(transformationMatrix);
-  normalTransform = Matrix4Transpose(normalTransform);
+    normalTransform = Matrix4Invert(transformationMatrix);
+    normalTransform = Matrix4Transpose(normalTransform);
 
-  // Convert to a 3x3 matrix, because row 4 and column 4 are unnecessary.
-  normalTransform3.element[0][0] = normalTransform.element[0][0];
-  normalTransform3.element[0][1] = normalTransform.element[0][1];
-  normalTransform3.element[0][2] = normalTransform.element[0][2];
-  normalTransform3.element[1][0] = normalTransform.element[1][0];
-  normalTransform3.element[1][1] = normalTransform.element[1][1];
-  normalTransform3.element[1][2] = normalTransform.element[1][2];
-  normalTransform3.element[2][0] = normalTransform.element[2][0];
-  normalTransform3.element[2][1] = normalTransform.element[2][1];
-  normalTransform3.element[2][2] = normalTransform.element[2][2];
+    // Convert to a 3x3 matrix, because row 4 and column 4 are unnecessary.
+    normalTransform3.element[0][0] = normalTransform.element[0][0];
+    normalTransform3.element[0][1] = normalTransform.element[0][1];
+    normalTransform3.element[0][2] = normalTransform.element[0][2];
+    normalTransform3.element[1][0] = normalTransform.element[1][0];
+    normalTransform3.element[1][1] = normalTransform.element[1][1];
+    normalTransform3.element[1][2] = normalTransform.element[1][2];
+    normalTransform3.element[2][0] = normalTransform.element[2][0];
+    normalTransform3.element[2][1] = normalTransform.element[2][1];
+    normalTransform3.element[2][2] = normalTransform.element[2][2];
 
-  return(normalTransform3);
+    return(normalTransform3);
 }// end Matrix3MakeNormalTransformFromProjMatrix
 
 
@@ -1596,14 +1596,14 @@ Matrix3 Matrix3MakeNormalTransformFromProjMatrix(Matrix4 transformationMatrix)
 // ==============================================================================
 Vector4 V4Make(double x, double y, double z, double w)
 {
-  Vector4 v;
+    Vector4 v;
 
-  v.x = x;
-  v.y = y;
-  v.z = z;
-  v.w = w;
+    v.x = x;
+    v.y = y;
+    v.z = z;
+    v.w = w;
 
-  return(v);
+    return(v);
 }// end V4Make
 
 
@@ -1620,14 +1620,14 @@ Vector4 V4Make(double x, double y, double z, double w)
 // ==============================================================================
 Point4 V4FromPoint3(Vector3 originalPoint)
 {
-  Point4 newPoint;
+    Point4 newPoint;
 
-  newPoint.x = originalPoint.x;
-  newPoint.y = originalPoint.y;
-  newPoint.z = originalPoint.z;
-  newPoint.w = 1.0; // By setting this to 1, the returned value is a point. Vectors would be set to 0.
+    newPoint.x = originalPoint.x;
+    newPoint.y = originalPoint.y;
+    newPoint.z = originalPoint.z;
+    newPoint.w = 1.0; // By setting this to 1, the returned value is a point. Vectors would be set to 0.
 
-  return(newPoint);
+    return(newPoint);
 }// end V4FromPoint3
 
 
@@ -1641,29 +1641,29 @@ Point4 V4FromPoint3(Vector3 originalPoint)
 // ==============================================================================
 Vector4 V4MulPointByMatrix(Vector4 pin, Matrix4 m)
 {
-  Vector4 pout;
+    Vector4 pout;
 
-  pout.x = (pin.x * m.element[0][0])
-    + (pin.y * m.element[1][0])
-    + (pin.z * m.element[2][0])
-    + (pin.w * m.element[3][0]);
+    pout.x = (pin.x * m.element[0][0])
+        + (pin.y * m.element[1][0])
+        + (pin.z * m.element[2][0])
+        + (pin.w * m.element[3][0]);
 
-  pout.y = (pin.x * m.element[0][1])
-    + (pin.y * m.element[1][1])
-    + (pin.z * m.element[2][1])
-    + (pin.w * m.element[3][1]);
+    pout.y = (pin.x * m.element[0][1])
+        + (pin.y * m.element[1][1])
+        + (pin.z * m.element[2][1])
+        + (pin.w * m.element[3][1]);
 
-  pout.z = (pin.x * m.element[0][2])
-    + (pin.y * m.element[1][2])
-    + (pin.z * m.element[2][2])
-    + (pin.w * m.element[3][2]);
+    pout.z = (pin.x * m.element[0][2])
+        + (pin.y * m.element[1][2])
+        + (pin.z * m.element[2][2])
+        + (pin.w * m.element[3][2]);
 
-  pout.w = (pin.x * m.element[0][3])
-    + (pin.y * m.element[1][3])
-    + (pin.z * m.element[2][3])
-    + (pin.w * m.element[3][3]);
+    pout.w = (pin.x * m.element[0][3])
+        + (pin.y * m.element[1][3])
+        + (pin.z * m.element[2][3])
+        + (pin.w * m.element[3][3]);
 
-  return(pout);
+    return(pout);
 }// end V4MulPointByMatrix
 
 
@@ -1686,29 +1686,29 @@ Vector4 V4MulPointByMatrix(Vector4 pin, Matrix4 m)
 // ==============================================================================
 Matrix4 Matrix4CreateFromGLMatrix4(const GLfloat *glMatrix)
 {
-  Matrix4 newMatrix;
+    Matrix4 newMatrix;
 
-  newMatrix.element[0][0] = (double)*glMatrix++;
-  newMatrix.element[0][1] = (double)*glMatrix++;
-  newMatrix.element[0][2] = (double)*glMatrix++;
-  newMatrix.element[0][3] = (double)*glMatrix++;
+    newMatrix.element[0][0] = (double)*glMatrix++;
+    newMatrix.element[0][1] = (double)*glMatrix++;
+    newMatrix.element[0][2] = (double)*glMatrix++;
+    newMatrix.element[0][3] = (double)*glMatrix++;
 
-  newMatrix.element[1][0] = (double)*glMatrix++;
-  newMatrix.element[1][1] = (double)*glMatrix++;
-  newMatrix.element[1][2] = (double)*glMatrix++;
-  newMatrix.element[1][3] = (double)*glMatrix++;
+    newMatrix.element[1][0] = (double)*glMatrix++;
+    newMatrix.element[1][1] = (double)*glMatrix++;
+    newMatrix.element[1][2] = (double)*glMatrix++;
+    newMatrix.element[1][3] = (double)*glMatrix++;
 
-  newMatrix.element[2][0] = (double)*glMatrix++;
-  newMatrix.element[2][1] = (double)*glMatrix++;
-  newMatrix.element[2][2] = (double)*glMatrix++;
-  newMatrix.element[2][3] = (double)*glMatrix++;
+    newMatrix.element[2][0] = (double)*glMatrix++;
+    newMatrix.element[2][1] = (double)*glMatrix++;
+    newMatrix.element[2][2] = (double)*glMatrix++;
+    newMatrix.element[2][3] = (double)*glMatrix++;
 
-  newMatrix.element[3][0] = (double)*glMatrix++;
-  newMatrix.element[3][1] = (double)*glMatrix++;
-  newMatrix.element[3][2] = (double)*glMatrix++;
-  newMatrix.element[3][3] = (double)*glMatrix++;
+    newMatrix.element[3][0] = (double)*glMatrix++;
+    newMatrix.element[3][1] = (double)*glMatrix++;
+    newMatrix.element[3][2] = (double)*glMatrix++;
+    newMatrix.element[3][3] = (double)*glMatrix++;
 
-  return(newMatrix);
+    return(newMatrix);
 }// end Matrix4CreateFromGLMatrix4
 
 
@@ -1727,63 +1727,63 @@ Matrix4 Matrix4CreateFromGLMatrix4(const GLfloat *glMatrix)
 // ==============================================================================
 Matrix4 Matrix4CreateTransformation(TransformComponents *components)
 {
-  Matrix4 transformation = IdentityMatrix4; // zero out the whole thing.
-  double  rotation[3][3];
+    Matrix4 transformation = IdentityMatrix4; // zero out the whole thing.
+    double  rotation[3][3];
 
-  // Create the rotation matrix.
-  double sinX = sin(components->rotate.x);
-  double cosX = cos(components->rotate.x);
+    // Create the rotation matrix.
+    double sinX = sin(components->rotate.x);
+    double cosX = cos(components->rotate.x);
 
-  double sinY = sin(components->rotate.y);
-  double cosY = cos(components->rotate.y);
+    double sinY = sin(components->rotate.y);
+    double cosY = cos(components->rotate.y);
 
-  double sinZ = sin(components->rotate.z);
-  double cosZ = cos(components->rotate.z);
+    double sinZ = sin(components->rotate.z);
+    double cosZ = cos(components->rotate.z);
 
-  rotation[0][0] = cosY * cosZ;
-  rotation[0][1] = cosY * sinZ;
-  rotation[0][2] = -sinY;
+    rotation[0][0] = cosY * cosZ;
+    rotation[0][1] = cosY * sinZ;
+    rotation[0][2] = -sinY;
 
-  rotation[1][0] = sinX * sinY * cosZ - cosX * sinZ;
-  rotation[1][1] = sinX * sinY * sinZ + cosX * cosZ;
-  rotation[1][2] = sinX * cosY;
+    rotation[1][0] = sinX * sinY * cosZ - cosX * sinZ;
+    rotation[1][1] = sinX * sinY * sinZ + cosX * cosZ;
+    rotation[1][2] = sinX * cosY;
 
-  rotation[2][0] = cosX * sinY * cosZ + sinX * sinZ;
-  rotation[2][1] = cosX * sinY * sinZ - sinX * cosZ;
-  rotation[2][2] = cosX * cosY;
+    rotation[2][0] = cosX * sinY * cosZ + sinX * sinZ;
+    rotation[2][1] = cosX * sinY * sinZ - sinX * cosZ;
+    rotation[2][2] = cosX * cosY;
 
-  // Build the transformation.element matrix.
-  // Seeing the transformation.element matrix in these terms helps to make sense of Matrix4DecomposeTransformation().
-  transformation.element[0][0] = components->scale.x * rotation[0][0];
-  transformation.element[0][1] = components->scale.x * rotation[0][1];
-  transformation.element[0][2] = components->scale.x * rotation[0][2];
+    // Build the transformation.element matrix.
+    // Seeing the transformation.element matrix in these terms helps to make sense of Matrix4DecomposeTransformation().
+    transformation.element[0][0] = components->scale.x * rotation[0][0];
+    transformation.element[0][1] = components->scale.x * rotation[0][1];
+    transformation.element[0][2] = components->scale.x * rotation[0][2];
 
-  transformation.element[1][0] = components->scale.y *
-    (components->shear_XY * rotation[0][0] + rotation[1][0]);
-  transformation.element[1][1] = components->scale.y *
-    (components->shear_XY * rotation[0][1] + rotation[1][1]);
-  transformation.element[1][2] = components->scale.y *
-    (components->shear_XY * rotation[0][2] + rotation[1][2]);
+    transformation.element[1][0] = components->scale.y *
+        (components->shear_XY * rotation[0][0] + rotation[1][0]);
+    transformation.element[1][1] = components->scale.y *
+        (components->shear_XY * rotation[0][1] + rotation[1][1]);
+    transformation.element[1][2] = components->scale.y *
+        (components->shear_XY * rotation[0][2] + rotation[1][2]);
 
-  transformation.element[2][0] = components->scale.z *
-    (components->shear_XZ * rotation[0][0] + components->shear_YZ * rotation[1][0] +
-     rotation[2][0]);
-  transformation.element[2][1] = components->scale.z *
-    (components->shear_XZ * rotation[0][1] + components->shear_YZ * rotation[1][1] +
-     rotation[2][1]);
-  transformation.element[2][2] = components->scale.z *
-    (components->shear_XZ * rotation[0][2] + components->shear_YZ * rotation[1][2] +
-     rotation[2][2]);
+    transformation.element[2][0] = components->scale.z *
+        (components->shear_XZ * rotation[0][0] + components->shear_YZ * rotation[1][0] +
+         rotation[2][0]);
+    transformation.element[2][1] = components->scale.z *
+        (components->shear_XZ * rotation[0][1] + components->shear_YZ * rotation[1][1] +
+         rotation[2][1]);
+    transformation.element[2][2] = components->scale.z *
+        (components->shear_XZ * rotation[0][2] + components->shear_YZ * rotation[1][2] +
+         rotation[2][2]);
 
-  // translation is so nice and easy.
-  transformation.element[3][0] = components->translate.x;
-  transformation.element[3][1] = components->translate.y;
-  transformation.element[3][2] = components->translate.z;
+    // translation is so nice and easy.
+    transformation.element[3][0] = components->translate.x;
+    transformation.element[3][1] = components->translate.y;
+    transformation.element[3][2] = components->translate.z;
 
-  // And lastly the corner.
-  transformation.element[3][3] = 1.0;
+    // And lastly the corner.
+    transformation.element[3][3] = 1.0;
 
-  return(transformation);
+    return(transformation);
 }// end Matrix4CreateTransformation
 
 
@@ -1805,180 +1805,180 @@ Matrix4 Matrix4CreateTransformation(TransformComponents *components)
 int Matrix4DecomposeTransformation(Matrix4 originalMatrix,
                                    TransformComponents *decomposed)
 {
-  Matrix4 localMatrix = originalMatrix;
-  Matrix4 pmat, invpmat, tinvpmat;
-  Vector4 prhs, psol;
-  Tuple3  row[3];
+    Matrix4 localMatrix = originalMatrix;
+    Matrix4 pmat, invpmat, tinvpmat;
+    Vector4 prhs, psol;
+    Tuple3  row[3];
 
-  // Normalize the matrix.
-  if (localMatrix.element[3][3] == 0) {
-    return(0);
-  }
-  double d = 1.0 / localMatrix.element[3][3];
+    // Normalize the matrix.
+    if (localMatrix.element[3][3] == 0) {
+        return(0);
+    }
+    double d = 1.0 / localMatrix.element[3][3];
 
-  localMatrix.element[0][0] *= d;
-  localMatrix.element[0][1] *= d;
-  localMatrix.element[0][2] *= d;
-  localMatrix.element[0][3] *= d;
-  localMatrix.element[1][0] *= d;
-  localMatrix.element[1][1] *= d;
-  localMatrix.element[1][2] *= d;
-  localMatrix.element[1][3] *= d;
-  localMatrix.element[2][0] *= d;
-  localMatrix.element[2][1] *= d;
-  localMatrix.element[2][2] *= d;
-  localMatrix.element[2][3] *= d;
-  localMatrix.element[3][0] *= d;
-  localMatrix.element[3][1] *= d;
-  localMatrix.element[3][2] *= d;
-  localMatrix.element[3][3] *= d;
-
-
-  // ---------- Perspective ---------------------------------------------------
-  // Perspective is not used by Bricksmith.
-
-  // pmat is used to solve for perspective, but it also provides an easy way
-  // to test for singularity of the upper 3x3 component.
-  pmat = localMatrix;
-  pmat.element[0][3] = 0.0;
-  pmat.element[1][3] = 0.0;
-  pmat.element[2][3] = 0.0;
-
-  pmat.element[3][3] = 1.0;
-
-  if (Matrix4x4Determinant(&pmat) == 0.0) {
-    return(0);
-  }
-
-  // First, isolate perspective.  This is the messiest.
-  if (localMatrix.element[0][3] != 0 || localMatrix.element[1][3] != 0 ||
-      localMatrix.element[2][3] != 0) {
-    // prhs is the right hand side of the equation.
-    prhs.x = localMatrix.element[0][3];
-    prhs.y = localMatrix.element[1][3];
-    prhs.z = localMatrix.element[2][3];
-    prhs.w = localMatrix.element[3][3];
-
-    // Solve the equation by inverting pmat and multiplying prhs by the
-    // inverse.  (This is the easiest way, not necessarily the best.)
-    // inverse function (and Matrix4x4Determinant, above) from the Matrix
-    // Inversion gem in the first volume.
-    invpmat  = Matrix4Invert(pmat);
-    tinvpmat = Matrix4Transpose(invpmat);
-    psol     = V4MulPointByMatrix(prhs, tinvpmat);
-
-    // Stuff the answer away.
-    decomposed->perspective.x = psol.x;
-    decomposed->perspective.y = psol.y;
-    decomposed->perspective.z = psol.z;
-    decomposed->perspective.w = psol.w;
-    // Clear the perspective partition.
-    localMatrix.element[0][3] = 0;
-    localMatrix.element[1][3] = 0;
-    localMatrix.element[2][3] = 0;
-    localMatrix.element[3][3] = 1;
-  }
-  // No perspective
-  else {
-    decomposed->perspective.x = 0;
-    decomposed->perspective.y = 0;
-    decomposed->perspective.z = 0;
-    decomposed->perspective.w = 0;
-  }
+    localMatrix.element[0][0] *= d;
+    localMatrix.element[0][1] *= d;
+    localMatrix.element[0][2] *= d;
+    localMatrix.element[0][3] *= d;
+    localMatrix.element[1][0] *= d;
+    localMatrix.element[1][1] *= d;
+    localMatrix.element[1][2] *= d;
+    localMatrix.element[1][3] *= d;
+    localMatrix.element[2][0] *= d;
+    localMatrix.element[2][1] *= d;
+    localMatrix.element[2][2] *= d;
+    localMatrix.element[2][3] *= d;
+    localMatrix.element[3][0] *= d;
+    localMatrix.element[3][1] *= d;
+    localMatrix.element[3][2] *= d;
+    localMatrix.element[3][3] *= d;
 
 
-  // ---------- Translation ---------------------------------------------------
+    // ---------- Perspective ---------------------------------------------------
+    // Perspective is not used by Bricksmith.
 
-  // This is really easy.
-  decomposed->translate.x = localMatrix.element[3][0];
-  decomposed->translate.y = localMatrix.element[3][1];
-  decomposed->translate.z = localMatrix.element[3][2];
+    // pmat is used to solve for perspective, but it also provides an easy way
+    // to test for singularity of the upper 3x3 component.
+    pmat = localMatrix;
+    pmat.element[0][3] = 0.0;
+    pmat.element[1][3] = 0.0;
+    pmat.element[2][3] = 0.0;
 
-  // Zero out the translation as we continue to decompose.
-  localMatrix.element[3][0] = 0.0;
-  localMatrix.element[3][1] = 0.0;
-  localMatrix.element[3][2] = 0.0;
+    pmat.element[3][3] = 1.0;
 
+    if (Matrix4x4Determinant(&pmat) == 0.0) {
+        return(0);
+    }
 
-  // ---------- Now get scale and shear. --------------------------------------
+    // First, isolate perspective.  This is the messiest.
+    if (localMatrix.element[0][3] != 0 || localMatrix.element[1][3] != 0 ||
+        localMatrix.element[2][3] != 0) {
+        // prhs is the right hand side of the equation.
+        prhs.x = localMatrix.element[0][3];
+        prhs.y = localMatrix.element[1][3];
+        prhs.z = localMatrix.element[2][3];
+        prhs.w = localMatrix.element[3][3];
 
-  // First translate to vector format, because all our linear combination
-  // functions expect vector datatypes.
-  row[0].x = localMatrix.element[0][0];
-  row[0].y = localMatrix.element[0][1];
-  row[0].z = localMatrix.element[0][2];
-  row[1].x = localMatrix.element[1][0];
-  row[1].y = localMatrix.element[1][1];
-  row[1].z = localMatrix.element[1][2];
-  row[2].x = localMatrix.element[2][0];
-  row[2].y = localMatrix.element[2][1];
-  row[2].z = localMatrix.element[2][2];
+        // Solve the equation by inverting pmat and multiplying prhs by the
+        // inverse.  (This is the easiest way, not necessarily the best.)
+        // inverse function (and Matrix4x4Determinant, above) from the Matrix
+        // Inversion gem in the first volume.
+        invpmat  = Matrix4Invert(pmat);
+        tinvpmat = Matrix4Transpose(invpmat);
+        psol     = V4MulPointByMatrix(prhs, tinvpmat);
 
-  // Compute X scale factor and normalize first row.
-  decomposed->scale.x = V3Length(row[0]);
-  row[0] = V3Scale(row[0], 1.0);
-
-  // Compute XY shear factor and make 2nd row orthogonal to 1st.
-  decomposed->shear_XY = V3Dot(row[0], row[1]);
-  row[1] = V3Combine(row[1], row[0], 1.0, -decomposed->shear_XY);
-
-  // Now, compute Y scale and normalize 2nd row.
-  decomposed->scale.y = V3Length(row[1]);
-  row[1] = V3Scale(row[1], 1.0);
-  decomposed->shear_XY /= decomposed->scale.y;
-
-  // Compute XZ and YZ shears, orthogonalize 3rd row.
-  decomposed->shear_XZ = V3Dot(row[0], row[2]);
-  row[2] = V3Combine(row[2], row[0], 1.0, -decomposed->shear_XZ);
-  decomposed->shear_YZ = V3Dot(row[1], row[2]);
-  row[2] = V3Combine(row[2], row[1], 1.0, -decomposed->shear_YZ);
-
-  // Next, get Z scale and normalize 3rd row.
-  decomposed->scale.z = V3Length(row[2]);
-  row[2] = V3Scale(row[2], 1.0);
-  decomposed->shear_XZ /= decomposed->scale.z;
-  decomposed->shear_YZ /= decomposed->scale.z;
-
-  // At this point, the matrix (in rows[]) is orthonormal.
-  // Check for a coordinate system flip.  If the determinant is -1, then
-  // negate the matrix and the scaling factors.
-  if (V3Dot(row[0], V3Cross(row[1], row[2])) < 0) {
-    decomposed->scale.x *= -1.0;
-    decomposed->scale.y *= -1.0;
-    decomposed->scale.z *= -1.0;
-
-    row[0].x *= -1.0;
-    row[0].y *= -1.0;
-    row[0].z *= -1.0;
-    row[1].x *= -1.0;
-    row[1].y *= -1.0;
-    row[1].z *= -1.0;
-    row[2].x *= -1.0;
-    row[2].y *= -1.0;
-    row[2].z *= -1.0;
-  }
+        // Stuff the answer away.
+        decomposed->perspective.x = psol.x;
+        decomposed->perspective.y = psol.y;
+        decomposed->perspective.z = psol.z;
+        decomposed->perspective.w = psol.w;
+        // Clear the perspective partition.
+        localMatrix.element[0][3] = 0;
+        localMatrix.element[1][3] = 0;
+        localMatrix.element[2][3] = 0;
+        localMatrix.element[3][3] = 1;
+    }
+    // No perspective
+    else {
+        decomposed->perspective.x = 0;
+        decomposed->perspective.y = 0;
+        decomposed->perspective.z = 0;
+        decomposed->perspective.w = 0;
+    }
 
 
-  // ---------- Extract Rotation Angles ---------------------------------------
+    // ---------- Translation ---------------------------------------------------
 
-  // Convert back to the matrix datatype, because that is what the
-  // decomposition function expects.
-  localMatrix = IdentityMatrix4;
-  localMatrix.element[0][0] = row[0].x;
-  localMatrix.element[0][1] = row[0].y;
-  localMatrix.element[0][2] = row[0].z;
-  localMatrix.element[1][0] = row[1].x;
-  localMatrix.element[1][1] = row[1].y;
-  localMatrix.element[1][2] = row[1].z;
-  localMatrix.element[2][0] = row[2].x;
-  localMatrix.element[2][1] = row[2].y;
-  localMatrix.element[2][2] = row[2].z;
+    // This is really easy.
+    decomposed->translate.x = localMatrix.element[3][0];
+    decomposed->translate.y = localMatrix.element[3][1];
+    decomposed->translate.z = localMatrix.element[3][2];
 
-  // extract rotation
-  decomposed->rotate = Matrix4DecomposeXYZRotation(localMatrix);
+    // Zero out the translation as we continue to decompose.
+    localMatrix.element[3][0] = 0.0;
+    localMatrix.element[3][1] = 0.0;
+    localMatrix.element[3][2] = 0.0;
 
-  // All done!
-  return(1);
+
+    // ---------- Now get scale and shear. --------------------------------------
+
+    // First translate to vector format, because all our linear combination
+    // functions expect vector datatypes.
+    row[0].x = localMatrix.element[0][0];
+    row[0].y = localMatrix.element[0][1];
+    row[0].z = localMatrix.element[0][2];
+    row[1].x = localMatrix.element[1][0];
+    row[1].y = localMatrix.element[1][1];
+    row[1].z = localMatrix.element[1][2];
+    row[2].x = localMatrix.element[2][0];
+    row[2].y = localMatrix.element[2][1];
+    row[2].z = localMatrix.element[2][2];
+
+    // Compute X scale factor and normalize first row.
+    decomposed->scale.x = V3Length(row[0]);
+    row[0] = V3Scale(row[0], 1.0);
+
+    // Compute XY shear factor and make 2nd row orthogonal to 1st.
+    decomposed->shear_XY = V3Dot(row[0], row[1]);
+    row[1] = V3Combine(row[1], row[0], 1.0, -decomposed->shear_XY);
+
+    // Now, compute Y scale and normalize 2nd row.
+    decomposed->scale.y = V3Length(row[1]);
+    row[1] = V3Scale(row[1], 1.0);
+    decomposed->shear_XY /= decomposed->scale.y;
+
+    // Compute XZ and YZ shears, orthogonalize 3rd row.
+    decomposed->shear_XZ = V3Dot(row[0], row[2]);
+    row[2] = V3Combine(row[2], row[0], 1.0, -decomposed->shear_XZ);
+    decomposed->shear_YZ = V3Dot(row[1], row[2]);
+    row[2] = V3Combine(row[2], row[1], 1.0, -decomposed->shear_YZ);
+
+    // Next, get Z scale and normalize 3rd row.
+    decomposed->scale.z = V3Length(row[2]);
+    row[2] = V3Scale(row[2], 1.0);
+    decomposed->shear_XZ /= decomposed->scale.z;
+    decomposed->shear_YZ /= decomposed->scale.z;
+
+    // At this point, the matrix (in rows[]) is orthonormal.
+    // Check for a coordinate system flip.  If the determinant is -1, then
+    // negate the matrix and the scaling factors.
+    if (V3Dot(row[0], V3Cross(row[1], row[2])) < 0) {
+        decomposed->scale.x *= -1.0;
+        decomposed->scale.y *= -1.0;
+        decomposed->scale.z *= -1.0;
+
+        row[0].x *= -1.0;
+        row[0].y *= -1.0;
+        row[0].z *= -1.0;
+        row[1].x *= -1.0;
+        row[1].y *= -1.0;
+        row[1].z *= -1.0;
+        row[2].x *= -1.0;
+        row[2].y *= -1.0;
+        row[2].z *= -1.0;
+    }
+
+
+    // ---------- Extract Rotation Angles ---------------------------------------
+
+    // Convert back to the matrix datatype, because that is what the
+    // decomposition function expects.
+    localMatrix = IdentityMatrix4;
+    localMatrix.element[0][0] = row[0].x;
+    localMatrix.element[0][1] = row[0].y;
+    localMatrix.element[0][2] = row[0].z;
+    localMatrix.element[1][0] = row[1].x;
+    localMatrix.element[1][1] = row[1].y;
+    localMatrix.element[1][2] = row[1].z;
+    localMatrix.element[2][0] = row[2].x;
+    localMatrix.element[2][1] = row[2].y;
+    localMatrix.element[2][2] = row[2].z;
+
+    // extract rotation
+    decomposed->rotate = Matrix4DecomposeXYZRotation(localMatrix);
+
+    // All done!
+    return(1);
 }// end Matrix4DecomposeTransformation
 
 
@@ -1993,33 +1993,33 @@ int Matrix4DecomposeTransformation(Matrix4 originalMatrix,
 // ==============================================================================
 Tuple3 Matrix4DecomposeXYZRotation(Matrix4 matrix)
 {
-  Tuple3 rotationAngle = ZeroPoint3;
+    Tuple3 rotationAngle = ZeroPoint3;
 
-  // Y is easy.
-  rotationAngle.y = asin(-matrix.element[0][2]);
+    // Y is easy.
+    rotationAngle.y = asin(-matrix.element[0][2]);
 
-  // cos(Y) != 0.
-  // We can just use some simple algebra on the simplest components
-  // of the rotation matrix.
+    // cos(Y) != 0.
+    // We can just use some simple algebra on the simplest components
+    // of the rotation matrix.
 
-  if (fabs(cos(rotationAngle.y)) > SMALL_NUMBER) {// within a tolerance of zero.
-    rotationAngle.x = atan2(matrix.element[1][2], matrix.element[2][2]);
-    rotationAngle.z = atan2(matrix.element[0][1], matrix.element[0][0]);
-  }
-  // cos(Y) == 0; so Y = +/- PI/2
-  // this is a "singularity" that zeroes out the information we would
-  // usually use to determine X and Y.
+    if (fabs(cos(rotationAngle.y)) > SMALL_NUMBER) {// within a tolerance of zero.
+        rotationAngle.x = atan2(matrix.element[1][2], matrix.element[2][2]);
+        rotationAngle.z = atan2(matrix.element[0][1], matrix.element[0][0]);
+    }
+    // cos(Y) == 0; so Y = +/- PI/2
+    // this is a "singularity" that zeroes out the information we would
+    // usually use to determine X and Y.
 
-  else if (rotationAngle.y < 0) { // -PI/2
-    rotationAngle.x = atan2(-matrix.element[2][1], matrix.element[1][1]);
-    rotationAngle.z = 0;
-  }
-  else if (rotationAngle.y > 0) { // +PI/2
-    rotationAngle.x = atan2(matrix.element[2][1], matrix.element[1][1]);
-    rotationAngle.z = 0;
-  }
+    else if (rotationAngle.y < 0) { // -PI/2
+        rotationAngle.x = atan2(-matrix.element[2][1], matrix.element[1][1]);
+        rotationAngle.z = 0;
+    }
+    else if (rotationAngle.y > 0) { // +PI/2
+        rotationAngle.x = atan2(matrix.element[2][1], matrix.element[1][1]);
+        rotationAngle.z = 0;
+    }
 
-  return(rotationAngle);
+    return(rotationAngle);
 }// end Matrix4DecomposeXYZRotation
 
 
@@ -2042,33 +2042,33 @@ Tuple3 Matrix4DecomposeXYZRotation(Matrix4 matrix)
 // ==============================================================================
 Tuple3 Matrix4DecomposeZYXRotation(Matrix4 matrix)
 {
-  Tuple3 rotationAngle = ZeroPoint3;
+    Tuple3 rotationAngle = ZeroPoint3;
 
-  // Y is easy.
-  rotationAngle.y = asin(matrix.element[2][0]);
+    // Y is easy.
+    rotationAngle.y = asin(matrix.element[2][0]);
 
-  // cos(Y) != 0.
-  // We can just use some simple algebra on the simplest components
-  // of the rotation matrix.
+    // cos(Y) != 0.
+    // We can just use some simple algebra on the simplest components
+    // of the rotation matrix.
 
-  if (fabs(cos(rotationAngle.y)) > SMALL_NUMBER) {// within a tolerance of zero.
-    rotationAngle.x = atan2(-matrix.element[2][1], matrix.element[2][2]);
-    rotationAngle.z = atan2(-matrix.element[1][0], matrix.element[0][0]);
-  }
-  // cos(Y) == 0; so Y = +/- PI/2
-  // this is a "singularity" that zeroes out the information we would
-  // usually use to determine X and Y.
+    if (fabs(cos(rotationAngle.y)) > SMALL_NUMBER) {// within a tolerance of zero.
+        rotationAngle.x = atan2(-matrix.element[2][1], matrix.element[2][2]);
+        rotationAngle.z = atan2(-matrix.element[1][0], matrix.element[0][0]);
+    }
+    // cos(Y) == 0; so Y = +/- PI/2
+    // this is a "singularity" that zeroes out the information we would
+    // usually use to determine X and Y.
 
-  else if (rotationAngle.y < 0) { // -PI/2
-    rotationAngle.x = atan2(matrix.element[1][2], matrix.element[0][2]);
-    rotationAngle.z = 0;
-  }
-  else if (rotationAngle.y > 0) { // +PI/2
-    rotationAngle.x = atan2(matrix.element[0][1], matrix.element[1][1]);
-    rotationAngle.z = 0;
-  }
+    else if (rotationAngle.y < 0) { // -PI/2
+        rotationAngle.x = atan2(matrix.element[1][2], matrix.element[0][2]);
+        rotationAngle.z = 0;
+    }
+    else if (rotationAngle.y > 0) { // +PI/2
+        rotationAngle.x = atan2(matrix.element[0][1], matrix.element[1][1]);
+        rotationAngle.z = 0;
+    }
 
-  return(rotationAngle);
+    return(rotationAngle);
 }// end Matrix4DecomposeZYXRotation
 
 
@@ -2091,22 +2091,22 @@ Tuple3 Matrix4DecomposeZYXRotation(Matrix4 matrix)
 // ==============================================================================
 void Matrix4GetGLMatrix4(Matrix4 matrix, GLfloat *glTransformation)
 {
-  *glTransformation++ = (GLfloat)matrix.element[0][0];
-  *glTransformation++ = (GLfloat)matrix.element[0][1];
-  *glTransformation++ = (GLfloat)matrix.element[0][2];
-  *glTransformation++ = (GLfloat)matrix.element[0][3];
-  *glTransformation++ = (GLfloat)matrix.element[1][0];
-  *glTransformation++ = (GLfloat)matrix.element[1][1];
-  *glTransformation++ = (GLfloat)matrix.element[1][2];
-  *glTransformation++ = (GLfloat)matrix.element[1][3];
-  *glTransformation++ = (GLfloat)matrix.element[2][0];
-  *glTransformation++ = (GLfloat)matrix.element[2][1];
-  *glTransformation++ = (GLfloat)matrix.element[2][2];
-  *glTransformation++ = (GLfloat)matrix.element[2][3];
-  *glTransformation++ = (GLfloat)matrix.element[3][0];
-  *glTransformation++ = (GLfloat)matrix.element[3][1];
-  *glTransformation++ = (GLfloat)matrix.element[3][2];
-  *glTransformation++ = (GLfloat)matrix.element[3][3];
+    *glTransformation++ = (GLfloat)matrix.element[0][0];
+    *glTransformation++ = (GLfloat)matrix.element[0][1];
+    *glTransformation++ = (GLfloat)matrix.element[0][2];
+    *glTransformation++ = (GLfloat)matrix.element[0][3];
+    *glTransformation++ = (GLfloat)matrix.element[1][0];
+    *glTransformation++ = (GLfloat)matrix.element[1][1];
+    *glTransformation++ = (GLfloat)matrix.element[1][2];
+    *glTransformation++ = (GLfloat)matrix.element[1][3];
+    *glTransformation++ = (GLfloat)matrix.element[2][0];
+    *glTransformation++ = (GLfloat)matrix.element[2][1];
+    *glTransformation++ = (GLfloat)matrix.element[2][2];
+    *glTransformation++ = (GLfloat)matrix.element[2][3];
+    *glTransformation++ = (GLfloat)matrix.element[3][0];
+    *glTransformation++ = (GLfloat)matrix.element[3][1];
+    *glTransformation++ = (GLfloat)matrix.element[3][2];
+    *glTransformation++ = (GLfloat)matrix.element[3][3];
 }// end Matrix4GetGLMatrix4
 
 
@@ -2119,35 +2119,35 @@ void Matrix4GetGLMatrix4(Matrix4 matrix, GLfloat *glTransformation)
 // ==============================================================================
 Matrix4 Matrix4Multiply(Matrix4 a, Matrix4 b)
 {
-  Matrix4 c = IdentityMatrix4;
-  int     column;
-  int     k;
+    Matrix4 c = IdentityMatrix4;
+    int     column;
+    int     k;
 
-  for (column = 0; column < 4; column++) {
-    c.element[0][column] = 0.0;
-    for (k = 0; k < 4; k++) {
-      c.element[0][column] += a.element[0][k] * b.element[k][column];
+    for (column = 0; column < 4; column++) {
+        c.element[0][column] = 0.0;
+        for (k = 0; k < 4; k++) {
+            c.element[0][column] += a.element[0][k] * b.element[k][column];
+        }
     }
-  }
-  for (column = 0; column < 4; column++) {
-    c.element[1][column] = 0.0;
-    for (k = 0; k < 4; k++) {
-      c.element[1][column] += a.element[1][k] * b.element[k][column];
+    for (column = 0; column < 4; column++) {
+        c.element[1][column] = 0.0;
+        for (k = 0; k < 4; k++) {
+            c.element[1][column] += a.element[1][k] * b.element[k][column];
+        }
     }
-  }
-  for (column = 0; column < 4; column++) {
-    c.element[2][column] = 0.0;
-    for (k = 0; k < 4; k++) {
-      c.element[2][column] += a.element[2][k] * b.element[k][column];
+    for (column = 0; column < 4; column++) {
+        c.element[2][column] = 0.0;
+        for (k = 0; k < 4; k++) {
+            c.element[2][column] += a.element[2][k] * b.element[k][column];
+        }
     }
-  }
-  for (column = 0; column < 4; column++) {
-    c.element[3][column] = 0.0;
-    for (k = 0; k < 4; k++) {
-      c.element[3][column] += a.element[3][k] * b.element[k][column];
+    for (column = 0; column < 4; column++) {
+        c.element[3][column] = 0.0;
+        for (k = 0; k < 4; k++) {
+            c.element[3][column] += a.element[3][k] * b.element[k][column];
+        }
     }
-  }
-  return(c);
+    return(c);
 }// end Matrix4Multiply
 
 
@@ -2161,33 +2161,33 @@ Matrix4 Matrix4Multiply(Matrix4 a, Matrix4 b)
 void Matrix4MultiplyGLMatrices(GLfloat *a, GLfloat *b, GLfloat *result)
 {
 // int row;
-  int column;
-  int k;
+    int column;
+    int k;
 
-  // Zero the result
-  memset(result, 0, sizeof(GLfloat[16]));
+    // Zero the result
+    memset(result, 0, sizeof(GLfloat[16]));
 
-  // Multiply
-  for (column = 0; column < 4; column++) {
-    for (k = 0; k < 4; k++) {
-      result[0 + column] += a[0 + k] * b[k * 4 + column];
+    // Multiply
+    for (column = 0; column < 4; column++) {
+        for (k = 0; k < 4; k++) {
+            result[0 + column] += a[0 + k] * b[k * 4 + column];
+        }
     }
-  }
-  for (column = 0; column < 4; column++) {
-    for (k = 0; k < 4; k++) {
-      result[1 + column] += a[1 + k] * b[k * 4 + column];
+    for (column = 0; column < 4; column++) {
+        for (k = 0; k < 4; k++) {
+            result[1 + column] += a[1 + k] * b[k * 4 + column];
+        }
     }
-  }
-  for (column = 0; column < 4; column++) {
-    for (k = 0; k < 4; k++) {
-      result[2 + column] += a[2 + k] * b[k * 4 + column];
+    for (column = 0; column < 4; column++) {
+        for (k = 0; k < 4; k++) {
+            result[2 + column] += a[2 + k] * b[k * 4 + column];
+        }
     }
-  }
-  for (column = 0; column < 4; column++) {
-    for (k = 0; k < 4; k++) {
-      result[3 + column] += a[3 + k] * b[k * 4 + column];
+    for (column = 0; column < 4; column++) {
+        for (k = 0; k < 4; k++) {
+            result[3 + column] += a[3 + k] * b[k * 4 + column];
+        }
     }
-  }
 }// end Matrix4Multiply
 
 
@@ -2202,20 +2202,20 @@ void Matrix4MultiplyGLMatrices(GLfloat *a, GLfloat *b, GLfloat *result)
 // ==============================================================================
 Matrix4 Matrix4Rotate(Matrix4 original, Tuple3 degreesToRotate)
 {
-  TransformComponents rotateComponents = IdentityComponents;
-  Matrix4             addedRotation    = IdentityMatrix4;
-  Matrix4             result           = IdentityMatrix4;
+    TransformComponents rotateComponents = IdentityComponents;
+    Matrix4             addedRotation    = IdentityMatrix4;
+    Matrix4             result           = IdentityMatrix4;
 
-  // Create a new matrix that causes the rotation we want.
-  // (start with identity matrix)
-  rotateComponents.rotate.x = radians(degreesToRotate.x);
-  rotateComponents.rotate.y = radians(degreesToRotate.y);
-  rotateComponents.rotate.z = radians(degreesToRotate.z);
-  addedRotation             = Matrix4CreateTransformation(&rotateComponents);
+    // Create a new matrix that causes the rotation we want.
+    // (start with identity matrix)
+    rotateComponents.rotate.x = radians(degreesToRotate.x);
+    rotateComponents.rotate.y = radians(degreesToRotate.y);
+    rotateComponents.rotate.z = radians(degreesToRotate.z);
+    addedRotation             = Matrix4CreateTransformation(&rotateComponents);
 
-  result = Matrix4Multiply(original, addedRotation); // rotate at rotationCenter
+    result = Matrix4Multiply(original, addedRotation); // rotate at rotationCenter
 
-  return(result);
+    return(result);
 }// end Matrix4Rotate
 
 
@@ -2230,29 +2230,29 @@ Matrix4 Matrix4Rotate(Matrix4 original, Tuple3 degreesToRotate)
 // ==============================================================================
 Matrix4 Matrix4RotateModelview(Matrix4 original, Tuple3 degreesToRotate)
 {
-  TransformComponents rotateComponents = IdentityComponents;
-  Matrix4             addedRotation    = IdentityMatrix4;
-  Matrix4             result           = IdentityMatrix4;
-  Vector3             camera           = ZeroPoint3;
+    TransformComponents rotateComponents = IdentityComponents;
+    Matrix4             addedRotation    = IdentityMatrix4;
+    Matrix4             result           = IdentityMatrix4;
+    Vector3             camera           = ZeroPoint3;
 
-  // Camera translation is in the bottom row of the matrix. Capture and clear
-  // it so we can apply the rotation around the world origin.
-  camera = V3Make(original.element[3][0], original.element[3][1], original.element[3][2]);
-  original.element[3][0] = 0.0;
-  original.element[3][1] = 0.0;
-  original.element[3][2] = 0.0;
+    // Camera translation is in the bottom row of the matrix. Capture and clear
+    // it so we can apply the rotation around the world origin.
+    camera = V3Make(original.element[3][0], original.element[3][1], original.element[3][2]);
+    original.element[3][0] = 0.0;
+    original.element[3][1] = 0.0;
+    original.element[3][2] = 0.0;
 
-  // Create a new matrix that causes the rotation we want.
-  // (start with identity matrix)
-  rotateComponents.rotate.x = radians(degreesToRotate.x);
-  rotateComponents.rotate.y = radians(degreesToRotate.y);
-  rotateComponents.rotate.z = radians(degreesToRotate.z);
-  addedRotation             = Matrix4CreateTransformation(&rotateComponents);
+    // Create a new matrix that causes the rotation we want.
+    // (start with identity matrix)
+    rotateComponents.rotate.x = radians(degreesToRotate.x);
+    rotateComponents.rotate.y = radians(degreesToRotate.y);
+    rotateComponents.rotate.z = radians(degreesToRotate.z);
+    addedRotation             = Matrix4CreateTransformation(&rotateComponents);
 
-  result = Matrix4Multiply(original, addedRotation);
-  result = Matrix4Translate(result, camera);
+    result = Matrix4Multiply(original, addedRotation);
+    result = Matrix4Translate(result, camera);
 
-  return(result);
+    return(result);
 }// end Matrix4RotateModelview
 
 
@@ -2264,18 +2264,18 @@ Matrix4 Matrix4RotateModelview(Matrix4 original, Tuple3 degreesToRotate)
 // ==============================================================================
 Matrix4 Matrix4Scale(Matrix4 original, Tuple3 scaleFactors)
 {
-  TransformComponents components    = IdentityComponents;
-  Matrix4             scalingMatrix = IdentityMatrix4;
-  Matrix4             result        = IdentityMatrix4;
+    TransformComponents components    = IdentityComponents;
+    Matrix4             scalingMatrix = IdentityMatrix4;
+    Matrix4             result        = IdentityMatrix4;
 
-  // Create a new matrix that causes the rotation we want.
-  // (start with identity matrix)
-  components.scale = scaleFactors;
-  scalingMatrix    = Matrix4CreateTransformation(&components);
+    // Create a new matrix that causes the rotation we want.
+    // (start with identity matrix)
+    components.scale = scaleFactors;
+    scalingMatrix    = Matrix4CreateTransformation(&components);
 
-  result = Matrix4Multiply(original, scalingMatrix);
+    result = Matrix4Multiply(original, scalingMatrix);
 
-  return(result);
+    return(result);
 }// end Matrix4Scale
 
 
@@ -2288,16 +2288,16 @@ Matrix4 Matrix4Scale(Matrix4 original, Tuple3 scaleFactors)
 // ==============================================================================
 Matrix4 Matrix4Translate(Matrix4 original, Vector3 displacement)
 {
-  Matrix4 result = IdentityMatrix4;
+    Matrix4 result = IdentityMatrix4;
 
-  // Copy original to result
-  result = original;
+    // Copy original to result
+    result = original;
 
-  result.element[3][0] += displacement.x; // applied directly to
-  result.element[3][1] += displacement.y; // the matrix because
-  result.element[3][2] += displacement.z; // that's easier here.
+    result.element[3][0] += displacement.x; // applied directly to
+    result.element[3][1] += displacement.y; // the matrix because
+    result.element[3][2] += displacement.z; // that's easier here.
 
-  return(result);
+    return(result);
 }// end Matrix4Translate
 
 
@@ -2310,25 +2310,25 @@ Matrix4 Matrix4Translate(Matrix4 original, Vector3 displacement)
 // ==============================================================================
 Matrix4 Matrix4Transpose(Matrix4 a)
 {
-  Matrix4 transpose = IdentityMatrix4;
+    Matrix4 transpose = IdentityMatrix4;
 
-  transpose.element[0][0] = a.element[0][0];
-  transpose.element[0][1] = a.element[1][0];
-  transpose.element[0][2] = a.element[2][0];
-  transpose.element[0][3] = a.element[3][0];
-  transpose.element[1][0] = a.element[0][1];
-  transpose.element[1][1] = a.element[1][1];
-  transpose.element[1][2] = a.element[2][1];
-  transpose.element[1][3] = a.element[3][1];
-  transpose.element[2][0] = a.element[0][2];
-  transpose.element[2][1] = a.element[1][2];
-  transpose.element[2][2] = a.element[2][2];
-  transpose.element[2][3] = a.element[3][2];
-  transpose.element[3][0] = a.element[0][3];
-  transpose.element[3][1] = a.element[1][3];
-  transpose.element[3][2] = a.element[2][3];
-  transpose.element[3][3] = a.element[3][3];
-  return(transpose);
+    transpose.element[0][0] = a.element[0][0];
+    transpose.element[0][1] = a.element[1][0];
+    transpose.element[0][2] = a.element[2][0];
+    transpose.element[0][3] = a.element[3][0];
+    transpose.element[1][0] = a.element[0][1];
+    transpose.element[1][1] = a.element[1][1];
+    transpose.element[1][2] = a.element[2][1];
+    transpose.element[1][3] = a.element[3][1];
+    transpose.element[2][0] = a.element[0][2];
+    transpose.element[2][1] = a.element[1][2];
+    transpose.element[2][2] = a.element[2][2];
+    transpose.element[2][3] = a.element[3][2];
+    transpose.element[3][0] = a.element[0][3];
+    transpose.element[3][1] = a.element[1][3];
+    transpose.element[3][2] = a.element[2][3];
+    transpose.element[3][3] = a.element[3][3];
+    return(transpose);
 }// end Matrix4Transpose
 
 
@@ -2343,46 +2343,46 @@ Matrix4 Matrix4Transpose(Matrix4 a)
 // ==============================================================================
 Matrix4 Matrix4Invert(Matrix4 in)
 {
-  Matrix4 out = IdentityMatrix4;
-  double  det = 0.0;
+    Matrix4 out = IdentityMatrix4;
+    double  det = 0.0;
 
-  Matrix4Adjoint(&in, &out);
+    Matrix4Adjoint(&in, &out);
 
-  // Calculate the 4x4 determinant
-  // If the determinant is zero, then the inverse matrix is not unique.
-  det = Matrix4x4Determinant(&in);
+    // Calculate the 4x4 determinant
+    // If the determinant is zero, then the inverse matrix is not unique.
+    det = Matrix4x4Determinant(&in);
 
-  if (fabs(det) < SMALL_NUMBER) {
-    // The result of attempting to derive the inverse of a non-invertible
-    // matrix is undefined in OpenGL:
-    // http://www.opengl.org/documentation/specs/version1.1/glspec1.1/node26.html
-    // However, it is NOT permitted to cause program termination or
-    // corruption!
+    if (fabs(det) < SMALL_NUMBER) {
+        // The result of attempting to derive the inverse of a non-invertible
+        // matrix is undefined in OpenGL:
+        // http://www.opengl.org/documentation/specs/version1.1/glspec1.1/node26.html
+        // However, it is NOT permitted to cause program termination or
+        // corruption!
 // printf("Non-singular matrix, no inverse!\n");
 // exit(1);
-  }
-  else {
-    // scale the adjoint matrix to get the inverse
-    det = 1.0 / det;
-    out.element[0][0] *= det;
-    out.element[0][1] *= det;
-    out.element[0][2] *= det;
-    out.element[0][3] *= det;
-    out.element[1][0] *= det;
-    out.element[1][1] *= det;
-    out.element[1][2] *= det;
-    out.element[1][3] *= det;
-    out.element[2][0] *= det;
-    out.element[2][1] *= det;
-    out.element[2][2] *= det;
-    out.element[2][3] *= det;
-    out.element[3][0] *= det;
-    out.element[3][1] *= det;
-    out.element[3][2] *= det;
-    out.element[3][3] *= det;
-  }
+    }
+    else {
+        // scale the adjoint matrix to get the inverse
+        det = 1.0 / det;
+        out.element[0][0] *= det;
+        out.element[0][1] *= det;
+        out.element[0][2] *= det;
+        out.element[0][3] *= det;
+        out.element[1][0] *= det;
+        out.element[1][1] *= det;
+        out.element[1][2] *= det;
+        out.element[1][3] *= det;
+        out.element[2][0] *= det;
+        out.element[2][1] *= det;
+        out.element[2][2] *= det;
+        out.element[2][3] *= det;
+        out.element[3][0] *= det;
+        out.element[3][1] *= det;
+        out.element[3][2] *= det;
+        out.element[3][3] *= det;
+    }
 
-  return(out);
+    return(out);
 }// end Matrix4Invert
 
 
@@ -2405,46 +2405,46 @@ Matrix4 Matrix4Invert(Matrix4 in)
 // ==============================================================================
 void Matrix4Adjoint(Matrix4 *in, Matrix4 *out)
 {
-  double a1, a2, a3, a4, b1, b2, b3, b4;
-  double c1, c2, c3, c4, d1, d2, d3, d4;
+    double a1, a2, a3, a4, b1, b2, b3, b4;
+    double c1, c2, c3, c4, d1, d2, d3, d4;
 
-  /* assign to individual variable names to aid  */
-  /* selecting correct values  */
+    /* assign to individual variable names to aid  */
+    /* selecting correct values  */
 
-  a1 = in->element[0][0]; b1 = in->element[0][1];
-  c1 = in->element[0][2]; d1 = in->element[0][3];
+    a1 = in->element[0][0]; b1 = in->element[0][1];
+    c1 = in->element[0][2]; d1 = in->element[0][3];
 
-  a2 = in->element[1][0]; b2 = in->element[1][1];
-  c2 = in->element[1][2]; d2 = in->element[1][3];
+    a2 = in->element[1][0]; b2 = in->element[1][1];
+    c2 = in->element[1][2]; d2 = in->element[1][3];
 
-  a3 = in->element[2][0]; b3 = in->element[2][1];
-  c3 = in->element[2][2]; d3 = in->element[2][3];
+    a3 = in->element[2][0]; b3 = in->element[2][1];
+    c3 = in->element[2][2]; d3 = in->element[2][3];
 
-  a4 = in->element[3][0]; b4 = in->element[3][1];
-  c4 = in->element[3][2]; d4 = in->element[3][3];
+    a4 = in->element[3][0]; b4 = in->element[3][1];
+    c4 = in->element[3][2]; d4 = in->element[3][3];
 
 
-  /* row column labeling reversed since we transpose rows & columns */
+    /* row column labeling reversed since we transpose rows & columns */
 
-  out->element[0][0] = Matrix3x3Determinant(b2, b3, b4, c2, c3, c4, d2, d3, d4);
-  out->element[1][0] = -Matrix3x3Determinant(a2, a3, a4, c2, c3, c4, d2, d3, d4);
-  out->element[2][0] = Matrix3x3Determinant(a2, a3, a4, b2, b3, b4, d2, d3, d4);
-  out->element[3][0] = -Matrix3x3Determinant(a2, a3, a4, b2, b3, b4, c2, c3, c4);
+    out->element[0][0] = Matrix3x3Determinant(b2, b3, b4, c2, c3, c4, d2, d3, d4);
+    out->element[1][0] = -Matrix3x3Determinant(a2, a3, a4, c2, c3, c4, d2, d3, d4);
+    out->element[2][0] = Matrix3x3Determinant(a2, a3, a4, b2, b3, b4, d2, d3, d4);
+    out->element[3][0] = -Matrix3x3Determinant(a2, a3, a4, b2, b3, b4, c2, c3, c4);
 
-  out->element[0][1] = -Matrix3x3Determinant(b1, b3, b4, c1, c3, c4, d1, d3, d4);
-  out->element[1][1] = Matrix3x3Determinant(a1, a3, a4, c1, c3, c4, d1, d3, d4);
-  out->element[2][1] = -Matrix3x3Determinant(a1, a3, a4, b1, b3, b4, d1, d3, d4);
-  out->element[3][1] = Matrix3x3Determinant(a1, a3, a4, b1, b3, b4, c1, c3, c4);
+    out->element[0][1] = -Matrix3x3Determinant(b1, b3, b4, c1, c3, c4, d1, d3, d4);
+    out->element[1][1] = Matrix3x3Determinant(a1, a3, a4, c1, c3, c4, d1, d3, d4);
+    out->element[2][1] = -Matrix3x3Determinant(a1, a3, a4, b1, b3, b4, d1, d3, d4);
+    out->element[3][1] = Matrix3x3Determinant(a1, a3, a4, b1, b3, b4, c1, c3, c4);
 
-  out->element[0][2] = Matrix3x3Determinant(b1, b2, b4, c1, c2, c4, d1, d2, d4);
-  out->element[1][2] = -Matrix3x3Determinant(a1, a2, a4, c1, c2, c4, d1, d2, d4);
-  out->element[2][2] = Matrix3x3Determinant(a1, a2, a4, b1, b2, b4, d1, d2, d4);
-  out->element[3][2] = -Matrix3x3Determinant(a1, a2, a4, b1, b2, b4, c1, c2, c4);
+    out->element[0][2] = Matrix3x3Determinant(b1, b2, b4, c1, c2, c4, d1, d2, d4);
+    out->element[1][2] = -Matrix3x3Determinant(a1, a2, a4, c1, c2, c4, d1, d2, d4);
+    out->element[2][2] = Matrix3x3Determinant(a1, a2, a4, b1, b2, b4, d1, d2, d4);
+    out->element[3][2] = -Matrix3x3Determinant(a1, a2, a4, b1, b2, b4, c1, c2, c4);
 
-  out->element[0][3] = -Matrix3x3Determinant(b1, b2, b3, c1, c2, c3, d1, d2, d3);
-  out->element[1][3] = Matrix3x3Determinant(a1, a2, a3, c1, c2, c3, d1, d2, d3);
-  out->element[2][3] = -Matrix3x3Determinant(a1, a2, a3, b1, b2, b3, d1, d2, d3);
-  out->element[3][3] = Matrix3x3Determinant(a1, a2, a3, b1, b2, b3, c1, c2, c3);
+    out->element[0][3] = -Matrix3x3Determinant(b1, b2, b3, c1, c2, c3, d1, d2, d3);
+    out->element[1][3] = Matrix3x3Determinant(a1, a2, a3, c1, c2, c3, d1, d2, d3);
+    out->element[2][3] = -Matrix3x3Determinant(a1, a2, a3, b1, b2, b3, d1, d2, d3);
+    out->element[3][3] = Matrix3x3Determinant(a1, a2, a3, b1, b2, b3, c1, c2, c3);
 }// end Matrix4Adjoint
 
 
@@ -2457,30 +2457,30 @@ void Matrix4Adjoint(Matrix4 *in, Matrix4 *out)
 // ==============================================================================
 double Matrix4x4Determinant(Matrix4 *m)
 {
-  double ans;
-  double a1, a2, a3, a4, b1, b2, b3, b4, c1, c2, c3, c4, d1, d2, d3, d4;
+    double ans;
+    double a1, a2, a3, a4, b1, b2, b3, b4, c1, c2, c3, c4, d1, d2, d3, d4;
 
-  /* assign to individual variable names to aid selecting */
-  /*  correct elements */
+    /* assign to individual variable names to aid selecting */
+    /*  correct elements */
 
-  a1 = m->element[0][0]; b1 = m->element[0][1];
-  c1 = m->element[0][2]; d1 = m->element[0][3];
+    a1 = m->element[0][0]; b1 = m->element[0][1];
+    c1 = m->element[0][2]; d1 = m->element[0][3];
 
-  a2 = m->element[1][0]; b2 = m->element[1][1];
-  c2 = m->element[1][2]; d2 = m->element[1][3];
+    a2 = m->element[1][0]; b2 = m->element[1][1];
+    c2 = m->element[1][2]; d2 = m->element[1][3];
 
-  a3 = m->element[2][0]; b3 = m->element[2][1];
-  c3 = m->element[2][2]; d3 = m->element[2][3];
+    a3 = m->element[2][0]; b3 = m->element[2][1];
+    c3 = m->element[2][2]; d3 = m->element[2][3];
 
-  a4 = m->element[3][0]; b4 = m->element[3][1];
-  c4 = m->element[3][2]; d4 = m->element[3][3];
+    a4 = m->element[3][0]; b4 = m->element[3][1];
+    c4 = m->element[3][2]; d4 = m->element[3][3];
 
-  ans = a1 * Matrix3x3Determinant(b2, b3, b4, c2, c3, c4, d2, d3, d4)
-    - b1 * Matrix3x3Determinant(a2, a3, a4, c2, c3, c4, d2, d3, d4)
-    + c1 * Matrix3x3Determinant(a2, a3, a4, b2, b3, b4, d2, d3, d4)
-    - d1 * Matrix3x3Determinant(a2, a3, a4, b2, b3, b4, c2, c3, c4);
+    ans = a1 * Matrix3x3Determinant(b2, b3, b4, c2, c3, c4, d2, d3, d4)
+        - b1 * Matrix3x3Determinant(a2, a3, a4, c2, c3, c4, d2, d3, d4)
+        + c1 * Matrix3x3Determinant(a2, a3, a4, b2, b3, b4, d2, d3, d4)
+        - d1 * Matrix3x3Determinant(a2, a3, a4, b2, b3, b4, c2, c3, c4);
 
-  return(ans);
+    return(ans);
 }// end Matrix4x4Determinant
 
 
@@ -2491,16 +2491,16 @@ double Matrix4x4Determinant(Matrix4 *m)
 // ==============================================================================
 void Matrix4Print(Matrix4 *matrix)
 {
-  int counter;
+    int counter;
 
-  for (counter = 0; counter < 4; counter++) {
-    printf("[%12.6f %12.6f %12.6f %12.6f]\n",
-           matrix->element[counter][0],
-           matrix->element[counter][1],
-           matrix->element[counter][2],
-           matrix->element[counter][3]);
-  }
-  printf("\n");
+    for (counter = 0; counter < 4; counter++) {
+        printf("[%12.6f %12.6f %12.6f %12.6f]\n",
+               matrix->element[counter][0],
+               matrix->element[counter][1],
+               matrix->element[counter][2],
+               matrix->element[counter][3]);
+    }
+    printf("\n");
 }// end Matrix4Print
 
 
@@ -2515,35 +2515,35 @@ void Matrix4Print(Matrix4 *matrix)
 //
 // ==============================================================================
 bool  VolumeCanIntersectBox(
-  Box3 bounds,
-  Matrix4 transform,
-  Box2 box)
+    Box3 bounds,
+    Matrix4 transform,
+    Box2 box)
 {
-  if (bounds.min.x > bounds.max.x ||
-      bounds.min.y > bounds.max.y ||
-      bounds.min.z > bounds.max.z) { return(false); }
+    if (bounds.min.x > bounds.max.x ||
+        bounds.min.y > bounds.max.y ||
+        bounds.min.z > bounds.max.z) { return(false); }
 
-  GLfloat aabb_mv[6] = { bounds.min.x, bounds.min.y, bounds.min.z,
-                         bounds.max.x, bounds.max.y, bounds.max.z };
-  GLfloat aabb_ndc[6];
-  GLfloat m[16];
+    GLfloat aabb_mv[6] = { bounds.min.x, bounds.min.y, bounds.min.z,
+                           bounds.max.x, bounds.max.y, bounds.max.z };
+    GLfloat aabb_ndc[6];
+    GLfloat m[16];
 
-  Matrix4GetGLMatrix4(transform, m);
+    Matrix4GetGLMatrix4(transform, m);
 
-  aabbToClipbox(aabb_mv, m, aabb_ndc);
+    aabbToClipbox(aabb_mv, m, aabb_ndc);
 
-  double x1 = V2BoxMinX(box);
-  double x2 = V2BoxMaxX(box);
-  double y1 = V2BoxMinY(box);
-  double y2 = V2BoxMaxY(box);
+    double x1 = V2BoxMinX(box);
+    double x2 = V2BoxMaxX(box);
+    double y1 = V2BoxMinY(box);
+    double y2 = V2BoxMaxY(box);
 
-  if (x1 > aabb_ndc[3] ||
-      x2 < aabb_ndc[0] ||
-      y1 > aabb_ndc[4] ||
-      y2 < aabb_ndc[1]) {
-    return(false);
-  }
-  return(true);
+    if (x1 > aabb_ndc[3] ||
+        x2 < aabb_ndc[0] ||
+        y1 > aabb_ndc[4] ||
+        y2 < aabb_ndc[1]) {
+        return(false);
+    }
+    return(true);
 }// end VolumeCanIntersectBox
 
 
@@ -2560,50 +2560,50 @@ bool  VolumeCanIntersectBox(
 //
 // ==============================================================================
 bool    VolumeCanIntersectPoint(
-  Box3 bounds,
-  Matrix4 transform,
-  Box2 box,
-  double testDepthSoFar)
+    Box3 bounds,
+    Matrix4 transform,
+    Box2 box,
+    double testDepthSoFar)
 {
-  if (bounds.min.x > bounds.max.x ||
-      bounds.min.y > bounds.max.y ||
-      bounds.min.z > bounds.max.z) { return(false); }
+    if (bounds.min.x > bounds.max.x ||
+        bounds.min.y > bounds.max.y ||
+        bounds.min.z > bounds.max.z) { return(false); }
 
-  // We gotta use clipped conversion to NDC coordinates to get our device-space
-  // bounding box.  If we don't, geometry behind the camera will mirror around the
-  // XZ and YZ planes and cause chaos.
+    // We gotta use clipped conversion to NDC coordinates to get our device-space
+    // bounding box.  If we don't, geometry behind the camera will mirror around the
+    // XZ and YZ planes and cause chaos.
 
-  GLfloat aabb_mv[6] = { bounds.min.x, bounds.min.y, bounds.min.z,
-                         bounds.max.x, bounds.max.y, bounds.max.z };
-  GLfloat aabb_ndc[6];
-  GLfloat m[16];
+    GLfloat aabb_mv[6] = { bounds.min.x, bounds.min.y, bounds.min.z,
+                           bounds.max.x, bounds.max.y, bounds.max.z };
+    GLfloat aabb_ndc[6];
+    GLfloat m[16];
 
-  Matrix4GetGLMatrix4(transform, m);
+    Matrix4GetGLMatrix4(transform, m);
 
-  aabbToClipbox(aabb_mv, m, aabb_ndc);
+    aabbToClipbox(aabb_mv, m, aabb_ndc);
 
-  double x1 = V2BoxMinX(box);
-  double x2 = V2BoxMaxX(box);
-  double y1 = V2BoxMinY(box);
-  double y2 = V2BoxMaxY(box);
+    double x1 = V2BoxMinX(box);
+    double x2 = V2BoxMaxX(box);
+    double y1 = V2BoxMinY(box);
+    double y2 = V2BoxMaxY(box);
 
 
-  if (x1 > aabb_ndc[3] ||
-      x2 < aabb_ndc[0] ||
-      y1 > aabb_ndc[4] ||
-      y2 < aabb_ndc[1] ||
-      testDepthSoFar < aabb_ndc[2]) { // If the test depth is LESS than our MIN Z then we ALERADY are closer than this entire test model - skip this model!
-    return(false);
-  }
-  return(true);
+    if (x1 > aabb_ndc[3] ||
+        x2 < aabb_ndc[0] ||
+        y1 > aabb_ndc[4] ||
+        y2 < aabb_ndc[1] ||
+        testDepthSoFar < aabb_ndc[2]) { // If the test depth is LESS than our MIN Z then we ALERADY are closer than this entire test model - skip this model!
+        return(false);
+    }
+    return(true);
 }// end VolumeCanIntersectPoint
 
 
 static double SignedAreaOfTriXY(Point3 *v0, Point3 *v1, Point3 *v2)
 {
-  // This is the signed area of a triangle in XY space - used to calculate
-  // bathymetric coordinates.
-  return((v0->x - v2->x) * (v1->y - v2->y) - (v1->x - v2->x) * (v0->y - v2->y));
+    // This is the signed area of a triangle in XY space - used to calculate
+    // bathymetric coordinates.
+    return((v0->x - v2->x) * (v1->y - v2->y) - (v1->x - v2->x) * (v0->y - v2->y));
 }
 
 
@@ -2616,36 +2616,36 @@ static double SignedAreaOfTriXY(Point3 *v0, Point3 *v1, Point3 *v2)
 //
 // ==============================================================================
 bool    DepthOnTriangle(
-  Point3 v0,
-  Point3 v1,
-  Point3 v2,
-  Point3 *test_pt)
+    Point3 v0,
+    Point3 v1,
+    Point3 v2,
+    Point3 *test_pt)
 {
-  double area = SignedAreaOfTriXY(&v0, &v1, &v2);
+    double area = SignedAreaOfTriXY(&v0, &v1, &v2);
 
-  if (area == 0.0) {
+    if (area == 0.0) {
+        return(false);
+    }
+    area = 1.0 / area;
+    double A = SignedAreaOfTriXY(&v1, &v2, test_pt) * area;
+    double B = SignedAreaOfTriXY(&v2, &v0, test_pt) * area;
+    double C = SignedAreaOfTriXY(&v0, &v1, test_pt) * area;
+
+    if (A >= 0 && B >= 0 && C >= 0) {
+        test_pt->z = v0.z * A + v1.z * B + v2.z * C;
+        return(true);
+    }
     return(false);
-  }
-  area = 1.0 / area;
-  double A = SignedAreaOfTriXY(&v1, &v2, test_pt) * area;
-  double B = SignedAreaOfTriXY(&v2, &v0, test_pt) * area;
-  double C = SignedAreaOfTriXY(&v0, &v1, test_pt) * area;
-
-  if (A >= 0 && B >= 0 && C >= 0) {
-    test_pt->z = v0.z * A + v1.z * B + v2.z * C;
-    return(true);
-  }
-  return(false);
 }// end DepthOnTriangle
 
 
 static bool PtsCloserThanT2InXY(Point3 *p1, Point3 *p2, double dist_sqr)
 {
-  // Returns true if p1 and p2 are closer than the sqrt of dist_sqr.
-  double dx = p1->x - p2->x;
-  double dy = p1->y - p2->y;
+    // Returns true if p1 and p2 are closer than the sqrt of dist_sqr.
+    double dx = p1->x - p2->x;
+    double dy = p1->y - p2->y;
 
-  return((dx * dx + dy * dy) < dist_sqr);
+    return((dx * dx + dy * dy) < dist_sqr);
 }
 
 
@@ -2660,55 +2660,55 @@ static bool PtsCloserThanT2InXY(Point3 *p1, Point3 *p2, double dist_sqr)
 //
 // ==============================================================================
 extern bool   DepthOnLineSegment(
-  Point3 v0,
-  Point3 v1,
-  double t2,                  // tolerance^2
-  Point3 *test_pt)
+    Point3 v0,
+    Point3 v1,
+    double t2,                // tolerance^2
+    Point3 *test_pt)
 {
-  double ldx = v1.x - v0.x;
-  double ldy = v1.y - v0.y;
-  double ldz = v1.z - v0.z;
-  double l2  = ldx * ldx + ldy * ldy;
+    double ldx = v1.x - v0.x;
+    double ldy = v1.y - v0.y;
+    double ldz = v1.z - v0.z;
+    double l2  = ldx * ldx + ldy * ldy;
 
-  if (l2 == 0.0) {
-    if (PtsCloserThanT2InXY(&v0, test_pt, t2)) {
-      test_pt->z = v0.z;
-      return(true);
+    if (l2 == 0.0) {
+        if (PtsCloserThanT2InXY(&v0, test_pt, t2)) {
+            test_pt->z = v0.z;
+            return(true);
+        }
+        return(false);
     }
-    return(false);
-  }
 
-  double dx = test_pt->x - v0.x;
-  double dy = test_pt->y - v0.y;
+    double dx = test_pt->x - v0.x;
+    double dy = test_pt->y - v0.y;
 
-  double t = (dx * ldx + dy * ldy) / l2;
+    double t = (dx * ldx + dy * ldy) / l2;
 
-  if (t < 0.0) {
-    if (PtsCloserThanT2InXY(&v0, test_pt, t2)) {
-      test_pt->z = v0.z;
-      return(true);
+    if (t < 0.0) {
+        if (PtsCloserThanT2InXY(&v0, test_pt, t2)) {
+            test_pt->z = v0.z;
+            return(true);
+        }
+        return(false);
     }
-    return(false);
-  }
-  else if (t > 1.0) {
-    if (PtsCloserThanT2InXY(&v1, test_pt, t2)) {
-      test_pt->z = v1.z;
-      return(true);
+    else if (t > 1.0) {
+        if (PtsCloserThanT2InXY(&v1, test_pt, t2)) {
+            test_pt->z = v1.z;
+            return(true);
+        }
+        return(false);
     }
-    return(false);
-  }
-  else {
-    Point3 proj_pt =
-    {
-      v0.x + t * ldx,
-      v0.y + t * ldy,
-      v0.z + t * ldz
-    };
+    else {
+        Point3 proj_pt =
+        {
+            v0.x + t * ldx,
+            v0.y + t * ldy,
+            v0.z + t * ldz
+        };
 
-    if (PtsCloserThanT2InXY(&proj_pt, test_pt, t2)) {
-      test_pt->z = proj_pt.z;
-      return(true);
+        if (PtsCloserThanT2InXY(&proj_pt, test_pt, t2)) {
+            test_pt->z = proj_pt.z;
+            return(true);
+        }
+        return(false);
     }
-    return(false);
-  }
 }// end DepthOnLineSegment

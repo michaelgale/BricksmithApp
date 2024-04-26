@@ -38,15 +38,15 @@
 // ==============================================================================
 - (BOOL)ams_containsString:(NSString *)substring options:(NSUInteger)mask
 {
-  NSRange foundRange = [self rangeOfString:substring options:mask];
+    NSRange foundRange = [self rangeOfString:substring options:mask];
 
-  if (foundRange.location == NSNotFound &&
-      [substring length] > 0) {
-    return(NO);
-  }
-  else {
-    return(YES);
-  }
+    if (foundRange.location == NSNotFound &&
+        [substring length] > 0) {
+        return(NO);
+    }
+    else {
+        return(YES);
+    }
 }// end ams_containsString:options:
 
 
@@ -58,10 +58,10 @@
 // ------------------------------------------------------------------------------
 + (NSString *)CRLF
 {
-  unichar  CRLFchars[] = { 0x000D, 0x000A }; // DOS linefeed.
-  NSString *CRLF       = [NSString stringWithCharacters:CRLFchars length:2];
+    unichar  CRLFchars[] = { 0x000D, 0x000A }; // DOS linefeed.
+    NSString *CRLF       = [NSString stringWithCharacters:CRLFchars length:2];
 
-  return(CRLF);
+    return(CRLF);
 }// end CRLF
 
 
@@ -73,7 +73,7 @@
 // ==============================================================================
 - (NSComparisonResult)numericCompare:(NSString *)string
 {
-  return([self compare:string options:NSNumericSearch]);
+    return([self compare:string options:NSNumericSearch]);
 }// end numericCompare:
 
 
@@ -85,29 +85,29 @@
 // ==============================================================================
 - (NSArray *)separateByLine
 {
-  NSMutableArray *lines             = [NSMutableArray array];
-  NSUInteger     stringLength       = [self length];
-  NSUInteger     lineStartIndex     = 0;
-  NSUInteger     nextlineStartIndex = 0;
-  NSUInteger     newlineIndex       = 0;   // index of the first newline character in the line.
-  NSInteger      lineLength         = 0;
-  NSString       *isolatedLine;
+    NSMutableArray *lines             = [NSMutableArray array];
+    NSUInteger     stringLength       = [self length];
+    NSUInteger     lineStartIndex     = 0;
+    NSUInteger     nextlineStartIndex = 0;
+    NSUInteger     newlineIndex       = 0; // index of the first newline character in the line.
+    NSInteger      lineLength         = 0;
+    NSString       *isolatedLine;
 
-  while (nextlineStartIndex < stringLength)
-  {
-    // Read the first line. LDraw files are in DOS format. Oh the agony.
-    // But Cocoa is nice to us.
-    [self getLineStart:&lineStartIndex
-                   end:&nextlineStartIndex
-           contentsEnd:&newlineIndex
-              forRange:NSMakeRange(nextlineStartIndex, 1)]; // that is, contains the first character.
+    while (nextlineStartIndex < stringLength)
+    {
+        // Read the first line. LDraw files are in DOS format. Oh the agony.
+        // But Cocoa is nice to us.
+        [self getLineStart:&lineStartIndex
+         end:&nextlineStartIndex
+         contentsEnd:&newlineIndex
+         forRange:NSMakeRange(nextlineStartIndex, 1)];      // that is, contains the first character.
 
-    lineLength   = newlineIndex - lineStartIndex;
-    isolatedLine = [self substringWithRange:NSMakeRange(lineStartIndex, lineLength)];
-    [lines addObject:isolatedLine];
-  }
+        lineLength   = newlineIndex - lineStartIndex;
+        isolatedLine = [self substringWithRange:NSMakeRange(lineStartIndex, lineLength)];
+        [lines addObject:isolatedLine];
+    }
 
-  return(lines);
+    return(lines);
 }// end separateStringByLine
 
 
@@ -122,30 +122,30 @@
 // ==============================================================================
 - (NSString *)ams_stringByRemovingWhitespace
 {
-  NSInteger      originalLength   = [self length];
-  unichar        *resultBuffer    = malloc(sizeof(unichar) * originalLength);
-  NSCharacterSet *whitespaceSet   = [NSCharacterSet whitespaceCharacterSet];
-  unichar        currentCharacter = '\0';
-  NSInteger      resultLength     = 0;
-  NSInteger      counter          = 0;
-  NSString       *strippedString  = nil;
+    NSInteger      originalLength   = [self length];
+    unichar        *resultBuffer    = malloc(sizeof(unichar) * originalLength);
+    NSCharacterSet *whitespaceSet   = [NSCharacterSet whitespaceCharacterSet];
+    unichar        currentCharacter = '\0';
+    NSInteger      resultLength     = 0;
+    NSInteger      counter          = 0;
+    NSString       *strippedString  = nil;
 
-  // Copy only non-whitespace characters into the new string.
-  // * We'll assume the Unicode Consortium will never be sick enough to put
-  // whitespace outside the BMP, or that our users will never employ such a
-  // beast if they did.
-  for (counter = 0; counter < originalLength; counter++) {
-    currentCharacter = [self characterAtIndex:counter];
-    if ([whitespaceSet characterIsMember:currentCharacter] == NO) {
-      resultBuffer[resultLength] = currentCharacter;
-      resultLength++;
+    // Copy only non-whitespace characters into the new string.
+    // * We'll assume the Unicode Consortium will never be sick enough to put
+    // whitespace outside the BMP, or that our users will never employ such a
+    // beast if they did.
+    for (counter = 0; counter < originalLength; counter++) {
+        currentCharacter = [self characterAtIndex:counter];
+        if ([whitespaceSet characterIsMember:currentCharacter] == NO) {
+            resultBuffer[resultLength] = currentCharacter;
+            resultLength++;
+        }
     }
-  }
-  strippedString = [NSString stringWithCharacters:resultBuffer length:resultLength];
+    strippedString = [NSString stringWithCharacters:resultBuffer length:resultLength];
 
-  // free memory
-  free(resultBuffer);
-  return(strippedString);
+    // free memory
+    free(resultBuffer);
+    return(strippedString);
 }// end ams_stringByRemovingWhitespace
 
 

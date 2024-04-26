@@ -16,9 +16,9 @@
 #import "LDrawMovableDirective.h"
 
 typedef struct {
-  GLfloat position[3];
-  GLfloat normal[3];
-  GLfloat color[4];
+    GLfloat position[3];
+    GLfloat normal[3];
+    GLfloat color[4];
 } VBOVertexData;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -28,23 +28,23 @@ typedef struct {
 ////////////////////////////////////////////////////////////////////////////////
 @interface LDrawDrawableElement : LDrawDirective <LDrawColorable, NSCoding, LDrawMovableDirective>
 {
-  LDrawColor *color;
-  BOOL       hidden;    // YES if we don't draw this.
+    LDrawColor *color;
+    BOOL       hidden;  // YES if we don't draw this.
 }
 
 // Directives
 - (VBOVertexData *)writeToVertexBuffer:(VBOVertexData *)vertexBuffer parentColor:(LDrawColor *)parentColor
-  wireframe:(BOOL)wireframe;
+    wireframe:(BOOL)wireframe;
 - (void)drawElement:(NSUInteger)optionsMask viewScale:(double)scaleFactor withColor:(LDrawColor *)
-  drawingColor;
+    drawingColor;
 - (VBOVertexData *)writeElementToVertexBuffer:(VBOVertexData *)vertexBuffer withColor:(LDrawColor *)
-  drawingColor wireframe:(BOOL)wireframe;
+    drawingColor wireframe:(BOOL)wireframe;
 
 
 // Accessors
 - (Box3)projectedBoundingBoxWithModelView:(Matrix4)modelView
-  projection:(Matrix4)projection
-  view:(Box2)viewport;
+    projection:(Matrix4)projection
+    view:(Box2)viewport;
 - (BOOL)isHidden;
 - (Point3)position;
 

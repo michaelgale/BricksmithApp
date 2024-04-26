@@ -16,7 +16,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 @interface BackgroundColorView : NSView
 {
-  NSColor *backgroundColor;
+    NSColor *backgroundColor;
 }
 
 // Accessors

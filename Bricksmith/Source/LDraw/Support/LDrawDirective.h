@@ -99,32 +99,32 @@
 
 typedef enum CacheFlags
 {
-  // The bounding box of the directive has changed and is no longer valid.
-  CacheFlagBounds  = 1,
-  DisplayList      = 2,
-  ContainerInvalid = 4 // Subdirectives have changed in a way that may invalidate the cache
+    // The bounding box of the directive has changed and is no longer valid.
+    CacheFlagBounds  = 1,
+    DisplayList      = 2,
+    ContainerInvalid = 4 // Subdirectives have changed in a way that may invalidate the cache
 
-    // Ben says: ContainerInvalid is _not_ a good cache flag because it is not truly recursive - it is ONLY
-    // invoked on LDrawLSynth directives and should probably be private to that class.
-    // The flag "works" because the class maps the MessageObservedChanged message to inval itself, and
-    // MessageObservedChanged has been specifically put into LDrawPart, which is the only thing an LSynth
-    // actually cares about.
+        // Ben says: ContainerInvalid is _not_ a good cache flag because it is not truly recursive - it is ONLY
+        // invoked on LDrawLSynth directives and should probably be private to that class.
+        // The flag "works" because the class maps the MessageObservedChanged message to inval itself, and
+        // MessageObservedChanged has been specifically put into LDrawPart, which is the only thing an LSynth
+        // actually cares about.
 } CacheFlagsT;
 
 typedef enum Message
 {
-  // The reference name of the MPD model has changed and observers should
-  // update their string references.
-  MessageNameChanged  = 0,
+    // The reference name of the MPD model has changed and observers should
+    // update their string references.
+    MessageNameChanged  = 0,
 
-  // The MPD's parent has changed, and thus its scope may have changed
-  MessageScopeChanged = 1,
+    // The MPD's parent has changed, and thus its scope may have changed
+    MessageScopeChanged = 1,
 
-  // The observed have changed in a way that may require the observer to
-  // update its representation (e.g. an LSynth constraint has moved and
-  // requires resynthesis)
-  // Ben says: this is really LSynth specific, e.g. part -> parent synth
-  MessageObservedChanged = 2
+    // The observed have changed in a way that may require the observer to
+    // update its representation (e.g. an LSynth constraint has moved and
+    // requires resynthesis)
+    // Ben says: this is really LSynth specific, e.g. part -> parent synth
+    MessageObservedChanged = 2
 } MessageT;
 
 @protocol LDrawObserver
@@ -172,17 +172,17 @@ typedef void (^LDrawPartVisitor)(LDrawPart *);
 ////////////////////////////////////////////////////////////////////////////////
 @interface LDrawDirective : NSObject <NSCoding, NSCopying, LDrawObservable>
 {
-  @private
-  LDrawContainer *enclosingDirective; // LDraw files are a hierarchy.
+    @private
+    LDrawContainer *enclosingDirective; // LDraw files are a hierarchy.
 
   #if NEW_SET
-  LDrawFastSet observers;
+    LDrawFastSet observers;
   #else
-  NSMutableSet *observers;          // Any observers watching us.  This is an array of NSValues of pointers to create WEAK references.
+    NSMutableSet *observers;        // Any observers watching us.  This is an array of NSValues of pointers to create WEAK references.
   #endif
-  CacheFlagsT invalFlags;
-  BOOL        isSelected;
-  NSString    *iconName;
+    CacheFlagsT invalFlags;
+    BOOL        isSelected;
+    NSString    *iconName;
 }
 
 // Class methods
@@ -192,7 +192,7 @@ typedef void (^LDrawPartVisitor)(LDrawPart *);
 - (id)initWithLines:(NSArray *)lines inRange:(NSRange)range;
 - (id)initWithLines:(NSArray *)lines inRange:(NSRange)range parentGroup:(dispatch_group_t)parentGroup;
 + (NSRange)rangeOfDirectiveBeginningAtIndex:(NSUInteger)index
-  inLines:(NSArray *)lines maxIndex:(NSUInteger)maxIndex;
+    inLines:(NSArray *)lines maxIndex:(NSUInteger)maxIndex;
 
 // Directives
 - (void)draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)parentColor;
@@ -203,11 +203,11 @@ typedef void (^LDrawPartVisitor)(LDrawPart *);
 
 // Hit testing primitives
 - (void)hitTest:(Ray3)pickRay transform:(Matrix4)transform viewScale:(double)scaleFactor boundsOnly:(BOOL)boundsOnly
-  creditObject:(id)creditObject hits:(NSMutableDictionary *)hits;
+    creditObject:(id)creditObject hits:(NSMutableDictionary *)hits;
 - (BOOL)boxTest:(Box2)bounds transform:(Matrix4)transform boundsOnly:(BOOL)boundsOnly
-  creditObject:(id)creditObject hits:(NSMutableSet *)hits;
+    creditObject:(id)creditObject hits:(NSMutableSet *)hits;
 - (void)depthTest:(Point2)testPt inBox:(Box2)bounds transform:(Matrix4)transform creditObject:(id)
-  creditObject bestObject:(id *)bestObject bestDepth:(double *)bestDepth;
+    creditObject bestObject:(id *)bestObject bestDepth:(double *)bestDepth;
 
 - (NSString *)write;
 
@@ -231,13 +231,13 @@ typedef void (^LDrawPartVisitor)(LDrawPart *);
 // Utilities
 - (BOOL)containsReferenceTo:(NSString *)name;
 - (void)flattenIntoLines:(NSMutableArray *)lines
-  triangles:(NSMutableArray *)triangles
-  quadrilaterals:(NSMutableArray *)quadrilaterals
-  other:(NSMutableArray *)everythingElse
-  currentColor:(LDrawColor *)parentColor
-  currentTransform:(Matrix4)transform
-  normalTransform:(Matrix3)normalTransform
-  recursive:(BOOL)recursive;
+    triangles:(NSMutableArray *)triangles
+    quadrilaterals:(NSMutableArray *)quadrilaterals
+    other:(NSMutableArray *)everythingElse
+    currentColor:(LDrawColor *)parentColor
+    currentTransform:(Matrix4)transform
+    normalTransform:(Matrix3)normalTransform
+    recursive:(BOOL)recursive;
 - (BOOL)isAncestorInList:(NSArray *)containers;
 - (void)noteNeedsDisplay;
 - (void)registerUndoActions:(NSUndoManager *)undoManager;

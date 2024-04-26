@@ -21,21 +21,21 @@
 // ==============================================================================
 - (void)scrollRowToCenter:(NSInteger)rowIndex
 {
-  NSRect  rowRect     = [self rectOfRow:rowIndex];
-  NSRect  scrollFrame = [[self enclosingScrollView] documentVisibleRect];
-  NSPoint scrollPoint = NSZeroPoint;
+    NSRect  rowRect     = [self rectOfRow:rowIndex];
+    NSRect  scrollFrame = [[self enclosingScrollView] documentVisibleRect];
+    NSPoint scrollPoint = NSZeroPoint;
 
-  scrollFrame = [self convertRect:scrollFrame
-                         fromView:[[self enclosingScrollView] documentView]];
-  scrollPoint = rowRect.origin;
+    scrollFrame = [self convertRect:scrollFrame
+                   fromView:[[self enclosingScrollView] documentView]];
+    scrollPoint = rowRect.origin;
 
-  scrollPoint.y -= NSHeight(scrollFrame) / 2;
-  scrollPoint.y += NSHeight(rowRect) / 2;
+    scrollPoint.y -= NSHeight(scrollFrame) / 2;
+    scrollPoint.y += NSHeight(rowRect) / 2;
 
-  scrollPoint.y = floor(scrollPoint.y);
-  scrollPoint.y = MAX(0, scrollPoint.y);
+    scrollPoint.y = floor(scrollPoint.y);
+    scrollPoint.y = MAX(0, scrollPoint.y);
 
-  [self scrollPoint:scrollPoint];
+    [self scrollPoint:scrollPoint];
 }
 
 

@@ -76,24 +76,24 @@ PreferencesDialogController * preferencesDialog = nil;
 // ==============================================================================
 - (void)awakeFromNib
 {
-  // Grab the current window content from the Nib (it should be blank).
-  // We will display this while changing panes.
-  blankContent = [[preferencesWindow contentView] retain];
+    // Grab the current window content from the Nib (it should be blank).
+    // We will display this while changing panes.
+    blankContent = [[preferencesWindow contentView] retain];
 
-  NSToolbar *tabToolbar = [[[NSToolbar alloc] initWithIdentifier:@"Preferences"] autorelease];
-  [tabToolbar setDelegate:self];
-  [preferencesWindow setToolbar:tabToolbar];
+    NSToolbar *tabToolbar = [[[NSToolbar alloc] initWithIdentifier:@"Preferences"] autorelease];
+    [tabToolbar setDelegate:self];
+    [preferencesWindow setToolbar:tabToolbar];
 
-  // Restore the last-seen tab.
-  NSUserDefaults *userDefaults   = [NSUserDefaults standardUserDefaults];
-  NSString       *lastIdentifier = [userDefaults stringForKey:PREFERENCES_LAST_TAB_DISPLAYED];
-  if (lastIdentifier == nil) {
-    lastIdentifier = PREFS_LDRAW_TAB_IDENTIFIER;
-  }
-  [self selectPanelWithIdentifier:lastIdentifier];
+    // Restore the last-seen tab.
+    NSUserDefaults *userDefaults   = [NSUserDefaults standardUserDefaults];
+    NSString       *lastIdentifier = [userDefaults stringForKey:PREFERENCES_LAST_TAB_DISPLAYED];
+    if (lastIdentifier == nil) {
+        lastIdentifier = PREFS_LDRAW_TAB_IDENTIFIER;
+    }
+    [self selectPanelWithIdentifier:lastIdentifier];
 
-  // After the window has been resized for the tab, *then* restore the size.
-  [self->preferencesWindow setFrameUsingName:PREFERENCES_WINDOW_AUTOSAVE_NAME];
+    // After the window has been resized for the tab, *then* restore the size.
+    [self->preferencesWindow setFrameUsingName:PREFERENCES_WINDOW_AUTOSAVE_NAME];
 }// end awakeFromNib
 
 
@@ -108,11 +108,11 @@ PreferencesDialogController * preferencesDialog = nil;
 // ------------------------------------------------------------------------------
 + (void)doPreferences
 {
-  if (preferencesDialog == nil) {
-    preferencesDialog = [[PreferencesDialogController alloc] init];
-  }
+    if (preferencesDialog == nil) {
+        preferencesDialog = [[PreferencesDialogController alloc] init];
+    }
 
-  [preferencesDialog showPreferencesWindow];
+    [preferencesDialog showPreferencesWindow];
 }// end doPreferences
 
 
@@ -123,11 +123,11 @@ PreferencesDialogController * preferencesDialog = nil;
 // ==============================================================================
 - (id)init
 {
-  self = [super init];
+    self = [super init];
 
-  [NSBundle loadNibNamed:@"Preferences" owner:self];
+    [NSBundle loadNibNamed:@"Preferences" owner:self];
 
-  return(self);
+    return(self);
 }// end init
 
 
@@ -138,8 +138,8 @@ PreferencesDialogController * preferencesDialog = nil;
 // ==============================================================================
 - (void)showPreferencesWindow
 {
-  [self setDialogValues];
-  [preferencesWindow makeKeyAndOrderFront:nil];
+    [self setDialogValues];
+    [preferencesWindow makeKeyAndOrderFront:nil];
 }// end showPreferencesWindow
 
 
@@ -152,13 +152,13 @@ PreferencesDialogController * preferencesDialog = nil;
 // ==============================================================================
 - (void)setDialogValues
 {
-  // Make sure there are actually preferences to read before attempting to
-  // retrieve them.
-  [PreferencesDialogController ensureDefaults];
-  [self setGeneralTabValues];
-  [self setStylesTabValues];
-  [self setLDrawTabValues];
-  [self setLSynthTabValues];
+    // Make sure there are actually preferences to read before attempting to
+    // retrieve them.
+    [PreferencesDialogController ensureDefaults];
+    [self setGeneralTabValues];
+    [self setStylesTabValues];
+    [self setLDrawTabValues];
+    [self setLSynthTabValues];
 }// end setDialogValues
 
 
@@ -170,29 +170,29 @@ PreferencesDialogController * preferencesDialog = nil;
 // ==============================================================================
 - (void)setGeneralTabValues
 {
-  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
-  // Grid Spacing.
-  float gridFine   = [userDefaults floatForKey:GRID_SPACING_FINE];
-  float gridMedium = [userDefaults floatForKey:GRID_SPACING_MEDIUM];
-  float gridCoarse = [userDefaults floatForKey:GRID_SPACING_COARSE];
+    // Grid Spacing.
+    float gridFine   = [userDefaults floatForKey:GRID_SPACING_FINE];
+    float gridMedium = [userDefaults floatForKey:GRID_SPACING_MEDIUM];
+    float gridCoarse = [userDefaults floatForKey:GRID_SPACING_COARSE];
 
-  [[gridSpacingForm cellAtIndex:0] setFloatValue:gridFine];
-  [[gridSpacingForm cellAtIndex:1] setFloatValue:gridMedium];
-  [[gridSpacingForm cellAtIndex:2] setFloatValue:gridCoarse];
+    [[gridSpacingForm cellAtIndex:0] setFloatValue:gridFine];
+    [[gridSpacingForm cellAtIndex:1] setFloatValue:gridMedium];
+    [[gridSpacingForm cellAtIndex:2] setFloatValue:gridCoarse];
 
-  // Mouse Dragging & axis lines
-  MouseDragBehaviorT   mouseBehavior = (int)[userDefaults integerForKey:MOUSE_DRAGGING_BEHAVIOR_KEY];
-  RightButtonBehaviorT rbBehavior    = (int)[userDefaults integerForKey:RIGHT_BUTTON_BEHAVIOR_KEY];
-  RotateModeT          rBehavior     = (int)[userDefaults integerForKey:ROTATE_MODE_KEY];
-  MouseWheelBeahviorT  wBehavior     = (int)[userDefaults integerForKey:MOUSE_WHEEL_BEHAVIOR_KEY];
-  BOOL showAxisLines = [userDefaults boolForKey:SHOW_AXIS_LINES_KEY];
+    // Mouse Dragging & axis lines
+    MouseDragBehaviorT   mouseBehavior = (int)[userDefaults integerForKey:MOUSE_DRAGGING_BEHAVIOR_KEY];
+    RightButtonBehaviorT rbBehavior    = (int)[userDefaults integerForKey:RIGHT_BUTTON_BEHAVIOR_KEY];
+    RotateModeT          rBehavior     = (int)[userDefaults integerForKey:ROTATE_MODE_KEY];
+    MouseWheelBeahviorT  wBehavior     = (int)[userDefaults integerForKey:MOUSE_WHEEL_BEHAVIOR_KEY];
+    BOOL showAxisLines = [userDefaults boolForKey:SHOW_AXIS_LINES_KEY];
 
-  [self->mouseDraggingRadioButtons selectCellWithTag:mouseBehavior];
-  [self->rightButtonRadioButtons selectCellWithTag:rbBehavior];
-  [self->rotateModeRadioButtons selectCellWithTag:rBehavior];
-  [self->mouseWheelRadioButtons selectCellWithTag:wBehavior];
-  [self->showAxisLinesButton setState:showAxisLines];
+    [self->mouseDraggingRadioButtons selectCellWithTag:mouseBehavior];
+    [self->rightButtonRadioButtons selectCellWithTag:rbBehavior];
+    [self->rotateModeRadioButtons selectCellWithTag:rBehavior];
+    [self->mouseWheelRadioButtons selectCellWithTag:wBehavior];
+    [self->showAxisLinesButton setState:showAxisLines];
 }// end setGeneralTabValues
 
 
@@ -203,25 +203,25 @@ PreferencesDialogController * preferencesDialog = nil;
 // ==============================================================================
 - (void)setStylesTabValues
 {
-  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
-  NSColor *backgroundColor = [userDefaults colorForKey:LDRAW_VIEWER_BACKGROUND_COLOR_KEY];
-  NSColor *modelsColor     = [userDefaults colorForKey:SYNTAX_COLOR_MODELS_KEY];
-  NSColor *stepsColor      = [userDefaults colorForKey:SYNTAX_COLOR_STEPS_KEY];
-  NSColor *partsColor      = [userDefaults colorForKey:SYNTAX_COLOR_PARTS_KEY];
-  NSColor *primitivesColor = [userDefaults colorForKey:SYNTAX_COLOR_PRIMITIVES_KEY];
-  NSColor *colorsColor     = [userDefaults colorForKey:SYNTAX_COLOR_COLORS_KEY];
-  NSColor *commentsColor   = [userDefaults colorForKey:SYNTAX_COLOR_COMMENTS_KEY];
-  NSColor *unknownColor    = [userDefaults colorForKey:SYNTAX_COLOR_UNKNOWN_KEY];
+    NSColor *backgroundColor = [userDefaults colorForKey:LDRAW_VIEWER_BACKGROUND_COLOR_KEY];
+    NSColor *modelsColor     = [userDefaults colorForKey:SYNTAX_COLOR_MODELS_KEY];
+    NSColor *stepsColor      = [userDefaults colorForKey:SYNTAX_COLOR_STEPS_KEY];
+    NSColor *partsColor      = [userDefaults colorForKey:SYNTAX_COLOR_PARTS_KEY];
+    NSColor *primitivesColor = [userDefaults colorForKey:SYNTAX_COLOR_PRIMITIVES_KEY];
+    NSColor *colorsColor     = [userDefaults colorForKey:SYNTAX_COLOR_COLORS_KEY];
+    NSColor *commentsColor   = [userDefaults colorForKey:SYNTAX_COLOR_COMMENTS_KEY];
+    NSColor *unknownColor    = [userDefaults colorForKey:SYNTAX_COLOR_UNKNOWN_KEY];
 
-  [backgroundColorWell setColor:backgroundColor];
-  [modelsColorWell setColor:modelsColor];
-  [stepsColorWell setColor:stepsColor];
-  [partsColorWell setColor:partsColor];
-  [primitivesColorWell setColor:primitivesColor];
-  [commentsColorWell setColor:commentsColor];
-  [colorsColorWell setColor:colorsColor];
-  [unknownColorWell setColor:unknownColor];
+    [backgroundColorWell setColor:backgroundColor];
+    [modelsColorWell setColor:modelsColor];
+    [stepsColorWell setColor:stepsColor];
+    [partsColorWell setColor:partsColor];
+    [primitivesColorWell setColor:primitivesColor];
+    [commentsColorWell setColor:commentsColor];
+    [colorsColorWell setColor:colorsColor];
+    [unknownColorWell setColor:unknownColor];
 }// end setStylesTabValues
 
 
@@ -232,19 +232,19 @@ PreferencesDialogController * preferencesDialog = nil;
 // ==============================================================================
 - (void)setLDrawTabValues
 {
-  NSUserDefaults    *userDefaults    = [NSUserDefaults standardUserDefaults];
-  NSString          *ldrawPath       = [userDefaults stringForKey:LDRAW_PATH_KEY];
-  PartBrowserStyleT partBrowserStyle = (int)[userDefaults integerForKey:PART_BROWSER_STYLE_KEY];
+    NSUserDefaults    *userDefaults    = [NSUserDefaults standardUserDefaults];
+    NSString          *ldrawPath       = [userDefaults stringForKey:LDRAW_PATH_KEY];
+    PartBrowserStyleT partBrowserStyle = (int)[userDefaults integerForKey:PART_BROWSER_STYLE_KEY];
 
-  [self->partBrowserStyleRadioButtons selectCellWithTag:partBrowserStyle];
+    [self->partBrowserStyleRadioButtons selectCellWithTag:partBrowserStyle];
 
-  if (ldrawPath != nil) {
-    [LDrawPathTextField setStringValue:ldrawPath];
-  }// end if we have a folder.
-  // No folder selected yet.
-  else {
-    [self chooseLDrawFolder:self];
-  }
+    if (ldrawPath != nil) {
+        [LDrawPathTextField setStringValue:ldrawPath];
+    }// end if we have a folder.
+    // No folder selected yet.
+    else {
+        [self chooseLDrawFolder:self];
+    }
 }// end showPreferencesWindow
 
 
@@ -255,43 +255,43 @@ PreferencesDialogController * preferencesDialog = nil;
 // ==============================================================================
 - (void)setLSynthTabValues
 {
-  // Get preference values
-  NSUserDefaults *userDefaults      = [NSUserDefaults standardUserDefaults];
-  NSString       *executablePath    = [userDefaults stringForKey:LSYNTH_EXECUTABLE_PATH_KEY];
-  NSString       *configurationPath = [userDefaults stringForKey:LSYNTH_CONFIGURATION_PATH_KEY];
-  // Stored as an int but interpreted as a percentage
-  int     selectionTransparency      = (int)[userDefaults integerForKey:LSYNTH_SELECTION_TRANSPARENCY_KEY];
-  NSColor *selectionColor            = [userDefaults colorForKey:LSYNTH_SELECTION_COLOR_KEY];
-  BOOL    saveSynthesizedParts       = [userDefaults boolForKey:LSYNTH_SAVE_SYNTHESIZED_PARTS_KEY];
-  BOOL    showBasicPartsList         = [userDefaults boolForKey:LSYNTH_SHOW_BASIC_PARTS_LIST_KEY];
-  LSynthSelectionModeT selectionMode = (int)[userDefaults integerForKey:LSYNTH_SELECTION_MODE_KEY];
+    // Get preference values
+    NSUserDefaults *userDefaults      = [NSUserDefaults standardUserDefaults];
+    NSString       *executablePath    = [userDefaults stringForKey:LSYNTH_EXECUTABLE_PATH_KEY];
+    NSString       *configurationPath = [userDefaults stringForKey:LSYNTH_CONFIGURATION_PATH_KEY];
+    // Stored as an int but interpreted as a percentage
+    int     selectionTransparency      = (int)[userDefaults integerForKey:LSYNTH_SELECTION_TRANSPARENCY_KEY];
+    NSColor *selectionColor            = [userDefaults colorForKey:LSYNTH_SELECTION_COLOR_KEY];
+    BOOL    saveSynthesizedParts       = [userDefaults boolForKey:LSYNTH_SAVE_SYNTHESIZED_PARTS_KEY];
+    BOOL    showBasicPartsList         = [userDefaults boolForKey:LSYNTH_SHOW_BASIC_PARTS_LIST_KEY];
+    LSynthSelectionModeT selectionMode = (int)[userDefaults integerForKey:LSYNTH_SELECTION_MODE_KEY];
 
-  // Set control values
-  [lsynthExecutablePath setStringValue:executablePath];
-  [lsynthConfigurationPath setStringValue:configurationPath];
-  [lsynthSelectionModeMatrix selectCellWithTag:selectionMode];
-  [lsynthSelectionColorWell setColor:selectionColor];
-  [lsynthTransparencySlider setIntegerValue:selectionTransparency];
-  [lsynthTransparencyText setStringValue:[NSString stringWithFormat:@"%i", selectionTransparency]];
-  [lsynthSaveSynthesizedParts setState:saveSynthesizedParts];
-  [lsynthShowBasicPartsList setState:showBasicPartsList];
+    // Set control values
+    [lsynthExecutablePath setStringValue:executablePath];
+    [lsynthConfigurationPath setStringValue:configurationPath];
+    [lsynthSelectionModeMatrix selectCellWithTag:selectionMode];
+    [lsynthSelectionColorWell setColor:selectionColor];
+    [lsynthTransparencySlider setIntegerValue:selectionTransparency];
+    [lsynthTransparencyText setStringValue:[NSString stringWithFormat:@"%i", selectionTransparency]];
+    [lsynthSaveSynthesizedParts setState:saveSynthesizedParts];
+    [lsynthShowBasicPartsList setState:showBasicPartsList];
 
-  // Enable the correct bits of the selection section
-  if (selectionMode == TransparentSelection) {
-    [lsynthTransparencySlider setEnabled:YES];
-    [lsynthTransparencyText setEnabled:YES];
-    [lsynthSelectionColorWell setEnabled:NO];
-  }
-  else if (selectionMode == ColoredSelection) {
-    [lsynthTransparencySlider setEnabled:NO];
-    [lsynthTransparencyText setEnabled:NO];
-    [lsynthSelectionColorWell setEnabled:YES];
-  }
-  else if (selectionMode == TransparentColoredSelection) {
-    [lsynthTransparencySlider setEnabled:YES];
-    [lsynthTransparencyText setEnabled:YES];
-    [lsynthSelectionColorWell setEnabled:YES];
-  }
+    // Enable the correct bits of the selection section
+    if (selectionMode == TransparentSelection) {
+        [lsynthTransparencySlider setEnabled:YES];
+        [lsynthTransparencyText setEnabled:YES];
+        [lsynthSelectionColorWell setEnabled:NO];
+    }
+    else if (selectionMode == ColoredSelection) {
+        [lsynthTransparencySlider setEnabled:NO];
+        [lsynthTransparencyText setEnabled:NO];
+        [lsynthSelectionColorWell setEnabled:YES];
+    }
+    else if (selectionMode == TransparentColoredSelection) {
+        [lsynthTransparencySlider setEnabled:YES];
+        [lsynthTransparencyText setEnabled:YES];
+        [lsynthSelectionColorWell setEnabled:YES];
+    }
 }
 
 
@@ -307,9 +307,9 @@ PreferencesDialogController * preferencesDialog = nil;
 // ==============================================================================
 - (void)changeTab:(id)sender
 {
-  NSString *itemIdentifier = [sender itemIdentifier];
+    NSString *itemIdentifier = [sender itemIdentifier];
 
-  [self selectPanelWithIdentifier:itemIdentifier];
+    [self selectPanelWithIdentifier:itemIdentifier];
 }// end changeTab:
 
 
@@ -324,16 +324,16 @@ PreferencesDialogController * preferencesDialog = nil;
 // ==============================================================================
 - (IBAction)gridSpacingChanged:(id)sender
 {
-  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
-  // Grid Spacing.
-  float gridFine   = [[gridSpacingForm cellAtIndex:0] floatValue];
-  float gridMedium = [[gridSpacingForm cellAtIndex:1] floatValue];
-  float gridCoarse = [[gridSpacingForm cellAtIndex:2] floatValue];
+    // Grid Spacing.
+    float gridFine   = [[gridSpacingForm cellAtIndex:0] floatValue];
+    float gridMedium = [[gridSpacingForm cellAtIndex:1] floatValue];
+    float gridCoarse = [[gridSpacingForm cellAtIndex:2] floatValue];
 
-  [userDefaults setFloat:gridFine forKey:GRID_SPACING_FINE];
-  [userDefaults setFloat:gridMedium forKey:GRID_SPACING_MEDIUM];
-  [userDefaults setFloat:gridCoarse forKey:GRID_SPACING_COARSE];
+    [userDefaults setFloat:gridFine forKey:GRID_SPACING_FINE];
+    [userDefaults setFloat:gridMedium forKey:GRID_SPACING_MEDIUM];
+    [userDefaults setFloat:gridCoarse forKey:GRID_SPACING_COARSE];
 }// end gridSpacingChanged:
 
 
@@ -344,37 +344,37 @@ PreferencesDialogController * preferencesDialog = nil;
 // ==============================================================================
 - (IBAction)mouseDraggingChanged:(id)sender
 {
-  NSUserDefaults     *userDefaults = [NSUserDefaults standardUserDefaults];
-  MouseDragBehaviorT mouseBehavior = (int)[self->mouseDraggingRadioButtons selectedTag];
+    NSUserDefaults     *userDefaults = [NSUserDefaults standardUserDefaults];
+    MouseDragBehaviorT mouseBehavior = (int)[self->mouseDraggingRadioButtons selectedTag];
 
-  [userDefaults setInteger:mouseBehavior forKey:MOUSE_DRAGGING_BEHAVIOR_KEY];
+    [userDefaults setInteger:mouseBehavior forKey:MOUSE_DRAGGING_BEHAVIOR_KEY];
 }// end mouseDraggingChanged:
 
 
 - (IBAction)rightButtonChanged:(id)sender
 {
-  NSUserDefaults       *userDefaults = [NSUserDefaults standardUserDefaults];
-  RightButtonBehaviorT rbBehavior    = (int)[self->rightButtonRadioButtons selectedTag];
+    NSUserDefaults       *userDefaults = [NSUserDefaults standardUserDefaults];
+    RightButtonBehaviorT rbBehavior    = (int)[self->rightButtonRadioButtons selectedTag];
 
-  [userDefaults setInteger:rbBehavior forKey:RIGHT_BUTTON_BEHAVIOR_KEY];
+    [userDefaults setInteger:rbBehavior forKey:RIGHT_BUTTON_BEHAVIOR_KEY];
 }
 
 
 - (IBAction)rotateModeChanged:(id)sender
 {
-  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-  RotateModeT    rBehavior     = (int)[self->rotateModeRadioButtons selectedTag];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    RotateModeT    rBehavior     = (int)[self->rotateModeRadioButtons selectedTag];
 
-  [userDefaults setInteger:rBehavior forKey:ROTATE_MODE_KEY];
+    [userDefaults setInteger:rBehavior forKey:ROTATE_MODE_KEY];
 }
 
 
 - (IBAction)mouseWheelChanged:(id)sender
 {
-  NSUserDefaults      *userDefaults = [NSUserDefaults standardUserDefaults];
-  MouseWheelBeahviorT wBehavior     = (int)[self->mouseWheelRadioButtons selectedTag];
+    NSUserDefaults      *userDefaults = [NSUserDefaults standardUserDefaults];
+    MouseWheelBeahviorT wBehavior     = (int)[self->mouseWheelRadioButtons selectedTag];
 
-  [userDefaults setInteger:wBehavior forKey:MOUSE_WHEEL_BEHAVIOR_KEY];
+    [userDefaults setInteger:wBehavior forKey:MOUSE_WHEEL_BEHAVIOR_KEY];
 }
 
 
@@ -384,14 +384,14 @@ PreferencesDialogController * preferencesDialog = nil;
 //
 // ==============================================================================
 - (IBAction)showAxisLinesChanged:(id)sender {
-  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
-  BOOL showAxisLinesState = [showAxisLinesButton state];
+    BOOL showAxisLinesState = [showAxisLinesButton state];
 
-  [userDefaults setBool:showAxisLinesState forKey:SHOW_AXIS_LINES_KEY];
-  [[NSNotificationCenter defaultCenter]
-   postNotificationName:ShowAxisLinesDidChangeNotification
-                 object:showAxisLinesState];
+    [userDefaults setBool:showAxisLinesState forKey:SHOW_AXIS_LINES_KEY];
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:ShowAxisLinesDidChangeNotification
+     object:showAxisLinesState];
 }
 
 
@@ -405,15 +405,15 @@ PreferencesDialogController * preferencesDialog = nil;
 // ==============================================================================
 - (IBAction)partBrowserStyleChanged:(id)sender
 {
-  NSUserDefaults    *userDefaults = [NSUserDefaults standardUserDefaults];
-  PartBrowserStyleT newStyle      = (int)[self->partBrowserStyleRadioButtons selectedTag];
+    NSUserDefaults    *userDefaults = [NSUserDefaults standardUserDefaults];
+    PartBrowserStyleT newStyle      = (int)[self->partBrowserStyleRadioButtons selectedTag];
 
-  [userDefaults setInteger:newStyle forKey:PART_BROWSER_STYLE_KEY];
+    [userDefaults setInteger:newStyle forKey:PART_BROWSER_STYLE_KEY];
 
-  // inform interested parties.
-  [[NSNotificationCenter defaultCenter]
-   postNotificationName:LDrawPartBrowserStyleDidChangeNotification
-                 object:[NSNumber numberWithInteger:newStyle]];
+    // inform interested parties.
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:LDrawPartBrowserStyleDidChangeNotification
+     object:[NSNumber numberWithInteger:newStyle]];
 }// end partBrowserStyleChanged:
 
 
@@ -426,30 +426,30 @@ PreferencesDialogController * preferencesDialog = nil;
 // ==============================================================================
 - (IBAction)chooseLDrawFolder:(id)sender
 {
-  // Create a standard "Choose" dialog.
-  NSOpenPanel *folderChooser = [NSOpenPanel openPanel];
+    // Create a standard "Choose" dialog.
+    NSOpenPanel *folderChooser = [NSOpenPanel openPanel];
 
-  [folderChooser setCanChooseFiles:NO];
-  [folderChooser setCanChooseDirectories:YES];
+    [folderChooser setCanChooseFiles:NO];
+    [folderChooser setCanChooseDirectories:YES];
 
-  // Tell the poor user what this dialog does!
-  [folderChooser setTitle:NSLocalizedString(@"Choose LDraw Folder", nil)];
-  [folderChooser setMessage:NSLocalizedString(@"LDrawFolderChooserMessage", nil)];
-  [folderChooser setAccessoryView:folderChooserAccessoryView];
-  [folderChooser setPrompt:NSLocalizedString(@"Choose", nil)];
+    // Tell the poor user what this dialog does!
+    [folderChooser setTitle:NSLocalizedString(@"Choose LDraw Folder", nil)];
+    [folderChooser setMessage:NSLocalizedString(@"LDrawFolderChooserMessage", nil)];
+    [folderChooser setAccessoryView:folderChooserAccessoryView];
+    [folderChooser setPrompt:NSLocalizedString(@"Choose", nil)];
 
-  // Run the dialog.
-  if ([folderChooser runModal] == NSModalResponseOK) {
-    // Get the folder selected.
-    NSURL *folderURL = [[folderChooser URLs] objectAtIndex:0];
+    // Run the dialog.
+    if ([folderChooser runModal] == NSModalResponseOK) {
+        // Get the folder selected.
+        NSURL *folderURL = [[folderChooser URLs] objectAtIndex:0];
 
-    if ([folderURL isFileURL]) {
-      [self changeLDrawFolderPath:[folderURL path]];
+        if ([folderURL isFileURL]) {
+            [self changeLDrawFolderPath:[folderURL path]];
+        }
+        else {
+            NSBeep(); // sanity check
+        }
     }
-    else {
-      NSBeep(); // sanity check
-    }
-  }
 }// end chooseLDrawFolder:
 
 
@@ -461,9 +461,9 @@ PreferencesDialogController * preferencesDialog = nil;
 // ==============================================================================
 - (IBAction)pathTextFieldChanged:(id)sender
 {
-  NSString *newPath = [LDrawPathTextField stringValue];
+    NSString *newPath = [LDrawPathTextField stringValue];
 
-  [self changeLDrawFolderPath:newPath];
+    [self changeLDrawFolderPath:newPath];
 }// end pathTextFieldChanged:
 
 
@@ -477,9 +477,9 @@ PreferencesDialogController * preferencesDialog = nil;
 // ==============================================================================
 - (IBAction)reloadParts:(id)sender
 {
-  PartLibraryController *libraryController = [LDrawApplication sharedPartLibraryController];
+    PartLibraryController *libraryController = [LDrawApplication sharedPartLibraryController];
 
-  [libraryController reloadPartCatalog];
+    [libraryController reloadPartCatalog];
 }// end reloadParts:
 
 
@@ -494,14 +494,14 @@ PreferencesDialogController * preferencesDialog = nil;
 // ==============================================================================
 - (IBAction)backgroundColorWellChanged:(id)sender
 {
-  NSColor        *newColor     = [sender color];
-  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSColor        *newColor     = [sender color];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
-  [userDefaults setColor:newColor forKey:LDRAW_VIEWER_BACKGROUND_COLOR_KEY];
+    [userDefaults setColor:newColor forKey:LDRAW_VIEWER_BACKGROUND_COLOR_KEY];
 
-  [[NSNotificationCenter defaultCenter]
-   postNotificationName:LDrawViewBackgroundColorDidChangeNotification
-                 object:newColor];
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:LDrawViewBackgroundColorDidChangeNotification
+     object:newColor];
 }// end backgroundColorWellChanged:
 
 
@@ -512,14 +512,14 @@ PreferencesDialogController * preferencesDialog = nil;
 // ==============================================================================
 - (IBAction)modelsColorWellChanged:(id)sender
 {
-  NSColor        *newColor     = [sender color];
-  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSColor        *newColor     = [sender color];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
-  [userDefaults setColor:newColor forKey:SYNTAX_COLOR_MODELS_KEY];
+    [userDefaults setColor:newColor forKey:SYNTAX_COLOR_MODELS_KEY];
 
-  [[NSNotificationCenter defaultCenter]
-   postNotificationName:LDrawSyntaxColorsDidChangeNotification
-                 object:NSApp];
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:LDrawSyntaxColorsDidChangeNotification
+     object:NSApp];
 }// end modelsColorWellChanged:
 
 
@@ -530,14 +530,14 @@ PreferencesDialogController * preferencesDialog = nil;
 // ==============================================================================
 - (IBAction)stepsColorWellChanged:(id)sender
 {
-  NSColor        *newColor     = [sender color];
-  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSColor        *newColor     = [sender color];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
-  [userDefaults setColor:newColor forKey:SYNTAX_COLOR_STEPS_KEY];
+    [userDefaults setColor:newColor forKey:SYNTAX_COLOR_STEPS_KEY];
 
-  [[NSNotificationCenter defaultCenter]
-   postNotificationName:LDrawSyntaxColorsDidChangeNotification
-                 object:NSApp];
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:LDrawSyntaxColorsDidChangeNotification
+     object:NSApp];
 }// end stepsColorWellChanged:
 
 
@@ -548,14 +548,14 @@ PreferencesDialogController * preferencesDialog = nil;
 // ==============================================================================
 - (IBAction)partsColorWellChanged:(id)sender
 {
-  NSColor        *newColor     = [sender color];
-  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSColor        *newColor     = [sender color];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
-  [userDefaults setColor:newColor forKey:SYNTAX_COLOR_PARTS_KEY];
+    [userDefaults setColor:newColor forKey:SYNTAX_COLOR_PARTS_KEY];
 
-  [[NSNotificationCenter defaultCenter]
-   postNotificationName:LDrawSyntaxColorsDidChangeNotification
-                 object:NSApp];
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:LDrawSyntaxColorsDidChangeNotification
+     object:NSApp];
 }// end partsColorWellChanged:
 
 
@@ -566,14 +566,14 @@ PreferencesDialogController * preferencesDialog = nil;
 // ==============================================================================
 - (IBAction)primitivesColorWellChanged:(id)sender
 {
-  NSColor        *newColor     = [sender color];
-  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSColor        *newColor     = [sender color];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
-  [userDefaults setColor:newColor forKey:SYNTAX_COLOR_PRIMITIVES_KEY];
+    [userDefaults setColor:newColor forKey:SYNTAX_COLOR_PRIMITIVES_KEY];
 
-  [[NSNotificationCenter defaultCenter]
-   postNotificationName:LDrawSyntaxColorsDidChangeNotification
-                 object:NSApp];
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:LDrawSyntaxColorsDidChangeNotification
+     object:NSApp];
 }// end primitivesColorWellChanged:
 
 
@@ -584,14 +584,14 @@ PreferencesDialogController * preferencesDialog = nil;
 // ==============================================================================
 - (IBAction)colorsColorWellChanged:(id)sender
 {
-  NSColor        *newColor     = [sender color];
-  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSColor        *newColor     = [sender color];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
-  [userDefaults setColor:newColor forKey:SYNTAX_COLOR_COLORS_KEY];
+    [userDefaults setColor:newColor forKey:SYNTAX_COLOR_COLORS_KEY];
 
-  [[NSNotificationCenter defaultCenter]
-   postNotificationName:LDrawSyntaxColorsDidChangeNotification
-                 object:NSApp];
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:LDrawSyntaxColorsDidChangeNotification
+     object:NSApp];
 }// end colorsColorWellChanged:
 
 
@@ -602,14 +602,14 @@ PreferencesDialogController * preferencesDialog = nil;
 // ==============================================================================
 - (IBAction)commentsColorWellChanged:(id)sender
 {
-  NSColor        *newColor     = [sender color];
-  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSColor        *newColor     = [sender color];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
-  [userDefaults setColor:newColor forKey:SYNTAX_COLOR_COMMENTS_KEY];
+    [userDefaults setColor:newColor forKey:SYNTAX_COLOR_COMMENTS_KEY];
 
-  [[NSNotificationCenter defaultCenter]
-   postNotificationName:LDrawSyntaxColorsDidChangeNotification
-                 object:NSApp];
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:LDrawSyntaxColorsDidChangeNotification
+     object:NSApp];
 }// end commentsColorWellChanged:
 
 
@@ -620,14 +620,14 @@ PreferencesDialogController * preferencesDialog = nil;
 // ==============================================================================
 - (IBAction)unknownColorWellChanged:(id)sender
 {
-  NSColor        *newColor     = [sender color];
-  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSColor        *newColor     = [sender color];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
-  [userDefaults setColor:newColor forKey:SYNTAX_COLOR_UNKNOWN_KEY];
+    [userDefaults setColor:newColor forKey:SYNTAX_COLOR_UNKNOWN_KEY];
 
-  [[NSNotificationCenter defaultCenter]
-   postNotificationName:LDrawSyntaxColorsDidChangeNotification
-                 object:NSApp];
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:LDrawSyntaxColorsDidChangeNotification
+     object:NSApp];
 }// end unknownColorWellChanged:
 
 
@@ -641,34 +641,34 @@ PreferencesDialogController * preferencesDialog = nil;
 // ==============================================================================
 - (IBAction)lsynthChooseExecutable:(id)sender
 {
-  // Create a standard "Choose" dialog.
-  NSOpenPanel *lsynthExecutableChooser = [NSOpenPanel openPanel];
+    // Create a standard "Choose" dialog.
+    NSOpenPanel *lsynthExecutableChooser = [NSOpenPanel openPanel];
 
-  [lsynthExecutableChooser setCanChooseFiles:YES];
-  [lsynthExecutableChooser setCanChooseDirectories:NO];
+    [lsynthExecutableChooser setCanChooseFiles:YES];
+    [lsynthExecutableChooser setCanChooseDirectories:NO];
 
-  // Tell the poor user what this dialog does!
-  [lsynthExecutableChooser setTitle:NSLocalizedString(@"Choose an LSynth executable", nil)];
-  [lsynthExecutableChooser setMessage:NSLocalizedString(@"lsynthExecutableChooserMessage", nil)];
-  [lsynthExecutableChooser setAccessoryView:lsynthExecutableChooserAccessoryView];
-  [lsynthExecutableChooser setPrompt:NSLocalizedString(@"Choose", nil)];
+    // Tell the poor user what this dialog does!
+    [lsynthExecutableChooser setTitle:NSLocalizedString(@"Choose an LSynth executable", nil)];
+    [lsynthExecutableChooser setMessage:NSLocalizedString(@"lsynthExecutableChooserMessage", nil)];
+    [lsynthExecutableChooser setAccessoryView:lsynthExecutableChooserAccessoryView];
+    [lsynthExecutableChooser setPrompt:NSLocalizedString(@"Choose", nil)];
 
-  // Run the dialog.
-  if ([lsynthExecutableChooser runModal] == NSModalResponseOK) {
-    // Get the file selected.
-    NSURL *lsynthExecutableURL = [[lsynthExecutableChooser URLs] objectAtIndex:0];
+    // Run the dialog.
+    if ([lsynthExecutableChooser runModal] == NSModalResponseOK) {
+        // Get the file selected.
+        NSURL *lsynthExecutableURL = [[lsynthExecutableChooser URLs] objectAtIndex:0];
 
-    // TODO: validation?
-    if ([lsynthExecutableURL isFileURL]) {
-      [lsynthExecutablePath setStringValue:[lsynthExecutableURL path]];
-      NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-      [userDefaults setObject:[lsynthExecutableURL path]
-                       forKey:LSYNTH_EXECUTABLE_PATH_KEY];
+        // TODO: validation?
+        if ([lsynthExecutableURL isFileURL]) {
+            [lsynthExecutablePath setStringValue:[lsynthExecutableURL path]];
+            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+            [userDefaults setObject:[lsynthExecutableURL path]
+             forKey:LSYNTH_EXECUTABLE_PATH_KEY];
+        }
+        else {
+            NSBeep(); // sanity check
+        }
     }
-    else {
-      NSBeep();       // sanity check
-    }
-  }
 } // end lsynthChooseExecutable:
 
 
@@ -679,41 +679,41 @@ PreferencesDialogController * preferencesDialog = nil;
 // ==============================================================================
 - (IBAction)lsynthChooseConfiguration:(id)sender
 {
-  NSUserDefaults *userDefaults         = [NSUserDefaults standardUserDefaults];
-  NSString       *currentConfiguration = [userDefaults stringForKey:LSYNTH_CONFIGURATION_PATH_KEY];
+    NSUserDefaults *userDefaults         = [NSUserDefaults standardUserDefaults];
+    NSString       *currentConfiguration = [userDefaults stringForKey:LSYNTH_CONFIGURATION_PATH_KEY];
 
-  // Create a standard "Choose" dialog.
-  NSOpenPanel *lsynthConfigurationChooser = [NSOpenPanel openPanel];
+    // Create a standard "Choose" dialog.
+    NSOpenPanel *lsynthConfigurationChooser = [NSOpenPanel openPanel];
 
-  [lsynthConfigurationChooser setCanChooseFiles:YES];
-  [lsynthConfigurationChooser setCanChooseDirectories:NO];
+    [lsynthConfigurationChooser setCanChooseFiles:YES];
+    [lsynthConfigurationChooser setCanChooseDirectories:NO];
 
-  // Tell the poor user what this dialog does!
-  [lsynthConfigurationChooser setTitle:NSLocalizedString(@"Choose an LSynth configuration file", nil)];
-  [lsynthConfigurationChooser setMessage:NSLocalizedString(@"lsynthConfigurationChooserMessage", nil)];
-  [lsynthConfigurationChooser setAccessoryView:lsynthConfigurationChooserAccessoryView];
-  [lsynthConfigurationChooser setPrompt:NSLocalizedString(@"Choose", nil)];
+    // Tell the poor user what this dialog does!
+    [lsynthConfigurationChooser setTitle:NSLocalizedString(@"Choose an LSynth configuration file", nil)];
+    [lsynthConfigurationChooser setMessage:NSLocalizedString(@"lsynthConfigurationChooserMessage", nil)];
+    [lsynthConfigurationChooser setAccessoryView:lsynthConfigurationChooserAccessoryView];
+    [lsynthConfigurationChooser setPrompt:NSLocalizedString(@"Choose", nil)];
 
-  // Run the dialog.
-  if ([lsynthConfigurationChooser runModal] == NSModalResponseOK) {
-    // Get the file selected.
-    NSURL *lsynthConfigurationURL = [[lsynthConfigurationChooser URLs] objectAtIndex:0];
+    // Run the dialog.
+    if ([lsynthConfigurationChooser runModal] == NSModalResponseOK) {
+        // Get the file selected.
+        NSURL *lsynthConfigurationURL = [[lsynthConfigurationChooser URLs] objectAtIndex:0];
 
-    // TODO: validation?
-    if ([lsynthConfigurationURL isFileURL]) {
-      [lsynthConfigurationPath setStringValue:[lsynthConfigurationURL path]];
-      [userDefaults setObject:[lsynthConfigurationURL path]
-                       forKey:LSYNTH_CONFIGURATION_PATH_KEY];
+        // TODO: validation?
+        if ([lsynthConfigurationURL isFileURL]) {
+            [lsynthConfigurationPath setStringValue:[lsynthConfigurationURL path]];
+            [userDefaults setObject:[lsynthConfigurationURL path]
+             forKey:LSYNTH_CONFIGURATION_PATH_KEY];
 
-      // reload config if changed
-      if ([currentConfiguration isEqualToString:[lsynthConfigurationURL path]]) {
-        [[LSynthConfiguration sharedInstance] parseLsynthConfig:[lsynthConfigurationURL path]];
-      }
+            // reload config if changed
+            if ([currentConfiguration isEqualToString:[lsynthConfigurationURL path]]) {
+                [[LSynthConfiguration sharedInstance] parseLsynthConfig:[lsynthConfigurationURL path]];
+            }
+        }
+        else {
+            NSBeep(); // sanity check
+        }
     }
-    else {
-      NSBeep();       // sanity check
-    }
-  }
 } // end lsynthChooseConfiguration:
 
 
@@ -724,12 +724,12 @@ PreferencesDialogController * preferencesDialog = nil;
 // ==============================================================================
 - (IBAction)lsynthTransparencySliderChanged:(id)sender
 {
-  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
-  [userDefaults setInteger:[sender integerValue]
-                    forKey:LSYNTH_SELECTION_TRANSPARENCY_KEY];
-  [lsynthTransparencyText setIntegerValue:[sender integerValue]];
-  [self lsynthRequiresRedisplay];
+    [userDefaults setInteger:[sender integerValue]
+     forKey:LSYNTH_SELECTION_TRANSPARENCY_KEY];
+    [lsynthTransparencyText setIntegerValue:[sender integerValue]];
+    [self lsynthRequiresRedisplay];
 } // end lsynthTransparencySliderChanged:
 
 
@@ -740,12 +740,12 @@ PreferencesDialogController * preferencesDialog = nil;
 // ==============================================================================
 - (IBAction)lsynthTransparencyTextChanged:(id)sender
 {
-  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
-  [userDefaults setInteger:[sender integerValue]
-                    forKey:LSYNTH_SELECTION_TRANSPARENCY_KEY];
-  [lsynthTransparencySlider setIntegerValue:[sender integerValue]];
-  [self lsynthRequiresRedisplay];
+    [userDefaults setInteger:[sender integerValue]
+     forKey:LSYNTH_SELECTION_TRANSPARENCY_KEY];
+    [lsynthTransparencySlider setIntegerValue:[sender integerValue]];
+    [self lsynthRequiresRedisplay];
 } // end lsynthTransparencyTextChanged:
 
 
@@ -756,12 +756,12 @@ PreferencesDialogController * preferencesDialog = nil;
 // ==============================================================================
 - (IBAction)lsynthSelectionColorWellClicked:(id)sender
 {
-  NSColor        *newColor     = [sender color];
-  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSColor        *newColor     = [sender color];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
-  [userDefaults setColor:newColor
-                  forKey:LSYNTH_SELECTION_COLOR_KEY];
-  [self lsynthRequiresRedisplay];
+    [userDefaults setColor:newColor
+     forKey:LSYNTH_SELECTION_COLOR_KEY];
+    [self lsynthRequiresRedisplay];
 } // end lsynthSelectionColorWellClicked:
 
 
@@ -772,13 +772,13 @@ PreferencesDialogController * preferencesDialog = nil;
 // ==============================================================================
 - (IBAction)lsynthSelectionModeChanged:(id)sender
 {
-  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
-  [userDefaults setInteger:[[sender selectedCell] tag]
-                    forKey:LSYNTH_SELECTION_MODE_KEY];
+    [userDefaults setInteger:[[sender selectedCell] tag]
+     forKey:LSYNTH_SELECTION_MODE_KEY];
 
-  [self setLSynthTabValues];
-  [self lsynthRequiresRedisplay];
+    [self setLSynthTabValues];
+    [self lsynthRequiresRedisplay];
 } // end lsynthSelectionModeChanged:
 
 
@@ -788,10 +788,10 @@ PreferencesDialogController * preferencesDialog = nil;
 //
 // ==============================================================================
 - (IBAction)lsynthSaveSynthesizedPartsChanged:(id)sender {
-  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
-  [userDefaults setBool:[lsynthSaveSynthesizedParts state]
-                 forKey:LSYNTH_SAVE_SYNTHESIZED_PARTS_KEY];
+    [userDefaults setBool:[lsynthSaveSynthesizedParts state]
+     forKey:LSYNTH_SAVE_SYNTHESIZED_PARTS_KEY];
 } // end lsynthSaveSynthesizedPartsChanged:
 
 
@@ -801,13 +801,13 @@ PreferencesDialogController * preferencesDialog = nil;
 //
 // ==============================================================================
 - (IBAction)lsynthShowBasicPartsListChanged:(id)sender {
-  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
-  [userDefaults setBool:[lsynthShowBasicPartsList state]
-                 forKey:LSYNTH_SHOW_BASIC_PARTS_LIST_KEY];
+    [userDefaults setBool:[lsynthShowBasicPartsList state]
+     forKey:LSYNTH_SHOW_BASIC_PARTS_LIST_KEY];
 
-  // Regenerate LSynth part menus
-  [[LDrawApplication shared] populateLSynthModelMenus];
+    // Regenerate LSynth part menus
+    [[LDrawApplication shared] populateLSynthModelMenus];
 } // end lsynthShowBasicPartsListChanged:
 
 
@@ -820,9 +820,9 @@ PreferencesDialogController * preferencesDialog = nil;
 // ==============================================================================
 - (void)lsynthRequiresRedisplay
 {
-  [[NSNotificationCenter defaultCenter]
-   postNotificationName:LSynthSelectionDisplayDidChangeNotification
-                 object:NSApp];
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:LSynthSelectionDisplayDidChangeNotification
+     object:NSApp];
 } // end lsynthRequiresRedisplay
 
 
@@ -834,9 +834,9 @@ PreferencesDialogController * preferencesDialog = nil;
 // ==============================================================================
 - (void)lsynthRequiresResynthesis
 {
-  [[NSNotificationCenter defaultCenter]
-   postNotificationName:LSynthResynthesisRequiredNotification
-                 object:NSApp];
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:LSynthResynthesisRequiredNotification
+     object:NSApp];
 } // end lsynthRequiresResynthesis
 
 
@@ -852,12 +852,12 @@ PreferencesDialogController * preferencesDialog = nil;
 // ==============================================================================
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar
 {
-  return([NSArray arrayWithObjects:
-          PREFS_GENERAL_TAB_IDENTIFIER,
-          PREFS_LDRAW_TAB_IDENTIFIER,
-          PREFS_STYLE_TAB_IDENTIFIER,
-          PREFS_LSYNTH_TAB_IDENTIFIER,
-          nil]);
+    return([NSArray arrayWithObjects:
+            PREFS_GENERAL_TAB_IDENTIFIER,
+            PREFS_LDRAW_TAB_IDENTIFIER,
+            PREFS_STYLE_TAB_IDENTIFIER,
+            PREFS_LSYNTH_TAB_IDENTIFIER,
+            nil]);
 }// end toolbarAllowedItemIdentifiers:
 
 
@@ -869,7 +869,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // ==============================================================================
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar
 {
-  return([self toolbarAllowedItemIdentifiers:toolbar]);
+    return([self toolbarAllowedItemIdentifiers:toolbar]);
 }// end toolbarDefaultItemIdentifiers:
 
 
@@ -881,7 +881,7 @@ PreferencesDialogController * preferencesDialog = nil;
 // ==============================================================================
 - (NSArray *)toolbarSelectableItemIdentifiers:(NSToolbar *)toolbar
 {
-  return([self toolbarAllowedItemIdentifiers:toolbar]);
+    return([self toolbarAllowedItemIdentifiers:toolbar]);
 }// end toolbarSelectableItemIdentifiers:
 
 
@@ -892,30 +892,30 @@ PreferencesDialogController * preferencesDialog = nil;
 //
 // ==============================================================================
 - (NSToolbarItem *)toolbar:(NSToolbar *)toolbar
-  itemForItemIdentifier:(NSString *)itemIdentifier
-  willBeInsertedIntoToolbar:(BOOL)flag
+    itemForItemIdentifier:(NSString *)itemIdentifier
+    willBeInsertedIntoToolbar:(BOOL)flag
 {
-  NSToolbarItem *newItem = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
+    NSToolbarItem *newItem = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
 
-  [newItem setLabel:NSLocalizedString(itemIdentifier, nil)];
+    [newItem setLabel:NSLocalizedString(itemIdentifier, nil)];
 
-  if ([itemIdentifier isEqualToString:PREFS_GENERAL_TAB_IDENTIFIER]) {
-    [newItem setImage:[NSImage imageNamed:NSImageNamePreferencesGeneral]];
-  }
-  else if ([itemIdentifier isEqualToString:PREFS_LDRAW_TAB_IDENTIFIER]) {
-    [newItem setImage:[NSImage imageNamed:@"LDrawLogo"]];
-  }
-  else if ([itemIdentifier isEqualToString:PREFS_STYLE_TAB_IDENTIFIER]) {
-    [newItem setImage:[NSImage imageNamed:@"SyntaxColoring"]];
-  }
-  else if ([itemIdentifier isEqualToString:PREFS_LSYNTH_TAB_IDENTIFIER]) {
-    [newItem setImage:[NSImage imageNamed:@"LSynthIcon"]];
-  }
+    if ([itemIdentifier isEqualToString:PREFS_GENERAL_TAB_IDENTIFIER]) {
+        [newItem setImage:[NSImage imageNamed:NSImageNamePreferencesGeneral]];
+    }
+    else if ([itemIdentifier isEqualToString:PREFS_LDRAW_TAB_IDENTIFIER]) {
+        [newItem setImage:[NSImage imageNamed:@"LDrawLogo"]];
+    }
+    else if ([itemIdentifier isEqualToString:PREFS_STYLE_TAB_IDENTIFIER]) {
+        [newItem setImage:[NSImage imageNamed:@"SyntaxColoring"]];
+    }
+    else if ([itemIdentifier isEqualToString:PREFS_LSYNTH_TAB_IDENTIFIER]) {
+        [newItem setImage:[NSImage imageNamed:@"LSynthIcon"]];
+    }
 
-  [newItem setTarget:self];
-  [newItem setAction:@selector(changeTab:)];
+    [newItem setTarget:self];
+    [newItem setAction:@selector(changeTab:)];
 
-  return([newItem autorelease]);
+    return([newItem autorelease]);
 }// end toolbar:itemForItemIdentifier:willBeInsertedIntoToolbar:
 
 
@@ -931,21 +931,21 @@ PreferencesDialogController * preferencesDialog = nil;
 // ==============================================================================
 - (BOOL)windowShouldClose:(id)sender
 {
-  // Save out the last tab view.
-  NSUserDefaults *userDefaults   = [NSUserDefaults standardUserDefaults];
-  NSString       *lastIdentifier = [[preferencesWindow toolbar] selectedItemIdentifier];
+    // Save out the last tab view.
+    NSUserDefaults *userDefaults   = [NSUserDefaults standardUserDefaults];
+    NSString       *lastIdentifier = [[preferencesWindow toolbar] selectedItemIdentifier];
 
-  [userDefaults setObject:lastIdentifier
-                   forKey:PREFERENCES_LAST_TAB_DISPLAYED];
+    [userDefaults setObject:lastIdentifier
+     forKey:PREFERENCES_LAST_TAB_DISPLAYED];
 
-  // Cocoa autosaving doesn't necessarily get restored when we need it to, so
-  // we have to track in manually.
-  [self->preferencesWindow saveFrameUsingName:PREFERENCES_WINDOW_AUTOSAVE_NAME];
+    // Cocoa autosaving doesn't necessarily get restored when we need it to, so
+    // we have to track in manually.
+    [self->preferencesWindow saveFrameUsingName:PREFERENCES_WINDOW_AUTOSAVE_NAME];
 
-  // Make sure our memory is all released.
-  [preferencesDialog autorelease];
+    // Make sure our memory is all released.
+    [preferencesDialog autorelease];
 
-  return(YES);
+    return(YES);
 }// end windowShouldClose:
 
 
@@ -966,214 +966,214 @@ PreferencesDialogController * preferencesDialog = nil;
 // ------------------------------------------------------------------------------
 + (void)ensureDefaults
 {
-  NSUserDefaults      *userDefaults    = [NSUserDefaults standardUserDefaults];
-  NSMutableDictionary *initialDefaults = [NSMutableDictionary dictionary];
+    NSUserDefaults      *userDefaults    = [NSUserDefaults standardUserDefaults];
+    NSMutableDictionary *initialDefaults = [NSMutableDictionary dictionary];
 
-  NSColor *backgroundColor = [NSColor controlBackgroundColor];
-  NSColor *modelsColor     = [NSColor textColor];
-  NSColor *stepsColor      = [NSColor textColor];
-  NSColor *partsColor      = [NSColor textColor];
-  NSColor *primitivesColor = [NSColor systemBlueColor];
-  NSColor *colorsColor     = [NSColor colorWithDeviceRed:0. / 255
-                                                   green:128. / 255
-                                                    blue:128. / 255
-                                                   alpha:1.0];
-  NSColor *commentsColor = [NSColor colorWithDeviceRed:35. / 255
-                                                 green:110. / 255
-                                                  blue:37. / 255
-                                                 alpha:1.0];
-  NSColor *unknownColor = [NSColor lightGrayColor];
+    NSColor *backgroundColor = [NSColor controlBackgroundColor];
+    NSColor *modelsColor     = [NSColor textColor];
+    NSColor *stepsColor      = [NSColor textColor];
+    NSColor *partsColor      = [NSColor textColor];
+    NSColor *primitivesColor = [NSColor systemBlueColor];
+    NSColor *colorsColor     = [NSColor colorWithDeviceRed:0. / 255
+                                green:128. / 255
+                                blue:128. / 255
+                                alpha:1.0];
+    NSColor *commentsColor = [NSColor colorWithDeviceRed:35. / 255
+                              green:110. / 255
+                              blue:37. / 255
+                              alpha:1.0];
+    NSColor *unknownColor = [NSColor lightGrayColor];
 
-  //
-  // General
-  //
-  [initialDefaults setObject:[NSNumber numberWithInteger:PartBrowserShowAsPanel]
-                      forKey:PART_BROWSER_STYLE_KEY];
-  [initialDefaults setObject:[NSNumber numberWithInteger:MouseDraggingBeginImmediately]
-                      forKey:MOUSE_DRAGGING_BEHAVIOR_KEY];
+    //
+    // General
+    //
+    [initialDefaults setObject:[NSNumber numberWithInteger:PartBrowserShowAsPanel]
+     forKey:PART_BROWSER_STYLE_KEY];
+    [initialDefaults setObject:[NSNumber numberWithInteger:MouseDraggingBeginImmediately]
+     forKey:MOUSE_DRAGGING_BEHAVIOR_KEY];
 
-  [initialDefaults setObject:[NSNumber numberWithInteger:RightButtonContextual]
-                      forKey:RIGHT_BUTTON_BEHAVIOR_KEY];
-  [initialDefaults setObject:[NSNumber numberWithInteger:RotateModeTrackball]
-                      forKey:ROTATE_MODE_KEY];
-  [initialDefaults setObject:[NSNumber numberWithInteger:MouseWheelScrolls]
-                      forKey:MOUSE_WHEEL_BEHAVIOR_KEY];
-  [initialDefaults setObject:[NSNumber numberWithBool:YES] forKey:SHOW_AXIS_LINES_KEY];
+    [initialDefaults setObject:[NSNumber numberWithInteger:RightButtonContextual]
+     forKey:RIGHT_BUTTON_BEHAVIOR_KEY];
+    [initialDefaults setObject:[NSNumber numberWithInteger:RotateModeTrackball]
+     forKey:ROTATE_MODE_KEY];
+    [initialDefaults setObject:[NSNumber numberWithInteger:MouseWheelScrolls]
+     forKey:MOUSE_WHEEL_BEHAVIOR_KEY];
+    [initialDefaults setObject:[NSNumber numberWithBool:YES] forKey:SHOW_AXIS_LINES_KEY];
 
-  [initialDefaults setObject:[NSNumber numberWithInteger:NSDrawerClosedState]
-                      forKey:PART_BROWSER_DRAWER_STATE];
-  [initialDefaults setObject:(id)kCFBooleanTrue forKey:PART_BROWSER_PANEL_SHOW_AT_LAUNCH];
+    [initialDefaults setObject:[NSNumber numberWithInteger:NSDrawerClosedState]
+     forKey:PART_BROWSER_DRAWER_STATE];
+    [initialDefaults setObject:(id)kCFBooleanTrue forKey:PART_BROWSER_PANEL_SHOW_AT_LAUNCH];
 
-  [initialDefaults setObject:(id)kCFBooleanTrue forKey:VIEWPORTS_EXPAND_TO_AVAILABLE_SIZE];
-  [initialDefaults setObject:(id)kCFBooleanFalse forKey:COLUMNIZE_OUTPUT_KEY];
+    [initialDefaults setObject:(id)kCFBooleanTrue forKey:VIEWPORTS_EXPAND_TO_AVAILABLE_SIZE];
+    [initialDefaults setObject:(id)kCFBooleanFalse forKey:COLUMNIZE_OUTPUT_KEY];
 
-  //
-  // Syntax Colors
-  //
-  [initialDefaults setObject:[NSArchiver archivedDataWithRootObject:backgroundColor]
-                      forKey:LDRAW_VIEWER_BACKGROUND_COLOR_KEY];
-  [initialDefaults setObject:[NSArchiver archivedDataWithRootObject:modelsColor]
-                      forKey:SYNTAX_COLOR_MODELS_KEY];
-  [initialDefaults setObject:[NSArchiver archivedDataWithRootObject:stepsColor]
-                      forKey:SYNTAX_COLOR_STEPS_KEY];
-  [initialDefaults setObject:[NSArchiver archivedDataWithRootObject:partsColor]
-                      forKey:SYNTAX_COLOR_PARTS_KEY];
-  [initialDefaults setObject:[NSArchiver archivedDataWithRootObject:primitivesColor]
-                      forKey:SYNTAX_COLOR_PRIMITIVES_KEY];
-  [initialDefaults setObject:[NSArchiver archivedDataWithRootObject:commentsColor]
-                      forKey:SYNTAX_COLOR_COMMENTS_KEY];
-  [initialDefaults setObject:[NSArchiver archivedDataWithRootObject:colorsColor]
-                      forKey:SYNTAX_COLOR_COLORS_KEY];
-  [initialDefaults setObject:[NSArchiver archivedDataWithRootObject:unknownColor]
-                      forKey:SYNTAX_COLOR_UNKNOWN_KEY];
+    //
+    // Syntax Colors
+    //
+    [initialDefaults setObject:[NSArchiver archivedDataWithRootObject:backgroundColor]
+     forKey:LDRAW_VIEWER_BACKGROUND_COLOR_KEY];
+    [initialDefaults setObject:[NSArchiver archivedDataWithRootObject:modelsColor]
+     forKey:SYNTAX_COLOR_MODELS_KEY];
+    [initialDefaults setObject:[NSArchiver archivedDataWithRootObject:stepsColor]
+     forKey:SYNTAX_COLOR_STEPS_KEY];
+    [initialDefaults setObject:[NSArchiver archivedDataWithRootObject:partsColor]
+     forKey:SYNTAX_COLOR_PARTS_KEY];
+    [initialDefaults setObject:[NSArchiver archivedDataWithRootObject:primitivesColor]
+     forKey:SYNTAX_COLOR_PRIMITIVES_KEY];
+    [initialDefaults setObject:[NSArchiver archivedDataWithRootObject:commentsColor]
+     forKey:SYNTAX_COLOR_COMMENTS_KEY];
+    [initialDefaults setObject:[NSArchiver archivedDataWithRootObject:colorsColor]
+     forKey:SYNTAX_COLOR_COLORS_KEY];
+    [initialDefaults setObject:[NSArchiver archivedDataWithRootObject:unknownColor]
+     forKey:SYNTAX_COLOR_UNKNOWN_KEY];
 
-  //
-  // Grid Spacing
-  //
-  [initialDefaults setObject:[NSNumber numberWithFloat:1] forKey:GRID_SPACING_FINE];
-  [initialDefaults setObject:[NSNumber numberWithFloat:10] forKey:GRID_SPACING_MEDIUM];
-  [initialDefaults setObject:[NSNumber numberWithFloat:20] forKey:GRID_SPACING_COARSE];
+    //
+    // Grid Spacing
+    //
+    [initialDefaults setObject:[NSNumber numberWithFloat:1] forKey:GRID_SPACING_FINE];
+    [initialDefaults setObject:[NSNumber numberWithFloat:10] forKey:GRID_SPACING_MEDIUM];
+    [initialDefaults setObject:[NSNumber numberWithFloat:20] forKey:GRID_SPACING_COARSE];
 
-  //
-  // Initial Window State
-  //
-  // OpenGL viewer settings -- see -restoreConfiguration in LDrawGLView.
-  [initialDefaults setObject:[NSNumber numberWithInteger:ViewOrientation3D]
-                      forKey:[LDRAW_GL_VIEW_ANGLE stringByAppendingString:@" fileGraphicView_0"]];
-  [initialDefaults setObject:[NSNumber numberWithInteger:ProjectionModePerspective]
-                      forKey:[LDRAW_GL_VIEW_PROJECTION stringByAppendingString:@" fileGraphicView_0"]];
+    //
+    // Initial Window State
+    //
+    // OpenGL viewer settings -- see -restoreConfiguration in LDrawGLView.
+    [initialDefaults setObject:[NSNumber numberWithInteger:ViewOrientation3D]
+     forKey:[LDRAW_GL_VIEW_ANGLE stringByAppendingString:@" fileGraphicView_0"]];
+    [initialDefaults setObject:[NSNumber numberWithInteger:ProjectionModePerspective]
+     forKey:[LDRAW_GL_VIEW_PROJECTION stringByAppendingString:@" fileGraphicView_0"]];
 
-  [initialDefaults setObject:[NSNumber numberWithInteger:ViewOrientationFront]
-                      forKey:[LDRAW_GL_VIEW_ANGLE stringByAppendingString:@" fileGraphicView_1"]];
-  [initialDefaults setObject:[NSNumber numberWithInteger:ProjectionModeOrthographic]
-                      forKey:[LDRAW_GL_VIEW_PROJECTION stringByAppendingString:@" fileGraphicView_1"]];
+    [initialDefaults setObject:[NSNumber numberWithInteger:ViewOrientationFront]
+     forKey:[LDRAW_GL_VIEW_ANGLE stringByAppendingString:@" fileGraphicView_1"]];
+    [initialDefaults setObject:[NSNumber numberWithInteger:ProjectionModeOrthographic]
+     forKey:[LDRAW_GL_VIEW_PROJECTION stringByAppendingString:@" fileGraphicView_1"]];
 
-  [initialDefaults setObject:[NSNumber numberWithInteger:ViewOrientationLeft]
-                      forKey:[LDRAW_GL_VIEW_ANGLE stringByAppendingString:@" fileGraphicView_2"]];
-  [initialDefaults setObject:[NSNumber numberWithInteger:ProjectionModeOrthographic]
-                      forKey:[LDRAW_GL_VIEW_PROJECTION stringByAppendingString:@" fileGraphicView_2"]];
+    [initialDefaults setObject:[NSNumber numberWithInteger:ViewOrientationLeft]
+     forKey:[LDRAW_GL_VIEW_ANGLE stringByAppendingString:@" fileGraphicView_2"]];
+    [initialDefaults setObject:[NSNumber numberWithInteger:ProjectionModeOrthographic]
+     forKey:[LDRAW_GL_VIEW_PROJECTION stringByAppendingString:@" fileGraphicView_2"]];
 
-  [initialDefaults setObject:[NSNumber numberWithInteger:ViewOrientationTop]
-                      forKey:[LDRAW_GL_VIEW_ANGLE stringByAppendingString:@" fileGraphicView_3"]];
-  [initialDefaults setObject:[NSNumber numberWithInteger:ProjectionModeOrthographic]
-                      forKey:[LDRAW_GL_VIEW_PROJECTION stringByAppendingString:@" fileGraphicView_3"]];
+    [initialDefaults setObject:[NSNumber numberWithInteger:ViewOrientationTop]
+     forKey:[LDRAW_GL_VIEW_ANGLE stringByAppendingString:@" fileGraphicView_3"]];
+    [initialDefaults setObject:[NSNumber numberWithInteger:ProjectionModeOrthographic]
+     forKey:[LDRAW_GL_VIEW_PROJECTION stringByAppendingString:@" fileGraphicView_3"]];
 
-  //
-  // Part Browser
-  //
-  [initialDefaults setObject:[NSNumber numberWithInteger:SearchModeAllCategories]
-                      forKey:PART_BROWSER_SEARCH_MODE];
-  [initialDefaults setObject:NSLocalizedString(@"Brick", nil) forKey:PART_BROWSER_PREVIOUS_CATEGORY];
-  [initialDefaults setObject:[NSNumber numberWithInteger:0] forKey:PART_BROWSER_PREVIOUS_SELECTED_ROW];
-  [initialDefaults setObject:[NSArray array] forKey:FAVORITE_PARTS_KEY];
+    //
+    // Part Browser
+    //
+    [initialDefaults setObject:[NSNumber numberWithInteger:SearchModeAllCategories]
+     forKey:PART_BROWSER_SEARCH_MODE];
+    [initialDefaults setObject:NSLocalizedString(@"Brick", nil) forKey:PART_BROWSER_PREVIOUS_CATEGORY];
+    [initialDefaults setObject:[NSNumber numberWithInteger:0] forKey:PART_BROWSER_PREVIOUS_SELECTED_ROW];
+    [initialDefaults setObject:[NSArray array] forKey:FAVORITE_PARTS_KEY];
 
-  //
-  // Favorite colours
-  //
-  [initialDefaults setObject:[NSArray array] forKey:FAVORITE_COLORS_KEY];
-  [initialDefaults setObject:[NSNumber numberWithInteger:0] forKey:COLOR_PICKER_CATEGORY_KEY];
+    //
+    // Favorite colours
+    //
+    [initialDefaults setObject:[NSArray array] forKey:FAVORITE_COLORS_KEY];
+    [initialDefaults setObject:[NSNumber numberWithInteger:0] forKey:COLOR_PICKER_CATEGORY_KEY];
 
-  //
-  // Tool Palette
-  //
-  [initialDefaults setObject:[NSNumber numberWithBool:NO] forKey:TOOL_PALETTE_HIDDEN];
+    //
+    // Tool Palette
+    //
+    [initialDefaults setObject:[NSNumber numberWithBool:NO] forKey:TOOL_PALETTE_HIDDEN];
 
-  //
-  // LSynth Palette
-  //
-  NSColor *lsynthSelectionColor = [NSColor systemRedColor];
+    //
+    // LSynth Palette
+    //
+    NSColor *lsynthSelectionColor = [NSColor systemRedColor];
 
-  [initialDefaults setObject:@"" forKey:LSYNTH_EXECUTABLE_PATH_KEY];
-  [initialDefaults setObject:@"" forKey:LSYNTH_CONFIGURATION_PATH_KEY];
-  [initialDefaults setObject:[NSNumber numberWithInt:20] forKey:LSYNTH_SELECTION_TRANSPARENCY_KEY];
-  [initialDefaults setObject:[NSNumber numberWithInt:0] forKey:LSYNTH_SELECTION_MODE_KEY];
-  [initialDefaults setObject:[NSArchiver archivedDataWithRootObject:lsynthSelectionColor]
-                      forKey:LSYNTH_SELECTION_COLOR_KEY];
-  [initialDefaults setObject:[NSNumber numberWithBool:YES] forKey:LSYNTH_SAVE_SYNTHESIZED_PARTS_KEY];
-  [initialDefaults setObject:[NSNumber numberWithBool:YES] forKey:LSYNTH_SHOW_BASIC_PARTS_LIST_KEY];
+    [initialDefaults setObject:@"" forKey:LSYNTH_EXECUTABLE_PATH_KEY];
+    [initialDefaults setObject:@"" forKey:LSYNTH_CONFIGURATION_PATH_KEY];
+    [initialDefaults setObject:[NSNumber numberWithInt:20] forKey:LSYNTH_SELECTION_TRANSPARENCY_KEY];
+    [initialDefaults setObject:[NSNumber numberWithInt:0] forKey:LSYNTH_SELECTION_MODE_KEY];
+    [initialDefaults setObject:[NSArchiver archivedDataWithRootObject:lsynthSelectionColor]
+     forKey:LSYNTH_SELECTION_COLOR_KEY];
+    [initialDefaults setObject:[NSNumber numberWithBool:YES] forKey:LSYNTH_SAVE_SYNTHESIZED_PARTS_KEY];
+    [initialDefaults setObject:[NSNumber numberWithBool:YES] forKey:LSYNTH_SHOW_BASIC_PARTS_LIST_KEY];
 
-  //
-  // Minifigure Generator
-  //
-  [initialDefaults setObject:[NSNumber numberWithBool:YES] forKey:MINIFIGURE_HAS_HAT];
-  [initialDefaults setObject:[NSNumber numberWithBool:YES] forKey:MINIFIGURE_HAS_HEAD];
-  [initialDefaults setObject:[NSNumber numberWithBool:NO] forKey:MINIFIGURE_HAS_NECK];
-  [initialDefaults setObject:[NSNumber numberWithBool:YES] forKey:MINIFIGURE_HAS_TORSO];
-  [initialDefaults setObject:[NSNumber numberWithBool:YES] forKey:MINIFIGURE_HAS_ARM_RIGHT];
-  [initialDefaults setObject:[NSNumber numberWithBool:YES] forKey:MINIFIGURE_HAS_ARM_LEFT];
-  [initialDefaults setObject:[NSNumber numberWithBool:YES] forKey:MINIFIGURE_HAS_HAND_RIGHT];
-  [initialDefaults setObject:[NSNumber numberWithBool:NO] forKey:MINIFIGURE_HAS_HAND_RIGHT_ACCESSORY];
-  [initialDefaults setObject:[NSNumber numberWithBool:YES] forKey:MINIFIGURE_HAS_HAND_LEFT];
-  [initialDefaults setObject:[NSNumber numberWithBool:NO] forKey:MINIFIGURE_HAS_HAND_LEFT_ACCESSORY];
-  [initialDefaults setObject:[NSNumber numberWithBool:YES] forKey:MINIFIGURE_HAS_HIPS];
-  [initialDefaults setObject:[NSNumber numberWithBool:YES] forKey:MINIFIGURE_HAS_LEG_RIGHT];
-  [initialDefaults setObject:[NSNumber numberWithBool:NO] forKey:MINIFIGURE_HAS_LEG_RIGHT_ACCESSORY];
-  [initialDefaults setObject:[NSNumber numberWithBool:YES] forKey:MINIFIGURE_HAS_LEG_LEFT];
-  [initialDefaults setObject:[NSNumber numberWithBool:NO] forKey:MINIFIGURE_HAS_LEG_LEFT_ACCESSORY];
+    //
+    // Minifigure Generator
+    //
+    [initialDefaults setObject:[NSNumber numberWithBool:YES] forKey:MINIFIGURE_HAS_HAT];
+    [initialDefaults setObject:[NSNumber numberWithBool:YES] forKey:MINIFIGURE_HAS_HEAD];
+    [initialDefaults setObject:[NSNumber numberWithBool:NO] forKey:MINIFIGURE_HAS_NECK];
+    [initialDefaults setObject:[NSNumber numberWithBool:YES] forKey:MINIFIGURE_HAS_TORSO];
+    [initialDefaults setObject:[NSNumber numberWithBool:YES] forKey:MINIFIGURE_HAS_ARM_RIGHT];
+    [initialDefaults setObject:[NSNumber numberWithBool:YES] forKey:MINIFIGURE_HAS_ARM_LEFT];
+    [initialDefaults setObject:[NSNumber numberWithBool:YES] forKey:MINIFIGURE_HAS_HAND_RIGHT];
+    [initialDefaults setObject:[NSNumber numberWithBool:NO] forKey:MINIFIGURE_HAS_HAND_RIGHT_ACCESSORY];
+    [initialDefaults setObject:[NSNumber numberWithBool:YES] forKey:MINIFIGURE_HAS_HAND_LEFT];
+    [initialDefaults setObject:[NSNumber numberWithBool:NO] forKey:MINIFIGURE_HAS_HAND_LEFT_ACCESSORY];
+    [initialDefaults setObject:[NSNumber numberWithBool:YES] forKey:MINIFIGURE_HAS_HIPS];
+    [initialDefaults setObject:[NSNumber numberWithBool:YES] forKey:MINIFIGURE_HAS_LEG_RIGHT];
+    [initialDefaults setObject:[NSNumber numberWithBool:NO] forKey:MINIFIGURE_HAS_LEG_RIGHT_ACCESSORY];
+    [initialDefaults setObject:[NSNumber numberWithBool:YES] forKey:MINIFIGURE_HAS_LEG_LEFT];
+    [initialDefaults setObject:[NSNumber numberWithBool:NO] forKey:MINIFIGURE_HAS_LEG_LEFT_ACCESSORY];
 
-  [initialDefaults setObject:@"4485.dat" forKey:MINIFIGURE_PARTNAME_HAT];
-  [initialDefaults setObject:@"3626bp01.dat" forKey:MINIFIGURE_PARTNAME_HEAD];
-  [initialDefaults setObject:@"3838.dat" forKey:MINIFIGURE_PARTNAME_NECK];
-  [initialDefaults setObject:@"973p1b.dat" forKey:MINIFIGURE_PARTNAME_TORSO];
-  [initialDefaults setObject:@"982.dat" forKey:MINIFIGURE_PARTNAME_ARM_RIGHT];
-  [initialDefaults setObject:@"981.dat" forKey:MINIFIGURE_PARTNAME_ARM_LEFT];
-  [initialDefaults setObject:@"983.dat" forKey:MINIFIGURE_PARTNAME_HAND_RIGHT];
-  [initialDefaults setObject:@"3837.dat" forKey:MINIFIGURE_PARTNAME_HAND_RIGHT_ACCESSORY];
-  [initialDefaults setObject:@"983.dat" forKey:MINIFIGURE_PARTNAME_HAND_LEFT];
-  [initialDefaults setObject:@"4006.dat" forKey:MINIFIGURE_PARTNAME_HAND_LEFT_ACCESSORY];
-  [initialDefaults setObject:@"970.dat" forKey:MINIFIGURE_PARTNAME_HIPS];
-  [initialDefaults setObject:@"971.dat" forKey:MINIFIGURE_PARTNAME_LEG_RIGHT];
-  [initialDefaults setObject:@"6120.dat" forKey:MINIFIGURE_PARTNAME_LEG_RIGHT_ACCESSORY];
-  [initialDefaults setObject:@"972.dat" forKey:MINIFIGURE_PARTNAME_LEG_LEFT];
-  [initialDefaults setObject:@"6120.dat" forKey:MINIFIGURE_PARTNAME_LEG_LEFT_ACCESSORY];
+    [initialDefaults setObject:@"4485.dat" forKey:MINIFIGURE_PARTNAME_HAT];
+    [initialDefaults setObject:@"3626bp01.dat" forKey:MINIFIGURE_PARTNAME_HEAD];
+    [initialDefaults setObject:@"3838.dat" forKey:MINIFIGURE_PARTNAME_NECK];
+    [initialDefaults setObject:@"973p1b.dat" forKey:MINIFIGURE_PARTNAME_TORSO];
+    [initialDefaults setObject:@"982.dat" forKey:MINIFIGURE_PARTNAME_ARM_RIGHT];
+    [initialDefaults setObject:@"981.dat" forKey:MINIFIGURE_PARTNAME_ARM_LEFT];
+    [initialDefaults setObject:@"983.dat" forKey:MINIFIGURE_PARTNAME_HAND_RIGHT];
+    [initialDefaults setObject:@"3837.dat" forKey:MINIFIGURE_PARTNAME_HAND_RIGHT_ACCESSORY];
+    [initialDefaults setObject:@"983.dat" forKey:MINIFIGURE_PARTNAME_HAND_LEFT];
+    [initialDefaults setObject:@"4006.dat" forKey:MINIFIGURE_PARTNAME_HAND_LEFT_ACCESSORY];
+    [initialDefaults setObject:@"970.dat" forKey:MINIFIGURE_PARTNAME_HIPS];
+    [initialDefaults setObject:@"971.dat" forKey:MINIFIGURE_PARTNAME_LEG_RIGHT];
+    [initialDefaults setObject:@"6120.dat" forKey:MINIFIGURE_PARTNAME_LEG_RIGHT_ACCESSORY];
+    [initialDefaults setObject:@"972.dat" forKey:MINIFIGURE_PARTNAME_LEG_LEFT];
+    [initialDefaults setObject:@"6120.dat" forKey:MINIFIGURE_PARTNAME_LEG_LEFT_ACCESSORY];
 
-  [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_HAT];
-  [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_HEAD];
-  [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_NECK];
-  [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_TORSO];
-  [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_ARM_RIGHT];
-  [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_ARM_LEFT];
-  [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_HAND_RIGHT];
-  [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_HAND_RIGHT_ACCESSORY];
-  [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_HAND_LEFT];
-  [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_HAND_LEFT_ACCESSORY];
-  [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_HIPS];
-  [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_LEG_RIGHT];
-  [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_LEG_RIGHT_ACCESSORY];
-  [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_LEG_LEFT];
-  [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_LEG_LEFT_ACCESSORY];
+    [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_HAT];
+    [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_HEAD];
+    [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_NECK];
+    [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_TORSO];
+    [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_ARM_RIGHT];
+    [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_ARM_LEFT];
+    [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_HAND_RIGHT];
+    [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_HAND_RIGHT_ACCESSORY];
+    [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_HAND_LEFT];
+    [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_HAND_LEFT_ACCESSORY];
+    [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_HIPS];
+    [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_LEG_RIGHT];
+    [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_LEG_RIGHT_ACCESSORY];
+    [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_LEG_LEFT];
+    [initialDefaults setObject:[NSNumber numberWithFloat:0] forKey:MINIFIGURE_ANGLE_LEG_LEFT_ACCESSORY];
 
-  [initialDefaults setObject:[NSNumber numberWithInt:LDrawBlue] forKey:MINIFIGURE_COLOR_HAT];
-  [initialDefaults setObject:[NSNumber numberWithInt:LDrawYellow] forKey:MINIFIGURE_COLOR_HEAD];
-  [initialDefaults setObject:[NSNumber numberWithInt:LDrawBlack] forKey:MINIFIGURE_COLOR_NECK];
-  [initialDefaults setObject:[NSNumber numberWithInt:LDrawWhite] forKey:MINIFIGURE_COLOR_TORSO];
-  [initialDefaults setObject:[NSNumber numberWithInt:LDrawWhite] forKey:MINIFIGURE_COLOR_ARM_RIGHT];
-  [initialDefaults setObject:[NSNumber numberWithInt:LDrawWhite] forKey:MINIFIGURE_COLOR_ARM_LEFT];
-  [initialDefaults setObject:[NSNumber numberWithInt:LDrawYellow] forKey:MINIFIGURE_COLOR_HAND_RIGHT];
-  [initialDefaults setObject:[NSNumber numberWithInt:LDrawBlack] forKey:MINIFIGURE_COLOR_HAND_RIGHT_ACCESSORY];
-  [initialDefaults setObject:[NSNumber numberWithInt:LDrawYellow] forKey:MINIFIGURE_COLOR_HAND_LEFT];
-  [initialDefaults setObject:[NSNumber numberWithInt:LDrawBlack] forKey:MINIFIGURE_COLOR_HAND_LEFT_ACCESSORY];
-  [initialDefaults setObject:[NSNumber numberWithInt:LDrawBlue] forKey:MINIFIGURE_COLOR_HIPS];
-  [initialDefaults setObject:[NSNumber numberWithInt:LDrawBlue] forKey:MINIFIGURE_COLOR_LEG_RIGHT];
-  [initialDefaults setObject:[NSNumber numberWithInt:LDrawBlack] forKey:MINIFIGURE_COLOR_LEG_RIGHT_ACCESSORY];
-  [initialDefaults setObject:[NSNumber numberWithInt:LDrawBlue] forKey:MINIFIGURE_COLOR_LEG_LEFT];
-  [initialDefaults setObject:[NSNumber numberWithInt:LDrawBlack] forKey:MINIFIGURE_COLOR_LEG_LEFT_ACCESSORY];
+    [initialDefaults setObject:[NSNumber numberWithInt:LDrawBlue] forKey:MINIFIGURE_COLOR_HAT];
+    [initialDefaults setObject:[NSNumber numberWithInt:LDrawYellow] forKey:MINIFIGURE_COLOR_HEAD];
+    [initialDefaults setObject:[NSNumber numberWithInt:LDrawBlack] forKey:MINIFIGURE_COLOR_NECK];
+    [initialDefaults setObject:[NSNumber numberWithInt:LDrawWhite] forKey:MINIFIGURE_COLOR_TORSO];
+    [initialDefaults setObject:[NSNumber numberWithInt:LDrawWhite] forKey:MINIFIGURE_COLOR_ARM_RIGHT];
+    [initialDefaults setObject:[NSNumber numberWithInt:LDrawWhite] forKey:MINIFIGURE_COLOR_ARM_LEFT];
+    [initialDefaults setObject:[NSNumber numberWithInt:LDrawYellow] forKey:MINIFIGURE_COLOR_HAND_RIGHT];
+    [initialDefaults setObject:[NSNumber numberWithInt:LDrawBlack] forKey:MINIFIGURE_COLOR_HAND_RIGHT_ACCESSORY];
+    [initialDefaults setObject:[NSNumber numberWithInt:LDrawYellow] forKey:MINIFIGURE_COLOR_HAND_LEFT];
+    [initialDefaults setObject:[NSNumber numberWithInt:LDrawBlack] forKey:MINIFIGURE_COLOR_HAND_LEFT_ACCESSORY];
+    [initialDefaults setObject:[NSNumber numberWithInt:LDrawBlue] forKey:MINIFIGURE_COLOR_HIPS];
+    [initialDefaults setObject:[NSNumber numberWithInt:LDrawBlue] forKey:MINIFIGURE_COLOR_LEG_RIGHT];
+    [initialDefaults setObject:[NSNumber numberWithInt:LDrawBlack] forKey:MINIFIGURE_COLOR_LEG_RIGHT_ACCESSORY];
+    [initialDefaults setObject:[NSNumber numberWithInt:LDrawBlue] forKey:MINIFIGURE_COLOR_LEG_LEFT];
+    [initialDefaults setObject:[NSNumber numberWithInt:LDrawBlack] forKey:MINIFIGURE_COLOR_LEG_LEFT_ACCESSORY];
 
-  [initialDefaults setObject:[NSNumber numberWithFloat:4.0] forKey:MINIFIGURE_HEAD_ELEVATION];
+    [initialDefaults setObject:[NSNumber numberWithFloat:4.0] forKey:MINIFIGURE_HEAD_ELEVATION];
 
-  // OpenGL viewer settings -- see -restoreConfiguration in LDrawGLView.
-  [initialDefaults setObject:[NSNumber numberWithInteger:ViewOrientationFront]
-                      forKey:[LDRAW_GL_VIEW_ANGLE stringByAppendingString:
-                              @" MinifigureGeneratorView"]];
-  [initialDefaults setObject:[NSNumber numberWithInteger:ProjectionModeOrthographic]
-                      forKey:[LDRAW_GL_VIEW_PROJECTION stringByAppendingString:
-                              @" MinifigureGeneratorView"]];
-  [initialDefaults setObject:(id)kCFBooleanFalse forKey:@"UseThreads"];
+    // OpenGL viewer settings -- see -restoreConfiguration in LDrawGLView.
+    [initialDefaults setObject:[NSNumber numberWithInteger:ViewOrientationFront]
+     forKey:[LDRAW_GL_VIEW_ANGLE stringByAppendingString:
+             @" MinifigureGeneratorView"]];
+    [initialDefaults setObject:[NSNumber numberWithInteger:ProjectionModeOrthographic]
+     forKey:[LDRAW_GL_VIEW_PROJECTION stringByAppendingString:
+             @" MinifigureGeneratorView"]];
+    [initialDefaults setObject:(id)kCFBooleanFalse forKey:@"UseThreads"];
 
-  //
-  // COMMIT!
-  //
-  [userDefaults registerDefaults:initialDefaults];
+    //
+    // COMMIT!
+    //
+    [userDefaults registerDefaults:initialDefaults];
 }// end ensureDefaults
 
 
@@ -1185,21 +1185,21 @@ PreferencesDialogController * preferencesDialog = nil;
 // ==============================================================================
 - (void)changeLDrawFolderPath:(NSString *)folderPath
 {
-  PartLibraryController *libraryController = [LDrawApplication sharedPartLibraryController];
-  NSUserDefaults        *userDefaults      = [NSUserDefaults standardUserDefaults];
+    PartLibraryController *libraryController = [LDrawApplication sharedPartLibraryController];
+    NSUserDefaults        *userDefaults      = [NSUserDefaults standardUserDefaults];
 
-  [LDrawPathTextField setStringValue:folderPath];
+    [LDrawPathTextField setStringValue:folderPath];
 
-  // Record this new folder in preferences whether it's right or not. We'll
-  // let them sink their own ship here.
-  [userDefaults setObject:folderPath
-                   forKey:LDRAW_PATH_KEY];
-  [[LDrawPaths sharedPaths] setPreferredLDrawPath:folderPath];
+    // Record this new folder in preferences whether it's right or not. We'll
+    // let them sink their own ship here.
+    [userDefaults setObject:folderPath
+     forKey:LDRAW_PATH_KEY];
+    [[LDrawPaths sharedPaths] setPreferredLDrawPath:folderPath];
 
-  if ([libraryController validateLDrawFolderWithMessage:folderPath] == YES) {
-    [self reloadParts:self];
-  }
-  // else we displayed an error message already.
+    if ([libraryController validateLDrawFolderWithMessage:folderPath] == YES) {
+        [self reloadParts:self];
+    }
+    // else we displayed an error message already.
 }// end changeLDrawFolderPath:
 
 
@@ -1211,35 +1211,35 @@ PreferencesDialogController * preferencesDialog = nil;
 // ==============================================================================
 - (void)selectPanelWithIdentifier:(NSString *)itemIdentifier
 {
-  NSView *newContentView = nil;
-  NSRect newFrameRect    = NSZeroRect;
+    NSView *newContentView = nil;
+    NSRect newFrameRect    = NSZeroRect;
 
-  // Make sure the corresponding toolbar tab is selected too.
-  [[preferencesWindow toolbar] setSelectedItemIdentifier:itemIdentifier];
+    // Make sure the corresponding toolbar tab is selected too.
+    [[preferencesWindow toolbar] setSelectedItemIdentifier:itemIdentifier];
 
-  if ([itemIdentifier isEqualToString:PREFS_GENERAL_TAB_IDENTIFIER]) {
-    newContentView = self->generalTabContentView;
-  }
-  else if ([itemIdentifier isEqualToString:PREFS_LDRAW_TAB_IDENTIFIER]) {
-    newContentView = ldrawContentView;
-  }
-  else if ([itemIdentifier isEqualToString:PREFS_STYLE_TAB_IDENTIFIER]) {
-    newContentView = stylesContentView;
-  }
-  else if ([itemIdentifier isEqualToString:PREFS_LSYNTH_TAB_IDENTIFIER]) {
-    newContentView = lsynthContentView;
-  }
+    if ([itemIdentifier isEqualToString:PREFS_GENERAL_TAB_IDENTIFIER]) {
+        newContentView = self->generalTabContentView;
+    }
+    else if ([itemIdentifier isEqualToString:PREFS_LDRAW_TAB_IDENTIFIER]) {
+        newContentView = ldrawContentView;
+    }
+    else if ([itemIdentifier isEqualToString:PREFS_STYLE_TAB_IDENTIFIER]) {
+        newContentView = stylesContentView;
+    }
+    else if ([itemIdentifier isEqualToString:PREFS_LSYNTH_TAB_IDENTIFIER]) {
+        newContentView = lsynthContentView;
+    }
 
-  // need content rect in screen coordinates
-  // Need find window frame with new content view.
-  newFrameRect = [preferencesWindow frameRectForContentSize:[newContentView frame].size];
+    // need content rect in screen coordinates
+    // Need find window frame with new content view.
+    newFrameRect = [preferencesWindow frameRectForContentSize:[newContentView frame].size];
 
-  // Do a smooth transition to the new panel.
-  [preferencesWindow setContentView:blankContent]; // so we don't see artifacts during resize.
-  [preferencesWindow setFrame:newFrameRect
-                      display:YES
-                      animate:YES];
-  [preferencesWindow setContentView:newContentView];
+    // Do a smooth transition to the new panel.
+    [preferencesWindow setContentView:blankContent]; // so we don't see artifacts during resize.
+    [preferencesWindow setFrame:newFrameRect
+     display:YES
+     animate:YES];
+    [preferencesWindow setContentView:newContentView];
 }// end selectPanelWithIdentifier
 
 
@@ -1255,62 +1255,62 @@ PreferencesDialogController * preferencesDialog = nil;
 // ==============================================================================
 - (void)controlTextDidEndEditing:(NSNotification *)aNotification
 {
-  NSTextField    *textField            = [aNotification object];
-  NSUserDefaults *userDefaults         = [NSUserDefaults standardUserDefaults];
-  NSString       *currentExecutable    = [userDefaults stringForKey:LSYNTH_EXECUTABLE_PATH_KEY];
-  NSString       *currentConfiguration = [userDefaults stringForKey:LSYNTH_CONFIGURATION_PATH_KEY];
+    NSTextField    *textField            = [aNotification object];
+    NSUserDefaults *userDefaults         = [NSUserDefaults standardUserDefaults];
+    NSString       *currentExecutable    = [userDefaults stringForKey:LSYNTH_EXECUTABLE_PATH_KEY];
+    NSString       *currentConfiguration = [userDefaults stringForKey:LSYNTH_CONFIGURATION_PATH_KEY];
 
-  // The user manually changed the LSynth executable path
-  // TODO: run validating synthesis
-  if (textField == lsynthExecutablePath) {
-    NSURL *executablePathAsURL = [NSURL fileURLWithPath:[lsynthExecutablePath stringValue]];
-    if ([executablePathAsURL isFileURL] &&
-        ![currentExecutable isEqualToString:[executablePathAsURL path]]) {
-      [userDefaults setObject:[executablePathAsURL path]
-                       forKey:LSYNTH_EXECUTABLE_PATH_KEY];
-      [self lsynthRequiresResynthesis];
+    // The user manually changed the LSynth executable path
+    // TODO: run validating synthesis
+    if (textField == lsynthExecutablePath) {
+        NSURL *executablePathAsURL = [NSURL fileURLWithPath:[lsynthExecutablePath stringValue]];
+        if ([executablePathAsURL isFileURL] &&
+            ![currentExecutable isEqualToString:[executablePathAsURL path]]) {
+            [userDefaults setObject:[executablePathAsURL path]
+             forKey:LSYNTH_EXECUTABLE_PATH_KEY];
+            [self lsynthRequiresResynthesis];
+        }
+        // No path - it's been deleted
+        else if (([[executablePathAsURL path] length] == 0 ||
+                  [[executablePathAsURL path] isMatchedByRegex:@"^\\s+$"]) &&
+                 executablePathAsURL &&
+                 ![currentExecutable isEqualToString:[executablePathAsURL path]]) {
+            [userDefaults setObject:@""
+             forKey:LSYNTH_EXECUTABLE_PATH_KEY];
+            [self lsynthRequiresResynthesis];
+        }
+        else if (executablePathAsURL) {
+            NSBeep(); // sanity check
+        }
     }
-    // No path - it's been deleted
-    else if (([[executablePathAsURL path] length] == 0 ||
-              [[executablePathAsURL path] isMatchedByRegex:@"^\\s+$"]) &&
-             executablePathAsURL &&
-             ![currentExecutable isEqualToString:[executablePathAsURL path]]) {
-      [userDefaults setObject:@""
-                       forKey:LSYNTH_EXECUTABLE_PATH_KEY];
-      [self lsynthRequiresResynthesis];
-    }
-    else if (executablePathAsURL) {
-      NSBeep();       // sanity check
-    }
-  }
-  // The user manually changed the LSynth config path
-  // TODO: run validating synthesis
-  else if (textField == lsynthConfigurationPath) {
-    NSURL *configPathAsURL = [NSURL fileURLWithPath:[lsynthConfigurationPath stringValue]];
-    if ([configPathAsURL isFileURL]) {
-      [userDefaults setObject:[configPathAsURL path]
-                       forKey:LSYNTH_CONFIGURATION_PATH_KEY];
+    // The user manually changed the LSynth config path
+    // TODO: run validating synthesis
+    else if (textField == lsynthConfigurationPath) {
+        NSURL *configPathAsURL = [NSURL fileURLWithPath:[lsynthConfigurationPath stringValue]];
+        if ([configPathAsURL isFileURL]) {
+            [userDefaults setObject:[configPathAsURL path]
+             forKey:LSYNTH_CONFIGURATION_PATH_KEY];
 
-      // reload config if changed
-      if (![currentConfiguration isEqualToString:[configPathAsURL path]]) {
-        [[LSynthConfiguration sharedInstance] parseLsynthConfig:[configPathAsURL path]];
-        [[LDrawApplication shared] populateLSynthModelMenus];
-        [self lsynthRequiresResynthesis];
-      }
+            // reload config if changed
+            if (![currentConfiguration isEqualToString:[configPathAsURL path]]) {
+                [[LSynthConfiguration sharedInstance] parseLsynthConfig:[configPathAsURL path]];
+                [[LDrawApplication shared] populateLSynthModelMenus];
+                [self lsynthRequiresResynthesis];
+            }
+        }
+        // No path - it's been deleted
+        else if (!configPathAsURL || [[configPathAsURL path] length] == 0) {
+            [userDefaults setObject:@""
+             forKey:LSYNTH_CONFIGURATION_PATH_KEY];
+            [[LSynthConfiguration sharedInstance] parseLsynthConfig:[[LSynthConfiguration sharedInstance]
+                                                                     defaultConfigPath]];
+            [[LDrawApplication shared] populateLSynthModelMenus];
+            [self lsynthRequiresResynthesis];
+        }
+        else {
+            NSBeep(); // sanity check
+        }
     }
-    // No path - it's been deleted
-    else if (!configPathAsURL || [[configPathAsURL path] length] == 0) {
-      [userDefaults setObject:@""
-                       forKey:LSYNTH_CONFIGURATION_PATH_KEY];
-      [[LSynthConfiguration sharedInstance] parseLsynthConfig:[[LSynthConfiguration sharedInstance]
-                                                               defaultConfigPath]];
-      [[LDrawApplication shared] populateLSynthModelMenus];
-      [self lsynthRequiresResynthesis];
-    }
-    else {
-      NSBeep();       // sanity check
-    }
-  }
 
 
 // NSView *nextKeyView = [textField nextKeyView];
@@ -1335,15 +1335,15 @@ PreferencesDialogController * preferencesDialog = nil;
 // ==============================================================================
 - (void)dealloc
 {
-  [generalTabContentView release];
-  [preferencesWindow release];
-  [blankContent release];
+    [generalTabContentView release];
+    [preferencesWindow release];
+    [blankContent release];
 
-  // clear out our global preferences controller.
-  // It will be reinitialized when needed.
-  preferencesDialog = nil;
+    // clear out our global preferences controller.
+    // It will be reinitialized when needed.
+    preferencesDialog = nil;
 
-  [super dealloc];
+    [super dealloc];
 }// end dealloc
 
 

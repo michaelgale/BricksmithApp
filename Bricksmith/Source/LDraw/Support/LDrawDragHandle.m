@@ -31,19 +31,19 @@ static const double HandleDiameter = 7.0;
 //
 // ==============================================================================
 - (id)initWithTag:(NSInteger)tagIn
-  position:(Point3)positionIn
+    position:(Point3)positionIn
 {
-  self = [super init];
-  if (self) {
-    tag             = tagIn;
-    position        = positionIn;
-    initialPosition = positionIn;
+    self = [super init];
+    if (self) {
+        tag             = tagIn;
+        position        = positionIn;
+        initialPosition = positionIn;
 
-    [LDrawDragHandle makeSphereWithLongitudinalCount:8
-                                    latitudinalCount:8];
-  }
+        [LDrawDragHandle makeSphereWithLongitudinalCount:8
+         latitudinalCount:8];
+    }
 
-  return(self);
+    return(self);
 }// end initWithTag:position:
 
 
@@ -58,7 +58,7 @@ static const double HandleDiameter = 7.0;
 // ==============================================================================
 - (Point3)initialPosition
 {
-  return(self->initialPosition);
+    return(self->initialPosition);
 }
 
 
@@ -71,7 +71,7 @@ static const double HandleDiameter = 7.0;
 // ==============================================================================
 - (BOOL)isSelected
 {
-  return(YES);
+    return(YES);
 }
 
 
@@ -82,7 +82,7 @@ static const double HandleDiameter = 7.0;
 // ==============================================================================
 - (Point3)position
 {
-  return(self->position);
+    return(self->position);
 }
 
 
@@ -94,7 +94,7 @@ static const double HandleDiameter = 7.0;
 // ==============================================================================
 - (NSInteger)tag
 {
-  return(self->tag);
+    return(self->tag);
 }
 
 
@@ -105,7 +105,7 @@ static const double HandleDiameter = 7.0;
 // ==============================================================================
 - (id)target
 {
-  return(self->target);
+    return(self->target);
 }
 
 
@@ -118,7 +118,7 @@ static const double HandleDiameter = 7.0;
 // ==============================================================================
 - (void)setAction:(SEL)actionIn
 {
-  self->action = actionIn;
+    self->action = actionIn;
 }
 
 
@@ -130,12 +130,12 @@ static const double HandleDiameter = 7.0;
 // ==============================================================================
 - (void)setPosition:(Point3)positionIn updateTarget:(BOOL)update
 {
-  self->position = positionIn;
+    self->position = positionIn;
 
-  if (update) {
-    [self->target performSelector:self->action
-                       withObject:self];
-  }
+    if (update) {
+        [self->target performSelector:self->action
+         withObject:self];
+    }
 }// end setPosition:updateTarget:
 
 
@@ -146,7 +146,7 @@ static const double HandleDiameter = 7.0;
 // ==============================================================================
 - (void)setTarget:(id)sender
 {
-  self->target = sender;
+    self->target = sender;
 }
 
 
@@ -161,24 +161,24 @@ static const double HandleDiameter = 7.0;
 // ==============================================================================
 - (void)draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)parentColor
 {
-  double handleScale = 0.0;
-  double drawRadius  = 0.0;
+    double handleScale = 0.0;
+    double drawRadius  = 0.0;
 
-  handleScale = 1.0 / scaleFactor;
-  drawRadius  = HandleDiameter / 2 * handleScale;
+    handleScale = 1.0 / scaleFactor;
+    drawRadius  = HandleDiameter / 2 * handleScale;
 
-  glDisable(GL_TEXTURE_2D);
-  glPushMatrix();
-  {
-    glTranslatef(self->position.x, self->position.y, self->position.z);
-    glScalef(drawRadius, drawRadius, drawRadius);
+    glDisable(GL_TEXTURE_2D);
+    glPushMatrix();
+    {
+        glTranslatef(self->position.x, self->position.y, self->position.z);
+        glScalef(drawRadius, drawRadius, drawRadius);
 
-    glBindVertexArrayAPPLE(vaoTag);
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, vboVertexCount);
-    glBindVertexArrayAPPLE(0); // Failing to unbind can cause bizarre crashes if other VAOs are in display lists
-  }
-  glPopMatrix();
-  glEnable(GL_TEXTURE_2D);
+        glBindVertexArrayAPPLE(vaoTag);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, vboVertexCount);
+        glBindVertexArrayAPPLE(0); // Failing to unbind can cause bizarre crashes if other VAOs are in display lists
+    }
+    glPopMatrix();
+    glEnable(GL_TEXTURE_2D);
 }// end draw:viewScale:parentColor:
 
 
@@ -193,10 +193,10 @@ static const double HandleDiameter = 7.0;
 // ================================================================================
 - (void)drawSelf:(id <LDrawRenderer>)renderer
 {
-  GLfloat xyz[3] = { position.x, position.y, position.z };
+    GLfloat xyz[3] = { position.x, position.y, position.z };
 
-  [renderer drawDragHandle:xyz
-                  withSize:HandleDiameter / 2];
+    [renderer drawDragHandle:xyz
+     withSize:HandleDiameter / 2];
 }// end drawSelf:
 
 
@@ -207,30 +207,30 @@ static const double HandleDiameter = 7.0;
 //
 // ==============================================================================
 - (void)hitTest:(Ray3)pickRay
-  transform:(Matrix4)transform
-  viewScale:(double)scaleFactor
-  boundsOnly:(BOOL)boundsOnly
-  creditObject:(id)creditObject
-  hits:(NSMutableDictionary *)hits
+    transform:(Matrix4)transform
+    viewScale:(double)scaleFactor
+    boundsOnly:(BOOL)boundsOnly
+    creditObject:(id)creditObject
+    hits:(NSMutableDictionary *)hits
 {
-  double handleScale    = 0.0;
-  double drawRadius     = 0.0;
-  double intersectDepth = 0;
-  bool   intersects     = false;
+    double handleScale    = 0.0;
+    double drawRadius     = 0.0;
+    double intersectDepth = 0;
+    bool   intersects     = false;
 
-  handleScale = 1.0 / scaleFactor;
-  drawRadius  = HandleDiameter / 2 * handleScale;
-  drawRadius *= 1.5;  // allow a little fudge
+    handleScale = 1.0 / scaleFactor;
+    drawRadius  = HandleDiameter / 2 * handleScale;
+    drawRadius *= 1.5; // allow a little fudge
 
 
-  intersects = V3RayIntersectsSphere(pickRay, self->position, drawRadius, &intersectDepth);
+    intersects = V3RayIntersectsSphere(pickRay, self->position, drawRadius, &intersectDepth);
 
-  if (intersects) {
-    [LDrawUtilities registerHitForObject:self
-                                   depth:intersectDepth
-                            creditObject:creditObject
-                                    hits:hits];
-  }
+    if (intersects) {
+        [LDrawUtilities registerHitForObject:self
+         depth:intersectDepth
+         creditObject:creditObject
+         hits:hits];
+    }
 }// end hitTest:transform:viewScale:boundsOnly:creditObject:hits:
 
 
@@ -242,20 +242,20 @@ static const double HandleDiameter = 7.0;
 //
 // ==============================================================================
 - (void)depthTest:(Point2)pt
-  inBox:(Box2)bounds
-  transform:(Matrix4)transform
-  creditObject:(id)creditObject
-  bestObject:(id *)bestObject
-  bestDepth:(double *)bestDepth
+    inBox:(Box2)bounds
+    transform:(Matrix4)transform
+    creditObject:(id)creditObject
+    bestObject:(id *)bestObject
+    bestDepth:(double *)bestDepth
 {
-  Vector3 v1 = V3MulPointByProjMatrix(self->position, transform);
+    Vector3 v1 = V3MulPointByProjMatrix(self->position, transform);
 
-  if (V2BoxContains(bounds, V2Make(v1.x, v1.y))) {
-    if (v1.z <= *bestDepth) {
-      *bestDepth  = v1.z;
-      *bestObject = creditObject ? creditObject : self;
+    if (V2BoxContains(bounds, V2Make(v1.x, v1.y))) {
+        if (v1.z <= *bestDepth) {
+            *bestDepth  = v1.z;
+            *bestObject = creditObject ? creditObject : self;
+        }
     }
-  }
 }// end depthTest:inBox:transform:creditObject:bestObject:bestDepth:
 
 
@@ -276,9 +276,9 @@ static const double HandleDiameter = 7.0;
 // ==============================================================================
 - (void)moveBy:(Vector3)moveVector
 {
-  Point3 newPosition = V3Add(self->position, moveVector);
+    Point3 newPosition = V3Add(self->position, moveVector);
 
-  [self setPosition:newPosition updateTarget:YES];
+    [self setPosition:newPosition updateTarget:YES];
 }// end moveBy:
 
 
@@ -290,98 +290,98 @@ static const double HandleDiameter = 7.0;
 //
 // ------------------------------------------------------------------------------
 + (void)makeSphereWithLongitudinalCount:(int)longitudeSections
-  latitudinalCount:(int)latitudeSections
+    latitudinalCount:(int)latitudeSections
 {
-  // Bail if we've already done it.
-  if (vboTag != 0) {
-    return;
-  }
-  // lat. wraps halfway around sphere
-  double latitudeRadians = (M_PI / latitudeSections);
-  // long. wraps all the way
-  double        longitudeRadians = (2 * M_PI / longitudeSections);
-  int           vertexCount      = 0;
-  VBOVertexData *vertexes        = NULL;
-  int           latitudeCount    = 0;
-  int           longitudeCount   = 0;
-  double        latitude         = 0;
-  double        longitude        = 0;
-  int           counter          = 0;
-  GLfloat       sphereColor[4];
-
-  // A pleasant lavender color
-  sphereColor[0] = 0.50;
-  sphereColor[1] = 0.53;
-  sphereColor[2] = 1.00;
-  sphereColor[3] = 1.00;
-
-  // ---------- Generate Sphere -----------------------------------------------
-
-  // Each latitude strip begins with two vertexes at the prime meridian, then
-  // has two more vertexes per segment thereafter.
-  vertexCount = (2 + longitudeSections * 2) * latitudeSections;
-  vertexes    = calloc(vertexCount, sizeof(VBOVertexData));
-
-  // Calculate vertexes for each strip of latitude.
-  for (latitudeCount = 0; latitudeCount < latitudeSections; latitudeCount += 1 ) {
-    latitude = (latitudeCount * latitudeRadians);
-
-    // Include the prime meridian twice; once to start the strip and once to
-    // complete the last triangle of the -1 meridian.
-    for (longitudeCount = 0; longitudeCount <= longitudeSections; longitudeCount += 1 ) {
-      longitude = longitudeCount * longitudeRadians;
-
-      VBOVertexData *top    = vertexes + counter;
-      VBOVertexData *bottom = vertexes + counter + 1;
-
-      // Top vertex
-      top->position[0] = cos(longitude) * sin(latitude);
-      top->position[1] = sin(longitude) * sin(latitude);
-      top->position[2] = cos(latitude);
-      top->normal[0]   = top->position[0];    // it's a unit sphere; the normal is the same as the vertex.
-      top->normal[1]   = top->position[1];
-      top->normal[2]   = top->position[2];
-      memcpy(top->color, sphereColor, sizeof(sphereColor));
-
-      counter++;
-
-      // Bottom vertex
-      bottom->position[0] = cos(longitude) * sin(latitude + latitudeRadians);
-      bottom->position[1] = sin(longitude) * sin(latitude + latitudeRadians);
-      bottom->position[2] = cos(latitude + latitudeRadians);
-      bottom->normal[0]   = bottom->position[0];
-      bottom->normal[1]   = bottom->position[1];
-      bottom->normal[2]   = bottom->position[2];
-      memcpy(bottom->color, sphereColor, sizeof(sphereColor));
-
-      counter++;
+    // Bail if we've already done it.
+    if (vboTag != 0) {
+        return;
     }
-  }
+    // lat. wraps halfway around sphere
+    double latitudeRadians = (M_PI / latitudeSections);
+    // long. wraps all the way
+    double        longitudeRadians = (2 * M_PI / longitudeSections);
+    int           vertexCount      = 0;
+    VBOVertexData *vertexes        = NULL;
+    int           latitudeCount    = 0;
+    int           longitudeCount   = 0;
+    double        latitude         = 0;
+    double        longitude        = 0;
+    int           counter          = 0;
+    GLfloat       sphereColor[4];
 
-  // ---------- Optimize ------------------------------------------------------
+    // A pleasant lavender color
+    sphereColor[0] = 0.50;
+    sphereColor[1] = 0.53;
+    sphereColor[2] = 1.00;
+    sphereColor[3] = 1.00;
 
-  vboVertexCount = counter;
+    // ---------- Generate Sphere -----------------------------------------------
 
-  glGenBuffers(1, &vboTag);
-  glBindBuffer(GL_ARRAY_BUFFER, vboTag);
+    // Each latitude strip begins with two vertexes at the prime meridian, then
+    // has two more vertexes per segment thereafter.
+    vertexCount = (2 + longitudeSections * 2) * latitudeSections;
+    vertexes    = calloc(vertexCount, sizeof(VBOVertexData));
 
-  glBufferData(GL_ARRAY_BUFFER, vboVertexCount * sizeof(VBOVertexData), vertexes, GL_STATIC_DRAW);
-  free(vertexes);
-  glBindBuffer(GL_ARRAY_BUFFER, 0);
+    // Calculate vertexes for each strip of latitude.
+    for (latitudeCount = 0; latitudeCount < latitudeSections; latitudeCount += 1 ) {
+        latitude = (latitudeCount * latitudeRadians);
 
-  // Encapsulate in a VAO
-  glGenVertexArraysAPPLE(1, &vaoTag);
-  glBindVertexArrayAPPLE(vaoTag);
-  glEnableClientState(GL_VERTEX_ARRAY);
-  glEnableClientState(GL_NORMAL_ARRAY);
-  glEnableClientState(GL_COLOR_ARRAY);
-  glBindBuffer(GL_ARRAY_BUFFER, vboTag);
-  glVertexPointer(3, GL_FLOAT, sizeof(VBOVertexData), NULL);
-  glNormalPointer(GL_FLOAT, sizeof(VBOVertexData), (GLvoid *)(sizeof(double) * 3));
-  glColorPointer(4, GL_FLOAT, sizeof(VBOVertexData),
-                 (GLvoid *)(sizeof(double) * 3 + sizeof(double) * 3));
-  glBindVertexArrayAPPLE(0);
-  glBindBuffer(GL_ARRAY_BUFFER, 0);
+        // Include the prime meridian twice; once to start the strip and once to
+        // complete the last triangle of the -1 meridian.
+        for (longitudeCount = 0; longitudeCount <= longitudeSections; longitudeCount += 1 ) {
+            longitude = longitudeCount * longitudeRadians;
+
+            VBOVertexData *top    = vertexes + counter;
+            VBOVertexData *bottom = vertexes + counter + 1;
+
+            // Top vertex
+            top->position[0] = cos(longitude) * sin(latitude);
+            top->position[1] = sin(longitude) * sin(latitude);
+            top->position[2] = cos(latitude);
+            top->normal[0]   = top->position[0]; // it's a unit sphere; the normal is the same as the vertex.
+            top->normal[1]   = top->position[1];
+            top->normal[2]   = top->position[2];
+            memcpy(top->color, sphereColor, sizeof(sphereColor));
+
+            counter++;
+
+            // Bottom vertex
+            bottom->position[0] = cos(longitude) * sin(latitude + latitudeRadians);
+            bottom->position[1] = sin(longitude) * sin(latitude + latitudeRadians);
+            bottom->position[2] = cos(latitude + latitudeRadians);
+            bottom->normal[0]   = bottom->position[0];
+            bottom->normal[1]   = bottom->position[1];
+            bottom->normal[2]   = bottom->position[2];
+            memcpy(bottom->color, sphereColor, sizeof(sphereColor));
+
+            counter++;
+        }
+    }
+
+    // ---------- Optimize ------------------------------------------------------
+
+    vboVertexCount = counter;
+
+    glGenBuffers(1, &vboTag);
+    glBindBuffer(GL_ARRAY_BUFFER, vboTag);
+
+    glBufferData(GL_ARRAY_BUFFER, vboVertexCount * sizeof(VBOVertexData), vertexes, GL_STATIC_DRAW);
+    free(vertexes);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    // Encapsulate in a VAO
+    glGenVertexArraysAPPLE(1, &vaoTag);
+    glBindVertexArrayAPPLE(vaoTag);
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_NORMAL_ARRAY);
+    glEnableClientState(GL_COLOR_ARRAY);
+    glBindBuffer(GL_ARRAY_BUFFER, vboTag);
+    glVertexPointer(3, GL_FLOAT, sizeof(VBOVertexData), NULL);
+    glNormalPointer(GL_FLOAT, sizeof(VBOVertexData), (GLvoid *)(sizeof(double) * 3));
+    glColorPointer(4, GL_FLOAT, sizeof(VBOVertexData),
+                   (GLvoid *)(sizeof(double) * 3 + sizeof(double) * 3));
+    glBindVertexArrayAPPLE(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 
@@ -396,7 +396,7 @@ static const double HandleDiameter = 7.0;
 // ==============================================================================
 - (void)dealloc
 {
-  [super dealloc];
+    [super dealloc];
 }
 
 

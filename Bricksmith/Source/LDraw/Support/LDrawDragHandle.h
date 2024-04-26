@@ -21,12 +21,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 @interface LDrawDragHandle : LDrawDrawableElement
 {
-  NSInteger tag;
-  Point3    position;
-  Point3    initialPosition;
+    NSInteger tag;
+    Point3    position;
+    Point3    initialPosition;
 
-  id  target;
-  SEL action;
+    id  target;
+    SEL action;
 }
 
 - (id)initWithTag:(NSInteger)tag position:(Point3)positionIn;
@@ -46,6 +46,6 @@
 
 // Utilities
 + (void)makeSphereWithLongitudinalCount:(int)longitudeSections
-  latitudinalCount:(int)latitudeSections;
+    latitudinalCount:(int)latitudeSections;
 
 @end

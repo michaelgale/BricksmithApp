@@ -21,24 +21,24 @@
 ////////////////////////////////////////////////////////////////////////////////
 @interface PartBrowserDataSource : NSObject <NSOutlineViewDelegate, NSOutlineViewDataSource>
 {
-  IBOutlet NSButton      *searchAllCategoriesButton;
-  IBOutlet NSButton      *searchSelectedCategoryButton;
-  IBOutlet NSSearchField *searchField;
+    IBOutlet NSButton      *searchAllCategoriesButton;
+    IBOutlet NSButton      *searchSelectedCategoryButton;
+    IBOutlet NSSearchField *searchField;
 
-  IBOutlet NSOutlineView *categoryTable;
-  IBOutlet NSTableView   *partsTable;
-  IBOutlet LDrawGLView   *partPreview;
-  IBOutlet NSButton      *zoomInButton;
-  IBOutlet NSButton      *zoomOutButton;
-  IBOutlet NSButton      *addRemoveFavoriteButton;
-  IBOutlet NSButton      *insertButton;
-  IBOutlet NSMenu        *contextualMenu;
+    IBOutlet NSOutlineView *categoryTable;
+    IBOutlet NSTableView   *partsTable;
+    IBOutlet LDrawGLView   *partPreview;
+    IBOutlet NSButton      *zoomInButton;
+    IBOutlet NSButton      *zoomOutButton;
+    IBOutlet NSButton      *addRemoveFavoriteButton;
+    IBOutlet NSButton      *insertButton;
+    IBOutlet NSMenu        *contextualMenu;
 
-  PartLibrary    *partLibrary;  // weak reference to the shared part catalog.
-  NSString       *selectedCategory;
-  NSArray        *categoryList;
-  NSMutableArray *tableDataSource;
-  SearchModeT    searchMode;
+    PartLibrary    *partLibrary; // weak reference to the shared part catalog.
+    NSString       *selectedCategory;
+    NSArray        *categoryList;
+    NSMutableArray *tableDataSource;
+    SearchModeT    searchMode;
 }
 
 // Accessors
@@ -64,7 +64,7 @@
 
 // Utilities
 - (NSMutableArray *)filterPartRecords:(NSArray *)partRecords bySearchString:(NSString *)searchString
-  excludeParts:(NSSet *)excludedParts;
+    excludeParts:(NSSet *)excludedParts;
 - (NSUInteger)indexOfPartNamed:(NSString *)searchName;
 - (void)performSearch;
 - (void)setConstraints;

@@ -20,9 +20,9 @@
 {
 // IBOutlet NSWindow *window;   // we will vacuum out the content view from this.
 
-  @private
-  // The object this inspector edits.
-  id editingObject;
+    @private
+    // The object this inspector edits.
+    id editingObject;
 }
 
 // Accessors

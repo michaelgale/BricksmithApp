@@ -62,9 +62,9 @@
 
 int doubleNearGrid(double v, double grid, double epsi)
 {
-  double hgrid = grid * 0.5;
+    double hgrid = grid * 0.5;
 
-  return(fabs(fmod(v + hgrid, grid) - hgrid) < epsi);
+    return(fabs(fmod(v + hgrid, grid) - hgrid) < epsi);
 }
 
 
@@ -75,7 +75,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 + (NSString *)defaultIconName
 {
-  return(@"Brick");
+    return(@"Brick");
 } // end defaultIconName
 
 
@@ -90,14 +90,14 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (id)init
 {
-  self = [super init];
+    self = [super init];
 
-  [self setDisplayName:@""];
-  [self setIconName:@"Brick"];
-  [self setTransformComponents:IdentityComponents];
-  // drawLock = [[NSLock alloc] init];
+    [self setDisplayName:@""];
+    [self setIconName:@"Brick"];
+    [self setTransformComponents:IdentityComponents];
+    // drawLock = [[NSLock alloc] init];
 
-  return(self);
+    return(self);
 }// end init
 
 
@@ -119,124 +119,124 @@ int doubleNearGrid(double v, double grid, double epsi)
 //
 // ==============================================================================
 - (id)initWithLines:(NSArray *)lines
-  inRange:(NSRange)range
-  parentGroup:(dispatch_group_t)parentGroup
+    inRange:(NSRange)range
+    parentGroup:(dispatch_group_t)parentGroup
 {
-  NSString   *workingLine   = [lines objectAtIndex:range.location];
-  NSString   *parsedField   = nil;
-  Matrix4    transformation = IdentityMatrix4;
-  LDrawColor *parsedColor   = nil;
+    NSString   *workingLine   = [lines objectAtIndex:range.location];
+    NSString   *parsedField   = nil;
+    Matrix4    transformation = IdentityMatrix4;
+    LDrawColor *parsedColor   = nil;
 
-  self = [super initWithLines:lines
-                      inRange:range
-                  parentGroup:parentGroup];
+    self = [super initWithLines:lines
+            inRange:range
+            parentGroup:parentGroup];
 
-  // A malformed part could easily cause a string indexing error, which would
-  // raise an exception. We don't want this to happen here.
-  @try
-  {
-    // Read in the line code and advance past it.
-    parsedField = [LDrawUtilities readNextField:workingLine
-                                      remainder:&workingLine];
-    // Only attempt to create the part if this is a valid line.
-    if ([parsedField integerValue] == 1) {
-      // Read in the color code.
-      // (color)
-      parsedField = [LDrawUtilities readNextField:workingLine
-                                        remainder:&workingLine];
-      parsedColor = [LDrawUtilities parseColorFromField:parsedField];
-      [self setLDrawColor:parsedColor];
+    // A malformed part could easily cause a string indexing error, which would
+    // raise an exception. We don't want this to happen here.
+    @try
+    {
+        // Read in the line code and advance past it.
+        parsedField = [LDrawUtilities readNextField:workingLine
+                       remainder:&workingLine];
+        // Only attempt to create the part if this is a valid line.
+        if ([parsedField integerValue] == 1) {
+            // Read in the color code.
+            // (color)
+            parsedField = [LDrawUtilities readNextField:workingLine
+                           remainder:&workingLine];
+            parsedColor = [LDrawUtilities parseColorFromField:parsedField];
+            [self setLDrawColor:parsedColor];
 
-      // Read position.
-      // (x)
-      parsedField = [LDrawUtilities readNextField:workingLine
-                                        remainder:&workingLine];
-      transformation.element[3][0] = [parsedField floatValue];
-      // (y)
-      parsedField = [LDrawUtilities readNextField:workingLine
-                                        remainder:&workingLine];
-      transformation.element[3][1] = [parsedField floatValue];
-      // (z)
-      parsedField = [LDrawUtilities readNextField:workingLine
-                                        remainder:&workingLine];
-      transformation.element[3][2] = [parsedField floatValue];
-
-
-      // Read Transformation X.
-      // (a)
-      parsedField = [LDrawUtilities readNextField:workingLine
-                                        remainder:&workingLine];
-      transformation.element[0][0] = [parsedField floatValue];
-      // (b)
-      parsedField = [LDrawUtilities readNextField:workingLine
-                                        remainder:&workingLine];
-      transformation.element[1][0] = [parsedField floatValue];
-      // (c)
-      parsedField = [LDrawUtilities readNextField:workingLine
-                                        remainder:&workingLine];
-      transformation.element[2][0] = [parsedField floatValue];
+            // Read position.
+            // (x)
+            parsedField = [LDrawUtilities readNextField:workingLine
+                           remainder:&workingLine];
+            transformation.element[3][0] = [parsedField floatValue];
+            // (y)
+            parsedField = [LDrawUtilities readNextField:workingLine
+                           remainder:&workingLine];
+            transformation.element[3][1] = [parsedField floatValue];
+            // (z)
+            parsedField = [LDrawUtilities readNextField:workingLine
+                           remainder:&workingLine];
+            transformation.element[3][2] = [parsedField floatValue];
 
 
-      // Read Transformation Y.
-      // (d)
-      parsedField = [LDrawUtilities readNextField:workingLine
-                                        remainder:&workingLine];
-      transformation.element[0][1] = [parsedField floatValue];
-      // (e)
-      parsedField = [LDrawUtilities readNextField:workingLine
-                                        remainder:&workingLine];
-      transformation.element[1][1] = [parsedField floatValue];
-      // (f)
-      parsedField = [LDrawUtilities readNextField:workingLine
-                                        remainder:&workingLine];
-      transformation.element[2][1] = [parsedField floatValue];
+            // Read Transformation X.
+            // (a)
+            parsedField = [LDrawUtilities readNextField:workingLine
+                           remainder:&workingLine];
+            transformation.element[0][0] = [parsedField floatValue];
+            // (b)
+            parsedField = [LDrawUtilities readNextField:workingLine
+                           remainder:&workingLine];
+            transformation.element[1][0] = [parsedField floatValue];
+            // (c)
+            parsedField = [LDrawUtilities readNextField:workingLine
+                           remainder:&workingLine];
+            transformation.element[2][0] = [parsedField floatValue];
 
 
-      // Read Transformation Z.
-      // (g)
-      parsedField = [LDrawUtilities readNextField:workingLine
-                                        remainder:&workingLine];
-      transformation.element[0][2] = [parsedField floatValue];
-      // (h)
-      parsedField = [LDrawUtilities readNextField:workingLine
-                                        remainder:&workingLine];
-      transformation.element[1][2] = [parsedField floatValue];
-      // (i)
-      parsedField = [LDrawUtilities readNextField:workingLine
-                                        remainder:&workingLine];
-      transformation.element[2][2] = [parsedField floatValue];
+            // Read Transformation Y.
+            // (d)
+            parsedField = [LDrawUtilities readNextField:workingLine
+                           remainder:&workingLine];
+            transformation.element[0][1] = [parsedField floatValue];
+            // (e)
+            parsedField = [LDrawUtilities readNextField:workingLine
+                           remainder:&workingLine];
+            transformation.element[1][1] = [parsedField floatValue];
+            // (f)
+            parsedField = [LDrawUtilities readNextField:workingLine
+                           remainder:&workingLine];
+            transformation.element[2][1] = [parsedField floatValue];
 
-      // finish off the corner of the matrix.
-      transformation.element[3][3] = 1;
 
-      [self setTransformationMatrix:&transformation];
+            // Read Transformation Z.
+            // (g)
+            parsedField = [LDrawUtilities readNextField:workingLine
+                           remainder:&workingLine];
+            transformation.element[0][2] = [parsedField floatValue];
+            // (h)
+            parsedField = [LDrawUtilities readNextField:workingLine
+                           remainder:&workingLine];
+            transformation.element[1][2] = [parsedField floatValue];
+            // (i)
+            parsedField = [LDrawUtilities readNextField:workingLine
+                           remainder:&workingLine];
+            transformation.element[2][2] = [parsedField floatValue];
 
-      // Read Part Name
-      // (part.dat) -- It can have spaces (for MPD models), so we just use the whole
-      // rest of the line.
-      [self setDisplayName:[workingLine stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]
-                     parse:YES
-                   inGroup:parentGroup];
+            // finish off the corner of the matrix.
+            transformation.element[3][3] = 1;
 
-      // Debug check: full part resolution isn't thread-safe so make sure we haven't run it by accident here!
-      assert(cacheType == PartTypeUnresolved);
+            [self setTransformationMatrix:&transformation];
+
+            // Read Part Name
+            // (part.dat) -- It can have spaces (for MPD models), so we just use the whole
+            // rest of the line.
+            [self setDisplayName:[workingLine stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]
+             parse:YES
+             inGroup:parentGroup];
+
+            // Debug check: full part resolution isn't thread-safe so make sure we haven't run it by accident here!
+            assert(cacheType == PartTypeUnresolved);
+        }
+        else {
+            @throw [NSException exceptionWithName:@"BricksmithParseException"
+                    reason:@"Bad part syntax"
+                    userInfo:nil
+            ];
+        }
     }
-    else {
-      @throw [NSException exceptionWithName:@"BricksmithParseException"
-                                     reason:@"Bad part syntax"
-                                   userInfo:nil
-      ];
+    @catch (NSException *exception)
+    {
+        NSLog(@"the part %@ was fatally invalid", [lines objectAtIndex:range.location]);
+        NSLog(@" raised exception %@", [exception name]);
+        [self release];
+        self = nil;
     }
-  }
-  @catch (NSException *exception)
-  {
-    NSLog(@"the part %@ was fatally invalid", [lines objectAtIndex:range.location]);
-    NSLog(@" raised exception %@", [exception name]);
-    [self release];
-    self = nil;
-  }
 
-  return(self);
+    return(self);
 }// end initWithLines:inRange:
 
 
@@ -249,21 +249,21 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (id)initWithCoder:(NSCoder *)decoder
 {
-  const uint8_t *temporary = NULL; // pointer to a temporary buffer returned by the decoder.
+    const uint8_t *temporary = NULL; // pointer to a temporary buffer returned by the decoder.
 
-  self = [super initWithCoder:decoder];
+    self = [super initWithCoder:decoder];
 
-  [self setDisplayName:[decoder decodeObjectForKey:@"displayName"]];
+    [self setDisplayName:[decoder decodeObjectForKey:@"displayName"]];
 
-  // Parts may have icons other than the standard "Brick", i.e. LSynth constraints
-  [self setIconName:[decoder decodeObjectForKey:@"iconName"]];
+    // Parts may have icons other than the standard "Brick", i.e. LSynth constraints
+    [self setIconName:[decoder decodeObjectForKey:@"iconName"]];
 
-  // Decoding structures is a bit messy.
-  temporary = [decoder decodeBytesForKey:@"glTransformation"
-                          returnedLength:NULL];
-  memcpy(glTransformation, temporary, sizeof(GLfloat) * 16);
+    // Decoding structures is a bit messy.
+    temporary = [decoder decodeBytesForKey:@"glTransformation"
+                 returnedLength:NULL];
+    memcpy(glTransformation, temporary, sizeof(GLfloat) * 16);
 
-  return(self);
+    return(self);
 }// end initWithCoder:
 
 
@@ -276,17 +276,17 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (void)encodeWithCoder:(NSCoder *)encoder
 {
-  [super encodeWithCoder:encoder];
+    [super encodeWithCoder:encoder];
 
-  [encoder encodeObject:displayName
-                 forKey:@"displayName"];
+    [encoder encodeObject:displayName
+     forKey:@"displayName"];
 
-  // Parts may have icons other than the standard "Brick", i.e. LSynth constraints
-  [encoder encodeObject:[self iconName]
-                 forKey:@"iconName"];
-  [encoder encodeBytes:(void *)glTransformation
-                length:sizeof(GLfloat) * 16
-                forKey:@"glTransformation"];
+    // Parts may have icons other than the standard "Brick", i.e. LSynth constraints
+    [encoder encodeObject:[self iconName]
+     forKey:@"iconName"];
+    [encoder encodeBytes:(void *)glTransformation
+     length:sizeof(GLfloat) * 16
+     forKey:@"glTransformation"];
 }// end encodeWithCoder:
 
 
@@ -297,13 +297,13 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (id)copyWithZone:(NSZone *)zone
 {
-  LDrawPart *copied        = (LDrawPart *)[super copyWithZone:zone];
-  Matrix4   transformation = [self transformationMatrix];
+    LDrawPart *copied        = (LDrawPart *)[super copyWithZone:zone];
+    Matrix4   transformation = [self transformationMatrix];
 
-  [copied setDisplayName:[self displayName]];
-  [copied setTransformationMatrix:&transformation];
+    [copied setDisplayName:[self displayName]];
+    [copied setTransformationMatrix:&transformation];
 
-  return(copied);
+    return(copied);
 }// end copyWithZone:
 
 
@@ -318,64 +318,64 @@ int doubleNearGrid(double v, double grid, double epsi)
 //
 // ==============================================================================
 - (void)drawElement:(NSUInteger)optionsMask viewScale:(double)scaleFactor withColor:(LDrawColor *)
-  drawingColor
+    drawingColor
 {
-  LDrawDirective *drawable      = nil;
-  BOOL           drawBoundsOnly = ((optionsMask & DRAW_BOUNDS_ONLY) != 0);
+    LDrawDirective *drawable      = nil;
+    BOOL           drawBoundsOnly = ((optionsMask & DRAW_BOUNDS_ONLY) != 0);
 
-  // If the part is selected, we need to give some indication. We do this
-  // by drawing it as a wireframe instead of a filled color. This setting
-  // also conveniently applies to all referenced parts herein.
-  if ([self isSelected] == YES) {
+    // If the part is selected, we need to give some indication. We do this
+    // by drawing it as a wireframe instead of a filled color. This setting
+    // also conveniently applies to all referenced parts herein.
+    if ([self isSelected] == YES) {
 #if (USE_AUTOMATIC_WIREFRAMES)
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 #else
-    optionsMask = optionsMask | DRAW_WIREFRAME;
+        optionsMask = optionsMask | DRAW_WIREFRAME;
 #endif
-  }
-
-  // Multithreading finally works with one display list per displayed part
-  // AND mutexes around the glCallList. But the mutex contention causes a
-  // 50% increase in drawing time. Gah!
-
-  glPushMatrix();
-  {
-    glMultMatrixf(glTransformation);
-
-    [self resolvePart];
-
-    drawable = cacheDrawable;
-
-    if (cacheType == PartTypeLibrary && cacheDrawable == nil) {
-      // Parts assigned to LDrawCurrentColor may get drawn in many
-      // different colors in one draw, so we can't cache their
-      // optimized drawable. We have to retrieve their optimized
-      // drawable on-the-fly.
-
-      // Parts that have a SPECIFIC color have been linked DIRECTLY to
-      // their specific colored VBO during -optimizeOpenGL.
-
-      drawable = [[PartLibrary sharedPartLibrary] optimizedDrawableForPart:self
-                                                                     color:drawingColor];
     }
 
-    if (drawBoundsOnly == NO) {
-      [drawable draw:optionsMask
-           viewScale:scaleFactor
-         parentColor:drawingColor];
-    }
-    else {
-      [self drawBoundsWithColor:drawingColor];
-    }
-  }
-  glPopMatrix();
+    // Multithreading finally works with one display list per displayed part
+    // AND mutexes around the glCallList. But the mutex contention causes a
+    // 50% increase in drawing time. Gah!
 
-  // Done drawing a selected part? Then switch back to normal filled drawing.
-  if ([self isSelected] == YES) {
+    glPushMatrix();
+    {
+        glMultMatrixf(glTransformation);
+
+        [self resolvePart];
+
+        drawable = cacheDrawable;
+
+        if (cacheType == PartTypeLibrary && cacheDrawable == nil) {
+            // Parts assigned to LDrawCurrentColor may get drawn in many
+            // different colors in one draw, so we can't cache their
+            // optimized drawable. We have to retrieve their optimized
+            // drawable on-the-fly.
+
+            // Parts that have a SPECIFIC color have been linked DIRECTLY to
+            // their specific colored VBO during -optimizeOpenGL.
+
+            drawable = [[PartLibrary sharedPartLibrary] optimizedDrawableForPart:self
+                        color:drawingColor];
+        }
+
+        if (drawBoundsOnly == NO) {
+            [drawable draw:optionsMask
+             viewScale:scaleFactor
+             parentColor:drawingColor];
+        }
+        else {
+            [self drawBoundsWithColor:drawingColor];
+        }
+    }
+    glPopMatrix();
+
+    // Done drawing a selected part? Then switch back to normal filled drawing.
+    if ([self isSelected] == YES) {
 #if (USE_AUTOMATIC_WIREFRAMES)
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 #endif
-  }
+    }
 }// end drawElement:parentColor:
 
 
@@ -391,31 +391,31 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ================================================================================
 - (void)drawSelf:(id <LDrawRenderer>)renderer
 {
-  if (self->hidden == NO) {
-    [self resolvePart];
+    if (self->hidden == NO) {
+        [self resolvePart];
 
-    if (cacheModel) {
-      if ([self->color colorCode] != LDrawCurrentColor) {
-        // Old rendering code did not actually support
-        // pushing the edge color as the new current
-        // color - and it's probably against spec.  But
-        // it's not really the place of drawSelf to go
-        // slappign wrists, so pass it to the render,
-        // which actually DOES know how to get this case
-        // right.
-        if ([self->color colorCode] == LDrawEdgeColor) {
-          [renderer pushColor:LDrawRenderComplimentColor];
-        }
-        else {
-          GLfloat c[4];
-          [self->color getColorRGBA:c];
-          [renderer pushColor:c];
-        }
-      }
+        if (cacheModel) {
+            if ([self->color colorCode] != LDrawCurrentColor) {
+                // Old rendering code did not actually support
+                // pushing the edge color as the new current
+                // color - and it's probably against spec.  But
+                // it's not really the place of drawSelf to go
+                // slappign wrists, so pass it to the render,
+                // which actually DOES know how to get this case
+                // right.
+                if ([self->color colorCode] == LDrawEdgeColor) {
+                    [renderer pushColor:LDrawRenderComplimentColor];
+                }
+                else {
+                    GLfloat c[4];
+                    [self->color getColorRGBA:c];
+                    [renderer pushColor:c];
+                }
+            }
 
-      if ([self isSelected] == YES) {
-        [renderer pushWireFrame];
-      }
+            if ([self isSelected] == YES) {
+                [renderer pushWireFrame];
+            }
       #if SHRINK_SEAMS
 // Box3 bbox = [cacheModel boundingBox3];
 // int i;
@@ -446,24 +446,24 @@ int doubleNearGrid(double v, double grid, double epsi)
 // [renderer pushMatrix:glTransformation];
 // [renderer pushMatrix:shrinkMatrix];
       #else
-      [renderer pushMatrix:glTransformation];
+            [renderer pushMatrix:glTransformation];
       #endif
 
-      [cacheModel drawSelf:renderer];
+            [cacheModel drawSelf:renderer];
 
-      [renderer popMatrix];
+            [renderer popMatrix];
       #if SHRINK_SEAMS
 // [renderer popMatrix];
       #endif
-      if ([self->color colorCode] != LDrawCurrentColor) {
-        [renderer popColor];
-      }
+            if ([self->color colorCode] != LDrawCurrentColor) {
+                [renderer popColor];
+            }
 
-      if ([self isSelected] == YES) {
-        [renderer popWireFrame];
-      }
+            if ([self isSelected] == YES) {
+                [renderer popWireFrame];
+            }
+        }
     }
-  }
 }// end drawSelf:
 
 
@@ -474,11 +474,11 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (void)drawBoundsWithColor:(LDrawColor *)drawingColor
 {
-  assert(!"Deprecated draw path.");
-  // Pull the bounds directly from the model; we can't use the part's because
-  // it mangles them based on rotation. In this case, we want to do a raw
-  // draw and let the model matrix transform our drawing appropriately.
-  [self resolvePart];
+    assert(!"Deprecated draw path.");
+    // Pull the bounds directly from the model; we can't use the part's because
+    // it mangles them based on rotation. In this case, we want to do a raw
+    // draw and let the model matrix transform our drawing appropriately.
+    [self resolvePart];
 }// end drawBounds
 
 
@@ -490,18 +490,18 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (void)debugDrawboundingBox
 {
-  [self resolvePart];
-  LDrawModel *modelToDraw = cacheModel;
+    [self resolvePart];
+    LDrawModel *modelToDraw = cacheModel;
 
-  // If the model can't be found, we can't draw good bounds for it!
-  if (modelToDraw != nil) {
-    glPushMatrix();
-    glMultMatrixf(glTransformation);
-    [modelToDraw debugDrawboundingBox];
-    glPopMatrix();
-  }
+    // If the model can't be found, we can't draw good bounds for it!
+    if (modelToDraw != nil) {
+        glPushMatrix();
+        glMultMatrixf(glTransformation);
+        [modelToDraw debugDrawboundingBox];
+        glPopMatrix();
+    }
 
-  [super debugDrawboundingBox];
+    [super debugDrawboundingBox];
 }// end debugDrawboundingBox
 
 
@@ -511,13 +511,13 @@ int doubleNearGrid(double v, double grid, double epsi)
 //
 // ==============================================================================
 - (void)hitTest:(Ray3)pickRay
-  transform:(Matrix4)transform
-  viewScale:(double)scaleFactor
-  boundsOnly:(BOOL)boundsOnly
-  creditObject:(id)creditObject
-  hits:(NSMutableDictionary *)hits
+    transform:(Matrix4)transform
+    viewScale:(double)scaleFactor
+    boundsOnly:(BOOL)boundsOnly
+    creditObject:(id)creditObject
+    hits:(NSMutableDictionary *)hits
 {
-  assert(!"Deprecated.");
+    assert(!"Deprecated.");
 }// end hitTest:transform:viewScale:boundsOnly:creditObject:hits:
 
 
@@ -527,43 +527,43 @@ int doubleNearGrid(double v, double grid, double epsi)
 //
 // ==============================================================================
 - (BOOL)boxTest:(Box2)bounds
-  transform:(Matrix4)transform
-  boundsOnly:(BOOL)boundsOnly
-  creditObject:(id)creditObject
-  hits:(NSMutableSet *)hits
+    transform:(Matrix4)transform
+    boundsOnly:(BOOL)boundsOnly
+    creditObject:(id)creditObject
+    hits:(NSMutableSet *)hits
 {
-  if (self->hidden == NO) {
-    if (!VolumeCanIntersectBox([self boundingBox3], transform, bounds)) {
-      return(FALSE);
-    }
-
-
-    Matrix4        partTransform     = [self transformationMatrix];
-    Matrix4        combinedTransform = Matrix4Multiply(partTransform, transform);
-    LDrawDirective *modelToDraw      = nil;
-
-    // Credit all subgeometry to ourselves (unless we are already a child part)
-    if (creditObject == nil) {
-      creditObject = self;
-    }
-
-    [self resolvePart];
-    modelToDraw = cacheModel;
-
-    assert(boundsOnly == NO);
-    if (boundsOnly == NO) {
-      if ([modelToDraw boxTest:bounds
-                     transform:combinedTransform
-                    boundsOnly:NO
-                  creditObject:creditObject hits
-                              :hits]) {
-        if (creditObject != nil) {
-          return(TRUE);
+    if (self->hidden == NO) {
+        if (!VolumeCanIntersectBox([self boundingBox3], transform, bounds)) {
+            return(FALSE);
         }
-      }
+
+
+        Matrix4        partTransform     = [self transformationMatrix];
+        Matrix4        combinedTransform = Matrix4Multiply(partTransform, transform);
+        LDrawDirective *modelToDraw      = nil;
+
+        // Credit all subgeometry to ourselves (unless we are already a child part)
+        if (creditObject == nil) {
+            creditObject = self;
+        }
+
+        [self resolvePart];
+        modelToDraw = cacheModel;
+
+        assert(boundsOnly == NO);
+        if (boundsOnly == NO) {
+            if ([modelToDraw boxTest:bounds
+                 transform:combinedTransform
+                 boundsOnly:NO
+                 creditObject:creditObject hits
+                 :hits]) {
+                if (creditObject != nil) {
+                    return(TRUE);
+                }
+            }
+        }
     }
-  }
-  return(FALSE);
+    return(FALSE);
 }// end boxTest:transform:boundsOnly:creditObject:hits:
 
 
@@ -575,37 +575,37 @@ int doubleNearGrid(double v, double grid, double epsi)
 //
 // ==============================================================================
 - (void)depthTest:(Point2)pt
-  inBox:(Box2)bounds
-  transform:(Matrix4)transform
-  creditObject:(id)creditObject
-  bestObject:(id *)bestObject
-  bestDepth:(double *)bestDepth
+    inBox:(Box2)bounds
+    transform:(Matrix4)transform
+    creditObject:(id)creditObject
+    bestObject:(id *)bestObject
+    bestDepth:(double *)bestDepth
 {
-  if (self->hidden == NO) {
-    if (!VolumeCanIntersectPoint([self boundingBox3], transform, bounds, *bestDepth)) {
-      return;
+    if (self->hidden == NO) {
+        if (!VolumeCanIntersectPoint([self boundingBox3], transform, bounds, *bestDepth)) {
+            return;
+        }
+
+        Matrix4        partTransform     = [self transformationMatrix];
+        Matrix4        combinedTransform = Matrix4Multiply(partTransform, transform);
+        LDrawDirective *modelToDraw      = nil;
+
+        // Credit all subgeometry to ourselves (unless we are already a child part)
+        if (creditObject == nil) {
+            creditObject = self;
+        }
+
+        [self resolvePart];
+        modelToDraw = cacheModel;
+
+        [modelToDraw depthTest:pt
+         inBox:bounds
+         transform:combinedTransform
+         creditObject:creditObject
+         bestObject:
+         bestObject
+         bestDepth:bestDepth];
     }
-
-    Matrix4        partTransform     = [self transformationMatrix];
-    Matrix4        combinedTransform = Matrix4Multiply(partTransform, transform);
-    LDrawDirective *modelToDraw      = nil;
-
-    // Credit all subgeometry to ourselves (unless we are already a child part)
-    if (creditObject == nil) {
-      creditObject = self;
-    }
-
-    [self resolvePart];
-    modelToDraw = cacheModel;
-
-    [modelToDraw depthTest:pt
-                     inBox:bounds
-                 transform:combinedTransform
-              creditObject:creditObject
-                bestObject:
-     bestObject
-                 bestDepth:bestDepth];
-  }
 }// end depthTest:inBox:transform:creditObject:bestObject:bestDepth:
 
 
@@ -627,30 +627,30 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (NSString *)write
 {
-  Matrix4 transformation = [self transformationMatrix];
+    Matrix4 transformation = [self transformationMatrix];
 
-  return([NSString stringWithFormat:
-          @"1 %@ %@ %@ %@ %@ %@ %@ %@ %@ %@ %@ %@ %@ %@",
-          [LDrawUtilities outputStringForColor:self->color],
+    return([NSString stringWithFormat:
+            @"1 %@ %@ %@ %@ %@ %@ %@ %@ %@ %@ %@ %@ %@ %@",
+            [LDrawUtilities outputStringForColor:self->color],
 
-          [LDrawUtilities outputStringForFloat:transformation.element[3][0]], // position.x,			(x)
-          [LDrawUtilities outputStringForFloat:transformation.element[3][1]], // position.y,			(y)
-          [LDrawUtilities outputStringForFloat:transformation.element[3][2]], // position.z,			(z)
+            [LDrawUtilities outputStringForFloat:transformation.element[3][0]], // position.x,			(x)
+            [LDrawUtilities outputStringForFloat:transformation.element[3][1]], // position.y,			(y)
+            [LDrawUtilities outputStringForFloat:transformation.element[3][2]], // position.z,			(z)
 
-          [LDrawUtilities outputStringForFloat:transformation.element[0][0]], // transformationX.x,	(a)
-          [LDrawUtilities outputStringForFloat:transformation.element[1][0]], // transformationX.y,	(b)
-          [LDrawUtilities outputStringForFloat:transformation.element[2][0]], // transformationX.z,	(c)
+            [LDrawUtilities outputStringForFloat:transformation.element[0][0]], // transformationX.x,	(a)
+            [LDrawUtilities outputStringForFloat:transformation.element[1][0]], // transformationX.y,	(b)
+            [LDrawUtilities outputStringForFloat:transformation.element[2][0]], // transformationX.z,	(c)
 
-          [LDrawUtilities outputStringForFloat:transformation.element[0][1]], // transformationY.x,	(d)
-          [LDrawUtilities outputStringForFloat:transformation.element[1][1]], // transformationY.y,	(e)
-          [LDrawUtilities outputStringForFloat:transformation.element[2][1]], // transformationY.z,	(f)
+            [LDrawUtilities outputStringForFloat:transformation.element[0][1]], // transformationY.x,	(d)
+            [LDrawUtilities outputStringForFloat:transformation.element[1][1]], // transformationY.y,	(e)
+            [LDrawUtilities outputStringForFloat:transformation.element[2][1]], // transformationY.z,	(f)
 
-          [LDrawUtilities outputStringForFloat:transformation.element[0][2]], // transformationZ.x,	(g)
-          [LDrawUtilities outputStringForFloat:transformation.element[1][2]], // transformationZ.y,	(h)
-          [LDrawUtilities outputStringForFloat:transformation.element[2][2]], // transformationZ.z,	(i)
+            [LDrawUtilities outputStringForFloat:transformation.element[0][2]], // transformationZ.x,	(g)
+            [LDrawUtilities outputStringForFloat:transformation.element[1][2]], // transformationZ.y,	(h)
+            [LDrawUtilities outputStringForFloat:transformation.element[2][2]], // transformationZ.z,	(i)
 
-          displayName
-         ]);
+            displayName
+           ]);
 }// end write
 
 
@@ -668,7 +668,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (NSString *)browsingDescription
 {
-  return([[PartLibrary sharedPartLibrary] descriptionForPart:self]);
+    return([[PartLibrary sharedPartLibrary] descriptionForPart:self]);
 }// end browsingDescription
 
 
@@ -679,7 +679,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (NSString *)inspectorClassName
 {
-  return(@"InspectionPart");
+    return(@"InspectionPart");
 }// end inspectorClassName
 
 
@@ -696,55 +696,55 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (Box3)boundingBox3
 {
-  if ([self revalCache:CacheFlagBounds] == CacheFlagBounds) {
-    [self resolvePart];
-    LDrawModel *modelToDraw = cacheModel;
+    if ([self revalCache:CacheFlagBounds] == CacheFlagBounds) {
+        [self resolvePart];
+        LDrawModel *modelToDraw = cacheModel;
 
-    Box3 bounds = InvalidBox;
-    cacheBounds = InvalidBox;
-    Matrix4 transformation = [self transformationMatrix];
+        Box3 bounds = InvalidBox;
+        cacheBounds = InvalidBox;
+        Matrix4 transformation = [self transformationMatrix];
 
-    // We need to have an actual model here. Blithely calling boundingBox3 will
-    // result in most of our Box3 structure being garbage data!
-    if (modelToDraw != nil && self->hidden == NO) {
-      bounds = [modelToDraw boundingBox3];
+        // We need to have an actual model here. Blithely calling boundingBox3 will
+        // result in most of our Box3 structure being garbage data!
+        if (modelToDraw != nil && self->hidden == NO) {
+            bounds = [modelToDraw boundingBox3];
 
-      if (V3EqualBoxes(bounds, InvalidBox) == NO) {
-        // Transform all the points of the bounding box to find the new
-        // minimum and maximum.
-        Point3 vertices[8] =
-        {
-          { bounds.min.x, bounds.min.y, bounds.min.z },
-          { bounds.min.x, bounds.min.y, bounds.max.z },
-          { bounds.min.x, bounds.max.y, bounds.max.z },
-          { bounds.min.x, bounds.max.y, bounds.min.z },
+            if (V3EqualBoxes(bounds, InvalidBox) == NO) {
+                // Transform all the points of the bounding box to find the new
+                // minimum and maximum.
+                Point3 vertices[8] =
+                {
+                    { bounds.min.x, bounds.min.y, bounds.min.z },
+                    { bounds.min.x, bounds.min.y, bounds.max.z },
+                    { bounds.min.x, bounds.max.y, bounds.max.z },
+                    { bounds.min.x, bounds.max.y, bounds.min.z },
 
-          { bounds.max.x, bounds.min.y, bounds.min.z },
-          { bounds.max.x, bounds.min.y, bounds.max.z },
-          { bounds.max.x, bounds.max.y, bounds.max.z },
-          { bounds.max.x, bounds.max.y, bounds.min.z },
-        };
-        vertices[0] = V3MulPointByProjMatrix(vertices[0], transformation);
-        cacheBounds = V3UnionBoxAndPoint(cacheBounds, vertices[0]);
-        vertices[1] = V3MulPointByProjMatrix(vertices[1], transformation);
-        cacheBounds = V3UnionBoxAndPoint(cacheBounds, vertices[1]);
-        vertices[2] = V3MulPointByProjMatrix(vertices[2], transformation);
-        cacheBounds = V3UnionBoxAndPoint(cacheBounds, vertices[2]);
-        vertices[3] = V3MulPointByProjMatrix(vertices[3], transformation);
-        cacheBounds = V3UnionBoxAndPoint(cacheBounds, vertices[3]);
-        vertices[4] = V3MulPointByProjMatrix(vertices[4], transformation);
-        cacheBounds = V3UnionBoxAndPoint(cacheBounds, vertices[4]);
-        vertices[5] = V3MulPointByProjMatrix(vertices[5], transformation);
-        cacheBounds = V3UnionBoxAndPoint(cacheBounds, vertices[5]);
-        vertices[6] = V3MulPointByProjMatrix(vertices[6], transformation);
-        cacheBounds = V3UnionBoxAndPoint(cacheBounds, vertices[6]);
-        vertices[7] = V3MulPointByProjMatrix(vertices[7], transformation);
-        cacheBounds = V3UnionBoxAndPoint(cacheBounds, vertices[7]);
-      }
+                    { bounds.max.x, bounds.min.y, bounds.min.z },
+                    { bounds.max.x, bounds.min.y, bounds.max.z },
+                    { bounds.max.x, bounds.max.y, bounds.max.z },
+                    { bounds.max.x, bounds.max.y, bounds.min.z },
+                };
+                vertices[0] = V3MulPointByProjMatrix(vertices[0], transformation);
+                cacheBounds = V3UnionBoxAndPoint(cacheBounds, vertices[0]);
+                vertices[1] = V3MulPointByProjMatrix(vertices[1], transformation);
+                cacheBounds = V3UnionBoxAndPoint(cacheBounds, vertices[1]);
+                vertices[2] = V3MulPointByProjMatrix(vertices[2], transformation);
+                cacheBounds = V3UnionBoxAndPoint(cacheBounds, vertices[2]);
+                vertices[3] = V3MulPointByProjMatrix(vertices[3], transformation);
+                cacheBounds = V3UnionBoxAndPoint(cacheBounds, vertices[3]);
+                vertices[4] = V3MulPointByProjMatrix(vertices[4], transformation);
+                cacheBounds = V3UnionBoxAndPoint(cacheBounds, vertices[4]);
+                vertices[5] = V3MulPointByProjMatrix(vertices[5], transformation);
+                cacheBounds = V3UnionBoxAndPoint(cacheBounds, vertices[5]);
+                vertices[6] = V3MulPointByProjMatrix(vertices[6], transformation);
+                cacheBounds = V3UnionBoxAndPoint(cacheBounds, vertices[6]);
+                vertices[7] = V3MulPointByProjMatrix(vertices[7], transformation);
+                cacheBounds = V3UnionBoxAndPoint(cacheBounds, vertices[7]);
+            }
+        }
     }
-  }
 
-  return(cacheBounds);
+    return(cacheBounds);
 }// end boundingBox3
 
 
@@ -756,7 +756,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (NSString *)displayName
 {
-  return(displayName);
+    return(displayName);
 }// end displayName
 
 
@@ -772,10 +772,10 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (Point3)position
 {
-  TransformComponents components = [self transformComponents];
-  Point3 position = components.translate;
+    TransformComponents components = [self transformComponents];
+    Point3 position = components.translate;
 
-  return(position);
+    return(position);
 }// end position
 
 
@@ -812,7 +812,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (NSString *)referenceName
 {
-  return(referenceName);
+    return(referenceName);
 }// end referenceName
 
 
@@ -829,19 +829,19 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (LDrawModel *)referencedMPDSubmodel
 {
-  LDrawModel *model         = nil;
-  LDrawFile  *enclosingFile = [self enclosingFile];
+    LDrawModel *model         = nil;
+    LDrawFile  *enclosingFile = [self enclosingFile];
 
-  if (enclosingFile != nil) {
-    model = (LDrawModel *)[enclosingFile modelWithName:self->referenceName];
-  }
-  // No can do if we get a reference back to ourselves. That would be
-  // an infinitely-recursing reference, which is bad!
-  if (model == [[self enclosingStep] enclosingModel]) {
-    model = nil;
-  }
+    if (enclosingFile != nil) {
+        model = (LDrawModel *)[enclosingFile modelWithName:self->referenceName];
+    }
+    // No can do if we get a reference back to ourselves. That would be
+    // an infinitely-recursing reference, which is bad!
+    if (model == [[self enclosingStep] enclosingModel]) {
+        model = nil;
+    }
 
-  return(model);
+    return(model);
 }// end referencedMPDSubmodel
 
 
@@ -861,13 +861,13 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (LDrawModel *)referencedPeerFile
 {
-  if (cacheType == PartTypeUnresolved) {
-    [self resolvePart];
-  }
-  if (cacheType != PartTypePeerFile) {
-    return(nil);
-  }
-  return(cacheModel);
+    if (cacheType == PartTypeUnresolved) {
+        [self resolvePart];
+    }
+    if (cacheType != PartTypePeerFile) {
+        return(nil);
+    }
+    return(cacheModel);
 }// end referencedPeerFile
 
 
@@ -879,14 +879,14 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (TransformComponents)transformComponents
 {
-  Matrix4             transformation = [self transformationMatrix];
-  TransformComponents components     = IdentityComponents;
+    Matrix4             transformation = [self transformationMatrix];
+    TransformComponents components     = IdentityComponents;
 
-  // This is a pretty darn neat little function. I wish I could say I wrote it.
-  // It will extract all the user-friendly components out of this nasty matrix.
-  Matrix4DecomposeTransformation(transformation, &components);
+    // This is a pretty darn neat little function. I wish I could say I wrote it.
+    // It will extract all the user-friendly components out of this nasty matrix.
+    Matrix4DecomposeTransformation(transformation, &components);
 
-  return(components);
+    return(components);
 }// end transformComponents
 
 
@@ -907,7 +907,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (Matrix4)transformationMatrix
 {
-  return(Matrix4CreateFromGLMatrix4(glTransformation));
+    return(Matrix4CreateFromGLMatrix4(glTransformation));
 }// end transformationMatrix
 
 
@@ -917,8 +917,8 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (void)setEnclosingDirective:(LDrawContainer *)newParent
 {
-  [self unresolvePart];
-  [super setEnclosingDirective:newParent];
+    [self unresolvePart];
+    [super setEnclosingDirective:newParent];
 }
 
 
@@ -929,10 +929,10 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (void)setLDrawColor:(LDrawColor *)newColor
 {
-  [super setLDrawColor:newColor];
+    [super setLDrawColor:newColor];
 
-  [self unresolvePart];
-  [self invalCache:CacheFlagBounds];
+    [self unresolvePart];
+    [self invalCache:CacheFlagBounds];
 }// end setLDrawColor:
 
 
@@ -944,9 +944,9 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (void)setDisplayName:(NSString *)newPartName
 {
-  [self setDisplayName:newPartName
-                 parse:YES
-               inGroup:NULL];
+    [self setDisplayName:newPartName
+     parse:YES
+     inGroup:NULL];
 }
 
 
@@ -968,52 +968,52 @@ int doubleNearGrid(double v, double grid, double epsi)
 //
 // ==============================================================================
 - (void)setDisplayName:(NSString *)newPartName
-  parse:(BOOL)shouldParse
-  inGroup:(dispatch_group_t)parentGroup
+    parse:(BOOL)shouldParse
+    inGroup:(dispatch_group_t)parentGroup
 {
-  NSString         *newReferenceName = [newPartName lowercaseString];
-  dispatch_group_t parseGroup        = NULL;
+    NSString         *newReferenceName = [newPartName lowercaseString];
+    dispatch_group_t parseGroup        = NULL;
 
-  [newPartName retain];
-  [displayName release];
-  displayName = newPartName;
+    [newPartName retain];
+    [displayName release];
+    displayName = newPartName;
 
-  [newReferenceName retain];
-  [referenceName release];
-  referenceName = newReferenceName;
+    [newReferenceName retain];
+    [referenceName release];
+    referenceName = newReferenceName;
 
-  assert(parentGroup == NULL || cacheType == PartTypeUnresolved);
+    assert(parentGroup == NULL || cacheType == PartTypeUnresolved);
 
-  [self unresolvePart];
+    [self unresolvePart];
 
-  // Force the part library to parse the model this part will display. This
-  // pushes all parsing into the same operation, which improves loading time
-  // predictability and allows better potential threading optimization.
-  //
-  // Ben says: we _have_ to call this, even on MPD and peer models.  Since
-  // we don't know what kind of thing we are, checking the cache type will
-  // always return unresolved.  But I don't think I want to force-resolve
-  // here - resolving later prevents thrash.
-  if (shouldParse == YES && newPartName != nil && [newPartName length] > 0) {
+    // Force the part library to parse the model this part will display. This
+    // pushes all parsing into the same operation, which improves loading time
+    // predictability and allows better potential threading optimization.
+    //
+    // Ben says: we _have_ to call this, even on MPD and peer models.  Since
+    // we don't know what kind of thing we are, checking the cache type will
+    // always return unresolved.  But I don't think I want to force-resolve
+    // here - resolving later prevents thrash.
+    if (shouldParse == YES && newPartName != nil && [newPartName length] > 0) {
 #if USE_BLOCKS
-    // Create a parsing group if needed.
-    if (parentGroup == NULL) {
-      parseGroup = dispatch_group_create();
-    }
-    else {
-      parseGroup = parentGroup;
-    }
+        // Create a parsing group if needed.
+        if (parentGroup == NULL) {
+            parseGroup = dispatch_group_create();
+        }
+        else {
+            parseGroup = parentGroup;
+        }
 #endif
-    [[PartLibrary sharedPartLibrary] loadModelForName:referenceName
-                                              inGroup:parseGroup];
+        [[PartLibrary sharedPartLibrary] loadModelForName:referenceName
+         inGroup:parseGroup];
 
 #if USE_BLOCKS
-    if (parentGroup == NULL) {
-      dispatch_group_wait(parseGroup, DISPATCH_TIME_FOREVER);
-      dispatch_release(parseGroup);
-    }
+        if (parentGroup == NULL) {
+            dispatch_group_wait(parseGroup, DISPATCH_TIME_FOREVER);
+            dispatch_release(parseGroup);
+        }
 #endif
-  }
+    }
 }// end setDisplayName:
 
 
@@ -1025,9 +1025,9 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (void)setTransformComponents:(TransformComponents)newComponents
 {
-  Matrix4 transformation = Matrix4CreateTransformation(&newComponents);
+    Matrix4 transformation = Matrix4CreateTransformation(&newComponents);
 
-  [self setTransformationMatrix:&transformation];
+    [self setTransformationMatrix:&transformation];
 }// end setTransformComponents:
 
 
@@ -1050,8 +1050,8 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (void)setTransformationMatrix:(Matrix4 *)newMatrix
 {
-  [self invalCache:CacheFlagBounds];
-  Matrix4GetGLMatrix4(*newMatrix, self->glTransformation);
+    [self invalCache:CacheFlagBounds];
+    Matrix4GetGLMatrix4(*newMatrix, self->glTransformation);
 }// end setTransformationMatrix
 
 
@@ -1062,12 +1062,12 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (void)setSelected:(BOOL)flag
 {
-  [super setSelected:flag];
+    [super setSelected:flag];
 
-  // would like LDrawContainer to be a protocol.  In its absence...
-  if ([[self enclosingDirective] respondsToSelector:@selector(setSubdirectiveSelected:)]) {
-    [[self enclosingDirective] setSubdirectiveSelected:flag];
-  }
+    // would like LDrawContainer to be a protocol.  In its absence...
+    if ([[self enclosingDirective] respondsToSelector:@selector(setSubdirectiveSelected:)]) {
+        [[self enclosingDirective] setSubdirectiveSelected:flag];
+    }
 }// end setSelected:
 
 
@@ -1086,50 +1086,50 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (Vector3)displacementForNudge:(Vector3)nudgeVector
 {
-  Matrix4 transformationMatrix = IdentityMatrix4;
-  Matrix4 inverseMatrix        = IdentityMatrix4;
-  Vector4 worldNudge           = { 0, 0, 0, 1 };
-  Vector4 brickNudge           = { 0 };
+    Matrix4 transformationMatrix = IdentityMatrix4;
+    Matrix4 inverseMatrix        = IdentityMatrix4;
+    Vector4 worldNudge           = { 0, 0, 0, 1 };
+    Vector4 brickNudge           = { 0 };
 
-  // convert incoming 3D vector to 4D for our math:
-  worldNudge.x = nudgeVector.x;
-  worldNudge.y = nudgeVector.y;
-  worldNudge.z = nudgeVector.z;
+    // convert incoming 3D vector to 4D for our math:
+    worldNudge.x = nudgeVector.x;
+    worldNudge.y = nudgeVector.y;
+    worldNudge.z = nudgeVector.z;
 
-  // Figure out which direction we're asking to move the part itself.
-  transformationMatrix        = [self transformationMatrix];
-  inverseMatrix               = Matrix4Invert(transformationMatrix);
-  inverseMatrix.element[3][0] = 0.0; // zero out the translation part, leaving only rotation etc.
-  inverseMatrix.element[3][1] = 0.0;
-  inverseMatrix.element[3][2] = 0.0;
+    // Figure out which direction we're asking to move the part itself.
+    transformationMatrix        = [self transformationMatrix];
+    inverseMatrix               = Matrix4Invert(transformationMatrix);
+    inverseMatrix.element[3][0] = 0.0; // zero out the translation part, leaving only rotation etc.
+    inverseMatrix.element[3][1] = 0.0;
+    inverseMatrix.element[3][2] = 0.0;
 
-  // See if this is a nudge along the brick's "up" direction.
-  // If so, the nudge needs to be a different magnitude, to compensate
-  // for the fact that Lego bricks are not square!
-  brickNudge = V4MulPointByMatrix(worldNudge, inverseMatrix);
-  if (fabs(brickNudge.y) > fabs(brickNudge.x) &&
-      fabs(brickNudge.y) > fabs(brickNudge.z)) {
-    // The trouble is, we need to do different things for different
-    // scales. For instance, in medium mode, we probably want to
-    // move 1/2 stud horizontally but 1/3 stud vertically.
-    //
-    // But in coarse mode, we want to move 1 stud horizontally and
-    // vertically. These are different ratios! So I test for known
-    // numbers, and only apply modifications if they are recognized.
+    // See if this is a nudge along the brick's "up" direction.
+    // If so, the nudge needs to be a different magnitude, to compensate
+    // for the fact that Lego bricks are not square!
+    brickNudge = V4MulPointByMatrix(worldNudge, inverseMatrix);
+    if (fabs(brickNudge.y) > fabs(brickNudge.x) &&
+        fabs(brickNudge.y) > fabs(brickNudge.z)) {
+        // The trouble is, we need to do different things for different
+        // scales. For instance, in medium mode, we probably want to
+        // move 1/2 stud horizontally but 1/3 stud vertically.
+        //
+        // But in coarse mode, we want to move 1 stud horizontally and
+        // vertically. These are different ratios! So I test for known
+        // numbers, and only apply modifications if they are recognized.
 
-    double nudgeDistance = V3Length(nudgeVector);
+        double nudgeDistance = V3Length(nudgeVector);
 
-    if (doubleNearGrid(nudgeDistance, 20, 0.0001)) {
-      nudgeVector = V3MulScalar(nudgeVector, 24.0 / 20.0);
+        if (doubleNearGrid(nudgeDistance, 20, 0.0001)) {
+            nudgeVector = V3MulScalar(nudgeVector, 24.0 / 20.0);
+        }
+        else if (doubleNearGrid(nudgeDistance, 10, 0.0001)) {
+            nudgeVector = V3MulScalar(nudgeVector, 8.0 / 10.0);
+        }
     }
-    else if (doubleNearGrid(nudgeDistance, 10, 0.0001)) {
-      nudgeVector = V3MulScalar(nudgeVector, 8.0 / 10.0);
-    }
-  }
 
 
-  // we now have a nudge based on the correct size: plates or bricks.
-  return(nudgeVector);
+    // we now have a nudge based on the correct size: plates or bricks.
+    return(nudgeVector);
 }// end displacementForNudge:
 
 
@@ -1140,13 +1140,13 @@ int doubleNearGrid(double v, double grid, double epsi)
 //
 // ==============================================================================
 - (TransformComponents)componentsSnappedToGrid:(double)gridSpacing
-  minimumAngle:(double)degrees
+    minimumAngle:(double)degrees
 {
-  TransformComponents components = [self transformComponents];
+    TransformComponents components = [self transformComponents];
 
-  return([self components:components
+    return([self components:components
             snappedToGrid:gridSpacing
-             minimumAngle:degrees]);
+            minimumAngle:degrees]);
 }// end componentsSnappedToGrid:minimumAngle:
 
 
@@ -1169,84 +1169,84 @@ int doubleNearGrid(double v, double grid, double epsi)
 //
 // ==============================================================================
 - (TransformComponents)components:(TransformComponents)components
-  snappedToGrid:(double)gridSpacing
-  minimumAngle:(double)degrees
+    snappedToGrid:(double)gridSpacing
+    minimumAngle:(double)degrees
 {
-  double  rotationRadians      = radians(degrees);
-  Matrix4 transformationMatrix = IdentityMatrix4;
-  Vector4 yAxisOfPart          = { 0, 1, 0, 1 };
-  Vector4 worldY           = { 0, 0, 0, 1 }; // yAxisOfPart converted to world coordinates
-  Vector3 worldY3          = { 0, 0, 0 };
-  double  gridSpacingYAxis = 0.0;
-  double  gridX            = 0.0;
-  double  gridY            = 0.0;
-  double  gridZ            = 0.0;
+    double  rotationRadians      = radians(degrees);
+    Matrix4 transformationMatrix = IdentityMatrix4;
+    Vector4 yAxisOfPart          = { 0, 1, 0, 1 };
+    Vector4 worldY           = { 0, 0, 0, 1 }; // yAxisOfPart converted to world coordinates
+    Vector3 worldY3          = { 0, 0, 0 };
+    double  gridSpacingYAxis = 0.0;
+    double  gridX            = 0.0;
+    double  gridY            = 0.0;
+    double  gridZ            = 0.0;
 
-  // ---------- Adjust position to grid ---------------------------------------
+    // ---------- Adjust position to grid ---------------------------------------
 
-  // Figure out which direction the y-axis is facing in world coordinates:
-  transformationMatrix = [self transformationMatrix];
-  transformationMatrix.element[3][0] = 0; // zero out the translation part, leaving only rotation etc.
-  transformationMatrix.element[3][1] = 0;
-  transformationMatrix.element[3][2] = 0;
-  worldY = V4MulPointByMatrix(yAxisOfPart, transformationMatrix);
+    // Figure out which direction the y-axis is facing in world coordinates:
+    transformationMatrix = [self transformationMatrix];
+    transformationMatrix.element[3][0] = 0; // zero out the translation part, leaving only rotation etc.
+    transformationMatrix.element[3][1] = 0;
+    transformationMatrix.element[3][2] = 0;
+    worldY = V4MulPointByMatrix(yAxisOfPart, transformationMatrix);
 
-  worldY3 = V3FromV4(worldY);
-  worldY3 = V3IsolateGreatestComponent(worldY3);
-  worldY3 = V3Normalize(worldY3);
+    worldY3 = V3FromV4(worldY);
+    worldY3 = V3IsolateGreatestComponent(worldY3);
+    worldY3 = V3Normalize(worldY3);
 
-  // Get the adjusted grid spacing along the y direction. Remember that Lego
-  // bricks are not cubical, so the grid along the brick's y-axis should be
-  // spaced differently from the grid along its other sides.
-  gridSpacingYAxis = gridSpacing;
+    // Get the adjusted grid spacing along the y direction. Remember that Lego
+    // bricks are not cubical, so the grid along the brick's y-axis should be
+    // spaced differently from the grid along its other sides.
+    gridSpacingYAxis = gridSpacing;
 
-  if (fmod(gridSpacing, 20) == 0) {
-    gridSpacingYAxis *= 24.0 / 20.0;
-  }
-  else if (fmod(gridSpacing, 10) == 0) {
-    gridSpacingYAxis *= 8.0 / 10.0;
-  }
+    if (fmod(gridSpacing, 20) == 0) {
+        gridSpacingYAxis *= 24.0 / 20.0;
+    }
+    else if (fmod(gridSpacing, 10) == 0) {
+        gridSpacingYAxis *= 8.0 / 10.0;
+    }
 
-  // The actual grid spacing, in world coordinates. We will adjust the approrpiate
-  // x, y, or z based on which one the part's y-axis is aligned.
-  gridX = gridSpacing;
-  gridY = gridSpacing;
-  gridZ = gridSpacing;
+    // The actual grid spacing, in world coordinates. We will adjust the approrpiate
+    // x, y, or z based on which one the part's y-axis is aligned.
+    gridX = gridSpacing;
+    gridY = gridSpacing;
+    gridZ = gridSpacing;
 
-  // Find the direction of the part's Y-axis, and change its grid.
-  if (worldY3.x != 0) {
-    gridX = gridSpacingYAxis;
-  }
+    // Find the direction of the part's Y-axis, and change its grid.
+    if (worldY3.x != 0) {
+        gridX = gridSpacingYAxis;
+    }
 
-  if (worldY3.y != 0) {
-    gridY = gridSpacingYAxis;
-  }
+    if (worldY3.y != 0) {
+        gridY = gridSpacingYAxis;
+    }
 
-  if (worldY3.z != 0) {
-    gridZ = gridSpacingYAxis;
-  }
+    if (worldY3.z != 0) {
+        gridZ = gridSpacingYAxis;
+    }
 
-  // Snap to the Grid!
-  // Figure the closest grid line and bump the part to it.
-  // Logically, this is a rounding operation with a granularity of the grid
-  // size. So all we need to do is normalize, round, then expand back to the
-  // original size.
+    // Snap to the Grid!
+    // Figure the closest grid line and bump the part to it.
+    // Logically, this is a rounding operation with a granularity of the grid
+    // size. So all we need to do is normalize, round, then expand back to the
+    // original size.
 
-  components.translate.x = roundf(components.translate.x / gridX) * gridX;
-  components.translate.y = roundf(components.translate.y / gridY) * gridY;
-  components.translate.z = roundf(components.translate.z / gridZ) * gridZ;
+    components.translate.x = roundf(components.translate.x / gridX) * gridX;
+    components.translate.y = roundf(components.translate.y / gridY) * gridY;
+    components.translate.z = roundf(components.translate.z / gridZ) * gridZ;
 
 
-  // ---------- Snap angles ---------------------------------------------------
+    // ---------- Snap angles ---------------------------------------------------
 
-  if (rotationRadians != 0) {
-    components.rotate.x = roundf(components.rotate.x / rotationRadians) * rotationRadians;
-    components.rotate.y = roundf(components.rotate.y / rotationRadians) * rotationRadians;
-    components.rotate.z = roundf(components.rotate.z / rotationRadians) * rotationRadians;
-  }
+    if (rotationRadians != 0) {
+        components.rotate.x = roundf(components.rotate.x / rotationRadians) * rotationRadians;
+        components.rotate.y = roundf(components.rotate.y / rotationRadians) * rotationRadians;
+        components.rotate.z = roundf(components.rotate.z / rotationRadians) * rotationRadians;
+    }
 
-  // round-off errors here? Potential for trouble.
-  return(components);
+    // round-off errors here? Potential for trouble.
+    return(components);
 }// end components:snappedToGrid:minimumAngle:
 
 
@@ -1257,14 +1257,14 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (void)moveBy:(Vector3)moveVector
 {
-  Matrix4 transformationMatrix = [self transformationMatrix];
+    Matrix4 transformationMatrix = [self transformationMatrix];
 
-  // I NEED to modify the matrix itself here. Some parts have funky, fragile
-  // rotation values, and getting the components really badly botches them up.
-  transformationMatrix = Matrix4Translate(transformationMatrix, moveVector);
+    // I NEED to modify the matrix itself here. Some parts have funky, fragile
+    // rotation values, and getting the components really badly botches them up.
+    transformationMatrix = Matrix4Translate(transformationMatrix, moveVector);
 
-  [self setTransformationMatrix:&transformationMatrix];
-  [self sendMessageToObservers:MessageObservedChanged];
+    [self setTransformationMatrix:&transformationMatrix];
+    [self sendMessageToObservers:MessageObservedChanged];
 }// end moveBy:
 
 
@@ -1283,22 +1283,22 @@ int doubleNearGrid(double v, double grid, double epsi)
 //
 // ==============================================================================
 - (Point3)position:(Point3)position
-  snappedToGrid:(double)gridSpacing
+    snappedToGrid:(double)gridSpacing
 {
-  TransformComponents components = IdentityComponents;
+    TransformComponents components = IdentityComponents;
 
-  // copy the position into a transform
-  components.translate = position;
+    // copy the position into a transform
+    components.translate = position;
 
-  // Snap to grid using intelligent LDrawPart logic
-  components = [self components:components
+    // Snap to grid using intelligent LDrawPart logic
+    components = [self components:components
                   snappedToGrid:gridSpacing
-                   minimumAngle:0];
+                  minimumAngle:0];
 
-  // copy the new position back out of the components
-  position = components.translate;
+    // copy the new position back out of the components
+    position = components.translate;
 
-  return(position);
+    return(position);
 }// end position:snappedToGrid:
 
 
@@ -1309,11 +1309,11 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (void)rotateByDegrees:(Tuple3)degreesToRotate
 {
-  Point3 partCenter = [self position];
+    Point3 partCenter = [self position];
 
-  // Rotate!
-  [self rotateByDegrees:degreesToRotate
-            centerPoint:partCenter];
+    // Rotate!
+    [self rotateByDegrees:degreesToRotate
+     centerPoint:partCenter];
 }// end rotateByDegrees
 
 
@@ -1340,19 +1340,19 @@ int doubleNearGrid(double v, double grid, double epsi)
 //
 // ==============================================================================
 - (void)rotateByDegrees:(Tuple3)degreesToRotate
-  centerPoint:(Point3)rotationCenter
+    centerPoint:(Point3)rotationCenter
 {
-  Matrix4 transform            = [self transformationMatrix];
-  Vector3 displacement         = rotationCenter;
-  Vector3 negativeDisplacement = V3Negate(rotationCenter);
+    Matrix4 transform            = [self transformationMatrix];
+    Vector3 displacement         = rotationCenter;
+    Vector3 negativeDisplacement = V3Negate(rotationCenter);
 
-  // Do the rotation around the specified centerpoint.
-  transform = Matrix4Translate(transform, negativeDisplacement); // translate to rotationCenter
-  transform = Matrix4Rotate(transform, degreesToRotate);         // rotate at rotationCenter
-  transform = Matrix4Translate(transform, displacement);         // translate back to original position
+    // Do the rotation around the specified centerpoint.
+    transform = Matrix4Translate(transform, negativeDisplacement); // translate to rotationCenter
+    transform = Matrix4Rotate(transform, degreesToRotate);       // rotate at rotationCenter
+    transform = Matrix4Translate(transform, displacement);       // translate back to original position
 
-  [self setTransformationMatrix:&transform];
-  [self sendMessageToObservers:MessageObservedChanged];
+    [self setTransformationMatrix:&transform];
+    [self sendMessageToObservers:MessageObservedChanged];
 }// end rotateByDegrees:centerPoint:
 
 
@@ -1367,16 +1367,16 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (void)observableSaysGoodbyeCruelWorld:(id <LDrawObservable>)doomedObservable
 {
-  if (cacheType == PartTypeUnresolved || cacheType == PartTypeNotFound) {
-    NSLog(
-      @"WARNING: LDraw part is receiving a notification that its observer is dying but it thinks it should have no observer.\n");
-  }
-  if (doomedObservable != cacheModel) {
-    NSLog(
-      @"WARNING: LDraw part is receiving a notification from an observer that is not its cached drawable.\n");
-  }
+    if (cacheType == PartTypeUnresolved || cacheType == PartTypeNotFound) {
+        NSLog(
+            @"WARNING: LDraw part is receiving a notification that its observer is dying but it thinks it should have no observer.\n");
+    }
+    if (doomedObservable != cacheModel) {
+        NSLog(
+            @"WARNING: LDraw part is receiving a notification from an observer that is not its cached drawable.\n");
+    }
 
-  [self unresolvePart];
+    [self unresolvePart];
 }
 
 
@@ -1389,7 +1389,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (void)statusInvalidated:(CacheFlagsT)flags who:(id <LDrawObservable>)observable
 {
-  [self invalCache:(flags & CacheFlagBounds)];
+    [self invalCache:(flags & CacheFlagBounds)];
 }// end statusInvalidated:who:
 
 
@@ -1400,12 +1400,12 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (void)receiveMessage:(MessageT)msg who:(id <LDrawObservable>)observable
 {
-  if (msg == MessageNameChanged) {
-    [self unresolvePart];
-  }
-  if (msg == MessageScopeChanged) {
-    [self unresolvePart];
-  }
+    if (msg == MessageNameChanged) {
+        [self unresolvePart];
+    }
+    if (msg == MessageScopeChanged) {
+        [self unresolvePart];
+    }
 }
 
 
@@ -1421,9 +1421,9 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (BOOL)containsReferenceTo:(NSString *)name
 {
-  BOOL isMatch = [referenceName isEqualToString:name];
+    BOOL isMatch = [referenceName isEqualToString:name];
 
-  return(isMatch);
+    return(isMatch);
 }
 
 
@@ -1435,8 +1435,8 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (BOOL)partIsMissing
 {
-  [self resolvePart];
-  return(cacheType == PartTypeNotFound);
+    [self resolvePart];
+    return(cacheType == PartTypeNotFound);
 }
 
 
@@ -1448,65 +1448,65 @@ int doubleNearGrid(double v, double grid, double epsi)
 //
 // ==============================================================================
 - (void)flattenIntoLines:(NSMutableArray *)lines
-  triangles:(NSMutableArray *)triangles
-  quadrilaterals:(NSMutableArray *)quadrilaterals
-  other:(NSMutableArray *)everythingElse
-  currentColor:(LDrawColor *)parentColor
-  currentTransform:(Matrix4)transform
-  normalTransform:(Matrix3)normalTransform
-  recursive:(BOOL)recursive
+    triangles:(NSMutableArray *)triangles
+    quadrilaterals:(NSMutableArray *)quadrilaterals
+    other:(NSMutableArray *)everythingElse
+    currentColor:(LDrawColor *)parentColor
+    currentTransform:(Matrix4)transform
+    normalTransform:(Matrix3)normalTransform
+    recursive:(BOOL)recursive
 {
-  LDrawModel *modelToDraw      = nil;
-  LDrawModel *flatCopy         = nil;
-  Matrix4    partTransform     = [self transformationMatrix];
-  Matrix4    combinedTransform = IdentityMatrix4;
+    LDrawModel *modelToDraw      = nil;
+    LDrawModel *flatCopy         = nil;
+    Matrix4    partTransform     = [self transformationMatrix];
+    Matrix4    combinedTransform = IdentityMatrix4;
 
-  // Nonrecursive flattenings are just trying to collect the primitives. Parts
-  // should be completely ignored.
-  if (recursive == YES) {
-    [super flattenIntoLines:lines
-                  triangles:triangles
-             quadrilaterals:quadrilaterals
-                      other:everythingElse
-               currentColor:parentColor
-           currentTransform:transform
-            normalTransform:normalTransform
-                  recursive:recursive];
+    // Nonrecursive flattenings are just trying to collect the primitives. Parts
+    // should be completely ignored.
+    if (recursive == YES) {
+        [super flattenIntoLines:lines
+         triangles:triangles
+         quadrilaterals:quadrilaterals
+         other:everythingElse
+         currentColor:parentColor
+         currentTransform:transform
+         normalTransform:normalTransform
+         recursive:recursive];
 
-    // Flattening involves applying the part's transform to copies of all
-    // referenced vertices. (We are forced to make copies because you can't call
-    // glMultMatrix inside a glBegin; the only way to draw all like geometry at
-    // once is to have a flat, transformed copy of it.)
+        // Flattening involves applying the part's transform to copies of all
+        // referenced vertices. (We are forced to make copies because you can't call
+        // glMultMatrix inside a glBegin; the only way to draw all like geometry at
+        // once is to have a flat, transformed copy of it.)
 
-    // Do not go through the regular part resolution scheme - it is not thread safe.
-    // Look up sub-model first, to avoid taking a lock on the shared library catalog ONLY
-    // to discover that we aren't in there.
+        // Do not go through the regular part resolution scheme - it is not thread safe.
+        // Look up sub-model first, to avoid taking a lock on the shared library catalog ONLY
+        // to discover that we aren't in there.
 
-    modelToDraw = [self referencedMPDSubmodel];
+        modelToDraw = [self referencedMPDSubmodel];
 
-    if (modelToDraw == nil) {
-      modelToDraw = [[PartLibrary sharedPartLibrary] modelForName_threadSafe:referenceName];
+        if (modelToDraw == nil) {
+            modelToDraw = [[PartLibrary sharedPartLibrary] modelForName_threadSafe:referenceName];
+        }
+
+        flatCopy = [modelToDraw copy];
+
+        // concatenate the transform and pass it down
+        combinedTransform = Matrix4Multiply(partTransform, transform);
+
+        // Normals are actually transformed by a different matrix.
+        normalTransform = Matrix3MakeNormalTransformFromProjMatrix(combinedTransform);
+
+        [flatCopy flattenIntoLines:lines
+         triangles:triangles
+         quadrilaterals:quadrilaterals
+         other:everythingElse
+         currentColor:[self LDrawColor]
+         currentTransform:combinedTransform
+         normalTransform:normalTransform
+         recursive:recursive];
+
+        [flatCopy release];
     }
-
-    flatCopy = [modelToDraw copy];
-
-    // concatenate the transform and pass it down
-    combinedTransform = Matrix4Multiply(partTransform, transform);
-
-    // Normals are actually transformed by a different matrix.
-    normalTransform = Matrix3MakeNormalTransformFromProjMatrix(combinedTransform);
-
-    [flatCopy flattenIntoLines:lines
-                     triangles:triangles
-                quadrilaterals:quadrilaterals
-                         other:everythingElse
-                  currentColor:[self LDrawColor]
-              currentTransform:combinedTransform
-               normalTransform:normalTransform
-                     recursive:recursive];
-
-    [flatCopy release];
-  }
 }// end flattenIntoLines:triangles:quadrilaterals:other:currentColor:
 
 
@@ -1519,19 +1519,19 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (void)collectPartReport:(PartReport *)report
 {
-  [self resolvePart];
-  if (cacheType == PartTypeSubmodel || cacheType == PartTypePeerFile) {
-    [cacheModel collectPartReport:report];
-  }
-  else if (cacheType == PartTypeLibrary) {
-    [report registerPart:self];
-  }
+    [self resolvePart];
+    if (cacheType == PartTypeSubmodel || cacheType == PartTypePeerFile) {
+        [cacheModel collectPartReport:report];
+    }
+    else if (cacheType == PartTypeLibrary) {
+        [report registerPart:self];
+    }
 
-  // There's a bug here: -referencedMPDSubmodel doesn't necessarily tell you if
-  // this actually *is* a submodel reference. It may actually resolve to
-  // something in the part library. In this case, we would draw the library
-  // part, but report the submodel! I'm going to let this ride, because the
-  // specification explicitly says the behavior in such a case is undefined.
+    // There's a bug here: -referencedMPDSubmodel doesn't necessarily tell you if
+    // this actually *is* a submodel reference. It may actually resolve to
+    // something in the part library. In this case, we would draw the library
+    // part, but report the submodel! I'm going to let this ride, because the
+    // specification explicitly says the behavior in such a case is undefined.
 }// end collectPartReport:
 
 
@@ -1543,7 +1543,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (void)applyToAllParts:(LDrawPartVisitor)visitor
 {
-  visitor(self);
+    visitor(self);
 }// end applyToAllParts:
 
 
@@ -1555,12 +1555,12 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (void)registerUndoActions:(NSUndoManager *)undoManager
 {
-  [super registerUndoActions:undoManager];
+    [super registerUndoActions:undoManager];
 
-  [[undoManager prepareWithInvocationTarget:self] setTransformComponents:[self transformComponents]];
-  [[undoManager prepareWithInvocationTarget:self] setDisplayName:[self displayName]];
+    [[undoManager prepareWithInvocationTarget:self] setTransformComponents:[self transformComponents]];
+    [[undoManager prepareWithInvocationTarget:self] setDisplayName:[self displayName]];
 
-  [undoManager setActionName:NSLocalizedString(@"UndoAttributesPart", nil)];
+    [undoManager setActionName:NSLocalizedString(@"UndoAttributesPart", nil)];
 }// end registerUndoActions:
 
 
@@ -1573,9 +1573,9 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (void)addedMPDModel:(NSNotification *)notification
 {
-  if (cacheType == PartTypeNotFound) {
-    [self unresolvePart];
-  }
+    if (cacheType == PartTypeNotFound) {
+        [self unresolvePart];
+    }
 }// end addedMPDModel
 
 
@@ -1587,56 +1587,56 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (void)resolvePart
 {
-  if (cacheType == PartTypeUnresolved) {
-    LDrawModel *mdpModel = [self referencedMPDSubmodel];
-    if (mdpModel != nil) {
-      cacheModel    = mdpModel;
-      cacheDrawable = mdpModel;
-      cacheType     = PartTypeSubmodel;
+    if (cacheType == PartTypeUnresolved) {
+        LDrawModel *mdpModel = [self referencedMPDSubmodel];
+        if (mdpModel != nil) {
+            cacheModel    = mdpModel;
+            cacheDrawable = mdpModel;
+            cacheType     = PartTypeSubmodel;
 
-      [self invalCache:CacheFlagBounds];
-      [cacheModel addObserver:self];
-    }
-    else {
-      // Try the part library first for speed - sub-paths will thrash the modelmanager.
-      cacheModel = [[PartLibrary sharedPartLibrary] modelForName:referenceName];
-      if (cacheModel != nil) {
-        // Intentional: do not observe library parts - they are immutable so
-        // we don't need observations, and messing with the lib parts set is expensive.
-        // [cacheModel addObserver:self];
-
-        // WE DO NOT LOOK UP THE DRAWABLE VBO HERE!!!  Do that in -optimizeOpenGL
-        // instead.
-        cacheDrawable = nil;
-        [self invalCache:CacheFlagBounds];
-        cacheType = PartTypeLibrary;
-      }
-      else {
-        cacheModel =
-          [[ModelManager sharedModelManager] requestModel:referenceName
-                                             withDocument:[self enclosingFile]];
-        if (cacheModel) {
-          cacheType     = PartTypePeerFile;
-          cacheDrawable = cacheModel;
-          [self invalCache:CacheFlagBounds];
-          [cacheModel addObserver:self];
+            [self invalCache:CacheFlagBounds];
+            [cacheModel addObserver:self];
         }
         else {
-          cacheType     = PartTypeNotFound;
-          cacheDrawable = nil;
-          cacheModel    = nil;
-          [self invalCache:CacheFlagBounds];
-          // If we are not found, listen to the "sub-model-added" notification; ideally this would be on our enclosing LDrawFile but for
-          // now listen to all instances.
-          [[NSNotificationCenter defaultCenter] addObserver:self
-                                                   selector:@selector(addedMPDModel:)
-                                                       name:
-           LDrawMPDSubModelAdded
-                                                     object:nil];
+            // Try the part library first for speed - sub-paths will thrash the modelmanager.
+            cacheModel = [[PartLibrary sharedPartLibrary] modelForName:referenceName];
+            if (cacheModel != nil) {
+                // Intentional: do not observe library parts - they are immutable so
+                // we don't need observations, and messing with the lib parts set is expensive.
+                // [cacheModel addObserver:self];
+
+                // WE DO NOT LOOK UP THE DRAWABLE VBO HERE!!!  Do that in -optimizeOpenGL
+                // instead.
+                cacheDrawable = nil;
+                [self invalCache:CacheFlagBounds];
+                cacheType = PartTypeLibrary;
+            }
+            else {
+                cacheModel =
+                    [[ModelManager sharedModelManager] requestModel:referenceName
+                     withDocument:[self enclosingFile]];
+                if (cacheModel) {
+                    cacheType     = PartTypePeerFile;
+                    cacheDrawable = cacheModel;
+                    [self invalCache:CacheFlagBounds];
+                    [cacheModel addObserver:self];
+                }
+                else {
+                    cacheType     = PartTypeNotFound;
+                    cacheDrawable = nil;
+                    cacheModel    = nil;
+                    [self invalCache:CacheFlagBounds];
+                    // If we are not found, listen to the "sub-model-added" notification; ideally this would be on our enclosing LDrawFile but for
+                    // now listen to all instances.
+                    [[NSNotificationCenter defaultCenter] addObserver:self
+                     selector:@selector(addedMPDModel:)
+                     name:
+                     LDrawMPDSubModelAdded
+                     object:nil];
+                }
+            }
         }
-      }
     }
-  }
 }
 
 
@@ -1653,22 +1653,22 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (void)unresolvePart
 {
-  if (cacheType != PartTypeUnresolved) {
-    if (cacheModel != nil && (cacheType == PartTypeSubmodel || cacheType == PartTypePeerFile)) {
-      // printf("Part %p telling observer/cache %p to forget us.\n",self,cacheModel);
-      [cacheModel removeObserver:self];
-    }
+    if (cacheType != PartTypeUnresolved) {
+        if (cacheModel != nil && (cacheType == PartTypeSubmodel || cacheType == PartTypePeerFile)) {
+            // printf("Part %p telling observer/cache %p to forget us.\n",self,cacheModel);
+            [cacheModel removeObserver:self];
+        }
 
-    if (cacheType == PartTypeNotFound) {
-      [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                      name:LDrawMPDSubModelAdded
-                                                    object:nil];
-    }
+        if (cacheType == PartTypeNotFound) {
+            [[NSNotificationCenter defaultCenter] removeObserver:self
+             name:LDrawMPDSubModelAdded
+             object:nil];
+        }
 
-    cacheType     = PartTypeUnresolved;
-    cacheDrawable = nil;
-    cacheModel    = nil;
-  }
+        cacheType     = PartTypeUnresolved;
+        cacheDrawable = nil;
+        cacheModel    = nil;
+    }
 }// end unresolvePart
 
 
@@ -1684,9 +1684,9 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (void)unresolvePartIfPartLibrary
 {
-  if (cacheType == PartTypeLibrary || cacheType == PartTypeNotFound) {
-    [self unresolvePart];
-  }
+    if (cacheType == PartTypeLibrary || cacheType == PartTypeNotFound) {
+        [self unresolvePart];
+    }
 }// end unresolvePartIfPartLibrary
 
 
@@ -1707,70 +1707,70 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (void)followRedirectionAndUpdate
 {
-  [self resolvePart]; // We need this to have a valid cache type and make sure we are
-  // a library part.
-  if (cacheType == PartTypeLibrary) {
-    // This is a little gross, but: the library doesn't have the definition of our
-    // part - it has a completely flattened soup of triangles, so that we
-    // don't have to walk a giant part tree to draw using the library.  So we
-    // can't use our cacheModel or drawable to figure out what the substitution is.
+    [self resolvePart]; // We need this to have a valid cache type and make sure we are
+    // a library part.
+    if (cacheType == PartTypeLibrary) {
+        // This is a little gross, but: the library doesn't have the definition of our
+        // part - it has a completely flattened soup of triangles, so that we
+        // don't have to walk a giant part tree to draw using the library.  So we
+        // can't use our cacheModel or drawable to figure out what the substitution is.
 
-    // Instead we do it the low level way: we directly go load the original part
-    // from disk so we can see its direct contents.  We keep the part manager out
-    // of this - this is just a one-time look at a file for a one-time migration
-    // operation.
-    NSString *partPath     = [[LDrawPaths sharedPaths] pathForPartName:referenceName];
-    NSString *fileContents = [LDrawUtilities stringFromFile:partPath];
-    NSArray  *lines        = [fileContents separateByLine];
+        // Instead we do it the low level way: we directly go load the original part
+        // from disk so we can see its direct contents.  We keep the part manager out
+        // of this - this is just a one-time look at a file for a one-time migration
+        // operation.
+        NSString *partPath     = [[LDrawPaths sharedPaths] pathForPartName:referenceName];
+        NSString *fileContents = [LDrawUtilities stringFromFile:partPath];
+        NSArray  *lines        = [fileContents separateByLine];
 
-    dispatch_group_t parseGroup  = dispatch_group_create();
-    LDrawFile        *parsedFile = [[LDrawFile alloc] initWithLines:lines
-                                                            inRange:NSMakeRange(0, [lines count])
-                                                        parentGroup:parseGroup];
+        dispatch_group_t parseGroup  = dispatch_group_create();
+        LDrawFile        *parsedFile = [[LDrawFile alloc] initWithLines:lines
+                                        inRange:NSMakeRange(0, [lines count])
+                                        parentGroup:parseGroup];
 
-    // The part parser is insanely dangerous: it parses on a dispatch group and fills in your
-    // NS containers in the background later, with no locks. We use a dispatch group to
-    // wait until the entire mess of loading is done, synchronously, so the part is safe to look at.
-    dispatch_group_wait(parseGroup, DISPATCH_TIME_FOREVER);
-    dispatch_release(parseGroup);
+        // The part parser is insanely dangerous: it parses on a dispatch group and fills in your
+        // NS containers in the background later, with no locks. We use a dispatch group to
+        // wait until the entire mess of loading is done, synchronously, so the part is safe to look at.
+        dispatch_group_wait(parseGroup, DISPATCH_TIME_FOREVER);
+        dispatch_release(parseGroup);
 
-    [parsedFile autorelease]; // Don't keep this around , we only want it for its part.
+        [parsedFile autorelease]; // Don't keep this around , we only want it for its part.
 
-    // We're going to go get all of the directives and try to find EXACTLY one LDrawPart.
-    NSArray    *directives = [parsedFile allEnclosedElements];
-    NSUInteger count       = [directives count];
-    NSUInteger i;
-    LDrawPart  *redirect = nil;
-    for (i = 0; i < count; ++i) {
-      LDrawDirective *directive = [directives objectAtIndex:i];
-      if ([directive isKindOfClass:[LDrawPart class]]) {
-        // If we find TWO LDrawParts, just bail out - it's not clear which one
-        // is the redirect.  If anyone sees this fail in production with the real
-        // LDraw library, we need to look at whawt on earth is going on with the
-        // redirect part.
-        if (redirect == nil) {
-          redirect = [directives objectAtIndex:i];
+        // We're going to go get all of the directives and try to find EXACTLY one LDrawPart.
+        NSArray    *directives = [parsedFile allEnclosedElements];
+        NSUInteger count       = [directives count];
+        NSUInteger i;
+        LDrawPart  *redirect = nil;
+        for (i = 0; i < count; ++i) {
+            LDrawDirective *directive = [directives objectAtIndex:i];
+            if ([directive isKindOfClass:[LDrawPart class]]) {
+                // If we find TWO LDrawParts, just bail out - it's not clear which one
+                // is the redirect.  If anyone sees this fail in production with the real
+                // LDraw library, we need to look at whawt on earth is going on with the
+                // redirect part.
+                if (redirect == nil) {
+                    redirect = [directives objectAtIndex:i];
+                }
+                else {
+                    return;
+                }
+            }
         }
-        else {
-          return;
+
+        if (redirect != nil) {
+            // We found exactly one part.  Unresolve and copy out its names for future use.
+            [self unresolvePart];
+
+            [referenceName release];
+            referenceName = [[redirect referenceName] retain];
+            [displayName release];
+            displayName = [[redirect displayName] retain];
+
+            // Our new location is our old location with the relative transform of that part applied.
+            Matrix4 new_loc = Matrix4Multiply([redirect transformationMatrix], [self transformationMatrix]);
+            Matrix4GetGLMatrix4(new_loc, glTransformation);
         }
-      }
     }
-
-    if (redirect != nil) {
-      // We found exactly one part.  Unresolve and copy out its names for future use.
-      [self unresolvePart];
-
-      [referenceName release];
-      referenceName = [[redirect referenceName] retain];
-      [displayName release];
-      displayName = [[redirect displayName] retain];
-
-      // Our new location is our old location with the relative transform of that part applied.
-      Matrix4 new_loc = Matrix4Multiply([redirect transformationMatrix], [self transformationMatrix]);
-      Matrix4GetGLMatrix4(new_loc, glTransformation);
-    }
-  }
 }// end followRedirectionAndUpdate
 
 
@@ -1788,16 +1788,16 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (void)dealloc
 {
-  [self unresolvePart];
+    [self unresolvePart];
 
-  // release instance variables.
-  [displayName release];
-  [referenceName release];
+    // release instance variables.
+    [displayName release];
+    [referenceName release];
 
-  cacheDrawable = (id)0xDEADBEEF;
-  cacheModel    = (id)0xDEADBEEF;
+    cacheDrawable = (id)0xDEADBEEF;
+    cacheModel    = (id)0xDEADBEEF;
 
-  [super dealloc];
+    [super dealloc];
 }// end dealloc
 
 

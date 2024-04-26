@@ -33,8 +33,8 @@
 // Draw Mode
 typedef enum
 {
-  LDrawGLDrawNormal        = 0, // full draw
-  LDrawGLDrawExtremelyFast = 1  // bounds only
+    LDrawGLDrawNormal        = 0, // full draw
+    LDrawGLDrawExtremelyFast = 1 // bounds only
 } RotationDrawModeT;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -44,40 +44,40 @@ typedef enum
 ////////////////////////////////////////////////////////////////////////////////
 @interface LDrawGLRenderer : NSObject <LDrawColorable>
 {
-  id <LDrawGLRendererDelegate> delegate;
-  id <LDrawGLCameraScroller>   scroller;
-  id   target;
-  BOOL allowsEditing;
+    id <LDrawGLRendererDelegate> delegate;
+    id <LDrawGLCameraScroller>   scroller;
+    id   target;
+    BOOL allowsEditing;
 
-  LDrawDirective *fileBeingDrawn;  // Should only be an LDrawFile or LDrawModel.
-  // if you want to do anything else, you must
-  // tweak the selection code in LDrawDrawableElement
-  // and here in -mouseUp: to handle such cases.
+    LDrawDirective *fileBeingDrawn; // Should only be an LDrawFile or LDrawModel.
+    // if you want to do anything else, you must
+    // tweak the selection code in LDrawDrawableElement
+    // and here in -mouseUp: to handle such cases.
 
-  LDrawGLCamera *camera;
+    LDrawGLCamera *camera;
 
-  // Drawing Environment
-  LDrawColor        *color;           // default color to draw parts if none is specified
-  GLfloat           glBackgroundColor[4];
-  Box2              selectionMarquee; // in view coordinates. ZeroBox2 means no marquee.
-  RotationDrawModeT rotationDrawMode; // drawing detail while rotating.
-  ViewOrientationT  viewOrientation;  // our orientation
-  NSTimeInterval    fpsStartTime;
-  NSInteger         framesSinceStartTime;
+    // Drawing Environment
+    LDrawColor        *color;         // default color to draw parts if none is specified
+    GLfloat           glBackgroundColor[4];
+    Box2              selectionMarquee; // in view coordinates. ZeroBox2 means no marquee.
+    RotationDrawModeT rotationDrawMode; // drawing detail while rotating.
+    ViewOrientationT  viewOrientation; // our orientation
+    NSTimeInterval    fpsStartTime;
+    NSInteger         framesSinceStartTime;
 
-  // Event Tracking
-  double          gridSpacing;
-  BOOL            isGesturing;            // true if performing a multitouch trackpad gesture.
-  BOOL            isTrackingDrag;         // true if the last mousedown was followed by a drag, and we're tracking it (drag-and-drop doesn't count)
-  BOOL            isStartingDrag;         // this is the first event in a drag
-  NSTimer         *mouseDownTimer;        // countdown to beginning drag-and-drop
-  BOOL            canBeginDragAndDrop;    // the next mouse-dragged will initiate a drag-and-drop.
-  BOOL            didPartSelection;       // tried part selection during this click
-  BOOL            dragEndedInOurDocument; // YES if the drag we initiated ended in the document we display
-  Vector3         draggingOffset;      // displacement between part 0's position and the initial click point of the drag
-  Point3          initialDragLocation; // point in model where part was positioned at draggingEntered
-  LDrawDragHandle *activeDragHandle;   // drag handle hit on last mouse-down (or nil)
-  BOOL            showAxisLines;
+    // Event Tracking
+    double          gridSpacing;
+    BOOL            isGesturing;          // true if performing a multitouch trackpad gesture.
+    BOOL            isTrackingDrag;       // true if the last mousedown was followed by a drag, and we're tracking it (drag-and-drop doesn't count)
+    BOOL            isStartingDrag;       // this is the first event in a drag
+    NSTimer         *mouseDownTimer;      // countdown to beginning drag-and-drop
+    BOOL            canBeginDragAndDrop;  // the next mouse-dragged will initiate a drag-and-drop.
+    BOOL            didPartSelection;     // tried part selection during this click
+    BOOL            dragEndedInOurDocument; // YES if the drag we initiated ended in the document we display
+    Vector3         draggingOffset;    // displacement between part 0's position and the initial click point of the drag
+    Point3          initialDragLocation; // point in model where part was positioned at draggingEntered
+    LDrawDragHandle *activeDragHandle; // drag handle hit on last mouse-down (or nil)
+    BOOL            showAxisLines;
 }
 
 // Initialization
@@ -106,7 +106,7 @@ typedef enum
 - (void)setAllowsEditing:(BOOL)flag;
 - (void)setBackgroundColorRed:(float)red green:(float)green blue:(float)blue;
 - (void)setDelegate:(id <LDrawGLRendererDelegate>)object
-  withScroller:(id <LDrawGLCameraScroller>)scroller;
+    withScroller:(id <LDrawGLCameraScroller>)scroller;
 - (void)setDraggingOffset:(Vector3)offsetIn;
 - (void)setGridSpacing:(double)newValue;
 - (void)setLDrawDirective:(LDrawDirective *)newFile;
@@ -152,11 +152,11 @@ typedef enum
 
 // Drag and Drop
 - (void)draggingEnteredAtPoint:(Point2)point_view directives:(NSArray *)directives setTransform:(BOOL)setTransform
-  originatedLocally:(BOOL)originatedLocally;
+    originatedLocally:(BOOL)originatedLocally;
 - (void)endDragging;
 - (void)updateDragWithPosition:(Point2)point_view constrainAxis:(BOOL)constrainAxis;
 - (BOOL)updateDirectives:(NSArray *)directives withDragPosition:(Point2)point_view
-  depthReferencePoint:(Point3)modelReferencePoint constrainAxis:(BOOL)constrainAxis;
+    depthReferencePoint:(Point3)modelReferencePoint constrainAxis:(BOOL)constrainAxis;
 
 // Notifications
 - (void)displayNeedsUpdating:(NSNotification *)notification;
@@ -200,15 +200,15 @@ typedef enum
 
 - (TransformComponents)LDrawGLRendererPreferredPartTransform:(LDrawGLRenderer *)renderer;
 - (void)LDrawGLRenderer:(LDrawGLRenderer *)renderer
-  wantsToSelectDirective:(LDrawDirective *)directiveToSelect
-  byExtendingSelection:(BOOL)shouldExtend;
+    wantsToSelectDirective:(LDrawDirective *)directiveToSelect
+    byExtendingSelection:(BOOL)shouldExtend;
 - (void)LDrawGLRenderer:(LDrawGLRenderer *)renderer
-  wantsToSelectDirectives:(NSArray *)directivesToSelect
-  selectionMode:(SelectionModeT)selectionMode;
+    wantsToSelectDirectives:(NSArray *)directivesToSelect
+    selectionMode:(SelectionModeT)selectionMode;
 - (void)LDrawGLRenderer:(LDrawGLRenderer *)renderer
-  willBeginDraggingHandle:(LDrawDragHandle *)dragHandle;
+    willBeginDraggingHandle:(LDrawDragHandle *)dragHandle;
 - (void)LDrawGLRenderer:(LDrawGLRenderer *)renderer
-  dragHandleDidMove:(LDrawDragHandle *)dragHandle;
+    dragHandleDidMove:(LDrawDragHandle *)dragHandle;
 
 - (void)markPreviousSelection:(LDrawGLRenderer *)renderer;
 - (void)unmarkPreviousSelection:(LDrawGLRenderer *)renderer;

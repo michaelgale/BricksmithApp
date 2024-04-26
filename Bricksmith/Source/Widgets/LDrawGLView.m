@@ -69,9 +69,9 @@
 // ==============================================================================
 static Box2 NSRectToBox2(NSRect rect)
 {
-  Box2 box = V2MakeBox(NSMinX(rect), NSMinY(rect), NSWidth(rect), NSHeight(rect));
+    Box2 box = V2MakeBox(NSMinX(rect), NSMinY(rect), NSWidth(rect), NSHeight(rect));
 
-  return(box);
+    return(box);
 }
 
 
@@ -82,9 +82,9 @@ static Box2 NSRectToBox2(NSRect rect)
 // ==============================================================================
 static Size2 NSSizeToSize2(NSSize size)
 {
-  Size2 sizeOut = V2MakeSize(size.width, size.height);
+    Size2 sizeOut = V2MakeSize(size.width, size.height);
 
-  return(sizeOut);
+    return(sizeOut);
 }
 
 
@@ -95,9 +95,9 @@ static Size2 NSSizeToSize2(NSSize size)
 // ==============================================================================
 static NSSize Size2ToNSSize(Size2 size)
 {
-  NSSize sizeOut = NSMakeSize(size.width, size.height);
+    NSSize sizeOut = NSMakeSize(size.width, size.height);
 
-  return(sizeOut);
+    return(sizeOut);
 }
 
 
@@ -114,15 +114,15 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)awakeFromNib
 {
-  id superview = [self superview];
+    id superview = [self superview];
 
-  // If we are in a scroller, make sure we appear centered when smaller than
-  // the scroll view.
-  [[self enclosingScrollView] centerDocumentView];
+    // If we are in a scroller, make sure we appear centered when smaller than
+    // the scroll view.
+    [[self enclosingScrollView] centerDocumentView];
 
-  if ([superview isKindOfClass:[NSClipView class]]) {
-    [superview setCopiesOnScroll:NO];
-  }
+    if ([superview isKindOfClass:[NSClipView class]]) {
+        [superview setCopiesOnScroll:NO];
+    }
 }// end awakeFromNib
 
 
@@ -137,12 +137,12 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (id)initWithFrame:(NSRect)frameRect pixelFormat:(NSOpenGLPixelFormat *)format
 {
-  self = [super initWithFrame:frameRect
-                  pixelFormat:format];
+    self = [super initWithFrame:frameRect
+            pixelFormat:format];
 
-  [self internalInit];
+    [self internalInit];
 
-  return(self);
+    return(self);
 }// end initWithFrame:
 
 
@@ -153,12 +153,12 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (id)initWithCoder:(NSCoder *)coder
 {
-  self = [super initWithCoder:coder];
+    self = [super initWithCoder:coder];
 
-  // Ignore any settings defined in Interface Builder's lame-o inspector panel.
-  [self internalInit];
+    // Ignore any settings defined in Interface Builder's lame-o inspector panel.
+    [self internalInit];
 
-  return(self);
+    return(self);
 }// end initWithCoder:
 
 
@@ -169,97 +169,97 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)internalInit
 {
-  NSOpenGLContext      *context            = nil;
-  NSOpenGLPixelFormat  *pixelFormat        = [LDrawApplication openGLPixelFormat];
-  NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    NSOpenGLContext      *context            = nil;
+    NSOpenGLPixelFormat  *pixelFormat        = [LDrawApplication openGLPixelFormat];
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
 
-  selectionIsMarquee   = NO;
-  marqueeSelectionMode = SelectionReplace;
+    selectionIsMarquee   = NO;
+    marqueeSelectionMode = SelectionReplace;
 
-  // ---------- Load UI -------------------------------------------------------
+    // ---------- Load UI -------------------------------------------------------
 
-  // Yes, we have a nib file. Don't laugh. This view has accessories.
-  [NSBundle loadNibNamed:@"LDrawGLViewAccessories"
-                   owner:self];
+    // Yes, we have a nib file. Don't laugh. This view has accessories.
+    [NSBundle loadNibNamed:@"LDrawGLViewAccessories"
+     owner:self];
 
-  self->focusRingView = [[[FocusRingView alloc] initWithFrame:[self bounds]] autorelease];
-  [focusRingView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
-  [focusRingView setFocusSource:self];
+    self->focusRingView = [[[FocusRingView alloc] initWithFrame:[self bounds]] autorelease];
+    [focusRingView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
+    [focusRingView setFocusSource:self];
 
-  [self addOverlayView:focusRingView];
+    [self addOverlayView:focusRingView];
 
 
-  // ---------- Initialize instance variables ---------------------------------
+    // ---------- Initialize instance variables ---------------------------------
 
-  [self setAcceptsFirstResponder:YES];
+    [self setAcceptsFirstResponder:YES];
 
-  // Set up our OpenGL context. We need to base it on a shared context so that
-  // display-list names can be shared globally throughout the application.
-  context = [[NSOpenGLContext alloc] initWithFormat:pixelFormat
-                                       shareContext:[LDrawApplication sharedOpenGLContext]];
-  [self setOpenGLContext:context];
-  [[self openGLContext] makeCurrentContext];
+    // Set up our OpenGL context. We need to base it on a shared context so that
+    // display-list names can be shared globally throughout the application.
+    context = [[NSOpenGLContext alloc] initWithFormat:pixelFormat
+               shareContext:[LDrawApplication sharedOpenGLContext]];
+    [self setOpenGLContext:context];
+    [[self openGLContext] makeCurrentContext];
 
-  [self setPixelFormat:pixelFormat];
+    [self setPixelFormat:pixelFormat];
 
-  // Multithreading engine
-  // It turned out to be as miserable a failure as my home-spun attempts.
-  // Three times longer and display corruption to boot. Bricksmith is
-  // apparently allergic to multithreading of any kind, and darn if I know
-  // why.
+    // Multithreading engine
+    // It turned out to be as miserable a failure as my home-spun attempts.
+    // Three times longer and display corruption to boot. Bricksmith is
+    // apparently allergic to multithreading of any kind, and darn if I know
+    // why.
 // CGLEnable(CGLGetCurrentContext(), kCGLCEMPEngine);
 
-  // Prevent "tearing"
-  GLint swapInterval = 1;
+    // Prevent "tearing"
+    GLint swapInterval = 1;
 
-  [[self openGLContext] setValues:&swapInterval
-                     forParameter:NSOpenGLContextParameterSwapInterval];
+    [[self openGLContext] setValues:&swapInterval
+     forParameter:NSOpenGLContextParameterSwapInterval];
 
-  // GL surface should be under window to allow Cocoa overtop.
-  // Huge FPS hit--over 40%! Don't do it!
+    // GL surface should be under window to allow Cocoa overtop.
+    // Huge FPS hit--over 40%! Don't do it!
 // GLint   surfaceOrder    = -1;
 // [[self openGLContext] setValues: &surfaceOrder
 // forParameter: NSOpenGLCPSurfaceOrder ];
 
-  renderer = [[LDrawGLRenderer alloc] initWithBounds:NSSizeToSize2([self bounds].size)];
-  [renderer setDelegate:self
-           withScroller:self];
-  [renderer setLDrawColor:[[ColorLibrary sharedColorLibrary] colorForCode:LDrawCurrentColor]];
-  [renderer prepareOpenGL];
-  [self takeBackgroundColorFromUserDefaults];
-  [self setViewOrientation:ViewOrientation3D];
+    renderer = [[LDrawGLRenderer alloc] initWithBounds:NSSizeToSize2([self bounds].size)];
+    [renderer setDelegate:self
+     withScroller:self];
+    [renderer setLDrawColor:[[ColorLibrary sharedColorLibrary] colorForCode:LDrawCurrentColor]];
+    [renderer prepareOpenGL];
+    [self takeBackgroundColorFromUserDefaults];
+    [self setViewOrientation:ViewOrientation3D];
 
 
-  // ---------- Register notifications ----------------------------------------
+    // ---------- Register notifications ----------------------------------------
 
-  [notificationCenter addObserver:self
-                         selector:@selector(mouseToolDidChange:)
-                             name:LDrawMouseToolDidChangeNotification
-                           object:nil];
+    [notificationCenter addObserver:self
+     selector:@selector(mouseToolDidChange:)
+     name:LDrawMouseToolDidChangeNotification
+     object:nil];
 
-  [notificationCenter addObserver:self
-                         selector:@selector(backgroundColorDidChange:)
-                             name:LDrawViewBackgroundColorDidChangeNotification
-                           object:nil];
+    [notificationCenter addObserver:self
+     selector:@selector(backgroundColorDidChange:)
+     name:LDrawViewBackgroundColorDidChangeNotification
+     object:nil];
 
 
-  [notificationCenter addObserver:self
-                         selector:@selector(showAxisLinesDidChange:)
-                             name:ShowAxisLinesDidChangeNotification
-                           object:nil];
+    [notificationCenter addObserver:self
+     selector:@selector(showAxisLinesDidChange:)
+     name:ShowAxisLinesDidChangeNotification
+     object:nil];
 
-  NSTrackingAreaOptions options = (NSTrackingMouseEnteredAndExited
-                                   | NSTrackingMouseMoved
-                                   | NSTrackingActiveInActiveApp
-                                   | NSTrackingInVisibleRect
-                                   );
-  NSTrackingArea *trackingArea = [[NSTrackingArea alloc] initWithRect:NSZeroRect
-                                                              options:options
-                                                                owner:self
-                                                             userInfo:nil];
+    NSTrackingAreaOptions options = (NSTrackingMouseEnteredAndExited
+                                     | NSTrackingMouseMoved
+                                     | NSTrackingActiveInActiveApp
+                                     | NSTrackingInVisibleRect
+                                     );
+    NSTrackingArea *trackingArea = [[NSTrackingArea alloc] initWithRect:NSZeroRect
+                                    options:options
+                                    owner:self
+                                    userInfo:nil];
 
-  [self addTrackingArea:trackingArea];
-  [trackingArea release];
+    [self addTrackingArea:trackingArea];
+    [trackingArea release];
 }// end internalInit
 
 
@@ -271,8 +271,8 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)prepareOpenGL
 {
-  [super prepareOpenGL];
-  [self takeBackgroundColorFromUserDefaults]; // glClearColor()
+    [super prepareOpenGL];
+    [self takeBackgroundColorFromUserDefaults]; // glClearColor()
 }// end prepareOpenGL
 
 
@@ -287,7 +287,7 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)drawRect:(NSRect)rect
 {
-  [self draw];
+    [self draw];
 }
 
 
@@ -301,12 +301,12 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)draw
 {
-  CGLLockContext([[self openGLContext] CGLContextObj]);
-  {
-    [[self openGLContext] makeCurrentContext];
-    [self->renderer draw];
-  }
-  CGLUnlockContext([[self openGLContext] CGLContextObj]);
+    CGLLockContext([[self openGLContext] CGLContextObj]);
+    {
+        [[self openGLContext] makeCurrentContext];
+        [self->renderer draw];
+    }
+    CGLUnlockContext([[self openGLContext] CGLContextObj]);
 }
 
 
@@ -319,7 +319,7 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (BOOL)isFlipped
 {
-  return(YES);
+    return(YES);
 }
 
 
@@ -331,7 +331,7 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (BOOL)isOpaque
 {
-  return(YES);
+    return(YES);
 }
 
 
@@ -346,7 +346,7 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (BOOL)acceptsFirstResponder
 {
-  return(self->acceptsFirstResponder);
+    return(self->acceptsFirstResponder);
 }
 
 
@@ -357,8 +357,8 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (LDrawColor *)LDrawColor
 {
-  [[self openGLContext] makeCurrentContext];
-  return([self->renderer LDrawColor]);
+    [[self openGLContext] makeCurrentContext];
+    return([self->renderer LDrawColor]);
 }
 
 
@@ -369,7 +369,7 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (LDrawDirective *)LDrawDirective
 {
-  return([self->renderer LDrawDirective]);
+    return([self->renderer LDrawDirective]);
 }
 
 
@@ -380,31 +380,31 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)setBackgroundColor:(NSColor *)newColor
 {
-  NSColor *rgbColor = nil;
+    NSColor *rgbColor = nil;
 
-  if (newColor == nil) {
-    newColor = [NSColor windowBackgroundColor];
-  }
-
-  // the new color may not be in the RGB colorspace, so we need to convert.
-  rgbColor = [newColor colorUsingColorSpaceName:NSDeviceRGBColorSpace];
-
-  CGLLockContext([[self openGLContext] CGLContextObj]);
-  {
-    // This method can get called from -prepareOpenGL, which is itself called
-    // from -makeCurrentContext. That's a recipe for infinite recursion. So,
-    // we only makeCurrentContext if we *need* to.
-    if ([NSOpenGLContext currentContext] != [self openGLContext]) {
-      [[self openGLContext] makeCurrentContext];
+    if (newColor == nil) {
+        newColor = [NSColor windowBackgroundColor];
     }
 
-    [self->renderer setBackgroundColorRed:[rgbColor redComponent]
-                                    green:[rgbColor greenComponent]
-                                     blue:[rgbColor blueComponent]];
-  }
-  CGLUnlockContext([[self openGLContext] CGLContextObj]);
+    // the new color may not be in the RGB colorspace, so we need to convert.
+    rgbColor = [newColor colorUsingColorSpaceName:NSDeviceRGBColorSpace];
 
-  [self setNeedsDisplay:YES];
+    CGLLockContext([[self openGLContext] CGLContextObj]);
+    {
+        // This method can get called from -prepareOpenGL, which is itself called
+        // from -makeCurrentContext. That's a recipe for infinite recursion. So,
+        // we only makeCurrentContext if we *need* to.
+        if ([NSOpenGLContext currentContext] != [self openGLContext]) {
+            [[self openGLContext] makeCurrentContext];
+        }
+
+        [self->renderer setBackgroundColorRed:[rgbColor redComponent]
+         green:[rgbColor greenComponent]
+         blue:[rgbColor blueComponent]];
+    }
+    CGLUnlockContext([[self openGLContext] CGLContextObj]);
+
+    [self setNeedsDisplay:YES];
 }
 
 
@@ -421,155 +421,155 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (Vector3)nudgeVectorForMatrix:(Matrix4)partMatrix
 {
-  Matrix4 cameraMatrix = [self->renderer getMatrix];
+    Matrix4 cameraMatrix = [self->renderer getMatrix];
 
-  // These 3 axes are the directions the _user_ thinks are right, down, and away, in model coordinates.
-  // Note that this assumes that the rotation elements of the camera matrix have no skew or scaling,
-  // so we can use the transpose as an inverse.
-  Vector3 xUser = V3Make(cameraMatrix.element[0][0],
-                         cameraMatrix.element[1][0],
-                         cameraMatrix.element[2][0]);
-  Vector3 yUser = V3Make(cameraMatrix.element[0][1],
-                         cameraMatrix.element[1][1],
-                         cameraMatrix.element[2][1]);
-  Vector3 zUser = V3Make(cameraMatrix.element[0][2],
-                         cameraMatrix.element[1][2],
-                         cameraMatrix.element[2][2]);
+    // These 3 axes are the directions the _user_ thinks are right, down, and away, in model coordinates.
+    // Note that this assumes that the rotation elements of the camera matrix have no skew or scaling,
+    // so we can use the transpose as an inverse.
+    Vector3 xUser = V3Make(cameraMatrix.element[0][0],
+                           cameraMatrix.element[1][0],
+                           cameraMatrix.element[2][0]);
+    Vector3 yUser = V3Make(cameraMatrix.element[0][1],
+                           cameraMatrix.element[1][1],
+                           cameraMatrix.element[2][1]);
+    Vector3 zUser = V3Make(cameraMatrix.element[0][2],
+                           cameraMatrix.element[1][2],
+                           cameraMatrix.element[2][2]);
 
-  // If we are in a non-orthographic turn-table view, assume that the user's idea of up is up in model
-  // coordinates, no matter how silly the alignment is.  In turn-table view, the user really knows where
-  // the model's "up" is and eexpects to go that way.
-  if ([self projectionMode] != ProjectionModeOrthographic && USE_TURNTABLE) {
-    yUser = V3Make(0, -1, 0);
-  }
+    // If we are in a non-orthographic turn-table view, assume that the user's idea of up is up in model
+    // coordinates, no matter how silly the alignment is.  In turn-table view, the user really knows where
+    // the model's "up" is and eexpects to go that way.
+    if ([self projectionMode] != ProjectionModeOrthographic && USE_TURNTABLE) {
+        yUser = V3Make(0, -1, 0);
+    }
 
-  // Get the axis basis vectors of the model - this is the direction we will nudge, e.g. an "x part"
-  // nudge moves the part to its own right.
-  Vector3 xPart = V3Make(partMatrix.element[0][0],
-                         partMatrix.element[0][1],
-                         partMatrix.element[0][2]);
-  Vector3 yPart = V3Make(partMatrix.element[1][0],
-                         partMatrix.element[1][1],
-                         partMatrix.element[1][2]);
-  Vector3 zPart = V3Make(partMatrix.element[2][0],
-                         partMatrix.element[2][1],
-                         partMatrix.element[2][2]);
+    // Get the axis basis vectors of the model - this is the direction we will nudge, e.g. an "x part"
+    // nudge moves the part to its own right.
+    Vector3 xPart = V3Make(partMatrix.element[0][0],
+                           partMatrix.element[0][1],
+                           partMatrix.element[0][2]);
+    Vector3 yPart = V3Make(partMatrix.element[1][0],
+                           partMatrix.element[1][1],
+                           partMatrix.element[1][2]);
+    Vector3 zPart = V3Make(partMatrix.element[2][0],
+                           partMatrix.element[2][1],
+                           partMatrix.element[2][2]);
 
-  // Now, take lots o dot products to find the correlation between the user and model axes.
-  double xUp = V3Dot(yUser, xPart);
-  double yUp = V3Dot(yUser, yPart);
-  double zUp = V3Dot(yUser, zPart);
+    // Now, take lots o dot products to find the correlation between the user and model axes.
+    double xUp = V3Dot(yUser, xPart);
+    double yUp = V3Dot(yUser, yPart);
+    double zUp = V3Dot(yUser, zPart);
 
-  double xRight = V3Dot(xUser, xPart);
-  double yRight = V3Dot(xUser, yPart);
-  double zRight = V3Dot(xUser, zPart);
+    double xRight = V3Dot(xUser, xPart);
+    double yRight = V3Dot(xUser, yPart);
+    double zRight = V3Dot(xUser, zPart);
 
-  double xBack = V3Dot(zUser, xPart);
-  double yBack = V3Dot(zUser, yPart);
-  double zBack = V3Dot(zUser, zPart);
+    double xBack = V3Dot(zUser, xPart);
+    double yBack = V3Dot(zUser, yPart);
+    double zBack = V3Dot(zUser, zPart);
 
-  // We're going to compare them and link the strongest axes together, saving the dot product that we got.
-  Vector3 xNudge = ZeroPoint3, yNudge = ZeroPoint3, zNudge = ZeroPoint3;
-  double  xDot = 0.0f, yDot = 0.0f, zDot = 0.0f;
+    // We're going to compare them and link the strongest axes together, saving the dot product that we got.
+    Vector3 xNudge = ZeroPoint3, yNudge = ZeroPoint3, zNudge = ZeroPoint3;
+    double  xDot = 0.0f, yDot = 0.0f, zDot = 0.0f;
 
-  // Settle Y first, then X.  Since Y is hacked to not be in screen space for some views, there is
-  // a risk that model Y and screen Z are closely correlated.  Find the "up" vector, then take the
-  // right-most of remaining as X.
-  if (fabs(xUp) > fabs(yUp) && fabs(xUp) > fabs(zUp)) {
-    // CASE 1: model "X" axis is up.
-    yNudge = xPart;
-    yDot   = xUp;
+    // Settle Y first, then X.  Since Y is hacked to not be in screen space for some views, there is
+    // a risk that model Y and screen Z are closely correlated.  Find the "up" vector, then take the
+    // right-most of remaining as X.
+    if (fabs(xUp) > fabs(yUp) && fabs(xUp) > fabs(zUp)) {
+        // CASE 1: model "X" axis is up.
+        yNudge = xPart;
+        yDot   = xUp;
 
-    // Figure out which is more "to the right" - Y or Z
-    if (fabs(yRight) > fabs(zRight)) {
-      // Y axis is to the right.
-      xNudge = yPart;
-      xDot   = yRight;
-      // Z is forward
-      zNudge = zPart;
-      zDot   = zBack;
+        // Figure out which is more "to the right" - Y or Z
+        if (fabs(yRight) > fabs(zRight)) {
+            // Y axis is to the right.
+            xNudge = yPart;
+            xDot   = yRight;
+            // Z is forward
+            zNudge = zPart;
+            zDot   = zBack;
+        }
+        else {
+            // Z axis is to the right.
+            xNudge = zPart;
+            xDot   = zRight;
+            // Y is forward
+            zNudge = yPart;
+            zDot   = yBack;
+        }
+    }
+    else if (fabs(yUp) > fabs(zUp)) {
+        // CASE 2: model "Y" axis is up.
+        yNudge = yPart;
+        yDot   = yUp;
+
+        if (fabs(xRight) > fabs(zRight)) {
+            // X axis is right
+            xNudge = xPart;
+            xDot   = xRight;
+            // Z is forward
+            zNudge = zPart;
+            zDot   = zBack;
+        }
+        else {
+            // Z axis is right
+            xNudge = zPart;
+            xDot   = zRight;
+            // X is forward
+            zNudge = xPart;
+            zDot   = xBack;
+        }
     }
     else {
-      // Z axis is to the right.
-      xNudge = zPart;
-      xDot   = zRight;
-      // Y is forward
-      zNudge = yPart;
-      zDot   = yBack;
+        // CASE 3: model "Z" axis is up.
+        yNudge = zPart;
+        yDot   = zUp;
+        float yRight = V3Dot(xUser, yPart);
+        if (fabs(xRight) > fabs(yRight)) {
+            // X is right
+            xNudge = xPart;
+            xDot   = xRight;
+            // Y is forward
+            zNudge = yPart;
+            zDot   = yBack;
+        }
+        else {
+            // Y is right
+            xNudge = yPart;
+            xDot   = yRight;
+            // X is forward
+            zNudge = xPart;
+            zDot   = xBack;
+        }
     }
-  }
-  else if (fabs(yUp) > fabs(zUp)) {
-    // CASE 2: model "Y" axis is up.
-    yNudge = yPart;
-    yDot   = yUp;
 
-    if (fabs(xRight) > fabs(zRight)) {
-      // X axis is right
-      xNudge = xPart;
-      xDot   = xRight;
-      // Z is forward
-      zNudge = zPart;
-      zDot   = zBack;
+    // If any correlation was highly negative, the axis goes the wrong way.
+    // Flip the nudge sign.
+
+    if (xDot < 0.0) {
+        xNudge = V3Negate(xNudge);
     }
-    else {
-      // Z axis is right
-      xNudge = zPart;
-      xDot   = zRight;
-      // X is forward
-      zNudge = xPart;
-      zDot   = xBack;
+    if (yDot < 0.0) {
+        yNudge = V3Negate(yNudge);
     }
-  }
-  else {
-    // CASE 3: model "Z" axis is up.
-    yNudge = zPart;
-    yDot   = zUp;
-    float yRight = V3Dot(xUser, yPart);
-    if (fabs(xRight) > fabs(yRight)) {
-      // X is right
-      xNudge = xPart;
-      xDot   = xRight;
-      // Y is forward
-      zNudge = yPart;
-      zDot   = yBack;
+    if (zDot < 0.0) {
+        zNudge = V3Negate(zNudge);
     }
-    else {
-      // Y is right
-      xNudge = yPart;
-      xDot   = yRight;
-      // X is forward
-      zNudge = xPart;
-      zDot   = xBack;
-    }
-  }
 
-  // If any correlation was highly negative, the axis goes the wrong way.
-  // Flip the nudge sign.
+    // Now apply the nudge - basically .x of the nudge vector from the
+    // key stroke applies xNudge, etc.
+    return(V3Make(
+               self->nudgeVector.x * xNudge.x +
+               self->nudgeVector.y * yNudge.x +
+               self->nudgeVector.z * zNudge.x,
 
-  if (xDot < 0.0) {
-    xNudge = V3Negate(xNudge);
-  }
-  if (yDot < 0.0) {
-    yNudge = V3Negate(yNudge);
-  }
-  if (zDot < 0.0) {
-    zNudge = V3Negate(zNudge);
-  }
+               self->nudgeVector.x * xNudge.y +
+               self->nudgeVector.y * yNudge.y +
+               self->nudgeVector.z * zNudge.y,
 
-  // Now apply the nudge - basically .x of the nudge vector from the
-  // key stroke applies xNudge, etc.
-  return(V3Make(
-           self->nudgeVector.x * xNudge.x +
-           self->nudgeVector.y * yNudge.x +
-           self->nudgeVector.z * zNudge.x,
-
-           self->nudgeVector.x * xNudge.y +
-           self->nudgeVector.y * yNudge.y +
-           self->nudgeVector.z * zNudge.y,
-
-           self->nudgeVector.x * xNudge.z +
-           self->nudgeVector.y * yNudge.z +
-           self->nudgeVector.z * zNudge.z));
+               self->nudgeVector.x * xNudge.z +
+               self->nudgeVector.y * yNudge.z +
+               self->nudgeVector.z * zNudge.z));
 }
 
 
@@ -577,8 +577,8 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (ProjectionModeT)projectionMode
 {
-  [[self openGLContext] makeCurrentContext];
-  return([self->renderer projectionMode]);
+    [[self openGLContext] makeCurrentContext];
+    return([self->renderer projectionMode]);
 }
 
 
@@ -586,8 +586,8 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (LocationModeT)locationMode
 {
-  [[self openGLContext] makeCurrentContext];
-  return([self->renderer locationMode]);
+    [[self openGLContext] makeCurrentContext];
+    return([self->renderer locationMode]);
 }
 
 
@@ -595,11 +595,11 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (Tuple3)viewingAngle
 {
-  [[self openGLContext] makeCurrentContext];
+    [[self openGLContext] makeCurrentContext];
 
-  Tuple3 angle = [self->renderer viewingAngle];
+    Tuple3 angle = [self->renderer viewingAngle];
 
-  return(angle);
+    return(angle);
 }
 
 
@@ -610,8 +610,8 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (ViewOrientationT)viewOrientation
 {
-  [[self openGLContext] makeCurrentContext];
-  return([self->renderer viewOrientation]);
+    [[self openGLContext] makeCurrentContext];
+    return([self->renderer viewOrientation]);
 }
 
 
@@ -623,8 +623,8 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (CGFloat)zoomPercentage
 {
-  [[self openGLContext] makeCurrentContext];
-  return([self->renderer zoomPercentage]);
+    [[self openGLContext] makeCurrentContext];
+    return([self->renderer zoomPercentage]);
 }
 
 
@@ -637,7 +637,7 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)setAcceptsFirstResponder:(BOOL)flag
 {
-  self->acceptsFirstResponder = flag;
+    self->acceptsFirstResponder = flag;
 }
 
 
@@ -649,9 +649,9 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)setAutosaveName:(NSString *)newName
 {
-  [newName retain];
-  [self->autosaveName release];
-  self->autosaveName = newName;
+    [newName retain];
+    [self->autosaveName release];
+    self->autosaveName = newName;
 }
 
 
@@ -669,25 +669,25 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)setDelegate:(id)object
 {
-  // weak link.
-  self->delegate = object;
+    // weak link.
+    self->delegate = object;
 
-  // Drag and Drop support. We only accept drags if we have a document to add
-  // them to.
-  if ([self->delegate respondsToSelector:@selector(LDrawGLView:acceptDrop:directives:)]) {
-    [self registerForDraggedTypes:[NSArray arrayWithObject:LDrawDraggingPboardType]];
-  }
-  else {
-    [self unregisterDraggedTypes];
-  }
+    // Drag and Drop support. We only accept drags if we have a document to add
+    // them to.
+    if ([self->delegate respondsToSelector:@selector(LDrawGLView:acceptDrop:directives:)]) {
+        [self registerForDraggedTypes:[NSArray arrayWithObject:LDrawDraggingPboardType]];
+    }
+    else {
+        [self unregisterDraggedTypes];
+    }
 
-  if ([self->delegate respondsToSelector:@selector(LDrawGLView:wantsToSelectDirective:
-                                                   byExtendingSelection:)]) {
-    [self->renderer setAllowsEditing:YES];
-  }
-  else {
-    [self->renderer setAllowsEditing:NO];
-  }
+    if ([self->delegate respondsToSelector:@selector(LDrawGLView:wantsToSelectDirective:
+                                                     byExtendingSelection:)]) {
+        [self->renderer setAllowsEditing:YES];
+    }
+    else {
+        [self->renderer setAllowsEditing:NO];
+    }
 }
 
 
@@ -699,7 +699,7 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)setBackAction:(SEL)newAction
 {
-  self->backAction = newAction;
+    self->backAction = newAction;
 }
 
 
@@ -724,7 +724,7 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)setDragEndedInOurDocument:(BOOL)flag
 {
-  self->dragEndedInOurDocument = flag;
+    self->dragEndedInOurDocument = flag;
 }
 
 
@@ -736,7 +736,7 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)setForwardAction:(SEL)newAction
 {
-  self->forwardAction = newAction;
+    self->forwardAction = newAction;
 }
 
 
@@ -747,12 +747,12 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)setFrame:(NSRect)frameRect
 {
-  assert(!isnan(frameRect.origin.x));
-  assert(!isnan(frameRect.origin.y));
-  assert(!isnan(frameRect.size.width));
-  assert(!isnan(frameRect.size.height));
-  [[self openGLContext] makeCurrentContext];
-  [super setFrame:frameRect];
+    assert(!isnan(frameRect.origin.x));
+    assert(!isnan(frameRect.origin.y));
+    assert(!isnan(frameRect.size.width));
+    assert(!isnan(frameRect.size.height));
+    [[self openGLContext] makeCurrentContext];
+    [super setFrame:frameRect];
 }
 
 
@@ -764,8 +764,8 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)setGridSpacingMode:(gridSpacingModeT)newMode
 {
-  [[self openGLContext] makeCurrentContext];
-  [self->renderer setGridSpacing:[BricksmithUtilities gridSpacingForMode:newMode]];
+    [[self openGLContext] makeCurrentContext];
+    [self->renderer setGridSpacing:[BricksmithUtilities gridSpacingForMode:newMode]];
 }
 
 
@@ -777,8 +777,8 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)setLDrawColor:(LDrawColor *)newColor
 {
-  [[self openGLContext] makeCurrentContext];
-  [self->renderer setLDrawColor:newColor];
+    [[self openGLContext] makeCurrentContext];
+    [self->renderer setLDrawColor:newColor];
 }
 
 
@@ -792,17 +792,17 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)setLDrawDirective:(LDrawDirective *)newFile
 {
-  // We lock around the drawing context in case the current directive is being
-  // drawn right now. We certainly wouldn't want to release what we're
-  // drawing!
-  CGLLockContext([[self openGLContext] CGLContextObj]);
-  {
-    [[self openGLContext] makeCurrentContext];
-    [self->renderer setLDrawDirective:newFile];
+    // We lock around the drawing context in case the current directive is being
+    // drawn right now. We certainly wouldn't want to release what we're
+    // drawing!
+    CGLLockContext([[self openGLContext] CGLContextObj]);
+    {
+        [[self openGLContext] makeCurrentContext];
+        [self->renderer setLDrawDirective:newFile];
 
-    [self setNeedsDisplay:YES];
-  }
-  CGLUnlockContext([[self openGLContext] CGLContextObj]);
+        [self setNeedsDisplay:YES];
+    }
+    CGLUnlockContext([[self openGLContext] CGLContextObj]);
 }
 
 
@@ -814,7 +814,7 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)setNeedsDisplay:(BOOL)flag
 {
-  [super setNeedsDisplay:flag];
+    [super setNeedsDisplay:flag];
 }
 
 
@@ -828,7 +828,7 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)setNudgeAction:(SEL)newAction
 {
-  self->nudgeAction = newAction;
+    self->nudgeAction = newAction;
 }
 
 
@@ -843,17 +843,17 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)setProjectionMode:(ProjectionModeT)newProjectionMode
 {
-  CGLLockContext([[self openGLContext] CGLContextObj]);
-  {
-    [[self openGLContext] makeCurrentContext];
+    CGLLockContext([[self openGLContext] CGLContextObj]);
+    {
+        [[self openGLContext] makeCurrentContext];
 
-    [self->renderer setProjectionMode:newProjectionMode];
+        [self->renderer setProjectionMode:newProjectionMode];
 
-    [self setNeedsDisplay:YES];
-  }
-  CGLUnlockContext([[self openGLContext] CGLContextObj]);
+        [self setNeedsDisplay:YES];
+    }
+    CGLUnlockContext([[self openGLContext] CGLContextObj]);
 
-  [self saveConfiguration];
+    [self saveConfiguration];
 }
 
 
@@ -864,16 +864,16 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)setLocationMode:(LocationModeT)newLocationMode
 {
-  CGLLockContext([[self openGLContext] CGLContextObj]);
-  {
-    [[self openGLContext] makeCurrentContext];
+    CGLLockContext([[self openGLContext] CGLContextObj]);
+    {
+        [[self openGLContext] makeCurrentContext];
 
-    [self->renderer setLocationMode:newLocationMode];
+        [self->renderer setLocationMode:newLocationMode];
 
-    [self setNeedsDisplay:YES];
-  }
-  CGLUnlockContext([[self openGLContext] CGLContextObj]);
-  [self saveConfiguration];
+        [self setNeedsDisplay:YES];
+    }
+    CGLUnlockContext([[self openGLContext] CGLContextObj]);
+    [self saveConfiguration];
 }
 
 
@@ -885,7 +885,7 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)setTarget:(id)newTarget
 {
-  self->target = newTarget;
+    self->target = newTarget;
 }
 
 
@@ -901,20 +901,20 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)setViewingAngle:(Tuple3)newAngle
 {
-  CGLLockContext([[self openGLContext] CGLContextObj]);
-  {
-    // This method can get called from -prepareOpenGL, which is itself called
-    // from -makeCurrentContext. That's a recipe for infinite recursion. So,
-    // we only makeCurrentContext if we *need* to.
-    if ([NSOpenGLContext currentContext] != [self openGLContext]) {
-      [[self openGLContext] makeCurrentContext];
+    CGLLockContext([[self openGLContext] CGLContextObj]);
+    {
+        // This method can get called from -prepareOpenGL, which is itself called
+        // from -makeCurrentContext. That's a recipe for infinite recursion. So,
+        // we only makeCurrentContext if we *need* to.
+        if ([NSOpenGLContext currentContext] != [self openGLContext]) {
+            [[self openGLContext] makeCurrentContext];
+        }
+
+        [self->renderer setViewingAngle:newAngle];
+
+        [self setNeedsDisplay:YES];
     }
-
-    [self->renderer setViewingAngle:newAngle];
-
-    [self setNeedsDisplay:YES];
-  }
-  CGLUnlockContext([[self openGLContext] CGLContextObj]);
+    CGLUnlockContext([[self openGLContext] CGLContextObj]);
 }
 
 
@@ -926,10 +926,10 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)setViewOrientation:(ViewOrientationT)newOrientation
 {
-  [[self openGLContext] makeCurrentContext];
-  [self->renderer setViewOrientation:newOrientation];
+    [[self openGLContext] makeCurrentContext];
+    [self->renderer setViewOrientation:newOrientation];
 
-  [self saveConfiguration];
+    [self saveConfiguration];
 }
 
 
@@ -946,8 +946,8 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)setZoomPercentage:(CGFloat)newPercentage
 {
-  [[self openGLContext] makeCurrentContext];
-  [self->renderer setZoomPercentage:newPercentage];
+    [[self openGLContext] makeCurrentContext];
+    [self->renderer setZoomPercentage:newPercentage];
 }
 
 
@@ -963,29 +963,29 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (IBAction)viewOrientationSelected:(id)sender
 {
-  ViewOrientationT newAngle = (int)[sender tag];
+    ViewOrientationT newAngle = (int)[sender tag];
 
-  [[self openGLContext] makeCurrentContext];
+    [[self openGLContext] makeCurrentContext];
 
-  [self->renderer setViewOrientation:newAngle];
+    [self->renderer setViewOrientation:newAngle];
 
-  // We treat 3D as a request for perspective, but any straight-on view can
-  // logically be expected to be displayed orthographically.
-  if (newAngle == ViewOrientation3D || newAngle == ViewOrientationWalkThrough) {
-    [self->renderer setProjectionMode:ProjectionModePerspective];
-  }
-  else {
-    [self->renderer setProjectionMode:ProjectionModeOrthographic];
-  }
+    // We treat 3D as a request for perspective, but any straight-on view can
+    // logically be expected to be displayed orthographically.
+    if (newAngle == ViewOrientation3D || newAngle == ViewOrientationWalkThrough) {
+        [self->renderer setProjectionMode:ProjectionModePerspective];
+    }
+    else {
+        [self->renderer setProjectionMode:ProjectionModeOrthographic];
+    }
 
-  if (newAngle == ViewOrientationWalkThrough) {
-    [self->renderer setLocationMode:LocationModeWalkthrough];
-  }
-  else {
-    [self->renderer setLocationMode:LocationModeModel];
-  }
+    if (newAngle == ViewOrientationWalkThrough) {
+        [self->renderer setLocationMode:LocationModeWalkthrough];
+    }
+    else {
+        [self->renderer setLocationMode:LocationModeModel];
+    }
 
-  [self saveConfiguration];
+    [self saveConfiguration];
 }
 
 
@@ -996,8 +996,8 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (IBAction)zoomIn:(id)sender
 {
-  [[self openGLContext] makeCurrentContext];
-  [self->renderer zoomIn:sender];
+    [[self openGLContext] makeCurrentContext];
+    [self->renderer zoomIn:sender];
 }
 
 
@@ -1008,8 +1008,8 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (IBAction)zoomOut:(id)sender
 {
-  [[self openGLContext] makeCurrentContext];
-  [self->renderer zoomOut:sender];
+    [[self openGLContext] makeCurrentContext];
+    [self->renderer zoomOut:sender];
 }
 
 
@@ -1021,12 +1021,12 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (IBAction)zoomToFit:(id)sender
 {
-  CGLLockContext([[self openGLContext] CGLContextObj]);
-  {
-    [[self openGLContext] makeCurrentContext];
-    [self->renderer zoomToFit:sender];
-  }
-  CGLUnlockContext([[self openGLContext] CGLContextObj]);
+    CGLLockContext([[self openGLContext] CGLContextObj]);
+    {
+        [[self openGLContext] makeCurrentContext];
+        [self->renderer zoomToFit:sender];
+    }
+    CGLUnlockContext([[self openGLContext] CGLContextObj]);
 }
 
 
@@ -1042,18 +1042,18 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (BOOL)becomeFirstResponder
 {
-  BOOL success = [super becomeFirstResponder];
+    BOOL success = [super becomeFirstResponder];
 
-  if (success == YES) {
-    if (self->delegate != nil &&
-        [self->delegate respondsToSelector:@selector(LDrawGLViewBecameFirstResponder:)]) {
-      [self->delegate LDrawGLViewBecameFirstResponder:self];
+    if (success == YES) {
+        if (self->delegate != nil &&
+            [self->delegate respondsToSelector:@selector(LDrawGLViewBecameFirstResponder:)]) {
+            [self->delegate LDrawGLViewBecameFirstResponder:self];
+        }
+
+        // need to draw the focus ring now
+        [self->focusRingView setNeedsDisplay:YES];
     }
-
-    // need to draw the focus ring now
-    [self->focusRingView setNeedsDisplay:YES];
-  }
-  return(success);
+    return(success);
 }
 
 
@@ -1064,13 +1064,13 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (BOOL)resignFirstResponder
 {
-  BOOL success = [super resignFirstResponder];
+    BOOL success = [super resignFirstResponder];
 
-  if (success == YES) {
-    // need to lose the focus ring
-    [self->focusRingView setNeedsDisplay:YES];
-  }
-  return(success);
+    if (success == YES) {
+        // need to lose the focus ring
+        [self->focusRingView setNeedsDisplay:YES];
+    }
+    return(success);
 }
 
 
@@ -1082,12 +1082,12 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)resetCursor
 {
-  // It seems -invalidateCursorRectsForView: only causes -resetCursorRects to
-  // get called if there is currently a cursor in force. So we oblige it.
-  [self addCursorRect:[self visibleRect]
-               cursor:[NSCursor arrowCursor]];
+    // It seems -invalidateCursorRectsForView: only causes -resetCursorRects to
+    // get called if there is currently a cursor in force. So we oblige it.
+    [self addCursorRect:[self visibleRect]
+     cursor:[NSCursor arrowCursor]];
 
-  [[self window] invalidateCursorRectsForView:self];
+    [[self window] invalidateCursorRectsForView:self];
 }
 
 
@@ -1105,112 +1105,112 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)resetCursorRects
 {
-  [super resetCursorRects];
+    [super resetCursorRects];
 
-  NSRect    visibleRect  = [self visibleRect];
-  BOOL      isClicked    = NO; /*[[NSApp currentEvent] type] == NSLeftMouseDown;*/ // not enough; overwhelmed by repeating key events
-  NSCursor  *cursor      = nil;
-  NSImage   *cursorImage = nil;
-  ToolModeT toolMode     = [ToolPalette toolMode];
+    NSRect    visibleRect  = [self visibleRect];
+    BOOL      isClicked    = NO; /*[[NSApp currentEvent] type] == NSLeftMouseDown;*/ // not enough; overwhelmed by repeating key events
+    NSCursor  *cursor      = nil;
+    NSImage   *cursorImage = nil;
+    ToolModeT toolMode     = [ToolPalette toolMode];
 
-  switch (toolMode)
-  {
-    case RotateSelectTool :
-      // just use the standard arrow cursor.
-      if (self->selectionIsMarquee) {
-        switch (self->marqueeSelectionMode)
-        {
-          case SelectionIntersection :
-            cursorImage = [NSImage imageNamed:@"CrosshairTimes"];
+    switch (toolMode)
+    {
+        case RotateSelectTool :
+            // just use the standard arrow cursor.
+            if (self->selectionIsMarquee) {
+                switch (self->marqueeSelectionMode)
+                {
+                    case SelectionIntersection :
+                        cursorImage = [NSImage imageNamed:@"CrosshairTimes"];
+                        break;
+
+                    case SelectionExtend :
+                        cursorImage = [NSImage imageNamed:@"CrosshairPlus"];
+                        break;
+
+                    case SelectionSubtract :
+                        cursorImage = [NSImage imageNamed:@"CrosshairMinus"];
+                        break;
+
+                    case SelectionReplace :
+                        cursorImage = [NSImage imageNamed:@"Crosshair"];
+                        break;
+                }
+                cursor = [[[NSCursor alloc] initWithImage:cursorImage
+                           hotSpot:NSMakePoint(8, 8)] autorelease];
+            }
+            else {
+                cursor = [NSCursor arrowCursor];
+            }
             break;
 
-          case SelectionExtend :
-            cursorImage = [NSImage imageNamed:@"CrosshairPlus"];
+        case PanScrollTool :
+            if ([self->renderer isTrackingDrag] == YES || isClicked == YES) {
+                cursor = [NSCursor closedHandCursor];
+            }
+            else {
+                cursor = [NSCursor openHandCursor];
+            }
             break;
 
-          case SelectionSubtract :
-            cursorImage = [NSImage imageNamed:@"CrosshairMinus"];
+        case SmoothZoomTool :
+            if ([self->renderer isTrackingDrag] == YES) {
+                cursorImage = [NSImage imageNamed:@"ZoomCursor"];
+                cursor      = [[[NSCursor alloc] initWithImage:cursorImage
+                                hotSpot:NSMakePoint(7, 10)] autorelease];
+            }
+            else {
+                cursor = [NSCursor crosshairCursor];
+            }
             break;
 
-          case SelectionReplace :
-            cursorImage = [NSImage imageNamed:@"Crosshair"];
+        case ZoomInTool :
+            cursorImage = [NSImage imageNamed:@"ZoomInCursor"];
+            cursor      = [[[NSCursor alloc] initWithImage:cursorImage
+                            hotSpot:NSMakePoint(7, 10)] autorelease];
             break;
-        }
-        cursor = [[[NSCursor alloc] initWithImage:cursorImage
-                                          hotSpot:NSMakePoint(8, 8)] autorelease];
-      }
-      else {
-        cursor = [NSCursor arrowCursor];
-      }
-      break;
 
-    case PanScrollTool :
-      if ([self->renderer isTrackingDrag] == YES || isClicked == YES) {
-        cursor = [NSCursor closedHandCursor];
-      }
-      else {
-        cursor = [NSCursor openHandCursor];
-      }
-      break;
+        case ZoomOutTool :
+            cursorImage = [NSImage imageNamed:@"ZoomOutCursor"];
+            cursor      = [[[NSCursor alloc] initWithImage:cursorImage
+                            hotSpot:NSMakePoint(7, 10)] autorelease];
+            break;
 
-    case SmoothZoomTool :
-      if ([self->renderer isTrackingDrag] == YES) {
-        cursorImage = [NSImage imageNamed:@"ZoomCursor"];
-        cursor      = [[[NSCursor alloc] initWithImage:cursorImage
-                                               hotSpot:NSMakePoint(7, 10)] autorelease];
-      }
-      else {
-        cursor = [NSCursor crosshairCursor];
-      }
-      break;
+        case SpinTool :
+            cursorImage = [NSImage imageNamed:@"Spin"];
+            cursor      = [[[NSCursor alloc] initWithImage:cursorImage
+                            hotSpot:NSMakePoint(7, 10)] autorelease];
+            break;
 
-    case ZoomInTool :
-      cursorImage = [NSImage imageNamed:@"ZoomInCursor"];
-      cursor      = [[[NSCursor alloc] initWithImage:cursorImage
-                                             hotSpot:NSMakePoint(7, 10)] autorelease];
-      break;
-
-    case ZoomOutTool :
-      cursorImage = [NSImage imageNamed:@"ZoomOutCursor"];
-      cursor      = [[[NSCursor alloc] initWithImage:cursorImage
-                                             hotSpot:NSMakePoint(7, 10)] autorelease];
-      break;
-
-    case SpinTool :
-      cursorImage = [NSImage imageNamed:@"Spin"];
-      cursor      = [[[NSCursor alloc] initWithImage:cursorImage
-                                             hotSpot:NSMakePoint(7, 10)] autorelease];
-      break;
-
-    case EraserTool :
-      // just use the standard arrow cursor.
-      cursor = [NSCursor arrowCursor];
-      break;
-  }
-
-  // update the cursor based on the tool mode.
-  if (cursor != nil) {
-    // Make this cursor active over the entire document.
-    [self addCursorRect:visibleRect
-                 cursor:cursor];
-    [cursor setOnMouseEntered:YES];
-
-    // okay, something very weird is going on here. When the cursor is inside
-    // a view and THE PARTS BROWSER DRAWER IS OPEN, merely establishing a
-    // cursor rect isn't enough. It's somehow instantly erased when the
-    // LDrawGLView inside the drawer redoes its own cursor rects. Even
-    // calling -set on the cursor often has little more effect than a brief
-    // flicker. I don't know why this is happening, but this hack seems to
-    // fix it.
-    if ([self mouse:[self convertPoint:[[self window] mouseLocationOutsideOfEventStream]
-                              fromView:nil]
-             inRect:[self visibleRect]]) { // mouse is inside view.
-      // [cursor set]; //not enough.
-      [cursor performSelector:@selector(set)
-                   withObject:nil
-                   afterDelay:0];
+        case EraserTool :
+            // just use the standard arrow cursor.
+            cursor = [NSCursor arrowCursor];
+            break;
     }
-  }
+
+    // update the cursor based on the tool mode.
+    if (cursor != nil) {
+        // Make this cursor active over the entire document.
+        [self addCursorRect:visibleRect
+         cursor:cursor];
+        [cursor setOnMouseEntered:YES];
+
+        // okay, something very weird is going on here. When the cursor is inside
+        // a view and THE PARTS BROWSER DRAWER IS OPEN, merely establishing a
+        // cursor rect isn't enough. It's somehow instantly erased when the
+        // LDrawGLView inside the drawer redoes its own cursor rects. Even
+        // calling -set on the cursor often has little more effect than a brief
+        // flicker. I don't know why this is happening, but this hack seems to
+        // fix it.
+        if ([self mouse:[self convertPoint:[[self window] mouseLocationOutsideOfEventStream]
+                         fromView:nil]
+             inRect:[self visibleRect]]) { // mouse is inside view.
+            // [cursor set]; //not enough.
+            [cursor performSelector:@selector(set)
+             withObject:nil
+             afterDelay:0];
+        }
+    }
 }
 
 
@@ -1227,7 +1227,7 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (BOOL)worksWhenModal
 {
-  return(YES);
+    return(YES);
 }
 
 
@@ -1243,80 +1243,80 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)keyDown:(NSEvent *)theEvent
 {
-  NSString *characters = [theEvent charactersIgnoringModifiers];
+    NSString *characters = [theEvent charactersIgnoringModifiers];
 
 // [self interpretKeyEvents:[NSArray arrayWithObject:theEvent]];
-  // We are circumventing the AppKit's key processing system here, because we
-  // may want to extend our keys to mean different things with different
-  // modifiers. It is easier to do that here than to pass it off to
-  // -interpretKeyEvent:. But beware of no-character keypresses like deadkeys.
-  if ([characters length] > 0) {
-    unichar firstCharacter = [characters characterAtIndex:0];  // the key pressed
+    // We are circumventing the AppKit's key processing system here, because we
+    // may want to extend our keys to mean different things with different
+    // modifiers. It is easier to do that here than to pass it off to
+    // -interpretKeyEvent:. But beware of no-character keypresses like deadkeys.
+    if ([characters length] > 0) {
+        unichar firstCharacter = [characters characterAtIndex:0]; // the key pressed
 
-    switch (firstCharacter)
-    {
-      // brick movements
-      case NSUpArrowFunctionKey :
-      case NSDownArrowFunctionKey :
-      case NSLeftArrowFunctionKey :
-      case NSRightArrowFunctionKey :
-        [self nudgeKeyDown:theEvent];
-        break;
+        switch (firstCharacter)
+        {
+            // brick movements
+            case NSUpArrowFunctionKey :
+            case NSDownArrowFunctionKey :
+            case NSLeftArrowFunctionKey :
+            case NSRightArrowFunctionKey :
+                [self nudgeKeyDown:theEvent];
+                break;
 
-      case ' ' :
-        // Swallow the spacebar, since it is a special tool-palette key.
-        // If we pass it up to super, it will cause a beep.
-        break;
+            case ' ' :
+                // Swallow the spacebar, since it is a special tool-palette key.
+                // If we pass it up to super, it will cause a beep.
+                break;
 
-      // viewing angle
-      case '4' :
-        [self setProjectionMode:ProjectionModeOrthographic];
-        [self setViewOrientation:ViewOrientationLeft];
-        [self setLocationMode:LocationModeModel];
-        break;
+            // viewing angle
+            case '4' :
+                [self setProjectionMode:ProjectionModeOrthographic];
+                [self setViewOrientation:ViewOrientationLeft];
+                [self setLocationMode:LocationModeModel];
+                break;
 
-      case '6' :
-        [self setProjectionMode:ProjectionModeOrthographic];
-        [self setViewOrientation:ViewOrientationRight];
-        [self setLocationMode:LocationModeModel];
-        break;
+            case '6' :
+                [self setProjectionMode:ProjectionModeOrthographic];
+                [self setViewOrientation:ViewOrientationRight];
+                [self setLocationMode:LocationModeModel];
+                break;
 
-      case '2' :
-        [self setProjectionMode:ProjectionModeOrthographic];
-        [self setViewOrientation:ViewOrientationBottom];
-        [self setLocationMode:LocationModeModel];
-        break;
+            case '2' :
+                [self setProjectionMode:ProjectionModeOrthographic];
+                [self setViewOrientation:ViewOrientationBottom];
+                [self setLocationMode:LocationModeModel];
+                break;
 
-      case '8' :
-        [self setProjectionMode:ProjectionModeOrthographic];
-        [self setViewOrientation:ViewOrientationTop];
-        [self setLocationMode:LocationModeModel];
-        break;
+            case '8' :
+                [self setProjectionMode:ProjectionModeOrthographic];
+                [self setViewOrientation:ViewOrientationTop];
+                [self setLocationMode:LocationModeModel];
+                break;
 
-      case '5' :
-        [self setProjectionMode:ProjectionModeOrthographic];
-        [self setViewOrientation:ViewOrientationFront];
-        [self setLocationMode:LocationModeModel];
-        break;
+            case '5' :
+                [self setProjectionMode:ProjectionModeOrthographic];
+                [self setViewOrientation:ViewOrientationFront];
+                [self setLocationMode:LocationModeModel];
+                break;
 
-      case '7' :
-      case '9' :
-        [self setProjectionMode:ProjectionModeOrthographic];
-        [self setViewOrientation:ViewOrientationBack];
-        [self setLocationMode:LocationModeModel];
-        break;
+            case '7' :
+            case '9' :
+                [self setProjectionMode:ProjectionModeOrthographic];
+                [self setViewOrientation:ViewOrientationBack];
+                [self setLocationMode:LocationModeModel];
+                break;
 
-      case '0' :
-        [self setProjectionMode:ProjectionModePerspective];
-        [self setViewOrientation:ViewOrientation3D];
-        [self setLocationMode:LocationModeModel];
-        break;
+            case '0' :
+                [self setProjectionMode:ProjectionModePerspective];
+                [self setViewOrientation:ViewOrientation3D];
+                [self setLocationMode:LocationModeModel];
+                break;
 
-      default :
-        [super keyDown:theEvent];
-        break;
+            default :
+                [super keyDown:theEvent];
+                break;
+        }
     }
-  }
 }
 
 
@@ -1329,116 +1329,116 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)nudgeKeyDown:(NSEvent *)theEvent
 {
-  NSString *characters    = [theEvent characters];
-  unichar  firstCharacter = '\0';
-  Vector3  xNudge         = ZeroPoint3;
-  Vector3  yNudge         = ZeroPoint3;
-  Vector3  zNudge         = ZeroPoint3;
-  Vector3  actualNudge    = ZeroPoint3;
-  BOOL     isZMovement    = NO;
-  BOOL     isFastNudge    = NO;
-  BOOL     isNudge        = NO;
+    NSString *characters    = [theEvent characters];
+    unichar  firstCharacter = '\0';
+    Vector3  xNudge         = ZeroPoint3;
+    Vector3  yNudge         = ZeroPoint3;
+    Vector3  zNudge         = ZeroPoint3;
+    Vector3  actualNudge    = ZeroPoint3;
+    BOOL     isZMovement    = NO;
+    BOOL     isFastNudge    = NO;
+    BOOL     isNudge        = NO;
 
-  CGLLockContext([[self openGLContext] CGLContextObj]);
-  {
-    [[self openGLContext] makeCurrentContext];
+    CGLLockContext([[self openGLContext] CGLContextObj]);
+    {
+        [[self openGLContext] makeCurrentContext];
 
-    if ([characters length] > 0) {
-      firstCharacter = [characters characterAtIndex:0];  // the key pressed
+        if ([characters length] > 0) {
+            firstCharacter = [characters characterAtIndex:0]; // the key pressed
 
-      xNudge.x = 1.0;
-      yNudge.y = 1.0;
-      zNudge.z = 1.0;
-
-
-      // By holding down the option key, we transcend the two-plane
-      // limitation presented by the arrow keys. Option-presses mean
-      // movement along the z-axis. Note that move "in" to the screen (up
-      // arrow, left arrow?) is a movement along the screen's negative
-      // z-axis.
-      isZMovement = ([theEvent modifierFlags] & NSEventModifierFlagOption) != 0;
-      isFastNudge = ([theEvent modifierFlags] & NSEventModifierFlagShift) != 0;
-      isNudge     = NO;
+            xNudge.x = 1.0;
+            yNudge.y = 1.0;
+            zNudge.z = 1.0;
 
 
-      // now we must select which axis we actually are nudging on.
-      switch (firstCharacter)
-      {
-        case NSUpArrowFunctionKey :
+            // By holding down the option key, we transcend the two-plane
+            // limitation presented by the arrow keys. Option-presses mean
+            // movement along the z-axis. Note that move "in" to the screen (up
+            // arrow, left arrow?) is a movement along the screen's negative
+            // z-axis.
+            isZMovement = ([theEvent modifierFlags] & NSEventModifierFlagOption) != 0;
+            isFastNudge = ([theEvent modifierFlags] & NSEventModifierFlagShift) != 0;
+            isNudge     = NO;
 
-          if (isZMovement == YES) {
-            // into the screen (-z)
-            actualNudge = V3Negate(zNudge);
-          }
-          else {
-            actualNudge = yNudge;
-          }
-          isNudge = YES;
-          break;
 
-        case NSDownArrowFunctionKey :
+            // now we must select which axis we actually are nudging on.
+            switch (firstCharacter)
+            {
+                case NSUpArrowFunctionKey :
 
-          if (isZMovement == YES) {
-            actualNudge = zNudge;
-          }
-          else {
-            actualNudge = V3Negate(yNudge);
-          }
-          isNudge = YES;
-          break;
+                    if (isZMovement == YES) {
+                        // into the screen (-z)
+                        actualNudge = V3Negate(zNudge);
+                    }
+                    else {
+                        actualNudge = yNudge;
+                    }
+                    isNudge = YES;
+                    break;
 
-        case NSLeftArrowFunctionKey :
+                case NSDownArrowFunctionKey :
 
-          if (isZMovement == YES) {
-            // this is iffy at best
-            // -- and it made things go the wrong way in default 3D
-            // perspective view, so I switched signs.
+                    if (isZMovement == YES) {
+                        actualNudge = zNudge;
+                    }
+                    else {
+                        actualNudge = V3Negate(yNudge);
+                    }
+                    isNudge = YES;
+                    break;
+
+                case NSLeftArrowFunctionKey :
+
+                    if (isZMovement == YES) {
+                        // this is iffy at best
+                        // -- and it made things go the wrong way in default 3D
+                        // perspective view, so I switched signs.
 // actualNudge = V3Negate(zNudge);
-            actualNudge = zNudge;
-          }
-          else {
-            actualNudge = V3Negate(xNudge);
-          }
-          isNudge = YES;
-          break;
+                        actualNudge = zNudge;
+                    }
+                    else {
+                        actualNudge = V3Negate(xNudge);
+                    }
+                    isNudge = YES;
+                    break;
 
-        case NSRightArrowFunctionKey :
+                case NSRightArrowFunctionKey :
 
-          if (isZMovement == YES) {
+                    if (isZMovement == YES) {
 // actualNudge = zNudge;
-            actualNudge = V3Negate(zNudge);
-          }
-          else {
-            actualNudge = xNudge;
-          }
-          isNudge = YES;
-          break;
+                        actualNudge = V3Negate(zNudge);
+                    }
+                    else {
+                        actualNudge = xNudge;
+                    }
+                    isNudge = YES;
+                    break;
 
-        default :
-          break;
-      }
+                default :
+                    break;
+            }
 
-      // Pass the nudge along to the document, which is the one actually in
-      // charge of manipulating the data.
-      if (isNudge == YES) {
-        if (isFastNudge) {
-          actualNudge = V3Scale(actualNudge, 10.0);
-        }
-        self->nudgeVector = actualNudge;
+            // Pass the nudge along to the document, which is the one actually in
+            // charge of manipulating the data.
+            if (isNudge == YES) {
+                if (isFastNudge) {
+                    actualNudge = V3Scale(actualNudge, 10.0);
+                }
+                self->nudgeVector = actualNudge;
 
-        if ([self locationMode] == LocationModeWalkthrough) {
-          [renderer moveCamera:actualNudge];
+                if ([self locationMode] == LocationModeWalkthrough) {
+                    [renderer moveCamera:actualNudge];
+                }
+                else {
+                    [NSApp sendAction:self->nudgeAction
+                     to:self->target
+                     from:self];
+                }
+                self->nudgeVector = ZeroPoint3;
+            }
         }
-        else {
-          [NSApp sendAction:self->nudgeAction
-                         to:self->target
-                       from:self];
-        }
-        self->nudgeVector = ZeroPoint3;
-      }
     }
-  }
-  CGLUnlockContext([[self openGLContext] CGLContextObj]);
+    CGLUnlockContext([[self openGLContext] CGLContextObj]);
 }
 
 
@@ -1452,14 +1452,14 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)mouseMoved:(NSEvent *)theEvent
 {
-  NSPoint windowClickedPoint = [theEvent locationInWindow];
-  NSPoint viewClickedPoint   = [self convertPoint:windowClickedPoint
-                                         fromView:nil];
-  Point2 view_point = V2Make(viewClickedPoint.x, viewClickedPoint.y);
+    NSPoint windowClickedPoint = [theEvent locationInWindow];
+    NSPoint viewClickedPoint   = [self convertPoint:windowClickedPoint
+                                  fromView:nil];
+    Point2 view_point = V2Make(viewClickedPoint.x, viewClickedPoint.y);
 
-  [[self openGLContext] makeCurrentContext];
+    [[self openGLContext] makeCurrentContext];
 
-  [self->renderer mouseMoved:view_point];
+    [self->renderer mouseMoved:view_point];
 }
 
 
@@ -1470,9 +1470,9 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)mouseExited:(NSEvent *)theEvent
 {
-  if ([self->delegate respondsToSelector:@selector(LDrawGLViewMouseNotPositioning:)]) {
-    [self->delegate LDrawGLViewMouseNotPositioning:self];
-  }
+    if ([self->delegate respondsToSelector:@selector(LDrawGLViewMouseNotPositioning:)]) {
+        [self->delegate LDrawGLViewMouseNotPositioning:self];
+    }
 }
 
 
@@ -1483,71 +1483,71 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)mouseDown:(NSEvent *)theEvent
 {
-  NSUserDefaults     *userDefaults    = [NSUserDefaults standardUserDefaults];
-  MouseDragBehaviorT draggingBehavior = (int)[userDefaults integerForKey:MOUSE_DRAGGING_BEHAVIOR_KEY];
-  ToolModeT          toolMode         = [ToolPalette toolMode];
+    NSUserDefaults     *userDefaults    = [NSUserDefaults standardUserDefaults];
+    MouseDragBehaviorT draggingBehavior = (int)[userDefaults integerForKey:MOUSE_DRAGGING_BEHAVIOR_KEY];
+    ToolModeT          toolMode         = [ToolPalette toolMode];
 
-  if ([theEvent buttonNumber] == 1) {
-    toolMode = SpinTool;
-  }
-
-  [[self openGLContext] makeCurrentContext];
-
-  // Reset event tracking flags.
-
-  selectionIsMarquee   = NO;
-  marqueeSelectionMode = SelectionReplace;
-
-  [self->renderer mouseDown];
-
-  [self resetCursor];
-
-  if (toolMode == SmoothZoomTool) {
-    NSPoint windowClickedPoint = [theEvent locationInWindow];  // window coordinates
-    NSPoint viewClickedPoint   = [self convertPoint:windowClickedPoint
-                                           fromView:nil];
-
-    [self->renderer mouseCenterClick:V2Make(viewClickedPoint.x, viewClickedPoint.y)];
-  }
-  else if (toolMode == EraserTool) {
-    [self mousePartSelection:theEvent];
-
-    // Request delete using the standard responder message. Hopefully
-    // someone out there will listen.
-    [NSApp sendAction:@selector(delete:)
-                   to:nil
-                 from:self];
-  }
-  else if (toolMode == RotateSelectTool) {
-    switch (draggingBehavior)
-    {
-      case MouseDraggingOff :
-        // No-op.  During a drag we'll actually start the marquee
-        break;
-
-      case MouseDraggingBeginAfterDelay :
-        [self cancelClickAndHoldTimer]; // just in case
-
-        // Try waiting for a click-and-hold; that means "begin
-        // drag-and-drop"
-        self->mouseDownTimer = [NSTimer scheduledTimerWithTimeInterval:0.25
-                                                                target:self
-                                                              selector:@selector(clickAndHoldTimerFired:)
-                                                              userInfo:theEvent
-                                                               repeats:NO];
-        break;
-
-      case MouseDraggingBeginImmediately :
-        [self mousePartSelection:theEvent];
-        break;
-
-      case MouseDraggingImmediatelyInOrthoNeverInPerspective :
-        if ([self->renderer projectionMode] == ProjectionModeOrthographic) {
-          [self mousePartSelection:theEvent];
-        }
-        break;
+    if ([theEvent buttonNumber] == 1) {
+        toolMode = SpinTool;
     }
-  }
+
+    [[self openGLContext] makeCurrentContext];
+
+    // Reset event tracking flags.
+
+    selectionIsMarquee   = NO;
+    marqueeSelectionMode = SelectionReplace;
+
+    [self->renderer mouseDown];
+
+    [self resetCursor];
+
+    if (toolMode == SmoothZoomTool) {
+        NSPoint windowClickedPoint = [theEvent locationInWindow]; // window coordinates
+        NSPoint viewClickedPoint   = [self convertPoint:windowClickedPoint
+                                      fromView:nil];
+
+        [self->renderer mouseCenterClick:V2Make(viewClickedPoint.x, viewClickedPoint.y)];
+    }
+    else if (toolMode == EraserTool) {
+        [self mousePartSelection:theEvent];
+
+        // Request delete using the standard responder message. Hopefully
+        // someone out there will listen.
+        [NSApp sendAction:@selector(delete:)
+         to:nil
+         from:self];
+    }
+    else if (toolMode == RotateSelectTool) {
+        switch (draggingBehavior)
+        {
+            case MouseDraggingOff :
+                // No-op.  During a drag we'll actually start the marquee
+                break;
+
+            case MouseDraggingBeginAfterDelay :
+                [self cancelClickAndHoldTimer]; // just in case
+
+                // Try waiting for a click-and-hold; that means "begin
+                // drag-and-drop"
+                self->mouseDownTimer = [NSTimer scheduledTimerWithTimeInterval:0.25
+                                        target:self
+                                        selector:@selector(clickAndHoldTimerFired:)
+                                        userInfo:theEvent
+                                        repeats:NO];
+                break;
+
+            case MouseDraggingBeginImmediately :
+                [self mousePartSelection:theEvent];
+                break;
+
+            case MouseDraggingImmediatelyInOrthoNeverInPerspective :
+                if ([self->renderer projectionMode] == ProjectionModeOrthographic) {
+                    [self mousePartSelection:theEvent];
+                }
+                break;
+        }
+    }
 }
 
 
@@ -1558,84 +1558,84 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)mouseDragged:(NSEvent *)theEvent
 {
-  NSUserDefaults     *userDefaults    = [NSUserDefaults standardUserDefaults];
-  MouseDragBehaviorT draggingBehavior = (int)[userDefaults integerForKey:MOUSE_DRAGGING_BEHAVIOR_KEY];
-  ToolModeT          toolMode         = [ToolPalette toolMode];
-  Vector2            dragDelta        = V2Make([theEvent deltaX], [theEvent deltaY]);
+    NSUserDefaults     *userDefaults    = [NSUserDefaults standardUserDefaults];
+    MouseDragBehaviorT draggingBehavior = (int)[userDefaults integerForKey:MOUSE_DRAGGING_BEHAVIOR_KEY];
+    ToolModeT          toolMode         = [ToolPalette toolMode];
+    Vector2            dragDelta        = V2Make([theEvent deltaX], [theEvent deltaY]);
 
-  if ([theEvent buttonNumber] == 1) {
-    toolMode = SpinTool;
-  }
-
-  [[self openGLContext] makeCurrentContext];
-
-  [self->renderer mouseDragged];
-  [self resetCursor];
-
-  // What to do?
-
-  if (toolMode == PanScrollTool) {
-    NSPoint point_window = [theEvent locationInWindow];
-    NSPoint point_view   = [self convertPoint:point_window
-                                     fromView:nil];
-
-    [self->renderer panDragged:dragDelta
-                      location:V2Make(point_view.x, point_view.y)];
-  }
-  else if (toolMode == SpinTool) {
-    [self->renderer rotationDragged:dragDelta];
-  }
-  else if (toolMode == SmoothZoomTool) {
-    [self->renderer zoomDragged:dragDelta];
-  }
-  else if (toolMode == RotateSelectTool) {
-    switch (draggingBehavior)
-    {
-      case MouseDraggingOff :
-        [self->renderer rotationDragged:dragDelta];
-        break;
-
-      case MouseDraggingBeginAfterDelay :
-        // If the delay has elapsed, begin drag-and-drop. Otherwise,
-        // just spin the model.
-        if (self->canBeginDragAndDrop == YES) {
-          [self directInteractionDragged:theEvent];
-        }
-        else {
-          [self->renderer rotationDragged:dragDelta];
-        }
-        break;
-
-      case MouseDraggingBeginImmediately :
-        if (selectionIsMarquee) {
-          [self autoscroll:theEvent];
-          [self mousePartSelection:theEvent];
-        }
-        else {
-          [self directInteractionDragged:theEvent];
-        }
-        break;
-
-      case MouseDraggingImmediatelyInOrthoNeverInPerspective :
-        if ([self->renderer projectionMode] == ProjectionModePerspective) {
-          [self->renderer rotationDragged:dragDelta];
-        }
-        else {
-          if (selectionIsMarquee) {
-            [self autoscroll:theEvent];
-            [self mousePartSelection:theEvent];
-          }
-          else {
-            [self directInteractionDragged:theEvent];
-          }
-        }
-        break;
+    if ([theEvent buttonNumber] == 1) {
+        toolMode = SpinTool;
     }
-  }
 
-  // Don't wait for drag-and-drop anymore. We need to do this after we process
-  // the drag, because it clears the can-drag flag.
-  [self cancelClickAndHoldTimer];
+    [[self openGLContext] makeCurrentContext];
+
+    [self->renderer mouseDragged];
+    [self resetCursor];
+
+    // What to do?
+
+    if (toolMode == PanScrollTool) {
+        NSPoint point_window = [theEvent locationInWindow];
+        NSPoint point_view   = [self convertPoint:point_window
+                                fromView:nil];
+
+        [self->renderer panDragged:dragDelta
+         location:V2Make(point_view.x, point_view.y)];
+    }
+    else if (toolMode == SpinTool) {
+        [self->renderer rotationDragged:dragDelta];
+    }
+    else if (toolMode == SmoothZoomTool) {
+        [self->renderer zoomDragged:dragDelta];
+    }
+    else if (toolMode == RotateSelectTool) {
+        switch (draggingBehavior)
+        {
+            case MouseDraggingOff :
+                [self->renderer rotationDragged:dragDelta];
+                break;
+
+            case MouseDraggingBeginAfterDelay :
+                // If the delay has elapsed, begin drag-and-drop. Otherwise,
+                // just spin the model.
+                if (self->canBeginDragAndDrop == YES) {
+                    [self directInteractionDragged:theEvent];
+                }
+                else {
+                    [self->renderer rotationDragged:dragDelta];
+                }
+                break;
+
+            case MouseDraggingBeginImmediately :
+                if (selectionIsMarquee) {
+                    [self autoscroll:theEvent];
+                    [self mousePartSelection:theEvent];
+                }
+                else {
+                    [self directInteractionDragged:theEvent];
+                }
+                break;
+
+            case MouseDraggingImmediatelyInOrthoNeverInPerspective :
+                if ([self->renderer projectionMode] == ProjectionModePerspective) {
+                    [self->renderer rotationDragged:dragDelta];
+                }
+                else {
+                    if (selectionIsMarquee) {
+                        [self autoscroll:theEvent];
+                        [self mousePartSelection:theEvent];
+                    }
+                    else {
+                        [self directInteractionDragged:theEvent];
+                    }
+                }
+                break;
+        }
+    }
+
+    // Don't wait for drag-and-drop anymore. We need to do this after we process
+    // the drag, because it clears the can-drag flag.
+    [self cancelClickAndHoldTimer];
 }
 
 
@@ -1647,39 +1647,39 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)mouseUp:(NSEvent *)theEvent
 {
-  ToolModeT toolMode = [ToolPalette toolMode];
+    ToolModeT toolMode = [ToolPalette toolMode];
 
-  if ([theEvent buttonNumber] == 1) {
-    toolMode = SpinTool;
-  }
-
-  [[self openGLContext] makeCurrentContext];
-
-  [self cancelClickAndHoldTimer];
-
-  if (toolMode == RotateSelectTool) {
-    // We only want to select a part if this was NOT part of a mouseDrag event.
-    // Otherwise, the selection should remain intact.
-    if ([self->renderer isTrackingDrag] == NO &&
-        [self->renderer didPartSelection] == NO) {
-      [self mousePartSelection:theEvent];
+    if ([theEvent buttonNumber] == 1) {
+        toolMode = SpinTool;
     }
-  }
-  else if (toolMode == ZoomInTool ||
-           toolMode == ZoomOutTool) {
-    [self mouseZoomClick:theEvent];
-  }
 
-  [self->renderer mouseUp];
-  [self resetCursor];
+    [[self openGLContext] makeCurrentContext];
 
-  selectionIsMarquee   = NO;
-  marqueeSelectionMode = SelectionReplace;
+    [self cancelClickAndHoldTimer];
 
-  if (self->autoscrollTimer) {
-    [self->autoscrollTimer invalidate];
-    self->autoscrollTimer = nil;
-  }
+    if (toolMode == RotateSelectTool) {
+        // We only want to select a part if this was NOT part of a mouseDrag event.
+        // Otherwise, the selection should remain intact.
+        if ([self->renderer isTrackingDrag] == NO &&
+            [self->renderer didPartSelection] == NO) {
+            [self mousePartSelection:theEvent];
+        }
+    }
+    else if (toolMode == ZoomInTool ||
+             toolMode == ZoomOutTool) {
+        [self mouseZoomClick:theEvent];
+    }
+
+    [self->renderer mouseUp];
+    [self resetCursor];
+
+    selectionIsMarquee   = NO;
+    marqueeSelectionMode = SelectionReplace;
+
+    if (self->autoscrollTimer) {
+        [self->autoscrollTimer invalidate];
+        self->autoscrollTimer = nil;
+    }
 }
 
 
@@ -1692,13 +1692,13 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)rightMouseDown:(NSEvent *)theEvent
 {
-  if (!USE_RIGHT_SPIN) {
-    [super rightMouseDown:theEvent];
-  }
-  else {
-    [[self openGLContext] makeCurrentContext];
-    [self->renderer mouseDown];
-  }
+    if (!USE_RIGHT_SPIN) {
+        [super rightMouseDown:theEvent];
+    }
+    else {
+        [[self openGLContext] makeCurrentContext];
+        [self->renderer mouseDown];
+    }
 }
 
 
@@ -1709,17 +1709,17 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)rightMouseDragged:(NSEvent *)theEvent
 {
-  if (!USE_RIGHT_SPIN) {
-    [super rightMouseDragged:theEvent];
-  }
-  else {
-    Vector2 dragDelta = V2Make([theEvent deltaX], [theEvent deltaY]);
+    if (!USE_RIGHT_SPIN) {
+        [super rightMouseDragged:theEvent];
+    }
+    else {
+        Vector2 dragDelta = V2Make([theEvent deltaX], [theEvent deltaY]);
 
-    [[self openGLContext] makeCurrentContext];
+        [[self openGLContext] makeCurrentContext];
 
-    [self->renderer mouseDragged];
-    [self->renderer rotationDragged:dragDelta];
-  }
+        [self->renderer mouseDragged];
+        [self->renderer rotationDragged:dragDelta];
+    }
 }
 
 
@@ -1730,13 +1730,13 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)rightMouseUp:(NSEvent *)theEvent
 {
-  if (!USE_RIGHT_SPIN) {
-    [super rightMouseUp:theEvent];
-  }
-  else {
-    [[self openGLContext] makeCurrentContext];
-    [self->renderer mouseUp];
-  }
+    if (!USE_RIGHT_SPIN) {
+        [super rightMouseUp:theEvent];
+    }
+    else {
+        [[self openGLContext] makeCurrentContext];
+        [self->renderer mouseUp];
+    }
 }
 
 
@@ -1751,19 +1751,19 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (NSMenu *)menuForEvent:(NSEvent *)theEvent
 {
-  NSUInteger modifiers = [theEvent modifierFlags] & NSEventModifierFlagDeviceIndependentFlagsMask;
+    NSUInteger modifiers = [theEvent modifierFlags] & NSEventModifierFlagDeviceIndependentFlagsMask;
 
-  // Only display contextual menus for pure control- or right-clicks. By
-  // default, the system permits control+<any other modifiers> to trigger
-  // contextual menus. We want to use control/modifier combos to activate
-  // other mouse tools, so we filter out those events.
-  if (modifiers == NSEventModifierFlagControl ||  // and nothing else!
-      [theEvent type] == NSEventTypeRightMouseDown) {
-    return([self menu]);
-  }
-  else {
-    return(nil);
-  }
+    // Only display contextual menus for pure control- or right-clicks. By
+    // default, the system permits control+<any other modifiers> to trigger
+    // contextual menus. We want to use control/modifier combos to activate
+    // other mouse tools, so we filter out those events.
+    if (modifiers == NSEventModifierFlagControl || // and nothing else!
+        [theEvent type] == NSEventTypeRightMouseDown) {
+        return([self menu]);
+    }
+    else {
+        return(nil);
+    }
 }
 
 
@@ -1778,14 +1778,14 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)otherMouseDown:(NSEvent *)theEvent
 {
-  // button 3
-  if ([theEvent buttonNumber] == 2) {
-    // The Tool Palette is responsible for assessing the current mode based
-    // on event state.
-    [[ToolPalette sharedToolPalette] mouseButton3DidChange:theEvent];
+    // button 3
+    if ([theEvent buttonNumber] == 2) {
+        // The Tool Palette is responsible for assessing the current mode based
+        // on event state.
+        [[ToolPalette sharedToolPalette] mouseButton3DidChange:theEvent];
 
-    [self mouseDown:theEvent];
-  }
+        [self mouseDown:theEvent];
+    }
 }
 
 
@@ -1797,11 +1797,11 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)otherMouseDragged:(NSEvent *)theEvent
 {
-  // button 3
-  if ([theEvent buttonNumber] == 2) {
-    // our mouseDragged method will do the right thing based on tool mode
-    [self mouseDragged:theEvent];
-  }
+    // button 3
+    if ([theEvent buttonNumber] == 2) {
+        // our mouseDragged method will do the right thing based on tool mode
+        [self mouseDragged:theEvent];
+    }
 }
 
 
@@ -1812,15 +1812,15 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)otherMouseUp:(NSEvent *)theEvent
 {
-  // button 3
-  if ([theEvent buttonNumber] == 2) {
-    // reset normal state while the tool mode is still SpinTool
-    [self mouseUp:theEvent];
+    // button 3
+    if ([theEvent buttonNumber] == 2) {
+        // reset normal state while the tool mode is still SpinTool
+        [self mouseUp:theEvent];
 
-    // The Tool Palette is responsible for assessing the current mode based on
-    // event state.
-    [[ToolPalette sharedToolPalette] mouseButton3DidChange:theEvent];
-  }
+        // The Tool Palette is responsible for assessing the current mode based on
+        // event state.
+        [[ToolPalette sharedToolPalette] mouseButton3DidChange:theEvent];
+    }
 }
 
 
@@ -1831,31 +1831,31 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)scrollWheel:(NSEvent *)theEvent
 {
-  NSUInteger modifiers = [theEvent modifierFlags] & NSEventModifierFlagDeviceIndependentFlagsMask;
+    NSUInteger modifiers = [theEvent modifierFlags] & NSEventModifierFlagDeviceIndependentFlagsMask;
 
-  if (modifiers == NSEventModifierFlagOption || USE_ZOOM_WHEEL) {
-    // Zoom in
-    [[self openGLContext] makeCurrentContext];
+    if (modifiers == NSEventModifierFlagOption || USE_ZOOM_WHEEL) {
+        // Zoom in
+        [[self openGLContext] makeCurrentContext];
 
-    NSPoint windowPoint = [theEvent locationInWindow];
-    NSPoint viewPoint   = [self convertPoint:windowPoint
-                                    fromView:nil];
-    // Negative means scroll down/zoom out
-    CGFloat scrollDelta = [theEvent deltaY];
-    // 1 = increase 100%; -1 = decrease 100%
-    // Magnification function has asymptotes at y = -1 and y = 1 so that the
-    // zoomChange will never be a negative number.
-    CGFloat magnification = scrollDelta / (fabs(scrollDelta) + 17);
-    CGFloat zoomChange    = 1.0 + magnification / 1.5;
-    CGFloat currentZoom   = [self->renderer zoomPercentage];
+        NSPoint windowPoint = [theEvent locationInWindow];
+        NSPoint viewPoint   = [self convertPoint:windowPoint
+                               fromView:nil];
+        // Negative means scroll down/zoom out
+        CGFloat scrollDelta = [theEvent deltaY];
+        // 1 = increase 100%; -1 = decrease 100%
+        // Magnification function has asymptotes at y = -1 and y = 1 so that the
+        // zoomChange will never be a negative number.
+        CGFloat magnification = scrollDelta / (fabs(scrollDelta) + 17);
+        CGFloat zoomChange    = 1.0 + magnification / 1.5;
+        CGFloat currentZoom   = [self->renderer zoomPercentage];
 
-    [self->renderer setZoomPercentage:(currentZoom * zoomChange)
-                        preservePoint:V2Make(viewPoint.x, viewPoint.y)];
-  }
-  else {
-    // Regular scrolling
-    [super scrollWheel:theEvent];
-  }
+        [self->renderer setZoomPercentage:(currentZoom * zoomChange)
+         preservePoint:V2Make(viewPoint.x, viewPoint.y)];
+    }
+    else {
+        // Regular scrolling
+        [super scrollWheel:theEvent];
+    }
 }
 
 
@@ -1869,13 +1869,13 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)directInteractionDragged:(NSEvent *)theEvent
 {
-  if ([self->renderer activeDragHandle]) {
-    // move drag handle
-    [self dragHandleDragged:theEvent];
-  }
-  else {
-    [self dragAndDropDragged:theEvent];
-  }
+    if ([self->renderer activeDragHandle]) {
+        // move drag handle
+        [self dragHandleDragged:theEvent];
+    }
+    else {
+        [self dragAndDropDragged:theEvent];
+    }
 }
 
 
@@ -1889,104 +1889,104 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)dragAndDropDragged:(NSEvent *)theEvent
 {
-  NSPasteboard         *pasteboard         = nil;
-  NSPoint              imageLocation       = NSZeroPoint;
-  BOOL                 beginCopy           = NO;
-  BOOL                 okayToDrag          = NO;
-  NSPoint              offset              = NSZeroPoint;
-  NSArray              *archivedDirectives = nil;
-  NSData               *data           = nil;
-  LDrawDrawableElement *firstDirective = nil;
-  NSPoint              viewPoint       = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-  Point3               modelPoint      = ZeroPoint3;
-  Point3               firstPosition   = ZeroPoint3;
-  Vector3              displacement    = ZeroPoint3;
-  NSImage              *dragImage      = nil;
+    NSPasteboard         *pasteboard         = nil;
+    NSPoint              imageLocation       = NSZeroPoint;
+    BOOL                 beginCopy           = NO;
+    BOOL                 okayToDrag          = NO;
+    NSPoint              offset              = NSZeroPoint;
+    NSArray              *archivedDirectives = nil;
+    NSData               *data           = nil;
+    LDrawDrawableElement *firstDirective = nil;
+    NSPoint              viewPoint       = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+    Point3               modelPoint      = ZeroPoint3;
+    Point3               firstPosition   = ZeroPoint3;
+    Vector3              displacement    = ZeroPoint3;
+    NSImage              *dragImage      = nil;
 
-  if (self->delegate != nil &&
-      [self->delegate respondsToSelector:@selector(LDrawGLView:writeDirectivesToPasteboard:asCopy:)]) {
-    pasteboard = [NSPasteboard pasteboardWithName:NSPasteboardNameDrag];
-    beginCopy  = ([theEvent modifierFlags] & NSEventModifierFlagOption) != 0;
+    if (self->delegate != nil &&
+        [self->delegate respondsToSelector:@selector(LDrawGLView:writeDirectivesToPasteboard:asCopy:)]) {
+        pasteboard = [NSPasteboard pasteboardWithName:NSPasteboardNameDrag];
+        beginCopy  = ([theEvent modifierFlags] & NSEventModifierFlagOption) != 0;
 
-    okayToDrag = [self->delegate LDrawGLView:self
-                  writeDirectivesToPasteboard:pasteboard
-                                       asCopy:beginCopy];
+        okayToDrag = [self->delegate LDrawGLView:self
+                      writeDirectivesToPasteboard:pasteboard
+                      asCopy:beginCopy];
 
-    [[self openGLContext] makeCurrentContext];
+        [[self openGLContext] makeCurrentContext];
 
-    if (okayToDrag == YES) {
-      // ---------- Find drag displacement --------------------------------
-      //
-      // When a drag enters a view, the first part's position is normally
-      // set to the model point under the mouse. But that is incorrect
-      // behavior when entering the originating view. The user almost
-      // certainly did not click the mouse at the exact center of part 0,
-      // but nevertheless he does not expect part 0 of his selection to
-      // suddenly become centered under the mouse after dragging only one
-      // pixel.
-      //
-      // Instead we record the offset of his actual originating
-      // click against the position of part 0. Now when this drag reenters
-      // its originating view, its position will be adjusted by that
-      // offset. Everything will come out looking right.
-      //
-      archivedDirectives = [pasteboard propertyListForType:LDrawDraggingPboardType];
-      data           = [archivedDirectives objectAtIndex:0];
-      firstDirective = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-      firstPosition  = [firstDirective position];
-      modelPoint     = [self->renderer modelPointForPoint:V2Make(viewPoint.x, viewPoint.y)
-                                      depthReferencePoint:firstPosition];
-      displacement = V3Sub(modelPoint, firstPosition);
+        if (okayToDrag == YES) {
+            // ---------- Find drag displacement --------------------------------
+            //
+            // When a drag enters a view, the first part's position is normally
+            // set to the model point under the mouse. But that is incorrect
+            // behavior when entering the originating view. The user almost
+            // certainly did not click the mouse at the exact center of part 0,
+            // but nevertheless he does not expect part 0 of his selection to
+            // suddenly become centered under the mouse after dragging only one
+            // pixel.
+            //
+            // Instead we record the offset of his actual originating
+            // click against the position of part 0. Now when this drag reenters
+            // its originating view, its position will be adjusted by that
+            // offset. Everything will come out looking right.
+            //
+            archivedDirectives = [pasteboard propertyListForType:LDrawDraggingPboardType];
+            data           = [archivedDirectives objectAtIndex:0];
+            firstDirective = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+            firstPosition  = [firstDirective position];
+            modelPoint     = [self->renderer modelPointForPoint:V2Make(viewPoint.x, viewPoint.y)
+                              depthReferencePoint:firstPosition];
+            displacement = V3Sub(modelPoint, firstPosition);
 
-      // write displacement to private pasteboard.
-      [pasteboard addTypes:[NSArray arrayWithObject:LDrawDraggingInitialOffsetPboardType]
-                     owner:self];
-      [pasteboard setData:[NSData dataWithBytes:&displacement
-                                         length:sizeof(Vector3)]
-                  forType:LDrawDraggingInitialOffsetPboardType];
+            // write displacement to private pasteboard.
+            [pasteboard addTypes:[NSArray arrayWithObject:LDrawDraggingInitialOffsetPboardType]
+             owner:self];
+            [pasteboard setData:[NSData dataWithBytes:&displacement
+                                 length:sizeof(Vector3)]
+             forType:LDrawDraggingInitialOffsetPboardType];
 
 
-      // ---------- Reset event tracking flags ----------------------------
+            // ---------- Reset event tracking flags ----------------------------
 
-      // NSLog(@"DO UPDATE IN dragAndDropDragged");
-      for (LDrawDirective *directive in [delegate selectedObjects]) {
-        // NSLog(@"directive: %@", directive);
-        [directive sendMessageToObservers:MessageObservedChanged];
-      }
+            // NSLog(@"DO UPDATE IN dragAndDropDragged");
+            for (LDrawDirective *directive in [delegate selectedObjects]) {
+                // NSLog(@"directive: %@", directive);
+                [directive sendMessageToObservers:MessageObservedChanged];
+            }
 
-      [self->renderer setDraggingOffset:displacement];
+            [self->renderer setDraggingOffset:displacement];
 
-      // reset drop destination flag.
-      [self setDragEndedInOurDocument:NO];
+            // reset drop destination flag.
+            [self setDragEndedInOurDocument:NO];
 
-      // Once we give control to drag-and-drop, we no longer receive
-      // mouseDragged events.
+            // Once we give control to drag-and-drop, we no longer receive
+            // mouseDragged events.
 // self->isTrackingDrag = NO;
-      [self->renderer mouseUp]; // this is hacky. It makes sure the isTrackingDrag flag is NO.
+            [self->renderer mouseUp]; // this is hacky. It makes sure the isTrackingDrag flag is NO.
 
 
-      // ---------- Start drag-and-drop ----------------------------------
+            // ---------- Start drag-and-drop ----------------------------------
 
-      imageLocation = viewPoint;
-      dragImage     = [BricksmithUtilities dragImageWithOffset:&offset];
+            imageLocation = viewPoint;
+            dragImage     = [BricksmithUtilities dragImageWithOffset:&offset];
 
-      // Offset the image location so that the drag image appears to the
-      // lower-right of the arrow like a dragging badge.
-      imageLocation.x += offset.x;
-      imageLocation.y += -offset.y; // Invert y because this view is flipped.
+            // Offset the image location so that the drag image appears to the
+            // lower-right of the arrow like a dragging badge.
+            imageLocation.x += offset.x;
+            imageLocation.y += -offset.y; // Invert y because this view is flipped.
 
-      // Initiate Drag.
-      [self dragImage:dragImage
-                   at:imageLocation
-               offset:NSZeroSize
-                event:theEvent
-           pasteboard:pasteboard
-               source:self
-            slideBack:NO];
+            // Initiate Drag.
+            [self dragImage:dragImage
+             at:imageLocation
+             offset:NSZeroSize
+             event:theEvent
+             pasteboard:pasteboard
+             source:self
+             slideBack:NO];
 
-      // **** -dragImage: BLOCKS until drag is complete. ****
+            // **** -dragImage: BLOCKS until drag is complete. ****
+        }
     }
-  }
 }
 
 
@@ -1997,17 +1997,17 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)dragHandleDragged:(NSEvent *)theEvent
 {
-  NSPoint dragPointInWindow = [theEvent locationInWindow];
-  NSPoint viewPoint         = [self convertPoint:dragPointInWindow
-                                        fromView:nil];
-  BOOL constrainDragAxis = NO;
+    NSPoint dragPointInWindow = [theEvent locationInWindow];
+    NSPoint viewPoint         = [self convertPoint:dragPointInWindow
+                                 fromView:nil];
+    BOOL constrainDragAxis = NO;
 
-  constrainDragAxis = ([theEvent modifierFlags] & NSEventModifierFlagShift) != 0;
+    constrainDragAxis = ([theEvent modifierFlags] & NSEventModifierFlagShift) != 0;
 
-  [[self openGLContext] makeCurrentContext];
+    [[self openGLContext] makeCurrentContext];
 
-  [self->renderer dragHandleDraggedToPoint:V2Make(viewPoint.x, viewPoint.y)
-                         constrainDragAxis:constrainDragAxis];
+    [self->renderer dragHandleDraggedToPoint:V2Make(viewPoint.x, viewPoint.y)
+     constrainDragAxis:constrainDragAxis];
 }
 
 
@@ -2029,86 +2029,86 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)mousePartSelection:(NSEvent *)theEvent
 {
-  SelectionModeT selectionMode;
-  NSPoint        windowPoint = [theEvent locationInWindow];
-  NSPoint        viewPoint2  = [self convertPoint:windowPoint
-                                         fromView:nil];
-  Box2   vr   = [self getVisibleRect];
-  Size2  rdoc = [self getDocumentSize];
-  Size2  vdoc = [self getMaxVisibleSizeDoc];
-  double xoff = vr.origin.x;
-  double yoff = vr.origin.y;
-  double r    = 1.0;
+    SelectionModeT selectionMode;
+    NSPoint        windowPoint = [theEvent locationInWindow];
+    NSPoint        viewPoint2  = [self convertPoint:windowPoint
+                                  fromView:nil];
+    Box2   vr   = [self getVisibleRect];
+    Size2  rdoc = [self getDocumentSize];
+    Size2  vdoc = [self getMaxVisibleSizeDoc];
+    double xoff = vr.origin.x;
+    double yoff = vr.origin.y;
+    double r    = 1.0;
 
-  if (vdoc.width > rdoc.width) {
-    r = vdoc.width / vr.size.width;
-  }
-  else {
-    r = vr.size.width / rdoc.width;
-  }
-  double ry = 1.0;
-
-  if (vdoc.height > rdoc.height) {
-    ry = vdoc.height / vr.size.height;
-  }
-  else {
-    ry = vr.size.height / rdoc.height;
-  }
-  if (vdoc.height > vr.size.height) {
-    yoff = -(vdoc.height - vr.size.height);
-  }
-  NSPoint viewPoint = NSMakePoint(r * viewPoint2.x + xoff, ry * viewPoint2.y + yoff);
-
-  [[self openGLContext] makeCurrentContext];
-
-  if ([theEvent type] == NSEventTypeLeftMouseDragged) {
-    [self->renderer mouseSelectionDragToPoint:V2Make(viewPoint.x, viewPoint.y)
-                                selectionMode:marqueeSelectionMode];
-
-    [self setNeedsDisplay:YES];
-  }
-  else {
-    // Per the AHIG, both command and shift are used for multiple selection. In
-    // Bricksmith, there is no difference between contiguous and non-contiguous
-    // selection, so both keys do the same thing.
-    // -- We desperately need simple modifiers for rotating the view. Otherwise,
-    // I doubt people would discover it.
-
-    if (([theEvent modifierFlags] & NSEventModifierFlagShift) != 0) {
-      if (([theEvent modifierFlags] & NSEventModifierFlagOption) != 0) {
-        selectionMode = SelectionIntersection;
-      }
-      else {
-        selectionMode = SelectionExtend;
-      }
+    if (vdoc.width > rdoc.width) {
+        r = vdoc.width / vr.size.width;
     }
     else {
-      if (([theEvent modifierFlags] & NSEventModifierFlagOption) != 0) {
-        selectionMode = SelectionSubtract;
-      }
-      else {
-        selectionMode = SelectionReplace;
-      }
+        r = vr.size.width / rdoc.width;
     }
+    double ry = 1.0;
 
-    // This click is a click down to see what we hit - record whether we hit something so
-    // we can then marquee or drag and drop.
-    selectionIsMarquee =
-      ![self->renderer mouseSelectionClick:V2Make(viewPoint.x, viewPoint.y) selectionMode:selectionMode]
-      && [self->delegate respondsToSelector:@selector(markPreviousSelection)];
-    if (selectionIsMarquee) {
-      // We are starting a marquee select.  We can do this because our part selection is known to have missed
-      // a part and thus is a click in free space.  Start a timer to fire...if the user parks the mouse in the auto
-      // scroll zone this will continuously scroll.  I do _not_ know what the correct scrolling interval should be...
-      // auto-scroll seems jerky.
-      self->marqueeSelectionMode = selectionMode;
-      self->autoscrollTimer      = [NSTimer scheduledTimerWithTimeInterval:0.1
-                                                                    target:self
-                                                                  selector:@selector(autoscrollTimerFired:)
-                                                                  userInfo:self
-                                                                   repeats:YES];
+    if (vdoc.height > rdoc.height) {
+        ry = vdoc.height / vr.size.height;
     }
-  }
+    else {
+        ry = vr.size.height / rdoc.height;
+    }
+    if (vdoc.height > vr.size.height) {
+        yoff = -(vdoc.height - vr.size.height);
+    }
+    NSPoint viewPoint = NSMakePoint(r * viewPoint2.x + xoff, ry * viewPoint2.y + yoff);
+
+    [[self openGLContext] makeCurrentContext];
+
+    if ([theEvent type] == NSEventTypeLeftMouseDragged) {
+        [self->renderer mouseSelectionDragToPoint:V2Make(viewPoint.x, viewPoint.y)
+         selectionMode:marqueeSelectionMode];
+
+        [self setNeedsDisplay:YES];
+    }
+    else {
+        // Per the AHIG, both command and shift are used for multiple selection. In
+        // Bricksmith, there is no difference between contiguous and non-contiguous
+        // selection, so both keys do the same thing.
+        // -- We desperately need simple modifiers for rotating the view. Otherwise,
+        // I doubt people would discover it.
+
+        if (([theEvent modifierFlags] & NSEventModifierFlagShift) != 0) {
+            if (([theEvent modifierFlags] & NSEventModifierFlagOption) != 0) {
+                selectionMode = SelectionIntersection;
+            }
+            else {
+                selectionMode = SelectionExtend;
+            }
+        }
+        else {
+            if (([theEvent modifierFlags] & NSEventModifierFlagOption) != 0) {
+                selectionMode = SelectionSubtract;
+            }
+            else {
+                selectionMode = SelectionReplace;
+            }
+        }
+
+        // This click is a click down to see what we hit - record whether we hit something so
+        // we can then marquee or drag and drop.
+        selectionIsMarquee =
+            ![self->renderer mouseSelectionClick:V2Make(viewPoint.x, viewPoint.y) selectionMode:selectionMode]
+            && [self->delegate respondsToSelector:@selector(markPreviousSelection)];
+        if (selectionIsMarquee) {
+            // We are starting a marquee select.  We can do this because our part selection is known to have missed
+            // a part and thus is a click in free space.  Start a timer to fire...if the user parks the mouse in the auto
+            // scroll zone this will continuously scroll.  I do _not_ know what the correct scrolling interval should be...
+            // auto-scroll seems jerky.
+            self->marqueeSelectionMode = selectionMode;
+            self->autoscrollTimer      = [NSTimer scheduledTimerWithTimeInterval:0.1
+                                          target:self
+                                          selector:@selector(autoscrollTimerFired:)
+                                          userInfo:self
+                                          repeats:YES];
+        }
+    }
 }
 
 
@@ -2120,21 +2120,21 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)mouseZoomClick:(NSEvent *)theEvent
 {
-  ToolModeT toolMode           = [ToolPalette toolMode];
-  NSPoint   windowClickedPoint = [theEvent locationInWindow];
-  NSPoint   viewClickedPoint   = [self convertPoint:windowClickedPoint
-                                           fromView:nil];
-  Point2 view_point = V2Make(viewClickedPoint.x, viewClickedPoint.y);
+    ToolModeT toolMode           = [ToolPalette toolMode];
+    NSPoint   windowClickedPoint = [theEvent locationInWindow];
+    NSPoint   viewClickedPoint   = [self convertPoint:windowClickedPoint
+                                    fromView:nil];
+    Point2 view_point = V2Make(viewClickedPoint.x, viewClickedPoint.y);
 
-  [[self openGLContext] makeCurrentContext];
+    [[self openGLContext] makeCurrentContext];
 
-  // New zoom percentage
-  if (toolMode == ZoomInTool) {
-    [self->renderer mouseZoomInClick:view_point];
-  }
-  else if (toolMode == ZoomOutTool) {
-    [self->renderer mouseZoomOutClick:view_point];
-  }
+    // New zoom percentage
+    if (toolMode == ZoomInTool) {
+        [self->renderer mouseZoomInClick:view_point];
+    }
+    else if (toolMode == ZoomOutTool) {
+        [self->renderer mouseZoomOutClick:view_point];
+    }
 }
 
 
@@ -2148,11 +2148,11 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)cancelClickAndHoldTimer
 {
-  if (self->mouseDownTimer != nil) {
-    [self->mouseDownTimer invalidate];
-    self->mouseDownTimer = nil;
-  }
-  self->canBeginDragAndDrop = NO;
+    if (self->mouseDownTimer != nil) {
+        [self->mouseDownTimer invalidate];
+        self->mouseDownTimer = nil;
+    }
+    self->canBeginDragAndDrop = NO;
 }
 
 
@@ -2167,12 +2167,12 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)autoscrollTimerFired:(NSTimer *)theTimer
 {
-  NSView  *view  = self;
-  NSEvent *event = [NSApp currentEvent];
+    NSView  *view  = self;
+    NSEvent *event = [NSApp currentEvent];
 
-  if ([event type] == NSEventTypeLeftMouseDragged) {
-    [view autoscroll:event];
-  }
+    if ([event type] == NSEventTypeLeftMouseDragged) {
+        [view autoscroll:event];
+    }
 }
 
 
@@ -2187,18 +2187,18 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)clickAndHoldTimerFired:(NSTimer *)theTimer
 {
-  NSEvent *clickEvent = [theTimer userInfo];
+    NSEvent *clickEvent = [theTimer userInfo];
 
-  // the timer has expired; nil it out so nobody tries to message it after
-  // it's been released.
-  self->mouseDownTimer = nil;
+    // the timer has expired; nil it out so nobody tries to message it after
+    // it's been released.
+    self->mouseDownTimer = nil;
 
-  [self mousePartSelection:clickEvent];
+    [self mousePartSelection:clickEvent];
 
-  // Actual Mac Drag-and-Drop can only be initiated upon a mouseDown or
-  // mouseDragged. So we wait until one of those actually happens to do
-  // anything, and set this flag to tell us what to do when the moment comes.
-  self->canBeginDragAndDrop = YES;
+    // Actual Mac Drag-and-Drop can only be initiated upon a mouseDown or
+    // mouseDragged. So we wait until one of those actually happens to do
+    // anything, and set this flag to tell us what to do when the moment comes.
+    self->canBeginDragAndDrop = YES;
 }
 
 
@@ -2212,9 +2212,9 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)beginGestureWithEvent:(NSEvent *)theEvent
 {
-  [[self openGLContext] makeCurrentContext];
-  self->startingGestureType = [theEvent type];
-  [self->renderer beginGesture];
+    [[self openGLContext] makeCurrentContext];
+    self->startingGestureType = [theEvent type];
+    [self->renderer beginGesture];
 }
 
 
@@ -2225,8 +2225,8 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)endGestureWithEvent:(NSEvent *)theEvent
 {
-  [[self openGLContext] makeCurrentContext];
-  [self->renderer endGesture];
+    [[self openGLContext] makeCurrentContext];
+    [self->renderer endGesture];
 }
 
 
@@ -2237,18 +2237,18 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)magnifyWithEvent:(NSEvent *)theEvent
 {
-  [[self openGLContext] makeCurrentContext];
+    [[self openGLContext] makeCurrentContext];
 
-  NSPoint windowPoint = [theEvent locationInWindow];
-  NSPoint viewPoint   = [self convertPoint:windowPoint
-                                  fromView:nil];
-  CGFloat magnification = [theEvent magnification];   // 1 = increase 100%; -1 = decrease 100%
-  CGFloat zoomChange    = 1.0 + magnification / 1.5;
-  CGFloat currentZoom   = [self->renderer zoomPercentage];
+    NSPoint windowPoint = [theEvent locationInWindow];
+    NSPoint viewPoint   = [self convertPoint:windowPoint
+                           fromView:nil];
+    CGFloat magnification = [theEvent magnification]; // 1 = increase 100%; -1 = decrease 100%
+    CGFloat zoomChange    = 1.0 + magnification / 1.5;
+    CGFloat currentZoom   = [self->renderer zoomPercentage];
 
-  // Negative means down
-  [self->renderer setZoomPercentage:(currentZoom * zoomChange)
-                      preservePoint:V2Make(viewPoint.x, viewPoint.y)];
+    // Negative means down
+    [self->renderer setZoomPercentage:(currentZoom * zoomChange)
+     preservePoint:V2Make(viewPoint.x, viewPoint.y)];
 }
 
 
@@ -2262,22 +2262,22 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)rotateWithEvent:(NSEvent *)theEvent
 {
-  CGFloat angle = [theEvent rotation]; // degrees counterclockwise
+    CGFloat angle = [theEvent rotation]; // degrees counterclockwise
 
-  // Do not allow rotating in orthographic views if we started out doing a
-  // zoom gesture. Rotating will automatically change an orthographic view to
-  // perspective, and we don't want to do that when unexpected.
-  if ([self->renderer projectionMode] == ProjectionModePerspective ||
-      self->startingGestureType == NSEventTypeRotate) {
-    CGLLockContext([[self openGLContext] CGLContextObj]);
-    {
-      [[self openGLContext] makeCurrentContext];
+    // Do not allow rotating in orthographic views if we started out doing a
+    // zoom gesture. Rotating will automatically change an orthographic view to
+    // perspective, and we don't want to do that when unexpected.
+    if ([self->renderer projectionMode] == ProjectionModePerspective ||
+        self->startingGestureType == NSEventTypeRotate) {
+        CGLLockContext([[self openGLContext] CGLContextObj]);
+        {
+            [[self openGLContext] makeCurrentContext];
 
-      [self->renderer rotateByDegrees:angle];
-      [self setNeedsDisplay:YES];
+            [self->renderer rotateByDegrees:angle];
+            [self setNeedsDisplay:YES];
+        }
+        CGLUnlockContext([[self openGLContext] CGLContextObj]);
     }
-    CGLUnlockContext([[self openGLContext] CGLContextObj]);
-  }
 }
 
 
@@ -2289,26 +2289,26 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)swipeWithEvent:(NSEvent *)theEvent
 {
-  CGFloat horizontalDirection = [theEvent deltaX];
+    CGFloat horizontalDirection = [theEvent deltaX];
 
-  if (horizontalDirection == 0) {
-    // vertical swipe; we don't recognize them.
-  }
-  else if (horizontalDirection < 0) {
-    // forward
-    // On the MacBook Air (1st generation), -1 means forward. That seems
-    // wrong and contradictory to a certain release note *ahem*; I guess I'm
-    // going with actual behavior right now.
-    [NSApp sendAction:self->forwardAction
-                   to:self->target
-                 from:self];
-  }
-  else {
-    // back
-    [NSApp sendAction:self->backAction
-                   to:self->target
-                 from:self];
-  }
+    if (horizontalDirection == 0) {
+        // vertical swipe; we don't recognize them.
+    }
+    else if (horizontalDirection < 0) {
+        // forward
+        // On the MacBook Air (1st generation), -1 means forward. That seems
+        // wrong and contradictory to a certain release note *ahem*; I guess I'm
+        // going with actual behavior right now.
+        [NSApp sendAction:self->forwardAction
+         to:self->target
+         from:self];
+    }
+    else {
+        // back
+        [NSApp sendAction:self->backAction
+         to:self->target
+         from:self];
+    }
 }
 
 
@@ -2324,59 +2324,59 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)info
 {
-  [[self openGLContext] makeCurrentContext];
+    [[self openGLContext] makeCurrentContext];
 
-  NSPasteboard    *pasteboard         = [info draggingPasteboard];
-  id              sourceView          = [info draggingSource];
-  NSDragOperation dragOperation       = NSDragOperationNone;
-  BOOL            setTransform        = NO;
-  NSArray         *archivedDirectives = nil;
-  NSMutableArray  *directives         = nil;
-  NSData          *data             = nil;
-  id              currentObject     = nil;
-  NSUInteger      directiveCount    = 0;
-  NSUInteger      counter           = 0;
-  NSPoint         dragPointInWindow = [info draggingLocation];
-  NSPoint         viewPoint         = [self convertPoint:dragPointInWindow
-                                                fromView:nil];
+    NSPasteboard    *pasteboard         = [info draggingPasteboard];
+    id              sourceView          = [info draggingSource];
+    NSDragOperation dragOperation       = NSDragOperationNone;
+    BOOL            setTransform        = NO;
+    NSArray         *archivedDirectives = nil;
+    NSMutableArray  *directives         = nil;
+    NSData          *data             = nil;
+    id              currentObject     = nil;
+    NSUInteger      directiveCount    = 0;
+    NSUInteger      counter           = 0;
+    NSPoint         dragPointInWindow = [info draggingLocation];
+    NSPoint         viewPoint         = [self convertPoint:dragPointInWindow
+                                         fromView:nil];
 
-  // local drag?
-  if (sourceView == self) {
-    dragOperation = NSDragOperationMove;
-  }
-  else {
-    dragOperation = NSDragOperationCopy;
-  }
+    // local drag?
+    if (sourceView == self) {
+        dragOperation = NSDragOperationMove;
+    }
+    else {
+        dragOperation = NSDragOperationCopy;
+    }
 
 
-  // ---------- unarchive the directives --------------------------------------
+    // ---------- unarchive the directives --------------------------------------
 
-  archivedDirectives = [pasteboard propertyListForType:LDrawDraggingPboardType];
-  directiveCount     = [archivedDirectives count];
-  directives         = [NSMutableArray arrayWithCapacity:directiveCount];
+    archivedDirectives = [pasteboard propertyListForType:LDrawDraggingPboardType];
+    directiveCount     = [archivedDirectives count];
+    directives         = [NSMutableArray arrayWithCapacity:directiveCount];
 
-  for (counter = 0; counter < directiveCount; counter++) {
-    data          = [archivedDirectives objectAtIndex:counter];
-    currentObject = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    for (counter = 0; counter < directiveCount; counter++) {
+        data          = [archivedDirectives objectAtIndex:counter];
+        currentObject = [NSKeyedUnarchiver unarchiveObjectWithData:data];
 
-    // while a part is dragged, it is drawn selected
-    [currentObject setSelected:YES];
+        // while a part is dragged, it is drawn selected
+        [currentObject setSelected:YES];
 
-    [directives addObject:currentObject];
-  }
+        [directives addObject:currentObject];
+    }
 
-  if ([[pasteboard propertyListForType:LDrawDraggingIsUninitializedPboardType] boolValue] == YES) {
-    setTransform = YES;
-  }
+    if ([[pasteboard propertyListForType:LDrawDraggingIsUninitializedPboardType] boolValue] == YES) {
+        setTransform = YES;
+    }
 
-  // ---------- Find Location -------------------------------------------------
+    // ---------- Find Location -------------------------------------------------
 
-  [self->renderer draggingEnteredAtPoint:V2Make(viewPoint.x, viewPoint.y)
-                              directives:directives
-                            setTransform:setTransform
-                       originatedLocally:(sourceView == self)];
+    [self->renderer draggingEnteredAtPoint:V2Make(viewPoint.x, viewPoint.y)
+     directives:directives
+     setTransform:setTransform
+     originatedLocally:(sourceView == self)];
 
-  return(dragOperation);
+    return(dragOperation);
 }
 
 
@@ -2388,38 +2388,38 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (NSDragOperation)draggingUpdated:(id <NSDraggingInfo>)info
 {
-  [[self openGLContext] makeCurrentContext];
+    [[self openGLContext] makeCurrentContext];
 
-  id      sourceView        = [info draggingSource];
-  NSPoint dragPointInWindow = [info draggingLocation];
-  NSPoint viewPoint         = [self convertPoint:dragPointInWindow
-                                        fromView:nil];
-  BOOL            constrainDragAxis = NO;
-  NSDragOperation dragOperation     = NSDragOperationNone;
+    id      sourceView        = [info draggingSource];
+    NSPoint dragPointInWindow = [info draggingLocation];
+    NSPoint viewPoint         = [self convertPoint:dragPointInWindow
+                                 fromView:nil];
+    BOOL            constrainDragAxis = NO;
+    NSDragOperation dragOperation     = NSDragOperationNone;
 
-  // local drag?
-  if (sourceView == self) {
-    dragOperation = NSDragOperationMove;
-  }
-  else {
-    dragOperation = NSDragOperationCopy;
-  }
+    // local drag?
+    if (sourceView == self) {
+        dragOperation = NSDragOperationMove;
+    }
+    else {
+        dragOperation = NSDragOperationCopy;
+    }
 
-  // If the shift key is down, only allow dragging along one axis as is
-  // conventional in graphics programs. Cocoa gives us no way to get at
-  // the event that initiated this call, so we have to hack.
-  constrainDragAxis = ([[NSApp currentEvent] modifierFlags] & NSEventModifierFlagShift) != 0;
+    // If the shift key is down, only allow dragging along one axis as is
+    // conventional in graphics programs. Cocoa gives us no way to get at
+    // the event that initiated this call, so we have to hack.
+    constrainDragAxis = ([[NSApp currentEvent] modifierFlags] & NSEventModifierFlagShift) != 0;
 
-  [self->renderer updateDragWithPosition:V2Make(viewPoint.x, viewPoint.y)
-                           constrainAxis:constrainDragAxis];
+    [self->renderer updateDragWithPosition:V2Make(viewPoint.x, viewPoint.y)
+     constrainAxis:constrainDragAxis];
 
-  // this doesn't cause a redraw.  Would be nice if it did.
-  for (LDrawDirective *directive in [delegate selectedObjects]) {
+    // this doesn't cause a redraw.  Would be nice if it did.
+    for (LDrawDirective *directive in [delegate selectedObjects]) {
 // NSLog(@"directive: %@", directive);
-    [directive sendMessageToObservers:MessageObservedChanged];
-  }
+        [directive sendMessageToObservers:MessageObservedChanged];
+    }
 
-  return(dragOperation);
+    return(dragOperation);
 }
 
 
@@ -2430,7 +2430,7 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)draggingExited:(id <NSDraggingInfo>)sender
 {
-  [self concludeDragOperation:sender];
+    [self concludeDragOperation:sender];
 }
 
 
@@ -2447,33 +2447,33 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (BOOL)performDragOperation:(id <NSDraggingInfo>)sender
 {
-  [[self openGLContext] makeCurrentContext];
+    [[self openGLContext] makeCurrentContext];
 
-  id             file             = [self->renderer LDrawDirective];
-  NSArray        *directives      = nil;
-  LDrawGLView    *senderView      = nil;
-  LDrawDirective *senderDirective = nil;
+    id             file             = [self->renderer LDrawDirective];
+    NSArray        *directives      = nil;
+    LDrawGLView    *senderView      = nil;
+    LDrawDirective *senderDirective = nil;
 
-  if ([file respondsToSelector:@selector(draggingDirectives)]) {
-    directives = [file draggingDirectives];
+    if ([file respondsToSelector:@selector(draggingDirectives)]) {
+        directives = [file draggingDirectives];
 
-    if ([self->delegate respondsToSelector:@selector(LDrawGLView:acceptDrop:directives:)]) {
-      [self->delegate LDrawGLView:self
-                       acceptDrop:sender
-                       directives:directives];
+        if ([self->delegate respondsToSelector:@selector(LDrawGLView:acceptDrop:directives:)]) {
+            [self->delegate LDrawGLView:self
+             acceptDrop:sender
+             directives:directives];
+        }
     }
-  }
 
-  if ([[sender draggingSource] respondsToSelector:@selector(LDrawDirective)]) {
-    senderView      = [sender draggingSource];
-    senderDirective = [senderView LDrawDirective];
+    if ([[sender draggingSource] respondsToSelector:@selector(LDrawDirective)]) {
+        senderView      = [sender draggingSource];
+        senderDirective = [senderView LDrawDirective];
 
-    if (senderDirective == [self LDrawDirective]) {
-      [senderView setDragEndedInOurDocument:YES];
+        if (senderDirective == [self LDrawDirective]) {
+            [senderView setDragEndedInOurDocument:YES];
+        }
     }
-  }
 
-  return(YES);
+    return(YES);
 }
 
 
@@ -2485,9 +2485,9 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)concludeDragOperation:(id <NSDraggingInfo>)sender
 {
-  [[self openGLContext] makeCurrentContext];
+    [[self openGLContext] makeCurrentContext];
 
-  [self->renderer endDragging];
+    [self->renderer endDragging];
 }
 
 
@@ -2502,30 +2502,30 @@ static NSSize Size2ToNSSize(Size2 size)
 //
 // ==============================================================================
 - (void)draggedImage:(NSImage *)anImage
-  endedAt:(NSPoint)aPoint
-  operation:(NSDragOperation)operation
+    endedAt:(NSPoint)aPoint
+    operation:(NSDragOperation)operation
 {
-  if ([self->delegate respondsToSelector:@selector(LDrawGLViewPartDragEnded:)]) {
-    [self->delegate LDrawGLViewPartDragEnded:self];
-  }
-
-  // If the drag didn't wind up in one of the GL views belonging to this
-  // document, then we need to delete the part's ghost from our model.
-  if (self->dragEndedInOurDocument == NO) {
-    if ([self->delegate respondsToSelector:@selector(LDrawGLViewPartsWereDraggedIntoOblivion:)]) {
-      [self->delegate LDrawGLViewPartsWereDraggedIntoOblivion:self];
+    if ([self->delegate respondsToSelector:@selector(LDrawGLViewPartDragEnded:)]) {
+        [self->delegate LDrawGLViewPartDragEnded:self];
     }
-  }
 
-  // When nobody else received the drag and nobody cares, the part is just
-  // deleted and is gone forever. We bring the solemnity of this sad and
-  // otherwise obscure passing to the user's attention by running that cute
-  // little poof animation.
-  if (operation == NSDragOperationNone &&
-      [self->delegate respondsToSelector:@selector(LDrawGLViewPartsWereDraggedIntoOblivion:)]) {
-    NSShowAnimationEffect(NSAnimationEffectDisappearingItemDefault,
-                          aPoint, NSZeroSize, nil, NULL, NULL);
-  }
+    // If the drag didn't wind up in one of the GL views belonging to this
+    // document, then we need to delete the part's ghost from our model.
+    if (self->dragEndedInOurDocument == NO) {
+        if ([self->delegate respondsToSelector:@selector(LDrawGLViewPartsWereDraggedIntoOblivion:)]) {
+            [self->delegate LDrawGLViewPartsWereDraggedIntoOblivion:self];
+        }
+    }
+
+    // When nobody else received the drag and nobody cares, the part is just
+    // deleted and is gone forever. We bring the solemnity of this sad and
+    // otherwise obscure passing to the user's attention by running that cute
+    // little poof animation.
+    if (operation == NSDragOperationNone &&
+        [self->delegate respondsToSelector:@selector(LDrawGLViewPartsWereDraggedIntoOblivion:)]) {
+        NSShowAnimationEffect(NSAnimationEffectDisappearingItemDefault,
+                              aPoint, NSZeroSize, nil, NULL, NULL);
+    }
 }
 
 
@@ -2542,7 +2542,7 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (BOOL)wantsPeriodicDraggingUpdates
 {
-  return(NO);
+    return(NO);
 }
 
 
@@ -2558,21 +2558,21 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
-  [[self openGLContext] makeCurrentContext];
+    [[self openGLContext] makeCurrentContext];
 
-  // Check the appropriate item for the viewing angle. We have to check the
-  // action selector here so as not to start checking other items like zoomIn:
-  // that happen to have a tag which matches one of the viewing angles.)
-  if ([menuItem action] == @selector(viewOrientationSelected:)) {
-    if ([menuItem tag] == [self->renderer viewOrientation]) {
-      [menuItem setState:NSControlStateValueOn];
+    // Check the appropriate item for the viewing angle. We have to check the
+    // action selector here so as not to start checking other items like zoomIn:
+    // that happen to have a tag which matches one of the viewing angles.)
+    if ([menuItem action] == @selector(viewOrientationSelected:)) {
+        if ([menuItem tag] == [self->renderer viewOrientation]) {
+            [menuItem setState:NSControlStateValueOn];
+        }
+        else {
+            [menuItem setState:NSControlStateValueOff];
+        }
     }
-    else {
-      [menuItem setState:NSControlStateValueOff];
-    }
-  }
 
-  return(YES);
+    return(YES);
 }
 
 
@@ -2593,7 +2593,7 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)LDrawGLRendererNeedsFlush:(LDrawGLRenderer *)renderer
 {
-  [[self openGLContext] flushBuffer];
+    [[self openGLContext] flushBuffer];
 }
 
 
@@ -2604,7 +2604,7 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)LDrawGLRendererNeedsRedisplay:(LDrawGLRenderer *)renderer
 {
-  [self setNeedsDisplay:YES];
+    [self setNeedsDisplay:YES];
 }
 
 
@@ -2615,11 +2615,11 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)LDrawGLRenderer:(LDrawGLRenderer *)renderer mouseIsOverPoint:(Point3)modelPoint confidence:(Tuple3)confidence
 {
-  if ([self->delegate respondsToSelector:@selector(LDrawGLView:mouseIsOverPoint:confidence:)]) {
-    [self->delegate LDrawGLView:self
-               mouseIsOverPoint:modelPoint
-                     confidence:confidence];
-  }
+    if ([self->delegate respondsToSelector:@selector(LDrawGLView:mouseIsOverPoint:confidence:)]) {
+        [self->delegate LDrawGLView:self
+         mouseIsOverPoint:modelPoint
+         confidence:confidence];
+    }
 }
 
 
@@ -2630,9 +2630,9 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)LDrawGLRendererMouseNotPositioning:(LDrawGLRenderer *)renderer
 {
-  if ([self->delegate respondsToSelector:@selector(LDrawGLViewMouseNotPositioning:)]) {
-    [self->delegate LDrawGLViewMouseNotPositioning:self];
-  }
+    if ([self->delegate respondsToSelector:@selector(LDrawGLViewMouseNotPositioning:)]) {
+        [self->delegate LDrawGLViewMouseNotPositioning:self];
+    }
 }
 
 
@@ -2648,13 +2648,13 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (TransformComponents)LDrawGLRendererPreferredPartTransform:(LDrawGLRenderer *)renderer
 {
-  TransformComponents components = IdentityComponents;
+    TransformComponents components = IdentityComponents;
 
-  if ([self->delegate respondsToSelector:@selector(LDrawGLViewPreferredPartTransform:)]) {
-    components = [self->delegate LDrawGLViewPreferredPartTransform:self];
-  }
+    if ([self->delegate respondsToSelector:@selector(LDrawGLViewPreferredPartTransform:)]) {
+        components = [self->delegate LDrawGLViewPreferredPartTransform:self];
+    }
 
-  return(components);
+    return(components);
 }
 
 
@@ -2664,15 +2664,15 @@ static NSSize Size2ToNSSize(Size2 size)
 //
 // ==============================================================================
 - (void)LDrawGLRenderer:(LDrawGLRenderer *)renderer
-  wantsToSelectDirective:(LDrawDirective *)directiveToSelect
-  byExtendingSelection:(BOOL)shouldExtend
+    wantsToSelectDirective:(LDrawDirective *)directiveToSelect
+    byExtendingSelection:(BOOL)shouldExtend
 {
-  if ([self->delegate respondsToSelector:@selector(LDrawGLView:wantsToSelectDirective:
-                                                   byExtendingSelection:)]) {
-    [self->delegate LDrawGLView:self
+    if ([self->delegate respondsToSelector:@selector(LDrawGLView:wantsToSelectDirective:
+                                                     byExtendingSelection:)]) {
+        [self->delegate LDrawGLView:self
          wantsToSelectDirective:directiveToSelect
-           byExtendingSelection:shouldExtend];
-  }
+         byExtendingSelection:shouldExtend];
+    }
 }
 
 
@@ -2682,14 +2682,14 @@ static NSSize Size2ToNSSize(Size2 size)
 //
 // ==============================================================================
 - (void)LDrawGLRenderer:(LDrawGLRenderer *)renderer wantsToSelectDirectives:(NSArray *)directivesToSelect
-  selectionMode:(SelectionModeT)selectionMode
+    selectionMode:(SelectionModeT)selectionMode
 {
-  if ([self->delegate respondsToSelector:@selector(LDrawGLView:wantsToSelectDirectives:selectionMode
-                                                   :)]) {
-    [self->delegate LDrawGLView:self
-        wantsToSelectDirectives:directivesToSelect
-                  selectionMode:selectionMode];
-  }
+    if ([self->delegate respondsToSelector:@selector(LDrawGLView:wantsToSelectDirectives:selectionMode
+                                                     :)]) {
+        [self->delegate LDrawGLView:self
+         wantsToSelectDirectives:directivesToSelect
+         selectionMode:selectionMode];
+    }
 }
 
 
@@ -2700,9 +2700,9 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)markPreviousSelection:(LDrawGLRenderer *)renderer
 {
-  if ([self->delegate respondsToSelector:@selector(markPreviousSelection)]) {
-    [self->delegate markPreviousSelection];
-  }
+    if ([self->delegate respondsToSelector:@selector(markPreviousSelection)]) {
+        [self->delegate markPreviousSelection];
+    }
 }
 
 
@@ -2713,9 +2713,9 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)unmarkPreviousSelection:(LDrawGLRenderer *)renderer
 {
-  if ([self->delegate respondsToSelector:@selector(unmarkPreviousSelection)]) {
-    [self->delegate unmarkPreviousSelection];
-  }
+    if ([self->delegate respondsToSelector:@selector(unmarkPreviousSelection)]) {
+        [self->delegate unmarkPreviousSelection];
+    }
 }
 
 
@@ -2726,12 +2726,12 @@ static NSSize Size2ToNSSize(Size2 size)
 //
 // ==============================================================================
 - (void)LDrawGLRenderer:(LDrawGLRenderer *)renderer
-  willBeginDraggingHandle:(LDrawDragHandle *)dragHandle
+    willBeginDraggingHandle:(LDrawDragHandle *)dragHandle
 {
-  if ([self->delegate respondsToSelector:@selector(LDrawGLView:willBeginDraggingHandle:)]) {
-    [self->delegate LDrawGLView:self
-        willBeginDraggingHandle:dragHandle];
-  }
+    if ([self->delegate respondsToSelector:@selector(LDrawGLView:willBeginDraggingHandle:)]) {
+        [self->delegate LDrawGLView:self
+         willBeginDraggingHandle:dragHandle];
+    }
 }
 
 
@@ -2742,12 +2742,12 @@ static NSSize Size2ToNSSize(Size2 size)
 //
 // ==============================================================================
 - (void)LDrawGLRenderer:(LDrawGLRenderer *)renderer
-  dragHandleDidMove:(LDrawDragHandle *)dragHandle
+    dragHandleDidMove:(LDrawDragHandle *)dragHandle
 {
-  if ([self->delegate respondsToSelector:@selector(LDrawGLView:dragHandleDidMove:)]) {
-    [self->delegate LDrawGLView:self
-              dragHandleDidMove:dragHandle];
-  }
+    if ([self->delegate respondsToSelector:@selector(LDrawGLView:dragHandleDidMove:)]) {
+        [self->delegate LDrawGLView:self
+         dragHandleDidMove:dragHandle];
+    }
 }
 
 
@@ -2765,9 +2765,9 @@ static NSSize Size2ToNSSize(Size2 size)
 - (void)backgroundColorDidChange:(NSNotification *)notification
 {
 // [self takeBackgroundColorFromUserDefaults];
-  NSColor *color = [notification object];
+    NSColor *color = [notification object];
 
-  [self setBackgroundColor:color];
+    [self setBackgroundColor:color];
 }
 
 
@@ -2781,7 +2781,7 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)mouseToolDidChange:(NSNotification *)notification
 {
-  [self resetCursor];
+    [self resetCursor];
 }
 
 
@@ -2792,12 +2792,12 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)showAxisLinesDidChange:(NSNotification *)notification
 {
-  BOOL showAxisLines = NO;
+    BOOL showAxisLines = NO;
 
-  if ([notification object]) {
-    showAxisLines = YES;
-  }
-  [self->renderer setViewAxisLines:showAxisLines];
+    if ([notification object]) {
+        showAxisLines = YES;
+    }
+    [self->renderer setViewAxisLines:showAxisLines];
 }
 
 
@@ -2812,12 +2812,12 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)scrollViewFrameDidChange:(NSNotification *)notification
 {
-  [[self openGLContext] makeCurrentContext];
+    [[self openGLContext] makeCurrentContext];
 
-  NSSize maxVisibleSize = [[self enclosingScrollView] contentSize];
-  maxVisibleSize.height = MAX(maxVisibleSize.height, 2.0);
-  maxVisibleSize.width  = MAX(maxVisibleSize.width, 2.0);
-  [self->renderer setMaximumVisibleSize:V2MakeSize(maxVisibleSize.width, maxVisibleSize.height)];
+    NSSize maxVisibleSize = [[self enclosingScrollView] contentSize];
+    maxVisibleSize.height = MAX(maxVisibleSize.height, 2.0);
+    maxVisibleSize.width  = MAX(maxVisibleSize.width, 2.0);
+    [self->renderer setMaximumVisibleSize:V2MakeSize(maxVisibleSize.width, maxVisibleSize.height)];
 }
 
 
@@ -2832,18 +2832,18 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)renewGState
 {
-  NSWindow *window = [self window];
+    NSWindow *window = [self window];
 
-  // Disabling screen updates should allow the redrawing of the surrounding
-  // window to catch up with the new position of the OpenGL hardware surface.
-  //
-  // Note: In Apple's "GLChildWindow" sample code, Apple put this in
-  // -splitViewWillResizeSubviews:. But that doesn't actually solve the
-  // problem. Putting it here *does*.
-  //
-  [window disableScreenUpdatesUntilFlush];
+    // Disabling screen updates should allow the redrawing of the surrounding
+    // window to catch up with the new position of the OpenGL hardware surface.
+    //
+    // Note: In Apple's "GLChildWindow" sample code, Apple put this in
+    // -splitViewWillResizeSubviews:. But that doesn't actually solve the
+    // problem. Putting it here *does*.
+    //
+    [window disableScreenUpdatesUntilFlush];
 
-  [super renewGState];
+    [super renewGState];
 }
 
 
@@ -2855,26 +2855,26 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)reshape
 {
-  [super reshape];
-  CGLLockContext([[self openGLContext] CGLContextObj]);
-  {
-    [[self openGLContext] makeCurrentContext];
+    [super reshape];
+    CGLLockContext([[self openGLContext] CGLContextObj]);
+    {
+        [[self openGLContext] makeCurrentContext];
 
-    NSSize maxVisibleSize = [[self enclosingScrollView] contentSize];
-    NSRect viewBounds     = [[self enclosingScrollView] bounds];
-    if (maxVisibleSize.width > 0 && maxVisibleSize.height > 0) {
-      // get the correct actual size of the view (for retina/high DPI)
-      NSRect  backingBounds      = [self convertRectToBacking:viewBounds];
-      GLsizei backingPixelWidth  = (GLsizei)(backingBounds.size.width),
-              backingPixelHeight = (GLsizei)(backingBounds.size.height);
-      glViewport(0, 0, backingPixelWidth, backingPixelHeight);
-      // Bit of a hack - this gets called for SCROLLING too, and of course our max visible size has
-      // NOT changed - but it tickles the camera, which is what we are REALLY after.
-      [self->renderer setMaximumVisibleSize:V2MakeSize(maxVisibleSize.width,
-                                                       maxVisibleSize.height)];
+        NSSize maxVisibleSize = [[self enclosingScrollView] contentSize];
+        NSRect viewBounds     = [[self enclosingScrollView] bounds];
+        if (maxVisibleSize.width > 0 && maxVisibleSize.height > 0) {
+            // get the correct actual size of the view (for retina/high DPI)
+            NSRect  backingBounds      = [self convertRectToBacking:viewBounds];
+            GLsizei backingPixelWidth  = (GLsizei)(backingBounds.size.width),
+                    backingPixelHeight = (GLsizei)(backingBounds.size.height);
+            glViewport(0, 0, backingPixelWidth, backingPixelHeight);
+            // Bit of a hack - this gets called for SCROLLING too, and of course our max visible size has
+            // NOT changed - but it tickles the camera, which is what we are REALLY after.
+            [self->renderer setMaximumVisibleSize:V2MakeSize(maxVisibleSize.width,
+                                                             maxVisibleSize.height)];
+        }
     }
-  }
-  CGLUnlockContext([[self openGLContext] CGLContextObj]);
+    CGLUnlockContext([[self openGLContext] CGLContextObj]);
 }
 
 
@@ -2889,11 +2889,11 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)update
 {
-  CGLLockContext([[self openGLContext] CGLContextObj]);
-  {
-    [super update];
-  }
-  CGLUnlockContext([[self openGLContext] CGLContextObj]);
+    CGLLockContext([[self openGLContext] CGLContextObj]);
+    {
+        [super update];
+    }
+    CGLUnlockContext([[self openGLContext] CGLContextObj]);
 }
 
 
@@ -2907,20 +2907,20 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)viewDidMoveToSuperview
 {
-  NSScrollView         *scrollView         = [self enclosingScrollView];
-  NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    NSScrollView         *scrollView         = [self enclosingScrollView];
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
 
-  if (scrollView != nil) {
-    [notificationCenter addObserver:self
-                           selector:@selector(scrollViewFrameDidChange:)
-                               name:NSViewFrameDidChangeNotification
-                             object:scrollView];
-  }
-  else {
-    [notificationCenter removeObserver:self
-                                  name:NSViewFrameDidChangeNotification
-                                object:nil];
-  }
+    if (scrollView != nil) {
+        [notificationCenter addObserver:self
+         selector:@selector(scrollViewFrameDidChange:)
+         name:NSViewFrameDidChangeNotification
+         object:scrollView];
+    }
+    else {
+        [notificationCenter removeObserver:self
+         name:NSViewFrameDidChangeNotification
+         object:nil];
+    }
 }
 
 
@@ -2937,21 +2937,21 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)restoreConfiguration
 {
-  if (self->autosaveName != nil) {
-    NSUserDefaults *userDefaults    = [NSUserDefaults standardUserDefaults];
-    NSString       *viewingAngleKey =
-      [NSString stringWithFormat:@"%@ %@", LDRAW_GL_VIEW_ANGLE, self->autosaveName];
-    NSString *projectionModeKey =
-      [NSString stringWithFormat:@"%@ %@", LDRAW_GL_VIEW_PROJECTION, self->autosaveName];
-    ViewOrientationT orientation = (int)[userDefaults integerForKey:viewingAngleKey];
-    ProjectionModeT  projection  = (int)[userDefaults integerForKey:projectionModeKey];
+    if (self->autosaveName != nil) {
+        NSUserDefaults *userDefaults    = [NSUserDefaults standardUserDefaults];
+        NSString       *viewingAngleKey =
+            [NSString stringWithFormat:@"%@ %@", LDRAW_GL_VIEW_ANGLE, self->autosaveName];
+        NSString *projectionModeKey =
+            [NSString stringWithFormat:@"%@ %@", LDRAW_GL_VIEW_PROJECTION, self->autosaveName];
+        ViewOrientationT orientation = (int)[userDefaults integerForKey:viewingAngleKey];
+        ProjectionModeT  projection  = (int)[userDefaults integerForKey:projectionModeKey];
 
-    // It's imperative to read the modes from defaults prior to calling this
-    // methods, since -setViewOrientation automatically saves current values
-    // back into defaults!
-    [self setViewOrientation:orientation];
-    [self setProjectionMode:projection];
-  }
+        // It's imperative to read the modes from defaults prior to calling this
+        // methods, since -setViewOrientation automatically saves current values
+        // back into defaults!
+        [self setViewOrientation:orientation];
+        [self setProjectionMode:projection];
+    }
 }
 
 
@@ -2964,22 +2964,22 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)saveConfiguration
 {
-  [[self openGLContext] makeCurrentContext];
+    [[self openGLContext] makeCurrentContext];
 
-  if (self->autosaveName != nil) {
-    NSUserDefaults *userDefaults    = [NSUserDefaults standardUserDefaults];
-    NSString       *viewingAngleKey =
-      [NSString stringWithFormat:@"%@ %@", LDRAW_GL_VIEW_ANGLE, self->autosaveName];
-    NSString *projectionModeKey =
-      [NSString stringWithFormat:@"%@ %@", LDRAW_GL_VIEW_PROJECTION, self->autosaveName];
+    if (self->autosaveName != nil) {
+        NSUserDefaults *userDefaults    = [NSUserDefaults standardUserDefaults];
+        NSString       *viewingAngleKey =
+            [NSString stringWithFormat:@"%@ %@", LDRAW_GL_VIEW_ANGLE, self->autosaveName];
+        NSString *projectionModeKey =
+            [NSString stringWithFormat:@"%@ %@", LDRAW_GL_VIEW_PROJECTION, self->autosaveName];
 
-    [userDefaults setInteger:[self->renderer viewOrientation]
-                      forKey:viewingAngleKey];
-    [userDefaults setInteger:[self->renderer projectionMode]
-                      forKey:projectionModeKey];
+        [userDefaults setInteger:[self->renderer viewOrientation]
+         forKey:viewingAngleKey];
+        [userDefaults setInteger:[self->renderer projectionMode]
+         forKey:projectionModeKey];
 
-    [userDefaults synchronize]; // because we may be quitting, we have to force this here.
-  }
+        [userDefaults synchronize]; // because we may be quitting, we have to force this here.
+    }
 }
 
 
@@ -2990,75 +2990,75 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)saveImageToPath:(NSString *)path
 {
-  [[self openGLContext] makeCurrentContext];
+    [[self openGLContext] makeCurrentContext];
 
-  GLint   viewport[4]  = { 0 };
-  NSSize  viewportSize = NSZeroSize;
-  size_t  byteWidth    = 0;
-  uint8_t *byteBuffer  = NULL;
+    GLint   viewport[4]  = { 0 };
+    NSSize  viewportSize = NSZeroSize;
+    size_t  byteWidth    = 0;
+    uint8_t *byteBuffer  = NULL;
 
-  glGetIntegerv(GL_VIEWPORT, viewport);
-  viewportSize = NSMakeSize(viewport[2], viewport[3]);
+    glGetIntegerv(GL_VIEWPORT, viewport);
+    viewportSize = NSMakeSize(viewport[2], viewport[3]);
 
-  byteWidth = viewportSize.width * 4;   // Assume 4 bytes/pixel for now
-  byteWidth = (byteWidth + 3) & ~3;     // Align to 4 bytes
+    byteWidth = viewportSize.width * 4; // Assume 4 bytes/pixel for now
+    byteWidth = (byteWidth + 3) & ~3;   // Align to 4 bytes
 
-  byteBuffer = malloc(byteWidth * viewportSize.height);
+    byteBuffer = malloc(byteWidth * viewportSize.height);
 
-  glPushClientAttrib(GL_CLIENT_PIXEL_STORE_BIT);
-  {
-    glPixelStorei(GL_PACK_ALIGNMENT, 4); // Force 4-byte alignment
-    glPixelStorei(GL_PACK_ROW_LENGTH, 0);
-    glPixelStorei(GL_PACK_SKIP_ROWS, 0);
-    glPixelStorei(GL_PACK_SKIP_PIXELS, 0);
-    glReadPixels(0,
-                 0,
-                 viewportSize.width,
-                 viewportSize.height,
-                 GL_BGRA,
-                 GL_UNSIGNED_INT_8_8_8_8_REV,
-                 byteBuffer);
-    NSLog(@"read error = %d", glGetError());
-  }
-  glPopClientAttrib();
+    glPushClientAttrib(GL_CLIENT_PIXEL_STORE_BIT);
+    {
+        glPixelStorei(GL_PACK_ALIGNMENT, 4); // Force 4-byte alignment
+        glPixelStorei(GL_PACK_ROW_LENGTH, 0);
+        glPixelStorei(GL_PACK_SKIP_ROWS, 0);
+        glPixelStorei(GL_PACK_SKIP_PIXELS, 0);
+        glReadPixels(0,
+                     0,
+                     viewportSize.width,
+                     viewportSize.height,
+                     GL_BGRA,
+                     GL_UNSIGNED_INT_8_8_8_8_REV,
+                     byteBuffer);
+        NSLog(@"read error = %d", glGetError());
+    }
+    glPopClientAttrib();
 
-  // ---------- Save to image -------------------------------------------------
+    // ---------- Save to image -------------------------------------------------
 
-  CGColorSpaceRef       cSpace = NULL;
-  CGContextRef          bitmap = NULL;
-  CGImageRef            image  = NULL;
-  CGImageDestinationRef dest   = NULL;
+    CGColorSpaceRef       cSpace = NULL;
+    CGContextRef          bitmap = NULL;
+    CGImageRef            image  = NULL;
+    CGImageDestinationRef dest   = NULL;
 
 
-  cSpace = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
-  bitmap = CGBitmapContextCreate(byteBuffer, viewportSize.width, viewportSize.height, 8, byteWidth,
-                                 cSpace,
-                                 kCGImageAlphaNoneSkipFirst | kCGBitmapByteOrder32Host);
+    cSpace = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
+    bitmap = CGBitmapContextCreate(byteBuffer, viewportSize.width, viewportSize.height, 8, byteWidth,
+                                   cSpace,
+                                   kCGImageAlphaNoneSkipFirst | kCGBitmapByteOrder32Host);
 
-  // Make an image out of our bitmap; does a cheap vm_copy of the bitmap
-  image = CGBitmapContextCreateImage(bitmap);
-  NSAssert(image != NULL, @"CGBitmapContextCreate failure");
+    // Make an image out of our bitmap; does a cheap vm_copy of the bitmap
+    image = CGBitmapContextCreateImage(bitmap);
+    NSAssert(image != NULL, @"CGBitmapContextCreate failure");
 
-  // Save the image to the file
-  dest =
-    CGImageDestinationCreateWithURL((CFURLRef)[NSURL fileURLWithPath:path],
-                                    CFSTR("public.tiff"),
-                                    1,
-                                    nil);
-  NSAssert(dest != 0, @"CGImageDestinationCreateWithURL failed");
+    // Save the image to the file
+    dest =
+        CGImageDestinationCreateWithURL((CFURLRef)[NSURL fileURLWithPath:path],
+                                        CFSTR("public.tiff"),
+                                        1,
+                                        nil);
+    NSAssert(dest != 0, @"CGImageDestinationCreateWithURL failed");
 
-  // Set the image in the image destination to be `image' with
-  // optional properties specified in saved properties dict.
-  CGImageDestinationAddImage(dest, image, nil);
+    // Set the image in the image destination to be `image' with
+    // optional properties specified in saved properties dict.
+    CGImageDestinationAddImage(dest, image, nil);
 
-  bool success = CGImageDestinationFinalize(dest);
-  NSAssert(success != 0, @"Image could not be written successfully");
+    bool success = CGImageDestinationFinalize(dest);
+    NSAssert(success != 0, @"Image could not be written successfully");
 
-  CFRelease(cSpace);
-  CFRelease(dest);
-  CGImageRelease(image);
-  CFRelease(bitmap);
-  free(byteBuffer);
+    CFRelease(cSpace);
+    CFRelease(dest);
+    CGImageRelease(image);
+    CFRelease(bitmap);
+    free(byteBuffer);
 }
 
 
@@ -3071,8 +3071,8 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)scrollCenterToModelPoint:(Point3)modelPoint
 {
-  [[self openGLContext] makeCurrentContext];
-  [self->renderer scrollCenterToModelPoint:modelPoint];
+    [[self openGLContext] makeCurrentContext];
+    [self->renderer scrollCenterToModelPoint:modelPoint];
 }
 
 
@@ -3084,42 +3084,42 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)takeBackgroundColorFromUserDefaults
 {
-  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-  NSColor        *newColor     = [userDefaults colorForKey:LDRAW_VIEWER_BACKGROUND_COLOR_KEY];
-  NSColor        *rgbColor     = nil;
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSColor        *newColor     = [userDefaults colorForKey:LDRAW_VIEWER_BACKGROUND_COLOR_KEY];
+    NSColor        *rgbColor     = nil;
 
-  if (newColor == nil) {
-    newColor = [NSColor windowBackgroundColor];
-  }
-  // the new color may not be in the RGB colorspace, so we need to convert.
-  rgbColor = [newColor colorUsingColorSpaceName:NSDeviceRGBColorSpace];
-
-  CGLLockContext([[self openGLContext] CGLContextObj]);
-  {
-    // This method can get called from -prepareOpenGL, which is itself called
-    // from -makeCurrentContext. That's a recipe for infinite recursion. So,
-    // we only makeCurrentContext if we *need* to.
-    if ([NSOpenGLContext currentContext] != [self openGLContext]) {
-      [[self openGLContext] makeCurrentContext];
+    if (newColor == nil) {
+        newColor = [NSColor windowBackgroundColor];
     }
+    // the new color may not be in the RGB colorspace, so we need to convert.
+    rgbColor = [newColor colorUsingColorSpaceName:NSDeviceRGBColorSpace];
 
-    [self->renderer setBackgroundColorRed:[rgbColor redComponent]
-                                    green:[rgbColor greenComponent]
-                                     blue:[rgbColor blueComponent]];
-  }
-  CGLUnlockContext([[self openGLContext] CGLContextObj]);
+    CGLLockContext([[self openGLContext] CGLContextObj]);
+    {
+        // This method can get called from -prepareOpenGL, which is itself called
+        // from -makeCurrentContext. That's a recipe for infinite recursion. So,
+        // we only makeCurrentContext if we *need* to.
+        if ([NSOpenGLContext currentContext] != [self openGLContext]) {
+            [[self openGLContext] makeCurrentContext];
+        }
 
-  [[self enclosingScrollView] setDrawsBackground:YES];
-  [[self enclosingScrollView] setBackgroundColor:rgbColor];
+        [self->renderer setBackgroundColorRed:[rgbColor redComponent]
+         green:[rgbColor greenComponent]
+         blue:[rgbColor blueComponent]];
+    }
+    CGLUnlockContext([[self openGLContext] CGLContextObj]);
 
-  [self setBackgroundColor:newColor];
-  [self setNeedsDisplay:YES];
+    [[self enclosingScrollView] setDrawsBackground:YES];
+    [[self enclosingScrollView] setBackgroundColor:rgbColor];
+
+    [self setBackgroundColor:newColor];
+    [self setNeedsDisplay:YES];
 }
 
 
 - (void)setViewAxisLines:(BOOL)flag;
 {
-  self->showAxis = flag;
+    self->showAxis = flag;
 }
 
 #pragma mark -
@@ -3135,7 +3135,7 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (Size2)getDocumentSize
 {
-  return(NSSizeToSize2([self frame].size));
+    return(NSSizeToSize2([self frame].size));
 }
 
 
@@ -3149,16 +3149,16 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)setDocumentSize:(Size2)newDocumentSize
 {
-  assert(!isnan(newDocumentSize.width));
-  assert(!isnan(newDocumentSize.height));
-  assert(newDocumentSize.width > 0);
-  assert(newDocumentSize.height > 0);
-  NSSize sizeNow = [self frame].size;
-  if (newDocumentSize.width == sizeNow.width && newDocumentSize.height == sizeNow.height) {
-    return;
-  }
+    assert(!isnan(newDocumentSize.width));
+    assert(!isnan(newDocumentSize.height));
+    assert(newDocumentSize.width > 0);
+    assert(newDocumentSize.height > 0);
+    NSSize sizeNow = [self frame].size;
+    if (newDocumentSize.width == sizeNow.width && newDocumentSize.height == sizeNow.height) {
+        return;
+    }
 
-  [self setFrameSize:Size2ToNSSize(newDocumentSize)];
+    [self setFrameSize:Size2ToNSSize(newDocumentSize)];
 }
 
 
@@ -3171,7 +3171,7 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (Box2)getVisibleRect
 {
-  return(NSRectToBox2([self visibleRect]));
+    return(NSRectToBox2([self visibleRect]));
 }
 
 
@@ -3183,15 +3183,15 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (Size2)getMaxVisibleSizeDoc
 {
-  NSScrollView *scrollView = [self enclosingScrollView];
+    NSScrollView *scrollView = [self enclosingScrollView];
 
-  if (scrollView != nil) {
-    NSClipView *clipView = [scrollView contentView];
-    return(NSSizeToSize2([clipView bounds].size));
-  }
-  else {
-    return(NSSizeToSize2([self bounds].size));
-  }
+    if (scrollView != nil) {
+        NSClipView *clipView = [scrollView contentView];
+        return(NSSizeToSize2([clipView bounds].size));
+    }
+    else {
+        return(NSSizeToSize2([self bounds].size));
+    }
 }
 
 
@@ -3204,16 +3204,16 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (Size2)getMaxVisibleSizeGL
 {
-  NSScrollView *scrollView = [self enclosingScrollView];
+    NSScrollView *scrollView = [self enclosingScrollView];
 
-  if (scrollView != nil) {
-    NSSize size = [scrollView contentSize];
-    return(NSSizeToSize2(size));
-  }
-  else {
-    NSSize size = [self bounds].size;
-    return(NSSizeToSize2(size));
-  }
+    if (scrollView != nil) {
+        NSSize size = [scrollView contentSize];
+        return(NSSizeToSize2(size));
+    }
+    else {
+        NSSize size = [self bounds].size;
+        return(NSSizeToSize2(size));
+    }
 }
 
 
@@ -3234,32 +3234,32 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)setScaleFactor:(CGFloat)newScaleFactor
 {
-  assert(newScaleFactor > 0.0);
-  assert(!isnan(newScaleFactor));
+    assert(newScaleFactor > 0.0);
+    assert(!isnan(newScaleFactor));
 
-  NSScrollView *scrollView = [self enclosingScrollView];
+    NSScrollView *scrollView = [self enclosingScrollView];
 
-  // Don't zoom if we aren't cabale of zooming or if the zoom level isn't
-  // actually changing (to avoid unnecessary re-draw)
-  if (scrollView != nil) {
-    NSClipView *clipView  = [scrollView contentView];
-    NSRect     clipFrame  = [clipView frame];
-    NSRect     clipBounds = [clipView bounds];
+    // Don't zoom if we aren't cabale of zooming or if the zoom level isn't
+    // actually changing (to avoid unnecessary re-draw)
+    if (scrollView != nil) {
+        NSClipView *clipView  = [scrollView contentView];
+        NSRect     clipFrame  = [clipView frame];
+        NSRect     clipBounds = [clipView bounds];
 
-    // Change the magnification level of the clip view, which has the
-    // effect of zooming us in and out.
-    clipBounds.size.width  = NSWidth(clipFrame) / newScaleFactor;
-    clipBounds.size.height = NSHeight(clipFrame) / newScaleFactor;
+        // Change the magnification level of the clip view, which has the
+        // effect of zooming us in and out.
+        clipBounds.size.width  = NSWidth(clipFrame) / newScaleFactor;
+        clipBounds.size.height = NSHeight(clipFrame) / newScaleFactor;
 
-    // Note: must use -setBoundsSize:, not -setBounds:. The latter
-    // causes bad things to happen when called on a collapsed
-    // split view.
-    [clipView setBoundsSize:clipBounds.size];
+        // Note: must use -setBoundsSize:, not -setBounds:. The latter
+        // causes bad things to happen when called on a collapsed
+        // split view.
+        [clipView setBoundsSize:clipBounds.size];
 
-    // update KVO
-    [self willChangeValueForKey:@"zoomPercentage"];
-    [self didChangeValueForKey:@"zoomPercentage"];
-  }
+        // update KVO
+        [self willChangeValueForKey:@"zoomPercentage"];
+        [self didChangeValueForKey:@"zoomPercentage"];
+    }
 }
 
 
@@ -3272,15 +3272,15 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)setScrollOrigin:(Point2)visibleOrigin
 {
-  assert(!isnan(visibleOrigin.x));
-  assert(!isnan(visibleOrigin.y));
-  Point2 currentOrigin = [self getVisibleRect].origin;
-  if (currentOrigin.x == visibleOrigin.x &&
-      currentOrigin.y == visibleOrigin.y) {
-    return;
-  }
+    assert(!isnan(visibleOrigin.x));
+    assert(!isnan(visibleOrigin.y));
+    Point2 currentOrigin = [self getVisibleRect].origin;
+    if (currentOrigin.x == visibleOrigin.x &&
+        currentOrigin.y == visibleOrigin.y) {
+        return;
+    }
 
-  [self scrollPoint:NSMakePoint(visibleOrigin.x, visibleOrigin.y)];
+    [self scrollPoint:NSMakePoint(visibleOrigin.x, visibleOrigin.y)];
 }
 
 
@@ -3295,13 +3295,13 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)dealloc
 {
-  [self saveConfiguration];
+    [self saveConfiguration];
 
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
-  [renderer release];
-  [autosaveName release];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [renderer release];
+    [autosaveName release];
 
-  [super dealloc];
+    [super dealloc];
 }
 
 

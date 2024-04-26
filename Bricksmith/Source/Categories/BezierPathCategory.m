@@ -24,49 +24,49 @@
 //
 // ------------------------------------------------------------------------------
 + (NSBezierPath *)bezierPathWithRect:(NSRect)rect
-  radiusPercentage:(CGFloat)radiusPercentage
+    radiusPercentage:(CGFloat)radiusPercentage
 {
-  NSBezierPath *roundRect = [NSBezierPath bezierPath];
-  CGFloat      radius     = NSWidth(rect) / 2 * (radiusPercentage / 100);
+    NSBezierPath *roundRect = [NSBezierPath bezierPath];
+    CGFloat      radius     = NSWidth(rect) / 2 * (radiusPercentage / 100);
 
-  // start with a blank path.
+    // start with a blank path.
 
-  // start above the lower left corner, drawing counter-clockwise
-  [roundRect moveToPoint:NSMakePoint(NSMinX(rect), NSMinY(rect) + radius)];
+    // start above the lower left corner, drawing counter-clockwise
+    [roundRect moveToPoint:NSMakePoint(NSMinX(rect), NSMinY(rect) + radius)];
 
-  // Bottom left corner
-  [roundRect appendBezierPathWithArcFromPoint:NSMakePoint(NSMinX(rect), NSMinY(rect))
-                                      toPoint:NSMakePoint(NSMinX(rect) + radius, NSMinY(rect))
-                                       radius:radius];
-  // Bottom side
-  [roundRect lineToPoint:NSMakePoint(NSMaxX(rect) - radius, NSMinY(rect))];
-
-
-  // Bottom Right Corner
-  [roundRect appendBezierPathWithArcFromPoint:NSMakePoint(NSMaxX(rect), NSMinY(rect))
-                                      toPoint:NSMakePoint(NSMaxX(rect), NSMinY(rect) + radius)
-                                       radius:radius];
-  // Right side
-  [roundRect lineToPoint:NSMakePoint(NSMaxX(rect), NSMaxY(rect) - radius)];
+    // Bottom left corner
+    [roundRect appendBezierPathWithArcFromPoint:NSMakePoint(NSMinX(rect), NSMinY(rect))
+     toPoint:NSMakePoint(NSMinX(rect) + radius, NSMinY(rect))
+     radius:radius];
+    // Bottom side
+    [roundRect lineToPoint:NSMakePoint(NSMaxX(rect) - radius, NSMinY(rect))];
 
 
-  // Top right corner
-  [roundRect appendBezierPathWithArcFromPoint:NSMakePoint(NSMaxX(rect), NSMaxY(rect))
-                                      toPoint:NSMakePoint(NSMaxX(rect) - radius, NSMaxY(rect))
-                                       radius:radius];
-  // Top side
-  [roundRect lineToPoint:NSMakePoint(NSMinX(rect) + radius, NSMaxY(rect))];
+    // Bottom Right Corner
+    [roundRect appendBezierPathWithArcFromPoint:NSMakePoint(NSMaxX(rect), NSMinY(rect))
+     toPoint:NSMakePoint(NSMaxX(rect), NSMinY(rect) + radius)
+     radius:radius];
+    // Right side
+    [roundRect lineToPoint:NSMakePoint(NSMaxX(rect), NSMaxY(rect) - radius)];
 
 
-  // Top left corner
-  [roundRect appendBezierPathWithArcFromPoint:NSMakePoint(NSMinX(rect), NSMaxY(rect))
-                                      toPoint:NSMakePoint(NSMinX(rect), NSMaxY(rect) - radius)
-                                       radius:radius];
-  // Left side
-  // [roundRect lineToPoint:  NSMakePoint(NSMinX(rect),			NSMinY(rect) + radius   )];
-  [roundRect closePath];
+    // Top right corner
+    [roundRect appendBezierPathWithArcFromPoint:NSMakePoint(NSMaxX(rect), NSMaxY(rect))
+     toPoint:NSMakePoint(NSMaxX(rect) - radius, NSMaxY(rect))
+     radius:radius];
+    // Top side
+    [roundRect lineToPoint:NSMakePoint(NSMinX(rect) + radius, NSMaxY(rect))];
 
-  return(roundRect);
+
+    // Top left corner
+    [roundRect appendBezierPathWithArcFromPoint:NSMakePoint(NSMinX(rect), NSMaxY(rect))
+     toPoint:NSMakePoint(NSMinX(rect), NSMaxY(rect) - radius)
+     radius:radius];
+    // Left side
+    // [roundRect lineToPoint:  NSMakePoint(NSMinX(rect),			NSMinY(rect) + radius   )];
+    [roundRect closePath];
+
+    return(roundRect);
 }// end bezierPathWithRect:radiusPercentage:
 
 

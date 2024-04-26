@@ -18,8 +18,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 @interface LDrawColorWell : NSButton <LDrawColorable>
 {
-  LDrawColor *color;
-  NSColor    *nsColor;
+    LDrawColor *color;
+    NSColor    *nsColor;
 }
 
 // Active color well

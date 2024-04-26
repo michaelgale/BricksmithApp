@@ -37,30 +37,30 @@
 // ==============================================================================
 - (id)init
 {
-  self = [super init];
+    self = [super init];
 
-  if (self) {
-    synthesizedParts = [[NSMutableArray alloc] init];
-    self->synthType  = [[NSString alloc] init];
-    color            = [[LDrawColor alloc] init];
+    if (self) {
+        synthesizedParts = [[NSMutableArray alloc] init];
+        self->synthType  = [[NSString alloc] init];
+        color            = [[LDrawColor alloc] init];
 
-    self->cachedBounds = InvalidBox;
-    [self invalCache:CacheFlagBounds];
-  }
+        self->cachedBounds = InvalidBox;
+        [self invalCache:CacheFlagBounds];
+    }
 
-  // Observe changes in selection display options
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(selectionDisplayOptionsDidChange:)
-                                               name:LSynthSelectionDisplayDidChangeNotification
-                                             object:nil];
+    // Observe changes in selection display options
+    [[NSNotificationCenter defaultCenter] addObserver:self
+     selector:@selector(selectionDisplayOptionsDidChange:)
+     name:LSynthSelectionDisplayDidChangeNotification
+     object:nil];
 
-  // Observe requests for resynthesis
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(requiresResynthesis:)
-                                               name:LSynthResynthesisRequiredNotification
-                                             object:nil];
+    // Observe requests for resynthesis
+    [[NSNotificationCenter defaultCenter] addObserver:self
+     selector:@selector(requiresResynthesis:)
+     name:LSynthResynthesisRequiredNotification
+     object:nil];
 
-  return(self);
+    return(self);
 }// end init
 
 
@@ -85,142 +85,143 @@
 //
 // ==============================================================================
 - (id)initWithLines:(NSArray *)lines
-  inRange:(NSRange)range
-  parentGroup:(dispatch_group_t)parentGroup
+    inRange:(NSRange)range
+    parentGroup:(dispatch_group_t)parentGroup
 {
-  NSString           *currentLine = nil;
-  Class              CommandClass = Nil;
-  NSRange            commandRange = range;
-  NSUInteger         lineIndex    = 0;
-  LSynthParserStateT parserState  = PARSER_READY_TO_PARSE;
+    NSString           *currentLine = nil;
+    Class              CommandClass = Nil;
+    NSRange            commandRange = range;
+    NSUInteger         lineIndex    = 0;
+    LSynthParserStateT parserState  = PARSER_READY_TO_PARSE;
 
-  self = [self init];   // Basic initialisation, not related to parsing
-  self = [super initWithLines:lines
-                      inRange:range
-                  parentGroup:parentGroup];
+    self = [self init]; // Basic initialisation, not related to parsing
+    self = [super initWithLines:lines
+            inRange:range
+            parentGroup:parentGroup];
 
-  if (self) {
-    lineIndex = range.location;
+    if (self) {
+        lineIndex = range.location;
 
-    while (lineIndex < NSMaxRange(range))
-    {
-      currentLine = [lines objectAtIndex:lineIndex];
+        while (lineIndex < NSMaxRange(range))
+        {
+            currentLine = [lines objectAtIndex:lineIndex];
 
-      //
-      // '0 SYNTH' directives
-      //
+            //
+            // '0 SYNTH' directives
+            //
 
-      // 0 SYNTH BEGIN <SYNTH_TYPE> <COLOR>
-      if ([currentLine isMatchedByRegex:@"0\\s+SYNTH\\s+BEGIN\\s+(\\S+?)\\s+(\\S+)"] &&
-          parserState == PARSER_READY_TO_PARSE) {
-        NSArray *paramMatches =
-          [currentLine arrayOfCaptureComponentsMatchedByRegex:
-           @"0\\s+SYNTH\\s+BEGIN\\s+(\\S+?)\\s+(\\S+)"];
+            // 0 SYNTH BEGIN <SYNTH_TYPE> <COLOR>
+            if ([currentLine isMatchedByRegex:@"0\\s+SYNTH\\s+BEGIN\\s+(\\S+?)\\s+(\\S+)"] &&
+                parserState == PARSER_READY_TO_PARSE) {
+                NSArray *paramMatches =
+                    [currentLine arrayOfCaptureComponentsMatchedByRegex:
+                     @"0\\s+SYNTH\\s+BEGIN\\s+(\\S+?)\\s+(\\S+)"];
 
-        NSString *type       = [[paramMatches objectAtIndex:0] objectAtIndex:1];
-        NSString *synthColor = [[paramMatches objectAtIndex:0] objectAtIndex:2];
+                NSString *type       = [[paramMatches objectAtIndex:0] objectAtIndex:1];
+                NSString *synthColor = [[paramMatches objectAtIndex:0] objectAtIndex:2];
 
-        [self setLsynthType:type];
-        [self setLDrawColor:[[ColorLibrary sharedColorLibrary] colorForCode:(LDrawColorT)[synthColor integerValue]]];
-        [[[LDrawApplication shared] lsynthConfiguration] setLSynthClassForDirective:self withType:type];
-        parserState = PARSER_PARSING_BEGUN;
-      }
-      // 0 SYNTH END - Synthesized parts may or may not be present
-      else if ([currentLine isMatchedByRegex:@"0\\s+SYNTH\\s+END"] &&
-               (parserState == PARSER_PARSING_CONSTRAINTS ||
-                parserState == PARSER_SYNTHESIZED_FINISHED)) {
-        parserState = PARSER_FINISHED;
-      }
-      // 0 SYNTH SHOW or
-      // 0 SYNTH HIDE
-      else if ([currentLine isMatchedByRegex:@"0\\s+SYNTH\\s+(?:SHOW|HIDE)"] &&
-               parserState == PARSER_PARSING_BEGUN) {
-        parserState = PARSER_PARSING_CONSTRAINTS;
-      }
-      // 0 SYNTH SYNTHESIZED BEGIN - start of synthesized constraints
-      else if ([currentLine isMatchedByRegex:@"0\\s+SYNTH\\s+SYNTHESIZED\\s+BEGIN"] &&
-               parserState == PARSER_PARSING_CONSTRAINTS) {
-        parserState = PARSER_PARSING_SYNTHESIZED;
-      }
-      // 0 SYNTH SYNTHESIZED BEGIN - end of synthesized constraints
-      else if ([currentLine isMatchedByRegex:@"0\\s+SYNTH\\s+SYNTHESIZED\\s+END"] &&
-               parserState == PARSER_PARSING_SYNTHESIZED) {
-        parserState = PARSER_SYNTHESIZED_FINISHED;
-      }
-      // 0 SYNTH INSIDE or
-      // 0 SYNTH OUTSIDE or
-      // 0 SYNTH CROSS
-      else if (parserState == PARSER_PARSING_CONSTRAINTS &&
-               [currentLine isMatchedByRegex:@"0\\s+SYNTH\\s+(INSIDE|OUTSIDE|CROSS)"]) {
-        NSString *direction =
-          [[[currentLine arrayOfCaptureComponentsMatchedByRegex:@"(INSIDE|OUTSIDE|CROSS)"]
-            objectAtIndex:0]
-           objectAtIndex:0];
-        LDrawLSynthDirective *directive = [[LDrawLSynthDirective alloc] init];
-        [directive setStringValue:direction];
-        [[self subdirectives] addObject:directive];
-        [directive setEnclosingDirective:self];
-        [directive addObserver:self];
-        [directive release];
-      }
-      //
-      // '1 XXX' Part directives - constraints or synthesized parts
-      //
+                [self setLsynthType:type];
+                [self setLDrawColor:[[ColorLibrary sharedColorLibrary] colorForCode:(LDrawColorT)[synthColor
+                                                                                                  integerValue]]];
+                [[[LDrawApplication shared] lsynthConfiguration] setLSynthClassForDirective:self withType:type];
+                parserState = PARSER_PARSING_BEGUN;
+            }
+            // 0 SYNTH END - Synthesized parts may or may not be present
+            else if ([currentLine isMatchedByRegex:@"0\\s+SYNTH\\s+END"] &&
+                     (parserState == PARSER_PARSING_CONSTRAINTS ||
+                      parserState == PARSER_SYNTHESIZED_FINISHED)) {
+                parserState = PARSER_FINISHED;
+            }
+            // 0 SYNTH SHOW or
+            // 0 SYNTH HIDE
+            else if ([currentLine isMatchedByRegex:@"0\\s+SYNTH\\s+(?:SHOW|HIDE)"] &&
+                     parserState == PARSER_PARSING_BEGUN) {
+                parserState = PARSER_PARSING_CONSTRAINTS;
+            }
+            // 0 SYNTH SYNTHESIZED BEGIN - start of synthesized constraints
+            else if ([currentLine isMatchedByRegex:@"0\\s+SYNTH\\s+SYNTHESIZED\\s+BEGIN"] &&
+                     parserState == PARSER_PARSING_CONSTRAINTS) {
+                parserState = PARSER_PARSING_SYNTHESIZED;
+            }
+            // 0 SYNTH SYNTHESIZED BEGIN - end of synthesized constraints
+            else if ([currentLine isMatchedByRegex:@"0\\s+SYNTH\\s+SYNTHESIZED\\s+END"] &&
+                     parserState == PARSER_PARSING_SYNTHESIZED) {
+                parserState = PARSER_SYNTHESIZED_FINISHED;
+            }
+            // 0 SYNTH INSIDE or
+            // 0 SYNTH OUTSIDE or
+            // 0 SYNTH CROSS
+            else if (parserState == PARSER_PARSING_CONSTRAINTS &&
+                     [currentLine isMatchedByRegex:@"0\\s+SYNTH\\s+(INSIDE|OUTSIDE|CROSS)"]) {
+                NSString *direction =
+                    [[[currentLine arrayOfCaptureComponentsMatchedByRegex:@"(INSIDE|OUTSIDE|CROSS)"]
+                      objectAtIndex:0]
+                     objectAtIndex:0];
+                LDrawLSynthDirective *directive = [[LDrawLSynthDirective alloc] init];
+                [directive setStringValue:direction];
+                [[self subdirectives] addObject:directive];
+                [directive setEnclosingDirective:self];
+                [directive addObserver:self];
+                [directive release];
+            }
+            //
+            // '1 XXX' Part directives - constraints or synthesized parts
+            //
 
-      else if ([currentLine isMatchedByRegex:@"^1\\s+"] &&
-               (parserState == PARSER_PARSING_BEGUN ||
-                parserState == PARSER_PARSING_CONSTRAINTS ||
-                parserState == PARSER_PARSING_SYNTHESIZED)) {
-        // Either way, create a part
-        CommandClass = [LDrawUtilities classForDirectiveBeginningWithLine:currentLine];
-        commandRange = [CommandClass rangeOfDirectiveBeginningAtIndex:lineIndex
-                                                              inLines:lines
-                                                             maxIndex:NSMaxRange(range) - 1];
+            else if ([currentLine isMatchedByRegex:@"^1\\s+"] &&
+                     (parserState == PARSER_PARSING_BEGUN ||
+                      parserState == PARSER_PARSING_CONSTRAINTS ||
+                      parserState == PARSER_PARSING_SYNTHESIZED)) {
+                // Either way, create a part
+                CommandClass = [LDrawUtilities classForDirectiveBeginningWithLine:currentLine];
+                commandRange = [CommandClass rangeOfDirectiveBeginningAtIndex:lineIndex
+                                inLines:lines
+                                maxIndex:NSMaxRange(range) - 1];
 
-        LDrawDirective *newDirective =
-          [[CommandClass alloc] initWithLines:lines
-                                      inRange:commandRange
-                                  parentGroup:parentGroup];
-        [newDirective setEnclosingDirective:self];
-        [newDirective addObserver:self];
+                LDrawDirective *newDirective =
+                    [[CommandClass alloc] initWithLines:lines
+                     inRange:commandRange
+                     parentGroup:parentGroup];
+                [newDirective setEnclosingDirective:self];
+                [newDirective addObserver:self];
 
-        // Add our part in the correct place
-        if (parserState == PARSER_PARSING_CONSTRAINTS) {
-          [newDirective setIconName:[self determineIconName:newDirective]];
-          [[self subdirectives] addObject:newDirective];
+                // Add our part in the correct place
+                if (parserState == PARSER_PARSING_CONSTRAINTS) {
+                    [newDirective setIconName:[self determineIconName:newDirective]];
+                    [[self subdirectives] addObject:newDirective];
+                }
+                else if (parserState == PARSER_PARSING_SYNTHESIZED) {
+                    [synthesizedParts addObject:newDirective];
+                }
+
+                [newDirective release];
+            }
+            //
+            // Unrecognized or inappropriate directive at this point
+            //
+
+            else {
+                NSLog(@"Unexpected line in LSynth definition at line %lu: %@ (state: %i)",
+                      (long)(lineIndex + 1),
+                      currentLine,
+                      parserState);
+            }
+
+            lineIndex += 1;
         }
-        else if (parserState == PARSER_PARSING_SYNTHESIZED) {
-          [synthesizedParts addObject:newDirective];
-        }
-
-        [newDirective release];
-      }
-      //
-      // Unrecognized or inappropriate directive at this point
-      //
-
-      else {
-        NSLog(@"Unexpected line in LSynth definition at line %lu: %@ (state: %i)",
-              (long)(lineIndex + 1),
-              currentLine,
-              parserState);
-      }
-
-      lineIndex += 1;
     }
-  }
 
-  // If we've read in synthesized parts or don't have any constraints then don't initially synthesize
-  if ([synthesizedParts count] == 0 && [[self allEnclosedElements] count] > 0) {
-    [self invalCache:ContainerInvalid];
-  }
+    // If we've read in synthesized parts or don't have any constraints then don't initially synthesize
+    if ([synthesizedParts count] == 0 && [[self allEnclosedElements] count] > 0) {
+        [self invalCache:ContainerInvalid];
+    }
 
-  [[NSNotificationCenter defaultCenter]
-   postNotificationName:LDrawDirectiveDidChangeNotification
-                 object:self];
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:LDrawDirectiveDidChangeNotification
+     object:self];
 
 
-  return(self);
+    return(self);
 }// end initWithLines:inRange:
 
 
@@ -231,10 +232,10 @@
 // ==============================================================================
 + (BOOL)lineIsLSynthBeginning:(NSString *)line
 {
-  if ([line isMatchedByRegex:@"0\\s+SYNTH\\s+BEGIN\\s+\\S+?\\s+\\S+"]) {
-    return(YES);
-  }
-  return(NO);
+    if ([line isMatchedByRegex:@"0\\s+SYNTH\\s+BEGIN\\s+\\S+?\\s+\\S+"]) {
+        return(YES);
+    }
+    return(NO);
 } // end lineIsLSynthBeginning:
 
 
@@ -246,10 +247,10 @@
 // ==============================================================================
 + (BOOL)lineIsLSynthTerminator:(NSString *)line
 {
-  if ([line isMatchedByRegex:@"0\\s+SYNTH\\s+END"]) {
-    return(YES);
-  }
-  return(NO);
+    if ([line isMatchedByRegex:@"0\\s+SYNTH\\s+END"]) {
+        return(YES);
+    }
+    return(NO);
 } // end lineIsLSynthTerminator:
 
 
@@ -260,33 +261,33 @@
 //
 // ------------------------------------------------------------------------------
 + (NSRange)rangeOfDirectiveBeginningAtIndex:(NSUInteger)index
-  inLines:(NSArray *)lines
-  maxIndex:(NSUInteger)maxIndex
+    inLines:(NSArray *)lines
+    maxIndex:(NSUInteger)maxIndex
 {
-  NSString   *currentLine;
-  NSUInteger counter     = 0;
-  NSRange    testRange   = NSMakeRange(index, maxIndex - index + 1);
-  NSInteger  synthLength = 0;
-  NSRange    synthRange;
+    NSString   *currentLine;
+    NSUInteger counter     = 0;
+    NSRange    testRange   = NSMakeRange(index, maxIndex - index + 1);
+    NSInteger  synthLength = 0;
+    NSRange    synthRange;
 
-  currentLine = [lines objectAtIndex:index];
-  if ([currentLine isMatchedByRegex:@"0\\s+SYNTH\\s+BEGIN\\s+\\S+?\\s+\\S+"]) {
-    // Find the last line in the synth definition: 0 SYNTH END
-    for (counter = testRange.location + 1; counter < NSMaxRange(testRange); counter++) {
-      currentLine  = [lines objectAtIndex:counter];
-      synthLength += 1;
+    currentLine = [lines objectAtIndex:index];
+    if ([currentLine isMatchedByRegex:@"0\\s+SYNTH\\s+BEGIN\\s+\\S+?\\s+\\S+"]) {
+        // Find the last line in the synth definition: 0 SYNTH END
+        for (counter = testRange.location + 1; counter < NSMaxRange(testRange); counter++) {
+            currentLine  = [lines objectAtIndex:counter];
+            synthLength += 1;
 
-      if ([self lineIsLSynthTerminator:currentLine]) {
-        // Nothing more to parse. Stop.
-        synthLength += 1;
-        break;
-      }
+            if ([self lineIsLSynthTerminator:currentLine]) {
+                // Nothing more to parse. Stop.
+                synthLength += 1;
+                break;
+            }
+        }
     }
-  }
 
-  synthRange = NSMakeRange(index, synthLength);
+    synthRange = NSMakeRange(index, synthLength);
 
-  return(synthRange);
+    return(synthRange);
 }// end rangeOfDirectiveBeginningAtIndex:inLines:maxIndex:
 
 
@@ -299,24 +300,24 @@
 // ==============================================================================
 - (id)initWithCoder:(NSCoder *)decoder
 {
-  // Initialize the object.  We'll have somewhere to synthesize into.
-  [self init];
+    // Initialize the object.  We'll have somewhere to synthesize into.
+    [self init];
 
-  // Container Coder initialization.  This repopulates our contained objects
-  self = [super initWithCoder:decoder];
+    // Container Coder initialization.  This repopulates our contained objects
+    self = [super initWithCoder:decoder];
 
-  // Reinitialize LSynth-specific attributes
-  [self setLsynthClass:[decoder decodeIntForKey:@"lsynthClass"]];
-  [self setLsynthType:[decoder decodeObjectForKey:@"synthType"]];
-  [self setLDrawColor:[decoder decodeObjectForKey:@"color"]];
+    // Reinitialize LSynth-specific attributes
+    [self setLsynthClass:[decoder decodeIntForKey:@"lsynthClass"]];
+    [self setLsynthType:[decoder decodeObjectForKey:@"synthType"]];
+    [self setLDrawColor:[decoder decodeObjectForKey:@"color"]];
 
-  // Constraints' icons should have been encoded/decoded correctly so we do
-  // nothing in that respect.
+    // Constraints' icons should have been encoded/decoded correctly so we do
+    // nothing in that respect.
 
-  // Ask for resynthesis since we don't preserve synthesized parts during a copy/paste
-  [self invalCache:ContainerInvalid];
+    // Ask for resynthesis since we don't preserve synthesized parts during a copy/paste
+    [self invalCache:ContainerInvalid];
 
-  return(self);
+    return(self);
 }// end initWithCoder:
 
 
@@ -332,15 +333,15 @@
 // ==============================================================================
 - (void)encodeWithCoder:(NSCoder *)encoder
 {
-  // Encode container-related stuff: containedObjects etc.
-  [super encodeWithCoder:encoder];
+    // Encode container-related stuff: containedObjects etc.
+    [super encodeWithCoder:encoder];
 
-  [encoder encodeInt:lsynthClass
-              forKey:@"lsynthClass"];
-  [encoder encodeObject:synthType
-                 forKey:@"synthType"];
-  [encoder encodeObject:color
-                 forKey:@"color"];
+    [encoder encodeInt:lsynthClass
+     forKey:@"lsynthClass"];
+    [encoder encodeObject:synthType
+     forKey:@"synthType"];
+    [encoder encodeObject:color
+     forKey:@"color"];
 }// end encodeWithCoder:
 
 
@@ -355,7 +356,7 @@
 // ==============================================================================
 - (NSString *)inspectorClassName
 {
-  return(@"InspectionLSynth");
+    return(@"InspectionLSynth");
 }// end inspectorClassName
 
 
@@ -370,14 +371,14 @@
 // ==============================================================================
 - (void)insertDirective:(LDrawDirective *)directive atIndex:(NSInteger)index
 {
-  [self setSelected:NO];   // Explicitly deselect ourselves.  The newly added constraint gets selected.
+    [self setSelected:NO]; // Explicitly deselect ourselves.  The newly added constraint gets selected.
 
-  // Pick a badge icon depending on the LSynth class (band or hose)
-  [directive setIconName:[self determineIconName:directive]];
+    // Pick a badge icon depending on the LSynth class (band or hose)
+    [directive setIconName:[self determineIconName:directive]];
 
-  [super insertDirective:directive
-                 atIndex:index];
-  [self invalCache:CacheFlagBounds | DisplayList | ContainerInvalid];
+    [super insertDirective:directive
+     atIndex:index];
+    [self invalCache:CacheFlagBounds | DisplayList | ContainerInvalid];
 }// end insertDirective:atIndex:
 
 
@@ -388,17 +389,17 @@
 // ==============================================================================
 - (void)removeDirective:(LDrawDirective *)doomedDirective
 {
-  // We can leave removal to the base class
-  [super removeDirective:doomedDirective];
+    // We can leave removal to the base class
+    [super removeDirective:doomedDirective];
 
-  // TODO: Should we select the constraint at the previous index?
-  [self setSubdirectiveSelected:NO];
-  [self setSelected:NO];   // remove ourselves from the selection so that we can be selected by the user.
-  [self invalCache:ContainerInvalid];
+    // TODO: Should we select the constraint at the previous index?
+    [self setSubdirectiveSelected:NO];
+    [self setSelected:NO]; // remove ourselves from the selection so that we can be selected by the user.
+    [self invalCache:ContainerInvalid];
 
-  [[NSNotificationCenter defaultCenter]
-   postNotificationName:LDrawDirectiveDidChangeNotification
-                 object:self];
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:LDrawDirectiveDidChangeNotification
+     object:self];
 }
 
 
@@ -409,35 +410,35 @@
 // ==============================================================================
 - (void)drawSelf:(id <LDrawRenderer>)renderer
 {
-  NSArray        *constraints      = [self subdirectives];
-  LDrawDirective *currentDirective = nil;
+    NSArray        *constraints      = [self subdirectives];
+    LDrawDirective *currentDirective = nil;
 
-  if (self->hidden == NO) {
-    // Draw each constraint, if:
-    if ([self isSelected] == YES ||                   // We're selected
-        self->subdirectiveSelected != NO ||           // A subdirective (constraint) is selected
-        self->lsynthClass == LSYNTH_BAND ||           // We're a Band, so show constraints regardless
-        (self->lsynthClass == LSYNTH_PART &&          // We're a Band PART
-         [self partClass] == LSYNTH_BAND)
-        ) {
-      for (currentDirective in constraints) {
-        [currentDirective drawSelf:renderer];
-      }
-    }
+    if (self->hidden == NO) {
+        // Draw each constraint, if:
+        if ([self isSelected] == YES ||               // We're selected
+            self->subdirectiveSelected != NO ||       // A subdirective (constraint) is selected
+            self->lsynthClass == LSYNTH_BAND ||       // We're a Band, so show constraints regardless
+            (self->lsynthClass == LSYNTH_PART &&      // We're a Band PART
+             [self partClass] == LSYNTH_BAND)
+            ) {
+            for (currentDirective in constraints) {
+                [currentDirective drawSelf:renderer];
+            }
+        }
 
-    // Resynthesize if we've been invalidated (by e.g. any of our constraints moving)
-    // This is the only place we invoke synthesis.  While it may incur a small delay in drawing
-    // it's lazy (in a good way), and means resynthesis only occurs when we actually need it.
-    if ([self revalCache:ContainerInvalid] == ContainerInvalid) {
-      [self synthesize];
-      [self colorSelectedSynthesizedParts:([self isSelected] || self->subdirectiveSelected == YES)];
-    }
+        // Resynthesize if we've been invalidated (by e.g. any of our constraints moving)
+        // This is the only place we invoke synthesis.  While it may incur a small delay in drawing
+        // it's lazy (in a good way), and means resynthesis only occurs when we actually need it.
+        if ([self revalCache:ContainerInvalid] == ContainerInvalid) {
+            [self synthesize];
+            [self colorSelectedSynthesizedParts:([self isSelected] || self->subdirectiveSelected == YES)];
+        }
 
-    // Draw any synthesized parts as well
-    for (currentDirective in synthesizedParts) {
-      [currentDirective drawSelf:renderer];
+        // Draw any synthesized parts as well
+        for (currentDirective in synthesizedParts) {
+            [currentDirective drawSelf:renderer];
+        }
     }
-  }
 }// end drawSelf:
 
 
@@ -447,39 +448,39 @@
 //
 // ==============================================================================
 - (void)hitTest:(Ray3)pickRay
-  transform:(Matrix4)transform
-  viewScale:(double)scaleFactor
-  boundsOnly:(BOOL)boundsOnly
-  creditObject:(id)creditObject
-  hits:(NSMutableDictionary *)hits
+    transform:(Matrix4)transform
+    viewScale:(double)scaleFactor
+    boundsOnly:(BOOL)boundsOnly
+    creditObject:(id)creditObject
+    hits:(NSMutableDictionary *)hits
 {
-  if (self->hidden == NO) {
-    NSArray    *steps            = [self subdirectives];        // i.e. constraints
-    LDrawPart  *currentDirective = nil;
-    NSUInteger counter           = 0;
+    if (self->hidden == NO) {
+        NSArray    *steps            = [self subdirectives];    // i.e. constraints
+        LDrawPart  *currentDirective = nil;
+        NSUInteger counter           = 0;
 
 
-    // Hit test the constraints first since this will be the quicker test
-    for (counter = 0; counter < [steps count]; counter++) {
-      currentDirective = [steps objectAtIndex:counter];
-      [currentDirective hitTest:pickRay
-                      transform:transform
-                      viewScale:scaleFactor
-                     boundsOnly:boundsOnly
-                   creditObject:currentDirective
-                           hits:hits];
+        // Hit test the constraints first since this will be the quicker test
+        for (counter = 0; counter < [steps count]; counter++) {
+            currentDirective = [steps objectAtIndex:counter];
+            [currentDirective hitTest:pickRay
+             transform:transform
+             viewScale:scaleFactor
+             boundsOnly:boundsOnly
+             creditObject:currentDirective
+             hits:hits];
+        }
+
+        // Now do the synthesized pieces.  We take the credit.  Thangyouverehmuch.
+        for (LDrawPart *part in synthesizedParts) {
+            [part hitTest:pickRay
+             transform:transform
+             viewScale:scaleFactor
+             boundsOnly:boundsOnly
+             creditObject:self
+             hits:hits];
+        }
     }
-
-    // Now do the synthesized pieces.  We take the credit.  Thangyouverehmuch.
-    for (LDrawPart *part in synthesizedParts) {
-      [part hitTest:pickRay
-          transform:transform
-          viewScale:scaleFactor
-         boundsOnly:boundsOnly
-       creditObject:self
-               hits:hits];
-    }
-  }
 }// end hitTest:transform:viewScale:boundsOnly:creditObject:hits:
 
 
@@ -489,44 +490,44 @@
 //
 // ==============================================================================
 - (BOOL)boxTest:(Box2)bounds
-  transform:(Matrix4)transform
-  boundsOnly:(BOOL)boundsOnly
-  creditObject:(id)creditObject
-  hits:(NSMutableSet *)hits
+    transform:(Matrix4)transform
+    boundsOnly:(BOOL)boundsOnly
+    creditObject:(id)creditObject
+    hits:(NSMutableSet *)hits
 {
-  NSArray    *commands         = [self subdirectives];
-  NSUInteger commandCount      = [commands count];
-  LDrawPart  *currentDirective = nil;
-  NSUInteger counter           = 0;
+    NSArray    *commands         = [self subdirectives];
+    NSUInteger commandCount      = [commands count];
+    LDrawPart  *currentDirective = nil;
+    NSUInteger counter           = 0;
 
-  // Do constraints
-  for (counter = 0; counter < commandCount; counter++) {
-    currentDirective = [commands objectAtIndex:counter];
-    if ([currentDirective boxTest:bounds
-                        transform:transform
-                       boundsOnly:boundsOnly
-                     creditObject:self
-                             hits:hits]) {
-      if (creditObject != nil) {
-        return(TRUE);
-      }
+    // Do constraints
+    for (counter = 0; counter < commandCount; counter++) {
+        currentDirective = [commands objectAtIndex:counter];
+        if ([currentDirective boxTest:bounds
+             transform:transform
+             boundsOnly:boundsOnly
+             creditObject:self
+             hits:hits]) {
+            if (creditObject != nil) {
+                return(TRUE);
+            }
+        }
     }
-  }
 
-  // Also check synthesized parts
-  for (LDrawPart *part in synthesizedParts) {
-    if ([part boxTest:bounds
-            transform:transform
-           boundsOnly:boundsOnly
-         creditObject:self
-                 hits:hits]) {
-      if (creditObject != nil) {
-        return(TRUE);
-      }
+    // Also check synthesized parts
+    for (LDrawPart *part in synthesizedParts) {
+        if ([part boxTest:bounds
+             transform:transform
+             boundsOnly:boundsOnly
+             creditObject:self
+             hits:hits]) {
+            if (creditObject != nil) {
+                return(TRUE);
+            }
+        }
     }
-  }
 
-  return(FALSE);
+    return(FALSE);
 }// end boxTest:transform:viewScale:boundsOnly:creditObject:hits:
 
 
@@ -537,36 +538,36 @@
 // depth.
 // ==============================================================================
 - (void)depthTest:(Point2)testPt
-  inBox:(Box2)bounds
-  transform:(Matrix4)transform
-  creditObject:(id)creditObject
-  bestObject:(id *)bestObject
-  bestDepth:(double *)bestDepth
+    inBox:(Box2)bounds
+    transform:(Matrix4)transform
+    creditObject:(id)creditObject
+    bestObject:(id *)bestObject
+    bestDepth:(double *)bestDepth
 {
-  NSArray    *commands         = [self subdirectives];
-  NSUInteger commandCount      = [commands count];
-  LDrawPart  *currentDirective = nil;
-  NSUInteger counter           = 0;
+    NSArray    *commands         = [self subdirectives];
+    NSUInteger commandCount      = [commands count];
+    LDrawPart  *currentDirective = nil;
+    NSUInteger counter           = 0;
 
-  for (counter = 0; counter < commandCount; counter++) {
-    currentDirective = [commands objectAtIndex:counter];
-    [currentDirective depthTest:testPt
-                          inBox:bounds
-                      transform:transform
-                   creditObject:creditObject
-                     bestObject:bestObject
-                      bestDepth:bestDepth];
-  }
-
-  // Now do the synthesized pieces.  We take the credit.
-  for (LDrawPart *part in synthesizedParts) {
-    [part depthTest:testPt
-              inBox:bounds
-          transform:transform
-       creditObject:self
+    for (counter = 0; counter < commandCount; counter++) {
+        currentDirective = [commands objectAtIndex:counter];
+        [currentDirective depthTest:testPt
+         inBox:bounds
+         transform:transform
+         creditObject:creditObject
          bestObject:bestObject
-          bestDepth:bestDepth];
-  }
+         bestDepth:bestDepth];
+    }
+
+    // Now do the synthesized pieces.  We take the credit.
+    for (LDrawPart *part in synthesizedParts) {
+        [part depthTest:testPt
+         inBox:bounds
+         transform:transform
+         creditObject:self
+         bestObject:bestObject
+         bestDepth:bestDepth];
+    }
 }// end depthTest:inBox:transform:creditObject:bestObject:bestDepth:
 
 
@@ -577,50 +578,50 @@
 // ==============================================================================
 - (NSString *)write
 {
-  NSMutableString *written          = [NSMutableString string];
-  NSString        *CRLF             = [NSString CRLF];
-  NSString        *lsynthVisibility = @"SHOW";
-  NSArray         *constraints      = [self subdirectives];
-  LDrawDirective  *currentCommand   = nil;
-  NSString        *commandString    = nil;
-  NSUInteger      numberCommands    = 0;
-  NSUInteger      counter           = 0;
-  NSUserDefaults  *userDefaults     = [NSUserDefaults standardUserDefaults];
+    NSMutableString *written          = [NSMutableString string];
+    NSString        *CRLF             = [NSString CRLF];
+    NSString        *lsynthVisibility = @"SHOW";
+    NSArray         *constraints      = [self subdirectives];
+    LDrawDirective  *currentCommand   = nil;
+    NSString        *commandString    = nil;
+    NSUInteger      numberCommands    = 0;
+    NSUInteger      counter           = 0;
+    NSUserDefaults  *userDefaults     = [NSUserDefaults standardUserDefaults];
 
-  // Start
+    // Start
 
-  [written appendFormat:@"0 SYNTH BEGIN %@ %d%@", [self lsynthType], (int)[self->color colorCode], CRLF];
-  [written appendFormat:@"0 SYNTH %@%@", lsynthVisibility, CRLF];
+    [written appendFormat:@"0 SYNTH BEGIN %@ %d%@", [self lsynthType], (int)[self->color colorCode], CRLF];
+    [written appendFormat:@"0 SYNTH %@%@", lsynthVisibility, CRLF];
 
-  numberCommands = [constraints count];
-  for (counter = 0; counter < numberCommands; counter++) {
-    currentCommand = [constraints objectAtIndex:counter];
-    commandString  = [currentCommand write];
-    [written appendString:commandString];
-    [written appendString:CRLF];
-  }
-
-  // Write out synthesized parts, if there are any to write out
-  if ([self->synthesizedParts count] > 0 &&
-      [userDefaults integerForKey:LSYNTH_SAVE_SYNTHESIZED_PARTS_KEY] == YES) {
-    [written appendString:@"0 SYNTH SYNTHESIZED BEGIN"];
-    [written appendString:CRLF];
-    for (LDrawPart *part in self->synthesizedParts) {
-      // Parts aren't smart enough to know that they're temporarily coloured differently
-      // during Synth part selection, so we force the parent color in.  It's reset when the
-      // part selection changes, anyway.
-      [part setLDrawColor:self->color];
-      [written appendString:[part write]];
-      [written appendString:CRLF];
+    numberCommands = [constraints count];
+    for (counter = 0; counter < numberCommands; counter++) {
+        currentCommand = [constraints objectAtIndex:counter];
+        commandString  = [currentCommand write];
+        [written appendString:commandString];
+        [written appendString:CRLF];
     }
-    [written appendString:@"0 SYNTH SYNTHESIZED END"];
-    [written appendString:CRLF];
-  }
-  // End
-  [written appendString:@"0 SYNTH END"];
-  [written appendString:CRLF];
 
-  return(written);
+    // Write out synthesized parts, if there are any to write out
+    if ([self->synthesizedParts count] > 0 &&
+        [userDefaults integerForKey:LSYNTH_SAVE_SYNTHESIZED_PARTS_KEY] == YES) {
+        [written appendString:@"0 SYNTH SYNTHESIZED BEGIN"];
+        [written appendString:CRLF];
+        for (LDrawPart *part in self->synthesizedParts) {
+            // Parts aren't smart enough to know that they're temporarily coloured differently
+            // during Synth part selection, so we force the parent color in.  It's reset when the
+            // part selection changes, anyway.
+            [part setLDrawColor:self->color];
+            [written appendString:[part write]];
+            [written appendString:CRLF];
+        }
+        [written appendString:@"0 SYNTH SYNTHESIZED END"];
+        [written appendString:CRLF];
+    }
+    // End
+    [written appendString:@"0 SYNTH END"];
+    [written appendString:CRLF];
+
+    return(written);
 }// end write
 
 
@@ -636,23 +637,23 @@
 // ==============================================================================
 - (NSString *)browsingDescription
 {
-  LSynthConfiguration *config      = [LSynthConfiguration sharedInstance];
-  NSDictionary        *entry       = [config typeForTypeName:self->synthType];
-  NSString            *description = nil;
+    LSynthConfiguration *config      = [LSynthConfiguration sharedInstance];
+    NSDictionary        *entry       = [config typeForTypeName:self->synthType];
+    NSString            *description = nil;
 
-  if (entry) {
-    description = [entry objectForKey:@"title"];
-  }
+    if (entry) {
+        description = [entry objectForKey:@"title"];
+    }
 
-  if (description == nil) {
-    description = self->synthType;
-  }
+    if (description == nil) {
+        description = self->synthType;
+    }
 
-  // Show the number of parts
-  // TODO: allow for single-piece objects like tubes/string etc.  Meanwhile just show the part type
-  // The part type's <fill> param (FIXED or STRETCH( should serve in deciding this.
-  // return [NSString stringWithFormat:@"%@ (%i pieces)", self->synthType, [synthesizedParts count]];
-  return(description);
+    // Show the number of parts
+    // TODO: allow for single-piece objects like tubes/string etc.  Meanwhile just show the part type
+    // The part type's <fill> param (FIXED or STRETCH( should serve in deciding this.
+    // return [NSString stringWithFormat:@"%@ (%i pieces)", self->synthType, [synthesizedParts count]];
+    return(description);
 }// end browsingDescription
 
 
@@ -664,7 +665,7 @@
 // ==============================================================================
 - (NSString *)iconName
 {
-  return(@"LSynthPart");
+    return(@"LSynthPart");
 }// end iconName
 
 
@@ -679,10 +680,10 @@
 //
 // ==============================================================================
 - (Box3)boundingBox3 {
-  if ([self revalCache:CacheFlagBounds] == CacheFlagBounds) {
-    cachedBounds = [LDrawUtilities boundingBox3ForDirectives:[self subdirectives]];
-  }
-  return(cachedBounds);
+    if ([self revalCache:CacheFlagBounds] == CacheFlagBounds) {
+        cachedBounds = [LDrawUtilities boundingBox3ForDirectives:[self subdirectives]];
+    }
+    return(cachedBounds);
 }
 
 
@@ -694,7 +695,7 @@
 // ==============================================================================
 - (void)setLsynthClass:(int)class
 {
-  self->lsynthClass = class;
+    self->lsynthClass = class;
 }// end setLsynthClass:
 
 
@@ -706,7 +707,7 @@
 
 - (int)lsynthClass
 {
-  return(self->lsynthClass);
+    return(self->lsynthClass);
 }// end lsynthClass:
 
 
@@ -717,9 +718,9 @@
 // ==============================================================================
 - (void)setLsynthType:(NSString *)type
 {
-  [type retain];
-  [self->synthType release];
-  self->synthType = type;
+    [type retain];
+    [self->synthType release];
+    self->synthType = type;
 }// end setLsynthType:
 
 
@@ -730,7 +731,7 @@
 // ============================================================================
 - (NSString *)lsynthType
 {
-  return(self->synthType);
+    return(self->synthType);
 }// end
 
 
@@ -744,10 +745,10 @@
 // ==============================================================================
 - (void)setHidden:(BOOL)flag
 {
-  if (self->hidden != flag) {
-    self->hidden = flag;
-    [self invalCache:(CacheFlagBounds | DisplayList)];
-  }
+    if (self->hidden != flag) {
+        self->hidden = flag;
+        [self invalCache:(CacheFlagBounds | DisplayList)];
+    }
 }// end setHidden:
 
 
@@ -758,7 +759,7 @@
 // ==============================================================================
 - (BOOL)isHidden
 {
-  return(self->hidden);
+    return(self->hidden);
 }// end isHidden
 
 
@@ -770,14 +771,14 @@
 // ==============================================================================
 - (TransformComponents)transformComponents
 {
-  Matrix4             transformation = [self transformationMatrix];
-  TransformComponents components     = IdentityComponents;
+    Matrix4             transformation = [self transformationMatrix];
+    TransformComponents components     = IdentityComponents;
 
-  // This is a pretty darn neat little function. I wish I could say I wrote it.
-  // It will extract all the user-friendly components out of this nasty matrix.
-  Matrix4DecomposeTransformation(transformation, &components);
+    // This is a pretty darn neat little function. I wish I could say I wrote it.
+    // It will extract all the user-friendly components out of this nasty matrix.
+    Matrix4DecomposeTransformation(transformation, &components);
 
-  return(components);
+    return(components);
 }// end transformComponents
 
 
@@ -789,9 +790,9 @@
 // ==============================================================================
 - (void)setSelected:(BOOL)flag
 {
-  [super setSelected:flag];
-  // We don't need to resynthesize just to change the colours
-  [self colorSelectedSynthesizedParts:flag];
+    [super setSelected:flag];
+    // We don't need to resynthesize just to change the colours
+    [self colorSelectedSynthesizedParts:flag];
 }// end setSelected:
 
 
@@ -803,8 +804,8 @@
 // ==============================================================================
 - (void)setSubdirectiveSelected:(BOOL)flag
 {
-  self->subdirectiveSelected = flag;
-  [self colorSelectedSynthesizedParts:flag];
+    self->subdirectiveSelected = flag;
+    [self colorSelectedSynthesizedParts:flag];
 }
 
 
@@ -818,12 +819,12 @@
 // ==============================================================================
 - (void)setLDrawColor:(LDrawColor *)newColor
 {
-  // Store the color
-  [newColor retain];
-  [self->color release];
-  self->color = newColor;
+    // Store the color
+    [newColor retain];
+    [self->color release];
+    self->color = newColor;
 
-  [self colorSelectedSynthesizedParts:[self isSelected]];
+    [self colorSelectedSynthesizedParts:[self isSelected]];
 }// end setLDrawColor:
 
 
@@ -834,7 +835,7 @@
 // ==============================================================================
 - (LDrawColor *)LDrawColor
 {
-  return(color);
+    return(color);
 }// end LDrawColor
 
 
@@ -851,14 +852,14 @@
 // ==============================================================================
 - (Vector3)displacementForNudge:(Vector3)nudgeVector
 {
-  for (id directive in [self subdirectives]) {
-    if ([directive isKindOfClass:[LDrawDrawableElement class]] &&
-        [directive conformsToProtocol:@protocol(LDrawMovableDirective)]) {
-      return([directive displacementForNudge:nudgeVector]);
+    for (id directive in [self subdirectives]) {
+        if ([directive isKindOfClass:[LDrawDrawableElement class]] &&
+            [directive conformsToProtocol:@protocol(LDrawMovableDirective)]) {
+            return([directive displacementForNudge:nudgeVector]);
+        }
     }
-  }
-  Vector3 v = { 0, 0, 0 };
-  return(v);
+    Vector3 v = { 0, 0, 0 };
+    return(v);
 }
 
 
@@ -871,13 +872,13 @@
 // ==============================================================================
 - (void)moveBy:(Vector3)moveVector
 {
-  // pass on the nudge to drawable subdirectives
-  for (LDrawDirective *constraint in [self subdirectives]) {
-    if ([constraint conformsToProtocol:@protocol(LDrawMovableDirective)]) {
-      [(LDrawPart *) constraint
-       moveBy:moveVector];
+    // pass on the nudge to drawable subdirectives
+    for (LDrawDirective *constraint in [self subdirectives]) {
+        if ([constraint conformsToProtocol:@protocol(LDrawMovableDirective)]) {
+            [(LDrawPart *) constraint
+             moveBy:moveVector];
+        }
     }
-  }
 }// end moveBy:
 
 
@@ -894,98 +895,98 @@
 // ==============================================================================
 - (void)synthesize
 {
-  // NSLog(@"SYNTHESIZE");
+    // NSLog(@"SYNTHESIZE");
 
-  // Modifies the constraints to provide automatic OUTSIDE/INSIDE determination for
-  // constraints inside the convex hull.  Dig down for more details.
-  BOOL doAutoHull = YES;   // Placeholder until we make it a configurable setting
+    // Modifies the constraints to provide automatic OUTSIDE/INSIDE determination for
+    // constraints inside the convex hull.  Dig down for more details.
+    BOOL doAutoHull = YES; // Placeholder until we make it a configurable setting
 
-  if (doAutoHull == YES && self->lsynthClass == LSYNTH_BAND) {
-    // TODO: Turned off while the Inspector code is fleshed out
-    // [self doAutoHullOnBand];
-  }
+    if (doAutoHull == YES && self->lsynthClass == LSYNTH_BAND) {
+        // TODO: Turned off while the Inspector code is fleshed out
+        // [self doAutoHullOnBand];
+    }
 
-  // Clean up first
-  [synthesizedParts removeAllObjects];
+    // Clean up first
+    [synthesizedParts removeAllObjects];
 
-  NSString *input       = @"";
-  Class    CommandClass = Nil;
+    NSString *input       = @"";
+    Class    CommandClass = Nil;
 
-  // Path to lsynth.  If it's unset or whitespace use the built-in default
-  NSUserDefaults *userDefaults   = [NSUserDefaults standardUserDefaults];
-  NSString       *executablePath = [userDefaults stringForKey:LSYNTH_EXECUTABLE_PATH_KEY];
-  NSString       *configPath     = [userDefaults stringForKey:LSYNTH_CONFIGURATION_PATH_KEY];
-  NSString       *lsynthPath;
+    // Path to lsynth.  If it's unset or whitespace use the built-in default
+    NSUserDefaults *userDefaults   = [NSUserDefaults standardUserDefaults];
+    NSString       *executablePath = [userDefaults stringForKey:LSYNTH_EXECUTABLE_PATH_KEY];
+    NSString       *configPath     = [userDefaults stringForKey:LSYNTH_CONFIGURATION_PATH_KEY];
+    NSString       *lsynthPath;
 
-  if ([executablePath length] == 0 || [executablePath isMatchedByRegex:@"^\\s+$"]) {
-    lsynthPath = [[NSBundle mainBundle] pathForAuxiliaryExecutable:@"lsynthcp"];
-  }
-  else {
-    lsynthPath = executablePath;
-  }
+    if ([executablePath length] == 0 || [executablePath isMatchedByRegex:@"^\\s+$"]) {
+        lsynthPath = [[NSBundle mainBundle] pathForAuxiliaryExecutable:@"lsynthcp"];
+    }
+    else {
+        lsynthPath = executablePath;
+    }
 
-  // We run LSynth as follows:
-  // - Create an LDraw file in memory
-  // - Setup the STDIN/OUT pipes and NSTask
-  // - Launch task
-  // - Write to LSynth's STDIN, read from its STDOUT
-  // - Process the output (using LDrawDirective's parser) into synthesized parts
+    // We run LSynth as follows:
+    // - Create an LDraw file in memory
+    // - Setup the STDIN/OUT pipes and NSTask
+    // - Launch task
+    // - Write to LSynth's STDIN, read from its STDOUT
+    // - Process the output (using LDrawDirective's parser) into synthesized parts
 
-  // Create an LDraw file in memory
-  LDrawColorT code = self->subdirectiveSelected ? LDrawClear : [[self LDrawColor] colorCode];
+    // Create an LDraw file in memory
+    LDrawColorT code = self->subdirectiveSelected ? LDrawClear : [[self LDrawColor] colorCode];
 
-  input = [input stringByAppendingFormat:@"0 SYNTH BEGIN %@ %d\n", self->synthType, code];
-  input = [input stringByAppendingFormat:@"0 SYNTH %@\n", @"SHOW"];   // TODO: honour visibility?
-  for (LDrawPart *part in [self subdirectives]) {
-    input = [input stringByAppendingFormat:@"%@\n", [part write]];
-  }
-  input = [input stringByAppendingString:@"0 SYNTH END\n"];
-  input = [input stringByAppendingString:@"0 STEP\n"];
+    input = [input stringByAppendingFormat:@"0 SYNTH BEGIN %@ %d\n", self->synthType, code];
+    input = [input stringByAppendingFormat:@"0 SYNTH %@\n", @"SHOW"]; // TODO: honour visibility?
+    for (LDrawPart *part in [self subdirectives]) {
+        input = [input stringByAppendingFormat:@"%@\n", [part write]];
+    }
+    input = [input stringByAppendingString:@"0 SYNTH END\n"];
+    input = [input stringByAppendingString:@"0 STEP\n"];
 
-  // Setup the STDIN/OUT pipes and NSTask
-  NSTask       *task      = [[NSTask alloc] init];
-  NSPipe       *inPipe    = nil;
-  NSPipe       *outPipe   = nil;
-  NSPipe       *errorPipe = nil;
-  NSFileHandle *inFile;
-  NSFileHandle *outFile;
+    // Setup the STDIN/OUT pipes and NSTask
+    NSTask       *task      = [[NSTask alloc] init];
+    NSPipe       *inPipe    = nil;
+    NSPipe       *outPipe   = nil;
+    NSPipe       *errorPipe = nil;
+    NSFileHandle *inFile;
+    NSFileHandle *outFile;
 // NSFileHandle *errorFile;
 
-  inPipe    = [NSPipe new];
-  outPipe   = [NSPipe new];
-  errorPipe = [NSPipe new];
+    inPipe    = [NSPipe new];
+    outPipe   = [NSPipe new];
+    errorPipe = [NSPipe new];
 
-  // Add custom configuration arguments if required
-  NSMutableArray *arguments = [[NSMutableArray alloc] init];
+    // Add custom configuration arguments if required
+    NSMutableArray *arguments = [[NSMutableArray alloc] init];
 
-  if ([configPath length]) {
-    [arguments addObjectsFromArray:[NSArray arrayWithObjects:@"-c", configPath, nil]];
-  }
-  [arguments addObject:@"-"];   // Our built-in LSynth accepts STDIN/STDOUT with this argument
+    if ([configPath length]) {
+        [arguments addObjectsFromArray:[NSArray arrayWithObjects:@"-c", configPath, nil]];
+    }
+    [arguments addObject:@"-"]; // Our built-in LSynth accepts STDIN/STDOUT with this argument
 
-  [task setStandardInput:inPipe];
-  [task setStandardOutput:outPipe];
-  [task setStandardError:errorPipe];
-  [task setLaunchPath:lsynthPath];
-  [task setArguments:arguments];
-  // [task setArguments:[NSArray arrayWithObject:@"-"]]; // Our built-in LSynth accepts STDIN/STDOUT with this argument
+    [task setStandardInput:inPipe];
+    [task setStandardOutput:outPipe];
+    [task setStandardError:errorPipe];
+    [task setLaunchPath:lsynthPath];
+    [task setArguments:arguments];
+    // [task setArguments:[NSArray arrayWithObject:@"-"]]; // Our built-in LSynth accepts STDIN/STDOUT with this argument
 
-  inFile  = [inPipe fileHandleForWriting];
-  outFile = [outPipe fileHandleForReading];
+    inFile  = [inPipe fileHandleForWriting];
+    outFile = [outPipe fileHandleForReading];
 // errorFile = [errorPipe fileHandleForReading];
 
-  [inPipe release];
-  [outPipe release];
-  [errorPipe release];
+    [inPipe release];
+    [outPipe release];
+    [errorPipe release];
 
-  // Launch the task
-  [task launch];
+    // Launch the task
+    [task launch];
 
-  // Write the LSynth part to LSynth's STDIN
-  [inFile writeData:[input dataUsingEncoding:NSASCIIStringEncoding]];
-  [inFile closeFile];
+    // Write the LSynth part to LSynth's STDIN
+    [inFile writeData:[input dataUsingEncoding:NSASCIIStringEncoding]];
+    [inFile closeFile];
 
-  // Read standard error - causing a race condition?
+    // Read standard error - causing a race condition?
 // NSMutableData *errorData = [[NSMutableData alloc] init];
 // NSData *readErrorData;
 //
@@ -1003,52 +1004,52 @@
 // NSLog(@"LSynth generated standard error output:\n%@", lsynthErrorOutput);
 // }
 
-  // Read the synthesized file back in from LSynth's STDOUT
-  NSMutableData *data = [[NSMutableData alloc] init];
-  NSData        *readData;
+    // Read the synthesized file back in from LSynth's STDOUT
+    NSMutableData *data = [[NSMutableData alloc] init];
+    NSData        *readData;
 
-  while ((readData = [outFile availableData]) &&
-         [readData length])
-  {
-    [data appendData:readData];
-  }
-
-  NSString *lsynthOutput;
-
-  lsynthOutput = [[NSString alloc]
-                  initWithData:data
-                      encoding:NSASCIIStringEncoding];
-
-  [task release];
-  [data release];
-  [lsynthOutput autorelease];
-
-  // Split the output into lines
-  NSMutableArray *stringsArray =
-    [NSMutableArray arrayWithArray:[lsynthOutput componentsSeparatedByCharactersInSet:[NSCharacterSet
-                                                                                       newlineCharacterSet]
-     ]];
-
-  // Process the synthesized parts
-  BOOL extract = NO;
-
-  for (NSString *line in stringsArray) {
-    NSRange startRange = [line rangeOfString:@"0 SYNTH SYNTHESIZED BEGIN"];
-    NSRange partRange  = [line rangeOfString:@"1"];
-
-    if (extract == YES && partRange.length > 0 && partRange.location == 0) {
-      CommandClass = [LDrawUtilities classForDirectiveBeginningWithLine:line];
-      LDrawDirective *newDirective =
-        [[CommandClass alloc] initWithLines:[NSArray arrayWithObject:line]
-                                    inRange:NSMakeRange(0, 1)
-                                parentGroup:nil];
-      [synthesizedParts addObject:newDirective];
-      [newDirective release];
+    while ((readData = [outFile availableData]) &&
+           [readData length])
+    {
+        [data appendData:readData];
     }
-    else if (extract == NO && startRange.length > 0) {
-      extract = YES;
+
+    NSString *lsynthOutput;
+
+    lsynthOutput = [[NSString alloc]
+                    initWithData:data
+                    encoding:NSASCIIStringEncoding];
+
+    [task release];
+    [data release];
+    [lsynthOutput autorelease];
+
+    // Split the output into lines
+    NSMutableArray *stringsArray =
+        [NSMutableArray arrayWithArray:[lsynthOutput componentsSeparatedByCharactersInSet:[NSCharacterSet
+                                                                                           newlineCharacterSet]
+         ]];
+
+    // Process the synthesized parts
+    BOOL extract = NO;
+
+    for (NSString *line in stringsArray) {
+        NSRange startRange = [line rangeOfString:@"0 SYNTH SYNTHESIZED BEGIN"];
+        NSRange partRange  = [line rangeOfString:@"1"];
+
+        if (extract == YES && partRange.length > 0 && partRange.location == 0) {
+            CommandClass = [LDrawUtilities classForDirectiveBeginningWithLine:line];
+            LDrawDirective *newDirective =
+                [[CommandClass alloc] initWithLines:[NSArray arrayWithObject:line]
+                 inRange:NSMakeRange(0, 1)
+                 parentGroup:nil];
+            [synthesizedParts addObject:newDirective];
+            [newDirective release];
+        }
+        else if (extract == NO && startRange.length > 0) {
+            extract = YES;
+        }
     }
-  }
 }
 
 
@@ -1062,91 +1063,91 @@
 // ==============================================================================
 - (void)doAutoHullOnBand
 {
-  // clean out INSIDE/OUTSIDE directives
-  int i;
+    // clean out INSIDE/OUTSIDE directives
+    int i;
 
-  for (i = (int)[[self subdirectives] count] - 1; i >= 0; i--) {
-    if ([[[self subdirectives] objectAtIndex:i] isKindOfClass:[LDrawLSynthDirective class]]) {
-      [[self subdirectives] removeObjectAtIndex:i];
+    for (i = (int)[[self subdirectives] count] - 1; i >= 0; i--) {
+        if ([[[self subdirectives] objectAtIndex:i] isKindOfClass:[LDrawLSynthDirective class]]) {
+            [[self subdirectives] removeObjectAtIndex:i];
+        }
     }
-  }
-  // NSLog(@"Cleaned subdirs: %@", [self subdirectives]);
+    // NSLog(@"Cleaned subdirs: %@", [self subdirectives]);
 
-  // Prepare the constraints for calculating the convex hull.
-  NSMutableArray *preparedData = [self prepareAutoHullData];
+    // Prepare the constraints for calculating the convex hull.
+    NSMutableArray *preparedData = [self prepareAutoHullData];
 
-  // Determine the Convex Hull.  This is the meat.  After this we know
-  // which constraints are really on the hull.  We respect their radii..
-  [ComputationalGeometry doJarvisMarch:preparedData];
+    // Determine the Convex Hull.  This is the meat.  After this we know
+    // which constraints are really on the hull.  We respect their radii..
+    [ComputationalGeometry doJarvisMarch:preparedData];
 
-  // NSLog(@"Prepared Data After: %@", preparedData);
+    // NSLog(@"Prepared Data After: %@", preparedData);
 
-  // Reintegrate our hull-determined data.  We'll likely have multiple
-  // points all on the hull, each associated with a single constraint.
-  // This boils them down to a set of constraints on the hull.
-  NSMutableSet *hullConstraints = [[[NSMutableSet alloc] init] autorelease];
+    // Reintegrate our hull-determined data.  We'll likely have multiple
+    // points all on the hull, each associated with a single constraint.
+    // This boils them down to a set of constraints on the hull.
+    NSMutableSet *hullConstraints = [[[NSMutableSet alloc] init] autorelease];
 
-  for (NSMutableDictionary *point in preparedData) {
-    if ([[point objectForKey:@"inHull"] integerValue] == YES) {
-      [hullConstraints addObject:[point objectForKey:@"directive"]];
+    for (NSMutableDictionary *point in preparedData) {
+        if ([[point objectForKey:@"inHull"] integerValue] == YES) {
+            [hullConstraints addObject:[point objectForKey:@"directive"]];
+        }
     }
-  }
-  // NSLog(@"hullConstraints: %@", hullConstraints);
+    // NSLog(@"hullConstraints: %@", hullConstraints);
 
-  // Knowing which constraints are on the hull allows us to add
-  // INSIDE/OUTSIDE constraints as we iterate over them.
-  // We could modify the constraints in-place but recreating the
-  // subdirectives array is simpler.
-  NSMutableArray *newConstraints = [[[NSMutableArray alloc] init] autorelease];
+    // Knowing which constraints are on the hull allows us to add
+    // INSIDE/OUTSIDE constraints as we iterate over them.
+    // We could modify the constraints in-place but recreating the
+    // subdirectives array is simpler.
+    NSMutableArray *newConstraints = [[[NSMutableArray alloc] init] autorelease];
 
-  for (i = 0; i < [[self subdirectives] count]; i++) {
-    LDrawPart *part     = [[self subdirectives] objectAtIndex:i];
-    LDrawPart *nextPart =
-      [[self subdirectives] objectAtIndex:((i + 1) % [[self subdirectives] count])];
+    for (i = 0; i < [[self subdirectives] count]; i++) {
+        LDrawPart *part     = [[self subdirectives] objectAtIndex:i];
+        LDrawPart *nextPart =
+            [[self subdirectives] objectAtIndex:((i + 1) % [[self subdirectives] count])];
 
-    // The first point is potentially a special case.  Handle it.
-    // Not on the hull? Then prepend an OUTSIDE
-    if (i == 0 && ![hullConstraints containsObject:part]) {
-      LDrawLSynthDirective *OUTSIDE = [[LDrawLSynthDirective alloc] init];
-      [OUTSIDE setStringValue:@"OUTSIDE"];
-      [newConstraints addObject:OUTSIDE];
-      [OUTSIDE release];
+        // The first point is potentially a special case.  Handle it.
+        // Not on the hull? Then prepend an OUTSIDE
+        if (i == 0 && ![hullConstraints containsObject:part]) {
+            LDrawLSynthDirective *OUTSIDE = [[LDrawLSynthDirective alloc] init];
+            [OUTSIDE setStringValue:@"OUTSIDE"];
+            [newConstraints addObject:OUTSIDE];
+            [OUTSIDE release];
+        }
+
+        // This part is on the hull (i.e. INSIDE the band) and the next part is
+        // NOT on hull (i.e. OUTSIDE)
+        if ([hullConstraints containsObject:part] &&
+            ![hullConstraints containsObject:nextPart]) {
+            // generate OUTSIDE
+            LDrawLSynthDirective *OUTSIDE = [[LDrawLSynthDirective alloc] init];
+            [OUTSIDE setStringValue:@"OUTSIDE"];
+            [newConstraints addObject:part];
+            [newConstraints addObject:OUTSIDE];
+            [OUTSIDE release];
+        }
+        // This part is not on the hull (i.e. OUTSIDE the band) and the next part IS
+        // on hull (i.e. INSIDE)
+        else if (![hullConstraints containsObject:part] &&
+                 [hullConstraints containsObject:nextPart]) {
+            // generate INSIDE
+            LDrawLSynthDirective *INSIDE = [[LDrawLSynthDirective alloc] init];
+            [INSIDE setStringValue:@"INSIDE"];
+            [newConstraints addObject:part];
+            [newConstraints addObject:INSIDE];
+            [INSIDE release];
+        }
+        // The constraint has the same hull membership as the next one so
+        // no change of direction.  Just add it.
+        else {
+            [newConstraints addObject:part];
+        }
+
+        // NSLog(@"New Constraints: %@", newConstraints);
     }
 
-    // This part is on the hull (i.e. INSIDE the band) and the next part is
-    // NOT on hull (i.e. OUTSIDE)
-    if ([hullConstraints containsObject:part] &&
-        ![hullConstraints containsObject:nextPart]) {
-      // generate OUTSIDE
-      LDrawLSynthDirective *OUTSIDE = [[LDrawLSynthDirective alloc] init];
-      [OUTSIDE setStringValue:@"OUTSIDE"];
-      [newConstraints addObject:part];
-      [newConstraints addObject:OUTSIDE];
-      [OUTSIDE release];
-    }
-    // This part is not on the hull (i.e. OUTSIDE the band) and the next part IS
-    // on hull (i.e. INSIDE)
-    else if (![hullConstraints containsObject:part] &&
-             [hullConstraints containsObject:nextPart]) {
-      // generate INSIDE
-      LDrawLSynthDirective *INSIDE = [[LDrawLSynthDirective alloc] init];
-      [INSIDE setStringValue:@"INSIDE"];
-      [newConstraints addObject:part];
-      [newConstraints addObject:INSIDE];
-      [INSIDE release];
-    }
-    // The constraint has the same hull membership as the next one so
-    // no change of direction.  Just add it.
-    else {
-      [newConstraints addObject:part];
-    }
-
-    // NSLog(@"New Constraints: %@", newConstraints);
-  }
-
-  // Finally, update the constraints
-  [[self subdirectives] removeAllObjects];
-  [[self subdirectives] addObjectsFromArray:newConstraints];
+    // Finally, update the constraints
+    [[self subdirectives] removeAllObjects];
+    [[self subdirectives] addObjectsFromArray:newConstraints];
 }
 
 
@@ -1157,120 +1158,120 @@
 //
 // ==============================================================================
 - (NSMutableArray *)prepareAutoHullData {
-  // Used for looking up constraint radii
-  LSynthConfiguration *config = [LSynthConfiguration sharedInstance];
+    // Used for looking up constraint radii
+    LSynthConfiguration *config = [LSynthConfiguration sharedInstance];
 
-  // Map each constraint to XY plane, based on the orientation of the first constraint
-  // We build up details for each constraint in mappedPoints as we progress.
-  // The inverse of the first constraint's transformation moves it back to (0,0,0).
-  // The same inverse transform will do similar for the other constraints
-  NSMutableArray *mappedPoints    = [[[NSMutableArray alloc] init] autorelease];
-  Matrix4        transform        = [[[self subdirectives] objectAtIndex:0] transformationMatrix];
-  Matrix4        inverseTransform = Matrix4Invert(transform);
+    // Map each constraint to XY plane, based on the orientation of the first constraint
+    // We build up details for each constraint in mappedPoints as we progress.
+    // The inverse of the first constraint's transformation moves it back to (0,0,0).
+    // The same inverse transform will do similar for the other constraints
+    NSMutableArray *mappedPoints    = [[[NSMutableArray alloc] init] autorelease];
+    Matrix4        transform        = [[[self subdirectives] objectAtIndex:0] transformationMatrix];
+    Matrix4        inverseTransform = Matrix4Invert(transform);
 
-  for (LDrawPart *part in [self subdirectives]) {
-    Matrix4 transformed;
-    transformed = Matrix4Multiply([part transformationMatrix], inverseTransform);
-    TransformComponents t;
-    Matrix4DecomposeTransformation(transformed, &t);
-    NSMutableDictionary *point = [NSMutableDictionary
-                                  dictionaryWithObjects:[NSArray
-                                                         arrayWithObjects:part,
-                                                         [NSNumber numberWithFloat:t.translate.x],
-                                                         [NSNumber numberWithFloat:t.translate.y],
-                                                         [NSNumber numberWithInt:(int)[[[config
-                                                                                         constraintDefinitionForPart
-                                                                                         :part]
-                                                                                        valueForKey:
-                                                                                        @"radius"]
-                                                                                       integerValue]],
-                                                         [NSMutableArray array],
-                                                         nil]
-                                                forKeys:[NSArray arrayWithObjects:@"directive",
-                                                         @"x", @"y",
-                                                         @"r", @"hullPoints", nil]];
-    [mappedPoints addObject:point];
-  }
-  // NSLog(@"Mapped Points: %@", mappedPoints);
-
-  // Generate hull points by calculating "outside" tangents for each pair of
-  // constraint-derived circles, e.g. ((0,1), (1,2), ..., (N,0)
-  // Some of these will be on the inside of the convex hull but that's OK since the
-  // convex hull calculation will discard them.
-  // TODO: can we  take advantage of CCW ordering of constraints?
-  int i;
-
-  for (i = 0; i < [mappedPoints count]; i++) {
-    int j = (i + 1) % [mappedPoints count];   // next constraint, cyclical (N+1 -> 0)
-
-    NSArray *tangents = [ComputationalGeometry tangentBetweenCircle:[mappedPoints objectAtIndex:i]
-                                                          andCircle:[mappedPoints objectAtIndex:j]];
-    if (tangents != nil) {
-      // Tangents are between two circles (i.e. constraints)
-      // add both outside tangent points for the current constraint
-      [[[mappedPoints objectAtIndex:i] objectForKey:@"hullPoints"] addObject:
-       [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[[tangents objectAtIndex:0]
-                                                                      objectAtIndex
-                                                                      :0],
-                                            [[tangents objectAtIndex:0] objectAtIndex:1], nil]
-                                   forKeys:[NSArray arrayWithObjects:@"x", @"y", nil]]];
-
-      [[[mappedPoints objectAtIndex:i] objectForKey:@"hullPoints"] addObject:
-       [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[[tangents objectAtIndex:1]
-                                                                      objectAtIndex
-                                                                      :0],
-                                            [[tangents objectAtIndex:1] objectAtIndex:1], nil]
-                                   forKeys:[NSArray arrayWithObjects:@"x", @"y", nil]]];
-
-      // add both outside tangent points for the next constraint
-      [[[mappedPoints objectAtIndex:j] objectForKey:@"hullPoints"] addObject:
-       [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[[tangents objectAtIndex:0]
-                                                                      objectAtIndex
-                                                                      :2],
-                                            [[tangents objectAtIndex:0] objectAtIndex:3], nil]
-                                   forKeys:[NSArray arrayWithObjects:@"x", @"y", nil]]];
-
-      [[[mappedPoints objectAtIndex:j] objectForKey:@"hullPoints"] addObject:
-       [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[[tangents objectAtIndex:1]
-                                                                      objectAtIndex
-                                                                      :2],
-                                            [[tangents objectAtIndex:1] objectAtIndex:3], nil]
-                                   forKeys:[NSArray arrayWithObjects:@"x", @"y", nil]]];
+    for (LDrawPart *part in [self subdirectives]) {
+        Matrix4 transformed;
+        transformed = Matrix4Multiply([part transformationMatrix], inverseTransform);
+        TransformComponents t;
+        Matrix4DecomposeTransformation(transformed, &t);
+        NSMutableDictionary *point = [NSMutableDictionary
+                                      dictionaryWithObjects:[NSArray
+                                                             arrayWithObjects:part,
+                                                             [NSNumber numberWithFloat:t.translate.x],
+                                                             [NSNumber numberWithFloat:t.translate.y],
+                                                             [NSNumber numberWithInt:(int)[[[config
+                                                                                             constraintDefinitionForPart
+                                                                                             :part]
+                                                                                            valueForKey:
+                                                                                            @"radius"]
+                                                                                           integerValue]],
+                                                             [NSMutableArray array],
+                                                             nil]
+                                      forKeys:[NSArray arrayWithObjects:@"directive",
+                                               @"x", @"y",
+                                               @"r", @"hullPoints", nil]];
+        [mappedPoints addObject:point];
     }
+    // NSLog(@"Mapped Points: %@", mappedPoints);
 
-    // NSLog(@"Tangents: %@", tangents);
-  }
-  // NSLog(@"Mapped Points after tangent calc: %@", mappedPoints);
+    // Generate hull points by calculating "outside" tangents for each pair of
+    // constraint-derived circles, e.g. ((0,1), (1,2), ..., (N,0)
+    // Some of these will be on the inside of the convex hull but that's OK since the
+    // convex hull calculation will discard them.
+    // TODO: can we  take advantage of CCW ordering of constraints?
+    int i;
 
-  // Prepare the mappedPoints for the Convex Hull algorithm
-  // We create a dictionary for each hull point for each mappedPoint
-  // We'll reintegrate later to decide which constraints are in or out
-  // (in doAutoHullOnBand)
-  NSMutableArray *preparedData = [[[NSMutableArray alloc] init] autorelease];
+    for (i = 0; i < [mappedPoints count]; i++) {
+        int j = (i + 1) % [mappedPoints count]; // next constraint, cyclical (N+1 -> 0)
 
-  for (NSMutableDictionary *point in mappedPoints) {
-    for (NSMutableDictionary *coords in [point objectForKey:@"hullPoints"]) {
-      // NSLog(@"Point: %@", coords);
-      // TODO: check that int values are OK.  Prob. should use float?
+        NSArray *tangents = [ComputationalGeometry tangentBetweenCircle:[mappedPoints objectAtIndex:i]
+                             andCircle:[mappedPoints objectAtIndex:j]];
+        if (tangents != nil) {
+            // Tangents are between two circles (i.e. constraints)
+            // add both outside tangent points for the current constraint
+            [[[mappedPoints objectAtIndex:i] objectForKey:@"hullPoints"] addObject:
+             [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[[tangents objectAtIndex:0]
+                                                                            objectAtIndex
+                                                                            :0],
+                                                  [[tangents objectAtIndex:0] objectAtIndex:1], nil]
+              forKeys:[NSArray arrayWithObjects:@"x", @"y", nil]]];
 
-      [preparedData addObject:[NSMutableDictionary
-                               dictionaryWithObjects:[NSArray arrayWithObjects:[point objectForKey:
-                                                                                @"directive"],
-                                                      [NSNumber numberWithInt:(int)[[coords objectForKey:
-                                                                                     @"x"]
-                                                                                    integerValue]],
-                                                      [NSNumber numberWithInt:(int)[[coords objectForKey:
-                                                                                     @"y"]
-                                                                                    integerValue]],
-                                                      [NSNumber numberWithBool:false],
-                                                      nil]
-                                             forKeys:[NSArray arrayWithObjects:@"directive", @"x",
-                                                      @"y",
-                                                      @"inHull", nil]]];
+            [[[mappedPoints objectAtIndex:i] objectForKey:@"hullPoints"] addObject:
+             [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[[tangents objectAtIndex:1]
+                                                                            objectAtIndex
+                                                                            :0],
+                                                  [[tangents objectAtIndex:1] objectAtIndex:1], nil]
+              forKeys:[NSArray arrayWithObjects:@"x", @"y", nil]]];
+
+            // add both outside tangent points for the next constraint
+            [[[mappedPoints objectAtIndex:j] objectForKey:@"hullPoints"] addObject:
+             [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[[tangents objectAtIndex:0]
+                                                                            objectAtIndex
+                                                                            :2],
+                                                  [[tangents objectAtIndex:0] objectAtIndex:3], nil]
+              forKeys:[NSArray arrayWithObjects:@"x", @"y", nil]]];
+
+            [[[mappedPoints objectAtIndex:j] objectForKey:@"hullPoints"] addObject:
+             [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[[tangents objectAtIndex:1]
+                                                                            objectAtIndex
+                                                                            :2],
+                                                  [[tangents objectAtIndex:1] objectAtIndex:3], nil]
+              forKeys:[NSArray arrayWithObjects:@"x", @"y", nil]]];
+        }
+
+        // NSLog(@"Tangents: %@", tangents);
     }
-  }
-  // NSLog(@"Prepared Data: %@", preparedData);
-  return(preparedData);
+    // NSLog(@"Mapped Points after tangent calc: %@", mappedPoints);
+
+    // Prepare the mappedPoints for the Convex Hull algorithm
+    // We create a dictionary for each hull point for each mappedPoint
+    // We'll reintegrate later to decide which constraints are in or out
+    // (in doAutoHullOnBand)
+    NSMutableArray *preparedData = [[[NSMutableArray alloc] init] autorelease];
+
+    for (NSMutableDictionary *point in mappedPoints) {
+        for (NSMutableDictionary *coords in [point objectForKey:@"hullPoints"]) {
+            // NSLog(@"Point: %@", coords);
+            // TODO: check that int values are OK.  Prob. should use float?
+
+            [preparedData addObject:[NSMutableDictionary
+                                     dictionaryWithObjects:[NSArray arrayWithObjects:[point objectForKey:
+                                                                                      @"directive"],
+                                                            [NSNumber numberWithInt:(int)[[coords objectForKey:
+                                                                                           @"x"]
+                                                                                          integerValue]],
+                                                            [NSNumber numberWithInt:(int)[[coords objectForKey:
+                                                                                           @"y"]
+                                                                                          integerValue]],
+                                                            [NSNumber numberWithBool:false],
+                                                            nil]
+                                     forKeys:[NSArray arrayWithObjects:@"directive", @"x",
+                                              @"y",
+                                              @"inHull", nil]]];
+        }
+    }
+    // NSLog(@"Prepared Data: %@", preparedData);
+    return(preparedData);
 }// end prepareAutoHullData
 
 
@@ -1283,26 +1284,26 @@
 
 - (NSString *)determineIconName:(LDrawDirective *)directive
 {
-  // Hose
-  if (self->lsynthClass == LSYNTH_HOSE) {
-    return(@"LSynthHoseConstraint");
-  }
-  // Band
-  else if (self->lsynthClass == LSYNTH_BAND) {
-    return(@"LSynthBandConstraint");
-  }
-  // Part
-  else if (self->lsynthClass == LSYNTH_PART) {
-    if ([self partClass] == LSYNTH_HOSE) {
-      return(@"LSynthHoseConstraint");
+    // Hose
+    if (self->lsynthClass == LSYNTH_HOSE) {
+        return(@"LSynthHoseConstraint");
     }
-    else if ([self partClass] == LSYNTH_BAND) {
-      return(@"LSynthBandConstraint");
+    // Band
+    else if (self->lsynthClass == LSYNTH_BAND) {
+        return(@"LSynthBandConstraint");
     }
-  }
+    // Part
+    else if (self->lsynthClass == LSYNTH_PART) {
+        if ([self partClass] == LSYNTH_HOSE) {
+            return(@"LSynthHoseConstraint");
+        }
+        else if ([self partClass] == LSYNTH_BAND) {
+            return(@"LSynthBandConstraint");
+        }
+    }
 
-  // Other?
-  return(@"Brick");
+    // Other?
+    return(@"Brick");
 }// end determineIconName:
 
 
@@ -1315,46 +1316,46 @@
 // ==============================================================================
 - (void)colorSelectedSynthesizedParts:(BOOL)yesNo
 {
-  NSUserDefaults       *userDefaults = [NSUserDefaults standardUserDefaults];
-  LSynthSelectionModeT selectionMode = (int)[userDefaults integerForKey:LSYNTH_SELECTION_MODE_KEY];
-  GLfloat    rgba[4]; // a temporary RGBA color we create and manipulate
-  LDrawColor *theColor = [[[LDrawColor alloc] init] autorelease];   // an LDrawColor to set the part's color with
+    NSUserDefaults       *userDefaults = [NSUserDefaults standardUserDefaults];
+    LSynthSelectionModeT selectionMode = (int)[userDefaults integerForKey:LSYNTH_SELECTION_MODE_KEY];
+    GLfloat    rgba[4]; // a temporary RGBA color we create and manipulate
+    LDrawColor *theColor = [[[LDrawColor alloc] init] autorelease]; // an LDrawColor to set the part's color with
 
-  // Is the part selected?
-  if (yesNo == YES) {
-    // Modify the transparency, but use the object's existing color
-    if (selectionMode == TransparentSelection) {
-      [color getColorRGBA:rgba];
-      rgba[3] = ((float)[userDefaults integerForKey:LSYNTH_SELECTION_TRANSPARENCY_KEY]) / 100;
+    // Is the part selected?
+    if (yesNo == YES) {
+        // Modify the transparency, but use the object's existing color
+        if (selectionMode == TransparentSelection) {
+            [color getColorRGBA:rgba];
+            rgba[3] = ((float)[userDefaults integerForKey:LSYNTH_SELECTION_TRANSPARENCY_KEY]) / 100;
+        }
+        // Modify the color, with full opacity/no transparency
+        else if (selectionMode == ColoredSelection) {
+            NSColor *selectionColor = [userDefaults colorForKey:LSYNTH_SELECTION_COLOR_KEY];
+            rgba[0] = [selectionColor redComponent];
+            rgba[1] = [selectionColor greenComponent];
+            rgba[2] = [selectionColor blueComponent];
+            rgba[3] = 1.0; // fully opaque
+        }
+        // Modify both color and transparency
+        else if (selectionMode == TransparentColoredSelection) {
+            NSColor *selectionColor = [userDefaults colorForKey:LSYNTH_SELECTION_COLOR_KEY];
+            rgba[0] = [selectionColor redComponent];
+            rgba[1] = [selectionColor greenComponent];
+            rgba[2] = [selectionColor blueComponent];
+            rgba[3] = ((float)[userDefaults integerForKey:LSYNTH_SELECTION_TRANSPARENCY_KEY]) / 100;
+        }
+
+        [theColor setColorRGBA:rgba];
     }
-    // Modify the color, with full opacity/no transparency
-    else if (selectionMode == ColoredSelection) {
-      NSColor *selectionColor = [userDefaults colorForKey:LSYNTH_SELECTION_COLOR_KEY];
-      rgba[0] = [selectionColor redComponent];
-      rgba[1] = [selectionColor greenComponent];
-      rgba[2] = [selectionColor blueComponent];
-      rgba[3] = 1.0;       // fully opaque
-    }
-    // Modify both color and transparency
-    else if (selectionMode == TransparentColoredSelection) {
-      NSColor *selectionColor = [userDefaults colorForKey:LSYNTH_SELECTION_COLOR_KEY];
-      rgba[0] = [selectionColor redComponent];
-      rgba[1] = [selectionColor greenComponent];
-      rgba[2] = [selectionColor blueComponent];
-      rgba[3] = ((float)[userDefaults integerForKey:LSYNTH_SELECTION_TRANSPARENCY_KEY]) / 100;
+    // The part's not selected so use its actual color
+    else {
+        theColor = color;
     }
 
-    [theColor setColorRGBA:rgba];
-  }
-  // The part's not selected so use its actual color
-  else {
-    theColor = color;
-  }
-
-  // Recolor the synthesized parts
-  for (LDrawPart *part in self->synthesizedParts) {
-    [part setLDrawColor:theColor];
-  }
+    // Recolor the synthesized parts
+    for (LDrawPart *part in self->synthesizedParts) {
+        [part setLDrawColor:theColor];
+    }
 } // end colorSelectedSynthesizedParts:
 
 
@@ -1375,7 +1376,7 @@
 // ==============================================================================
 - (Matrix4)transformationMatrix
 {
-  return(Matrix4CreateFromGLMatrix4(glTransformation));
+    return(Matrix4CreateFromGLMatrix4(glTransformation));
 }// end transformationMatrix
 
 
@@ -1387,15 +1388,15 @@
 // ==============================================================================
 - (BOOL)acceptsDroppedDirective:(LDrawDirective *)directive
 {
-  // Only add valid parts as constraints; invalid ones are passed to our container
-  // This arises if a synth part is selected and a part is dragged from the
-  // part chooser to the view.
-  if (([directive isKindOfClass:[LDrawPart class]] &&
-       [[LSynthConfiguration sharedInstance] isLSynthConstraint:(LDrawPart *)directive]) ||
-      [directive isKindOfClass:[LDrawLSynthDirective class]]) {
-    return(YES);
-  }
-  return(NO);
+    // Only add valid parts as constraints; invalid ones are passed to our container
+    // This arises if a synth part is selected and a part is dragged from the
+    // part chooser to the view.
+    if (([directive isKindOfClass:[LDrawPart class]] &&
+         [[LSynthConfiguration sharedInstance] isLSynthConstraint:(LDrawPart *)directive]) ||
+        [directive isKindOfClass:[LDrawLSynthDirective class]]) {
+        return(YES);
+    }
+    return(NO);
 }
 
 
@@ -1410,11 +1411,11 @@
 // ==============================================================================
 - (void)cleanupAfterDropIsDonor:(NSNumber *)isDonor
 {
-  [self setSelected:NO];
+    [self setSelected:NO];
 
-  if ([isDonor boolValue] == NO) {
-    [self setSubdirectiveSelected:YES];
-  }
+    if ([isDonor boolValue] == NO) {
+        [self setSubdirectiveSelected:YES];
+    }
 } // end cleanupAfterDrop
 
 
@@ -1425,7 +1426,7 @@
 // ==============================================================================
 - (int)synthesizedPartsCount
 {
-  return((int)[synthesizedParts count]);
+    return((int)[synthesizedParts count]);
 }
 
 
@@ -1438,26 +1439,26 @@
 // ==============================================================================
 - (LSynthClassT)partClass
 {
-  LSynthClassT class = self->lsynthClass;
+    LSynthClassT class = self->lsynthClass;
 
-  if (self->lsynthClass == LSYNTH_PART) {
-    NSArray *partTypes = [[LSynthConfiguration sharedInstance] getParts];
+    if (self->lsynthClass == LSYNTH_PART) {
+        NSArray *partTypes = [[LSynthConfiguration sharedInstance] getParts];
 
-    // Loop over the parts from config, and when we find one matching ourselves
-    // use that part's class.
-    for (NSDictionary *part in partTypes) {
-      if ([[self lsynthType] isEqualToString:[part valueForKey:@"LSYNTH_TYPE"]]) {
-        class = (int)[[part valueForKey:@"LSYNTH_CLASS"] integerValue];
-        break;
-      }
+        // Loop over the parts from config, and when we find one matching ourselves
+        // use that part's class.
+        for (NSDictionary *part in partTypes) {
+            if ([[self lsynthType] isEqualToString:[part valueForKey:@"LSYNTH_TYPE"]]) {
+                class = (int)[[part valueForKey:@"LSYNTH_CLASS"] integerValue];
+                break;
+            }
+        }
     }
-  }
-  else {
-    // For some reason we've been called when we're not a Part so trust that
-    // we have the correct class.
-  }
+    else {
+        // For some reason we've been called when we're not a Part so trust that
+        // we have the correct class.
+    }
 
-  return(class);
+    return(class);
 }
 
 
@@ -1473,10 +1474,10 @@
 // ==============================================================================
 - (void)receiveMessage:(MessageT)msg who:(id <LDrawObservable>)observable
 {
-  // Typically if one of our child constraints changed we need to resynthesize
-  if (msg == MessageObservedChanged) {
-    [self invalCache:ContainerInvalid];
-  }
+    // Typically if one of our child constraints changed we need to resynthesize
+    if (msg == MessageObservedChanged) {
+        [self invalCache:ContainerInvalid];
+    }
 } // end receiveMessage:who:
 
 
@@ -1489,8 +1490,8 @@
 // ==============================================================================
 - (void)selectionDisplayOptionsDidChange:(id)sender
 {
-  [self colorSelectedSynthesizedParts:([self isSelected] || self->subdirectiveSelected)];
-  [self noteNeedsDisplay];
+    [self colorSelectedSynthesizedParts:([self isSelected] || self->subdirectiveSelected)];
+    [self noteNeedsDisplay];
 } // end selectionDisplayOptionsDidChange:
 
 
@@ -1504,9 +1505,9 @@
 // ==============================================================================
 - (void)requiresResynthesis:(id)sender
 {
-  [self synthesize];
-  [self colorSelectedSynthesizedParts:([self isSelected] || self->subdirectiveSelected)];
-  [self noteNeedsDisplay];
+    [self synthesize];
+    [self colorSelectedSynthesizedParts:([self isSelected] || self->subdirectiveSelected)];
+    [self noteNeedsDisplay];
 } // end requiresResynthesis:
 
 
@@ -1521,11 +1522,11 @@
 // ==============================================================================
 - (void)dealloc
 {
-  [color release];
-  [synthesizedParts release];
-  [synthType release];
+    [color release];
+    [synthesizedParts release];
+    [synthType release];
 
-  [super dealloc];
+    [super dealloc];
 }// end dealloc
 
 

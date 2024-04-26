@@ -20,14 +20,14 @@
 
 typedef enum
 {
-  RotateSelectTool = 0,       // click to select, drag to rotate
+    RotateSelectTool = 0,     // click to select, drag to rotate
 // AddToSelectionTool			= 1,	//    check key directly, so we can click around in different views.
-  PanScrollTool    = 2,   // "grabber" to scroll around while dragging
-  SmoothZoomTool   = 3,   // zoom in and out based on drag direction
-  ZoomInTool       = 4,   // click to zoom in
-  ZoomOutTool      = 5,   // click to zoom out
-  SpinTool         = 6,   // spin the model in space
-  EraserTool       = 7    // delete clicked parts (for pen tablet erasers)
+    PanScrollTool    = 2, // "grabber" to scroll around while dragging
+    SmoothZoomTool   = 3, // zoom in and out based on drag direction
+    ZoomInTool       = 4, // click to zoom in
+    ZoomOutTool      = 5, // click to zoom out
+    SpinTool         = 6, // spin the model in space
+    EraserTool       = 7  // delete clicked parts (for pen tablet erasers)
 } ToolModeT;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -37,21 +37,21 @@ typedef enum
 ////////////////////////////////////////////////////////////////////////////////
 @interface ToolPalette : NSObject
 {
-  ToolModeT baseToolMode;             // as selected in the palette
-  ToolModeT effectiveToolMode;        // accounting for modifiers.
+    ToolModeT baseToolMode;           // as selected in the palette
+    ToolModeT effectiveToolMode;      // accounting for modifiers.
 
-  // Event Tracking
-  NSString             *currentKeyCharacters; // identifies the current keys down, independent of modifiers (empty string if no keys down)
-  NSUInteger           currentKeyModifiers; // identifiers the current modifiers down (including device-dependent)
-  BOOL                 mouseButton3IsDown;
-  NSPointingDeviceType tabletPointingDevice;    // current pen-tablet device currently in proximity
+    // Event Tracking
+    NSString             *currentKeyCharacters; // identifies the current keys down, independent of modifiers (empty string if no keys down)
+    NSUInteger           currentKeyModifiers; // identifiers the current modifiers down (including device-dependent)
+    BOOL                 mouseButton3IsDown;
+    NSPointingDeviceType tabletPointingDevice;  // current pen-tablet device currently in proximity
 
-  NSPanel *palettePanel;
+    NSPanel *palettePanel;
 
-  // Nib connections
-  IBOutlet NSView         *paletteContents;
-  IBOutlet NSMatrix       *toolButtons;
-  IBOutlet LDrawColorWell *colorWell;
+    // Nib connections
+    IBOutlet NSView         *paletteContents;
+    IBOutlet NSMatrix       *toolButtons;
+    IBOutlet LDrawColorWell *colorWell;
 }
 
 
@@ -76,6 +76,6 @@ typedef enum
 - (void)resolveCurrentToolMode;
 + (NSString *)keysForToolMode:(ToolModeT)toolMode modifiers:(NSUInteger *)modifiersOut;
 + (BOOL)toolMode:(ToolModeT)toolMode matchesCharacters:(NSString *)characters modifiers:(NSUInteger)
-  modifiers;
+    modifiers;
 
 @end

@@ -40,14 +40,14 @@
 // ------------------------------------------------------------------------------
 + (LDrawFile *)file
 {
-  LDrawFile     *newFile    = [[LDrawFile alloc] init];
-  LDrawMPDModel *firstModel = [LDrawMPDModel model];
+    LDrawFile     *newFile    = [[LDrawFile alloc] init];
+    LDrawMPDModel *firstModel = [LDrawMPDModel model];
 
-  // Fill it with one empty model.
-  [newFile addSubmodel:firstModel];
-  [newFile setActiveModel:firstModel];
+    // Fill it with one empty model.
+    [newFile addSubmodel:firstModel];
+    [newFile setActiveModel:firstModel];
 
-  return([newFile autorelease]);
+    return([newFile autorelease]);
 }// end file
 
 
@@ -58,15 +58,15 @@
 // ------------------------------------------------------------------------------
 + (LDrawFile *)fileFromContentsAtPath:(NSString *)path
 {
-  NSString  *fileContents = [LDrawUtilities stringFromFile:path];
-  LDrawFile *parsedFile   = nil;
+    NSString  *fileContents = [LDrawUtilities stringFromFile:path];
+    LDrawFile *parsedFile   = nil;
 
-  if (fileContents != nil) {
-    parsedFile = [LDrawFile parseFromFileContents:fileContents];
-    [parsedFile setPath:path];
-  }
+    if (fileContents != nil) {
+        parsedFile = [LDrawFile parseFromFileContents:fileContents];
+        [parsedFile setPath:path];
+    }
 
-  return(parsedFile);
+    return(parsedFile);
 }// end fileFromContentsAtPath:
 
 
@@ -77,13 +77,13 @@
 // ------------------------------------------------------------------------------
 + (LDrawFile *)parseFromFileContents:(NSString *)fileContents
 {
-  LDrawFile *newFile = nil;
-  NSArray   *lines   = [fileContents separateByLine];
+    LDrawFile *newFile = nil;
+    NSArray   *lines   = [fileContents separateByLine];
 
-  newFile = [[LDrawFile alloc] initWithLines:lines
-                                     inRange:NSMakeRange(0, [lines count])];
+    newFile = [[LDrawFile alloc] initWithLines:lines
+               inRange:NSMakeRange(0, [lines count])];
 
-  return([newFile autorelease]);
+    return([newFile autorelease]);
 }// end parseFromFileContents:allowThreads:
 
 
@@ -96,12 +96,12 @@
 // ==============================================================================
 - (id)init
 {
-  self = [super init]; // initializes an empty list of subdirectives--in this
-  // case, the models in the file.
+    self = [super init]; // initializes an empty list of subdirectives--in this
+    // case, the models in the file.
 
-  activeModel = nil;
+    activeModel = nil;
 
-  return(self);
+    return(self);
 }// end init
 
 
@@ -115,16 +115,16 @@
 // ==============================================================================
 - (void)updateModelLookupTable
 {
-  NSArray        *submodels = [self submodels];
-  NSMutableArray *names     = [NSMutableArray arrayWithCapacity:[submodels count]];
+    NSArray        *submodels = [self submodels];
+    NSMutableArray *names     = [NSMutableArray arrayWithCapacity:[submodels count]];
 
-  for (LDrawMPDModel *model in submodels) {
-    // always use lowercase for comparison
-    [names addObject:[[model modelName] lowercaseString]];
-  }
+    for (LDrawMPDModel *model in submodels) {
+        // always use lowercase for comparison
+        [names addObject:[[model modelName] lowercaseString]];
+    }
 
-  [self->nameModelDict release];
-  self->nameModelDict = [[NSDictionary alloc] initWithObjects:submodels forKeys:names];
+    [self->nameModelDict release];
+    self->nameModelDict = [[NSDictionary alloc] initWithObjects:submodels forKeys:names];
 }
 
 
@@ -135,58 +135,58 @@
 //
 // ==============================================================================
 - (id)initWithLines:(NSArray *)lines
-  inRange:(NSRange)range
-  parentGroup:(dispatch_group_t)parentGroup
+    inRange:(NSRange)range
+    parentGroup:(dispatch_group_t)parentGroup
 {
-  NSRange    modelRange      = range;
-  NSUInteger modelStartIndex = range.location;
-  id         *submodels      = NULL;
-  NSUInteger insertIndex     = 0;
+    NSRange    modelRange      = range;
+    NSUInteger modelStartIndex = range.location;
+    id         *submodels      = NULL;
+    NSUInteger insertIndex     = 0;
 
-  self = [super initWithLines:lines
-                      inRange:range
-                  parentGroup:parentGroup];
-  if (self) {
-    submodels = calloc(range.length, sizeof(LDrawDirective *));
-    dispatch_group_t dispatchGroup = NULL;
+    self = [super initWithLines:lines
+            inRange:range
+            parentGroup:parentGroup];
+    if (self) {
+        submodels = calloc(range.length, sizeof(LDrawDirective *));
+        dispatch_group_t dispatchGroup = NULL;
 #if USE_BLOCKS
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    dispatchGroup = dispatch_group_create();
+        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+        dispatchGroup = dispatch_group_create();
 
-    if (parentGroup != NULL) {
-      dispatch_group_enter(parentGroup);
-    }
+        if (parentGroup != NULL) {
+            dispatch_group_enter(parentGroup);
+        }
 #endif
 
-    // Search through all the lines in the file, and separate them out into
-    // submodels.
-    do{
-      modelRange = [LDrawMPDModel rangeOfDirectiveBeginningAtIndex:modelStartIndex
-                                                           inLines:lines
-                                                          maxIndex:NSMaxRange(range) - 1];
-      // Parse
+        // Search through all the lines in the file, and separate them out into
+        // submodels.
+        do{
+            modelRange = [LDrawMPDModel rangeOfDirectiveBeginningAtIndex:modelStartIndex
+                          inLines:lines
+                          maxIndex:NSMaxRange(range) - 1];
+            // Parse
 /* *INDENT-OFF* */
 #if USE_BLOCKS			
 			dispatch_group_async(dispatchGroup, queue,
 			^{
 #endif			
 /* *INDENT-ON* */
-      LDrawMPDModel *newModel = [[LDrawMPDModel alloc] initWithLines:lines
-                                                             inRange:modelRange
-                                                         parentGroup:dispatchGroup];
+            LDrawMPDModel *newModel = [[LDrawMPDModel alloc] initWithLines:lines
+                                       inRange:modelRange
+                                       parentGroup:dispatchGroup];
 
-      // Store non-retaining, but *thread-safe* container
-      // (NSMutableArray is NOT). Since it doesn't retain, we mustn't
-      // autorelease newDirective.
-      submodels[insertIndex] = newModel;
+            // Store non-retaining, but *thread-safe* container
+            // (NSMutableArray is NOT). Since it doesn't retain, we mustn't
+            // autorelease newDirective.
+            submodels[insertIndex] = newModel;
 /* *INDENT-OFF* */
 #if USE_BLOCKS
 			});
 #endif			
 /* *INDENT-ON* */
-      modelStartIndex = NSMaxRange(modelRange);
-      insertIndex    += 1;
-    }while (modelStartIndex < NSMaxRange(range));
+            modelStartIndex = NSMaxRange(modelRange);
+            insertIndex    += 1;
+        }while (modelStartIndex < NSMaxRange(range));
 
 /* *INDENT-OFF* */
 #if USE_BLOCKS		
@@ -195,22 +195,22 @@
 #endif
 /* *INDENT-ON* */
 
-    NSUInteger    counter       = 0;
-    LDrawMPDModel *currentModel = nil;
+        NSUInteger    counter       = 0;
+        LDrawMPDModel *currentModel = nil;
 
-    // Add all the models in order
-    for (counter = 0; counter < insertIndex; counter++) {
-      currentModel = submodels[counter];
+        // Add all the models in order
+        for (counter = 0; counter < insertIndex; counter++) {
+            currentModel = submodels[counter];
 
-      [self addSubmodel:currentModel];
-      [currentModel release];
-    }
+            [self addSubmodel:currentModel];
+            [currentModel release];
+        }
 
-    if ([[self submodels] count] > 0) {
-      [self setActiveModel:[[self submodels] objectAtIndex:0]];
-    }
+        if ([[self submodels] count] > 0) {
+            [self setActiveModel:[[self submodels] objectAtIndex:0]];
+        }
 
-    free(submodels);
+        free(submodels);
 
 /* *INDENT-OFF* */
 #if USE_BLOCKS			
@@ -221,10 +221,10 @@
 		dispatch_release(dispatchGroup);
 #endif		
 /* *INDENT-ON* */
-  }
+    }
 
 
-  return(self);
+    return(self);
 }// end initWithLines:inRange:
 
 
@@ -237,16 +237,16 @@
 // ==============================================================================
 - (id)initWithCoder:(NSCoder *)decoder
 {
-  self = [super initWithCoder:decoder];
+    self = [super initWithCoder:decoder];
 
-  // We don't encode the active model; it is just assumed to be the first
-  // model each time the file is created.
-  LDrawMPDModel *firstModel = [[self submodels] objectAtIndex:0];
-  [self setActiveModel:firstModel];
+    // We don't encode the active model; it is just assumed to be the first
+    // model each time the file is created.
+    LDrawMPDModel *firstModel = [[self submodels] objectAtIndex:0];
+    [self setActiveModel:firstModel];
 
-  [self updateModelLookupTable];
+    [self updateModelLookupTable];
 
-  return(self);
+    return(self);
 }// end initWithCoder:
 
 
@@ -257,13 +257,13 @@
 // ==============================================================================
 - (id)copyWithZone:(NSZone *)zone
 {
-  LDrawFile *copiedFile        = (LDrawFile *)[super copyWithZone:zone];
-  NSInteger indexOfActiveModel = [self indexOfDirective:self->activeModel];
-  id        copiedActiveModel  = [[copiedFile subdirectives] objectAtIndex:indexOfActiveModel];
+    LDrawFile *copiedFile        = (LDrawFile *)[super copyWithZone:zone];
+    NSInteger indexOfActiveModel = [self indexOfDirective:self->activeModel];
+    id        copiedActiveModel  = [[copiedFile subdirectives] objectAtIndex:indexOfActiveModel];
 
-  [copiedFile setActiveModel:copiedActiveModel];
+    [copiedFile setActiveModel:copiedActiveModel];
 
-  return(copiedFile);
+    return(copiedFile);
 }// end copyWithZone:
 
 
@@ -289,13 +289,13 @@
 // ==============================================================================
 - (void)draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)parentColor
 {
-  //
-  // Draw!
-  // (only the active model.)
-  //
-  [activeModel draw:optionsMask
-          viewScale:scaleFactor
-        parentColor:parentColor];
+    //
+    // Draw!
+    // (only the active model.)
+    //
+    [activeModel draw:optionsMask
+     viewScale:scaleFactor
+     parentColor:parentColor];
 }// end draw:viewScale:parentColor:
 
 
@@ -307,7 +307,7 @@
 // ================================================================================
 - (void)drawSelf:(id <LDrawRenderer>)renderer
 {
-  [activeModel drawSelf:renderer];
+    [activeModel drawSelf:renderer];
 }// end drawSelf:
 
 
@@ -326,8 +326,8 @@
 // ================================================================================
 - (void)collectSelf:(id <LDrawCollector>)renderer
 {
-  assert(!"Why are we here?");
-  [activeModel collectSelf:renderer];
+    assert(!"Why are we here?");
+    [activeModel collectSelf:renderer];
 }// end collectSelf:
 
 
@@ -339,7 +339,7 @@
 // ==============================================================================
 - (void)debugDrawboundingBox
 {
-  [activeModel debugDrawboundingBox];
+    [activeModel debugDrawboundingBox];
 }// end debugDrawboundingBox
 
 
@@ -349,18 +349,18 @@
 //
 // ==============================================================================
 - (void)hitTest:(Ray3)pickRay
-  transform:(Matrix4)transform
-  viewScale:(double)scaleFactor
-  boundsOnly:(BOOL)boundsOnly
-  creditObject:(id)creditObject
-  hits:(NSMutableDictionary *)hits
+    transform:(Matrix4)transform
+    viewScale:(double)scaleFactor
+    boundsOnly:(BOOL)boundsOnly
+    creditObject:(id)creditObject
+    hits:(NSMutableDictionary *)hits
 {
-  [activeModel hitTest:pickRay
-             transform:transform
-             viewScale:scaleFactor
-            boundsOnly:boundsOnly
-          creditObject:creditObject
-                  hits:hits];
+    [activeModel hitTest:pickRay
+     transform:transform
+     viewScale:scaleFactor
+     boundsOnly:boundsOnly
+     creditObject:creditObject
+     hits:hits];
 }// end hitTest:transform:viewScale:boundsOnly:creditObject:hits:
 
 
@@ -370,16 +370,16 @@
 //
 // ==============================================================================
 - (BOOL)boxTest:(Box2)bounds
-  transform:(Matrix4)transform
-  boundsOnly:(BOOL)boundsOnly
-  creditObject:(id)creditObject
-  hits:(NSMutableSet *)hits
+    transform:(Matrix4)transform
+    boundsOnly:(BOOL)boundsOnly
+    creditObject:(id)creditObject
+    hits:(NSMutableSet *)hits
 {
-  return([activeModel boxTest:bounds
-                    transform:transform
-                   boundsOnly:boundsOnly
-                 creditObject:creditObject
-                         hits:hits]);
+    return([activeModel boxTest:bounds
+            transform:transform
+            boundsOnly:boundsOnly
+            creditObject:creditObject
+            hits:hits]);
 }// end boxTest:transform:boundsOnly:creditObject:hits:
 
 
@@ -391,18 +391,18 @@
 //
 // ==============================================================================
 - (void)depthTest:(Point2)pt
-  inBox:(Box2)bounds
-  transform:(Matrix4)transform
-  creditObject:(id)creditObject
-  bestObject:(id *)bestObject
-  bestDepth:(double *)bestDepth
+    inBox:(Box2)bounds
+    transform:(Matrix4)transform
+    creditObject:(id)creditObject
+    bestObject:(id *)bestObject
+    bestDepth:(double *)bestDepth
 {
-  [activeModel depthTest:pt
-                   inBox:bounds
-               transform:transform
-            creditObject:creditObject
-              bestObject:bestObject
-               bestDepth:bestDepth];
+    [activeModel depthTest:pt
+     inBox:bounds
+     transform:transform
+     creditObject:creditObject
+     bestObject:bestObject
+     bestDepth:bestDepth];
 }// end depthTest:inBox:transform:creditObject:bestObject:bestDepth:
 
 
@@ -413,31 +413,31 @@
 // ==============================================================================
 - (NSString *)write
 {
-  NSMutableString *written      = [NSMutableString string];
-  NSString        *CRLF         = [NSString CRLF];
-  LDrawMPDModel   *currentModel = nil;
-  NSArray         *modelsInFile = [self subdirectives];
-  NSInteger       numberModels  = [modelsInFile count];
-  NSInteger       counter       = 0;
+    NSMutableString *written      = [NSMutableString string];
+    NSString        *CRLF         = [NSString CRLF];
+    LDrawMPDModel   *currentModel = nil;
+    NSArray         *modelsInFile = [self subdirectives];
+    NSInteger       numberModels  = [modelsInFile count];
+    NSInteger       counter       = 0;
 
-  // If there is only one submodel, this hardly qualifies as an MPD document.
-  // So write out the single model without the MPD FILE/NOFILE wrapper.
-  if (numberModels == 1) {
-    currentModel = [modelsInFile objectAtIndex:0];
-    // Write out the model, without MPD wrappers.
-    [written appendString:[currentModel writeModel]];
-  }
-  else {
-    // Write out each MPD submodel, one after another.
-    for (counter = 0; counter < numberModels; counter++) {
-      currentModel = [modelsInFile objectAtIndex:counter];
-      [written appendString:[currentModel write]];
-      [written appendString:CRLF];
+    // If there is only one submodel, this hardly qualifies as an MPD document.
+    // So write out the single model without the MPD FILE/NOFILE wrapper.
+    if (numberModels == 1) {
+        currentModel = [modelsInFile objectAtIndex:0];
+        // Write out the model, without MPD wrappers.
+        [written appendString:[currentModel writeModel]];
     }
-  }
+    else {
+        // Write out each MPD submodel, one after another.
+        for (counter = 0; counter < numberModels; counter++) {
+            currentModel = [modelsInFile objectAtIndex:counter];
+            [written appendString:[currentModel write]];
+            [written appendString:CRLF];
+        }
+    }
 
-  // Trim off any final newline characters.
-  return([written stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]);
+    // Trim off any final newline characters.
+    return([written stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]);
 }// end write
 
 
@@ -455,7 +455,7 @@
 // ==============================================================================
 - (LDrawMPDModel *)activeModel
 {
-  return(activeModel);
+    return(activeModel);
 }// end activeModel
 
 
@@ -467,7 +467,7 @@
 // ==============================================================================
 - (LDrawMPDModel *)firstModel
 {
-  return([[self subdirectives] objectAtIndex:0]);
+    return([[self subdirectives] objectAtIndex:0]);
 }// end firstModel
 
 
@@ -479,7 +479,7 @@
 // ==============================================================================
 - (NSArray *)draggingDirectives
 {
-  return([[self activeModel] draggingDirectives]);
+    return([[self activeModel] draggingDirectives]);
 }// end draggingDirectives
 
 
@@ -490,18 +490,18 @@
 // ==============================================================================
 - (NSArray *)modelNames
 {
-  NSArray        *submodels    = [self subdirectives];
-  NSInteger      numberModels  = [submodels count];
-  LDrawMPDModel  *currentModel = nil;
-  NSMutableArray *modelNames   = [NSMutableArray array];
-  NSInteger      counter       = 0;
+    NSArray        *submodels    = [self subdirectives];
+    NSInteger      numberModels  = [submodels count];
+    LDrawMPDModel  *currentModel = nil;
+    NSMutableArray *modelNames   = [NSMutableArray array];
+    NSInteger      counter       = 0;
 
-  for (counter = 0; counter < numberModels; counter++) {
-    currentModel = [submodels objectAtIndex:counter];
-    [modelNames addObject:[currentModel modelName]];
-  }
+    for (counter = 0; counter < numberModels; counter++) {
+        currentModel = [submodels objectAtIndex:counter];
+        [modelNames addObject:[currentModel modelName]];
+    }
 
-  return(modelNames);
+    return(modelNames);
 }// end modelNames
 
 
@@ -513,10 +513,10 @@
 // ==============================================================================
 - (LDrawMPDModel *)modelWithName:(NSString *)soughtName
 {
-  NSString      *referenceName = [soughtName lowercaseString]; // we standardized on lower-case names for searching.
-  LDrawMPDModel *foundModel    = [self->nameModelDict objectForKey:referenceName];
+    NSString      *referenceName = [soughtName lowercaseString]; // we standardized on lower-case names for searching.
+    LDrawMPDModel *foundModel    = [self->nameModelDict objectForKey:referenceName];
 
-  return(foundModel);
+    return(foundModel);
 }// end modelWithName:
 
 
@@ -530,7 +530,7 @@
 // ==============================================================================
 - (NSString *)path
 {
-  return(self->filePath);
+    return(self->filePath);
 }// end path
 
 
@@ -542,7 +542,7 @@
 // ==============================================================================
 - (NSArray *)submodels
 {
-  return([self subdirectives]);
+    return([self subdirectives]);
 }// end submodels
 
 
@@ -556,29 +556,29 @@
 // ==============================================================================
 - (void)setActiveModel:(LDrawMPDModel *)newModel
 {
-  NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
 
-  if ([[self subdirectives] containsObject:newModel]) {
-    // Don't bother doing anything if we aren't really changing models.
-    if (newModel != activeModel) {
-      [newModel retain];
-      [activeModel release];
+    if ([[self subdirectives] containsObject:newModel]) {
+        // Don't bother doing anything if we aren't really changing models.
+        if (newModel != activeModel) {
+            [newModel retain];
+            [activeModel release];
 
-      // Update the active model and note that something happened.
-      activeModel = newModel;
-      if (postsNotifications) {
-        [notificationCenter postNotificationName:LDrawFileActiveModelDidChangeNotification
-                                          object:self];
-      }
+            // Update the active model and note that something happened.
+            activeModel = newModel;
+            if (postsNotifications) {
+                [notificationCenter postNotificationName:LDrawFileActiveModelDidChangeNotification
+                 object:self];
+            }
+        }
     }
-  }
-  else if (newModel == nil) {
-    [activeModel release];// why are we retaining?!
-    activeModel = nil;
-  }
-  else {
-    NSLog(@"Attempted to set the active model to one which is not in the file!");
-  }
+    else if (newModel == nil) {
+        [activeModel release];// why are we retaining?!
+        activeModel = nil;
+    }
+    else {
+        NSLog(@"Attempted to set the active model to one which is not in the file!");
+    }
 }// end setActiveModel:
 
 
@@ -595,7 +595,7 @@
 // ==============================================================================
 - (void)setDraggingDirectives:(NSArray *)directives
 {
-  [[self activeModel] setDraggingDirectives:directives];
+    [[self activeModel] setDraggingDirectives:directives];
 }// end setDraggingDirectives:
 
 
@@ -609,7 +609,7 @@
 // ==============================================================================
 - (void)setEnclosingDirective:(LDrawContainer *)newParent
 {
-  // Do Nothing.
+    // Do Nothing.
 }// end setEnclosingDirective:
 
 
@@ -622,10 +622,10 @@
 // ==============================================================================
 - (void)setPath:(NSString *)newPath
 {
-  [newPath retain];
-  [self->filePath release];
+    [newPath retain];
+    [self->filePath release];
 
-  self->filePath = newPath;
+    self->filePath = newPath;
 }// end setPath:
 
 
@@ -639,22 +639,22 @@
 // ==============================================================================
 - (void)removeDirective:(LDrawDirective *)doomedDirective
 {
-  BOOL removedActiveModel = NO;
+    BOOL removedActiveModel = NO;
 
-  if (doomedDirective == self->activeModel) {
-    removedActiveModel = YES;
-  }
-
-  [super removeDirective:doomedDirective];
-
-  if (removedActiveModel == YES) {
-    if ([[self submodels] count] > 0) {
-      [self setActiveModel:[[self submodels] objectAtIndex:0]];
+    if (doomedDirective == self->activeModel) {
+        removedActiveModel = YES;
     }
-    else {
-      [self setActiveModel:nil]; // this is probably not a good thing.
+
+    [super removeDirective:doomedDirective];
+
+    if (removedActiveModel == YES) {
+        if ([[self submodels] count] > 0) {
+            [self setActiveModel:[[self submodels] objectAtIndex:0]];
+        }
+        else {
+            [self setActiveModel:nil]; // this is probably not a good thing.
+        }
     }
-  }
 }// end removeDirective:
 
 
@@ -671,8 +671,8 @@
 // ==============================================================================
 - (void)addSubmodel:(LDrawMPDModel *)newSubmodel
 {
-  [self insertDirective:newSubmodel
-                atIndex:[[self subdirectives] count]];
+    [self insertDirective:newSubmodel
+     atIndex:[[self subdirectives] count]];
 }// end addSubmodel:
 
 
@@ -683,14 +683,14 @@
 // ==============================================================================
 - (void)insertDirective:(LDrawDirective *)directive atIndex:(NSInteger)index
 {
-  [super insertDirective:directive atIndex:index];
-  [self updateModelLookupTable];
+    [super insertDirective:directive atIndex:index];
+    [self updateModelLookupTable];
 
-  // Post a notification on ourself that a model was added - missing parts need
-  // to know this to re-check whether they match this model.
-  [[NSNotificationCenter defaultCenter]
-   postNotificationName:LDrawMPDSubModelAdded
-                 object:self];
+    // Post a notification on ourself that a model was added - missing parts need
+    // to know this to re-check whether they match this model.
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:LDrawMPDSubModelAdded
+     object:self];
 }// end insertDirective:atIndex:
 
 
@@ -701,8 +701,8 @@
 // ==============================================================================
 - (void)removeDirectiveAtIndex:(NSInteger)index
 {
-  [super removeDirectiveAtIndex:index];
-  [self updateModelLookupTable];
+    [super removeDirectiveAtIndex:index];
+    [self updateModelLookupTable];
 }// end removeDirectiveAtIndex:
 
 
@@ -718,11 +718,11 @@
 // ==============================================================================
 - (BOOL)acceptsDroppedDirective:(LDrawDirective *)directive
 {
-  // explicitly disregard LSynth directives
-  if ([directive isKindOfClass:[LDrawLSynthDirective class]]) {
-    return(NO);
-  }
-  return(YES);
+    // explicitly disregard LSynth directives
+    if ([directive isKindOfClass:[LDrawLSynthDirective class]]) {
+        return(NO);
+    }
+    return(YES);
 }
 
 
@@ -734,9 +734,9 @@
 // ==============================================================================
 - (Box3)boundingBox3
 {
-  [self revalCache:CacheFlagBounds];
-  Box3 ret = [[self activeModel] boundingBox3];
-  return(ret);
+    [self revalCache:CacheFlagBounds];
+    Box3 ret = [[self activeModel] boundingBox3];
+    return(ret);
 }// end boundingBox3
 
 
@@ -747,12 +747,12 @@
 //
 // ==============================================================================
 - (Box3)projectedBoundingBoxWithModelView:(Matrix4)modelView
-  projection:(Matrix4)projection
-  view:(Box2)viewport;
+    projection:(Matrix4)projection
+    view:(Box2)viewport;
 {
-  return([[self activeModel] projectedBoundingBoxWithModelView:modelView
-                                                    projection:projection
-                                                          view:viewport]);
+    return([[self activeModel] projectedBoundingBoxWithModelView:modelView
+            projection:projection
+            view:viewport]);
 }// end projectedBoundingBoxWithModelView:projection:view:
 
 
@@ -767,16 +767,16 @@
 // ==============================================================================
 - (void)optimizeStructure
 {
-  LDrawMPDModel *currentModel = nil;
-  NSArray       *modelsInFile = [self subdirectives];
-  NSInteger     numberModels  = [modelsInFile count];
-  NSInteger     counter       = 0;
+    LDrawMPDModel *currentModel = nil;
+    NSArray       *modelsInFile = [self subdirectives];
+    NSInteger     numberModels  = [modelsInFile count];
+    NSInteger     counter       = 0;
 
-  // Write out each MPD submodel, one after another.
-  for (counter = 0; counter < numberModels; counter++) {
-    currentModel = [modelsInFile objectAtIndex:counter];
-    [currentModel optimizeStructure];
-  }
+    // Write out each MPD submodel, one after another.
+    for (counter = 0; counter < numberModels; counter++) {
+        currentModel = [modelsInFile objectAtIndex:counter];
+        [currentModel optimizeStructure];
+    }
 }// end optimizeStructure
 
 
@@ -788,35 +788,35 @@
 //
 // ==============================================================================
 - (void)renameModel:(LDrawMPDModel *)submodel
-  toName:(NSString *)newName
+    toName:(NSString *)newName
 {
-  NSArray    *submodels       = [self submodels];
-  BOOL       containsSubmodel = ([submodels indexOfObjectIdenticalTo:submodel] != NSNotFound);
-  NSString   *oldName         = [submodel modelName];
-  PartReport *partReport      = nil;
-  NSArray    *allParts        = nil;
-  LDrawPart  *currentPart     = nil;
-  NSInteger  counter          = 0;
+    NSArray    *submodels       = [self submodels];
+    BOOL       containsSubmodel = ([submodels indexOfObjectIdenticalTo:submodel] != NSNotFound);
+    NSString   *oldName         = [submodel modelName];
+    PartReport *partReport      = nil;
+    NSArray    *allParts        = nil;
+    LDrawPart  *currentPart     = nil;
+    NSInteger  counter          = 0;
 
-  if (containsSubmodel == YES &&
-      [oldName isEqualToString:newName] == NO) {
-    // Update the model name itself
-    [submodel setModelName:newName];
+    if (containsSubmodel == YES &&
+        [oldName isEqualToString:newName] == NO) {
+        // Update the model name itself
+        [submodel setModelName:newName];
 
-    // Update all references to the old name
-    partReport = [PartReport partReportForContainer:self];
-    allParts   = [partReport allParts];
+        // Update all references to the old name
+        partReport = [PartReport partReportForContainer:self];
+        allParts   = [partReport allParts];
 
-    for (counter = 0; counter < [allParts count]; counter++) {
-      currentPart = [allParts objectAtIndex:counter];
-      // If the part points to the old name, change it to the new one.
-      // Since the user can enter these values and Bricksmith is
-      // case-insensitive, make sure to ignore case.
-      if ([[currentPart referenceName] caseInsensitiveCompare:oldName] == NSOrderedSame) {
-        [currentPart setDisplayName:newName];
-      }
+        for (counter = 0; counter < [allParts count]; counter++) {
+            currentPart = [allParts objectAtIndex:counter];
+            // If the part points to the old name, change it to the new one.
+            // Since the user can enter these values and Bricksmith is
+            // case-insensitive, make sure to ignore case.
+            if ([[currentPart referenceName] caseInsensitiveCompare:oldName] == NSOrderedSame) {
+                [currentPart setDisplayName:newName];
+            }
+        }
     }
-  }
 }// end renameModel:toName:
 
 
@@ -838,11 +838,11 @@
 // ==============================================================================
 - (void)receiveMessage:(MessageT)msg who:(id <LDrawObservable>)observable
 {
-  if (msg == MessageNameChanged) {
-    [self updateModelLookupTable];
-  }
+    if (msg == MessageNameChanged) {
+        [self updateModelLookupTable];
+    }
 
-  [super receiveMessage:msg who:observable];
+    [super receiveMessage:msg who:observable];
 }
 
 
@@ -857,12 +857,12 @@
 // ==============================================================================
 - (void)dealloc
 {
-  // NSLog(@"File %s going away.\n", [filePath UTF8String]);
-  [nameModelDict release];
-  [activeModel release];
-  [filePath release];
+    // NSLog(@"File %s going away.\n", [filePath UTF8String]);
+    [nameModelDict release];
+    [activeModel release];
+    [filePath release];
 
-  [super dealloc];
+    [super dealloc];
 }// end dealloc
 
 

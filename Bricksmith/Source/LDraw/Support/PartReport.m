@@ -49,11 +49,11 @@ NSString *PART_REPORT_PART_QUANTITY = @"QuantityKey";
 // ------------------------------------------------------------------------------
 + (PartReport *)partReportForContainer:(LDrawContainer *)container
 {
-  PartReport *partReport = [PartReport new];
+    PartReport *partReport = [PartReport new];
 
-  [partReport setLDrawContainer:container];
+    [partReport setLDrawContainer:container];
 
-  return([partReport autorelease]);
+    return([partReport autorelease]);
 }// end partReportForContainer
 
 
@@ -65,11 +65,11 @@ NSString *PART_REPORT_PART_QUANTITY = @"QuantityKey";
 // ==============================================================================
 - (id)init
 {
-  self = [super init];
+    self = [super init];
 
-  partsReport = [NSMutableDictionary new];
+    partsReport = [NSMutableDictionary new];
 
-  return(self);
+    return(self);
 }// end init
 
 
@@ -84,10 +84,10 @@ NSString *PART_REPORT_PART_QUANTITY = @"QuantityKey";
 // ==============================================================================
 - (void)setLDrawContainer:(LDrawContainer *)newContainer
 {
-  [newContainer retain];
-  [self->reportedObject release];
+    [newContainer retain];
+    [self->reportedObject release];
 
-  self->reportedObject = newContainer;
+    self->reportedObject = newContainer;
 }// end setLDrawContainer:
 
 
@@ -99,11 +99,11 @@ NSString *PART_REPORT_PART_QUANTITY = @"QuantityKey";
 // ==============================================================================
 - (void)getPieceCountReport
 {
-  // Unfortunately, the reporting responsibility falls on the container
-  // itself. The reason is that the parts we are reporting might wind up being
-  // MPD references, in which case we need to merge the report for the
-  // referenced submodel into *this* report.
-  [reportedObject collectPartReport:self];
+    // Unfortunately, the reporting responsibility falls on the container
+    // itself. The reason is that the parts we are reporting might wind up being
+    // MPD references, in which case we need to merge the report for the
+    // referenced submodel into *this* report.
+    [reportedObject collectPartReport:self];
 }// end getPieceCountReport
 
 
@@ -115,41 +115,41 @@ NSString *PART_REPORT_PART_QUANTITY = @"QuantityKey";
 // ==============================================================================
 - (void)getMissingPiecesReport
 {
-  PartLibrary *partLibrary   = [PartLibrary sharedPartLibrary];
-  NSArray     *elements      = [self->reportedObject allEnclosedElements];
-  id          currentElement = nil;
+    PartLibrary *partLibrary   = [PartLibrary sharedPartLibrary];
+    NSArray     *elements      = [self->reportedObject allEnclosedElements];
+    id          currentElement = nil;
 // LDrawModel		*partModel			= nil;
-  NSString   *category    = nil;
-  NSUInteger elementCount = [elements count];
-  NSUInteger counter      = 0;
+    NSString   *category    = nil;
+    NSUInteger elementCount = [elements count];
+    NSUInteger counter      = 0;
 
-  // clear out any previous reports.
-  if (self->missingParts != nil) {
-    [missingParts release];
-  }
-  if (self->movedParts != nil) {
-    [movedParts release];
-  }
-
-  self->missingParts = [[NSMutableArray alloc] init];
-  self->movedParts   = [[NSMutableArray alloc] init];
-
-  for (counter = 0; counter < elementCount; counter++) {
-    currentElement = [elements objectAtIndex:counter];
-
-    if ([currentElement isKindOfClass:[LDrawPart class]]) {
-      // Missing?  Ask the part - it now knows everything about its own resolution.
-      if ([currentElement partIsMissing]) {
-        [missingParts addObject:currentElement];
-      }
-
-      // Moved?
-      category = [partLibrary categoryForPartName:[currentElement referenceName]];
-      if ([category isEqualToString:LDRAW_MOVED_CATEGORY]) {
-        [movedParts addObject:currentElement];
-      }
+    // clear out any previous reports.
+    if (self->missingParts != nil) {
+        [missingParts release];
     }
-  }
+    if (self->movedParts != nil) {
+        [movedParts release];
+    }
+
+    self->missingParts = [[NSMutableArray alloc] init];
+    self->movedParts   = [[NSMutableArray alloc] init];
+
+    for (counter = 0; counter < elementCount; counter++) {
+        currentElement = [elements objectAtIndex:counter];
+
+        if ([currentElement isKindOfClass:[LDrawPart class]]) {
+            // Missing?  Ask the part - it now knows everything about its own resolution.
+            if ([currentElement partIsMissing]) {
+                [missingParts addObject:currentElement];
+            }
+
+            // Moved?
+            category = [partLibrary categoryForPartName:[currentElement referenceName]];
+            if ([category isEqualToString:LDRAW_MOVED_CATEGORY]) {
+                [movedParts addObject:currentElement];
+            }
+        }
+    }
 }// end getMissingPiecesReport
 
 
@@ -169,30 +169,30 @@ NSString *PART_REPORT_PART_QUANTITY = @"QuantityKey";
 // ==============================================================================
 - (void)registerPart:(LDrawPart *)part
 {
-  NSString   *partName  = [part referenceName];
-  LDrawColor *partColor = [part LDrawColor];
+    NSString   *partName  = [part referenceName];
+    LDrawColor *partColor = [part LDrawColor];
 
-  NSMutableDictionary *partRecord        = [self->partsReport objectForKey:partName];
-  NSUInteger          numberColoredParts = 0;
+    NSMutableDictionary *partRecord        = [self->partsReport objectForKey:partName];
+    NSUInteger          numberColoredParts = 0;
 
 
-  if (partRecord == nil) {
-    // We haven't encountered one of these parts yet. Start counting!
-    partRecord = [NSMutableDictionary dictionary];
-    [self->partsReport setObject:partRecord
-                          forKey:partName];
-  }
+    if (partRecord == nil) {
+        // We haven't encountered one of these parts yet. Start counting!
+        partRecord = [NSMutableDictionary dictionary];
+        [self->partsReport setObject:partRecord
+         forKey:partName];
+    }
 
-  // Now let's see how many parts with this color we have so far. If we don't
-  // have any, this call will conveniently return 0.
-  numberColoredParts = [[partRecord objectForKey:partColor] integerValue];
+    // Now let's see how many parts with this color we have so far. If we don't
+    // have any, this call will conveniently return 0.
+    numberColoredParts = [[partRecord objectForKey:partColor] integerValue];
 
-  // Update our tallies.
-  self->totalNumberOfParts += 1;
-  numberColoredParts       += 1;
+    // Update our tallies.
+    self->totalNumberOfParts += 1;
+    numberColoredParts       += 1;
 
-  [partRecord setObject:[NSNumber numberWithUnsignedInteger:numberColoredParts]
-                 forKey:partColor];
+    [partRecord setObject:[NSNumber numberWithUnsignedInteger:numberColoredParts]
+     forKey:partColor];
 }// end registerPart:
 
 
@@ -207,22 +207,22 @@ NSString *PART_REPORT_PART_QUANTITY = @"QuantityKey";
 // ==============================================================================
 - (NSArray *)allParts
 {
-  NSArray        *elements      = [self->reportedObject allEnclosedElements];
-  id             currentElement = nil;
-  NSUInteger     elementCount   = [elements count];
-  NSUInteger     counter        = 0;
-  NSMutableArray *parts         = [NSMutableArray array];
+    NSArray        *elements      = [self->reportedObject allEnclosedElements];
+    id             currentElement = nil;
+    NSUInteger     elementCount   = [elements count];
+    NSUInteger     counter        = 0;
+    NSMutableArray *parts         = [NSMutableArray array];
 
-  // Find all LDrawPart instances in the contained elements
-  for (counter = 0; counter < elementCount; counter++) {
-    currentElement = [elements objectAtIndex:counter];
+    // Find all LDrawPart instances in the contained elements
+    for (counter = 0; counter < elementCount; counter++) {
+        currentElement = [elements objectAtIndex:counter];
 
-    if ([currentElement isKindOfClass:[LDrawPart class]]) {
-      [parts addObject:currentElement];
+        if ([currentElement isKindOfClass:[LDrawPart class]]) {
+            [parts addObject:currentElement];
+        }
     }
-  }
 
-  return(parts);
+    return(parts);
 }// end allParts
 
 
@@ -237,51 +237,51 @@ NSString *PART_REPORT_PART_QUANTITY = @"QuantityKey";
 // ==============================================================================
 - (NSArray *)flattenedReport
 {
-  NSMutableArray *flattenedReport   = [NSMutableArray array];
-  NSArray        *allPartNames      = [partsReport allKeys];
-  NSDictionary   *quantitiesForPart = nil;
-  NSArray        *allColors         = nil;
+    NSMutableArray *flattenedReport   = [NSMutableArray array];
+    NSArray        *allPartNames      = [partsReport allKeys];
+    NSDictionary   *quantitiesForPart = nil;
+    NSArray        *allColors         = nil;
 
-  PartLibrary *partLibrary = [PartLibrary sharedPartLibrary];
+    PartLibrary *partLibrary = [PartLibrary sharedPartLibrary];
 
-  NSDictionary *currentPartRecord   = nil;
-  NSString     *currentPartNumber   = nil;
-  LDrawColor   *currentPartColor    = nil;
-  NSNumber     *currentPartQuantity = nil;
-  NSString     *currentPartName     = nil;       // for convenience.
-  NSString     *currentColorName    = nil;
+    NSDictionary *currentPartRecord   = nil;
+    NSString     *currentPartNumber   = nil;
+    LDrawColor   *currentPartColor    = nil;
+    NSNumber     *currentPartQuantity = nil;
+    NSString     *currentPartName     = nil;     // for convenience.
+    NSString     *currentColorName    = nil;
 
-  NSUInteger counter      = 0;
-  NSUInteger colorCounter = 0;
+    NSUInteger counter      = 0;
+    NSUInteger colorCounter = 0;
 
-  // Loop through every type of part in the report
-  for (counter = 0; counter < [allPartNames count]; counter++) {
-    currentPartNumber = [allPartNames objectAtIndex:counter];
-    quantitiesForPart = [partsReport objectForKey:currentPartNumber];
-    allColors         = [quantitiesForPart allKeys];
+    // Loop through every type of part in the report
+    for (counter = 0; counter < [allPartNames count]; counter++) {
+        currentPartNumber = [allPartNames objectAtIndex:counter];
+        quantitiesForPart = [partsReport objectForKey:currentPartNumber];
+        allColors         = [quantitiesForPart allKeys];
 
-    // For each type of part, find each color/quantity pair recorded for it.
-    for (colorCounter = 0; colorCounter < [allColors count]; colorCounter++) {
-      currentPartColor    = [allColors objectAtIndex:colorCounter];
-      currentPartQuantity = [quantitiesForPart objectForKey:currentPartColor];
+        // For each type of part, find each color/quantity pair recorded for it.
+        for (colorCounter = 0; colorCounter < [allColors count]; colorCounter++) {
+            currentPartColor    = [allColors objectAtIndex:colorCounter];
+            currentPartQuantity = [quantitiesForPart objectForKey:currentPartColor];
 
-      currentPartName  = [partLibrary descriptionForPartName:currentPartNumber];
-      currentColorName = [currentPartColor localizedName];
+            currentPartName  = [partLibrary descriptionForPartName:currentPartNumber];
+            currentColorName = [currentPartColor localizedName];
 
-      // Now we have all the information we need. Flatten it into a single
-      // record.
-      currentPartRecord = [NSDictionary dictionaryWithObjectsAndKeys:
-                           currentPartNumber, PART_REPORT_NUMBER_KEY,
-                           currentPartName, PART_REPORT_NAME_KEY,
-                           currentPartColor, PART_REPORT_LDRAW_COLOR,
-                           currentColorName, PART_REPORT_COLOR_NAME,
-                           currentPartQuantity, PART_REPORT_PART_QUANTITY,
-                           nil];
-      [flattenedReport addObject:currentPartRecord];
-    }// end loop for color/quantity pairs within each part
-  }// end part loop
+            // Now we have all the information we need. Flatten it into a single
+            // record.
+            currentPartRecord = [NSDictionary dictionaryWithObjectsAndKeys:
+                                 currentPartNumber, PART_REPORT_NUMBER_KEY,
+                                 currentPartName, PART_REPORT_NAME_KEY,
+                                 currentPartColor, PART_REPORT_LDRAW_COLOR,
+                                 currentColorName, PART_REPORT_COLOR_NAME,
+                                 currentPartQuantity, PART_REPORT_PART_QUANTITY,
+                                 nil];
+            [flattenedReport addObject:currentPartRecord];
+        }// end loop for color/quantity pairs within each part
+    }// end part loop
 
-  return(flattenedReport);
+    return(flattenedReport);
 }// end flattenedReport
 
 
@@ -293,12 +293,12 @@ NSString *PART_REPORT_PART_QUANTITY = @"QuantityKey";
 // ==============================================================================
 - (NSArray *)missingParts
 {
-  // haven't gotten the report yet; get it.
-  if (self->missingParts == nil) {
-    [self getMissingPiecesReport];
-  }
+    // haven't gotten the report yet; get it.
+    if (self->missingParts == nil) {
+        [self getMissingPiecesReport];
+    }
 
-  return(self->missingParts);
+    return(self->missingParts);
 }// end missingParts
 
 
@@ -310,12 +310,12 @@ NSString *PART_REPORT_PART_QUANTITY = @"QuantityKey";
 // ==============================================================================
 - (NSArray *)movedParts
 {
-  // haven't gotten the report yet; get it.
-  if (self->movedParts == nil) {
-    [self getMissingPiecesReport];
-  }
+    // haven't gotten the report yet; get it.
+    if (self->movedParts == nil) {
+        [self getMissingPiecesReport];
+    }
 
-  return(self->movedParts);
+    return(self->movedParts);
 }// end movedParts
 
 
@@ -326,7 +326,7 @@ NSString *PART_REPORT_PART_QUANTITY = @"QuantityKey";
 // ==============================================================================
 - (NSUInteger)numberOfParts
 {
-  return(self->totalNumberOfParts);
+    return(self->totalNumberOfParts);
 }// end numberOfParts
 
 
@@ -348,35 +348,35 @@ NSString *PART_REPORT_PART_QUANTITY = @"QuantityKey";
 // ==============================================================================
 - (NSString *)textualRepresentationWithSortDescriptors:(NSArray *)sortDescriptors
 {
-  NSArray         *flattenedReport = [self flattenedReport];
-  NSMutableString *text            = [NSMutableString stringWithCapacity:1024];
-  NSString        *lineFormat      = @"%@\t%@\t%@\t%@\n";
-  NSDictionary    *partRecord      = nil;
-  NSUInteger      counter          = 0;
+    NSArray         *flattenedReport = [self flattenedReport];
+    NSMutableString *text            = [NSMutableString stringWithCapacity:1024];
+    NSString        *lineFormat      = @"%@\t%@\t%@\t%@\n";
+    NSDictionary    *partRecord      = nil;
+    NSUInteger      counter          = 0;
 
-  // rely on someone outside us providing a sort order
-  if (sortDescriptors != nil) {
-    flattenedReport = [flattenedReport sortedArrayUsingDescriptors:sortDescriptors];
-  }
+    // rely on someone outside us providing a sort order
+    if (sortDescriptors != nil) {
+        flattenedReport = [flattenedReport sortedArrayUsingDescriptors:sortDescriptors];
+    }
 
-  // the Header
-  [text appendFormat:lineFormat,
-   NSLocalizedString(@"PieceCountQuantityColumnName", nil),
-   NSLocalizedString(@"PieceCountPartNumberColumnName", nil),
-   NSLocalizedString(@"PieceCountDescriptionColumnName", nil),
-   NSLocalizedString(@"PieceCountColorColumnName", nil)];
-  // Part Rows
-  for (counter = 0; counter < [flattenedReport count]; counter++) {
-    partRecord = [flattenedReport objectAtIndex:counter];
-
+    // the Header
     [text appendFormat:lineFormat,
-     [partRecord objectForKey:PART_REPORT_PART_QUANTITY],
-     [partRecord objectForKey:PART_REPORT_NUMBER_KEY],
-     [partRecord objectForKey:PART_REPORT_NAME_KEY],
-     [partRecord objectForKey:PART_REPORT_COLOR_NAME]];
-  }
+     NSLocalizedString(@"PieceCountQuantityColumnName", nil),
+     NSLocalizedString(@"PieceCountPartNumberColumnName", nil),
+     NSLocalizedString(@"PieceCountDescriptionColumnName", nil),
+     NSLocalizedString(@"PieceCountColorColumnName", nil)];
+    // Part Rows
+    for (counter = 0; counter < [flattenedReport count]; counter++) {
+        partRecord = [flattenedReport objectAtIndex:counter];
 
-  return(text);
+        [text appendFormat:lineFormat,
+         [partRecord objectForKey:PART_REPORT_PART_QUANTITY],
+         [partRecord objectForKey:PART_REPORT_NUMBER_KEY],
+         [partRecord objectForKey:PART_REPORT_NAME_KEY],
+         [partRecord objectForKey:PART_REPORT_COLOR_NAME]];
+    }
+
+    return(text);
 }// end textualRepresentationWithSortDescriptors:
 
 
@@ -391,12 +391,12 @@ NSString *PART_REPORT_PART_QUANTITY = @"QuantityKey";
 // ==============================================================================
 - (void)dealloc
 {
-  [reportedObject release];
-  [partsReport release];
-  [missingParts release];
-  [movedParts release];
+    [reportedObject release];
+    [partsReport release];
+    [missingParts release];
+    [movedParts release];
 
-  [super dealloc];
+    [super dealloc];
 }// end dealloc
 
 

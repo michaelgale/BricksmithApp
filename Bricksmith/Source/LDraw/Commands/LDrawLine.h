@@ -18,10 +18,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 @interface LDrawLine : LDrawDrawableElement
 {
-  Point3 vertex1;
-  Point3 vertex2;
+    Point3 vertex1;
+    Point3 vertex2;
 
-  NSArray *dragHandles;
+    NSArray *dragHandles;
 }
 
 // Directives

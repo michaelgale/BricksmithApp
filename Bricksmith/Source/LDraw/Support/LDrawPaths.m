@@ -20,13 +20,13 @@
 // ------------------------------------------------------------------------------
 + (LDrawPaths *)sharedPaths
 {
-  static LDrawPaths *sharedObject = nil;
+    static LDrawPaths *sharedObject = nil;
 
-  if (sharedObject == nil) {
-    sharedObject = [[LDrawPaths alloc] init];
-  }
+    if (sharedObject == nil) {
+        sharedObject = [[LDrawPaths alloc] init];
+    }
 
-  return(sharedObject);
+    return(sharedObject);
 }
 
 
@@ -37,11 +37,11 @@
 // ==============================================================================
 - (id)init
 {
-  self = [super init];
+    self = [super init];
 
-  self->preferredLDrawPath = nil;
+    self->preferredLDrawPath = nil;
 
-  return(self);
+    return(self);
 }
 
 
@@ -57,13 +57,13 @@
 // ==============================================================================
 - (NSString *)internalLDrawPath
 {
-  NSBundle *mainBundle  = nil;
-  NSString *builtInPath = nil;
+    NSBundle *mainBundle  = nil;
+    NSString *builtInPath = nil;
 
-  mainBundle  = [NSBundle mainBundle];
-  builtInPath = [[mainBundle resourcePath] stringByAppendingPathComponent:LDRAW_DIRECTORY_NAME];
+    mainBundle  = [NSBundle mainBundle];
+    builtInPath = [[mainBundle resourcePath] stringByAppendingPathComponent:LDRAW_DIRECTORY_NAME];
 
-  return(builtInPath);
+    return(builtInPath);
 }
 
 
@@ -71,7 +71,7 @@
 // ==============================================================================
 - (NSString *)preferredLDrawPath
 {
-  return(self->preferredLDrawPath);
+    return(self->preferredLDrawPath);
 }
 
 
@@ -82,9 +82,9 @@
 // ==============================================================================
 - (void)setPreferredLDrawPath:(NSString *)pathIn
 {
-  [pathIn retain];
-  [self->preferredLDrawPath release];
-  self->preferredLDrawPath = pathIn;
+    [pathIn retain];
+    [self->preferredLDrawPath release];
+    self->preferredLDrawPath = pathIn;
 }
 
 
@@ -96,25 +96,25 @@
 // ==============================================================================
 - (NSString *)partsPathForDomain:(LDrawDomain)domain
 {
-  NSString *baseLDrawPath = nil;
-  NSString *path          = nil;
+    NSString *baseLDrawPath = nil;
+    NSString *path          = nil;
 
-  if (domain == LDrawUserOfficial || domain == LDrawUserUnofficial) {
-    baseLDrawPath = self->preferredLDrawPath;
-  }
-  else {
-    baseLDrawPath = [self internalLDrawPath];
-  }
+    if (domain == LDrawUserOfficial || domain == LDrawUserUnofficial) {
+        baseLDrawPath = self->preferredLDrawPath;
+    }
+    else {
+        baseLDrawPath = [self internalLDrawPath];
+    }
 
-  if (domain == LDrawUserOfficial || domain == LDrawInternalOfficial) {
-    path = [baseLDrawPath stringByAppendingPathComponent:PARTS_DIRECTORY_NAME];
-  }
-  else {
-    path = [baseLDrawPath stringByAppendingPathComponent:UNOFFICIAL_DIRECTORY_NAME];
-    path = [path stringByAppendingPathComponent:PARTS_DIRECTORY_NAME];
-  }
+    if (domain == LDrawUserOfficial || domain == LDrawInternalOfficial) {
+        path = [baseLDrawPath stringByAppendingPathComponent:PARTS_DIRECTORY_NAME];
+    }
+    else {
+        path = [baseLDrawPath stringByAppendingPathComponent:UNOFFICIAL_DIRECTORY_NAME];
+        path = [path stringByAppendingPathComponent:PARTS_DIRECTORY_NAME];
+    }
 
-  return(path);
+    return(path);
 }
 
 
@@ -122,25 +122,25 @@
 // ==============================================================================
 - (NSString *)primitivesPathForDomain:(LDrawDomain)domain
 {
-  NSString *baseLDrawPath = nil;
-  NSString *path          = nil;
+    NSString *baseLDrawPath = nil;
+    NSString *path          = nil;
 
-  if (domain == LDrawUserOfficial || domain == LDrawUserUnofficial) {
-    baseLDrawPath = self->preferredLDrawPath;
-  }
-  else {
-    baseLDrawPath = [self internalLDrawPath];
-  }
+    if (domain == LDrawUserOfficial || domain == LDrawUserUnofficial) {
+        baseLDrawPath = self->preferredLDrawPath;
+    }
+    else {
+        baseLDrawPath = [self internalLDrawPath];
+    }
 
-  if (domain == LDrawUserOfficial || domain == LDrawInternalOfficial) {
-    path = [baseLDrawPath stringByAppendingPathComponent:PRIMITIVES_DIRECTORY_NAME];
-  }
-  else {
-    path = [baseLDrawPath stringByAppendingPathComponent:UNOFFICIAL_DIRECTORY_NAME];
-    path = [path stringByAppendingPathComponent:PRIMITIVES_DIRECTORY_NAME];
-  }
+    if (domain == LDrawUserOfficial || domain == LDrawInternalOfficial) {
+        path = [baseLDrawPath stringByAppendingPathComponent:PRIMITIVES_DIRECTORY_NAME];
+    }
+    else {
+        path = [baseLDrawPath stringByAppendingPathComponent:UNOFFICIAL_DIRECTORY_NAME];
+        path = [path stringByAppendingPathComponent:PRIMITIVES_DIRECTORY_NAME];
+    }
 
-  return(path);
+    return(path);
 }
 
 
@@ -148,11 +148,11 @@
 // ==============================================================================
 - (NSString *)primitives48PathForDomain:(LDrawDomain)domain
 {
-  NSString *path = [self primitivesPathForDomain:domain];
+    NSString *path = [self primitivesPathForDomain:domain];
 
-  path = [path stringByAppendingPathComponent:PRIMITIVES_48_DIRECTORY_NAME];
+    path = [path stringByAppendingPathComponent:PRIMITIVES_48_DIRECTORY_NAME];
 
-  return(path);
+    return(path);
 }
 
 
@@ -166,34 +166,34 @@
 // ==============================================================================
 - (NSString *)ldconfigPath
 {
-  NSFileManager *fileManager   = [[[NSFileManager alloc] init] autorelease];
-  NSBundle      *mainBundle    = nil;
-  NSString      *installedPath = nil;
-  NSString      *builtInPath   = nil;
-  NSString      *ldconfigPath  = nil;
+    NSFileManager *fileManager   = [[[NSFileManager alloc] init] autorelease];
+    NSBundle      *mainBundle    = nil;
+    NSString      *installedPath = nil;
+    NSString      *builtInPath   = nil;
+    NSString      *ldconfigPath  = nil;
 
-  // Try in the LDraw folder first
-  installedPath = [self->preferredLDrawPath stringByAppendingPathComponent:LDCONFIG_FILE_NAME];
+    // Try in the LDraw folder first
+    installedPath = [self->preferredLDrawPath stringByAppendingPathComponent:LDCONFIG_FILE_NAME];
 
-  if (installedPath != nil) { // could be nil if no LDraw folder is set in prefs
-    if ([fileManager fileExistsAtPath:installedPath] == YES) {
-      ldconfigPath = installedPath;
+    if (installedPath != nil) { // could be nil if no LDraw folder is set in prefs
+        if ([fileManager fileExistsAtPath:installedPath] == YES) {
+            ldconfigPath = installedPath;
+        }
     }
-  }
 
-  // Try inside the application bundle instead
-  if (ldconfigPath == nil) {
-    mainBundle  = [NSBundle mainBundle];
-    builtInPath = [mainBundle pathForResource:LDCONFIG
-                                       ofType:LDCONFIG_EXTENSION];
+    // Try inside the application bundle instead
+    if (ldconfigPath == nil) {
+        mainBundle  = [NSBundle mainBundle];
+        builtInPath = [mainBundle pathForResource:LDCONFIG
+                       ofType:LDCONFIG_EXTENSION];
 
-    // Attempt to install it
-    if (builtInPath != nil) {
-      ldconfigPath = builtInPath;
+        // Attempt to install it
+        if (builtInPath != nil) {
+            ldconfigPath = builtInPath;
+        }
     }
-  }
 
-  return(ldconfigPath);
+    return(ldconfigPath);
 }// end ldconfigPath
 
 
@@ -209,27 +209,27 @@
 // ==============================================================================
 - (NSString *)MLCadIniPath
 {
-  NSFileManager *fileManager   = [[[NSFileManager alloc] init] autorelease];
-  NSString      *preferredPath =
-    [[self preferredLDrawPath] stringByAppendingPathComponent:MLCAD_INI_FILE_NAME];
-  NSString *actualPath = nil;
+    NSFileManager *fileManager   = [[[NSFileManager alloc] init] autorelease];
+    NSString      *preferredPath =
+        [[self preferredLDrawPath] stringByAppendingPathComponent:MLCAD_INI_FILE_NAME];
+    NSString *actualPath = nil;
 
-  // we want MLCad.ini to be in the LDraw folder.
-  if ([fileManager isReadableFileAtPath:preferredPath] == YES) {
-    actualPath = preferredPath;
-  }
-  else {
-    // we have to fish it out of the application bundle and install it.
-    NSBundle *mainBundle  = [NSBundle mainBundle];
-    NSString *builtInPath = [mainBundle pathForResource:MLCAD
-                                                 ofType:MLCAD_EXTENSION];
+    // we want MLCad.ini to be in the LDraw folder.
+    if ([fileManager isReadableFileAtPath:preferredPath] == YES) {
+        actualPath = preferredPath;
+    }
+    else {
+        // we have to fish it out of the application bundle and install it.
+        NSBundle *mainBundle  = [NSBundle mainBundle];
+        NSString *builtInPath = [mainBundle pathForResource:MLCAD
+                                 ofType:MLCAD_EXTENSION];
 
-    actualPath = builtInPath;
+        actualPath = builtInPath;
 
-    // Bricksmith used to install MLCad.ini if the user didn't have it. But
-    // I decided that didn't make a lot of since, since MLCad.ini is not
-    // part of the official LDraw distribution. People probably wouldn't
-    // realize they had to upgrade this file.
+        // Bricksmith used to install MLCad.ini if the user didn't have it. But
+        // I decided that didn't make a lot of since, since MLCad.ini is not
+        // part of the official LDraw distribution. People probably wouldn't
+        // realize they had to upgrade this file.
 // BOOL		 installSuccess	= NO;
 //
 // installSuccess = [fileManager copyPath:builtInPath toPath:preferredPath handler:nil];
@@ -238,9 +238,9 @@
 // actualPath = preferredPath;
 // else
 // actualPath = builtInPath; //couldn't install; just use our internal copy.
-  }
+    }
 
-  return(actualPath);
+    return(actualPath);
 }// end preferredPath
 
 
@@ -252,14 +252,14 @@
 // ==============================================================================
 - (NSString *)partCatalogPath
 {
-  NSString *pathToPartList = nil;
+    NSString *pathToPartList = nil;
 
-  // Do we have an LDraw folder?
-  if (self->preferredLDrawPath != nil) {
-    pathToPartList = [self->preferredLDrawPath stringByAppendingPathComponent:PART_CATALOG_NAME];
-  }
+    // Do we have an LDraw folder?
+    if (self->preferredLDrawPath != nil) {
+        pathToPartList = [self->preferredLDrawPath stringByAppendingPathComponent:PART_CATALOG_NAME];
+    }
 
-  return(pathToPartList);
+    return(pathToPartList);
 }
 
 
@@ -267,11 +267,11 @@
 // ==============================================================================
 - (NSString *)subpartsPathForDomain:(LDrawDomain)domain
 {
-  NSString *path = [self partsPathForDomain:domain];
+    NSString *path = [self partsPathForDomain:domain];
 
-  path = [path stringByAppendingPathComponent:SUBPARTS_DIRECTORY_NAME];
+    path = [path stringByAppendingPathComponent:SUBPARTS_DIRECTORY_NAME];
 
-  return(path);
+    return(path);
 }
 
 
@@ -286,61 +286,61 @@
 // ==============================================================================
 - (NSString *)findLDrawPath
 {
-  NSInteger counter    = 0;
-  BOOL      foundAPath = NO;
+    NSInteger counter    = 0;
+    BOOL      foundAPath = NO;
 
-  NSString *applicationPath   = [[NSBundle mainBundle] bundlePath];
-  NSString *applicationFolder = [applicationPath stringByDeletingLastPathComponent];
-  NSString *siblingFolder     = [applicationFolder stringByDeletingLastPathComponent];
-  NSString *library           =
-    [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSLocalDomainMask,
-                                         YES) objectAtIndex:0];
-  NSString *userLibrary =
-    [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask,
-                                         YES) objectAtIndex:0];
-  NSString *applicationSupport =
-    [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSLocalDomainMask,
-                                         YES) objectAtIndex:0];
-  NSString *userApplicationSupport =
-    [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask,
-                                         YES) objectAtIndex:0];
+    NSString *applicationPath   = [[NSBundle mainBundle] bundlePath];
+    NSString *applicationFolder = [applicationPath stringByDeletingLastPathComponent];
+    NSString *siblingFolder     = [applicationFolder stringByDeletingLastPathComponent];
+    NSString *library           =
+        [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSLocalDomainMask,
+                                             YES) objectAtIndex:0];
+    NSString *userLibrary =
+        [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask,
+                                             YES) objectAtIndex:0];
+    NSString *applicationSupport =
+        [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSLocalDomainMask,
+                                             YES) objectAtIndex:0];
+    NSString *userApplicationSupport =
+        [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask,
+                                             YES) objectAtIndex:0];
 
-  // Try User Defaults first; maybe we've already saved one.
-  NSString *preferencePath = self->preferredLDrawPath;
-  NSString *ldrawPath      = preferencePath;
+    // Try User Defaults first; maybe we've already saved one.
+    NSString *preferencePath = self->preferredLDrawPath;
+    NSString *ldrawPath      = preferencePath;
 
-  if (preferencePath == nil) {
-    preferencePath = @""; // we're going to add this to an array. Can't have a nil object.
-  }
-  applicationFolder      = [applicationFolder stringByAppendingPathComponent:LDRAW_DIRECTORY_NAME];
-  siblingFolder          = [siblingFolder stringByAppendingPathComponent:LDRAW_DIRECTORY_NAME];
-  library                = [library stringByAppendingPathComponent:LDRAW_DIRECTORY_NAME];
-  userLibrary            = [userLibrary stringByAppendingPathComponent:LDRAW_DIRECTORY_NAME];
-  applicationSupport     = [applicationSupport stringByAppendingPathComponent:LDRAW_DIRECTORY_NAME];
-  userApplicationSupport =
-    [userApplicationSupport stringByAppendingPathComponent:LDRAW_DIRECTORY_NAME];
+    if (preferencePath == nil) {
+        preferencePath = @""; // we're going to add this to an array. Can't have a nil object.
+    }
+    applicationFolder      = [applicationFolder stringByAppendingPathComponent:LDRAW_DIRECTORY_NAME];
+    siblingFolder          = [siblingFolder stringByAppendingPathComponent:LDRAW_DIRECTORY_NAME];
+    library                = [library stringByAppendingPathComponent:LDRAW_DIRECTORY_NAME];
+    userLibrary            = [userLibrary stringByAppendingPathComponent:LDRAW_DIRECTORY_NAME];
+    applicationSupport     = [applicationSupport stringByAppendingPathComponent:LDRAW_DIRECTORY_NAME];
+    userApplicationSupport =
+        [userApplicationSupport stringByAppendingPathComponent:LDRAW_DIRECTORY_NAME];
 
-  // Tries user defaults first, then others
-  NSArray *potentialPaths = [NSArray arrayWithObjects:preferencePath,
-                             applicationFolder,
-                             siblingFolder,
-                             applicationSupport,
-                             userApplicationSupport,
-                             library,
-                             userLibrary,
-                             nil];
+    // Tries user defaults first, then others
+    NSArray *potentialPaths = [NSArray arrayWithObjects:preferencePath,
+                               applicationFolder,
+                               siblingFolder,
+                               applicationSupport,
+                               userApplicationSupport,
+                               library,
+                               userLibrary,
+                               nil];
 
-  for (counter = 0; counter < [potentialPaths count] && foundAPath == NO; counter++) {
-    ldrawPath  = [potentialPaths objectAtIndex:counter];
-    foundAPath = [self validateLDrawFolder:ldrawPath];
-  }
+    for (counter = 0; counter < [potentialPaths count] && foundAPath == NO; counter++) {
+        ldrawPath  = [potentialPaths objectAtIndex:counter];
+        foundAPath = [self validateLDrawFolder:ldrawPath];
+    }
 
-  // Not there.
-  if (foundAPath == NO) {
-    ldrawPath = nil;
-  }
+    // Not there.
+    if (foundAPath == NO) {
+        ldrawPath = nil;
+    }
 
-  return(ldrawPath);
+    return(ldrawPath);
 }// end findLDrawPath
 
 
@@ -370,49 +370,49 @@
 // ==============================================================================
 - (NSString *)pathForPartName:(NSString *)partName
 {
-  NSFileManager   *fileManager   = [[[NSFileManager alloc] init] autorelease];
-  static NSArray  *searchPaths   = nil;
-  NSMutableString *fixedPartName = [NSMutableString stringWithString:partName];
-  NSString        *partPath      = nil;
+    NSFileManager   *fileManager   = [[[NSFileManager alloc] init] autorelease];
+    static NSArray  *searchPaths   = nil;
+    NSMutableString *fixedPartName = [NSMutableString stringWithString:partName];
+    NSString        *partPath      = nil;
 
-  if (searchPaths == nil) {
-    searchPaths = [[NSArray alloc] initWithObjects:
-                   [self partsPathForDomain:LDrawUserOfficial],
-                   [self primitivesPathForDomain:LDrawUserOfficial],
-                   [self partsPathForDomain:LDrawUserUnofficial],
-                   [self primitivesPathForDomain:LDrawUserUnofficial],
-                   [self partsPathForDomain:LDrawInternalOfficial],
-                   [self primitivesPathForDomain:LDrawInternalOfficial],
-                   [self partsPathForDomain:LDrawInternalUnofficial],
-                   [self primitivesPathForDomain:LDrawInternalUnofficial],
-                   nil];
-  }
-
-  // LDraw references parts in subfolders by their relative pathnames in DOS
-  // (e.g., "s\765s01.dat"). Convert to UNIX for simple searching.
-  [fixedPartName replaceOccurrencesOfString:@"\\" // DOS path separator (doubled for escape-sequence)
-                                 withString:@"/"
-                                    options:0
-                                      range:NSMakeRange(0, [fixedPartName length])];
-
-  // If we pass an empty string, we'll wind up test for directories' existences --
-  // not what we want to do.
-  if ([partName length] == 0) {
-    partPath = nil;
-  }
-  else {
-    // We have a file path name; try each directory.
-
-    for (NSString *basePath in searchPaths) {
-      NSString *testPath = [basePath stringByAppendingPathComponent:fixedPartName];
-
-      if ([fileManager fileExistsAtPath:testPath]) {
-        partPath = testPath;
-      }
+    if (searchPaths == nil) {
+        searchPaths = [[NSArray alloc] initWithObjects:
+                       [self partsPathForDomain:LDrawUserOfficial],
+                       [self primitivesPathForDomain:LDrawUserOfficial],
+                       [self partsPathForDomain:LDrawUserUnofficial],
+                       [self primitivesPathForDomain:LDrawUserUnofficial],
+                       [self partsPathForDomain:LDrawInternalOfficial],
+                       [self primitivesPathForDomain:LDrawInternalOfficial],
+                       [self partsPathForDomain:LDrawInternalUnofficial],
+                       [self primitivesPathForDomain:LDrawInternalUnofficial],
+                       nil];
     }
-  }
 
-  return(partPath);
+    // LDraw references parts in subfolders by their relative pathnames in DOS
+    // (e.g., "s\765s01.dat"). Convert to UNIX for simple searching.
+    [fixedPartName replaceOccurrencesOfString:@"\\" // DOS path separator (doubled for escape-sequence)
+     withString:@"/"
+     options:0
+     range:NSMakeRange(0, [fixedPartName length])];
+
+    // If we pass an empty string, we'll wind up test for directories' existences --
+    // not what we want to do.
+    if ([partName length] == 0) {
+        partPath = nil;
+    }
+    else {
+        // We have a file path name; try each directory.
+
+        for (NSString *basePath in searchPaths) {
+            NSString *testPath = [basePath stringByAppendingPathComponent:fixedPartName];
+
+            if ([fileManager fileExistsAtPath:testPath]) {
+                partPath = testPath;
+            }
+        }
+    }
+
+    return(partPath);
 }// end pathForPartName:
 
 
@@ -423,19 +423,19 @@
 // ==============================================================================
 - (NSString *)pathForTextureName:(NSString *)imageName
 {
-  NSString *nameInTextureDirectory =
-    [TEXTURES_DIRECTORY_NAME stringByAppendingPathComponent:imageName];
-  NSString *imagePath = nil;
+    NSString *nameInTextureDirectory =
+        [TEXTURES_DIRECTORY_NAME stringByAppendingPathComponent:imageName];
+    NSString *imagePath = nil;
 
-  // First follow regular search path with /textures prepended
-  imagePath = [self pathForPartName:nameInTextureDirectory];
+    // First follow regular search path with /textures prepended
+    imagePath = [self pathForPartName:nameInTextureDirectory];
 
-  // Follow regular search path.
-  if (imagePath == nil) {
-    imagePath = [self pathForPartName:imageName];
-  }
+    // Follow regular search path.
+    if (imagePath == nil) {
+        imagePath = [self pathForPartName:imageName];
+    }
 
-  return(imagePath);
+    return(imagePath);
 }// end pathForTextureName:
 
 
@@ -447,22 +447,22 @@
 // ==============================================================================
 - (BOOL)validateLDrawFolder:(NSString *)folderPath
 {
-  // Check and see if this folder is any good.
-  NSString *partsFolderPath      = [folderPath stringByAppendingPathComponent:PARTS_DIRECTORY_NAME];
-  NSString *primitivesFolderPath =
-    [folderPath stringByAppendingPathComponent:PRIMITIVES_DIRECTORY_NAME];
+    // Check and see if this folder is any good.
+    NSString *partsFolderPath      = [folderPath stringByAppendingPathComponent:PARTS_DIRECTORY_NAME];
+    NSString *primitivesFolderPath =
+        [folderPath stringByAppendingPathComponent:PRIMITIVES_DIRECTORY_NAME];
 
-  NSFileManager *fileManager  = [[[NSFileManager alloc] init] autorelease];
-  BOOL          folderIsValid = NO;
+    NSFileManager *fileManager  = [[[NSFileManager alloc] init] autorelease];
+    BOOL          folderIsValid = NO;
 
-  if ([fileManager fileExistsAtPath:folderPath]
-      && [fileManager fileExistsAtPath:partsFolderPath]
-      && [fileManager fileExistsAtPath:primitivesFolderPath]
-      ) {
-    folderIsValid = YES;
-  }
+    if ([fileManager fileExistsAtPath:folderPath]
+        && [fileManager fileExistsAtPath:partsFolderPath]
+        && [fileManager fileExistsAtPath:primitivesFolderPath]
+        ) {
+        folderIsValid = YES;
+    }
 
-  return(folderIsValid);
+    return(folderIsValid);
 }// end validateLDrawFolder:
 
 

@@ -28,13 +28,13 @@
 // ==============================================================================
 - (id)init
 {
-  self = [super init];
+    self = [super init];
 
-  // Create the part library
-  PartLibrary *library = [PartLibrary sharedPartLibrary];
-  [library setDelegate:self];
+    // Create the part library
+    PartLibrary *library = [PartLibrary sharedPartLibrary];
+    [library setDelegate:self];
 
-  return(self);
+    return(self);
 }// end init
 
 
@@ -50,20 +50,20 @@
 // ==============================================================================
 - (BOOL)loadPartCatalog
 {
-  PartLibrary *library   = [PartLibrary sharedPartLibrary];
-  NSArray     *favorites = [[NSUserDefaults standardUserDefaults] objectForKey:FAVORITE_PARTS_KEY];
-  BOOL        success    = NO;
+    PartLibrary *library   = [PartLibrary sharedPartLibrary];
+    NSArray     *favorites = [[NSUserDefaults standardUserDefaults] objectForKey:FAVORITE_PARTS_KEY];
+    BOOL        success    = NO;
 
-  // Try loading an existing library first.
-  [library setFavorites:favorites];
-  success = [library load];
+    // Try loading an existing library first.
+    [library setFavorites:favorites];
+    success = [library load];
 
-  if (success == NO) {
-    // loading failed; try reloading (generates a new part list)
-    success = [self reloadPartCatalog];
-  }
+    if (success == NO) {
+        // loading failed; try reloading (generates a new part list)
+        success = [self reloadPartCatalog];
+    }
 
-  return(success);
+    return(success);
 }// end loadPartCatalog
 
 
@@ -75,16 +75,16 @@
 // ==============================================================================
 - (BOOL)reloadPartCatalog
 {
-  BOOL success = NO;
+    BOOL success = NO;
 
-  self->progressPanel = [AMSProgressPanel progressPanel];
+    self->progressPanel = [AMSProgressPanel progressPanel];
 
-  [self->progressPanel setMessage:@"Loading Parts"];
-  [self->progressPanel showProgressPanel];
+    [self->progressPanel setMessage:@"Loading Parts"];
+    [self->progressPanel showProgressPanel];
 
-  success = [[PartLibrary sharedPartLibrary] reloadParts];
+    success = [[PartLibrary sharedPartLibrary] reloadParts];
 
-  // To print out a list of all categories. For debugging !CATEGORY coverage.
+    // To print out a list of all categories. For debugging !CATEGORY coverage.
 // NSArray *categories = [[[PartLibrary sharedPartLibrary] categories] sortedArrayUsingSelector:@selector(compare:)];
 // NSMutableString* list = [NSMutableString string];
 // for(NSString* name in categories)
@@ -94,9 +94,9 @@
 // }
 // NSLog(@"%@", list);
 
-  [self->progressPanel close];
+    [self->progressPanel close];
 
-  return(success);
+    return(success);
 }// end reloadPartCatalog
 
 
@@ -108,23 +108,23 @@
 // ==============================================================================
 - (BOOL)validateLDrawFolderWithMessage:(NSString *)folderPath
 {
-  BOOL folderIsValid = [[LDrawPaths sharedPaths] validateLDrawFolder:folderPath];
+    BOOL folderIsValid = [[LDrawPaths sharedPaths] validateLDrawFolder:folderPath];
 
-  if (folderIsValid == NO) {
-    NSAlert *error = [[NSAlert alloc] init];
-    [error setAlertStyle:NSAlertStyleCritical];
-    [error addButtonWithTitle:NSLocalizedString(@"OKButtonName", nil)];
+    if (folderIsValid == NO) {
+        NSAlert *error = [[NSAlert alloc] init];
+        [error setAlertStyle:NSAlertStyleCritical];
+        [error addButtonWithTitle:NSLocalizedString(@"OKButtonName", nil)];
 
 
-    [error setMessageText:NSLocalizedString(@"LDrawFolderChooserErrorMessage", nil)];
-    [error setInformativeText:NSLocalizedString(@"LDrawFolderChooserErrorInformative", nil)];
+        [error setMessageText:NSLocalizedString(@"LDrawFolderChooserErrorMessage", nil)];
+        [error setInformativeText:NSLocalizedString(@"LDrawFolderChooserErrorInformative", nil)];
 
-    [error runModal];
+        [error runModal];
 
-    [error release];
-  }
+        [error release];
+    }
 
-  return(folderIsValid);
+    return(folderIsValid);
 }// end validateLDrawFolder
 
 
@@ -139,9 +139,9 @@
 // ==============================================================================
 - (void)partLibrary:(PartLibrary *)partLibrary didChangeFavorites:(NSArray *)newFavorites
 {
-  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
-  [userDefaults setObject:newFavorites forKey:FAVORITE_PARTS_KEY];
+    [userDefaults setObject:newFavorites forKey:FAVORITE_PARTS_KEY];
 }
 
 
@@ -152,9 +152,9 @@
 //
 // ==============================================================================
 - (void)partLibrary:(PartLibrary *)partLibrary
-  maximumPartCountToLoad:(NSUInteger)maxPartCount
+    maximumPartCountToLoad:(NSUInteger)maxPartCount
 {
-  [self->progressPanel setMaxValue:maxPartCount];
+    [self->progressPanel setMaxValue:maxPartCount];
 }// end partLibrary:maximumPartCountToLoad:
 
 
@@ -165,7 +165,7 @@
 // ==============================================================================
 - (void)partLibraryIncrementLoadProgressCount:(PartLibrary *)partLibrary
 {
-  [self->progressPanel increment];
+    [self->progressPanel increment];
 }// end partLibraryIncrementLoadProgressCount:
 
 
@@ -180,7 +180,7 @@
 // ==============================================================================
 - (void)dealloc
 {
-  [super dealloc];
+    [super dealloc];
 }// end dealloc
 
 

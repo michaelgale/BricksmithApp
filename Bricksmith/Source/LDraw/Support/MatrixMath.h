@@ -24,19 +24,19 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 typedef struct Point2Struct {
-  double x, y;
+    double x, y;
 } Point2, Vector2;
 
 
 typedef struct Size2Struct {
-  double width;
-  double height;
+    double width;
+    double height;
 } Size2;
 
 
 typedef struct Box2Struct {
-  Point2 origin;
-  Size2  size;
+    Point2 origin;
+    Size2  size;
 } Box2;
 
 
@@ -48,36 +48,36 @@ typedef struct Box2Struct {
 
 // 3D point
 typedef struct Point3Struct {
-  double x, y, z;
+    double x, y, z;
 } Point3, Vector3, Tuple3;
 
 
 // 3D integer point
 typedef struct IntPoint3Struct {
-  int x, y, z;
+    int x, y, z;
 } IntPoint3;
 
 
 // 3D Box
 typedef struct Box3Struct {
-  Point3 min, max;
+    Point3 min, max;
 } Box3;
 
 
 // 3x3 Matrix
 typedef struct Matrix3Struct {
-  double element[3][3]; // [row][column]
+    double element[3][3]; // [row][column]
 } Matrix3;
 
 
 typedef struct Ray3Struct {
-  Point3  origin;
-  Vector3 direction;
+    Point3  origin;
+    Vector3 direction;
 } Ray3;
 
 typedef struct Segment3Struct {
-  Point3 point0;
-  Point3 point1;
+    Point3 point0;
+    Point3 point1;
 } Segment3;
 
 
@@ -89,26 +89,26 @@ typedef struct Segment3Struct {
 
 // 4-by-4 matrix
 typedef struct Matrix4Struct {
-  double element[4][4]; // [row][column]
+    double element[4][4]; // [row][column]
 } Matrix4;
 
 
 // 4-component vector
 typedef struct {
-  double x, y, z, w;
+    double x, y, z, w;
 } Point4, Vector4, Tuple4;
 // , Plane4;
 
 
 // Transformation components; the data encoded in a transformation matrix.
 typedef struct {
-  Tuple3  scale;
-  double  shear_XY;
-  double  shear_XZ;
-  double  shear_YZ;
-  Tuple3  rotate;   // in radians
-  Vector3 translate;
-  Tuple4  perspective;
+    Tuple3  scale;
+    double  shear_XY;
+    double  shear_XZ;
+    double  shear_YZ;
+    Tuple3  rotate; // in radians
+    Vector3 translate;
+    Tuple4  perspective;
 } TransformComponents;
 
 
@@ -168,19 +168,19 @@ extern const Point4 ZeroPoint4;
 // from a (when t=0) to b (when t=1)
 // (equivalent to a*(1 - t) + b*t
 #define LERP(t, a, b)         \
-  (                           \
-    (a) + (((b) - (a)) * (t)) \
-  )
+        (                           \
+            (a) + (((b) - (a)) * (t)) \
+        )
 
 /* clamp the input v to the specified range [l-h] */
 #define CLAMP(v, l, h) \
-  (                    \
-    (v) < (l) ?        \
-    (l)                \
+        (                    \
+            (v) < (l) ?        \
+            (l)                \
   : (v) > (h) ?        \
-    (h)                \
+            (h)                \
   : v                  \
-  )
+        )
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -323,26 +323,26 @@ extern double Matrix4x4Determinant(Matrix4 *);
 extern void   Matrix4Print(Matrix4 *matrix);
 
 extern bool   DepthOnTriangle(
-  Point3 vert0,
-  Point3 vert1,
-  Point3 vert2,
-  Point3 *test_pt);
+    Point3 vert0,
+    Point3 vert1,
+    Point3 vert2,
+    Point3 *test_pt);
 extern bool   DepthOnLineSegment(
-  Point3 vert0,
-  Point3 vert1,
-  double tolerance,
-  Point3 *test_pt);
+    Point3 vert0,
+    Point3 vert1,
+    double tolerance,
+    Point3 *test_pt);
 
 extern bool   VolumeCanIntersectBox(
-  Box3 boundingVolume,
-  Matrix4 transform,
-  Box2 testBox);
+    Box3 boundingVolume,
+    Matrix4 transform,
+    Box2 testBox);
 
 extern bool   VolumeCanIntersectPoint(
-  Box3 boundingVolume,
-  Matrix4 transform,
-  Box2 testPoint,                   // We provide a RANGE that our point is inside - this is how we get 'fuzzy' hits for infinitely thin geometry like lines.
-  double testDepthSoFar);
+    Box3 boundingVolume,
+    Matrix4 transform,
+    Box2 testPoint,                 // We provide a RANGE that our point is inside - this is how we get 'fuzzy' hits for infinitely thin geometry like lines.
+    double testDepthSoFar);
 
 
 #endif // _MatrixMath_

@@ -27,11 +27,11 @@ RotationPanelController *sharedRotationPanel = nil;
 // ------------------------------------------------------------------------------
 + (id)rotationPanel
 {
-  if (sharedRotationPanel == nil) {
-    sharedRotationPanel = [[RotationPanelController alloc] init];
-  }
+    if (sharedRotationPanel == nil) {
+        sharedRotationPanel = [[RotationPanelController alloc] init];
+    }
 
-  return(sharedRotationPanel);
+    return(sharedRotationPanel);
 }// end rotationPanel
 
 
@@ -42,9 +42,9 @@ RotationPanelController *sharedRotationPanel = nil;
 // ==============================================================================
 - (id)init
 {
-  self = [super initWithWindowNibName:@"RotationPanel"];
+    self = [super initWithWindowNibName:@"RotationPanel"];
 
-  return(self);
+    return(self);
 }
 
 
@@ -59,7 +59,7 @@ RotationPanelController *sharedRotationPanel = nil;
 // ==============================================================================
 - (BOOL)enableFixedPointCoordinates
 {
-  return(self->rotationMode == RotateAroundFixedPoint);
+    return(self->rotationMode == RotateAroundFixedPoint);
 }// end enableFixedPointCoordinates
 
 
@@ -71,7 +71,7 @@ RotationPanelController *sharedRotationPanel = nil;
 // ==============================================================================
 - (Tuple3)angles
 {
-  return(V3Make(angleX, angleY, angleZ));
+    return(V3Make(angleX, angleY, angleZ));
 }// end angles
 
 
@@ -85,7 +85,7 @@ RotationPanelController *sharedRotationPanel = nil;
 // ==============================================================================
 - (Point3)fixedPoint
 {
-  return(V3Make(fixedPointX, fixedPointY, fixedPointZ));
+    return(V3Make(fixedPointX, fixedPointY, fixedPointZ));
 }// end fixedPoint
 
 
@@ -96,7 +96,7 @@ RotationPanelController *sharedRotationPanel = nil;
 // ==============================================================================
 - (RotationModeT)rotationMode
 {
-  return(self->rotationMode);
+    return(self->rotationMode);
 }// end rotationMode
 
 
@@ -107,16 +107,16 @@ RotationPanelController *sharedRotationPanel = nil;
 // ------------------------------------------------------------------------------
 + (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)key
 {
-  NSSet *triggerKeys = nil;
+    NSSet *triggerKeys = nil;
 
-  if ([key isEqualToString:@"enableFixedPointCoordinates"]) {
-    triggerKeys = [NSSet setWithObject:@"rotationMode"];
-  }
-  else {
-    triggerKeys = [super keyPathsForValuesAffectingValueForKey:key];
-  }
+    if ([key isEqualToString:@"enableFixedPointCoordinates"]) {
+        triggerKeys = [NSSet setWithObject:@"rotationMode"];
+    }
+    else {
+        triggerKeys = [super keyPathsForValuesAffectingValueForKey:key];
+    }
 
-  return(triggerKeys);
+    return(triggerKeys);
 }// end keyPathsForValuesAffectingValueForKey:
 
 
@@ -132,13 +132,13 @@ RotationPanelController *sharedRotationPanel = nil;
 // ==============================================================================
 - (IBAction)rotateButtonClicked:(id)sender
 {
-  // Validate, and guarantee that Undo points to the document and not some
-  // typed-in text field.
-  if ([[self window] makeFirstResponder:nil]) {
-    [NSApp sendAction:@selector(panelRotateParts:)
-                   to:nil
-                 from:self];
-  }
+    // Validate, and guarantee that Undo points to the document and not some
+    // typed-in text field.
+    if ([[self window] makeFirstResponder:nil]) {
+        [NSApp sendAction:@selector(panelRotateParts:)
+         to:nil
+         from:self];
+    }
 }// end rotateButtonClicked:
 
 
@@ -153,12 +153,12 @@ RotationPanelController *sharedRotationPanel = nil;
 // ==============================================================================
 - (void)windowWillClose:(NSNotification *)notification
 {
-  // The object controller apparently retains its content. We must break that
-  // cycle in order to fully deallocate.
-  [objectController setContent:nil];
+    // The object controller apparently retains its content. We must break that
+    // cycle in order to fully deallocate.
+    [objectController setContent:nil];
 
-  [self autorelease];
-  sharedRotationPanel = nil;
+    [self autorelease];
+    sharedRotationPanel = nil;
 }
 
 
@@ -172,9 +172,9 @@ RotationPanelController *sharedRotationPanel = nil;
 // ==============================================================================
 - (NSUndoManager *)windowWillReturnUndoManager:(NSWindow *)window
 {
-  NSDocument *currentDocument = [[NSDocumentController sharedDocumentController] currentDocument];
+    NSDocument *currentDocument = [[NSDocumentController sharedDocumentController] currentDocument];
 
-  return([currentDocument undoManager]);
+    return([currentDocument undoManager]);
 }
 
 
@@ -191,7 +191,7 @@ RotationPanelController *sharedRotationPanel = nil;
 // ==============================================================================
 - (void)dealloc
 {
-  [super dealloc];
+    [super dealloc];
 }// end dealloc
 
 

@@ -48,25 +48,25 @@
 // Lsynth block parser states
 typedef enum
 {
-  PARSER_READY_TO_PARSE       = 1,   // Idle state - we've not found a SYNTH BEGIN <TYPE> <COLOR> line
-  PARSER_PARSING_BEGUN        = 2,   // SYNTH BEGIN has been found
-  PARSER_PARSING_CONSTRAINTS  = 3,   // Parsing constraints
-  PARSER_PARSING_SYNTHESIZED  = 4,   // Parsing synthesized parts
-  PARSER_SYNTHESIZED_FINISHED = 5,   // Looking for SYNTH END
-  PARSER_FINISHED             = 6,   // All finished.
-  PARSER_STATE_COUNT
+    PARSER_READY_TO_PARSE       = 1, // Idle state - we've not found a SYNTH BEGIN <TYPE> <COLOR> line
+    PARSER_PARSING_BEGUN        = 2, // SYNTH BEGIN has been found
+    PARSER_PARSING_CONSTRAINTS  = 3, // Parsing constraints
+    PARSER_PARSING_SYNTHESIZED  = 4, // Parsing synthesized parts
+    PARSER_SYNTHESIZED_FINISHED = 5, // Looking for SYNTH END
+    PARSER_FINISHED             = 6, // All finished.
+    PARSER_STATE_COUNT
 } LSynthParserStateT;
 
 @interface LDrawLSynth : LDrawContainer <LDrawColorable, LDrawMovableDirective>
 {
-  NSMutableArray *synthesizedParts;
-  NSString       *synthType;
-  int            lsynthClass;
-  LDrawColor     *color;
-  GLfloat        glTransformation[16];
-  BOOL           hidden;
-  BOOL           subdirectiveSelected;
-  Box3           cachedBounds;  // cached bounds of the enclosed directives
+    NSMutableArray *synthesizedParts;
+    NSString       *synthType;
+    int            lsynthClass;
+    LDrawColor     *color;
+    GLfloat        glTransformation[16];
+    BOOL           hidden;
+    BOOL           subdirectiveSelected;
+    Box3           cachedBounds; // cached bounds of the enclosed directives
 }
 
 // Accessors

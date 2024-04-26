@@ -14,10 +14,10 @@
 
 @interface LDrawMPDModel : LDrawModel <NSCoding>
 {
-  @private
-  // MPD submodels have a name to identify them.
-  // it gets written out as 0 FILE modelName at the beginning.
-  NSString *modelName;
+    @private
+    // MPD submodels have a name to identify them.
+    // it gets written out as 0 FILE modelName at the beginning.
+    NSString *modelName;
 }
 
 + (id)model;

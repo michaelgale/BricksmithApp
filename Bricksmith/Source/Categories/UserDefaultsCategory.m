@@ -18,9 +18,9 @@
 // ==============================================================================
 - (void)setColor:(NSColor *)aColor forKey:(NSString *)aKey
 {
-  NSData *theData = [NSArchiver archivedDataWithRootObject:aColor];
+    NSData *theData = [NSArchiver archivedDataWithRootObject:aColor];
 
-  [self setObject:theData forKey:aKey];
+    [self setObject:theData forKey:aKey];
 }// end setColor:forKey:
 
 
@@ -32,14 +32,14 @@
 - (NSColor *)colorForKey:(NSString *)aKey
 
 {
-  NSColor *theColor = nil;
-  NSData  *theData  = [self dataForKey:aKey];
+    NSColor *theColor = nil;
+    NSData  *theData  = [self dataForKey:aKey];
 
-  if (theData != nil) {
-    theColor = (NSColor *)[NSUnarchiver unarchiveObjectWithData:theData];
-  }
+    if (theData != nil) {
+        theColor = (NSColor *)[NSUnarchiver unarchiveObjectWithData:theData];
+    }
 
-  return(theColor);
+    return(theColor);
 }// end colorForKey:
 
 

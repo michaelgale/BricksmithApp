@@ -19,27 +19,27 @@
 // =======================================================================
 static GLuint load_shader(NSString *file_path, GLenum shader_type, const char *shader_prefix)
 {
-  GLuint       shader_obj        = glCreateShader(shader_type);
-  NSString     *shader_file_text = [LDrawUtilities stringFromFile:file_path];
-  const GLchar *shader_text[2]   = { shader_prefix, [shader_file_text UTF8String] };
+    GLuint       shader_obj        = glCreateShader(shader_type);
+    NSString     *shader_file_text = [LDrawUtilities stringFromFile:file_path];
+    const GLchar *shader_text[2]   = { shader_prefix, [shader_file_text UTF8String] };
 
-  glShaderSource(shader_obj, 2, shader_text, NULL);
-  glCompileShader(shader_obj);
-  GLint result;
+    glShaderSource(shader_obj, 2, shader_text, NULL);
+    glCompileShader(shader_obj);
+    GLint result;
 
-  glGetShaderiv(shader_obj, GL_COMPILE_STATUS, &result);
+    glGetShaderiv(shader_obj, GL_COMPILE_STATUS, &result);
 
-  if (!result) {
-    GLint log_len;
-    glGetShaderiv(shader_obj, GL_INFO_LOG_LENGTH, &log_len);
-    GLchar *buf = (GLchar *)malloc(log_len);
-    glGetShaderInfoLog(shader_obj, log_len, NULL, buf);
-    printf("Shader %s failed.\n%s\n", [file_path UTF8String], buf);
-    free(buf);
-    glDeleteShader(shader_obj);
-    return(0);
-  }
-  return(shader_obj);
+    if (!result) {
+        GLint log_len;
+        glGetShaderiv(shader_obj, GL_INFO_LOG_LENGTH, &log_len);
+        GLchar *buf = (GLchar *)malloc(log_len);
+        glGetShaderInfoLog(shader_obj, log_len, NULL, buf);
+        printf("Shader %s failed.\n%s\n", [file_path UTF8String], buf);
+        free(buf);
+        glDeleteShader(shader_obj);
+        return(0);
+    }
+    return(shader_obj);
 }// end load_shader
 
 
@@ -56,46 +56,46 @@ static GLuint load_shader(NSString *file_path, GLenum shader_type, const char *s
 // =======================================================================
 GLuint  LDrawLoadShaderFromFile(NSString *file_path, const char *attrib_list[])
 {
-  GLuint vshader = load_shader(file_path,
-                               GL_VERTEX_SHADER,
-                               "#version 120\n#define VSHADER 1\n#define FSHADER 0\n");
-  GLuint fshader = load_shader(file_path,
-                               GL_FRAGMENT_SHADER,
-                               "#version 120\n#define VSHADER 0\n#define FSHADER 1\n");
+    GLuint vshader = load_shader(file_path,
+                                 GL_VERTEX_SHADER,
+                                 "#version 120\n#define VSHADER 1\n#define FSHADER 0\n");
+    GLuint fshader = load_shader(file_path,
+                                 GL_FRAGMENT_SHADER,
+                                 "#version 120\n#define VSHADER 0\n#define FSHADER 1\n");
 
-  if (!vshader || !fshader) {
-    return(0);
-  }
-  GLuint prog = glCreateProgram();
-
-  glAttachShader(prog, vshader);
-  glAttachShader(prog, fshader);
-  if (attrib_list) {
-    int a = 0;
-    while (attrib_list[a])
-    {
-      glBindAttribLocation(prog, a, attrib_list[a]);
-      ++a;
+    if (!vshader || !fshader) {
+        return(0);
     }
-  }
+    GLuint prog = glCreateProgram();
 
-  glLinkProgram(prog);
-  GLint result;
+    glAttachShader(prog, vshader);
+    glAttachShader(prog, fshader);
+    if (attrib_list) {
+        int a = 0;
+        while (attrib_list[a])
+        {
+            glBindAttribLocation(prog, a, attrib_list[a]);
+            ++a;
+        }
+    }
 
-  glGetProgramiv(prog, GL_LINK_STATUS, &result);
-  if (!result) {
-    GLint log_len;
-    glGetProgramiv(prog, GL_INFO_LOG_LENGTH, &log_len);
-    GLchar *buf = (GLchar *)malloc(log_len);
-    glGetProgramInfoLog(prog, log_len, NULL, buf);
-    printf("Shader %s failed.\n%s\n", [file_path UTF8String], buf);
-    free(buf);
-    glDeleteShader(vshader);
-    glDeleteShader(fshader);
-    glDeleteProgram(prog);
-    return(0);
-  }
-  return(prog);
+    glLinkProgram(prog);
+    GLint result;
+
+    glGetProgramiv(prog, GL_LINK_STATUS, &result);
+    if (!result) {
+        GLint log_len;
+        glGetProgramiv(prog, GL_INFO_LOG_LENGTH, &log_len);
+        GLchar *buf = (GLchar *)malloc(log_len);
+        glGetProgramInfoLog(prog, log_len, NULL, buf);
+        printf("Shader %s failed.\n%s\n", [file_path UTF8String], buf);
+        free(buf);
+        glDeleteShader(vshader);
+        glDeleteShader(fshader);
+        glDeleteProgram(prog);
+        return(0);
+    }
+    return(prog);
 }// end LDrawLoadShaderFromFile
 
 
@@ -109,9 +109,9 @@ GLuint  LDrawLoadShaderFromFile(NSString *file_path, const char *attrib_list[])
 // =======================================================================
 GLuint  LDrawLoadShaderFromResource(NSString *name, const char *attrib_list[])
 {
-  NSBundle *mainBundle = [NSBundle mainBundle];
-  NSString *path       = [mainBundle pathForResource:name
-                                              ofType:nil];
+    NSBundle *mainBundle = [NSBundle mainBundle];
+    NSString *path       = [mainBundle pathForResource:name
+                            ofType:nil];
 
-  return(LDrawLoadShaderFromFile(path, attrib_list));
+    return(LDrawLoadShaderFromFile(path, attrib_list));
 }// end LDrawLoadShaderFromResource

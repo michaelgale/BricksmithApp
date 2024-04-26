@@ -24,31 +24,31 @@
 //
 // ==============================================================================
 - (NSImage *)dragImageForRowsWithIndexes:(NSIndexSet *)dragRows
-  tableColumns:(NSArray *)tableColumns
-  event:(NSEvent *)dragEvent
-  offset:(NSPointPointer)dragImageOffset
+    tableColumns:(NSArray *)tableColumns
+    event:(NSEvent *)dragEvent
+    offset:(NSPointPointer)dragImageOffset
 {
-  NSPoint offset     = NSZeroPoint;
-  NSImage *dragImage = [BricksmithUtilities dragImageWithOffset:&offset];
+    NSPoint offset     = NSZeroPoint;
+    NSImage *dragImage = [BricksmithUtilities dragImageWithOffset:&offset];
 
-  // The NSTableView drag code automatically centers the drag image at the
-  // mouse cursor. Start by counteracting that so it appears directly above
-  // the cursor, as it would if you passed the mouse location directly to
-  // -[NSView dragImage:...]:
-  *dragImageOffset = NSMakePoint([dragImage size].width / 2, [dragImage size].height / 2);
+    // The NSTableView drag code automatically centers the drag image at the
+    // mouse cursor. Start by counteracting that so it appears directly above
+    // the cursor, as it would if you passed the mouse location directly to
+    // -[NSView dragImage:...]:
+    *dragImageOffset = NSMakePoint([dragImage size].width / 2, [dragImage size].height / 2);
 
-  // Now move the image over so it looks like a badge next to the cursor:
-  // ...Turns out the arrow cursor image is a 24 x 24 picture, and the arrow
-  // itself occupies only a small part of the lefthand side of that space.
-  // We have to resort to a hardcoded assumption that the actual arrow
-  // picture fills only half the full image.
-  // ...We subtract from y; it seems the table view is compensating for the
-  // flippedness of its coordinate system by accepting a natural offset.
-  (*dragImageOffset).x += offset.x;
-  (*dragImageOffset).y += offset.y;
+    // Now move the image over so it looks like a badge next to the cursor:
+    // ...Turns out the arrow cursor image is a 24 x 24 picture, and the arrow
+    // itself occupies only a small part of the lefthand side of that space.
+    // We have to resort to a hardcoded assumption that the actual arrow
+    // picture fills only half the full image.
+    // ...We subtract from y; it seems the table view is compensating for the
+    // flippedness of its coordinate system by accepting a natural offset.
+    (*dragImageOffset).x += offset.x;
+    (*dragImageOffset).y += offset.y;
 
 
-  return(dragImage);
+    return(dragImage);
 }// end dragImageForRows:event:dragImageOffset:
 
 
@@ -60,27 +60,27 @@
 // ==============================================================================
 - (void)keyDown:(NSEvent *)theEvent
 {
-  NSString *characters = [theEvent charactersIgnoringModifiers];
-  unichar  firstChar   = '\0';
+    NSString *characters = [theEvent charactersIgnoringModifiers];
+    unichar  firstChar   = '\0';
 
-  if ([characters length] > 0) {
-    firstChar = [characters characterAtIndex:0];
-  }
+    if ([characters length] > 0) {
+        firstChar = [characters characterAtIndex:0];
+    }
 
-  switch (firstChar)
-  {
-    case NSEnterCharacter :      // Enter key
-    case NSCarriageReturnCharacter : // Return key
-    case NSNewlineCharacter :    // ???
-      if ([self doubleAction] != NULL) {
-        [[self target] performSelector:[self doubleAction]
-                            withObject:self];
-      }
-      break;
+    switch (firstChar)
+    {
+        case NSEnterCharacter :  // Enter key
+        case NSCarriageReturnCharacter : // Return key
+        case NSNewlineCharacter : // ???
+            if ([self doubleAction] != NULL) {
+                [[self target] performSelector:[self doubleAction]
+                 withObject:self];
+            }
+            break;
 
-    default :
-      [super keyDown:theEvent];
-  }
+        default :
+            [super keyDown:theEvent];
+    }
 }// end keyDown:
 
 

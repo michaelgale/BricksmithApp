@@ -39,12 +39,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 @interface ColorLibrary : NSObject
 {
-  // keys are LDrawColorT codes; objects are LDrawColors
-  NSMutableDictionary *colors;
-  // colors we might be asked to display, but should NOT be in the color picker
-  NSMutableDictionary *privateColors;
-  // colours in "Favorites"
-  NSMutableArray *favorites;
+    // keys are LDrawColorT codes; objects are LDrawColors
+    NSMutableDictionary *colors;
+    // colors we might be asked to display, but should NOT be in the color picker
+    NSMutableDictionary *privateColors;
+    // colours in "Favorites"
+    NSMutableArray *favorites;
 }
 
 // Initialization

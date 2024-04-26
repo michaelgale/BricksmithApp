@@ -24,11 +24,11 @@
 // ==============================================================================
 - (id)initWithFrame:(NSRect)frame
 {
-  self = [super initWithFrame:frame];
-  if (self) {
-    // Initialization code here.
-  }
-  return(self);
+    self = [super initWithFrame:frame];
+    if (self) {
+        // Initialization code here.
+    }
+    return(self);
 }// end initWithFrame:
 
 
@@ -45,7 +45,7 @@
 // ==============================================================================
 - (void)setFocusSource:(NSView *)newObject
 {
-  self->focusSource = newObject;
+    self->focusSource = newObject;
 }
 
 
@@ -60,35 +60,35 @@
 // ==============================================================================
 - (void)drawRect:(NSRect)dirtyRect
 {
-  BOOL inFocus = NO;
+    BOOL inFocus = NO;
 
-  // We have no internal content of our own. We just let someone else's
-  // content shine through underneath us.
-  [[NSColor clearColor] set];
-  NSRectFill([self bounds]);
+    // We have no internal content of our own. We just let someone else's
+    // content shine through underneath us.
+    [[NSColor clearColor] set];
+    NSRectFill([self bounds]);
 
-  // Is our "content" in focus?
-  if (self->focusSource == nil) {
-    // Use superview as focus source
-    if ([[self window] firstResponder] == [self superview]) {
-      inFocus = YES;
+    // Is our "content" in focus?
+    if (self->focusSource == nil) {
+        // Use superview as focus source
+        if ([[self window] firstResponder] == [self superview]) {
+            inFocus = YES;
+        }
     }
-  }
-  else { // avoid crashing if the parentWindow is destroyed before updating the focus ring
-    if ([[self window] parentWindow] == nil) {
-      return;
+    else { // avoid crashing if the parentWindow is destroyed before updating the focus ring
+        if ([[self window] parentWindow] == nil) {
+            return;
+        }
+        // Use specified view as the focus source
+        if ([[self->focusSource window] firstResponder] == self->focusSource) {
+            inFocus = YES;
+        }
     }
-    // Use specified view as the focus source
-    if ([[self->focusSource window] firstResponder] == self->focusSource) {
-      inFocus = YES;
-    }
-  }
 
-  // Draw the focus ring.
-  if (inFocus == YES) {
-    NSSetFocusRingStyle(NSFocusRingOnly);
-    NSRectFill(NSInsetRect([self visibleRect], 2, 2));
-  }
+    // Draw the focus ring.
+    if (inFocus == YES) {
+        NSSetFocusRingStyle(NSFocusRingOnly);
+        NSRectFill(NSInsetRect([self visibleRect], 2, 2));
+    }
 }// end drawRect:
 
 
@@ -105,7 +105,7 @@
 // ==============================================================================
 - (NSView *)hitTest:(NSPoint)aPoint
 {
-  return([self superview]);
+    return([self superview]);
 }// end hitTest:
 
 
@@ -120,7 +120,7 @@
 // ==============================================================================
 - (void)dealloc
 {
-  [super dealloc];
+    [super dealloc];
 }
 
 

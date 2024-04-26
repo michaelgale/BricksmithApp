@@ -18,13 +18,13 @@
 
 @interface PieceCountPanel : DialogPanel
 {
-  LDrawFile      *file;
-  LDrawMPDModel  *activeModel;
-  PartReport     *partReport;
-  NSMutableArray *flattenedReport;
+    LDrawFile      *file;
+    LDrawMPDModel  *activeModel;
+    PartReport     *partReport;
+    NSMutableArray *flattenedReport;
 
-  IBOutlet NSTableView *pieceCountTable;
-  IBOutlet LDrawGLView *partPreview;
+    IBOutlet NSTableView *pieceCountTable;
+    IBOutlet LDrawGLView *partPreview;
 }
 
 // Initialization

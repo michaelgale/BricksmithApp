@@ -16,10 +16,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 @interface IconTextCell : NSTextFieldCell
 {
-  @private
-  NSImage *image;
-  CGFloat imagePadding;   // amount of space to the left and right of the image.
-  BOOL    verticallyCentersTitle;
+    @private
+    NSImage *image;
+    CGFloat imagePadding; // amount of space to the left and right of the image.
+    BOOL    verticallyCentersTitle;
 }
 
 // Accessors

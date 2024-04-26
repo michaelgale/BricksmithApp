@@ -39,15 +39,15 @@
 ////////////////////////////////////////////////////////////////////////////////
 @interface DocumentToolbarController : NSObject <NSToolbarDelegate>
 {
-  IBOutlet LDrawDocument *document;      // link to the documnt to which this is attached.
+    IBOutlet LDrawDocument *document;    // link to the documnt to which this is attached.
 
-  IBOutlet NSView *nudgeXToolView;
-  IBOutlet NSView *nudgeYToolView;
-  IBOutlet NSView *nudgeZToolView;
-  IBOutlet NSView *zoomToolView;         // enter zoom percentage.
+    IBOutlet NSView *nudgeXToolView;
+    IBOutlet NSView *nudgeYToolView;
+    IBOutlet NSView *nudgeZToolView;
+    IBOutlet NSView *zoomToolView;       // enter zoom percentage.
 
-  IBOutlet NSSegmentedControl *gridSegmentedControl;
-  IBOutlet NSSegmentedControl *orientationSegmentedControl;
+    IBOutlet NSSegmentedControl *gridSegmentedControl;
+    IBOutlet NSSegmentedControl *orientationSegmentedControl;
 }
 
 // Button factories

@@ -44,24 +44,24 @@
 // ==============================================================================
 - (void)centerDocumentView
 {
-  NSRect docRect  = [[self documentView] frame];
-  NSRect clipRect = [self bounds];
+    NSRect docRect  = [[self documentView] frame];
+    NSRect clipRect = [self bounds];
 
-  if (NSWidth(docRect) < NSWidth(clipRect)) {
-    clipRect.origin.x = docRect.origin.x - (NSWidth(clipRect) - NSWidth(docRect)) / 2;
-  }
+    if (NSWidth(docRect) < NSWidth(clipRect)) {
+        clipRect.origin.x = docRect.origin.x - (NSWidth(clipRect) - NSWidth(docRect)) / 2;
+    }
 
-  if (NSHeight(docRect) < NSHeight(clipRect)) {
-    clipRect.origin.y = docRect.origin.y - (NSHeight(clipRect) - NSHeight(docRect)) / 2;
-  }
+    if (NSHeight(docRect) < NSHeight(clipRect)) {
+        clipRect.origin.y = docRect.origin.y - (NSHeight(clipRect) - NSHeight(docRect)) / 2;
+    }
 
-  // Align to pixel boundaries. But don't use NSIntegralRect, because it will
-  // alter the width/height.
+    // Align to pixel boundaries. But don't use NSIntegralRect, because it will
+    // alter the width/height.
 // NSIntegralRect(clipRect);
-  clipRect.origin.x = floor(clipRect.origin.x);
-  clipRect.origin.y = floor(clipRect.origin.y);
+    clipRect.origin.x = floor(clipRect.origin.x);
+    clipRect.origin.y = floor(clipRect.origin.y);
 
-  [self scrollToPoint:clipRect.origin];
+    [self scrollToPoint:clipRect.origin];
 }// end centerDocumentView
 
 
@@ -73,20 +73,20 @@
 // ==============================================================================
 - (NSPoint)constrainScrollPoint:(NSPoint)proposedNewOrigin
 {
-  NSRect  docRect          = [[self documentView] frame];
-  NSRect  clipRect         = [self bounds];
-  NSPoint constrainedPoint = [super constrainScrollPoint:proposedNewOrigin];
-  NSPoint newScrollPoint   = constrainedPoint;
+    NSRect  docRect          = [[self documentView] frame];
+    NSRect  clipRect         = [self bounds];
+    NSPoint constrainedPoint = [super constrainScrollPoint:proposedNewOrigin];
+    NSPoint newScrollPoint   = constrainedPoint;
 
-  if (NSWidth(docRect) < NSWidth(clipRect)) {
-    newScrollPoint.x = docRect.origin.x - (NSWidth(clipRect) - NSWidth(docRect)) / 2;
-  }
+    if (NSWidth(docRect) < NSWidth(clipRect)) {
+        newScrollPoint.x = docRect.origin.x - (NSWidth(clipRect) - NSWidth(docRect)) / 2;
+    }
 
-  if (NSHeight(docRect) < NSHeight(clipRect)) {
-    newScrollPoint.y = docRect.origin.y - (NSHeight(clipRect) - NSHeight(docRect)) / 2;
-  }
+    if (NSHeight(docRect) < NSHeight(clipRect)) {
+        newScrollPoint.y = docRect.origin.y - (NSHeight(clipRect) - NSHeight(docRect)) / 2;
+    }
 
-  return(newScrollPoint);
+    return(newScrollPoint);
 }// end constrainScrollPoint:
 
 
@@ -97,8 +97,8 @@
 // ==============================================================================
 - (void)viewBoundsChanged:(NSNotification *)notification
 {
-  [super viewBoundsChanged:notification];
-  [self centerDocumentView];
+    [super viewBoundsChanged:notification];
+    [self centerDocumentView];
 }// end viewBoundsChanged:
 
 
@@ -109,8 +109,8 @@
 // ==============================================================================
 - (void)viewFrameChanged:(NSNotification *)notification
 {
-  [super viewFrameChanged:notification];
-  [self centerDocumentView];
+    [super viewFrameChanged:notification];
+    [self centerDocumentView];
 }// end viewFrameChanged:
 
 
@@ -130,8 +130,8 @@
 // ==============================================================================
 - (void)setFrame:(NSRect)frameRect
 {
-  [super setFrame:frameRect];
-  [self centerDocumentView];
+    [super setFrame:frameRect];
+    [self centerDocumentView];
 }// end setFrame:
 
 
@@ -139,8 +139,8 @@
 // ==============================================================================
 - (void)setFrameOrigin:(NSPoint)newOrigin
 {
-  [super setFrameOrigin:newOrigin];
-  [self centerDocumentView];
+    [super setFrameOrigin:newOrigin];
+    [self centerDocumentView];
 }// end setFrameOrigin:
 
 
@@ -148,8 +148,8 @@
 // ==============================================================================
 - (void)setFrameSize:(NSSize)newSize
 {
-  [super setFrameSize:newSize];
-  [self centerDocumentView];
+    [super setFrameSize:newSize];
+    [self centerDocumentView];
 }// end setFrameSize:
 
 
@@ -157,8 +157,8 @@
 // ==============================================================================
 - (void)setFrameRotation:(CGFloat)angle
 {
-  [super setFrameRotation:angle];
-  [self centerDocumentView];
+    [super setFrameRotation:angle];
+    [self centerDocumentView];
 }// end setFrameRotation:
 
 
@@ -166,8 +166,8 @@
 // ==============================================================================
 - (void)setBoundsSize:(NSSize)newSize
 {
-  [super setBoundsSize:newSize];
-  [self centerDocumentView];
+    [super setBoundsSize:newSize];
+    [self centerDocumentView];
 }
 
 

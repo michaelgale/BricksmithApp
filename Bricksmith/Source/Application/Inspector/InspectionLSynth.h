@@ -16,14 +16,14 @@
 @interface InspectionLSynth : ObjectInspectionController <NSTableViewDelegate,
                                                           NSTableViewDataSource>
 {
-  IBOutlet NSTextField    *lsynthPartLabel;
-  IBOutlet NSTextField    *synthesizedPartCount;
-  IBOutlet NSMatrix       *lsynthClassChooserMatrix;
-  IBOutlet NSTextField    *SynthTypeLabel;
-  IBOutlet NSPopUpButton  *typePopup;
-  IBOutlet NSPopUpButton  *constraintDefaultPopup;
-  IBOutlet NSPopUpButton  *defaultConstraints;
-  IBOutlet LDrawColorWell *colorWell;
+    IBOutlet NSTextField    *lsynthPartLabel;
+    IBOutlet NSTextField    *synthesizedPartCount;
+    IBOutlet NSMatrix       *lsynthClassChooserMatrix;
+    IBOutlet NSTextField    *SynthTypeLabel;
+    IBOutlet NSPopUpButton  *typePopup;
+    IBOutlet NSPopUpButton  *constraintDefaultPopup;
+    IBOutlet NSPopUpButton  *defaultConstraints;
+    IBOutlet LDrawColorWell *colorWell;
 }
 
 // @property(nonatomic, retain) NSPopUpButton *typePopup;

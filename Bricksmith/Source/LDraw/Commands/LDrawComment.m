@@ -40,18 +40,18 @@
 // ==============================================================================
 - (BOOL)finishParsing:(NSScanner *)scanner
 {
-  NSString *remainder = nil;
+    NSString *remainder = nil;
 
-  // skip to first word of comment
-  [scanner scanCharactersFromSet:[NSCharacterSet whitespaceCharacterSet]
-                      intoString:nil];
+    // skip to first word of comment
+    [scanner scanCharactersFromSet:[NSCharacterSet whitespaceCharacterSet]
+     intoString:nil];
 
-  remainder = [[scanner string] substringFromIndex:[scanner scanLocation]];
-  [self setStringValue:remainder];
+    remainder = [[scanner string] substringFromIndex:[scanner scanLocation]];
+    [self setStringValue:remainder];
 // [self setStringValue:
 // [lineRemainder stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
 
-  return(YES);
+    return(YES);
 }// end lineWithDirectiveText
 
 
@@ -72,9 +72,9 @@
 // ==============================================================================
 - (NSString *)write
 {
-  return([NSString stringWithFormat:@"0 %@ %@",
-          LDRAW_COMMENT_SLASH,
-          [self stringValue]]);
+    return([NSString stringWithFormat:@"0 %@ %@",
+            LDRAW_COMMENT_SLASH,
+            [self stringValue]]);
 }// end write
 
 
@@ -90,7 +90,7 @@
 // ==============================================================================
 - (NSString *)browsingDescription
 {
-  return([self stringValue]);
+    return([self stringValue]);
 }// end browsingDescription
 
 
@@ -102,7 +102,7 @@
 // ==============================================================================
 - (NSString *)iconName
 {
-  return(@"Comment");
+    return(@"Comment");
 }// end iconName
 
 
@@ -113,7 +113,7 @@
 // ==============================================================================
 - (NSString *)inspectorClassName
 {
-  return(@"InspectionComment");
+    return(@"InspectionComment");
 }// end inspectorClassName
 
 

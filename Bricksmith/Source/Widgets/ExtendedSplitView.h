@@ -11,7 +11,7 @@
 
 @interface ExtendedSplitView : NSSplitView
 {
-  NSString *autosaveName;
+    NSString *autosaveName;
 }
 
 // Accessors

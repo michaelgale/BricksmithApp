@@ -26,9 +26,9 @@
 // ==============================================================================
 - (id)init
 {
-  self = [super init];
+    self = [super init];
 
-  // Subclasses need to do something like this:
+    // Subclasses need to do something like this:
 // if(window == nil){
 // if ([NSBundle loadNibNamed:@"Inspector" owner:self] == NO) {
 // NSLog(@"Can't load Inspector nib file");
@@ -36,7 +36,7 @@
 //
 // }
 //
-  return(self);
+    return(self);
 }// end init
 
 
@@ -51,7 +51,7 @@
 // ==============================================================================
 - (id)object
 {
-  return(editingObject);
+    return(editingObject);
 }// end object
 
 
@@ -63,30 +63,30 @@
 // ==============================================================================
 - (void)setObject:(id)newObject
 {
-  if (newObject != editingObject) {
-    // De-register any possible notification observer for the previous editing
-    // object. In normal circumstances, there never is a previous object, so
-    // this method is pointless. It is only here as a safeguard.
-    [[NSNotificationCenter defaultCenter]
-     removeObserver:self
-               name:LDrawDirectiveDidChangeNotification
-             object:nil];
+    if (newObject != editingObject) {
+        // De-register any possible notification observer for the previous editing
+        // object. In normal circumstances, there never is a previous object, so
+        // this method is pointless. It is only here as a safeguard.
+        [[NSNotificationCenter defaultCenter]
+         removeObserver:self
+         name:LDrawDirectiveDidChangeNotification
+         object:nil];
 
-    // Retain-release in preparation for changing the instance variable.
-    [newObject retain];
-    [editingObject release];
+        // Retain-release in preparation for changing the instance variable.
+        [newObject retain];
+        [editingObject release];
 
-    // Update the the object being edited.
-    editingObject = newObject;
-    [self revert:self]; // calling revert should set the values of the palette.
+        // Update the the object being edited.
+        editingObject = newObject;
+        [self revert:self]; // calling revert should set the values of the palette.
 
-    // We want to know when our object changes out from under us.
-    [[NSNotificationCenter defaultCenter]
-     addObserver:self
-        selector:@selector(directiveDidChange:)
-            name:LDrawDirectiveDidChangeNotification
-          object:newObject];
-  }
+        // We want to know when our object changes out from under us.
+        [[NSNotificationCenter defaultCenter]
+         addObserver:self
+         selector:@selector(directiveDidChange:)
+         name:LDrawDirectiveDidChangeNotification
+         object:newObject];
+    }
 }// end setObject:
 
 
@@ -100,7 +100,7 @@
 // ==============================================================================
 - (NSWindow *)window
 {
-  return(_window);
+    return(_window);
 }// end window
 
 
@@ -121,7 +121,7 @@
 // ==============================================================================
 - (void)commitChanges:(id)sender
 {
-  // Subclasses should implement this method to update their editing objects.
+    // Subclasses should implement this method to update their editing objects.
 }// end commitChanges:
 
 
@@ -132,31 +132,31 @@
 // ==============================================================================
 - (IBAction)finishedEditing:(id)sender
 {
-  LDrawDirective *representedObject = [self object];
-  LDrawDocument  *currentDocument   =
-    [[NSDocumentController sharedDocumentController] currentDocument];
+    LDrawDirective *representedObject = [self object];
+    LDrawDocument  *currentDocument   =
+        [[NSDocumentController sharedDocumentController] currentDocument];
 
-  // Note: This code is tightly coupled to the LDrawDocument to support
-  // registering undo actions and providing a persistent target for
-  // receiving invertible redo actions.
-  //
-  // Apple's Interface Builder 2.0 palette model (upon which this was
-  // based) had a magic method called
-  // -noteAttributesWillChangeForObject:. Somehow, it just *knew* how to
-  // record state changes for undo. I have absolutely no idea how that
-  // worked.
+    // Note: This code is tightly coupled to the LDrawDocument to support
+    // registering undo actions and providing a persistent target for
+    // receiving invertible redo actions.
+    //
+    // Apple's Interface Builder 2.0 palette model (upon which this was
+    // based) had a magic method called
+    // -noteAttributesWillChangeForObject:. Somehow, it just *knew* how to
+    // record state changes for undo. I have absolutely no idea how that
+    // worked.
 
-  // prepare: do undo stuff and thread safety.
-  [currentDocument preserveDirectiveState:representedObject];
+    // prepare: do undo stuff and thread safety.
+    [currentDocument preserveDirectiveState:representedObject];
 
-  // let the subclass have a go at it.
-  [self commitChanges:sender];
+    // let the subclass have a go at it.
+    [self commitChanges:sender];
 
-  // done editing; clean up
-  [representedObject noteNeedsDisplay];
+    // done editing; clean up
+    [representedObject noteNeedsDisplay];
 
-  // Someone else might care that the part has changed
-  [representedObject sendMessageToObservers:MessageObservedChanged];
+    // Someone else might care that the part has changed
+    [representedObject sendMessageToObservers:MessageObservedChanged];
 }// end finishedEditing:
 
 
@@ -170,7 +170,7 @@
 // ==============================================================================
 - (IBAction)revert:(id)sender
 {
-  // does nothing, yet.
+    // does nothing, yet.
 }// end revert:
 
 
@@ -186,8 +186,8 @@
 // ==============================================================================
 - (void)directiveDidChange:(NSNotification *)notification
 {
-  // Update our state so we are not stale.
-  [self revert:self];
+    // Update our state so we are not stale.
+    [self revert:self];
 }// end directiveDidChange:
 
 
@@ -201,17 +201,17 @@
 // ==============================================================================
 - (Point3)coordinateValueFromFields:(NSArray <NSTextField *> *)fields
 {
-  if (fields.count != 3) {
-    return(ZeroPoint3);
-  }
+    if (fields.count != 3) {
+        return(ZeroPoint3);
+    }
 
-  Point3 representedPoint = ZeroPoint3;
+    Point3 representedPoint = ZeroPoint3;
 
-  representedPoint.x = [fields[0] floatValue];
-  representedPoint.y = [fields[1] floatValue];
-  representedPoint.z = [fields[2] floatValue];
+    representedPoint.x = [fields[0] floatValue];
+    representedPoint.y = [fields[1] floatValue];
+    representedPoint.z = [fields[2] floatValue];
 
-  return(representedPoint);
+    return(representedPoint);
 }// end coordinateValue
 
 
@@ -223,13 +223,13 @@
 // ==============================================================================
 - (void)setCoordinateValue:(Point3)newPoint onFields:(NSArray <NSTextField *> *)fields
 {
-  if (fields.count != 3) {
-    return;
-  }
+    if (fields.count != 3) {
+        return;
+    }
 
-  [fields[0] setFloatValue:newPoint.x];
-  [fields[1] setFloatValue:newPoint.y];
-  [fields[2] setFloatValue:newPoint.z];
+    [fields[0] setFloatValue:newPoint.x];
+    [fields[1] setFloatValue:newPoint.y];
+    [fields[2] setFloatValue:newPoint.z];
 }// end setCoordinateValue:
 
 
@@ -249,14 +249,14 @@
 // ==============================================================================
 - (void)dealloc
 {
-  // Cancel notification registration
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
+    // Cancel notification registration
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 
-  // Release top-level nib objects and instance variables.
-  [_window release];
-  [editingObject release];
+    // Release top-level nib objects and instance variables.
+    [_window release];
+    [editingObject release];
 
-  [super dealloc];
+    [super dealloc];
 }// end dealloc
 
 

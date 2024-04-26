@@ -23,11 +23,11 @@
 
 typedef enum PartType
 {
-  PartTypeUnresolved = 0, // We have not yet tried to figure out what we have.
-  PartTypeNotFound,   // We went looking and the part is missing.  This keeps us from retrying on every query until someone tells us to try again.
-  PartTypeLibrary,    // Part is in the library.
-  PartTypeSubmodel,   // Part is an MPD submodel from our parent LDrawFile
-  PartTypePeerFile    // Part is the first model in another file in the same directory as us.
+    PartTypeUnresolved = 0, // We have not yet tried to figure out what we have.
+    PartTypeNotFound, // We went looking and the part is missing.  This keeps us from retrying on every query until someone tells us to try again.
+    PartTypeLibrary,  // Part is in the library.
+    PartTypeSubmodel, // Part is an MPD submodel from our parent LDrawFile
+    PartTypePeerFile  // Part is the first model in another file in the same directory as us.
 } PartTypeT;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -37,18 +37,18 @@ typedef enum PartType
 ////////////////////////////////////////////////////////////////////////////////
 @interface LDrawPart : LDrawDrawableElement <NSCoding, LDrawObserver>
 {
-  @private
-  NSString *displayName;
-  NSString *referenceName;    // lower-case version of display name
+    @private
+    NSString *displayName;
+    NSString *referenceName;  // lower-case version of display name
 
-  GLfloat glTransformation[16];
+    GLfloat glTransformation[16];
 
-  LDrawDirective *cacheDrawable;      // The drawable is the model we link to OR a VBO that represents it from the part library -- a drawable proxy.
-  LDrawModel     *cacheModel; // The model is the real model we link to.
-  PartTypeT      cacheType;
-  NSLock         *drawLock;
+    LDrawDirective *cacheDrawable;    // The drawable is the model we link to OR a VBO that represents it from the part library -- a drawable proxy.
+    LDrawModel     *cacheModel; // The model is the real model we link to.
+    PartTypeT      cacheType;
+    NSLock         *drawLock;
 
-  Box3 cacheBounds;           // Cached bonuding box of resolved parts, in part's coordinate (that is, _not_ in the coordinates of the underlying model.
+    Box3 cacheBounds;         // Cached bonuding box of resolved parts, in part's coordinate (that is, _not_ in the coordinates of the underlying model.
 }
 
 // Directives
@@ -74,7 +74,7 @@ typedef enum PartType
 
 - (TransformComponents)componentsSnappedToGrid:(double)gridSpacing minimumAngle:(double)degrees;
 - (TransformComponents)components:(TransformComponents)components snappedToGrid:(double)gridSpacing
-  minimumAngle:(double)degrees;
+    minimumAngle:(double)degrees;
 - (void)rotateByDegrees:(Tuple3)degreesToRotate;
 - (void)rotateByDegrees:(Tuple3)degreesToRotate centerPoint:(Point3)center;
 

@@ -14,25 +14,25 @@
 // The class of a synthesis object
 typedef enum
 {
-  LSYNTH_PART = 1,
-  LSYNTH_HOSE = 2,
-  LSYNTH_BAND = 3,
-  LSYNTH_CLASSES_COUNT
+    LSYNTH_PART = 1,
+    LSYNTH_HOSE = 2,
+    LSYNTH_BAND = 3,
+    LSYNTH_CLASSES_COUNT
 } LSynthClassT;
 
 @interface LSynthConfiguration : NSObject
 {
-  NSMutableArray *parts;
-  NSMutableArray *hose_constraints;
-  NSMutableArray *band_constraints;
-  NSMutableArray *hose_types;
-  NSMutableArray *band_types;
+    NSMutableArray *parts;
+    NSMutableArray *hose_constraints;
+    NSMutableArray *band_constraints;
+    NSMutableArray *hose_types;
+    NSMutableArray *band_types;
 
-  NSMutableArray *quickRefHoses;
-  NSMutableArray *quickRefBands;
-  NSMutableArray *quickRefParts;
-  NSMutableArray *quickRefHoseConstraints;
-  NSMutableArray *quickRefBandConstraints;
+    NSMutableArray *quickRefHoses;
+    NSMutableArray *quickRefBands;
+    NSMutableArray *quickRefParts;
+    NSMutableArray *quickRefHoseConstraints;
+    NSMutableArray *quickRefBandConstraints;
 }
 
 #pragma mark -

@@ -33,34 +33,34 @@
 @interface LDrawGLView : NSOpenGLView <LDrawColorable, LDrawGLRendererDelegate,
                                        LDrawGLCameraScroller>
 {
-  @private
-  // The renderer is responsible for viewport math and OpenGL calls. Because
-  // of the latter, there is NO PUBLIC ACCESS, since each OpenGL call must be
-  // preceeded by activating the correct context. Thus any renderer-modifying
-  // calls must pass through the LDrawOpenGLView first.
-  LDrawGLRenderer *renderer;
+    @private
+    // The renderer is responsible for viewport math and OpenGL calls. Because
+    // of the latter, there is NO PUBLIC ACCESS, since each OpenGL call must be
+    // preceeded by activating the correct context. Thus any renderer-modifying
+    // calls must pass through the LDrawOpenGLView first.
+    LDrawGLRenderer *renderer;
 
-  FocusRingView *focusRingView;
+    FocusRingView *focusRingView;
 
-  IBOutlet id delegate;
-  id          target;
-  SEL         backAction;
-  SEL         forwardAction;
-  SEL         nudgeAction;
+    IBOutlet id delegate;
+    id          target;
+    SEL         backAction;
+    SEL         forwardAction;
+    SEL         nudgeAction;
 
-  BOOL     acceptsFirstResponder;   // YES if we can become key
-  NSString *autosaveName;
+    BOOL     acceptsFirstResponder; // YES if we can become key
+    NSString *autosaveName;
 
-  // Event Tracking
-  NSTimer        *mouseDownTimer;     // countdown to beginning drag-and-drop
-  NSTimer        *autoscrollTimer;    // timer to keep autoscroll going when mouse is stationary in scroll zone
-  BOOL           canBeginDragAndDrop; // the next mouse-dragged will initiate a drag-and-drop.  This is based on the timeout for delayed drag mode.
-  BOOL           dragEndedInOurDocument; // YES if the drag we initiated ended in the document we display
-  BOOL           selectionIsMarquee;  // Remembers when a select-click misses and can thus start a marquee.  Only if we HIT an object can we start dragging.
-  SelectionModeT marqueeSelectionMode;
-  NSEventType    startingGestureType;
-  Vector3        nudgeVector;         // direction of nudge action (valid only in nudgeAction callback)
-  BOOL           showAxis;
+    // Event Tracking
+    NSTimer        *mouseDownTimer;   // countdown to beginning drag-and-drop
+    NSTimer        *autoscrollTimer;  // timer to keep autoscroll going when mouse is stationary in scroll zone
+    BOOL           canBeginDragAndDrop; // the next mouse-dragged will initiate a drag-and-drop.  This is based on the timeout for delayed drag mode.
+    BOOL           dragEndedInOurDocument; // YES if the drag we initiated ended in the document we display
+    BOOL           selectionIsMarquee; // Remembers when a select-click misses and can thus start a marquee.  Only if we HIT an object can we start dragging.
+    SelectionModeT marqueeSelectionMode;
+    NSEventType    startingGestureType;
+    Vector3        nudgeVector;       // direction of nudge action (valid only in nudgeAction callback)
+    BOOL           showAxis;
 }
 
 - (void)internalInit;
@@ -137,7 +137,7 @@
 
 - (BOOL)LDrawGLView:(LDrawGLView *)glView writeDirectivesToPasteboard:(NSPasteboard *)pasteboard asCopy:(BOOL)copyFlag;
 - (void)LDrawGLView:(LDrawGLView *)glView acceptDrop:(id <NSDraggingInfo>)info directives:(NSArray *)
-  directives;
+    directives;
 - (void)LDrawGLViewPartsWereDraggedIntoOblivion:(LDrawGLView *)glView;
 - (void)LDrawGLViewPartDragEnded:(LDrawGLView *)glView;
 
@@ -148,13 +148,13 @@
 // left entirely to the delegate. Some may rightly question the design of this
 // system.
 - (void)LDrawGLView:(LDrawGLView *)glView wantsToSelectDirective:(LDrawDirective *)directiveToSelect
-  byExtendingSelection:(BOOL)shouldExtend;
+    byExtendingSelection:(BOOL)shouldExtend;
 - (void)LDrawGLView:(LDrawGLView *)glView wantsToSelectDirectives:(NSArray *)directivesToSelect
-  selectionMode:(SelectionModeT)selectionMode;
+    selectionMode:(SelectionModeT)selectionMode;
 - (void)LDrawGLView:(LDrawGLView *)glView willBeginDraggingHandle:(LDrawDragHandle *)dragHandle;
 - (void)LDrawGLView:(LDrawGLView *)glView dragHandleDidMove:(LDrawDragHandle *)dragHandle;
 - (void)LDrawGLView:(LDrawGLView *)glView mouseIsOverPoint:(Point3)modelPoint confidence:(Tuple3)
-  confidence;
+    confidence;
 - (void)LDrawGLViewMouseNotPositioning:(LDrawGLView *)glView;
 - (void)markPreviousSelection;
 - (void)unmarkPreviousSelection;

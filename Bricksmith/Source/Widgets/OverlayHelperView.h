@@ -19,7 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 @interface OverlayHelperView : NSView
 {
-  OverlayHelperWindow *helperWindow;
+    OverlayHelperWindow *helperWindow;
 }
 
 // Initialization

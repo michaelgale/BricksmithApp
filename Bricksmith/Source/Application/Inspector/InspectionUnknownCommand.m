@@ -22,13 +22,13 @@
 // ==============================================================================
 - (id)init
 {
-  self = [super init];
+    self = [super init];
 
-  if ([NSBundle loadNibNamed:@"InspectorUnknownCommand" owner:self] == NO) {
-    NSLog(@"Couldn't load InspectorUnknownCommand.nib");
-  }
+    if ([NSBundle loadNibNamed:@"InspectorUnknownCommand" owner:self] == NO) {
+        NSLog(@"Couldn't load InspectorUnknownCommand.nib");
+    }
 
-  return(self);
+    return(self);
 }// end init
 
 
@@ -43,13 +43,13 @@
 // ==============================================================================
 - (void)commitChanges:(id)sender
 {
-  LDrawMetaCommand *representedObject = [self object];
+    LDrawMetaCommand *representedObject = [self object];
 
-  NSString *newCommand = [commandField stringValue];
+    NSString *newCommand = [commandField stringValue];
 
-  [representedObject setStringValue:newCommand];
+    [representedObject setStringValue:newCommand];
 
-  [super commitChanges:sender];
+    [super commitChanges:sender];
 }// end commitChanges:
 
 
@@ -63,11 +63,11 @@
 // ==============================================================================
 - (IBAction)revert:(id)sender
 {
-  LDrawMetaCommand *representedObject = [self object];
+    LDrawMetaCommand *representedObject = [self object];
 
-  [commandField setStringValue:[representedObject stringValue]];
+    [commandField setStringValue:[representedObject stringValue]];
 
-  [super revert:sender];
+    [super revert:sender];
 }// end revert:
 
 
@@ -80,13 +80,13 @@
 // ==============================================================================
 - (IBAction)commandFieldChanged:(id)sender
 {
-  NSString *newCommand = [commandField stringValue];
-  NSString *oldCommand = [[self object] stringValue];
+    NSString *newCommand = [commandField stringValue];
+    NSString *oldCommand = [[self object] stringValue];
 
-  // If the values really did change, then update.
-  if ([newCommand isEqualToString:oldCommand] == NO) {
-    [self finishedEditing:sender];
-  }
+    // If the values really did change, then update.
+    if ([newCommand isEqualToString:oldCommand] == NO) {
+        [self finishedEditing:sender];
+    }
 }// end commandFieldChanged:
 
 

@@ -14,9 +14,9 @@
 
 @interface InspectionLine : ObjectInspectionController
 {
-  IBOutlet LDrawColorWell *colorWell;
-  IBOutlet NSForm         *startPoint;
-  IBOutlet NSForm         *endPoint;
+    IBOutlet LDrawColorWell *colorWell;
+    IBOutlet NSForm         *startPoint;
+    IBOutlet NSForm         *endPoint;
 }
 
 // Actions

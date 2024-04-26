@@ -39,9 +39,9 @@
 // ==============================================================================
 - (id)init
 {
-  self = [super init];
-  [self setStringValue:@""];
-  return(self);
+    self = [super init];
+    [self setStringValue:@""];
+    return(self);
 }// end init
 
 
@@ -61,95 +61,95 @@
 //
 // ==============================================================================
 - (id)initWithLines:(NSArray *)lines
-  inRange:(NSRange)range
-  parentGroup:(dispatch_group_t)parentGroup
+    inRange:(NSRange)range
+    parentGroup:(dispatch_group_t)parentGroup
 {
-  self = [super init];
+    self = [super init];
 
-  LDrawMetaCommand *directive   = nil;
-  NSString         *parsedField = nil;
-  NSString         *firstLine   = [lines objectAtIndex:range.location];
-  NSScanner        *scanner     = [NSScanner scannerWithString:firstLine];
-  int  lineCode      = 0;
-  BOOL gotLineCode   = 0;
-  int  metaLineStart = 0;
+    LDrawMetaCommand *directive   = nil;
+    NSString         *parsedField = nil;
+    NSString         *firstLine   = [lines objectAtIndex:range.location];
+    NSScanner        *scanner     = [NSScanner scannerWithString:firstLine];
+    int  lineCode      = 0;
+    BOOL gotLineCode   = 0;
+    int  metaLineStart = 0;
 
-  [scanner setCharactersToBeSkipped:nil];
+    [scanner setCharactersToBeSkipped:nil];
 
-  // A malformed part could easily cause a string indexing error, which would
-  // raise an exception. We don't want this to happen here.
-  @try
-  {
-    // skip leading whitespace
-    [scanner scanCharactersFromSet:[NSCharacterSet whitespaceCharacterSet]
-                        intoString:nil];
+    // A malformed part could easily cause a string indexing error, which would
+    // raise an exception. We don't want this to happen here.
+    @try
+    {
+        // skip leading whitespace
+        [scanner scanCharactersFromSet:[NSCharacterSet whitespaceCharacterSet]
+         intoString:nil];
 
-    // Read in the line code and advance past it.
-    gotLineCode = [scanner scanInt:&lineCode];
+        // Read in the line code and advance past it.
+        gotLineCode = [scanner scanInt:&lineCode];
 
-    if (gotLineCode == YES && lineCode == 0) {
-      // The first word of a meta-command should indicate the command
-      // itself, and thus the syntax of the rest of the line. However, the
-      // first word might not be a recognized command. It might not even
-      // be anything. "0\n" is perfectly valid LDraw.
-      [scanner scanCharactersFromSet:[NSCharacterSet whitespaceCharacterSet]
-                          intoString:nil];
-      metaLineStart = (int)[scanner scanLocation];
+        if (gotLineCode == YES && lineCode == 0) {
+            // The first word of a meta-command should indicate the command
+            // itself, and thus the syntax of the rest of the line. However, the
+            // first word might not be a recognized command. It might not even
+            // be anything. "0\n" is perfectly valid LDraw.
+            [scanner scanCharactersFromSet:[NSCharacterSet whitespaceCharacterSet]
+             intoString:nil];
+            metaLineStart = (int)[scanner scanLocation];
 
-      [scanner scanUpToCharactersFromSet:[NSCharacterSet whitespaceCharacterSet]
-                              intoString:&parsedField];
+            [scanner scanUpToCharactersFromSet:[NSCharacterSet whitespaceCharacterSet]
+             intoString:&parsedField];
 
-      // Comment?
-      if ([parsedField isEqualToString:LDRAW_COMMENT_SLASH]
-          || [parsedField isEqualToString:LDRAW_COMMENT_WRITE]
-          || [parsedField isEqualToString:LDRAW_COMMENT_PRINT]) {
-        directive = [[LDrawComment alloc] init];
-      }
-      // Color Definition?
-      else if ([parsedField isEqualToString:LDRAW_COLOR_DEFINITION]) {
-        directive = [[LDrawColor alloc] init];
-      }
+            // Comment?
+            if ([parsedField isEqualToString:LDRAW_COMMENT_SLASH]
+                || [parsedField isEqualToString:LDRAW_COMMENT_WRITE]
+                || [parsedField isEqualToString:LDRAW_COMMENT_PRINT]) {
+                directive = [[LDrawComment alloc] init];
+            }
+            // Color Definition?
+            else if ([parsedField isEqualToString:LDRAW_COLOR_DEFINITION]) {
+                directive = [[LDrawColor alloc] init];
+            }
 
-      // If we recognized the metacommand, use the subclass to finish
-      // parsing.
-      if (directive != nil) {
-        [directive finishParsing:scanner]; // throws exceptions on error
-      }
-      else {
-        // Didn't specifically recognize this metacommand. Create a
-        // non-functional generic command to record its existence.
-        directive = [self retain];
-        NSString *command = [[scanner string] substringFromIndex:metaLineStart];
+            // If we recognized the metacommand, use the subclass to finish
+            // parsing.
+            if (directive != nil) {
+                [directive finishParsing:scanner]; // throws exceptions on error
+            }
+            else {
+                // Didn't specifically recognize this metacommand. Create a
+                // non-functional generic command to record its existence.
+                directive = [self retain];
+                NSString *command = [[scanner string] substringFromIndex:metaLineStart];
 
-        [directive setStringValue:command];
-      }
+                [directive setStringValue:command];
+            }
+        }
+        else if (gotLineCode == NO) {
+            // This is presumably an empty line, and the following will
+            // incorrectly add a 0 linetype to it.
+            directive = [self retain];
+            NSString *command = [scanner string];
+
+            [directive setStringValue:command];
+        }
+        else {
+            // nonzero linetype!
+            @throw [NSException exceptionWithName:@"BricksmithParseException"
+                    reason:@"Bad metacommand syntax"
+                    userInfo:nil];
+        }
     }
-    else if (gotLineCode == NO) {
-      // This is presumably an empty line, and the following will
-      // incorrectly add a 0 linetype to it.
-      directive = [self retain];
-      NSString *command = [scanner string];
-
-      [directive setStringValue:command];
+    @catch (NSException *exception)
+    {
+        NSLog(@"the meta-command %@ was fatally invalid", [lines objectAtIndex:range.location]);
+        NSLog(@" raised exception %@", [exception name]);
     }
-    else {
-      // nonzero linetype!
-      @throw [NSException exceptionWithName:@"BricksmithParseException"
-                                     reason:@"Bad metacommand syntax"
-                                   userInfo:nil];
-    }
-  }
-  @catch (NSException *exception)
-  {
-    NSLog(@"the meta-command %@ was fatally invalid", [lines objectAtIndex:range.location]);
-    NSLog(@" raised exception %@", [exception name]);
-  }
 
-  // The new directive should replace the receiver!
-  [self release];
-  self = nil;
+    // The new directive should replace the receiver!
+    [self release];
+    self = nil;
 
-  return(directive);
+    return(directive);
 }// end initWithLines:inRange:
 
 
@@ -162,11 +162,11 @@
 // ==============================================================================
 - (id)initWithCoder:(NSCoder *)decoder
 {
-  self = [super initWithCoder:decoder];
+    self = [super initWithCoder:decoder];
 
-  commandString = [[decoder decodeObjectForKey:@"commandString"] retain];
+    commandString = [[decoder decodeObjectForKey:@"commandString"] retain];
 
-  return(self);
+    return(self);
 }// end initWithCoder:
 
 
@@ -179,10 +179,10 @@
 // ==============================================================================
 - (void)encodeWithCoder:(NSCoder *)encoder
 {
-  [super encodeWithCoder:encoder];
+    [super encodeWithCoder:encoder];
 
-  [encoder encodeObject:commandString
-                 forKey:@"commandString"];
+    [encoder encodeObject:commandString
+     forKey:@"commandString"];
 }// end encodeWithCoder:
 
 
@@ -193,11 +193,11 @@
 // ==============================================================================
 - (id)copyWithZone:(NSZone *)zone
 {
-  LDrawMetaCommand *copied = (LDrawMetaCommand *)[super copyWithZone:zone];
+    LDrawMetaCommand *copied = (LDrawMetaCommand *)[super copyWithZone:zone];
 
-  [copied setStringValue:[self stringValue]];
+    [copied setStringValue:[self stringValue]];
 
-  return(copied);
+    return(copied);
 }// end copyWithZone:
 
 
@@ -212,9 +212,9 @@
 // ==============================================================================
 - (BOOL)finishParsing:(NSScanner *)scanner
 {
-  // LDrawMetaCommand itself doesn't have any special syntax, so we shouldn't
-  // be getting any in this method.
-  return(NO);
+    // LDrawMetaCommand itself doesn't have any special syntax, so we shouldn't
+    // be getting any in this method.
+    return(NO);
 }// end finishParsing:
 
 
@@ -229,7 +229,7 @@
 // ==============================================================================
 - (void)draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)parentColor
 {
-  // Nothing to do here.
+    // Nothing to do here.
 }// end draw:viewScale:parentColor:
 
 
@@ -242,11 +242,11 @@
 // ==============================================================================
 - (NSString *)write
 {
-  return([NSString stringWithFormat:
-          @"0 %@",
-          [self stringValue]
+    return([NSString stringWithFormat:
+            @"0 %@",
+            [self stringValue]
 
-         ]);
+           ]);
 }// end write
 
 
@@ -263,7 +263,7 @@
 - (NSString *)browsingDescription
 {
 // return NSLocalizedString(@"Unknown Metacommand", nil);
-  return(commandString);
+    return(commandString);
 }// end browsingDescription
 
 
@@ -275,7 +275,7 @@
 // ==============================================================================
 - (NSString *)iconName
 {
-  return(@"Unknown");
+    return(@"Unknown");
 }// end iconName
 
 
@@ -286,7 +286,7 @@
 // ==============================================================================
 - (NSString *)inspectorClassName
 {
-  return(@"InspectionUnknownCommand");
+    return(@"InspectionUnknownCommand");
 }// end inspectorClassName
 
 
@@ -301,10 +301,10 @@
 // ==============================================================================
 - (void)setStringValue:(NSString *)newString
 {
-  [newString retain];
-  [commandString release];
+    [newString retain];
+    [commandString release];
 
-  commandString = newString;
+    commandString = newString;
 }// end setStringValue:
 
 
@@ -315,7 +315,7 @@
 // ==============================================================================
 - (NSString *)stringValue
 {
-  return(commandString);
+    return(commandString);
 }// end stringValue
 
 
@@ -331,12 +331,12 @@
 // ==============================================================================
 - (void)registerUndoActions:(NSUndoManager *)undoManager
 {
-  [super registerUndoActions:undoManager];
+    [super registerUndoActions:undoManager];
 
-  [[undoManager prepareWithInvocationTarget:self] setStringValue:[self stringValue]];
+    [[undoManager prepareWithInvocationTarget:self] setStringValue:[self stringValue]];
 
-  // [undoManager setActionName:NSLocalizedString(@"UndoAttributesLine", nil)];
-  // (unused for this class; a plain "Undo" will probably be less confusing.)
+    // [undoManager setActionName:NSLocalizedString(@"UndoAttributesLine", nil)];
+    // (unused for this class; a plain "Undo" will probably be less confusing.)
 }// end registerUndoActions:
 
 
@@ -351,9 +351,9 @@
 // ==============================================================================
 - (void)dealloc
 {
-  [commandString release];
+    [commandString release];
 
-  [super dealloc];
+    [super dealloc];
 }// end dealloc
 
 

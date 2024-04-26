@@ -24,14 +24,14 @@
 // ------------------------------------------------------------------------------
 static NSInteger sort_by_part_description(id a, id b, void *ref)
 {
-  PartLibrary *pl = (PartLibrary *)ref;
-  NSString    *aa = a;
-  NSString    *bb = b;
+    PartLibrary *pl = (PartLibrary *)ref;
+    NSString    *aa = a;
+    NSString    *bb = b;
 
-  NSString *da = [pl descriptionForPartName:aa];
-  NSString *db = [pl descriptionForPartName:bb];
+    NSString *da = [pl descriptionForPartName:aa];
+    NSString *db = [pl descriptionForPartName:bb];
 
-  return([da compare:db]);
+    return([da compare:db]);
 }// end sort_by_part_description
 
 
@@ -43,10 +43,10 @@ static NSInteger sort_by_part_description(id a, id b, void *ref)
 // ------------------------------------------------------------------------------
 static NSInteger sort_by_child_name(id a, id b, void *ref)
 {
-  RelatedPart *aa = a;
-  RelatedPart *bb = b;
+    RelatedPart *aa = a;
+    RelatedPart *bb = b;
 
-  return([[aa childName] compare:[bb childName]]);
+    return([[aa childName] compare:[bb childName]]);
 }// end sort_by_child_name
 
 
@@ -58,10 +58,10 @@ static NSInteger sort_by_child_name(id a, id b, void *ref)
 // ------------------------------------------------------------------------------
 static NSInteger sort_by_role(id a, id b, void *ref)
 {
-  RelatedPart *aa = a;
-  RelatedPart *bb = b;
+    RelatedPart *aa = a;
+    RelatedPart *bb = b;
 
-  return([[aa role] compare:[bb role]]);
+    return([[aa role] compare:[bb role]]);
 }// end sort_by_role
 
 
@@ -77,85 +77,85 @@ static NSInteger sort_by_role(id a, id b, void *ref)
 //
 // ==============================================================================
 - (id)initWithParent:(NSString *)parentName
-  offset:(GLfloat *)offset
-  relation:(NSString *)relation
-  childLine:(NSString *)line
+    offset:(GLfloat *)offset
+    relation:(NSString *)relation
+    childLine:(NSString *)line
 {
-  NSCharacterSet *whitespaceCharacterSet = [NSCharacterSet whitespaceCharacterSet];
+    NSCharacterSet *whitespaceCharacterSet = [NSCharacterSet whitespaceCharacterSet];
 
-  NSString *parsedField = nil;
-  NSString *orig        = line;
+    NSString *parsedField = nil;
+    NSString *orig        = line;
 
-  self = [super init];
+    self = [super init];
 
-  @try {
-    // Skip color
-    parsedField = [LDrawUtilities readNextField:line
-                                      remainder:&line];
+    @try {
+        // Skip color
+        parsedField = [LDrawUtilities readNextField:line
+                       remainder:&line];
 
-    // Matrix XYZ
-    parsedField = [LDrawUtilities readNextField:line
-                                      remainder:&line];
-    transform[12] = [parsedField floatValue] - offset[0];
-    parsedField   = [LDrawUtilities readNextField:line
-                                        remainder:&line];
-    transform[13] = [parsedField floatValue] - offset[1];
-    parsedField   = [LDrawUtilities readNextField:line
-                                        remainder:&line];
-    transform[14] = [parsedField floatValue] - offset[2];
+        // Matrix XYZ
+        parsedField = [LDrawUtilities readNextField:line
+                       remainder:&line];
+        transform[12] = [parsedField floatValue] - offset[0];
+        parsedField   = [LDrawUtilities readNextField:line
+                         remainder:&line];
+        transform[13] = [parsedField floatValue] - offset[1];
+        parsedField   = [LDrawUtilities readNextField:line
+                         remainder:&line];
+        transform[14] = [parsedField floatValue] - offset[2];
 
-    // Matrix rotation 3x3.  LDraw format is transpose of what we are
-    // used to from OpenGL.
-    parsedField = [LDrawUtilities readNextField:line
-                                      remainder:&line];
-    transform[0] = [parsedField floatValue];
-    parsedField  = [LDrawUtilities readNextField:line
-                                       remainder:&line];
-    transform[4] = [parsedField floatValue];
-    parsedField  = [LDrawUtilities readNextField:line
-                                       remainder:&line];
-    transform[8] = [parsedField floatValue];
+        // Matrix rotation 3x3.  LDraw format is transpose of what we are
+        // used to from OpenGL.
+        parsedField = [LDrawUtilities readNextField:line
+                       remainder:&line];
+        transform[0] = [parsedField floatValue];
+        parsedField  = [LDrawUtilities readNextField:line
+                        remainder:&line];
+        transform[4] = [parsedField floatValue];
+        parsedField  = [LDrawUtilities readNextField:line
+                        remainder:&line];
+        transform[8] = [parsedField floatValue];
 
-    parsedField = [LDrawUtilities readNextField:line
-                                      remainder:&line];
-    transform[1] = [parsedField floatValue];
-    parsedField  = [LDrawUtilities readNextField:line
-                                       remainder:&line];
-    transform[5] = [parsedField floatValue];
-    parsedField  = [LDrawUtilities readNextField:line
-                                       remainder:&line];
-    transform[9] = [parsedField floatValue];
+        parsedField = [LDrawUtilities readNextField:line
+                       remainder:&line];
+        transform[1] = [parsedField floatValue];
+        parsedField  = [LDrawUtilities readNextField:line
+                        remainder:&line];
+        transform[5] = [parsedField floatValue];
+        parsedField  = [LDrawUtilities readNextField:line
+                        remainder:&line];
+        transform[9] = [parsedField floatValue];
 
-    parsedField = [LDrawUtilities readNextField:line
-                                      remainder:&line];
-    transform[2] = [parsedField floatValue];
-    parsedField  = [LDrawUtilities readNextField:line
-                                       remainder:&line];
-    transform[6] = [parsedField floatValue];
-    parsedField  = [LDrawUtilities readNextField:line
-                                       remainder:&line];
-    transform[10] = [parsedField floatValue];
+        parsedField = [LDrawUtilities readNextField:line
+                       remainder:&line];
+        transform[2] = [parsedField floatValue];
+        parsedField  = [LDrawUtilities readNextField:line
+                        remainder:&line];
+        transform[6] = [parsedField floatValue];
+        parsedField  = [LDrawUtilities readNextField:line
+                        remainder:&line];
+        transform[10] = [parsedField floatValue];
 
-    transform[3]  = 0.0f;
-    transform[7]  = 0.0f;
-    transform[11] = 0.0f;
-    transform[15] = 1.0f;
+        transform[3]  = 0.0f;
+        transform[7]  = 0.0f;
+        transform[11] = 0.0f;
+        transform[15] = 1.0f;
 
-    self->child = [[line stringByTrimmingCharactersInSet:whitespaceCharacterSet] retain];
+        self->child = [[line stringByTrimmingCharactersInSet:whitespaceCharacterSet] retain];
 
-    self->childName = [[[PartLibrary sharedPartLibrary] descriptionForPartName:self->child] retain];
+        self->childName = [[[PartLibrary sharedPartLibrary] descriptionForPartName:self->child] retain];
 
-    self->role = [relation retain];
+        self->role = [relation retain];
 
-    self->parent = [parentName retain];
-  }
-  @catch (NSException *e) {
-    NSLog(@"a related part line '%@' was fatally invalid", orig);
-    NSLog(@" raised exception %@", [e name]);
-    [self release];
-    self = nil;
-  }
-  return(self);
+        self->parent = [parentName retain];
+    }
+    @catch (NSException *e) {
+        NSLog(@"a related part line '%@' was fatally invalid", orig);
+        NSLog(@" raised exception %@", [e name]);
+        [self release];
+        self = nil;
+    }
+    return(self);
 }// end initWithParent:offset:relation:childLine:
 
 
@@ -166,11 +166,11 @@ static NSInteger sort_by_role(id a, id b, void *ref)
 // ==============================================================================
 - (void)dealloc
 {
-  [parent release];
-  [child release];
-  [childName release];
-  [role release];
-  [super dealloc];
+    [parent release];
+    [child release];
+    [childName release];
+    [role release];
+    [super dealloc];
 }// end dealloc
 
 
@@ -181,14 +181,14 @@ static NSInteger sort_by_role(id a, id b, void *ref)
 // ==============================================================================
 - (void)dump
 {
-  NSLog(@"\t%s\t%s(%s)\t%s		%f,%f,%f		%f %f %f | %f %f %f | %f %f %f\n",
-        [self->parent UTF8String], [self->child UTF8String], [self->childName UTF8String],
-        [self->role UTF8String],
-        self->transform[12], self->transform[13], self->transform[14],
+    NSLog(@"\t%s\t%s(%s)\t%s		%f,%f,%f		%f %f %f | %f %f %f | %f %f %f\n",
+          [self->parent UTF8String], [self->child UTF8String], [self->childName UTF8String],
+          [self->role UTF8String],
+          self->transform[12], self->transform[13], self->transform[14],
 
-        self->transform[0], self->transform[4], self->transform[8],
-        self->transform[1], self->transform[5], self->transform[9],
-        self->transform[2], self->transform[6], self->transform[10]);
+          self->transform[0], self->transform[4], self->transform[8],
+          self->transform[1], self->transform[5], self->transform[9],
+          self->transform[2], self->transform[6], self->transform[10]);
 }// end dump
 
 
@@ -200,7 +200,7 @@ static NSInteger sort_by_role(id a, id b, void *ref)
 // ==============================================================================
 - (NSString *)parent
 {
-  return(parent);
+    return(parent);
 }// end parent
 
 
@@ -212,7 +212,7 @@ static NSInteger sort_by_role(id a, id b, void *ref)
 // ==============================================================================
 - (NSString *)child
 {
-  return(child);
+    return(child);
 }// end child
 
 
@@ -224,7 +224,7 @@ static NSInteger sort_by_role(id a, id b, void *ref)
 // ==============================================================================
 - (NSString *)childName
 {
-  return(childName);
+    return(childName);
 }// end childName
 
 
@@ -235,7 +235,7 @@ static NSInteger sort_by_role(id a, id b, void *ref)
 // ==============================================================================
 - (NSString *)role
 {
-  return(role);
+    return(role);
 }// end role
 
 
@@ -247,13 +247,13 @@ static NSInteger sort_by_role(id a, id b, void *ref)
 // ==============================================================================
 - (TransformComponents)calcChildPosition:(TransformComponents)parentPosition
 {
-  TransformComponents ret;
-  Matrix4             parentMatrix       = Matrix4CreateTransformation(&parentPosition);
-  Matrix4             childMatrix        = Matrix4CreateFromGLMatrix4(self->transform);
-  Matrix4             effective_position = Matrix4Multiply(childMatrix, parentMatrix);
+    TransformComponents ret;
+    Matrix4             parentMatrix       = Matrix4CreateTransformation(&parentPosition);
+    Matrix4             childMatrix        = Matrix4CreateFromGLMatrix4(self->transform);
+    Matrix4             effective_position = Matrix4Multiply(childMatrix, parentMatrix);
 
-  Matrix4DecomposeTransformation(effective_position, &ret);
-  return(ret);
+    Matrix4DecomposeTransformation(effective_position, &ret);
+    return(ret);
 }// end calcChildPosition:
 
 
@@ -272,15 +272,15 @@ static RelatedParts *SharedRelatedParts = nil;
 // ------------------------------------------------------------------------------
 + (RelatedParts *)sharedRelatedParts
 {
-  if (SharedRelatedParts == nil) {
-    NSBundle *mainBundle = [NSBundle mainBundle];
-    NSString *path       = [mainBundle pathForResource:@"related.ldr"
-                                                ofType:nil];
+    if (SharedRelatedParts == nil) {
+        NSBundle *mainBundle = [NSBundle mainBundle];
+        NSString *path       = [mainBundle pathForResource:@"related.ldr"
+                                ofType:nil];
 
-    SharedRelatedParts = [[RelatedParts alloc] initWithFilePath:path];
-  }
+        SharedRelatedParts = [[RelatedParts alloc] initWithFilePath:path];
+    }
 
-  return(SharedRelatedParts);
+    return(SharedRelatedParts);
 }// end sharedRelatedParts
 
 
@@ -292,116 +292,116 @@ static RelatedParts *SharedRelatedParts = nil;
 // ==============================================================================
 - (id)initWithFilePath:(NSString *)filePath
 {
-  NSUInteger i;
-  NSUInteger count;
-  NSString   *fileContents = nil;
-  NSString   *parsedField  = nil;
+    NSUInteger i;
+    NSUInteger count;
+    NSString   *fileContents = nil;
+    NSString   *parsedField  = nil;
 
-  NSCharacterSet *whitespaceCharacterSet = [NSCharacterSet whitespaceCharacterSet];
+    NSCharacterSet *whitespaceCharacterSet = [NSCharacterSet whitespaceCharacterSet];
 
-  NSArray        *lines = nil;
-  NSMutableArray *arr   = nil;
+    NSArray        *lines = nil;
+    NSMutableArray *arr   = nil;
 
-  self         = [super init];
-  fileContents = [LDrawUtilities stringFromFile:filePath];
-  lines        = [fileContents separateByLine];
-  count        = [lines count];
-  arr          = [[NSMutableArray alloc] initWithCapacity:count];
+    self         = [super init];
+    fileContents = [LDrawUtilities stringFromFile:filePath];
+    lines        = [fileContents separateByLine];
+    count        = [lines count];
+    arr          = [[NSMutableArray alloc] initWithCapacity:count];
 
-  NSMutableArray *parents  = [NSMutableArray arrayWithCapacity:5];
-  GLfloat        offset[3] = { 0, 0, 0 };
-  NSString       *relName  = nil;
+    NSMutableArray *parents  = [NSMutableArray arrayWithCapacity:5];
+    GLfloat        offset[3] = { 0, 0, 0 };
+    NSString       *relName  = nil;
 
-  for (i = 0; i < count; ++i) {
-    NSString *line      = [lines objectAtIndex:i];
-    NSString *orig_line = line;
+    for (i = 0; i < count; ++i) {
+        NSString *line      = [lines objectAtIndex:i];
+        NSString *orig_line = line;
 
-    parsedField = [LDrawUtilities readNextField:line
-                                      remainder:&line];
+        parsedField = [LDrawUtilities readNextField:line
+                       remainder:&line];
 
-    if ([parsedField compare:@"0"] == NSOrderedSame) {
-      // meta command - do we know what it is?
-      parsedField = [LDrawUtilities readNextField:line
-                                        remainder:&line];
-      if ([parsedField compare:@"!PARENT"] == NSOrderedSame) {
-        relName   = nil;
-        parents   = [NSMutableArray arrayWithCapacity:5];
-        offset[0] = offset[1] = offset[2] = 0.0f;
-      }
-      else if ([parsedField compare:@"!CHILD"] == NSOrderedSame) {
-        relName = [line stringByTrimmingCharactersInSet:whitespaceCharacterSet];
-      }
-      else {
+        if ([parsedField compare:@"0"] == NSOrderedSame) {
+            // meta command - do we know what it is?
+            parsedField = [LDrawUtilities readNextField:line
+                           remainder:&line];
+            if ([parsedField compare:@"!PARENT"] == NSOrderedSame) {
+                relName   = nil;
+                parents   = [NSMutableArray arrayWithCapacity:5];
+                offset[0] = offset[1] = offset[2] = 0.0f;
+            }
+            else if ([parsedField compare:@"!CHILD"] == NSOrderedSame) {
+                relName = [line stringByTrimmingCharactersInSet:whitespaceCharacterSet];
+            }
+            else {
 #if DEBUG
-        printf("Unparsable META command: %s\n", [orig_line UTF8String]);
+                printf("Unparsable META command: %s\n", [orig_line UTF8String]);
 #endif
-      }
-    }
-    else if ([parsedField compare:@"1"] == NSOrderedSame) {
-      if (relName == nil) {
-        // skip color
-        parsedField = [LDrawUtilities readNextField:line
-                                          remainder:&line];
-
-        // Grab offset
-        parsedField = [LDrawUtilities readNextField:line
-                                          remainder:&line];
-        offset[0]   = [parsedField floatValue];
-        parsedField = [LDrawUtilities readNextField:line
-                                          remainder:&line];
-        offset[1]   = [parsedField floatValue];
-        parsedField = [LDrawUtilities readNextField:line
-                                          remainder:&line];
-        offset[2] = [parsedField floatValue];
-
-        // skip matrix
-
-        parsedField = [LDrawUtilities readNextField:line
-                                          remainder:&line];
-        parsedField = [LDrawUtilities readNextField:line
-                                          remainder:&line];
-        parsedField = [LDrawUtilities readNextField:line
-                                          remainder:&line];
-
-        parsedField = [LDrawUtilities readNextField:line
-                                          remainder:&line];
-        parsedField = [LDrawUtilities readNextField:line
-                                          remainder:&line];
-        parsedField = [LDrawUtilities readNextField:line
-                                          remainder:&line];
-
-        parsedField = [LDrawUtilities readNextField:line
-                                          remainder:&line];
-        parsedField = [LDrawUtilities readNextField:line
-                                          remainder:&line];
-        parsedField = [LDrawUtilities readNextField:line
-                                          remainder:&line];
-
-
-        NSString *parentName = [line stringByTrimmingCharactersInSet:whitespaceCharacterSet];
-        [parents addObject:parentName];
-      }
-      else {
-        NSInteger num_parents = [parents count];
-        NSInteger pidx;
-        for (pidx = 0; pidx < num_parents; ++pidx) {
-          NSString    *pname = [parents objectAtIndex:pidx];
-          RelatedPart *p     = [[RelatedPart alloc] initWithParent:pname
-                                                            offset:offset
-                                                          relation:relName
-                                                         childLine:line];
-          [arr addObject:p];
-          [p release];
+            }
         }
-      }
-    }
-    else {
-      printf("Unparsable line: %s\n", [orig_line UTF8String]);
-    }
-  }
+        else if ([parsedField compare:@"1"] == NSOrderedSame) {
+            if (relName == nil) {
+                // skip color
+                parsedField = [LDrawUtilities readNextField:line
+                               remainder:&line];
 
-  self->relatedParts = arr;
-  return(self);
+                // Grab offset
+                parsedField = [LDrawUtilities readNextField:line
+                               remainder:&line];
+                offset[0]   = [parsedField floatValue];
+                parsedField = [LDrawUtilities readNextField:line
+                               remainder:&line];
+                offset[1]   = [parsedField floatValue];
+                parsedField = [LDrawUtilities readNextField:line
+                               remainder:&line];
+                offset[2] = [parsedField floatValue];
+
+                // skip matrix
+
+                parsedField = [LDrawUtilities readNextField:line
+                               remainder:&line];
+                parsedField = [LDrawUtilities readNextField:line
+                               remainder:&line];
+                parsedField = [LDrawUtilities readNextField:line
+                               remainder:&line];
+
+                parsedField = [LDrawUtilities readNextField:line
+                               remainder:&line];
+                parsedField = [LDrawUtilities readNextField:line
+                               remainder:&line];
+                parsedField = [LDrawUtilities readNextField:line
+                               remainder:&line];
+
+                parsedField = [LDrawUtilities readNextField:line
+                               remainder:&line];
+                parsedField = [LDrawUtilities readNextField:line
+                               remainder:&line];
+                parsedField = [LDrawUtilities readNextField:line
+                               remainder:&line];
+
+
+                NSString *parentName = [line stringByTrimmingCharactersInSet:whitespaceCharacterSet];
+                [parents addObject:parentName];
+            }
+            else {
+                NSInteger num_parents = [parents count];
+                NSInteger pidx;
+                for (pidx = 0; pidx < num_parents; ++pidx) {
+                    NSString    *pname = [parents objectAtIndex:pidx];
+                    RelatedPart *p     = [[RelatedPart alloc] initWithParent:pname
+                                          offset:offset
+                                          relation:relName
+                                          childLine:line];
+                    [arr addObject:p];
+                    [p release];
+                }
+            }
+        }
+        else {
+            printf("Unparsable line: %s\n", [orig_line UTF8String]);
+        }
+    }
+
+    self->relatedParts = arr;
+    return(self);
 }// end initWithFilePath:
 
 
@@ -412,9 +412,9 @@ static RelatedParts *SharedRelatedParts = nil;
 // ==============================================================================
 - (void)dealloc
 {
-  [self->relatedParts release];
+    [self->relatedParts release];
 
-  [super dealloc];
+    [super dealloc];
 }// end dealloc
 
 
@@ -428,21 +428,21 @@ static RelatedParts *SharedRelatedParts = nil;
 // ==============================================================================
 - (NSArray *)getChildPartList:(NSString *)parent
 {
-  NSUInteger   i;
-  NSUInteger   count = [self->relatedParts count];
-  NSMutableSet *kids = [NSMutableSet setWithCapacity:10];
+    NSUInteger   i;
+    NSUInteger   count = [self->relatedParts count];
+    NSMutableSet *kids = [NSMutableSet setWithCapacity:10];
 
-  for (i = 0; i < count; ++i) {
-    RelatedPart *p = [self->relatedParts objectAtIndex:i];
-    if ([parent compare:[p parent]] == NSOrderedSame) {
-      [kids addObject:[p child]];
+    for (i = 0; i < count; ++i) {
+        RelatedPart *p = [self->relatedParts objectAtIndex:i];
+        if ([parent compare:[p parent]] == NSOrderedSame) {
+            [kids addObject:[p child]];
+        }
     }
-  }
 
-  NSArray *kids_sorted = [kids allObjects];
+    NSArray *kids_sorted = [kids allObjects];
 
-  return([kids_sorted sortedArrayUsingFunction:sort_by_part_description
-                                       context:[PartLibrary sharedPartLibrary]]);
+    return([kids_sorted sortedArrayUsingFunction:sort_by_part_description
+            context:[PartLibrary sharedPartLibrary]]);
 }// end getChildPartList:
 
 
@@ -456,20 +456,20 @@ static RelatedParts *SharedRelatedParts = nil;
 // ==============================================================================
 - (NSArray *)getChildRoleList:(NSString *)parent
 {
-  NSUInteger   i;
-  NSUInteger   count = [self->relatedParts count];
-  NSMutableSet *kids = [NSMutableSet setWithCapacity:10];
+    NSUInteger   i;
+    NSUInteger   count = [self->relatedParts count];
+    NSMutableSet *kids = [NSMutableSet setWithCapacity:10];
 
-  for (i = 0; i < count; ++i) {
-    RelatedPart *p = [self->relatedParts objectAtIndex:i];
-    if ([parent compare:[p parent]] == NSOrderedSame) {
-      [kids addObject:[p role]];
+    for (i = 0; i < count; ++i) {
+        RelatedPart *p = [self->relatedParts objectAtIndex:i];
+        if ([parent compare:[p parent]] == NSOrderedSame) {
+            [kids addObject:[p role]];
+        }
     }
-  }
 
-  NSArray *kids_sorted = [kids allObjects];
+    NSArray *kids_sorted = [kids allObjects];
 
-  return([kids_sorted sortedArrayUsingSelector:@selector(compare:)]);
+    return([kids_sorted sortedArrayUsingSelector:@selector(compare:)]);
 }// end getChildRoleList:
 
 
@@ -485,21 +485,21 @@ static RelatedParts *SharedRelatedParts = nil;
 // ==============================================================================
 - (NSArray *)getRelatedPartList:(NSString *)parent withRole:(NSString *)role
 {
-  NSUInteger     i;
-  NSUInteger     count = [self->relatedParts count];
-  NSMutableArray *kids = [NSMutableArray arrayWithCapacity:10];
+    NSUInteger     i;
+    NSUInteger     count = [self->relatedParts count];
+    NSMutableArray *kids = [NSMutableArray arrayWithCapacity:10];
 
-  for (i = 0; i < count; ++i) {
-    RelatedPart *p = [self->relatedParts objectAtIndex:i];
-    if ([parent compare:[p parent]] == NSOrderedSame) {
-      if ([role compare:[p role]] == NSOrderedSame) {
-        [kids addObject:p];
-      }
+    for (i = 0; i < count; ++i) {
+        RelatedPart *p = [self->relatedParts objectAtIndex:i];
+        if ([parent compare:[p parent]] == NSOrderedSame) {
+            if ([role compare:[p role]] == NSOrderedSame) {
+                [kids addObject:p];
+            }
+        }
     }
-  }
-  [kids sortUsingFunction:sort_by_child_name
-                  context:NULL];
-  return(kids);
+    [kids sortUsingFunction:sort_by_child_name
+     context:NULL];
+    return(kids);
 }// end getRelatedPartList:withRole:
 
 
@@ -515,22 +515,22 @@ static RelatedParts *SharedRelatedParts = nil;
 // ==============================================================================
 - (NSArray *)getRelatedPartList:(NSString *)parent withChild:(NSString *)child
 {
-  NSUInteger     i;
-  NSUInteger     count = [self->relatedParts count];
-  NSMutableArray *kids = [NSMutableArray arrayWithCapacity:10];
+    NSUInteger     i;
+    NSUInteger     count = [self->relatedParts count];
+    NSMutableArray *kids = [NSMutableArray arrayWithCapacity:10];
 
-  for (i = 0; i < count; ++i) {
-    RelatedPart *p = [self->relatedParts objectAtIndex:i];
-    if ([parent compare:[p parent]] == NSOrderedSame) {
-      if ([child compare:[p child]] == NSOrderedSame) {
-        [kids addObject:p];
-      }
+    for (i = 0; i < count; ++i) {
+        RelatedPart *p = [self->relatedParts objectAtIndex:i];
+        if ([parent compare:[p parent]] == NSOrderedSame) {
+            if ([child compare:[p child]] == NSOrderedSame) {
+                [kids addObject:p];
+            }
+        }
     }
-  }
 
-  [kids sortUsingFunction:sort_by_role
-                  context:NULL];
-  return(kids);
+    [kids sortUsingFunction:sort_by_role
+     context:NULL];
+    return(kids);
 }// end getRelatedPartList:withChild:
 
 
@@ -541,13 +541,13 @@ static RelatedParts *SharedRelatedParts = nil;
 // ==============================================================================
 - (void)dump
 {
-  NSUInteger i, count;
+    NSUInteger i, count;
 
-  count = [self->relatedParts count];
-  for (i = 0; i < count; ++i) {
-    RelatedPart *p = [self->relatedParts objectAtIndex:i];
-    [p dump];
-  }
+    count = [self->relatedParts count];
+    for (i = 0; i < count; ++i) {
+        RelatedPart *p = [self->relatedParts objectAtIndex:i];
+        [p dump];
+    }
 }// end dump
 
 

@@ -51,10 +51,10 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // ------------------------------------------------------------------------------
 + (void)initialize
 {
-  TransformerIntMinus1 *minus1Transformer = [[[TransformerIntMinus1 alloc] init] autorelease];
+    TransformerIntMinus1 *minus1Transformer = [[[TransformerIntMinus1 alloc] init] autorelease];
 
-  [NSValueTransformer setValueTransformer:minus1Transformer
-                                  forName:@"TransformerIntMinus1"];
+    [NSValueTransformer setValueTransformer:minus1Transformer
+     forName:@"TransformerIntMinus1"];
 }// end initialize
 
 
@@ -65,30 +65,30 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // ==============================================================================
 - (void)awakeFromNib
 {
-  OSErr error;
+    OSErr error;
 
-  // Check to see if the 3DConnexion driver is installed
-  if (InstallConnexionHandlers != NULL) {
-    // Install message handler and register our client
-    error = InstallConnexionHandlers(connexionMessageHandler, 0L, 0L);
+    // Check to see if the 3DConnexion driver is installed
+    if (InstallConnexionHandlers != NULL) {
+        // Install message handler and register our client
+        error = InstallConnexionHandlers(connexionMessageHandler, 0L, 0L);
 
-    // This takes over in our application only. Note that the first field
-    // here is the "Bundle OS Type code" from the Info.plist file.
-    // Previously, this was set to '????', which isn't good. I just made up
-    // 'Brik', but if you want to change it, make the change both here and
-    // in the Info.plist file. Back in the OS 9 days, this code was hugely
-    // important, as it would identify who created a file. Not sure in the
-    // OS X world how much it matters.
-    connexionClientID = RegisterConnexionClient('Brik',
-                                                "\pBricksmith",
-                                                kConnexionClientModeTakeOver,
-                                                kConnexionMaskAll);
+        // This takes over in our application only. Note that the first field
+        // here is the "Bundle OS Type code" from the Info.plist file.
+        // Previously, this was set to '????', which isn't good. I just made up
+        // 'Brik', but if you want to change it, make the change both here and
+        // in the Info.plist file. Back in the OS 9 days, this code was hugely
+        // important, as it would identify who created a file. Not sure in the
+        // OS X world how much it matters.
+        connexionClientID = RegisterConnexionClient('Brik',
+                                                    "\pBricksmith",
+                                                    kConnexionClientModeTakeOver,
+                                                    kConnexionMaskAll);
 
-    // This line was in the sample code, but doesn't compile, and doesn't seem to matter,
-    // so has been removed.
-    // Remove warning message about the framework not being available
-    // ??? [mtFWNotFound removeFromSuperview];
-  }
+        // This line was in the sample code, but doesn't compile, and doesn't seem to matter,
+        // so has been removed.
+        // Remove warning message about the framework not being available
+        // ??? [mtFWNotFound removeFromSuperview];
+    }
 }// end awakeFromNib
 
 
@@ -103,22 +103,22 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // ------------------------------------------------------------------------------
 + (NSOpenGLPixelFormat *)openGLPixelFormat
 {
-  NSOpenGLPixelFormat          *pixelFormat      = nil;
-  NSOpenGLPixelFormatAttribute pixelAttributes[] =
-  { // Enable automatic use of OpenGL "share" contexts for Core Animation.
-    NSOpenGLPFANoRecovery,
-    NSOpenGLPFADoubleBuffer,
-    NSOpenGLPFADepthSize,    32,
-    // enable line antialiasing
-    NSOpenGLPFAMultisample,
-    NSOpenGLPFASampleBuffers,1,
-    // antialiasing beauty
-    NSOpenGLPFASamples,      4,
-    0
-  };
+    NSOpenGLPixelFormat          *pixelFormat      = nil;
+    NSOpenGLPixelFormatAttribute pixelAttributes[] =
+    { // Enable automatic use of OpenGL "share" contexts for Core Animation.
+        NSOpenGLPFANoRecovery,
+        NSOpenGLPFADoubleBuffer,
+        NSOpenGLPFADepthSize,    32,
+        // enable line antialiasing
+        NSOpenGLPFAMultisample,
+        NSOpenGLPFASampleBuffers,1,
+        // antialiasing beauty
+        NSOpenGLPFASamples,      4,
+        0
+    };
 
-  pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:pixelAttributes];
-  return([pixelFormat autorelease]);
+    pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:pixelAttributes];
+    return([pixelFormat autorelease]);
 }
 
 
@@ -133,7 +133,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // ------------------------------------------------------------------------------
 + (Inspector *)sharedInspector
 {
-  return([[LDrawApplication shared] inspector]);
+    return([[LDrawApplication shared] inspector]);
 }// end sharedInspector
 
 
@@ -145,7 +145,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // ------------------------------------------------------------------------------
 + (NSOpenGLContext *)sharedOpenGLContext
 {
-  return([[LDrawApplication shared] openGLContext]);
+    return([[LDrawApplication shared] openGLContext]);
 }// end sharedOpenGLContext
 
 
@@ -159,12 +159,12 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // ------------------------------------------------------------------------------
 + (PartLibraryController *)sharedPartLibraryController
 {
-  // Rather than making the part library a global variable, I decided to make
-  // it an instance variable of the Application Controller class, of which
-  // there is only one instance. This class is the application delegate too.
-  PartLibraryController *libraryController = [[LDrawApplication shared] partLibraryController];
+    // Rather than making the part library a global variable, I decided to make
+    // it an instance variable of the Application Controller class, of which
+    // there is only one instance. This class is the application delegate too.
+    PartLibraryController *libraryController = [[LDrawApplication shared] partLibraryController];
 
-  return(libraryController);
+    return(libraryController);
 }// end sharedPartLibrary
 
 
@@ -176,7 +176,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // ==============================================================================
 - (Inspector *)inspector
 {
-  return(inspector);
+    return(inspector);
 }// end inspector
 
 
@@ -189,7 +189,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // ==============================================================================
 - (PartLibraryController *)partLibraryController
 {
-  return(partLibraryController);
+    return(partLibraryController);
 }// end partLibraryController
 
 
@@ -200,7 +200,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // ==============================================================================
 - (LSynthConfiguration *)lsynthConfiguration
 {
-  return(lsynthConfiguration);
+    return(lsynthConfiguration);
 }// end lsynthConfiguration
 
 
@@ -212,7 +212,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // ==============================================================================
 - (NSOpenGLContext *)openGLContext
 {
-  return(self->sharedGLContext);
+    return(self->sharedGLContext);
 }// end openGLContext
 
 
@@ -223,7 +223,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // ==============================================================================
 + (LDrawApplication *)shared
 {
-  return((LDrawApplication *)[NSApp delegate]);
+    return((LDrawApplication *)[NSApp delegate]);
 }
 
 
@@ -241,7 +241,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // ==============================================================================
 - (IBAction)doPreferences:(id)sender
 {
-  [PreferencesDialogController doPreferences];
+    [PreferencesDialogController doPreferences];
 }// end doPreferences:
 
 
@@ -253,11 +253,11 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // ==============================================================================
 - (IBAction)doDonate:(id)sender
 {
-  NSURL *donationURL =
-    [NSURL URLWithString:
-     @"https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=6985549"];
+    NSURL *donationURL =
+        [NSURL URLWithString:
+         @"https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=6985549"];
 
-  [[NSWorkspace sharedWorkspace] openURL:donationURL];
+    [[NSWorkspace sharedWorkspace] openURL:donationURL];
 }// end doDonate:
 
 
@@ -272,7 +272,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // ==============================================================================
 - (IBAction)showInspector:(id)sender
 {
-  [inspector show:sender];
+    [inspector show:sender];
 }// end showInspector:
 
 
@@ -284,24 +284,24 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // ==============================================================================
 - (IBAction)doPartBrowser:(id)sender
 {
-  NSUserDefaults             *userDefaults       = [NSUserDefaults standardUserDefaults];
-  PartBrowserStyleT          newStyle            = (int)[userDefaults integerForKey:PART_BROWSER_STYLE_KEY];
-  NSDocumentController       *documentController = [NSDocumentController sharedDocumentController];
-  PartBrowserPanelController *partBrowser        = nil;
+    NSUserDefaults             *userDefaults       = [NSUserDefaults standardUserDefaults];
+    PartBrowserStyleT          newStyle            = (int)[userDefaults integerForKey:PART_BROWSER_STYLE_KEY];
+    NSDocumentController       *documentController = [NSDocumentController sharedDocumentController];
+    PartBrowserPanelController *partBrowser        = nil;
 
-  switch (newStyle)
-  {
-    case PartBrowserShowAsDrawer :
-      // toggle the part browser on the foremost document
-      [[[documentController currentDocument] partBrowserDrawer] toggle:sender];
-      break;
+    switch (newStyle)
+    {
+        case PartBrowserShowAsDrawer :
+            // toggle the part browser on the foremost document
+            [[[documentController currentDocument] partBrowserDrawer] toggle:sender];
+            break;
 
-    case PartBrowserShowAsPanel :
-      // open the shared part browser.
-      partBrowser = [PartBrowserPanelController sharedPartBrowserPanel];
-      [[partBrowser window] makeKeyAndOrderFront:sender];
-      break;
-  }
+        case PartBrowserShowAsPanel :
+            // open the shared part browser.
+            partBrowser = [PartBrowserPanelController sharedPartBrowserPanel];
+            [[partBrowser window] makeKeyAndOrderFront:sender];
+            break;
+    }
 }// end doPartBrowser:
 
 
@@ -313,7 +313,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // ==============================================================================
 - (IBAction)showMouseTools:(id)sender
 {
-  [[ToolPalette sharedToolPalette] showToolPalette:sender];
+    [[ToolPalette sharedToolPalette] showToolPalette:sender];
 }// end showMouseTools:
 
 
@@ -324,7 +324,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // ==============================================================================
 - (IBAction)hideMouseTools:(id)sender
 {
-  [[ToolPalette sharedToolPalette] hideToolPalette:sender];
+    [[ToolPalette sharedToolPalette] hideToolPalette:sender];
 }// end hideMouseTools:
 
 
@@ -338,18 +338,18 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // ==============================================================================
 - (IBAction)showColors:(id)sender
 {
-  LDrawColorPanelController *colorPanel = [LDrawColorPanelController sharedColorPanel];
+    LDrawColorPanelController *colorPanel = [LDrawColorPanelController sharedColorPanel];
 
-  [[colorPanel window] makeKeyAndOrderFront:sender];
+    [[colorPanel window] makeKeyAndOrderFront:sender];
 
-  // It seems some DOS old-timers want to enter colors WITHOUT EVER CLICKING
-  // THE MOUSE. So, we assume that if the color panel was summoned by its key
-  // equivalent, we are probably dealing with one of these rabid anti-mouse
-  // people. We automatically make the color search field key, so they can
-  // enter color codes to their heart's content.
-  if ([[NSApp currentEvent] type] == NSEventTypeKeyDown) {
-    [colorPanel focusSearchField:sender];
-  }
+    // It seems some DOS old-timers want to enter colors WITHOUT EVER CLICKING
+    // THE MOUSE. So, we assume that if the color panel was summoned by its key
+    // equivalent, we are probably dealing with one of these rabid anti-mouse
+    // people. We automatically make the color search field key, so they can
+    // enter color codes to their heart's content.
+    if ([[NSApp currentEvent] type] == NSEventTypeKeyDown) {
+        [colorPanel focusSearchField:sender];
+    }
 }// end showColors:
 
 
@@ -363,7 +363,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // ==============================================================================
 - (IBAction)doHelp:(id)sender
 {
-  [self openHelpAnchor:@"index"];
+    [self openHelpAnchor:@"index"];
 }// end doHelp:
 
 
@@ -376,7 +376,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // ==============================================================================
 - (IBAction)doKeyboardShortcutHelp:(id)sender
 {
-  [self openHelpAnchor:@"KeyboardShortcuts"];
+    [self openHelpAnchor:@"KeyboardShortcuts"];
 }// end doKeyboardShortcutHelp:
 
 
@@ -389,7 +389,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // ==============================================================================
 - (IBAction)doGettingNewPartsHelp:(id)sender
 {
-  [self openHelpAnchor:@"AboutLDraw"];
+    [self openHelpAnchor:@"AboutLDraw"];
 }// end doKeyboardShortcutHelp:
 
 
@@ -408,55 +408,55 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // ==============================================================================
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification
 {
-  NSOpenGLPixelFormat *pixelFormat  = [LDrawApplication openGLPixelFormat];
-  NSUserDefaults      *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSOpenGLPixelFormat *pixelFormat  = [LDrawApplication openGLPixelFormat];
+    NSUserDefaults      *userDefaults = [NSUserDefaults standardUserDefaults];
 
-  // Make sure the standard preferences exist so they will be available
-  // throughout the application.
-  [PreferencesDialogController ensureDefaults];
+    // Make sure the standard preferences exist so they will be available
+    // throughout the application.
+    [PreferencesDialogController ensureDefaults];
 
-  [LDrawUtilities setColumnizesOutput:[userDefaults boolForKey:COLUMNIZE_OUTPUT_KEY]];
-  [LDrawUtilities setDefaultAuthor:[self userName]];
+    [LDrawUtilities setColumnizesOutput:[userDefaults boolForKey:COLUMNIZE_OUTPUT_KEY]];
+    [LDrawUtilities setDefaultAuthor:[self userName]];
 
-  // Create shared objects.
-  self->inspector             = [Inspector new];
-  self->partLibraryController = [[PartLibraryController alloc] init];
-  self->lsynthConfiguration   = [LSynthConfiguration sharedInstance];
-  self->sharedGLContext       = [[NSOpenGLContext alloc] initWithFormat:pixelFormat
-                                                           shareContext:nil];
+    // Create shared objects.
+    self->inspector             = [Inspector new];
+    self->partLibraryController = [[PartLibraryController alloc] init];
+    self->lsynthConfiguration   = [LSynthConfiguration sharedInstance];
+    self->sharedGLContext       = [[NSOpenGLContext alloc] initWithFormat:pixelFormat
+                                   shareContext:nil];
 
-  [sharedGLContext makeCurrentContext];
+    [sharedGLContext makeCurrentContext];
 
-  // Try to define an LDraw path before the application even finishes starting.
-  [self findLDrawPath];
+    // Try to define an LDraw path before the application even finishes starting.
+    [self findLDrawPath];
 
-  // Load the parts into the library; see if they loaded properly.
-  if ([partLibraryController loadPartCatalog] == NO) {
-    // No path has been chosen yet.
-    // We must choose one now.
-    [self doPreferences:self];
-    // When the preferences dialog opens, it will automatically search for
-    // the prefs path. Failing to find it, it will force the user to choose
-    // a new one.
-  }
+    // Load the parts into the library; see if they loaded properly.
+    if ([partLibraryController loadPartCatalog] == NO) {
+        // No path has been chosen yet.
+        // We must choose one now.
+        [self doPreferences:self];
+        // When the preferences dialog opens, it will automatically search for
+        // the prefs path. Failing to find it, it will force the user to choose
+        // a new one.
+    }
 
-  // Parse the LSynth config file, using the bundled lsynth.mpd or a custom config file
-  NSString *lsynthConfigPath;
+    // Parse the LSynth config file, using the bundled lsynth.mpd or a custom config file
+    NSString *lsynthConfigPath;
 
-  if ([[userDefaults stringForKey:LSYNTH_CONFIGURATION_PATH_KEY] length] == 0) {
-    lsynthConfigPath = [[LSynthConfiguration sharedInstance] defaultConfigPath];
+    if ([[userDefaults stringForKey:LSYNTH_CONFIGURATION_PATH_KEY] length] == 0) {
+        lsynthConfigPath = [[LSynthConfiguration sharedInstance] defaultConfigPath];
 // lsynthConfigPath = [[NSBundle mainBundle] pathForResource:@"lsynth" ofType:@"mpd"];
-  }
-  else {
-    lsynthConfigPath = [userDefaults stringForKey:LSYNTH_CONFIGURATION_PATH_KEY];
-  }
-  [self->lsynthConfiguration parseLsynthConfig:lsynthConfigPath];
+    }
+    else {
+        lsynthConfigPath = [userDefaults stringForKey:LSYNTH_CONFIGURATION_PATH_KEY];
+    }
+    [self->lsynthConfiguration parseLsynthConfig:lsynthConfigPath];
 
-  // Register for Notifications
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(partBrowserStyleDidChange:)
-                                               name:LDrawPartBrowserStyleDidChangeNotification
-                                             object:nil];
+    // Register for Notifications
+    [[NSNotificationCenter defaultCenter] addObserver:self
+     selector:@selector(partBrowserStyleDidChange:)
+     name:LDrawPartBrowserStyleDidChangeNotification
+     object:nil];
 }// end applicationWillFinishLaunching:
 
 
@@ -468,20 +468,20 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // ==============================================================================
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-  NSUserDefaults *userDefaults   = [NSUserDefaults standardUserDefaults];
-  BOOL           showPartBrowser = [userDefaults boolForKey:PART_BROWSER_PANEL_SHOW_AT_LAUNCH];
+    NSUserDefaults *userDefaults   = [NSUserDefaults standardUserDefaults];
+    BOOL           showPartBrowser = [userDefaults boolForKey:PART_BROWSER_PANEL_SHOW_AT_LAUNCH];
 
-  [self populateLSynthModelMenus];
+    [self populateLSynthModelMenus];
 
-  if (showPartBrowser == YES &&
-      [userDefaults integerForKey:PART_BROWSER_STYLE_KEY] == PartBrowserShowAsPanel) {
-    [[[PartBrowserPanelController sharedPartBrowserPanel] window] makeKeyAndOrderFront:self];
-  }
+    if (showPartBrowser == YES &&
+        [userDefaults integerForKey:PART_BROWSER_STYLE_KEY] == PartBrowserShowAsPanel) {
+        [[[PartBrowserPanelController sharedPartBrowserPanel] window] makeKeyAndOrderFront:self];
+    }
 
   #if DEBUG
-  [[NSDocumentController sharedDocumentController] setAutosavingDelay:30];  // Debug build?  Save quick - no need to lose work when an assert() fires.
+    [[NSDocumentController sharedDocumentController] setAutosavingDelay:30]; // Debug build?  Save quick - no need to lose work when an assert() fires.
   #else
-  [[NSDocumentController sharedDocumentController] setAutosavingDelay:300];
+    [[NSDocumentController sharedDocumentController] setAutosavingDelay:300];
   #endif
 }// end applicationDidFinishLaunching:
 
@@ -495,21 +495,21 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // ==============================================================================
 - (void)applicationWillTerminate:(NSNotification *)notification
 {
-  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-  PartBrowserPanelController *partBrowserPanel =
-    [PartBrowserPanelController sharedPartBrowserPanel];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    PartBrowserPanelController *partBrowserPanel =
+        [PartBrowserPanelController sharedPartBrowserPanel];
 
-  [userDefaults setBool:[[partBrowserPanel window] isVisible]
-                 forKey:PART_BROWSER_PANEL_SHOW_AT_LAUNCH];
+    [userDefaults setBool:[[partBrowserPanel window] isVisible]
+     forKey:PART_BROWSER_PANEL_SHOW_AT_LAUNCH];
 
-  [userDefaults synchronize];
+    [userDefaults synchronize];
 
-  // If 3Dconnexion framework is installed, unregister our connection to it.
-  if (InstallConnexionHandlers != NULL) {
-    // Unregister our client and clean up all handlers
-    if (connexionClientID) { UnregisterConnexionClient(connexionClientID); }
-    CleanupConnexionHandlers();
-  }
+    // If 3Dconnexion framework is installed, unregister our connection to it.
+    if (InstallConnexionHandlers != NULL) {
+        // Unregister our client and clean up all handlers
+        if (connexionClientID) { UnregisterConnexionClient(connexionClientID); }
+        CleanupConnexionHandlers();
+    }
 }// end applicationWillTerminate:
 
 
@@ -521,13 +521,13 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // ==============================================================================
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
 {
-  DonationDialogController *donation = [[DonationDialogController alloc] init];
+    DonationDialogController *donation = [[DonationDialogController alloc] init];
 
-  if ([donation shouldShowDialog] == YES && suppressDonationPrompt == NO) {
-    [donation runModal];
-  }
-  [donation release];
-  return(NSTerminateNow);
+    if ([donation shouldShowDialog] == YES && suppressDonationPrompt == NO) {
+        [donation runModal];
+    }
+    [donation release];
+    return(NSTerminateNow);
 }// end applicationShouldTerminate:
 
 
@@ -544,33 +544,33 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // ==============================================================================
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
-  NSInteger tag    = [menuItem tag];
-  BOOL      enable = NO;
+    NSInteger tag    = [menuItem tag];
+    BOOL      enable = NO;
 
-  switch (tag)
-  {
-    ////////////////////////////////////////
-    //
-    // Tools Menu
-    //
-    ////////////////////////////////////////
+    switch (tag)
+    {
+        ////////////////////////////////////////
+        //
+        // Tools Menu
+        //
+        ////////////////////////////////////////
 
-    case showMouseToolsMenuTag :
-      [menuItem setHidden:[[ToolPalette sharedToolPalette] isVisible]];
-      enable = YES;
-      break;
+        case showMouseToolsMenuTag :
+            [menuItem setHidden:[[ToolPalette sharedToolPalette] isVisible]];
+            enable = YES;
+            break;
 
-    case hideMouseToolsMenuTag :
-      [menuItem setHidden:([[ToolPalette sharedToolPalette] isVisible] == NO)];
-      enable = YES;
-      break;
+        case hideMouseToolsMenuTag :
+            [menuItem setHidden:([[ToolPalette sharedToolPalette] isVisible] == NO)];
+            enable = YES;
+            break;
 
-    default :
-      enable = YES;
-      break;
-  }
+        default :
+            enable = YES;
+            break;
+    }
 
-  return(enable);
+    return(enable);
 }// end validateMenuItem:
 
 
@@ -584,8 +584,8 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // ==============================================================================
 - (void)updaterWillRelaunchApplication:(SUUpdater *)updater
 {
-  // Asking for money in the middle of an update process is a bit distracting.
-  suppressDonationPrompt = YES;
+    // Asking for money in the middle of an update process is a bit distracting.
+    suppressDonationPrompt = YES;
 }
 
 
@@ -601,33 +601,33 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // ==============================================================================
 - (void)partBrowserStyleDidChange:(NSNotification *)notification
 {
-  NSUserDefaults       *userDefaults       = [NSUserDefaults standardUserDefaults];
-  PartBrowserStyleT    newStyle            = (int)[userDefaults integerForKey:PART_BROWSER_STYLE_KEY];
-  NSDocumentController *documentController = [NSDocumentController sharedDocumentController];
-  NSArray              *documents          = [documentController documents];
-  NSInteger            documentCount       = [documents count];
-  NSInteger            counter             = 0;
+    NSUserDefaults       *userDefaults       = [NSUserDefaults standardUserDefaults];
+    PartBrowserStyleT    newStyle            = (int)[userDefaults integerForKey:PART_BROWSER_STYLE_KEY];
+    NSDocumentController *documentController = [NSDocumentController sharedDocumentController];
+    NSArray              *documents          = [documentController documents];
+    NSInteger            documentCount       = [documents count];
+    NSInteger            counter             = 0;
 
-  switch (newStyle)
-  {
-    case PartBrowserShowAsDrawer :
-      // close the shared part browser
-      [[PartBrowserPanelController sharedPartBrowserPanel] close];
-      // open the browser drawer on each document
-      for (counter = 0; counter < documentCount; counter++) {
-        [[[documents objectAtIndex:counter] partBrowserDrawer] open];
-      }
-      break;
+    switch (newStyle)
+    {
+        case PartBrowserShowAsDrawer :
+            // close the shared part browser
+            [[PartBrowserPanelController sharedPartBrowserPanel] close];
+            // open the browser drawer on each document
+            for (counter = 0; counter < documentCount; counter++) {
+                [[[documents objectAtIndex:counter] partBrowserDrawer] open];
+            }
+            break;
 
-    case PartBrowserShowAsPanel :
-      // close the browser drawer on each document
-      for (counter = 0; counter < documentCount; counter++) {
-        [[[documents objectAtIndex:counter] partBrowserDrawer] close];
-      }
-      // open the shared part browser.
-      [[[PartBrowserPanelController sharedPartBrowserPanel] window] makeKeyAndOrderFront:self];
-      break;
-  }
+        case PartBrowserShowAsPanel :
+            // close the browser drawer on each document
+            for (counter = 0; counter < documentCount; counter++) {
+                [[[documents objectAtIndex:counter] partBrowserDrawer] close];
+            }
+            // open the shared part browser.
+            [[[PartBrowserPanelController sharedPartBrowserPanel] window] makeKeyAndOrderFront:self];
+            break;
+    }
 }// end partBrowserStyleDidChange:
 
 
@@ -660,15 +660,15 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // ==============================================================================
 - (void)openHelpAnchor:(NSString *)helpAnchor
 {
-  NSBundle *applicationBundle = [NSBundle mainBundle];
-  NSString *fileName          = helpAnchor; // help anchor is the filename by my convention
-  NSString *helpPath          = [applicationBundle pathForResource:fileName
-                                                            ofType:@"html"
-                                                       inDirectory:@"Help"];
-  NSURL *helpURL = [NSURL fileURLWithPath:helpPath];
+    NSBundle *applicationBundle = [NSBundle mainBundle];
+    NSString *fileName          = helpAnchor; // help anchor is the filename by my convention
+    NSString *helpPath          = [applicationBundle pathForResource:fileName
+                                   ofType:@"html"
+                                   inDirectory:@"Help"];
+    NSURL *helpURL = [NSURL fileURLWithPath:helpPath];
 
 // [[NSWorkspace sharedWorkspace] openFile:helpRoot withApplication:@"Help Viewer.app"];
-  [[NSWorkspace sharedWorkspace] openURL:helpURL];
+    [[NSWorkspace sharedWorkspace] openURL:helpURL];
 }// end openHelpAnchor:
 
 
@@ -680,24 +680,24 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // ==============================================================================
 - (void)findLDrawPath
 {
-  NSUserDefaults *userDefaults   = [NSUserDefaults standardUserDefaults];
-  LDrawPaths     *paths          = [LDrawPaths sharedPaths];
-  NSString       *preferencePath = [userDefaults stringForKey:LDRAW_PATH_KEY];
-  NSString       *ldrawPath      = preferencePath;
+    NSUserDefaults *userDefaults   = [NSUserDefaults standardUserDefaults];
+    LDrawPaths     *paths          = [LDrawPaths sharedPaths];
+    NSString       *preferencePath = [userDefaults stringForKey:LDRAW_PATH_KEY];
+    NSString       *ldrawPath      = preferencePath;
 
-  // Search
-  [paths setPreferredLDrawPath:preferencePath];
-  ldrawPath = [paths findLDrawPath];
+    // Search
+    [paths setPreferredLDrawPath:preferencePath];
+    ldrawPath = [paths findLDrawPath];
 
-  // We found one.
-  if (ldrawPath != nil) {
-    [paths setPreferredLDrawPath:ldrawPath];
-    [userDefaults setObject:ldrawPath forKey:LDRAW_PATH_KEY];
-  }
-  else {
-    [self->partLibraryController validateLDrawFolderWithMessage:preferencePath];
-    ldrawPath = nil;
-  }
+    // We found one.
+    if (ldrawPath != nil) {
+        [paths setPreferredLDrawPath:ldrawPath];
+        [userDefaults setObject:ldrawPath forKey:LDRAW_PATH_KEY];
+    }
+    else {
+        [self->partLibraryController validateLDrawFolderWithMessage:preferencePath];
+        ldrawPath = nil;
+    }
 }// end findLDrawPath
 
 
@@ -709,101 +709,101 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // ==============================================================================
 - (void)populateLSynthModelMenus
 {
-  LDrawApplication *appDelegate  = [NSApp delegate];
-  NSMenu           *mainMenu     = [NSApp mainMenu];
-  NSMenu           *modelMenu    = [[mainMenu itemWithTag:modelsMenuTag] submenu];
-  NSMenu           *lsynthMenu   = [[modelMenu itemWithTag:lsynthMenuTag] submenu];
-  NSUserDefaults   *userDefaults = [NSUserDefaults standardUserDefaults];
+    LDrawApplication *appDelegate  = [NSApp delegate];
+    NSMenu           *mainMenu     = [NSApp mainMenu];
+    NSMenu           *modelMenu    = [[mainMenu itemWithTag:modelsMenuTag] submenu];
+    NSMenu           *lsynthMenu   = [[modelMenu itemWithTag:lsynthMenuTag] submenu];
+    NSUserDefaults   *userDefaults = [NSUserDefaults standardUserDefaults];
 
-  // A declarative encoding of our LSynth menus
-  // We process this, along with associated LSynthConfiguration data to generate our Model LSynth menu
-  NSArray *menus = [NSArray arrayWithObjects:
+    // A declarative encoding of our LSynth menus
+    // We process this, along with associated LSynthConfiguration data to generate our Model LSynth menu
+    NSArray *menus = [NSArray arrayWithObjects:
 
-                    [NSDictionary dictionaryWithObjectsAndKeys:
-                     [NSNumber numberWithInt:lsynthPartMenuTag], @"tag",
-                     @"getParts", @"getter",
-                     @"title", @"entry_key",
-                     NSStringFromSelector(@selector(insertSynthesizableDirective:)), @"action",
-                     @YES, @"shouldFilter",
-                     nil],
+                      [NSDictionary dictionaryWithObjectsAndKeys:
+                       [NSNumber numberWithInt:lsynthPartMenuTag], @"tag",
+                       @"getParts", @"getter",
+                       @"title", @"entry_key",
+                       NSStringFromSelector(@selector(insertSynthesizableDirective:)), @"action",
+                       @YES, @"shouldFilter",
+                       nil],
 
-                    [NSDictionary dictionaryWithObjectsAndKeys:
-                     [NSNumber numberWithInt:lsynthHoseMenuTag], @"tag",
-                     @"getHoseTypes", @"getter",
-                     @"title", @"entry_key",
-                     NSStringFromSelector(@selector(insertSynthesizableDirective:)), @"action",
-                     @YES, @"shouldFilter",
-                     nil],
+                      [NSDictionary dictionaryWithObjectsAndKeys:
+                       [NSNumber numberWithInt:lsynthHoseMenuTag], @"tag",
+                       @"getHoseTypes", @"getter",
+                       @"title", @"entry_key",
+                       NSStringFromSelector(@selector(insertSynthesizableDirective:)), @"action",
+                       @YES, @"shouldFilter",
+                       nil],
 
-                    [NSDictionary dictionaryWithObjectsAndKeys:
-                     [NSNumber numberWithInt:lsynthHoseConstraintMenuTag], @"tag",
-                     @"getHoseConstraints", @"getter",
-                     @"description", @"entry_key",
-                     NSStringFromSelector(@selector(insertLSynthConstraint:)), @"action",
-                     @NO, @"shouldFilter",
-                     nil],
+                      [NSDictionary dictionaryWithObjectsAndKeys:
+                       [NSNumber numberWithInt:lsynthHoseConstraintMenuTag], @"tag",
+                       @"getHoseConstraints", @"getter",
+                       @"description", @"entry_key",
+                       NSStringFromSelector(@selector(insertLSynthConstraint:)), @"action",
+                       @NO, @"shouldFilter",
+                       nil],
 
-                    [NSDictionary dictionaryWithObjectsAndKeys:
-                     [NSNumber numberWithInt:lsynthBandMenuTag], @"tag",
-                     @"getBandTypes", @"getter",
-                     @"title", @"entry_key",
-                     NSStringFromSelector(@selector(insertSynthesizableDirective:)), @"action",
-                     @YES, @"shouldFilter",
-                     nil],
+                      [NSDictionary dictionaryWithObjectsAndKeys:
+                       [NSNumber numberWithInt:lsynthBandMenuTag], @"tag",
+                       @"getBandTypes", @"getter",
+                       @"title", @"entry_key",
+                       NSStringFromSelector(@selector(insertSynthesizableDirective:)), @"action",
+                       @YES, @"shouldFilter",
+                       nil],
 
-                    [NSDictionary dictionaryWithObjectsAndKeys:
-                     [NSNumber numberWithInt:lsynthBandConstraintMenuTag], @"tag",
-                     @"getBandConstraints", @"getter",
-                     @"description", @"entry_key",
-                     NSStringFromSelector(@selector(insertLSynthConstraint:)), @"action",
-                     @NO, @"shouldFilter",
-                     nil],
+                      [NSDictionary dictionaryWithObjectsAndKeys:
+                       [NSNumber numberWithInt:lsynthBandConstraintMenuTag], @"tag",
+                       @"getBandConstraints", @"getter",
+                       @"description", @"entry_key",
+                       NSStringFromSelector(@selector(insertLSynthConstraint:)), @"action",
+                       @NO, @"shouldFilter",
+                       nil],
 
-                    nil];
+                      nil];
 
-  for (NSDictionary *menuSpec in menus) {
-    NSInteger tag          = [[menuSpec objectForKey:@"tag"] integerValue];
-    NSMenu    *elementMenu = [[lsynthMenu itemWithTag:tag] submenu];  // one for each of part, constraint, hose, band etc.
+    for (NSDictionary *menuSpec in menus) {
+        NSInteger tag          = [[menuSpec objectForKey:@"tag"] integerValue];
+        NSMenu    *elementMenu = [[lsynthMenu itemWithTag:tag] submenu]; // one for each of part, constraint, hose, band etc.
 
-    [elementMenu removeAllItems];
+        [elementMenu removeAllItems];
 
-    // Retrieve the appropriate data for each menu entry, based on the getter given above
+        // Retrieve the appropriate data for each menu entry, based on the getter given above
 
-    NSArray *lsynthMLCADDefaults = [[MLCadIni iniFile] lsynthVisibleTypes];
+        NSArray *lsynthMLCADDefaults = [[MLCadIni iniFile] lsynthVisibleTypes];
 
-    for (NSDictionary *entry in [[appDelegate lsynthConfiguration] performSelector:
-                                 NSSelectorFromString([menuSpec objectForKey:@"getter"])]) {
-      // The MLCad.ini file contains a list of semi-official LSynth types.  The lsynth.mpd file also contains legacy entries
-      // for backward compatibility.  We want to filter out non-semi-official synth parts unless the user has turned this off
-      // in the preferences.  Parts get filtered, constraints don't.
-      if (([[menuSpec valueForKey:@"shouldFilter"] boolValue]
-           && [lsynthMLCADDefaults indexOfObject:[entry valueForKey:@"LSYNTH_TYPE"]] != NSNotFound)
-          ||
-          // This menu should not be filtered
-          ![[menuSpec valueForKey:@"shouldFilter"] boolValue]
-          ||
-          // User has turned off filtering in prefs
-          ![userDefaults boolForKey:LSYNTH_SHOW_BASIC_PARTS_LIST_KEY]) {
-        NSMenuItem *entryMenuItem = [[[NSMenuItem alloc] init] autorelease];
-        [entryMenuItem setTitle:[entry objectForKey:[menuSpec objectForKey:@"entry_key"]]];
-        [entryMenuItem setRepresentedObject:entry];
-        [entryMenuItem setAction:NSSelectorFromString([menuSpec objectForKey:@"action"])];
-        [entryMenuItem setTarget:nil]; // direct to responder chain, e.g. foremost LDrawDocument
-        [entryMenuItem setTag:tag];    // give all items the same tag for validation purposes
-        [elementMenu addItem:entryMenuItem];
-      }
+        for (NSDictionary *entry in [[appDelegate lsynthConfiguration] performSelector:
+                                     NSSelectorFromString([menuSpec objectForKey:@"getter"])]) {
+            // The MLCad.ini file contains a list of semi-official LSynth types.  The lsynth.mpd file also contains legacy entries
+            // for backward compatibility.  We want to filter out non-semi-official synth parts unless the user has turned this off
+            // in the preferences.  Parts get filtered, constraints don't.
+            if (([[menuSpec valueForKey:@"shouldFilter"] boolValue]
+                 && [lsynthMLCADDefaults indexOfObject:[entry valueForKey:@"LSYNTH_TYPE"]] != NSNotFound)
+                ||
+                // This menu should not be filtered
+                ![[menuSpec valueForKey:@"shouldFilter"] boolValue]
+                ||
+                // User has turned off filtering in prefs
+                ![userDefaults boolForKey:LSYNTH_SHOW_BASIC_PARTS_LIST_KEY]) {
+                NSMenuItem *entryMenuItem = [[[NSMenuItem alloc] init] autorelease];
+                [entryMenuItem setTitle:[entry objectForKey:[menuSpec objectForKey:@"entry_key"]]];
+                [entryMenuItem setRepresentedObject:entry];
+                [entryMenuItem setAction:NSSelectorFromString([menuSpec objectForKey:@"action"])];
+                [entryMenuItem setTarget:nil]; // direct to responder chain, e.g. foremost LDrawDocument
+                [entryMenuItem setTag:tag]; // give all items the same tag for validation purposes
+                [elementMenu addItem:entryMenuItem];
+            }
+        }
+
+        [elementMenu setAutoenablesItems:YES];
     }
 
-    [elementMenu setAutoenablesItems:YES];
-  }
+    //
+    // Add INSIDE/OUTSIDE menus
+    //
 
-  //
-  // Add INSIDE/OUTSIDE menus
-  //
+    NSMenu *insideOutsideMenu = [[lsynthMenu itemWithTag:lsynthInsideOutsideMenuTag] submenu];
 
-  NSMenu *insideOutsideMenu = [[lsynthMenu itemWithTag:lsynthInsideOutsideMenuTag] submenu];
-
-  // TODO: Add these in later
+    // TODO: Add these in later
 // NSMenuItem *surroundSelectionItem = [[[NSMenuItem alloc] init] autorelease];
 // [surroundSelectionItem setTitle:@"Surround Selection"];
 // [surroundSelectionItem setTarget:self];
@@ -818,29 +818,29 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // [invertSelectionItem setTag:lsynthInvertINSIDEOUTSIDETag];
 // [insideOutsideMenu addItem:invertSelectionItem];
 
-  NSMenuItem *addInsideItem = [[[NSMenuItem alloc] init] autorelease];
+    NSMenuItem *addInsideItem = [[[NSMenuItem alloc] init] autorelease];
 
-  [addInsideItem setTitle:@"Insert INSIDE"];
-  [addInsideItem setTarget:nil];
-  [addInsideItem setAction:@selector(insertINSIDEOUTSIDELSynthDirective:)];
-  [addInsideItem setTag:lsynthInsertINSIDETag];
-  [insideOutsideMenu addItem:addInsideItem];
+    [addInsideItem setTitle:@"Insert INSIDE"];
+    [addInsideItem setTarget:nil];
+    [addInsideItem setAction:@selector(insertINSIDEOUTSIDELSynthDirective:)];
+    [addInsideItem setTag:lsynthInsertINSIDETag];
+    [insideOutsideMenu addItem:addInsideItem];
 
-  NSMenuItem *addOutsideItem = [[[NSMenuItem alloc] init] autorelease];
+    NSMenuItem *addOutsideItem = [[[NSMenuItem alloc] init] autorelease];
 
-  [addOutsideItem setTitle:@"Insert OUTSIDE"];
-  [addOutsideItem setTarget:nil];
-  [addOutsideItem setAction:@selector(insertINSIDEOUTSIDELSynthDirective:)];
-  [addOutsideItem setTag:lsynthInsertOUTSIDETag];
-  [insideOutsideMenu addItem:addOutsideItem];
+    [addOutsideItem setTitle:@"Insert OUTSIDE"];
+    [addOutsideItem setTarget:nil];
+    [addOutsideItem setAction:@selector(insertINSIDEOUTSIDELSynthDirective:)];
+    [addOutsideItem setTag:lsynthInsertOUTSIDETag];
+    [insideOutsideMenu addItem:addOutsideItem];
 
-  NSMenuItem *addCrossItem = [[[NSMenuItem alloc] init] autorelease];
+    NSMenuItem *addCrossItem = [[[NSMenuItem alloc] init] autorelease];
 
-  [addCrossItem setTitle:@"Insert CROSS"];
-  [addCrossItem setTarget:nil];
-  [addCrossItem setAction:@selector(insertINSIDEOUTSIDELSynthDirective:)];
-  [addCrossItem setTag:lsynthInsertCROSSTag];
-  [insideOutsideMenu addItem:addCrossItem];
+    [addCrossItem setTitle:@"Insert CROSS"];
+    [addCrossItem setTarget:nil];
+    [addCrossItem setAction:@selector(insertINSIDEOUTSIDELSynthDirective:)];
+    [addCrossItem setTag:lsynthInsertCROSSTag];
+    [insideOutsideMenu addItem:addCrossItem];
 }// end populateLSynthModelMenus
 
 
@@ -851,9 +851,9 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // ==============================================================================
 - (NSString *)userName
 {
-  NSString *fullName = NSFullUserName();
+    NSString *fullName = NSFullUserName();
 
-  return(fullName);
+    return(fullName);
 }
 
 
@@ -868,11 +868,11 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // ==============================================================================
 - (void)dealloc
 {
-  [partLibraryController release];
-  [inspector release];
-  [sharedGLContext release];
+    [partLibraryController release];
+    [inspector release];
+    [sharedGLContext release];
 
-  [super dealloc];
+    [super dealloc];
 }// end dealloc
 
 
@@ -931,210 +931,210 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // ==============================================================================
 void connexionMessageHandler(io_connect_t connection, natural_t messageType, void *messageArgument)
 {
-  static bool initialized = false;
-  // If true, each event only translates _or_ rotates, not both
-  static bool oneTypeOfMotionAtATime = true;
-  static ConnexionDeviceState lastState;
-  static Vector3       translationScaling;
-  static Vector3       rotationScaling;
-  static Vector3       translationAccumulatedSinceLastMove;
-  static Vector3       rotationAccumulatedSinceLastMove;
-  ConnexionDeviceState *state;
-  NSDocumentController *documentController = [NSDocumentController sharedDocumentController];
-  LDrawDocument        *currentDocument    = [documentController currentDocument];
-  UInt64 lagThreshold = 1000000000;  // 1 second
-  static mach_timebase_info_data_t sTimebaseInfo;
+    static bool initialized = false;
+    // If true, each event only translates _or_ rotates, not both
+    static bool oneTypeOfMotionAtATime = true;
+    static ConnexionDeviceState lastState;
+    static Vector3       translationScaling;
+    static Vector3       rotationScaling;
+    static Vector3       translationAccumulatedSinceLastMove;
+    static Vector3       rotationAccumulatedSinceLastMove;
+    ConnexionDeviceState *state;
+    NSDocumentController *documentController = [NSDocumentController sharedDocumentController];
+    LDrawDocument        *currentDocument    = [documentController currentDocument];
+    UInt64 lagThreshold = 1000000000; // 1 second
+    static mach_timebase_info_data_t sTimebaseInfo;
 
-  UInt64 eventTime, now, deltaT;
-  UInt64 sinceNow;
+    UInt64 eventTime, now, deltaT;
+    UInt64 sinceNow;
 
-  // We initialize some static objects, once, only if they are ever needed.
-  if (!initialized) {
-    // These scaling vectors provide the translation of the mouse coordinate system
-    // to Bricksmiths coordinate system. As per the SDK, this is done mostly by feel
-    // with the numbers manually tuned to give response that "feels right". Making
-    // these numbers smaller will slow down the response, while making them larger
-    // will speed it up. Note that end users do _not_ need the ability to change these
-    // numbers within Bricksmith. The mouse driver software allow a user to tune the
-    // response on a per-application basis. The numbers below seem to feel right with
-    // the driver set to its default values. These may need some fine tuning still.
-    translationScaling = V3Make(0.05, 0.05, 0.05);
-    rotationScaling    = V3Make(0.02, 0.02, 0.02);
-    // Vectors to store movement accumulated since the last time the selection actually
-    // changed position.
-    translationAccumulatedSinceLastMove = V3Make(0.0, 0.0, 0.0);
-    rotationAccumulatedSinceLastMove    = V3Make(0.0, 0.0, 0.0);
-    initialized = true;
-  }
+    // We initialize some static objects, once, only if they are ever needed.
+    if (!initialized) {
+        // These scaling vectors provide the translation of the mouse coordinate system
+        // to Bricksmiths coordinate system. As per the SDK, this is done mostly by feel
+        // with the numbers manually tuned to give response that "feels right". Making
+        // these numbers smaller will slow down the response, while making them larger
+        // will speed it up. Note that end users do _not_ need the ability to change these
+        // numbers within Bricksmith. The mouse driver software allow a user to tune the
+        // response on a per-application basis. The numbers below seem to feel right with
+        // the driver set to its default values. These may need some fine tuning still.
+        translationScaling = V3Make(0.05, 0.05, 0.05);
+        rotationScaling    = V3Make(0.02, 0.02, 0.02);
+        // Vectors to store movement accumulated since the last time the selection actually
+        // changed position.
+        translationAccumulatedSinceLastMove = V3Make(0.0, 0.0, 0.0);
+        rotationAccumulatedSinceLastMove    = V3Make(0.0, 0.0, 0.0);
+        initialized = true;
+    }
 
-  switch (messageType)
-  {
-    case kConnexionMsgDeviceState :
-      state = (ConnexionDeviceState *)messageArgument;
-      // decipher what command/event is being reported by the driver
-      switch (state->command)
-      {
-        case kConnexionCmdHandleAxis :
-          // Doing a move creates quite a bit of lag, during which even more motion events
-          // are queued. This accumulation makes the controller feel non-responsive. So, to
-          // avoid this, ignore messages that occurred too far in the past.
-          eventTime = state->time;
-          now       = mach_absolute_time();
-          deltaT    = now - eventTime;
-          // Convert to nanoseconds.
+    switch (messageType)
+    {
+        case kConnexionMsgDeviceState :
+            state = (ConnexionDeviceState *)messageArgument;
+            // decipher what command/event is being reported by the driver
+            switch (state->command)
+            {
+                case kConnexionCmdHandleAxis :
+                    // Doing a move creates quite a bit of lag, during which even more motion events
+                    // are queued. This accumulation makes the controller feel non-responsive. So, to
+                    // avoid this, ignore messages that occurred too far in the past.
+                    eventTime = state->time;
+                    now       = mach_absolute_time();
+                    deltaT    = now - eventTime;
+                    // Convert to nanoseconds.
 
-          // If this is the first time we've run, get the timebase.
-          // We can use denom == 0 to indicate that sTimebaseInfo is
-          // uninitialised because it makes no sense to have a zero
-          // denominator is a fraction.
-          if (sTimebaseInfo.denom == 0) {
-            (void)mach_timebase_info(&sTimebaseInfo);
-          }
+                    // If this is the first time we've run, get the timebase.
+                    // We can use denom == 0 to indicate that sTimebaseInfo is
+                    // uninitialised because it makes no sense to have a zero
+                    // denominator is a fraction.
+                    if (sTimebaseInfo.denom == 0) {
+                        (void)mach_timebase_info(&sTimebaseInfo);
+                    }
 
-          // Do the maths. We hope that the multiplication doesn't
-          // overflow; the price you pay for working in fixed point.
-          sinceNow = deltaT * sTimebaseInfo.numer / sTimebaseInfo.denom; // result in is nanoseconds
+                    // Do the maths. We hope that the multiplication doesn't
+                    // overflow; the price you pay for working in fixed point.
+                    sinceNow = deltaT * sTimebaseInfo.numer / sTimebaseInfo.denom; // result in is nanoseconds
 
-          if (sinceNow < lagThreshold) {
-            // OK, we will pay attention to this event. First, figure out if the user
-            // wants to use "snap to grid" or not. For the moment, we use the control
-            // key as the guide (this is similar to how Photoshop works, where things snap
-            // to edges and nearby points unless the control key is down). Some other
-            // mechanism could be substituted here.
-            NSEvent *event        = [NSApp currentEvent];
-            int     modifierFlags = (int)[event modifierFlags];
-            bool    controlDown   = (0 != (modifierFlags & NSEventModifierFlagControl));
+                    if (sinceNow < lagThreshold) {
+                        // OK, we will pay attention to this event. First, figure out if the user
+                        // wants to use "snap to grid" or not. For the moment, we use the control
+                        // key as the guide (this is similar to how Photoshop works, where things snap
+                        // to edges and nearby points unless the control key is down). Some other
+                        // mechanism could be substituted here.
+                        NSEvent *event        = [NSApp currentEvent];
+                        int     modifierFlags = (int)[event modifierFlags];
+                        bool    controlDown   = (0 != (modifierFlags & NSEventModifierFlagControl));
 
-            // Build translation and rotation vectors from the event state.
-            Vector3 originalNudgeVector = V3Make(state->axis[0], state->axis[2], -state->axis[1]);
-            Vector3 originalRotation    = V3Make(state->axis[3], state->axis[5], -state->axis[4]);
+                        // Build translation and rotation vectors from the event state.
+                        Vector3 originalNudgeVector = V3Make(state->axis[0], state->axis[2], -state->axis[1]);
+                        Vector3 originalRotation    = V3Make(state->axis[3], state->axis[5], -state->axis[4]);
 
-            // If the setting says to, constrain motion such that the peice only does
-            // one thing at a time (that is, only moves on one axis or rotates on one
-            // axis), whatever is most indicated by the control
-            if (oneTypeOfMotionAtATime && !controlDown) {
-              float magTrans = V3Length(originalNudgeVector);
-              float magRot   = V3Length(originalRotation);
-              if (magRot > magTrans) {
-                originalNudgeVector = V3Make(0.0, 0.0, 0.0);
-                originalRotation    = V3IsolateGreatestComponent(originalRotation);
-              }
-              else {
-                originalNudgeVector = V3IsolateGreatestComponent(originalNudgeVector);
-                originalRotation    = V3Make(0.0, 0.0, 0.0);
-              }
+                        // If the setting says to, constrain motion such that the peice only does
+                        // one thing at a time (that is, only moves on one axis or rotates on one
+                        // axis), whatever is most indicated by the control
+                        if (oneTypeOfMotionAtATime && !controlDown) {
+                            float magTrans = V3Length(originalNudgeVector);
+                            float magRot   = V3Length(originalRotation);
+                            if (magRot > magTrans) {
+                                originalNudgeVector = V3Make(0.0, 0.0, 0.0);
+                                originalRotation    = V3IsolateGreatestComponent(originalRotation);
+                            }
+                            else {
+                                originalNudgeVector = V3IsolateGreatestComponent(originalNudgeVector);
+                                originalRotation    = V3Make(0.0, 0.0, 0.0);
+                            }
+                        }
+
+                        // Add in translation and rotation from prior events that didn't register
+                        // enough to actually move.
+                        translationAccumulatedSinceLastMove =
+                            V3Add(originalNudgeVector, translationAccumulatedSinceLastMove);
+                        rotationAccumulatedSinceLastMove =
+                            V3Add(originalRotation, rotationAccumulatedSinceLastMove);
+
+                        // Make vectors that we will manipulate (note that V3Duplicate allocates memory; we want to use the stack)
+                        Vector3 translation = V3Make(translationAccumulatedSinceLastMove.x,
+                                                     translationAccumulatedSinceLastMove.y,
+                                                     translationAccumulatedSinceLastMove.z);
+                        Vector3 rotation = V3Make(rotationAccumulatedSinceLastMove.x,
+                                                  rotationAccumulatedSinceLastMove.y,
+                                                  rotationAccumulatedSinceLastMove.z);
+
+                        // The controller and Bricksmith use different scales to measure position and rotation.
+                        // Here we use some scaling constants that seem to give correct responsiveness
+                        // using the defalt "All Application" settings.
+                        translation = V3Mul(translation, translationScaling);
+                        rotation    = V3Mul(rotation, rotationScaling);
+
+                        // Now find the granularity of the motion. This depends on how the user is using
+                        // the grid setting. To keep the motion under control, we determine a "threshold"
+                        // based on the grid. If motion on a given axis doesn't exceed the threshold, it
+                        // is set to zero. This helps ignore "noise" when you primarily move along one axis,
+                        // but the controller still detects minor motion along others.
+                        gridSpacingModeT mode  = [currentDocument gridSpacingMode];
+                        int translationQuantum = (int)[BricksmithUtilities gridSpacingForMode:mode];
+                        if (!controlDown) {
+                            translation.x = ((int)(translation.x / translationQuantum)) * translationQuantum;
+                            translation.y = ((int)(translation.y / translationQuantum)) * translationQuantum;
+                            translation.z = ((int)(translation.z / translationQuantum)) * translationQuantum;
+
+                            int rotationQuantum = 1;
+                            switch (mode)
+                            {
+                                case gridModeFine :
+                                    rotationQuantum = GRID_ROTATION_FINE;
+                                    break;
+
+                                case gridModeMedium :
+                                    rotationQuantum = GRID_ROTATION_MEDIUM;
+                                    break;
+
+                                case gridModeCoarse :
+                                    rotationQuantum = GRID_ROTATION_COARSE;
+                                    break;
+                            }
+                            rotation.x = ((int)(rotation.x / rotationQuantum)) * rotationQuantum;
+                            rotation.y = ((int)(rotation.y / rotationQuantum)) * rotationQuantum;
+                            rotation.z = ((int)(rotation.z / rotationQuantum)) * rotationQuantum;
+                        }
+
+                        float length = fabsf((float)V3Length(translation));
+                        if (length > 0) {
+                            [currentDocument moveSelectionBy:translation];
+                            translationAccumulatedSinceLastMove = V3Make(0.0, 0.0, 0.0);
+                        }
+                        length = fabsf((float)V3Length(rotation));
+                        if (length > 0) {
+                            [currentDocument rotateSelection:rotation
+                             mode:RotateAroundSelectionCenter
+                             fixedCenter:NULL];
+                            rotationAccumulatedSinceLastMove = V3Make(0.0, 0.0, 0.0);
+                        }
+                        // printf("3Dconnexion moved: %llu %12.6f %12.6f %12.6f %12.6f %12.6f %12.6f\n", deltaT, translation.x, translation.y, translation.z, rotation.x, rotation.y, rotation.z);
+                    }
+                    break;
+
+                case kConnexionCmdHandleButtons :
+                    // Not sure how to best use the buttons yet
+                    switch (state->buttons)
+                    {
+                        // Make the left button cycle through the grid modes, from coarse to fine. This
+                        // tends to match use, where you start out with a wide grid, and narrow in as you
+                        // move. Making the left button do this visually matches the direction the toolbar
+                        // selection appears to move as you click.
+                        case 1 :
+                            switch ([currentDocument gridSpacingMode])
+                            {
+                                case gridModeFine :
+                                    [currentDocument setGridSpacingMode:gridModeCoarse];
+                                    break;
+
+                                case gridModeMedium :
+                                    [currentDocument setGridSpacingMode:gridModeFine];
+                                    break;
+
+                                case gridModeCoarse :
+                                    [currentDocument setGridSpacingMode:gridModeMedium];
+                                    break;
+                            }
+                            break;
+
+                        case 2 :
+                            // Make the right button snap selection to grid
+                            [currentDocument snapSelectionToGrid:nil];
+                            break;
+                    }
+                    // printf("3Dconnexion button pressed: %d\n", (int)state->buttons);
+                    break;
             }
 
-            // Add in translation and rotation from prior events that didn't register
-            // enough to actually move.
-            translationAccumulatedSinceLastMove =
-              V3Add(originalNudgeVector, translationAccumulatedSinceLastMove);
-            rotationAccumulatedSinceLastMove =
-              V3Add(originalRotation, rotationAccumulatedSinceLastMove);
+            memmove(&lastState, state, (long)sizeof(ConnexionDeviceState));
+            break;
 
-            // Make vectors that we will manipulate (note that V3Duplicate allocates memory; we want to use the stack)
-            Vector3 translation = V3Make(translationAccumulatedSinceLastMove.x,
-                                         translationAccumulatedSinceLastMove.y,
-                                         translationAccumulatedSinceLastMove.z);
-            Vector3 rotation = V3Make(rotationAccumulatedSinceLastMove.x,
-                                      rotationAccumulatedSinceLastMove.y,
-                                      rotationAccumulatedSinceLastMove.z);
-
-            // The controller and Bricksmith use different scales to measure position and rotation.
-            // Here we use some scaling constants that seem to give correct responsiveness
-            // using the defalt "All Application" settings.
-            translation = V3Mul(translation, translationScaling);
-            rotation    = V3Mul(rotation, rotationScaling);
-
-            // Now find the granularity of the motion. This depends on how the user is using
-            // the grid setting. To keep the motion under control, we determine a "threshold"
-            // based on the grid. If motion on a given axis doesn't exceed the threshold, it
-            // is set to zero. This helps ignore "noise" when you primarily move along one axis,
-            // but the controller still detects minor motion along others.
-            gridSpacingModeT mode  = [currentDocument gridSpacingMode];
-            int translationQuantum = (int)[BricksmithUtilities gridSpacingForMode:mode];
-            if (!controlDown) {
-              translation.x = ((int)(translation.x / translationQuantum)) * translationQuantum;
-              translation.y = ((int)(translation.y / translationQuantum)) * translationQuantum;
-              translation.z = ((int)(translation.z / translationQuantum)) * translationQuantum;
-
-              int rotationQuantum = 1;
-              switch (mode)
-              {
-                case gridModeFine :
-                  rotationQuantum = GRID_ROTATION_FINE;
-                  break;
-
-                case gridModeMedium :
-                  rotationQuantum = GRID_ROTATION_MEDIUM;
-                  break;
-
-                case gridModeCoarse :
-                  rotationQuantum = GRID_ROTATION_COARSE;
-                  break;
-              }
-              rotation.x = ((int)(rotation.x / rotationQuantum)) * rotationQuantum;
-              rotation.y = ((int)(rotation.y / rotationQuantum)) * rotationQuantum;
-              rotation.z = ((int)(rotation.z / rotationQuantum)) * rotationQuantum;
-            }
-
-            float length = fabsf((float)V3Length(translation));
-            if (length > 0) {
-              [currentDocument moveSelectionBy:translation];
-              translationAccumulatedSinceLastMove = V3Make(0.0, 0.0, 0.0);
-            }
-            length = fabsf((float)V3Length(rotation));
-            if (length > 0) {
-              [currentDocument rotateSelection:rotation
-                                          mode:RotateAroundSelectionCenter
-                                   fixedCenter:NULL];
-              rotationAccumulatedSinceLastMove = V3Make(0.0, 0.0, 0.0);
-            }
-            // printf("3Dconnexion moved: %llu %12.6f %12.6f %12.6f %12.6f %12.6f %12.6f\n", deltaT, translation.x, translation.y, translation.z, rotation.x, rotation.y, rotation.z);
-          }
-          break;
-
-        case kConnexionCmdHandleButtons :
-          // Not sure how to best use the buttons yet
-          switch (state->buttons)
-          {
-            // Make the left button cycle through the grid modes, from coarse to fine. This
-            // tends to match use, where you start out with a wide grid, and narrow in as you
-            // move. Making the left button do this visually matches the direction the toolbar
-            // selection appears to move as you click.
-            case 1 :
-              switch ([currentDocument gridSpacingMode])
-              {
-                case gridModeFine :
-                  [currentDocument setGridSpacingMode:gridModeCoarse];
-                  break;
-
-                case gridModeMedium :
-                  [currentDocument setGridSpacingMode:gridModeFine];
-                  break;
-
-                case gridModeCoarse :
-                  [currentDocument setGridSpacingMode:gridModeMedium];
-                  break;
-              }
-              break;
-
-            case 2 :
-              // Make the right button snap selection to grid
-              [currentDocument snapSelectionToGrid:nil];
-              break;
-          }
-          // printf("3Dconnexion button pressed: %d\n", (int)state->buttons);
-          break;
-      }
-
-      memmove(&lastState, state, (long)sizeof(ConnexionDeviceState));
-      break;
-
-    default :
-      // other messageTypes can happen and should be ignored
-      break;
-  }
+        default :
+            // other messageTypes can happen and should be ignored
+            break;
+    }
 }
 
 

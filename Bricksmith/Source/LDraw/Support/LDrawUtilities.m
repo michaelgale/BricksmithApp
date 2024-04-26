@@ -36,7 +36,7 @@ static NSString *defaultAuthor   = @"anonymous";
 // ------------------------------------------------------------------------------
 + (NSString *)defaultAuthor
 {
-  return(defaultAuthor);
+    return(defaultAuthor);
 }
 
 
@@ -67,7 +67,7 @@ static NSString *defaultAuthor   = @"anonymous";
 // ------------------------------------------------------------------------------
 + (void)setColumnizesOutput:(BOOL)flag
 {
-  ColumnizesOutput = flag;
+    ColumnizesOutput = flag;
 }
 
 
@@ -78,12 +78,12 @@ static NSString *defaultAuthor   = @"anonymous";
 // ------------------------------------------------------------------------------
 + (void)setDefaultAuthor:(NSString *)nameIn
 {
-  // LLW: If the incoming nameIn is nil, leave this alone.
-  if (nameIn != nil) {
-    [nameIn retain];
-    [defaultAuthor release];
-    defaultAuthor = nameIn;
-  }
+    // LLW: If the incoming nameIn is nil, leave this alone.
+    if (nameIn != nil) {
+        [nameIn retain];
+        [defaultAuthor release];
+        defaultAuthor = nameIn;
+    }
 }
 
 
@@ -99,57 +99,57 @@ static NSString *defaultAuthor   = @"anonymous";
 // ------------------------------------------------------------------------------
 + (Class)classForDirectiveBeginningWithLine:(NSString *)line
 {
-  Class     classForType       = Nil;
-  NSString  *commandCodeString = nil;
-  NSInteger lineType           = 0;
+    Class     classForType       = Nil;
+    NSString  *commandCodeString = nil;
+    NSInteger lineType           = 0;
 
-  commandCodeString = [LDrawUtilities readNextField:line remainder:NULL];
-  // We may need to check for nil here someday.
-  lineType = [commandCodeString integerValue];
+    commandCodeString = [LDrawUtilities readNextField:line remainder:NULL];
+    // We may need to check for nil here someday.
+    lineType = [commandCodeString integerValue];
 
-  // The linecode (0, 1, 2, 3, 4, 5) identifies the type of command, and is
-  // always the first character in the line.
-  switch (lineType)
-  {
-    case 0 :
+    // The linecode (0, 1, 2, 3, 4, 5) identifies the type of command, and is
+    // always the first character in the line.
+    switch (lineType)
     {
-      if ([LDrawTexture lineIsTextureBeginning:line]) {
-        classForType = [LDrawTexture class];
-      }
-      else if ([LDrawLSynth lineIsLSynthBeginning:line]) {
-        classForType = [LDrawLSynth class];
-      }
-      else {
-        classForType = [LDrawMetaCommand class];
-      }
+        case 0 :
+        {
+            if ([LDrawTexture lineIsTextureBeginning:line]) {
+                classForType = [LDrawTexture class];
+            }
+            else if ([LDrawLSynth lineIsLSynthBeginning:line]) {
+                classForType = [LDrawLSynth class];
+            }
+            else {
+                classForType = [LDrawMetaCommand class];
+            }
+        }
+        break;
+
+        case 1 :
+            classForType = [LDrawPart class];
+            break;
+
+        case 2 :
+            classForType = [LDrawLine class];
+            break;
+
+        case 3 :
+            classForType = [LDrawTriangle class];
+            break;
+
+        case 4 :
+            classForType = [LDrawQuadrilateral class];
+            break;
+
+        case 5 :
+            classForType = [LDrawConditionalLine class];
+            break;
+
+        default :
+            NSLog(@"unrecognized LDraw line type: %ld", (long)lineType);
     }
-    break;
 
-    case 1 :
-      classForType = [LDrawPart class];
-      break;
-
-    case 2 :
-      classForType = [LDrawLine class];
-      break;
-
-    case 3 :
-      classForType = [LDrawTriangle class];
-      break;
-
-    case 4 :
-      classForType = [LDrawQuadrilateral class];
-      break;
-
-    case 5 :
-      classForType = [LDrawConditionalLine class];
-      break;
-
-    default :
-      NSLog(@"unrecognized LDraw line type: %ld", (long)lineType);
-  }
-
-  return(classForType);
+    return(classForType);
 }// end classForDirectiveBeginningWithLine:
 
 
@@ -165,89 +165,89 @@ static NSString *defaultAuthor   = @"anonymous";
 // ------------------------------------------------------------------------------
 + (LDrawColor *)parseColorFromField:(NSString *)colorField
 {
-  NSScanner   *scanner       = [NSScanner scannerWithString:colorField];
-  LDrawColorT colorCode      = LDrawColorBogus;
-  unsigned    hexBytes       = 0;
-  int         customCodeType = 0;
-  GLfloat     components[4]  = {};
-  LDrawColor  *color         = nil;
+    NSScanner   *scanner       = [NSScanner scannerWithString:colorField];
+    LDrawColorT colorCode      = LDrawColorBogus;
+    unsigned    hexBytes       = 0;
+    int         customCodeType = 0;
+    GLfloat     components[4]  = {};
+    LDrawColor  *color         = nil;
 
-  // Custom RGB?
-  if ([scanner scanString:@"0x"
-               intoString:nil] == YES) {
-    // The integer should be of the format:
-    // 0x2RRGGBB for opaque colors
-    // 0x3RRGGBB for transparent colors
-    // 0x4RGBRGB for a dither of two 12-bit RGB colors
-    // 0x5RGBxxx as a dither of one 12-bit RGB color with clear (for transparency).
+    // Custom RGB?
+    if ([scanner scanString:@"0x"
+         intoString:nil] == YES) {
+        // The integer should be of the format:
+        // 0x2RRGGBB for opaque colors
+        // 0x3RRGGBB for transparent colors
+        // 0x4RGBRGB for a dither of two 12-bit RGB colors
+        // 0x5RGBxxx as a dither of one 12-bit RGB color with clear (for transparency).
 
-    [scanner scanHexInt:&hexBytes];
-    customCodeType = (hexBytes >> 3 * 8) & 0xFF;
+        [scanner scanHexInt:&hexBytes];
+        customCodeType = (hexBytes >> 3 * 8) & 0xFF;
 
-    switch (customCodeType)
-    {
-      // Solid color
-      case 2 :
-        components[0] = (GLfloat)((hexBytes >> 2 * 8) & 0xFF) / 255; // Red
-        components[1] = (GLfloat)((hexBytes >> 1 * 8) & 0xFF) / 255; // Green
-        components[2] = (GLfloat)((hexBytes >> 0 * 8) & 0xFF) / 255; // Blue
-        components[3] = (GLfloat)1.0;  // alpha
-        break;
+        switch (customCodeType)
+        {
+            // Solid color
+            case 2 :
+                components[0] = (GLfloat)((hexBytes >> 2 * 8) & 0xFF) / 255; // Red
+                components[1] = (GLfloat)((hexBytes >> 1 * 8) & 0xFF) / 255; // Green
+                components[2] = (GLfloat)((hexBytes >> 0 * 8) & 0xFF) / 255; // Blue
+                components[3] = (GLfloat)1.0; // alpha
+                break;
 
-      // Transparent color
-      case 3 :
-        components[0] = (GLfloat)((hexBytes >> 2 * 8) & 0xFF) / 255; // Red
-        components[1] = (GLfloat)((hexBytes >> 1 * 8) & 0xFF) / 255; // Green
-        components[2] = (GLfloat)((hexBytes >> 0 * 8) & 0xFF) / 255; // Blue
-        components[3] = (GLfloat)0.5;  // alpha
-        break;
+            // Transparent color
+            case 3 :
+                components[0] = (GLfloat)((hexBytes >> 2 * 8) & 0xFF) / 255; // Red
+                components[1] = (GLfloat)((hexBytes >> 1 * 8) & 0xFF) / 255; // Green
+                components[2] = (GLfloat)((hexBytes >> 0 * 8) & 0xFF) / 255; // Blue
+                components[3] = (GLfloat)0.5; // alpha
+                break;
 
-      // combined opaque color
-      case 4 :
-        // Red
-        components[0] =
-          (GLfloat)(((hexBytes >> 5 * 4) & 0xF) + ((hexBytes >> 2 * 4) & 0xF)) / 2 / 255;
-        // Green
-        components[0] =
-          (GLfloat)(((hexBytes >> 4 * 4) & 0xF) + ((hexBytes >> 1 * 4) & 0xF)) / 2 / 255;
-        // Blue
-        components[0] =
-          (GLfloat)(((hexBytes >> 3 * 4) & 0xF) + ((hexBytes >> 0 * 4) & 0xF)) / 2 / 255;
-        // alpha
-        components[3] = (GLfloat)1.0;
-        break;
+            // combined opaque color
+            case 4 :
+                // Red
+                components[0] =
+                    (GLfloat)(((hexBytes >> 5 * 4) & 0xF) + ((hexBytes >> 2 * 4) & 0xF)) / 2 / 255;
+                // Green
+                components[0] =
+                    (GLfloat)(((hexBytes >> 4 * 4) & 0xF) + ((hexBytes >> 1 * 4) & 0xF)) / 2 / 255;
+                // Blue
+                components[0] =
+                    (GLfloat)(((hexBytes >> 3 * 4) & 0xF) + ((hexBytes >> 0 * 4) & 0xF)) / 2 / 255;
+                // alpha
+                components[3] = (GLfloat)1.0;
+                break;
 
-      // bad-looking transparent color
-      case 5 :
-        components[0] = (GLfloat)((hexBytes >> 5 * 4) & 0xF) / 15; // Red
-        components[0] = (GLfloat)((hexBytes >> 4 * 4) & 0xF) / 15; // Green
-        components[0] = (GLfloat)((hexBytes >> 3 * 4) & 0xF) / 15; // Blue
-        components[3] = (GLfloat)0.5;  // alpha
-        break;
+            // bad-looking transparent color
+            case 5 :
+                components[0] = (GLfloat)((hexBytes >> 5 * 4) & 0xF) / 15; // Red
+                components[0] = (GLfloat)((hexBytes >> 4 * 4) & 0xF) / 15; // Green
+                components[0] = (GLfloat)((hexBytes >> 3 * 4) & 0xF) / 15; // Blue
+                components[3] = (GLfloat)0.5; // alpha
+                break;
 
-      default :
-        break;
+            default :
+                break;
+        }
+
+        color = [[[LDrawColor alloc] init] autorelease];
+        [color setColorCode:LDrawColorCustomRGB];
+        [color setEdgeColorCode:LDrawBlack];
+        [color setColorRGBA:components];
+    }
+    else {
+        // Regular, standards-compliant LDraw color code
+        colorCode = [colorField intValue];
+        color     = [[ColorLibrary sharedColorLibrary] colorForCode:colorCode];
+
+        if (color == nil) {
+            // This is probably a file-local color. Or a file from the future.
+            color = [[[LDrawColor alloc] init] autorelease];
+            [color setColorCode:colorCode];
+            [color setEdgeColorCode:LDrawBlack];
+        }
     }
 
-    color = [[[LDrawColor alloc] init] autorelease];
-    [color setColorCode:LDrawColorCustomRGB];
-    [color setEdgeColorCode:LDrawBlack];
-    [color setColorRGBA:components];
-  }
-  else {
-    // Regular, standards-compliant LDraw color code
-    colorCode = [colorField intValue];
-    color     = [[ColorLibrary sharedColorLibrary] colorForCode:colorCode];
-
-    if (color == nil) {
-      // This is probably a file-local color. Or a file from the future.
-      color = [[[LDrawColor alloc] init] autorelease];
-      [color setColorCode:colorCode];
-      [color setEdgeColorCode:LDrawBlack];
-    }
-  }
-
-  return(color);
+    return(color);
 }// end parseColorFromField:
 
 
@@ -276,35 +276,35 @@ static NSString *defaultAuthor   = @"anonymous";
 //
 // ------------------------------------------------------------------------------
 + (NSString *)readNextField:(NSString *)partialDirective
-  remainder:(NSString **)remainder
+    remainder:(NSString **)remainder
 {
-  NSCharacterSet *whitespaceCharacterSet = [NSCharacterSet whitespaceAndNewlineCharacterSet];
-  NSRange        rangeOfNextWhiteSpace;
-  NSString       *fieldContents = nil;
+    NSCharacterSet *whitespaceCharacterSet = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+    NSRange        rangeOfNextWhiteSpace;
+    NSString       *fieldContents = nil;
 
-  // First, remove any heading whitespace.
-  partialDirective = [partialDirective stringByTrimmingCharactersInSet:whitespaceCharacterSet];
-  // Find the beginning of the next field separation
-  rangeOfNextWhiteSpace = [partialDirective rangeOfCharacterFromSet:whitespaceCharacterSet];
+    // First, remove any heading whitespace.
+    partialDirective = [partialDirective stringByTrimmingCharactersInSet:whitespaceCharacterSet];
+    // Find the beginning of the next field separation
+    rangeOfNextWhiteSpace = [partialDirective rangeOfCharacterFromSet:whitespaceCharacterSet];
 
-  // The text between the beginning and the next field separator is the first
-  // field (what we are after).
-  if (rangeOfNextWhiteSpace.location != NSNotFound) {
-    fieldContents = [partialDirective substringToIndex:rangeOfNextWhiteSpace.location];
-    // See if they want the rest of the line, sans the field we just parsed.
-    if (remainder != NULL) {
-      *remainder = [partialDirective substringFromIndex:rangeOfNextWhiteSpace.location];
+    // The text between the beginning and the next field separator is the first
+    // field (what we are after).
+    if (rangeOfNextWhiteSpace.location != NSNotFound) {
+        fieldContents = [partialDirective substringToIndex:rangeOfNextWhiteSpace.location];
+        // See if they want the rest of the line, sans the field we just parsed.
+        if (remainder != NULL) {
+            *remainder = [partialDirective substringFromIndex:rangeOfNextWhiteSpace.location];
+        }
     }
-  }
-  else {
-    // There was no subsequent field separator; we must be at the end of the line.
-    fieldContents = partialDirective;
-    if (remainder != NULL) {
-      *remainder = [NSString string];
+    else {
+        // There was no subsequent field separator; we must be at the end of the line.
+        fieldContents = partialDirective;
+        if (remainder != NULL) {
+            *remainder = [NSString string];
+        }
     }
-  }
 
-  return(fieldContents);
+    return(fieldContents);
 }// end readNextField
 
 
@@ -317,43 +317,43 @@ static NSString *defaultAuthor   = @"anonymous";
 // ------------------------------------------------------------------------------
 + (NSString *)scanQuotableToken:(NSScanner *)scanner
 {
-  NSCharacterSet  *doubleQuote = [NSCharacterSet characterSetWithCharactersInString:@"\""];
-  NSMutableString *token       = [NSMutableString string];
-  NSString        *temp        = nil;
+    NSCharacterSet  *doubleQuote = [NSCharacterSet characterSetWithCharactersInString:@"\""];
+    NSMutableString *token       = [NSMutableString string];
+    NSString        *temp        = nil;
 
-  if ([scanner scanCharactersFromSet:doubleQuote intoString:NULL] == YES) {
-    // String is wrapped in double quotes.
-    // Watch out for embedded " characters, escaped as \"
-    // and \ characters, escaped as \\        .
+    if ([scanner scanCharactersFromSet:doubleQuote intoString:NULL] == YES) {
+        // String is wrapped in double quotes.
+        // Watch out for embedded " characters, escaped as \"
+        // and \ characters, escaped as \\        .
 
-    [scanner scanUpToCharactersFromSet:doubleQuote intoString:&temp];
-    [scanner scanCharactersFromSet:doubleQuote intoString:NULL];
-    [token appendString:temp];
-    while ([token hasSuffix:@"\\"] == YES)
-    {
-      // Un-escape the \"
-      [token deleteCharactersInRange:NSMakeRange([token length] - 1, 1)];
-      [token appendString:@"\""];
+        [scanner scanUpToCharactersFromSet:doubleQuote intoString:&temp];
+        [scanner scanCharactersFromSet:doubleQuote intoString:NULL];
+        [token appendString:temp];
+        while ([token hasSuffix:@"\\"] == YES)
+        {
+            // Un-escape the \"
+            [token deleteCharactersInRange:NSMakeRange([token length] - 1, 1)];
+            [token appendString:@"\""];
 
-      [scanner scanUpToCharactersFromSet:doubleQuote intoString:&temp];
-      [scanner scanCharactersFromSet:doubleQuote intoString:NULL];
-      [token appendString:temp];
+            [scanner scanUpToCharactersFromSet:doubleQuote intoString:&temp];
+            [scanner scanCharactersFromSet:doubleQuote intoString:NULL];
+            [token appendString:temp];
+        }
+
+        // Un-escape backslashes
+        [token replaceOccurrencesOfString:@"\\\\"
+         withString:@"\\"
+         options:NSLiteralSearch
+         range:NSMakeRange(0, [token length])];
+    }
+    else {
+        // No leading quote mark
+        [scanner scanUpToCharactersFromSet:[NSCharacterSet whitespaceCharacterSet]
+         intoString:&temp];
+        [token appendString:temp];
     }
 
-    // Un-escape backslashes
-    [token replaceOccurrencesOfString:@"\\\\"
-                           withString:@"\\"
-                              options:NSLiteralSearch
-                                range:NSMakeRange(0, [token length])];
-  }
-  else {
-    // No leading quote mark
-    [scanner scanUpToCharactersFromSet:[NSCharacterSet whitespaceCharacterSet]
-                            intoString:&temp];
-    [token appendString:temp];
-  }
-
-  return(token);
+    return(token);
 }// end scanQuotableToken:
 
 
@@ -364,10 +364,10 @@ static NSString *defaultAuthor   = @"anonymous";
 // ------------------------------------------------------------------------------
 + (NSString *)stringFromFile:(NSString *)path
 {
-  NSData   *fileData   = [NSData dataWithContentsOfFile:path];
-  NSString *fileString = [self stringFromFileData:fileData];
+    NSData   *fileData   = [NSData dataWithContentsOfFile:path];
+    NSString *fileString = [self stringFromFileData:fileData];
 
-  return(fileString);
+    return(fileString);
 }// end stringFromFile:
 
 
@@ -379,25 +379,25 @@ static NSString *defaultAuthor   = @"anonymous";
 // ------------------------------------------------------------------------------
 + (NSString *)stringFromFileData:(NSData *)fileData
 {
-  NSString *fileString = nil;
+    NSString *fileString = nil;
 
-  if (fileData) {
-    // Try UTF-8 first, because it's so nice.
-    fileString = [[NSString alloc] initWithData:fileData encoding:NSUTF8StringEncoding];
+    if (fileData) {
+        // Try UTF-8 first, because it's so nice.
+        fileString = [[NSString alloc] initWithData:fileData encoding:NSUTF8StringEncoding];
 
-    // Uh-oh. Maybe Windows Latin?
-    if (fileString == nil) {
-      fileString = [[NSString alloc] initWithData:fileData encoding:NSISOLatin1StringEncoding];
+        // Uh-oh. Maybe Windows Latin?
+        if (fileString == nil) {
+            fileString = [[NSString alloc] initWithData:fileData encoding:NSISOLatin1StringEncoding];
+        }
+
+        // Yikes. Not even Windows. MacRoman will do it, even if it doesn't look
+        // right.
+        if (fileString == nil) {
+            fileString = [[NSString alloc] initWithData:fileData encoding:NSMacOSRomanStringEncoding];
+        }
     }
 
-    // Yikes. Not even Windows. MacRoman will do it, even if it doesn't look
-    // right.
-    if (fileString == nil) {
-      fileString = [[NSString alloc] initWithData:fileData encoding:NSMacOSRomanStringEncoding];
-    }
-  }
-
-  return([fileString autorelease]);
+    return([fileString autorelease]);
 }// end stringFromFileData:
 
 
@@ -415,38 +415,38 @@ static NSString *defaultAuthor   = @"anonymous";
 // ------------------------------------------------------------------------------
 + (NSString *)outputStringForColor:(LDrawColor *)color
 {
-  NSString    *outputString = nil;
-  GLfloat     components[4] = {};
-  LDrawColorT colorCode     = LDrawColorBogus;
+    NSString    *outputString = nil;
+    GLfloat     components[4] = {};
+    LDrawColorT colorCode     = LDrawColorBogus;
 
-  colorCode = [color colorCode];
-  [color getColorRGBA:components];
+    colorCode = [color colorCode];
+    [color getColorRGBA:components];
 
-  if (colorCode == LDrawColorCustomRGB) {
-    // Opaque?
-    if (components[3] == 1.0) {
-      outputString = [NSString stringWithFormat:@"0x2%02X%02X%02X",
-                      (uint8_t)(components[0] * 255),
-                      (uint8_t)(components[1] * 255),
-                      (uint8_t)(components[2] * 255)];
+    if (colorCode == LDrawColorCustomRGB) {
+        // Opaque?
+        if (components[3] == 1.0) {
+            outputString = [NSString stringWithFormat:@"0x2%02X%02X%02X",
+                            (uint8_t)(components[0] * 255),
+                            (uint8_t)(components[1] * 255),
+                            (uint8_t)(components[2] * 255)];
+        }
+        else {
+            outputString = [NSString stringWithFormat:@"0x3%02X%02X%02X",
+                            (uint8_t)(components[0] * 255),
+                            (uint8_t)(components[1] * 255),
+                            (uint8_t)(components[2] * 255)];
+        }
     }
     else {
-      outputString = [NSString stringWithFormat:@"0x3%02X%02X%02X",
-                      (uint8_t)(components[0] * 255),
-                      (uint8_t)(components[1] * 255),
-                      (uint8_t)(components[2] * 255)];
+        if (ColumnizesOutput == YES) {
+            outputString = [NSString stringWithFormat:@"%3d", colorCode];
+        }
+        else {
+            outputString = [NSString stringWithFormat:@"%d", colorCode];
+        }
     }
-  }
-  else {
-    if (ColumnizesOutput == YES) {
-      outputString = [NSString stringWithFormat:@"%3d", colorCode];
-    }
-    else {
-      outputString = [NSString stringWithFormat:@"%d", colorCode];
-    }
-  }
 
-  return(outputString);
+    return(outputString);
 }// end outputStringForColorCode:RGB:
 
 
@@ -458,42 +458,42 @@ static NSString *defaultAuthor   = @"anonymous";
 // ------------------------------------------------------------------------------
 + (NSString *)outputStringForFloat:(float)number
 {
-  NSString *outputString = nil;
+    NSString *outputString = nil;
 
-  if (ColumnizesOutput == YES) {
-    // Make a nice wide fixed-width string which will force the numbers into
-    // columns.
-    outputString = [NSString stringWithFormat:@"%12f", number];
-  }
-  else {
-    // Remove all trailing zeroes (and the decimal point if an integer).
-
-    char   formattedFloat[16] = "";
-    char   *endOfString       = NULL;
-    size_t fullLength         = 0;
-
-    // First format the number into a string. We could wind up with
-    // something like "50.090000".
-    snprintf(formattedFloat, sizeof(formattedFloat), "%f", number);
-    fullLength  = strlen(formattedFloat);
-    endOfString = &formattedFloat[fullLength - 1];
-
-    // Back up past all the zeroes that may be at the end of the number
-    while (*endOfString == '0')
-    {
-      endOfString--;
+    if (ColumnizesOutput == YES) {
+        // Make a nice wide fixed-width string which will force the numbers into
+        // columns.
+        outputString = [NSString stringWithFormat:@"%12f", number];
     }
-    if (*endOfString != '.') {
-      // We must be pointing at a non-zero digit, so lop off the
-      // subsequent character that is a zero.
-      endOfString++;
+    else {
+        // Remove all trailing zeroes (and the decimal point if an integer).
+
+        char   formattedFloat[16] = "";
+        char   *endOfString       = NULL;
+        size_t fullLength         = 0;
+
+        // First format the number into a string. We could wind up with
+        // something like "50.090000".
+        snprintf(formattedFloat, sizeof(formattedFloat), "%f", number);
+        fullLength  = strlen(formattedFloat);
+        endOfString = &formattedFloat[fullLength - 1];
+
+        // Back up past all the zeroes that may be at the end of the number
+        while (*endOfString == '0')
+        {
+            endOfString--;
+        }
+        if (*endOfString != '.') {
+            // We must be pointing at a non-zero digit, so lop off the
+            // subsequent character that is a zero.
+            endOfString++;
+        }
+
+        *endOfString = '\0';
+        outputString = [NSString stringWithUTF8String:formattedFloat];
     }
 
-    *endOfString = '\0';
-    outputString = [NSString stringWithUTF8String:formattedFloat];
-  }
-
-  return(outputString);
+    return(outputString);
 }// end outputStringForFloat:
 
 
@@ -514,33 +514,33 @@ static NSString *defaultAuthor   = @"anonymous";
 //
 // ------------------------------------------------------------------------------
 + (void)registerHitForObject:(id)hitObject depth:(double)hitDepth creditObject:(id)creditObject
-  hits:(NSMutableDictionary *)hits
+    hits:(NSMutableDictionary *)hits
 {
-  NSNumber *existingRecord = [hits objectForKey:creditObject];
-  double   existingDepth   = 0;
-  NSValue  *key            = nil;
+    NSNumber *existingRecord = [hits objectForKey:creditObject];
+    double   existingDepth   = 0;
+    NSValue  *key            = nil;
 
-  // NSDictionary copies its keys (which we don't want to do!), so we'll just
-  // wrap the pointers.
-  if (creditObject == nil) {
-    key = [NSValue valueWithPointer:hitObject];
-  }
-  else {
-    key = [NSValue valueWithPointer:creditObject];
-  }
+    // NSDictionary copies its keys (which we don't want to do!), so we'll just
+    // wrap the pointers.
+    if (creditObject == nil) {
+        key = [NSValue valueWithPointer:hitObject];
+    }
+    else {
+        key = [NSValue valueWithPointer:creditObject];
+    }
 
-  existingRecord = [hits objectForKey:key];
-  if (existingRecord == nil) {
-    existingDepth = INFINITY;
-  }
-  else {
-    existingDepth = [existingRecord floatValue];
-  }
+    existingRecord = [hits objectForKey:key];
+    if (existingRecord == nil) {
+        existingDepth = INFINITY;
+    }
+    else {
+        existingDepth = [existingRecord floatValue];
+    }
 
-  // Found a shallower intersection point? Record the hit.
-  if (hitDepth < existingDepth) {
-    [hits setObject:[NSNumber numberWithFloat:hitDepth] forKey:key];
-  }
+    // Found a shallower intersection point? Record the hit.
+    if (hitDepth < existingDepth) {
+        [hits setObject:[NSNumber numberWithFloat:hitDepth] forKey:key];
+    }
 }
 
 
@@ -557,18 +557,18 @@ static NSString *defaultAuthor   = @"anonymous";
 // ------------------------------------------------------------------------------
 + (void)registerHitForObject:(id)hitObject creditObject:(id)creditObject hits:(NSMutableSet *)hits
 {
-  NSValue *key = nil;
+    NSValue *key = nil;
 
-  // NSDictionary copies its keys (which we don't want to do!), so we'll just
-  // wrap the pointers.
-  if (creditObject == nil) {
-    key = [NSValue valueWithPointer:hitObject];
-  }
-  else {
-    key = [NSValue valueWithPointer:creditObject];
-  }
+    // NSDictionary copies its keys (which we don't want to do!), so we'll just
+    // wrap the pointers.
+    if (creditObject == nil) {
+        key = [NSValue valueWithPointer:hitObject];
+    }
+    else {
+        key = [NSValue valueWithPointer:creditObject];
+    }
 
-  [hits addObject:key];
+    [hits addObject:key];
 }
 
 
@@ -583,22 +583,22 @@ static NSString *defaultAuthor   = @"anonymous";
 // ------------------------------------------------------------------------------
 + (CGImageRef)imageAtPath:(NSString *)imagePath
 {
-  NSURL            *fileURL    = nil;
-  CGImageSourceRef imageSource = NULL;
-  CGImageRef       image       = NULL;
+    NSURL            *fileURL    = nil;
+    CGImageSourceRef imageSource = NULL;
+    CGImageRef       image       = NULL;
 
-  if (imagePath) {
-    fileURL = [NSURL fileURLWithPath:imagePath];
+    if (imagePath) {
+        fileURL = [NSURL fileURLWithPath:imagePath];
 
-    imageSource = CGImageSourceCreateWithURL((CFURLRef)fileURL, NULL);
-    if (imageSource != NULL) {
-      image = CGImageSourceCreateImageAtIndex(imageSource, 0, NULL);
+        imageSource = CGImageSourceCreateWithURL((CFURLRef)fileURL, NULL);
+        if (imageSource != NULL) {
+            image = CGImageSourceCreateImageAtIndex(imageSource, 0, NULL);
+        }
     }
-  }
 
-  if (imageSource) { CFRelease(imageSource); }
+    if (imageSource) { CFRelease(imageSource); }
 
-  return((CGImageRef)[(id) image autorelease]);
+    return((CGImageRef)[(id) image autorelease]);
 }
 
 
@@ -614,46 +614,46 @@ static NSString *defaultAuthor   = @"anonymous";
 // ------------------------------------------------------------------------------
 + (Tuple3)angleForViewOrientation:(ViewOrientationT)orientation
 {
-  Tuple3 angle = ZeroPoint3;
+    Tuple3 angle = ZeroPoint3;
 
-  switch (orientation)
-  {
-    case ViewOrientationWalkThrough :
-      angle = V3Make(0, 0, 0);
-      break;
+    switch (orientation)
+    {
+        case ViewOrientationWalkThrough :
+            angle = V3Make(0, 0, 0);
+            break;
 
-    case ViewOrientation3D :
-      // This is MLCad's default 3-D viewing angle, which is arrived at by
-      // applying these rotations in order: z=0, y=45, x=23.
-      angle = V3Make(30.976, 40.609, 21.342);
-      break;
+        case ViewOrientation3D :
+            // This is MLCad's default 3-D viewing angle, which is arrived at by
+            // applying these rotations in order: z=0, y=45, x=23.
+            angle = V3Make(30.976, 40.609, 21.342);
+            break;
 
-    case ViewOrientationFront :
-      angle = V3Make(0, 0, 0);
-      break;
+        case ViewOrientationFront :
+            angle = V3Make(0, 0, 0);
+            break;
 
-    case ViewOrientationBack :
-      angle = V3Make(0, 180, 0);
-      break;
+        case ViewOrientationBack :
+            angle = V3Make(0, 180, 0);
+            break;
 
-    case ViewOrientationLeft :
-      angle = V3Make(0, -90, 0);
-      break;
+        case ViewOrientationLeft :
+            angle = V3Make(0, -90, 0);
+            break;
 
-    case ViewOrientationRight :
-      angle = V3Make(0, 90, 0);
-      break;
+        case ViewOrientationRight :
+            angle = V3Make(0, 90, 0);
+            break;
 
-    case ViewOrientationTop :
-      angle = V3Make(90, 0, 0);
-      break;
+        case ViewOrientationTop :
+            angle = V3Make(90, 0, 0);
+            break;
 
-    case ViewOrientationBottom :
-      angle = V3Make(-90, 0, 0);
-      break;
-  }
+        case ViewOrientationBottom :
+            angle = V3Make(-90, 0, 0);
+            break;
+    }
 
-  return(angle);
+    return(angle);
 }// end angleForViewOrientation:
 
 
@@ -670,22 +670,22 @@ static NSString *defaultAuthor   = @"anonymous";
 // ------------------------------------------------------------------------------
 + (Box3)boundingBox3ForDirectives:(NSArray *)directives
 {
-  Box3       bounds             = InvalidBox;
-  Box3       partBounds         = InvalidBox;
-  id         currentDirective   = nil;
-  NSUInteger numberOfDirectives = [directives count];
-  NSUInteger counter            = 0;
+    Box3       bounds             = InvalidBox;
+    Box3       partBounds         = InvalidBox;
+    id         currentDirective   = nil;
+    NSUInteger numberOfDirectives = [directives count];
+    NSUInteger counter            = 0;
 
-  for (counter = 0; counter < numberOfDirectives; counter++) {
-    currentDirective = [directives objectAtIndex:counter];
+    for (counter = 0; counter < numberOfDirectives; counter++) {
+        currentDirective = [directives objectAtIndex:counter];
 // if([currentDirective respondsToSelector:@selector(boundingBox3)])
-    {
-      partBounds = [currentDirective boundingBox3];
-      bounds     = V3UnionBox(bounds, partBounds);
+        {
+            partBounds = [currentDirective boundingBox3];
+            bounds     = V3UnionBox(bounds, partBounds);
+        }
     }
-  }
 
-  return(bounds);
+    return(bounds);
 }// end boundingBox3ForDirectives
 
 
@@ -704,21 +704,21 @@ static NSString *defaultAuthor   = @"anonymous";
 // ------------------------------------------------------------------------------
 + (BOOL)isLDrawFilenameValid:(NSString *)fileName
 {
-  NSString *extension = [fileName pathExtension];
-  BOOL     isValid    = NO;
+    NSString *extension = [fileName pathExtension];
+    BOOL     isValid    = NO;
 
-  // Make sure it has a valid extension
-  if (extension == nil ||
-      ([extension isEqualToString:@"ldr"] == NO &&
-       [extension isEqualToString:@"dat"] == NO)
-      ) {
-    isValid = NO;
-  }
-  else {
-    isValid = YES;
-  }
+    // Make sure it has a valid extension
+    if (extension == nil ||
+        ([extension isEqualToString:@"ldr"] == NO &&
+         [extension isEqualToString:@"dat"] == NO)
+        ) {
+        isValid = NO;
+    }
+    else {
+        isValid = YES;
+    }
 
-  return(isValid);
+    return(isValid);
 }// end isLDrawFilenameValid:
 
 
@@ -734,11 +734,11 @@ static NSString *defaultAuthor   = @"anonymous";
 // ------------------------------------------------------------------------------
 + (void)updateNameForMovedPart:(LDrawPart *)movedPart
 {
-  NSString *description = [[PartLibrary sharedPartLibrary] descriptionForPart:movedPart];
+    NSString *description = [[PartLibrary sharedPartLibrary] descriptionForPart:movedPart];
 
-  if ([description hasPrefix:LDRAW_MOVED_DESCRIPTION_PREFIX]) {
-    [movedPart followRedirectionAndUpdate];
-  }
+    if ([description hasPrefix:LDRAW_MOVED_DESCRIPTION_PREFIX]) {
+        [movedPart followRedirectionAndUpdate];
+    }
 }// end updateNameForMovedPart:
 
 
@@ -751,30 +751,30 @@ static NSString *defaultAuthor   = @"anonymous";
 // ------------------------------------------------------------------------------
 + (ViewOrientationT)viewOrientationForAngle:(Tuple3)rotationAngle
 {
-  ViewOrientationT viewOrientation = ViewOrientation3D;
-  NSUInteger       counter         = 0;
-  Tuple3           testAngle       = ZeroPoint3;
-  ViewOrientationT testOrientation = ViewOrientation3D;
+    ViewOrientationT viewOrientation = ViewOrientation3D;
+    NSUInteger       counter         = 0;
+    Tuple3           testAngle       = ZeroPoint3;
+    ViewOrientationT testOrientation = ViewOrientation3D;
 
-  ViewOrientationT orientations[] = { ViewOrientationFront,
-                                      ViewOrientationBack,
-                                      ViewOrientationLeft,
-                                      ViewOrientationRight,
-                                      ViewOrientationTop,
-                                      ViewOrientationBottom };
-  NSUInteger       orientationCount = sizeof(orientations) / sizeof(ViewOrientationT);
+    ViewOrientationT orientations[] = { ViewOrientationFront,
+                                        ViewOrientationBack,
+                                        ViewOrientationLeft,
+                                        ViewOrientationRight,
+                                        ViewOrientationTop,
+                                        ViewOrientationBottom };
+    NSUInteger       orientationCount = sizeof(orientations) / sizeof(ViewOrientationT);
 
-  // See if the angle matches any of the head-on orientations.
-  for (counter = 0; viewOrientation == ViewOrientation3D && counter < orientationCount; counter++) {
-    testOrientation = orientations[counter];
-    testAngle       = [LDrawUtilities angleForViewOrientation:testOrientation];
+    // See if the angle matches any of the head-on orientations.
+    for (counter = 0; viewOrientation == ViewOrientation3D && counter < orientationCount; counter++) {
+        testOrientation = orientations[counter];
+        testAngle       = [LDrawUtilities angleForViewOrientation:testOrientation];
 
-    if (V3PointsWithinTolerance(rotationAngle, testAngle) == YES) {
-      viewOrientation = testOrientation;
+        if (V3PointsWithinTolerance(rotationAngle, testAngle) == YES) {
+            viewOrientation = testOrientation;
+        }
     }
-  }
 
-  return(viewOrientation);
+    return(viewOrientation);
 }// end viewOrientationForAngle:
 
 
@@ -788,16 +788,16 @@ static NSString *defaultAuthor   = @"anonymous";
 // ------------------------------------------------------------------------------
 + (void)unresolveLibraryParts:(LDrawDirective *)directive
 {
-  if ([directive respondsToSelector:@selector(allEnclosedElements)]) {
-    NSArray *subs = [(LDrawContainer *) directive allEnclosedElements];
-    for (LDrawDirective *d in subs) {
-      [self unresolveLibraryParts:d];
+    if ([directive respondsToSelector:@selector(allEnclosedElements)]) {
+        NSArray *subs = [(LDrawContainer *) directive allEnclosedElements];
+        for (LDrawDirective *d in subs) {
+            [self unresolveLibraryParts:d];
+        }
     }
-  }
 
-  if ([directive respondsToSelector:@selector(unresolvePartIfPartLibrary)]) {
-    [(LDrawPart *) directive unresolvePartIfPartLibrary];
-  }
+    if ([directive respondsToSelector:@selector(unresolvePartIfPartLibrary)]) {
+        [(LDrawPart *) directive unresolvePartIfPartLibrary];
+    }
 }// end unresolveLibraryParts
 
 

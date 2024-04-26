@@ -26,7 +26,7 @@
 // ------------------------------------------------------------------------------
 + (PartChooserPanel *)partChooserPanel
 {
-  return([[[PartChooserPanel alloc] init] autorelease]);
+    return([[[PartChooserPanel alloc] init] autorelease]);
 }// end partChooserPanel
 
 
@@ -37,17 +37,17 @@
 // ==============================================================================
 - (id)init
 {
-  [NSBundle loadNibNamed:@"PartChooser"
-                   owner:self];
+    [NSBundle loadNibNamed:@"PartChooser"
+     owner:self];
 
-  oldSelf = self;
-  self    = partChooserPanel; // this don't look good, but it works.
-  // this takes the place of calling [super init]
-  // Note that connections in the Nib file must be made
-  // to the partChooserPanel, not to the File's Owner!
-  // [oldSelf autorelease];
+    oldSelf = self;
+    self    = partChooserPanel; // this don't look good, but it works.
+    // this takes the place of calling [super init]
+    // Note that connections in the Nib file must be made
+    // to the partChooserPanel, not to the File's Owner!
+    // [oldSelf autorelease];
 
-  return(self);
+    return(self);
 }// end init
 
 
@@ -64,7 +64,7 @@
 // ==============================================================================
 - (NSString *)selectedPartName
 {
-  return([partsBrowser selectedPartName]);
+    return([partsBrowser selectedPartName]);
 }// end selectedPartName
 
 
@@ -81,16 +81,16 @@
 // ==============================================================================
 - (NSInteger)runModal
 {
-  NSInteger returnCode = NSModalResponseCancel;
+    NSInteger returnCode = NSModalResponseCancel;
 
-  // Run the dialog.
-  returnCode = [NSApp runModalForWindow:self];
+    // Run the dialog.
+    returnCode = [NSApp runModalForWindow:self];
 
-  if (returnCode == NSModalResponseOK) {
-    [self->partsBrowser addPartClicked:nil];
-  }
+    if (returnCode == NSModalResponseOK) {
+        [self->partsBrowser addPartClicked:nil];
+    }
 
-  return(returnCode);
+    return(returnCode);
 }// end runModal
 
 
@@ -101,7 +101,7 @@
 // ==============================================================================
 - (IBAction)insertPartClicked:(id)sender
 {
-  [NSApp stopModalWithCode:NSModalResponseOK];
+    [NSApp stopModalWithCode:NSModalResponseOK];
 }// end insertPartClicked:
 
 
@@ -112,7 +112,7 @@
 // ==============================================================================
 - (IBAction)cancelClicked:(id)sender
 {
-  [NSApp stopModalWithCode:NSModalResponseCancel];
+    [NSApp stopModalWithCode:NSModalResponseCancel];
 }// end cancelClicked:
 
 
@@ -127,10 +127,10 @@
 // ==============================================================================
 - (void)dealloc
 {
-  [oldSelf release];
-  [partsBrowser release];
+    [oldSelf release];
+    [partsBrowser release];
 
-  [super dealloc];
+    [super dealloc];
 }// end dealloc
 
 

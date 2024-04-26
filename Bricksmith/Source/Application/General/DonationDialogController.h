@@ -19,10 +19,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 @interface DonationDialogController : NSWindowController
 {
-  IBOutlet BackgroundColorView *mainBackground;
-  IBOutlet BackgroundColorView *bottomBar;
-  IBOutlet LDrawGLView         *bumModelView;
-  IBOutlet NSButton            *suppressionCheckbox;
+    IBOutlet BackgroundColorView *mainBackground;
+    IBOutlet BackgroundColorView *bottomBar;
+    IBOutlet LDrawGLView         *bumModelView;
+    IBOutlet NSButton            *suppressionCheckbox;
 }
 
 // Show dialog

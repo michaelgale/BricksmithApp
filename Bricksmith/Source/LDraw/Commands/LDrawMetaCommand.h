@@ -16,7 +16,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 @interface LDrawMetaCommand : LDrawDirective
 {
-  NSString *commandString;
+    NSString *commandString;
 }
 
 // Initialization

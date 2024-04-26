@@ -19,7 +19,7 @@
 // ------------------------------------------------------------------------------
 + (BOOL)allowsReverseTransformation
 {
-  return(NO);
+    return(NO);
 }// end allowsReverseTransformation
 
 
@@ -30,7 +30,7 @@
 // ------------------------------------------------------------------------------
 + (Class)transformedValueClass
 {
-  return([NSNumber class]);
+    return([NSNumber class]);
 }// end transformedValueClass
 
 
@@ -41,9 +41,9 @@
 // ==============================================================================
 - (id)transformedValue:(id)value
 {
-  NSInteger intValue = [value integerValue];
+    NSInteger intValue = [value integerValue];
 
-  return([NSNumber numberWithInteger:(intValue - 1)]);
+    return([NSNumber numberWithInteger:(intValue - 1)]);
 }// end transformedValue:
 
 

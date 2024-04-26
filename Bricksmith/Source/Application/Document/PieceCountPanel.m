@@ -29,15 +29,15 @@
 // ==============================================================================
 - (void)awakeFromNib
 {
-  LDrawColorCell *colorCell   = [[[LDrawColorCell alloc] init] autorelease];
-  NSTableColumn  *colorColumn = [pieceCountTable tableColumnWithIdentifier:PART_REPORT_LDRAW_COLOR];
+    LDrawColorCell *colorCell   = [[[LDrawColorCell alloc] init] autorelease];
+    NSTableColumn  *colorColumn = [pieceCountTable tableColumnWithIdentifier:PART_REPORT_LDRAW_COLOR];
 
-  [colorColumn setDataCell:colorCell];
+    [colorColumn setDataCell:colorCell];
 
-  [partPreview setAcceptsFirstResponder:NO];
+    [partPreview setAcceptsFirstResponder:NO];
 
-  // Remember, this method is called twice for an LDrawColorPanelController; the first time
-  // is for the File's Owner, which is promptly overwritten.
+    // Remember, this method is called twice for an LDrawColorPanelController; the first time
+    // is for the File's Owner, which is promptly overwritten.
 }// end awakeFromNib
 
 
@@ -53,11 +53,11 @@
 // ------------------------------------------------------------------------------
 + (PieceCountPanel *)pieceCountPanelForFile:(LDrawFile *)fileIn
 {
-  PieceCountPanel *panel = nil;
+    PieceCountPanel *panel = nil;
 
-  panel = [[PieceCountPanel alloc] initWithFile:fileIn];
+    panel = [[PieceCountPanel alloc] initWithFile:fileIn];
 
-  return([panel autorelease]);
+    return([panel autorelease]);
 }// end pieceCountPanelForFile:
 
 
@@ -73,11 +73,11 @@
 // ==============================================================================
 - (id)initWithFile:(LDrawFile *)fileIn
 {
-  self = [super init];
+    self = [super init];
 
-  [self setFile:fileIn];
+    [self setFile:fileIn];
 
-  return(self);
+    return(self);
 }// end initWithFile:
 
 
@@ -93,7 +93,7 @@
 // ==============================================================================
 - (LDrawMPDModel *)activeModel
 {
-  return(self->activeModel);
+    return(self->activeModel);
 }// end activeModel
 
 
@@ -104,7 +104,7 @@
 // ==============================================================================
 - (LDrawFile *)file
 {
-  return(self->file);
+    return(self->file);
 }// end file
 
 
@@ -116,7 +116,7 @@
 // ==============================================================================
 - (NSString *)panelNibName
 {
-  return(@"PieceCountPanel");
+    return(@"PieceCountPanel");
 }// end panelNibName
 
 
@@ -128,7 +128,7 @@
 // ==============================================================================
 - (PartReport *)partReport
 {
-  return(self->partReport);
+    return(self->partReport);
 }// end partReport
 
 
@@ -142,18 +142,18 @@
 // ==============================================================================
 - (void)setActiveModel:(LDrawMPDModel *)newModel
 {
-  PartReport *modelReport = nil;
+    PartReport *modelReport = nil;
 
-  // Update the model name.
-  [newModel retain];
-  [self->activeModel release];
-  self->activeModel = newModel;
+    // Update the model name.
+    [newModel retain];
+    [self->activeModel release];
+    self->activeModel = newModel;
 
-  // Get the report for the new model.
-  modelReport = [PartReport partReportForContainer:self->activeModel];
-  [modelReport getPieceCountReport];
+    // Get the report for the new model.
+    modelReport = [PartReport partReportForContainer:self->activeModel];
+    [modelReport getPieceCountReport];
 
-  [self setPartReport:modelReport];
+    [self setPartReport:modelReport];
 }// end setActiveModel:
 
 
@@ -164,11 +164,11 @@
 // ==============================================================================
 - (void)setFile:(LDrawFile *)newFile
 {
-  [newFile retain];
-  [self->file release];
+    [newFile retain];
+    [self->file release];
 
-  file = newFile;
-  [self setActiveModel:[newFile activeModel]];
+    file = newFile;
+    [self setActiveModel:[newFile activeModel]];
 }// end setFile:
 
 
@@ -182,18 +182,18 @@
 // ==============================================================================
 - (void)setPartReport:(PartReport *)newPartReport
 {
-  NSMutableArray *flattened = nil;
+    NSMutableArray *flattened = nil;
 
-  // Update the part report
-  [newPartReport retain];
-  [self->partReport release];
-  partReport = newPartReport;
+    // Update the part report
+    [newPartReport retain];
+    [self->partReport release];
+    partReport = newPartReport;
 
-  // Prepare some new data for the table view:
-  flattened = [NSMutableArray arrayWithArray:[partReport flattenedReport]];
-  [self setTableDataSource:flattened];
+    // Prepare some new data for the table view:
+    flattened = [NSMutableArray arrayWithArray:[partReport flattenedReport]];
+    [self setTableDataSource:flattened];
 
-  [pieceCountTable reloadData];
+    [pieceCountTable reloadData];
 }// end setPartReport:
 
 
@@ -208,18 +208,18 @@
 // ==============================================================================
 - (void)setTableDataSource:(NSMutableArray *)newReport
 {
-  // Sort the parts based on whatever the current sort order is for the table.
-  [newReport sortUsingDescriptors:[pieceCountTable sortDescriptors]];
+    // Sort the parts based on whatever the current sort order is for the table.
+    [newReport sortUsingDescriptors:[pieceCountTable sortDescriptors]];
 
-  // Swap out the variable
-  [newReport retain];
-  [flattenedReport release];
+    // Swap out the variable
+    [newReport retain];
+    [flattenedReport release];
 
-  flattenedReport = newReport;
+    flattenedReport = newReport;
 
-  // Update the table
-  [pieceCountTable reloadData];
-  [self syncSelectionAndPartDisplayed];
+    // Update the table
+    [pieceCountTable reloadData];
+    [self syncSelectionAndPartDisplayed];
 }// end setTableDataSource
 
 
@@ -234,30 +234,30 @@
 // ==============================================================================
 - (IBAction)exportButtonClicked:(id)sender
 {
-  NSSavePanel *savePanel       = [NSSavePanel savePanel];
-  NSURL       *savePath        = nil;
-  NSString    *exported        = nil;
-  NSArray     *sortDescriptors = [self->pieceCountTable sortDescriptors];
-  NSInteger   result           = 0;
+    NSSavePanel *savePanel       = [NSSavePanel savePanel];
+    NSURL       *savePath        = nil;
+    NSString    *exported        = nil;
+    NSArray     *sortDescriptors = [self->pieceCountTable sortDescriptors];
+    NSInteger   result           = 0;
 
-  // set up the save panel
-  [savePanel setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
-  [savePanel setCanSelectHiddenExtension:YES];
-  [savePanel setTitle:NSLocalizedString(@"PieceCountSaveDialogTitle", nil)];
-  [savePanel setMessage:NSLocalizedString(@"PieceCountSaveDialogMessage", nil)];
-  [savePanel setNameFieldStringValue:NSLocalizedString(@"untitled", nil)];
+    // set up the save panel
+    [savePanel setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
+    [savePanel setCanSelectHiddenExtension:YES];
+    [savePanel setTitle:NSLocalizedString(@"PieceCountSaveDialogTitle", nil)];
+    [savePanel setMessage:NSLocalizedString(@"PieceCountSaveDialogMessage", nil)];
+    [savePanel setNameFieldStringValue:NSLocalizedString(@"untitled", nil)];
 
-  // run it and export the file if needed
-  result = [savePanel runModal];
-  if (result == NSModalResponseOK) {
-    savePath = [savePanel URL];
-    exported = [self->partReport textualRepresentationWithSortDescriptors:sortDescriptors];
+    // run it and export the file if needed
+    result = [savePanel runModal];
+    if (result == NSModalResponseOK) {
+        savePath = [savePanel URL];
+        exported = [self->partReport textualRepresentationWithSortDescriptors:sortDescriptors];
 
-    [exported writeToURL:savePath
-              atomically:YES
-                encoding:NSUTF8StringEncoding
-                   error:NULL];
-  }
+        [exported writeToURL:savePath
+         atomically:YES
+         encoding:NSUTF8StringEncoding
+         error:NULL];
+    }
 }// end exportButtonClicked:
 
 
@@ -273,7 +273,7 @@
 // ==============================================================================
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
-  return([flattenedReport count]);
+    return([flattenedReport count]);
 }// end numberOfRowsInTableView:
 
 
@@ -284,14 +284,14 @@
 //
 // ==============================================================================
 - (id)tableView:(NSTableView *)tableView
-  objectValueForTableColumn:(NSTableColumn *)tableColumn
-  row:(NSInteger)rowIndex
+    objectValueForTableColumn:(NSTableColumn *)tableColumn
+    row:(NSInteger)rowIndex
 {
-  NSString     *identifier = [tableColumn identifier];
-  NSDictionary *partRecord = [flattenedReport objectAtIndex:rowIndex];
-  id           object      = nil;
+    NSString     *identifier = [tableColumn identifier];
+    NSDictionary *partRecord = [flattenedReport objectAtIndex:rowIndex];
+    id           object      = nil;
 
-  object = [partRecord objectForKey:identifier];
+    object = [partRecord objectForKey:identifier];
 
 // if(		[identifier isEqualToString:PART_NUMBER_KEY]
 // ||	[identifier isEqualToString:PART_QUANTITY]
@@ -306,7 +306,7 @@
 // else if([identifier isEqualToString:COLOR_NAME])
 // object = [LDrawColor nameForLDrawColor:[[partRecord objectForKey:LDRAW_COLOR] intValue]];
 
-  return(object);
+    return(object);
 }// end tableView:objectValueForTableColumn:row:
 
 
@@ -318,10 +318,10 @@
 // ==============================================================================
 - (void)tableView:(NSTableView *)tableView sortDescriptorsDidChange:(NSArray *)oldDescriptors
 {
-  NSArray *newDescriptors = [tableView sortDescriptors];
+    NSArray *newDescriptors = [tableView sortDescriptors];
 
-  [flattenedReport sortUsingDescriptors:newDescriptors];
-  [tableView reloadData];
+    [flattenedReport sortUsingDescriptors:newDescriptors];
+    [tableView reloadData];
 }// end tableView:sortDescriptorsDidChange:
 
 
@@ -333,7 +333,7 @@
 // ==============================================================================
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification
 {
-  [self syncSelectionAndPartDisplayed];
+    [self syncSelectionAndPartDisplayed];
 }// end tableViewSelectionDidChange:
 
 
@@ -349,32 +349,32 @@
 // ==============================================================================
 - (void)syncSelectionAndPartDisplayed
 {
-  NSDictionary *partRecord = nil;
-  NSString     *partName   = nil;
-  LDrawColor   *partColor  = nil;
-  LDrawPart    *newPart    = nil;
-  NSInteger    rowIndex    = [pieceCountTable selectedRow];
+    NSDictionary *partRecord = nil;
+    NSString     *partName   = nil;
+    LDrawColor   *partColor  = nil;
+    LDrawPart    *newPart    = nil;
+    NSInteger    rowIndex    = [pieceCountTable selectedRow];
 
-  if (rowIndex >= 0) {
-    partRecord = [flattenedReport objectAtIndex:rowIndex];
-    partName   = [partRecord objectForKey:PART_REPORT_NUMBER_KEY];
-    partColor  = [partRecord objectForKey:PART_REPORT_LDRAW_COLOR];
+    if (rowIndex >= 0) {
+        partRecord = [flattenedReport objectAtIndex:rowIndex];
+        partName   = [partRecord objectForKey:PART_REPORT_NUMBER_KEY];
+        partColor  = [partRecord objectForKey:PART_REPORT_LDRAW_COLOR];
 
-    newPart = [[[LDrawPart alloc] init] autorelease];
+        newPart = [[[LDrawPart alloc] init] autorelease];
 
-    // Not this simple anymore. We have to make sure to draw the optimized
-    // vertexes. The easiest way to do that is to create a part referencing
-    // the model.
+        // Not this simple anymore. We have to make sure to draw the optimized
+        // vertexes. The easiest way to do that is to create a part referencing
+        // the model.
 // modelToView = [partLibrary modelForName:partName];
 
-    // Set up the part attributes
-    [newPart setLDrawColor:partColor];
-    [newPart setDisplayName:partName];
-    [[LDrawApplication sharedOpenGLContext] makeCurrentContext];
+        // Set up the part attributes
+        [newPart setLDrawColor:partColor];
+        [newPart setDisplayName:partName];
+        [[LDrawApplication sharedOpenGLContext] makeCurrentContext];
 
-    [partPreview setLDrawDirective:newPart];
-    [partPreview setLDrawColor:partColor];
-  }
+        [partPreview setLDrawDirective:newPart];
+        [partPreview setLDrawColor:partColor];
+    }
 }// end syncSelectionAndPartDisplayed
 
 
@@ -389,12 +389,12 @@
 // ==============================================================================
 - (void)dealloc
 {
-  [file release];
-  [activeModel release];
-  [partReport release];
-  [flattenedReport release];
+    [file release];
+    [activeModel release];
+    [partReport release];
+    [flattenedReport release];
 
-  [super dealloc];
+    [super dealloc];
 }// end dealloc
 
 

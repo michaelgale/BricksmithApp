@@ -39,30 +39,30 @@ ToolPalette *sharedToolPalette = nil;
 // ==============================================================================
 - (void)awakeFromNib
 {
-  NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
 
-  [self->colorWell setLDrawColor:[[LDrawColorPanelController sharedColorPanel] LDrawColor]];
+    [self->colorWell setLDrawColor:[[LDrawColorPanelController sharedColorPanel] LDrawColor]];
 
 
-  [notificationCenter addObserver:self
-                         selector:@selector(colorDidChange:)
-                             name:LDrawColorDidChangeNotification
-                           object:nil];
+    [notificationCenter addObserver:self
+     selector:@selector(colorDidChange:)
+     name:LDrawColorDidChangeNotification
+     object:nil];
 
-  [notificationCenter addObserver:self
-                         selector:@selector(keyboardDidChange:)
-                             name:LDrawKeyboardDidChangeNotification
-                           object:nil];
+    [notificationCenter addObserver:self
+     selector:@selector(keyboardDidChange:)
+     name:LDrawKeyboardDidChangeNotification
+     object:nil];
 
-  [notificationCenter addObserver:self
-                         selector:@selector(pointingDeviceDidChange:)
-                             name:LDrawPointingDeviceDidChangeNotification
-                           object:nil];
+    [notificationCenter addObserver:self
+     selector:@selector(pointingDeviceDidChange:)
+     name:LDrawPointingDeviceDidChangeNotification
+     object:nil];
 
-  [notificationCenter addObserver:self
-                         selector:@selector(applicationDidBecomeActive:)
-                             name:NSApplicationDidBecomeActiveNotification
-                           object:nil];
+    [notificationCenter addObserver:self
+     selector:@selector(applicationDidBecomeActive:)
+     name:NSApplicationDidBecomeActiveNotification
+     object:nil];
 }// end awakeFromNib
 
 
@@ -78,11 +78,11 @@ ToolPalette *sharedToolPalette = nil;
 // ------------------------------------------------------------------------------
 + (ToolPalette *)sharedToolPalette
 {
-  if (sharedToolPalette == nil) {
-    sharedToolPalette = [[ToolPalette alloc] init];
-  }
+    if (sharedToolPalette == nil) {
+        sharedToolPalette = [[ToolPalette alloc] init];
+    }
 
-  return(sharedToolPalette);
+    return(sharedToolPalette);
 }// end sharedToolPalette
 
 
@@ -93,43 +93,43 @@ ToolPalette *sharedToolPalette = nil;
 // ==============================================================================
 - (id)init
 {
-  self = [super init];
+    self = [super init];
 
-  baseToolMode         = RotateSelectTool;
-  effectiveToolMode    = RotateSelectTool;
-  currentKeyCharacters = @"";
-  currentKeyModifiers  = 0;
+    baseToolMode         = RotateSelectTool;
+    effectiveToolMode    = RotateSelectTool;
+    currentKeyCharacters = @"";
+    currentKeyModifiers  = 0;
 
-  [NSBundle loadNibNamed:@"ToolPalette" owner:self];
+    [NSBundle loadNibNamed:@"ToolPalette" owner:self];
 
-  // ---------- Create the tool window ----------------------------------------
+    // ---------- Create the tool window ----------------------------------------
 
-  NSScreen *primaryScreen = [[NSScreen screens] objectAtIndex:0];
-  NSRect   toolRect       = [primaryScreen visibleFrame];
-  BOOL     showTools      =
-    ([[NSUserDefaults standardUserDefaults] boolForKey:TOOL_PALETTE_HIDDEN] == NO);
+    NSScreen *primaryScreen = [[NSScreen screens] objectAtIndex:0];
+    NSRect   toolRect       = [primaryScreen visibleFrame];
+    BOOL     showTools      =
+        ([[NSUserDefaults standardUserDefaults] boolForKey:TOOL_PALETTE_HIDDEN] == NO);
 
-  toolRect.size.width  = 34;
-  toolRect.size.height = NSHeight([self->paletteContents frame]);
-  toolRect.origin.y   += NSHeight([primaryScreen visibleFrame]) - NSHeight(toolRect);
+    toolRect.size.width  = 34;
+    toolRect.size.height = NSHeight([self->paletteContents frame]);
+    toolRect.origin.y   += NSHeight([primaryScreen visibleFrame]) - NSHeight(toolRect);
 
-  self->palettePanel = [[NSPanel alloc] initWithContentRect:toolRect
-                                                  styleMask:NSWindowStyleMaskBorderless
-                                                    backing:NSBackingStoreBuffered
-                                                      defer:YES];
-  [self->palettePanel setReleasedWhenClosed:NO];
-  [self->palettePanel setContentView:self->paletteContents];
-  [self->palettePanel setFloatingPanel:YES];
-  [self->palettePanel setBecomesKeyOnlyIfNeeded:YES];
-  [self->palettePanel setWorksWhenModal:YES];
+    self->palettePanel = [[NSPanel alloc] initWithContentRect:toolRect
+                          styleMask:NSWindowStyleMaskBorderless
+                          backing:NSBackingStoreBuffered
+                          defer:YES];
+    [self->palettePanel setReleasedWhenClosed:NO];
+    [self->palettePanel setContentView:self->paletteContents];
+    [self->palettePanel setFloatingPanel:YES];
+    [self->palettePanel setBecomesKeyOnlyIfNeeded:YES];
+    [self->palettePanel setWorksWhenModal:YES];
 
-  if (showTools) {
-    [self->palettePanel orderFront:self];
-  }
+    if (showTools) {
+        [self->palettePanel orderFront:self];
+    }
 
-  [self->paletteContents release];
+    [self->paletteContents release];
 
-  return(self);
+    return(self);
 }// end init
 
 
@@ -145,7 +145,7 @@ ToolPalette *sharedToolPalette = nil;
 // ------------------------------------------------------------------------------
 + (ToolModeT)toolMode
 {
-  return([[ToolPalette sharedToolPalette] toolMode]);
+    return([[ToolPalette sharedToolPalette] toolMode]);
 }// end toolMode
 
 
@@ -156,7 +156,7 @@ ToolPalette *sharedToolPalette = nil;
 // ==============================================================================
 - (BOOL)isVisible
 {
-  return([self->palettePanel isVisible]);
+    return([self->palettePanel isVisible]);
 }
 
 
@@ -168,7 +168,7 @@ ToolPalette *sharedToolPalette = nil;
 // ==============================================================================
 - (ToolModeT)toolMode
 {
-  return(self->effectiveToolMode);
+    return(self->effectiveToolMode);
 }// end toolMode
 
 
@@ -181,15 +181,15 @@ ToolPalette *sharedToolPalette = nil;
 // ==============================================================================
 - (void)setToolMode:(ToolModeT)newToolMode
 {
-  if (self->effectiveToolMode != newToolMode) {
-    self->effectiveToolMode = newToolMode;
-    [self->toolButtons selectCellWithTag:newToolMode];
+    if (self->effectiveToolMode != newToolMode) {
+        self->effectiveToolMode = newToolMode;
+        [self->toolButtons selectCellWithTag:newToolMode];
 
-    // inform observers.
-    [[NSNotificationCenter defaultCenter]
-     postNotificationName:LDrawMouseToolDidChangeNotification
-                   object:[NSNumber numberWithInteger:effectiveToolMode]];
-  }
+        // inform observers.
+        [[NSNotificationCenter defaultCenter]
+         postNotificationName:LDrawMouseToolDidChangeNotification
+         object:[NSNumber numberWithInteger:effectiveToolMode]];
+    }
 }// end setToolMode:
 
 
@@ -204,13 +204,13 @@ ToolPalette *sharedToolPalette = nil;
 // ==============================================================================
 - (void)hideToolPalette:(id)sender
 {
-  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
-  // record this preference.
-  [userDefaults setBool:YES forKey:TOOL_PALETTE_HIDDEN];
+    // record this preference.
+    [userDefaults setBool:YES forKey:TOOL_PALETTE_HIDDEN];
 
-  // open the window.
-  [palettePanel close];
+    // open the window.
+    [palettePanel close];
 }// end hideToolPalette:
 
 
@@ -221,13 +221,13 @@ ToolPalette *sharedToolPalette = nil;
 // ==============================================================================
 - (void)showToolPalette:(id)sender
 {
-  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
-  // record this preference.
-  [userDefaults setBool:NO forKey:TOOL_PALETTE_HIDDEN];
+    // record this preference.
+    [userDefaults setBool:NO forKey:TOOL_PALETTE_HIDDEN];
 
-  // open the window.
-  [palettePanel orderFront:self];
+    // open the window.
+    [palettePanel orderFront:self];
 }// end showToolPalette:
 
 
@@ -240,12 +240,12 @@ ToolPalette *sharedToolPalette = nil;
 // ==============================================================================
 - (IBAction)toolButtonClicked:(id)sender
 {
-  ToolModeT newMode = (int)[self->toolButtons selectedTag];
+    ToolModeT newMode = (int)[self->toolButtons selectedTag];
 
-  self->baseToolMode = newMode;
+    self->baseToolMode = newMode;
 
-  // update the new effective tool mode with this base and any current keys.
-  [self resolveCurrentToolMode];
+    // update the new effective tool mode with this base and any current keys.
+    [self resolveCurrentToolMode];
 }// end toolButtonClicked:
 
 
@@ -260,9 +260,9 @@ ToolPalette *sharedToolPalette = nil;
 // ==============================================================================
 - (void)colorDidChange:(NSNotification *)notification
 {
-  LDrawColor *newColor = [[LDrawColorPanelController sharedColorPanel] LDrawColor];
+    LDrawColor *newColor = [[LDrawColorPanelController sharedColorPanel] LDrawColor];
 
-  [self->colorWell setLDrawColor:newColor];
+    [self->colorWell setLDrawColor:newColor];
 }// end colorDidChange:
 
 
@@ -278,31 +278,31 @@ ToolPalette *sharedToolPalette = nil;
 // ==============================================================================
 - (void)keyboardDidChange:(NSNotification *)notification
 {
-  NSEvent *theEvent = [notification object];
+    NSEvent *theEvent = [notification object];
 
-  switch ([theEvent type])
-  {
-    case NSEventTypeKeyDown :
-      [self->currentKeyCharacters release];
-      self->currentKeyCharacters = [[theEvent charactersIgnoringModifiers] retain];
-      break;
+    switch ([theEvent type])
+    {
+        case NSEventTypeKeyDown :
+            [self->currentKeyCharacters release];
+            self->currentKeyCharacters = [[theEvent charactersIgnoringModifiers] retain];
+            break;
 
-    case NSEventTypeKeyUp :
-      [self->currentKeyCharacters release];
-      self->currentKeyCharacters = @"";
-      break;
+        case NSEventTypeKeyUp :
+            [self->currentKeyCharacters release];
+            self->currentKeyCharacters = @"";
+            break;
 
-    case NSEventTypeFlagsChanged :
-      self->currentKeyModifiers =
-        ([theEvent modifierFlags] & NSEventModifierFlagDeviceIndependentFlagsMask);
-      break;
+        case NSEventTypeFlagsChanged :
+            self->currentKeyModifiers =
+                ([theEvent modifierFlags] & NSEventModifierFlagDeviceIndependentFlagsMask);
+            break;
 
-    default :
-      NSLog(@"unrecognized keyboardDidChange event.");
-      break;
-  }
+        default :
+            NSLog(@"unrecognized keyboardDidChange event.");
+            break;
+    }
 
-  [self resolveCurrentToolMode];
+    [self resolveCurrentToolMode];
 }// end keyboardDidChange:
 
 
@@ -317,14 +317,14 @@ ToolPalette *sharedToolPalette = nil;
 // ==============================================================================
 - (void)mouseButton3DidChange:(NSEvent *)theEvent
 {
-  if ([theEvent type] == NSEventTypeOtherMouseDown) {
-    self->mouseButton3IsDown = YES;
-  }
-  else {
-    self->mouseButton3IsDown = NO;
-  }
+    if ([theEvent type] == NSEventTypeOtherMouseDown) {
+        self->mouseButton3IsDown = YES;
+    }
+    else {
+        self->mouseButton3IsDown = NO;
+    }
 
-  [self resolveCurrentToolMode];
+    [self resolveCurrentToolMode];
 }// end mouseButton3DidChange:
 
 
@@ -352,17 +352,17 @@ ToolPalette *sharedToolPalette = nil;
 // ==============================================================================
 - (void)pointingDeviceDidChange:(NSNotification *)notification
 {
-  NSEvent *theEvent = [notification object];
+    NSEvent *theEvent = [notification object];
 
-  if ([theEvent isEnteringProximity] == YES) {
-    self->tabletPointingDevice = [theEvent pointingDeviceType];
-  }
-  else {
-    // Leaving proximity, so no device.
-    self->tabletPointingDevice = NSPointingDeviceTypeUnknown;
-  }
+    if ([theEvent isEnteringProximity] == YES) {
+        self->tabletPointingDevice = [theEvent pointingDeviceType];
+    }
+    else {
+        // Leaving proximity, so no device.
+        self->tabletPointingDevice = NSPointingDeviceTypeUnknown;
+    }
 
-  [self resolveCurrentToolMode];
+    [self resolveCurrentToolMode];
 }// end mouseButton3DidChange:
 
 
@@ -375,15 +375,15 @@ ToolPalette *sharedToolPalette = nil;
 // ==============================================================================
 - (void)applicationDidBecomeActive:(NSNotification *)notification
 {
-  // clear the keys. We don't know what they are now, since Bricksmith wasn't
-  // active to keep track of them.
+    // clear the keys. We don't know what they are now, since Bricksmith wasn't
+    // active to keep track of them.
 
-  [self->currentKeyCharacters release];
+    [self->currentKeyCharacters release];
 
-  self->currentKeyCharacters = @"";
-  self->currentKeyModifiers  = 0;
+    self->currentKeyCharacters = @"";
+    self->currentKeyModifiers  = 0;
 
-  [self resolveCurrentToolMode];
+    [self resolveCurrentToolMode];
 }// end applicationDidBecomeActive:
 
 
@@ -402,11 +402,11 @@ ToolPalette *sharedToolPalette = nil;
 // ==============================================================================
 - (BOOL)windowShouldClose:(id)sender
 {
-  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
-  [userDefaults setBool:YES forKey:TOOL_PALETTE_HIDDEN];
+    [userDefaults setBool:YES forKey:TOOL_PALETTE_HIDDEN];
 
-  return(YES);
+    return(YES);
 }// end windowShouldClose:
 
 
@@ -422,63 +422,63 @@ ToolPalette *sharedToolPalette = nil;
 // ==============================================================================
 - (void)resolveCurrentToolMode
 {
-  ToolModeT newToolMode;
+    ToolModeT newToolMode;
 
-  NSString   *baseCharacters = nil;
-  NSUInteger baseModifiers   = 0;
+    NSString   *baseCharacters = nil;
+    NSUInteger baseModifiers   = 0;
 
-  NSString   *effectiveCharacters = nil;
-  NSUInteger effectiveModifiers   = 0;
+    NSString   *effectiveCharacters = nil;
+    NSUInteger effectiveModifiers   = 0;
 
-  baseCharacters = [ToolPalette keysForToolMode:baseToolMode modifiers:&baseModifiers];
+    baseCharacters = [ToolPalette keysForToolMode:baseToolMode modifiers:&baseModifiers];
 
-  // the "effective keys" are the result of what we *would be pressing* to get
-  // the currently-selected tool, plus the keys we *actually are pressing*.
-  effectiveCharacters = [baseCharacters stringByAppendingString:self->currentKeyCharacters];
-  effectiveModifiers  = (baseModifiers) | (self->currentKeyModifiers);
+    // the "effective keys" are the result of what we *would be pressing* to get
+    // the currently-selected tool, plus the keys we *actually are pressing*.
+    effectiveCharacters = [baseCharacters stringByAppendingString:self->currentKeyCharacters];
+    effectiveModifiers  = (baseModifiers) | (self->currentKeyModifiers);
 
-  // Zoom out
-  if ([ToolPalette toolMode:ZoomOutTool
-          matchesCharacters:effectiveCharacters
-                  modifiers:effectiveModifiers] == YES) {
-    newToolMode = ZoomOutTool;
-  }
-  // Zoom in
-  else if ([ToolPalette toolMode:ZoomInTool
-               matchesCharacters:effectiveCharacters
-                       modifiers:effectiveModifiers] == YES) {
-    newToolMode = ZoomInTool;
-  }
-  // Smooth Zoom
-  else if ([ToolPalette toolMode:SmoothZoomTool
-               matchesCharacters:effectiveCharacters
-                       modifiers:effectiveModifiers] == YES) {
-    newToolMode = SmoothZoomTool;
-  }
-  // Panning
-  else if ([ToolPalette toolMode:PanScrollTool
-               matchesCharacters:effectiveCharacters
-                       modifiers:effectiveModifiers] == YES) {
-    newToolMode = PanScrollTool;
-  }
-  // Spin model
-  else if ([ToolPalette toolMode:SpinTool
-               matchesCharacters:effectiveCharacters
-                       modifiers:effectiveModifiers] == YES ||
-           mouseButton3IsDown == YES) {
-    newToolMode = SpinTool;
-  }
-  // Eraser tool
-  else if (self->tabletPointingDevice == NSPointingDeviceTypeEraser) {
-    newToolMode = EraserTool;
-  }
-  // Rotate/select (no hot key; normal behavior)
-  else {
-    newToolMode = RotateSelectTool;
-  }
+    // Zoom out
+    if ([ToolPalette toolMode:ZoomOutTool
+         matchesCharacters:effectiveCharacters
+         modifiers:effectiveModifiers] == YES) {
+        newToolMode = ZoomOutTool;
+    }
+    // Zoom in
+    else if ([ToolPalette toolMode:ZoomInTool
+              matchesCharacters:effectiveCharacters
+              modifiers:effectiveModifiers] == YES) {
+        newToolMode = ZoomInTool;
+    }
+    // Smooth Zoom
+    else if ([ToolPalette toolMode:SmoothZoomTool
+              matchesCharacters:effectiveCharacters
+              modifiers:effectiveModifiers] == YES) {
+        newToolMode = SmoothZoomTool;
+    }
+    // Panning
+    else if ([ToolPalette toolMode:PanScrollTool
+              matchesCharacters:effectiveCharacters
+              modifiers:effectiveModifiers] == YES) {
+        newToolMode = PanScrollTool;
+    }
+    // Spin model
+    else if ([ToolPalette toolMode:SpinTool
+              matchesCharacters:effectiveCharacters
+              modifiers:effectiveModifiers] == YES ||
+             mouseButton3IsDown == YES) {
+        newToolMode = SpinTool;
+    }
+    // Eraser tool
+    else if (self->tabletPointingDevice == NSPointingDeviceTypeEraser) {
+        newToolMode = EraserTool;
+    }
+    // Rotate/select (no hot key; normal behavior)
+    else {
+        newToolMode = RotateSelectTool;
+    }
 
-  // Update the tool mode!
-  [self setToolMode:newToolMode];
+    // Update the tool mode!
+    [self setToolMode:newToolMode];
 }// end findCurrentToolMode
 
 
@@ -497,52 +497,52 @@ ToolPalette *sharedToolPalette = nil;
 //
 // ------------------------------------------------------------------------------
 + (NSString *)keysForToolMode:(ToolModeT)toolMode
-  modifiers:(NSUInteger *)modifiersOut
+    modifiers:(NSUInteger *)modifiersOut
 {
-  NSString *characters = nil; // characters required with this modifier
+    NSString *characters = nil; // characters required with this modifier
 
-  switch (toolMode)
-  {
-    case RotateSelectTool :
-    case EraserTool :
-      // no keys required for basic mouse tools
-      characters    = @"";
-      *modifiersOut = kNilOptions;
-      break;
+    switch (toolMode)
+    {
+        case RotateSelectTool :
+        case EraserTool :
+            // no keys required for basic mouse tools
+            characters    = @"";
+            *modifiersOut = kNilOptions;
+            break;
 
-    case PanScrollTool :
-      // space
-      characters    = @" ";
-      *modifiersOut = kNilOptions;
-      break;
+        case PanScrollTool :
+            // space
+            characters    = @" ";
+            *modifiersOut = kNilOptions;
+            break;
 
-    case SmoothZoomTool :
-      // command-option
-      characters = @"";
+        case SmoothZoomTool :
+            // command-option
+            characters = @"";
 // *modifiersOut = (NSCommandKeyMask | NSShiftKeyMask);
-      *modifiersOut = (NSEventModifierFlagCommand | NSEventModifierFlagOption);
-      break;
+            *modifiersOut = (NSEventModifierFlagCommand | NSEventModifierFlagOption);
+            break;
 
-    case ZoomInTool :
-      // command-space
-      characters    = @" ";
-      *modifiersOut = NSEventModifierFlagCommand;
-      break;
+        case ZoomInTool :
+            // command-space
+            characters    = @" ";
+            *modifiersOut = NSEventModifierFlagCommand;
+            break;
 
-    case ZoomOutTool :
-      // option-space
-      characters    = @" ";
-      *modifiersOut = NSEventModifierFlagOption;
-      break;
+        case ZoomOutTool :
+            // option-space
+            characters    = @" ";
+            *modifiersOut = NSEventModifierFlagOption;
+            break;
 
-    case SpinTool :
-      // command
-      characters    = @"";
-      *modifiersOut = (NSEventModifierFlagCommand);
-      break;
-  }
+        case SpinTool :
+            // command
+            characters    = @"";
+            *modifiersOut = (NSEventModifierFlagCommand);
+            break;
+    }
 
-  return(characters);
+    return(characters);
 }// end keysForToolMode:modifiers:
 
 
@@ -553,22 +553,22 @@ ToolPalette *sharedToolPalette = nil;
 //
 // ------------------------------------------------------------------------------
 + (BOOL)toolMode:(ToolModeT)toolMode
-  matchesCharacters:(NSString *)characters
-  modifiers:(NSUInteger)modifiers
+    matchesCharacters:(NSString *)characters
+    modifiers:(NSUInteger)modifiers
 {
-  NSString   *testCharacters = nil;
-  NSUInteger testModifiers   = 0;
-  BOOL       matches         = NO;
+    NSString   *testCharacters = nil;
+    NSUInteger testModifiers   = 0;
+    BOOL       matches         = NO;
 
-  testCharacters = [ToolPalette keysForToolMode:toolMode modifiers:&testModifiers];
+    testCharacters = [ToolPalette keysForToolMode:toolMode modifiers:&testModifiers];
 
-  // keys match exactly, modifiers must merely be present.
-  if ([characters ams_containsString:testCharacters options:0]
-      && (modifiers & testModifiers) == testModifiers) {
-    matches = YES;
-  }
+    // keys match exactly, modifiers must merely be present.
+    if ([characters ams_containsString:testCharacters options:0]
+        && (modifiers & testModifiers) == testModifiers) {
+        matches = YES;
+    }
 
-  return(matches);
+    return(matches);
 }// end toolMode:matchesCharacters:modifiers:
 
 
@@ -583,12 +583,12 @@ ToolPalette *sharedToolPalette = nil;
 // ==============================================================================
 - (void)dealloc
 {
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
-  sharedToolPalette = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    sharedToolPalette = nil;
 
-  [palettePanel release];
+    [palettePanel release];
 
-  [super dealloc];
+    [super dealloc];
 }// end dealloc
 
 

@@ -21,15 +21,15 @@
 
 typedef enum
 {
-  MaterialTypeAll         = 0,
-  MaterialTypeSolid       = 1,
-  MaterialTypeTransparent = 2,
-  MaterialTypeChrome      = 3,
-  MaterialTypePearlescent = 4,
-  MaterialTypeRubber      = 5,
-  MaterialTypeMetal       = 6,
-  MaterialTypeOther       = 7,
-  MaterialTypeFavorite    = 8
+    MaterialTypeAll         = 0,
+    MaterialTypeSolid       = 1,
+    MaterialTypeTransparent = 2,
+    MaterialTypeChrome      = 3,
+    MaterialTypePearlescent = 4,
+    MaterialTypeRubber      = 5,
+    MaterialTypeMetal       = 6,
+    MaterialTypeOther       = 7,
+    MaterialTypeFavorite    = 8
 } MaterialPopUpTagT;
 
 #define COLOR_SORT_DESCRIPTORS_KEY    @"ColorTable Sort Ordering"
@@ -51,17 +51,17 @@ LDrawColorPanelController *sharedColorPanel = nil;
 // ==============================================================================
 - (void)windowDidLoad
 {
-  LDrawColorCell *colorCell       = [[[LDrawColorCell alloc] init] autorelease];
-  NSTableColumn  *colorColumn     = [colorTable tableColumnWithIdentifier:@"colorCode"];
-  NSUserDefaults *userDefaults    = [NSUserDefaults standardUserDefaults];
-  NSInteger      selectedCategory = [userDefaults integerForKey:COLOR_PICKER_CATEGORY_KEY];
+    LDrawColorCell *colorCell       = [[[LDrawColorCell alloc] init] autorelease];
+    NSTableColumn  *colorColumn     = [colorTable tableColumnWithIdentifier:@"colorCode"];
+    NSUserDefaults *userDefaults    = [NSUserDefaults standardUserDefaults];
+    NSInteger      selectedCategory = [userDefaults integerForKey:COLOR_PICKER_CATEGORY_KEY];
 
-  [colorColumn setDataCell:colorCell];
-  [materialPopUpButton selectItemWithTag:selectedCategory];
+    [colorColumn setDataCell:colorCell];
+    [materialPopUpButton selectItemWithTag:selectedCategory];
 
-  [(NSPanel *)[self window] setWorksWhenModal:YES];
-  [(NSPanel *)[self window] setLevel:NSStatusWindowLevel];
-  [(NSPanel *)[self window] setBecomesKeyOnlyIfNeeded:YES];
+    [(NSPanel *)[self window] setWorksWhenModal:YES];
+    [(NSPanel *)[self window] setLevel:NSStatusWindowLevel];
+    [(NSPanel *)[self window] setBecomesKeyOnlyIfNeeded:YES];
 }// end awakeFromNib
 
 
@@ -76,11 +76,11 @@ LDrawColorPanelController *sharedColorPanel = nil;
 // ------------------------------------------------------------------------------
 + (LDrawColorPanelController *)sharedColorPanel
 {
-  if (sharedColorPanel == nil) {
-    sharedColorPanel = [[LDrawColorPanelController alloc] init];
-  }
+    if (sharedColorPanel == nil) {
+        sharedColorPanel = [[LDrawColorPanelController alloc] init];
+    }
 
-  return(sharedColorPanel);
+    return(sharedColorPanel);
 }// end sharedColorPanel
 
 
@@ -91,65 +91,65 @@ LDrawColorPanelController *sharedColorPanel = nil;
 // ==============================================================================
 - (id)init
 {
-  self = [super initWithWindowNibName:@"ColorPanel"];
-  if (self) {
-    ColorLibrary *colorLibrary = [ColorLibrary sharedColorLibrary];
-    NSArray      *colorList    = [colorLibrary colors];
+    self = [super initWithWindowNibName:@"ColorPanel"];
+    if (self) {
+        ColorLibrary *colorLibrary = [ColorLibrary sharedColorLibrary];
+        NSArray      *colorList    = [colorLibrary colors];
 
-    // While the data is being loaded in the table, a color will automatically
-    // be selected. We do not want this color-selection to generate a
-    // changeColor: message, so we turn on this flag.
-    updatingToReflectFile = YES;
+        // While the data is being loaded in the table, a color will automatically
+        // be selected. We do not want this color-selection to generate a
+        // changeColor: message, so we turn on this flag.
+        updatingToReflectFile = YES;
 
-    // The application's selected color state is stored in an
-    // NSArrayController that is instantiated by the nib. So no lazy loading
-    // for us. Force nib to load now.
-    [self window];
+        // The application's selected color state is stored in an
+        // NSArrayController that is instantiated by the nib. So no lazy loading
+        // for us. Force nib to load now.
+        [self window];
 
-    // Set the list of colors to display.
-    [self->colorListController setContent:colorList];
-    [self->colorListController addObserver:self
-                                forKeyPath:@"selectedObjects"
-                                   options:kNilOptions
-                                   context:NULL];
-    [self->colorListController addObserver:self
-                                forKeyPath:@"sortDescriptors"
-                                   options:kNilOptions
-                                   context:NULL];
+        // Set the list of colors to display.
+        [self->colorListController setContent:colorList];
+        [self->colorListController addObserver:self
+         forKeyPath:@"selectedObjects"
+         options:kNilOptions
+         context:NULL];
+        [self->colorListController addObserver:self
+         forKeyPath:@"sortDescriptors"
+         options:kNilOptions
+         context:NULL];
 
-    [self loadInitialSortDescriptors];
+        [self loadInitialSortDescriptors];
 
-    [self setLDrawColor:[colorLibrary colorForCode:LDrawRed]];
-    updatingToReflectFile = NO;
+        [self setLDrawColor:[colorLibrary colorForCode:LDrawRed]];
+        updatingToReflectFile = NO;
 
-    NSArray     *favorites    = [colorLibrary favoriteColors];
-    NSArray     *allColors    = [self->colorListController content];
-    NSInteger   numberColors  = [[self->colorListController content] count];
-    NSInteger   numberFavs    = [favorites count];
-    LDrawColor  *currentColor = nil;
-    NSString    *currentFav   = @"";
-    LDrawColorT favCode       = LDrawColorBogus;
-    LDrawColorT currentCode   = LDrawColorBogus;
-    NSInteger   counter       = 0;
-    NSInteger   favCounter    = 0;
-    if (numberFavs > 0) {
-      for (counter = 0; counter < numberColors; counter++) {
-        currentColor = [allColors objectAtIndex:counter];
-        currentCode  = [currentColor colorCode];
-        for (favCounter = 0; favCounter < numberFavs; favCounter++) {
-          currentFav = [favorites objectAtIndex:favCounter];
-          favCode    = [currentFav intValue];
-          if (currentCode == favCode) {
-            [currentColor setFavorite:YES];
-            break;
-          }
+        NSArray     *favorites    = [colorLibrary favoriteColors];
+        NSArray     *allColors    = [self->colorListController content];
+        NSInteger   numberColors  = [[self->colorListController content] count];
+        NSInteger   numberFavs    = [favorites count];
+        LDrawColor  *currentColor = nil;
+        NSString    *currentFav   = @"";
+        LDrawColorT favCode       = LDrawColorBogus;
+        LDrawColorT currentCode   = LDrawColorBogus;
+        NSInteger   counter       = 0;
+        NSInteger   favCounter    = 0;
+        if (numberFavs > 0) {
+            for (counter = 0; counter < numberColors; counter++) {
+                currentColor = [allColors objectAtIndex:counter];
+                currentCode  = [currentColor colorCode];
+                for (favCounter = 0; favCounter < numberFavs; favCounter++) {
+                    currentFav = [favorites objectAtIndex:favCounter];
+                    favCode    = [currentFav intValue];
+                    if (currentCode == favCode) {
+                        [currentColor setFavorite:YES];
+                        break;
+                    }
+                }
+            }
         }
-      }
+        [self updateColorFilter];
     }
-    [self updateColorFilter];
-  }
 
-  return(self);
+    return(self);
 }// end init
 
 
@@ -164,20 +164,20 @@ LDrawColorPanelController *sharedColorPanel = nil;
 // ==============================================================================
 - (LDrawColor *)LDrawColor
 {
-  NSArray    *selection     = [self->colorListController selectedObjects];
-  LDrawColor *selectedColor = nil;
+    NSArray    *selection     = [self->colorListController selectedObjects];
+    LDrawColor *selectedColor = nil;
 
-  // It is possible there are no rows selected, if a search has limited the
-  // color list out of existence.
-  if ([selection count] > 0) {
-    selectedColor = [selection objectAtIndex:0];
-  }
-  // Just return whatever was last selected.
-  else {
-    selectedColor = [colorBar LDrawColor];
-  }
+    // It is possible there are no rows selected, if a search has limited the
+    // color list out of existence.
+    if ([selection count] > 0) {
+        selectedColor = [selection objectAtIndex:0];
+    }
+    // Just return whatever was last selected.
+    else {
+        selectedColor = [colorBar LDrawColor];
+    }
 
-  return(selectedColor);
+    return(selectedColor);
 }// end LDrawColor
 
 
@@ -190,20 +190,20 @@ LDrawColorPanelController *sharedColorPanel = nil;
 // ==============================================================================
 - (void)setLDrawColor:(LDrawColor *)newColor
 {
-  // Try to find the color we are after in the current list.
-  NSInteger rowToSelect = [self indexOfColor:newColor]; // will be the row index for the color we want.
+    // Try to find the color we are after in the current list.
+    NSInteger rowToSelect = [self indexOfColor:newColor]; // will be the row index for the color we want.
 
-  if (rowToSelect == NSNotFound) {
-    // It wasn't in the currently-displayed list. Search the master list.
-    [self->colorListController setFilterPredicate:nil];
-    rowToSelect = [self indexOfColor:newColor];
-  }
+    if (rowToSelect == NSNotFound) {
+        // It wasn't in the currently-displayed list. Search the master list.
+        [self->colorListController setFilterPredicate:nil];
+        rowToSelect = [self indexOfColor:newColor];
+    }
 
-  // We'd better have found it by now!
-  if (rowToSelect != NSNotFound) {
-    [self->colorListController setSelectionIndex:rowToSelect];
-    [colorBar setLDrawColor:newColor];
-  }
+    // We'd better have found it by now!
+    if (rowToSelect != NSNotFound) {
+        [self->colorListController setSelectionIndex:rowToSelect];
+        [colorBar setLDrawColor:newColor];
+    }
 }// end setLDrawColor:
 
 
@@ -222,7 +222,7 @@ LDrawColorPanelController *sharedColorPanel = nil;
 // ==============================================================================
 - (void)focusSearchField:(id)sender
 {
-  [[self window] makeFirstResponder:self->searchField];
+    [[self window] makeFirstResponder:self->searchField];
 }// end focusSearchField:
 
 
@@ -233,12 +233,12 @@ LDrawColorPanelController *sharedColorPanel = nil;
 // ==============================================================================
 - (void)materialPopUpButtonChanged:(id)sender
 {
-  NSUserDefaults    *userDefaults = [NSUserDefaults standardUserDefaults];
-  MaterialPopUpTagT materialType  = (int)[[materialPopUpButton selectedItem] tag];
+    NSUserDefaults    *userDefaults = [NSUserDefaults standardUserDefaults];
+    MaterialPopUpTagT materialType  = (int)[[materialPopUpButton selectedItem] tag];
 
-  [userDefaults setObject:[NSNumber numberWithInteger:materialType] forKey:COLOR_PICKER_CATEGORY_KEY];
+    [userDefaults setObject:[NSNumber numberWithInteger:materialType] forKey:COLOR_PICKER_CATEGORY_KEY];
 
-  [self updateColorFilter];
+    [self updateColorFilter];
 }
 
 
@@ -252,35 +252,35 @@ LDrawColorPanelController *sharedColorPanel = nil;
 // ==============================================================================
 - (void)sendAction
 {
-  LDrawColorWell *activeColorWell = [LDrawColorWell activeColorWell];
+    LDrawColorWell *activeColorWell = [LDrawColorWell activeColorWell];
 
-  if (activeColorWell != nil) {
-    // we have an active color well, so it is the only one whose color should
-    // change.
-    [activeColorWell changeLDrawColorWell:self];
-  }
-  else {
-    // Well, our color has changed. Presumably, somebody wants to update a
-    // part color in response to this momentous event. But who knows who? So
-    // we just send this message toddling along, and let whoever want it get
-    // it.
-    //
-    // But--if this notification is coming in response to selecting a
-    // different part in the file, then our color did not *really* change;
-    // we are just displaying a new one. In that case, we don't want any
-    // parts changing colors.
-    if (updatingToReflectFile == NO) {
-      [NSApp sendAction:@selector(changeLDrawColor:)
-                     to:nil // just send it somewhere!
-                   from:self]; // it's from us (we'll be the sender)
+    if (activeColorWell != nil) {
+        // we have an active color well, so it is the only one whose color should
+        // change.
+        [activeColorWell changeLDrawColorWell:self];
     }
+    else {
+        // Well, our color has changed. Presumably, somebody wants to update a
+        // part color in response to this momentous event. But who knows who? So
+        // we just send this message toddling along, and let whoever want it get
+        // it.
+        //
+        // But--if this notification is coming in response to selecting a
+        // different part in the file, then our color did not *really* change;
+        // we are just displaying a new one. In that case, we don't want any
+        // parts changing colors.
+        if (updatingToReflectFile == NO) {
+            [NSApp sendAction:@selector(changeLDrawColor:)
+             to:nil         // just send it somewhere!
+             from:self];    // it's from us (we'll be the sender)
+        }
 
-    // Clients that are tracking the global color state always need to know
-    // about the current color, though!
-    [[NSNotificationCenter defaultCenter]
-     postNotificationName:LDrawColorDidChangeNotification
-                   object:[self LDrawColor]];
-  }
+        // Clients that are tracking the global color state always need to know
+        // about the current color, though!
+        [[NSNotificationCenter defaultCenter]
+         postNotificationName:LDrawColorDidChangeNotification
+         object:[self LDrawColor]];
+    }
 }// end sendAction
 
 
@@ -295,35 +295,35 @@ LDrawColorPanelController *sharedColorPanel = nil;
 // ==============================================================================
 - (IBAction)searchFieldChanged:(id)sender
 {
-  [self updateColorFilter];
+    [self updateColorFilter];
 }// end searchFieldChanged:
 
 
 - (IBAction)favButtonPressed:(id)sender
 {
-  // if a favorite is marked in any "material" filter other than Favorite
-  // then the colour is marked as a favorite. Otherwise, if selected in the
-  // the Favorites view, then it clears the favorite flag and removes it from
-  // the list of favorites
-  ColorLibrary      *colorLibrary  = [ColorLibrary sharedColorLibrary];
-  LDrawColor        *selectedColor = [self LDrawColor];
-  MaterialPopUpTagT materialType   = (int)[[materialPopUpButton selectedItem] tag];
+    // if a favorite is marked in any "material" filter other than Favorite
+    // then the colour is marked as a favorite. Otherwise, if selected in the
+    // the Favorites view, then it clears the favorite flag and removes it from
+    // the list of favorites
+    ColorLibrary      *colorLibrary  = [ColorLibrary sharedColorLibrary];
+    LDrawColor        *selectedColor = [self LDrawColor];
+    MaterialPopUpTagT materialType   = (int)[[materialPopUpButton selectedItem] tag];
 
-  if (materialType == MaterialTypeFavorite) {
-    // remove the color from favorites
-    [[self LDrawColor] setFavorite:NO];
-    [colorLibrary removeColorFromFavorites:[selectedColor colorCode]];
-    // jiggle the filter selection to update the list
-    [materialPopUpButton selectItemWithTag:MaterialTypeAll];
-    [self updateColorFilter];
-    [materialPopUpButton selectItemWithTag:MaterialTypeFavorite];
-    [self updateColorFilter];
-  }
-  else {
-    // add the color to favorites
-    [selectedColor setFavorite:YES];
-    [colorLibrary addColorToFavorites:[selectedColor colorCode]];
-  }
+    if (materialType == MaterialTypeFavorite) {
+        // remove the color from favorites
+        [[self LDrawColor] setFavorite:NO];
+        [colorLibrary removeColorFromFavorites:[selectedColor colorCode]];
+        // jiggle the filter selection to update the list
+        [materialPopUpButton selectItemWithTag:MaterialTypeAll];
+        [self updateColorFilter];
+        [materialPopUpButton selectItemWithTag:MaterialTypeFavorite];
+        [self updateColorFilter];
+    }
+    else {
+        // add the color to favorites
+        [selectedColor setFavorite:YES];
+        [colorLibrary addColorToFavorites:[selectedColor colorCode]];
+    }
 }
 
 
@@ -342,20 +342,20 @@ LDrawColorPanelController *sharedColorPanel = nil;
 // ==============================================================================
 - (void)updateSelectionWithObjects:(NSArray *)selectedObjects
 {
-  id         currentObject = [selectedObjects lastObject];
-  LDrawColor *objectColor  = [self LDrawColor];
+    id         currentObject = [selectedObjects lastObject];
+    LDrawColor *objectColor  = [self LDrawColor];
 
-  // Find the color code of the last object selected. I suppose this is rather
-  // tacky to do such a simple search, but I would prefer not to write the
-  // interface required to denote multiple selection.
-  if (currentObject != nil) {
-    if ([currentObject conformsToProtocol:@protocol(LDrawColorable)]) {
-      objectColor = [currentObject LDrawColor];
+    // Find the color code of the last object selected. I suppose this is rather
+    // tacky to do such a simple search, but I would prefer not to write the
+    // interface required to denote multiple selection.
+    if (currentObject != nil) {
+        if ([currentObject conformsToProtocol:@protocol(LDrawColorable)]) {
+            objectColor = [currentObject LDrawColor];
+        }
     }
-  }
-  updatingToReflectFile = YES;
-  [self setLDrawColor:objectColor];
-  updatingToReflectFile = NO;
+    updatingToReflectFile = YES;
+    [self setLDrawColor:objectColor];
+    updatingToReflectFile = NO;
 }// end updateSelectionWithObjects:
 
 
@@ -371,25 +371,25 @@ LDrawColorPanelController *sharedColorPanel = nil;
 // ==============================================================================
 - (NSInteger)indexOfColor:(LDrawColor *)colorSought
 {
-  NSArray     *visibleColors  = [self->colorListController arrangedObjects];
-  NSInteger   numberColors    = [visibleColors count];
-  LDrawColor  *currentColor   = nil;
-  LDrawColorT currentCode     = LDrawColorBogus;
-  LDrawColorT colorCodeSought = [colorSought colorCode];
-  NSInteger   rowToSelect     = NSNotFound; // will be the row index for the color we want.
-  NSInteger   counter         = 0;
+    NSArray     *visibleColors  = [self->colorListController arrangedObjects];
+    NSInteger   numberColors    = [visibleColors count];
+    LDrawColor  *currentColor   = nil;
+    LDrawColorT currentCode     = LDrawColorBogus;
+    LDrawColorT colorCodeSought = [colorSought colorCode];
+    NSInteger   rowToSelect     = NSNotFound; // will be the row index for the color we want.
+    NSInteger   counter         = 0;
 
-  // Search through all the colors in the current color set and see if the
-  // one we are after is in there. A brute force search.
-  for (counter = 0; counter < numberColors && rowToSelect == NSNotFound; counter++) {
-    currentColor = [visibleColors objectAtIndex:counter];
-    currentCode  = [currentColor colorCode];
+    // Search through all the colors in the current color set and see if the
+    // one we are after is in there. A brute force search.
+    for (counter = 0; counter < numberColors && rowToSelect == NSNotFound; counter++) {
+        currentColor = [visibleColors objectAtIndex:counter];
+        currentCode  = [currentColor colorCode];
 
-    if (currentCode == colorCodeSought) {
-      rowToSelect = counter;
+        if (currentCode == colorCodeSought) {
+            rowToSelect = counter;
+        }
     }
-  }
-  return(rowToSelect);
+    return(rowToSelect);
 }// end indexOfColor:
 
 
@@ -407,26 +407,26 @@ LDrawColorPanelController *sharedColorPanel = nil;
 // ==============================================================================
 - (void)loadInitialSortDescriptors
 {
-  NSData           *savedDescriptorData = nil;
-  NSArray          *savedDescriptors    = nil;
-  NSSortDescriptor *initialDescriptor   = nil;
-  NSUserDefaults   *userDefaults        = [NSUserDefaults standardUserDefaults];
+    NSData           *savedDescriptorData = nil;
+    NSArray          *savedDescriptors    = nil;
+    NSSortDescriptor *initialDescriptor   = nil;
+    NSUserDefaults   *userDefaults        = [NSUserDefaults standardUserDefaults];
 
-  // Get the object from preferences.
-  savedDescriptorData = [userDefaults objectForKey:COLOR_SORT_DESCRIPTORS_KEY];
-  if (savedDescriptorData != nil) {
-    savedDescriptors = [NSKeyedUnarchiver unarchiveObjectWithData:savedDescriptorData];
-  }
+    // Get the object from preferences.
+    savedDescriptorData = [userDefaults objectForKey:COLOR_SORT_DESCRIPTORS_KEY];
+    if (savedDescriptorData != nil) {
+        savedDescriptors = [NSKeyedUnarchiver unarchiveObjectWithData:savedDescriptorData];
+    }
 
-  // Regenerate them if needed
-  if (savedDescriptors == nil) {
-    initialDescriptor =
-      [[self->colorTable tableColumnWithIdentifier:@"colorCode"] sortDescriptorPrototype];
-    savedDescriptors = [NSArray arrayWithObject:initialDescriptor];
-  }
+    // Regenerate them if needed
+    if (savedDescriptors == nil) {
+        initialDescriptor =
+            [[self->colorTable tableColumnWithIdentifier:@"colorCode"] sortDescriptorPrototype];
+        savedDescriptors = [NSArray arrayWithObject:initialDescriptor];
+    }
 
-  // and sort.
-  [self->colorListController setSortDescriptors:savedDescriptors];
+    // and sort.
+    [self->colorListController setSortDescriptors:savedDescriptors];
 }// end loadInitialSortDescriptors
 
 
@@ -440,140 +440,140 @@ LDrawColorPanelController *sharedColorPanel = nil;
 //
 // ==============================================================================
 - (NSPredicate *)predicateForSearchString:(NSString *)searchString
-  material:(MaterialPopUpTagT)material
+    material:(MaterialPopUpTagT)material
 {
-  NSString        *keywordFormat      = nil;
-  NSArray         *keywordArguments   = nil;
-  NSString        *materialFormat     = nil;
-  NSArray         *materialArguments  = nil;
-  NSMutableString *predicateFormat    = nil;
-  NSMutableArray  *predicateArguments = nil;
-  NSPredicate     *searchPredicate    = nil;
-  BOOL            searchByCode        = NO; // color name search by default.
-  NSScanner       *digitScanner       = nil;
-  NSInteger       colorCode           = 0;
+    NSString        *keywordFormat      = nil;
+    NSArray         *keywordArguments   = nil;
+    NSString        *materialFormat     = nil;
+    NSArray         *materialArguments  = nil;
+    NSMutableString *predicateFormat    = nil;
+    NSMutableArray  *predicateArguments = nil;
+    NSPredicate     *searchPredicate    = nil;
+    BOOL            searchByCode        = NO; // color name search by default.
+    NSScanner       *digitScanner       = nil;
+    NSInteger       colorCode           = 0;
 
-  // If there is no string, then clear the search predicate (find all).
-  if ([searchString length] == 0) {
-    searchPredicate = nil;
-  }
-  else {
-    // Find out whether this search is intended to be based on the LDraw
-    // code. If the search string can be parsed into an integer, we'll
-    // assume this is a color-code search. Otherwise, it will be a name
-    // search.
-    digitScanner = [NSScanner scannerWithString:searchString];
-    searchByCode = [digitScanner scanInteger:&colorCode];
-
-    // If it is an LDraw code search, try to find a color code equal to the
-    // search number entered.
-    if (searchByCode == YES) {
-      keywordFormat    = @"%K == %@";
-      keywordArguments =
-        [NSArray arrayWithObjects:NSStringFromSelector(@selector(colorCode)), @(colorCode), nil];
+    // If there is no string, then clear the search predicate (find all).
+    if ([searchString length] == 0) {
+        searchPredicate = nil;
     }
     else {
-      // This is a search based on color names. If we can find the search
-      // string in any component of the color string, we consider it a
-      // match.
-      keywordFormat    = @"%K CONTAINS[cd] %@";
-      keywordArguments =
-        [NSArray arrayWithObjects:NSStringFromSelector(@selector(localizedName)), searchString, nil];
-    }
-  }
+        // Find out whether this search is intended to be based on the LDraw
+        // code. If the search string can be parsed into an integer, we'll
+        // assume this is a color-code search. Otherwise, it will be a name
+        // search.
+        digitScanner = [NSScanner scannerWithString:searchString];
+        searchByCode = [digitScanner scanInteger:&colorCode];
 
-  switch (material)
-  {
-    case MaterialTypeAll :
-      // nothing
-      break;
-
-    case MaterialTypeSolid :
-      materialFormat    = @"(%K == %@) AND (%K == 1.0)";
-      materialArguments =
-        [NSArray arrayWithObjects:NSStringFromSelector(@selector(material)),
-         @(LDrawColorMaterialNone),
-         NSStringFromSelector(@selector(alpha)), nil];
-      break;
-
-    case MaterialTypeTransparent :
-      materialFormat    = @"(%K == %@) AND (%K < 1.0)";
-      materialArguments =
-        [NSArray arrayWithObjects:NSStringFromSelector(@selector(material)),
-         @(LDrawColorMaterialNone),
-         NSStringFromSelector(@selector(alpha)), nil];
-      break;
-
-    case MaterialTypeChrome :
-      materialFormat    = @"(%K == %@)";
-      materialArguments =
-        [NSArray arrayWithObjects:NSStringFromSelector(@selector(material)),
-         @(LDrawColorMaterialChrome), nil];
-      break;
-
-    case MaterialTypePearlescent :
-      materialFormat    = @"(%K == %@)";
-      materialArguments =
-        [NSArray arrayWithObjects:NSStringFromSelector(@selector(material)),
-         @(LDrawColorMaterialPearlescent), nil];
-      break;
-
-    case MaterialTypeRubber :
-      materialFormat    = @"(%K == %@)";
-      materialArguments =
-        [NSArray arrayWithObjects:NSStringFromSelector(@selector(material)),
-         @(LDrawColorMaterialRubber), nil];
-      break;
-
-    case MaterialTypeMetal :
-      materialFormat    = @"(%K == %@) OR (%K == %@)";
-      materialArguments =
-        [NSArray arrayWithObjects:NSStringFromSelector(@selector(material)),
-         @(LDrawColorMaterialMetal),
-         NSStringFromSelector(@selector(material)), @(LDrawColorMaterialMatteMetallic), nil];
-      break;
-
-    case MaterialTypeOther :
-      materialFormat    = @"((%K == %@) OR (%K == %@) OR (%K == %@))";
-      materialArguments =
-        [NSArray arrayWithObjects:NSStringFromSelector(@selector(material)),
-         @(LDrawColorMaterialCustom),
-         NSStringFromSelector(@selector(colorCode)), @(LDrawCurrentColor),
-         NSStringFromSelector(@selector(colorCode)), @(LDrawEdgeColor),
-         nil];
-      break;
-
-    case MaterialTypeFavorite :
-      materialFormat    = @"(%K == %@)";
-      materialArguments =
-        [NSArray arrayWithObjects:NSStringFromSelector(@selector(isFavorite)), @(YES), nil];
-      break;
-  }
-
-  if (keywordFormat || materialFormat) {
-    predicateFormat    = [NSMutableString string];
-    predicateArguments = [NSMutableArray array];
-  }
-
-  if (keywordFormat) {
-    [predicateFormat appendString:keywordFormat];
-    [predicateArguments addObjectsFromArray:keywordArguments];
-  }
-
-  if (materialFormat) {
-    if ([predicateFormat length]) {
-      [predicateFormat appendString:@"AND "];
+        // If it is an LDraw code search, try to find a color code equal to the
+        // search number entered.
+        if (searchByCode == YES) {
+            keywordFormat    = @"%K == %@";
+            keywordArguments =
+                [NSArray arrayWithObjects:NSStringFromSelector(@selector(colorCode)), @(colorCode), nil];
+        }
+        else {
+            // This is a search based on color names. If we can find the search
+            // string in any component of the color string, we consider it a
+            // match.
+            keywordFormat    = @"%K CONTAINS[cd] %@";
+            keywordArguments =
+                [NSArray arrayWithObjects:NSStringFromSelector(@selector(localizedName)), searchString, nil];
+        }
     }
 
-    [predicateFormat appendFormat:@"(%@)", materialFormat];
-    [predicateArguments addObjectsFromArray:materialArguments];
-  }
+    switch (material)
+    {
+        case MaterialTypeAll :
+            // nothing
+            break;
 
-  if (predicateFormat) {
-    searchPredicate = [NSPredicate predicateWithFormat:predicateFormat
-                                         argumentArray:predicateArguments];
-  }
-  return(searchPredicate);
+        case MaterialTypeSolid :
+            materialFormat    = @"(%K == %@) AND (%K == 1.0)";
+            materialArguments =
+                [NSArray arrayWithObjects:NSStringFromSelector(@selector(material)),
+                 @(LDrawColorMaterialNone),
+                 NSStringFromSelector(@selector(alpha)), nil];
+            break;
+
+        case MaterialTypeTransparent :
+            materialFormat    = @"(%K == %@) AND (%K < 1.0)";
+            materialArguments =
+                [NSArray arrayWithObjects:NSStringFromSelector(@selector(material)),
+                 @(LDrawColorMaterialNone),
+                 NSStringFromSelector(@selector(alpha)), nil];
+            break;
+
+        case MaterialTypeChrome :
+            materialFormat    = @"(%K == %@)";
+            materialArguments =
+                [NSArray arrayWithObjects:NSStringFromSelector(@selector(material)),
+                 @(LDrawColorMaterialChrome), nil];
+            break;
+
+        case MaterialTypePearlescent :
+            materialFormat    = @"(%K == %@)";
+            materialArguments =
+                [NSArray arrayWithObjects:NSStringFromSelector(@selector(material)),
+                 @(LDrawColorMaterialPearlescent), nil];
+            break;
+
+        case MaterialTypeRubber :
+            materialFormat    = @"(%K == %@)";
+            materialArguments =
+                [NSArray arrayWithObjects:NSStringFromSelector(@selector(material)),
+                 @(LDrawColorMaterialRubber), nil];
+            break;
+
+        case MaterialTypeMetal :
+            materialFormat    = @"(%K == %@) OR (%K == %@)";
+            materialArguments =
+                [NSArray arrayWithObjects:NSStringFromSelector(@selector(material)),
+                 @(LDrawColorMaterialMetal),
+                 NSStringFromSelector(@selector(material)), @(LDrawColorMaterialMatteMetallic), nil];
+            break;
+
+        case MaterialTypeOther :
+            materialFormat    = @"((%K == %@) OR (%K == %@) OR (%K == %@))";
+            materialArguments =
+                [NSArray arrayWithObjects:NSStringFromSelector(@selector(material)),
+                 @(LDrawColorMaterialCustom),
+                 NSStringFromSelector(@selector(colorCode)), @(LDrawCurrentColor),
+                 NSStringFromSelector(@selector(colorCode)), @(LDrawEdgeColor),
+                 nil];
+            break;
+
+        case MaterialTypeFavorite :
+            materialFormat    = @"(%K == %@)";
+            materialArguments =
+                [NSArray arrayWithObjects:NSStringFromSelector(@selector(isFavorite)), @(YES), nil];
+            break;
+    }
+
+    if (keywordFormat || materialFormat) {
+        predicateFormat    = [NSMutableString string];
+        predicateArguments = [NSMutableArray array];
+    }
+
+    if (keywordFormat) {
+        [predicateFormat appendString:keywordFormat];
+        [predicateArguments addObjectsFromArray:keywordArguments];
+    }
+
+    if (materialFormat) {
+        if ([predicateFormat length]) {
+            [predicateFormat appendString:@"AND "];
+        }
+
+        [predicateFormat appendFormat:@"(%@)", materialFormat];
+        [predicateArguments addObjectsFromArray:materialArguments];
+    }
+
+    if (predicateFormat) {
+        searchPredicate = [NSPredicate predicateWithFormat:predicateFormat
+                           argumentArray:predicateArguments];
+    }
+    return(searchPredicate);
 }// end predicateForSearchString:
 
 
@@ -585,33 +585,33 @@ LDrawColorPanelController *sharedColorPanel = nil;
 // ==============================================================================
 - (void)updateColorFilter
 {
-  NSString          *searchString            = [searchField stringValue];
-  MaterialPopUpTagT materialType             = (int)[[materialPopUpButton selectedItem] tag];
-  NSPredicate       *searchPredicate         = nil;
-  LDrawColor        *currentColor            = [self LDrawColor];
-  NSInteger         indexOfPreviousSelection = 0;
+    NSString          *searchString            = [searchField stringValue];
+    MaterialPopUpTagT materialType             = (int)[[materialPopUpButton selectedItem] tag];
+    NSPredicate       *searchPredicate         = nil;
+    LDrawColor        *currentColor            = [self LDrawColor];
+    NSInteger         indexOfPreviousSelection = 0;
 
-  searchPredicate = [self predicateForSearchString:searchString
-                                          material:materialType];
-  // Update the table with our results.
-  [self->colorListController setFilterPredicate:searchPredicate];
+    searchPredicate = [self predicateForSearchString:searchString
+                       material:materialType];
+    // Update the table with our results.
+    [self->colorListController setFilterPredicate:searchPredicate];
 
-  // The array controller will automatically maintain the selection if it can.
-  // But if it can't, we need to come up a reasonable new answer.
-  indexOfPreviousSelection = [self indexOfColor:currentColor];
-  // If the previous color is no longer in the list, what should we do? I have
-  // chosen to automatically select the first color, since I don't want to
-  // introduce the UI confusion of empty selection.
-  if (indexOfPreviousSelection == NSNotFound) {
-    [self->colorListController setSelectionIndex:0];
-  }
+    // The array controller will automatically maintain the selection if it can.
+    // But if it can't, we need to come up a reasonable new answer.
+    indexOfPreviousSelection = [self indexOfColor:currentColor];
+    // If the previous color is no longer in the list, what should we do? I have
+    // chosen to automatically select the first color, since I don't want to
+    // introduce the UI confusion of empty selection.
+    if (indexOfPreviousSelection == NSNotFound) {
+        [self->colorListController setSelectionIndex:0];
+    }
 
-  if (materialType == MaterialTypeFavorite) {
-    [self->addRemoveFavoriteButton setImage:[NSImage imageNamed:@"FavoriteRemove"]];
-  }
-  else {
-    [self->addRemoveFavoriteButton setImage:[NSImage imageNamed:@"FavoriteAdd"]];
-  }
+    if (materialType == MaterialTypeFavorite) {
+        [self->addRemoveFavoriteButton setImage:[NSImage imageNamed:@"FavoriteRemove"]];
+    }
+    else {
+        [self->addRemoveFavoriteButton setImage:[NSImage imageNamed:@"FavoriteAdd"]];
+    }
 }// end updateColorFilter
 
 
@@ -626,33 +626,33 @@ LDrawColorPanelController *sharedColorPanel = nil;
 //
 // ==============================================================================
 - (void)observeValueForKeyPath:(NSString *)keyPath
-  ofObject:(id)object
-  change:(NSDictionary *)change
-  context:(void *)context
+    ofObject:(id)object
+    change:(NSDictionary *)change
+    context:(void *)context
 {
-  // Selected color has changed. Need to update everything to indicate that a
-  // new color was selected.
-  if ([keyPath isEqualToString:@"selectedObjects"]) {
-    if ([[self->colorListController selectedObjects] count] > 0) {
-      // Update internal information.
-      [self->colorBar setLDrawColor:[self LDrawColor]];
+    // Selected color has changed. Need to update everything to indicate that a
+    // new color was selected.
+    if ([keyPath isEqualToString:@"selectedObjects"]) {
+        if ([[self->colorListController selectedObjects] count] > 0) {
+            // Update internal information.
+            [self->colorBar setLDrawColor:[self LDrawColor]];
 
-      [self sendAction];
+            [self sendAction];
+        }
     }
-  }
-  // Sort descriptors changed; save in preferences.
-  // Once we are Leopard-only, we can dispense with this and just use the
-  // NSKeyedUnarchiveFromData transformer.
-  else if ([keyPath isEqualToString:@"sortDescriptors"]) {
-    NSArray *newDescriptors      = [self->colorListController sortDescriptors];;
-    NSData  *savedDescriptorData =
-      [NSKeyedArchiver archivedDataWithRootObject:newDescriptors];
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    // Sort descriptors changed; save in preferences.
+    // Once we are Leopard-only, we can dispense with this and just use the
+    // NSKeyedUnarchiveFromData transformer.
+    else if ([keyPath isEqualToString:@"sortDescriptors"]) {
+        NSArray *newDescriptors      = [self->colorListController sortDescriptors];;
+        NSData  *savedDescriptorData =
+            [NSKeyedArchiver archivedDataWithRootObject:newDescriptors];
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
-    // Set the object in preferences.
-    [userDefaults setObject:savedDescriptorData
-                     forKey:COLOR_SORT_DESCRIPTORS_KEY];
-  }
+        // Set the object in preferences.
+        [userDefaults setObject:savedDescriptorData
+         forKey:COLOR_SORT_DESCRIPTORS_KEY];
+    }
 }// end observeValueForKeyPath:ofObject:change:context:
 
 
@@ -666,10 +666,10 @@ LDrawColorPanelController *sharedColorPanel = nil;
 // ==============================================================================
 - (void)windowWillClose:(NSNotification *)notification
 {
-  // deactivate active color well.
-  if ([LDrawColorWell activeColorWell] != nil) {
-    [LDrawColorWell setActiveColorWell:nil];
-  }
+    // deactivate active color well.
+    if ([LDrawColorWell activeColorWell] != nil) {
+        [LDrawColorWell setActiveColorWell:nil];
+    }
 }// end orderOut:
 
 
@@ -681,9 +681,9 @@ LDrawColorPanelController *sharedColorPanel = nil;
 // ==============================================================================
 - (NSUndoManager *)windowWillReturnUndoManager:(NSWindow *)sender
 {
-  NSDocument *currentDocument = [[NSDocumentController sharedDocumentController] currentDocument];
+    NSDocument *currentDocument = [[NSDocumentController sharedDocumentController] currentDocument];
 
-  return([currentDocument undoManager]);
+    return([currentDocument undoManager]);
 }// end windowWillReturnUndoManager:
 
 
@@ -698,14 +698,14 @@ LDrawColorPanelController *sharedColorPanel = nil;
 // ==============================================================================
 - (void)dealloc
 {
-  [colorListController removeObserver:self
-                           forKeyPath:@"selectedObjects"];
-  [colorListController removeObserver:self
-                           forKeyPath:@"sortDescriptors"];
+    [colorListController removeObserver:self
+     forKeyPath:@"selectedObjects"];
+    [colorListController removeObserver:self
+     forKeyPath:@"sortDescriptors"];
 
-  [colorListController release];
+    [colorListController release];
 
-  [super dealloc];
+    [super dealloc];
 }// end dealloc
 
 

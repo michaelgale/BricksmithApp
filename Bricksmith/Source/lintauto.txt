@@ -1,4 +1,3 @@
-
 LDraw/Renderer/MeshSmooth.c
 LDraw/Renderer/MeshSmooth.h
 LDraw/Support/GLMatrixMath.c

@@ -25,24 +25,24 @@
 // ==============================================================================
 - (void)drawRect:(NSRect)aRect
 {
-  [super drawRect:aRect]; // does nothing.
+    [super drawRect:aRect]; // does nothing.
 
 // NSBezierPath *rectPath = [NSBezierPath bezierPathWithRect:aRect];
 // [rectPath stroke];
 
-  [[NSColor grayColor] set];
-  NSRectFill(aRect);
+    [[NSColor grayColor] set];
+    NSRectFill(aRect);
 
-  [[NSColor whiteColor] set];
-  NSRectFill(NSInsetRect(aRect, 1, 1));
+    [[NSColor whiteColor] set];
+    NSRectFill(NSInsetRect(aRect, 1, 1));
 
-  // We can let the OS do it, but I'm not going to. Basically, it's because
-  // their display of transparent colors is mind-bogglingly ugly.
-  // You also get a little triangle in the corner when using device colors,
-  // which I am for no apparent reason.
+    // We can let the OS do it, but I'm not going to. Basically, it's because
+    // their display of transparent colors is mind-bogglingly ugly.
+    // You also get a little triangle in the corner when using device colors,
+    // which I am for no apparent reason.
 // [self->nsColor drawSwatchInRect:NSInsetRect(aRect, 2, 2)];
-  [self->nsColor set];
-  NSRectFill(NSInsetRect(aRect, 2, 2));
+    [self->nsColor set];
+    NSRectFill(NSInsetRect(aRect, 2, 2));
 }// end drawRect:
 
 
@@ -57,7 +57,7 @@
 // ==============================================================================
 - (LDrawColor *)LDrawColor
 {
-  return(color);
+    return(color);
 }// end LDrawColor
 
 
@@ -69,28 +69,28 @@
 // ==============================================================================
 - (void)setLDrawColor:(LDrawColor *)newColor
 {
-  NSString *description = nil;
-  GLfloat  components[4];
+    NSString *description = nil;
+    GLfloat  components[4];
 
-  // assign ivar
-  [newColor retain];
-  [self->color release];
-  self->color = newColor;
+    // assign ivar
+    [newColor retain];
+    [self->color release];
+    self->color = newColor;
 
-  // Set cached NSColor too
-  [newColor getColorRGBA:components];
+    // Set cached NSColor too
+    [newColor getColorRGBA:components];
 
-  [self->nsColor release];
-  self->nsColor = [[NSColor colorWithCalibratedRed:components[0]
-                                             green:components[1]
-                                              blue:components[2]
-                                             alpha:1.0] retain];
+    [self->nsColor release];
+    self->nsColor = [[NSColor colorWithCalibratedRed:components[0]
+                      green:components[1]
+                      blue:components[2]
+                      alpha:1.0] retain];
 
-  // Create a tool tip to identify the LDraw color code.
-  description = [newColor localizedName];
-  [self setToolTip:[NSString stringWithFormat:@"LDraw %d\n%@", [newColor colorCode], description]];
+    // Create a tool tip to identify the LDraw color code.
+    description = [newColor localizedName];
+    [self setToolTip:[NSString stringWithFormat:@"LDraw %d\n%@", [newColor colorCode], description]];
 
-  [self setNeedsDisplay:YES];
+    [self setNeedsDisplay:YES];
 }// end setLDrawColor:
 
 
@@ -105,9 +105,9 @@
 // ==============================================================================
 - (void)dealloc
 {
-  [self->nsColor release];
+    [self->nsColor release];
 
-  [super dealloc];
+    [super dealloc];
 }// end dealloc
 
 

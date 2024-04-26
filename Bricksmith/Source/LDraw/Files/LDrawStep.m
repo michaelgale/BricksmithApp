@@ -52,9 +52,9 @@
 // ------------------------------------------------------------------------------
 + (id)emptyStep
 {
-  LDrawStep *newStep = [[LDrawStep alloc] init];
+    LDrawStep *newStep = [[LDrawStep alloc] init];
 
-  return([newStep autorelease]);
+    return([newStep autorelease]);
 }// end emptyStep
 
 
@@ -66,11 +66,11 @@
 // ------------------------------------------------------------------------------
 + (id)emptyStepWithFlavor:(LDrawStepFlavorT)flavorType
 {
-  LDrawStep *newStep = [LDrawStep emptyStep];
+    LDrawStep *newStep = [LDrawStep emptyStep];
 
-  [newStep setStepFlavor:flavorType];
+    [newStep setStepFlavor:flavorType];
 
-  return(newStep);
+    return(newStep);
 }// end emptyStepWithFlavor:
 
 
@@ -83,14 +83,14 @@
 // ==============================================================================
 - (id)init
 {
-  [super init];
+    [super init];
 
-  stepRotationType = LDrawStepRotationNone;
-  rotationAngle    = ZeroPoint3;
-  stepFlavor       = LDrawStepAnyDirectives;
-  cachedBounds     = InvalidBox;
+    stepRotationType = LDrawStepRotationNone;
+    rotationAngle    = ZeroPoint3;
+    stepFlavor       = LDrawStepAnyDirectives;
+    cachedBounds     = InvalidBox;
 
-  return(self);
+    return(self);
 }// end init
 
 
@@ -100,70 +100,70 @@
 //
 // ==============================================================================
 - (id)initWithLines:(NSArray *)lines
-  inRange:(NSRange)range
-  parentGroup:(dispatch_group_t)parentGroup
+    inRange:(NSRange)range
+    parentGroup:(dispatch_group_t)parentGroup
 {
-  NSString   *currentLine = nil;
-  Class      CommandClass = Nil;
-  NSRange    commandRange = range;
-  id         *directives  = calloc(range.length, sizeof(LDrawDirective *));
-  NSUInteger lineIndex    = 0;
-  NSUInteger insertIndex  = 0;
+    NSString   *currentLine = nil;
+    Class      CommandClass = Nil;
+    NSRange    commandRange = range;
+    id         *directives  = calloc(range.length, sizeof(LDrawDirective *));
+    NSUInteger lineIndex    = 0;
+    NSUInteger insertIndex  = 0;
 
-  self = [super initWithLines:lines inRange:range parentGroup:parentGroup];
+    self = [super initWithLines:lines inRange:range parentGroup:parentGroup];
 
-  cachedBounds = InvalidBox;
+    cachedBounds = InvalidBox;
 
-  dispatch_group_t stepDispatchGroup = NULL;
+    dispatch_group_t stepDispatchGroup = NULL;
 
 #if USE_BLOCKS
-  dispatch_queue_t queue = NULL;
+    dispatch_queue_t queue = NULL;
 
-  // Create a group for the multithreaded parsing of the step contents.
-  queue             = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-  stepDispatchGroup = dispatch_group_create();
+    // Create a group for the multithreaded parsing of the step contents.
+    queue             = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    stepDispatchGroup = dispatch_group_create();
 
-  // Prevent the owning group from completing until the step is finished
-  // asynchronously parsing its contents.
-  if (parentGroup != NULL) {
-    dispatch_group_enter(parentGroup);
-  }
+    // Prevent the owning group from completing until the step is finished
+    // asynchronously parsing its contents.
+    if (parentGroup != NULL) {
+        dispatch_group_enter(parentGroup);
+    }
 #endif
 
-  // Parse out the STEP command
-  if (range.length > 0) {
-    currentLine = [lines objectAtIndex:(NSMaxRange(range) - 1)];
+    // Parse out the STEP command
+    if (range.length > 0) {
+        currentLine = [lines objectAtIndex:(NSMaxRange(range) - 1)];
 
-    // See if the line is a step delimiter. If the delimiter doesn't exist,
-    // it's implied (such as in a 1-step model). Otherwise, it marks the end
-    // of the step.
-    if ([[self class] lineIsStepTerminator:currentLine]) {
-      // Nothing more to parse. Stop.
-      range.length -= 1;
+        // See if the line is a step delimiter. If the delimiter doesn't exist,
+        // it's implied (such as in a 1-step model). Otherwise, it marks the end
+        // of the step.
+        if ([[self class] lineIsStepTerminator:currentLine]) {
+            // Nothing more to parse. Stop.
+            range.length -= 1;
+        }
+        else if ([[self class] lineIsRotationStepTerminator:currentLine]) {
+            // Parse the rotation step.
+            if ([self parseRotationStepFromLine:currentLine] == NO) {
+                @throw [NSException exceptionWithName:@"BricksmithParseException"
+                        reason:@"Bad rotstep syntax"
+                        userInfo:nil];
+            }
+
+            range.length -= 1;
+        }
     }
-    else if ([[self class] lineIsRotationStepTerminator:currentLine]) {
-      // Parse the rotation step.
-      if ([self parseRotationStepFromLine:currentLine] == NO) {
-        @throw [NSException exceptionWithName:@"BricksmithParseException"
-                                       reason:@"Bad rotstep syntax"
-                                     userInfo:nil];
-      }
 
-      range.length -= 1;
-    }
-  }
-
-  // Convert each non-step-delimiter line into a directive, and add it to this
-  // step.
-  lineIndex = range.location;
-  while (lineIndex < NSMaxRange(range))
-  {
-    currentLine = [lines objectAtIndex:lineIndex];
-    if ([currentLine length] > 0) {
-      CommandClass = [LDrawUtilities classForDirectiveBeginningWithLine:currentLine];
-      commandRange = [CommandClass rangeOfDirectiveBeginningAtIndex:lineIndex
-                                                            inLines:lines
-                                                           maxIndex:NSMaxRange(range) - 1];
+    // Convert each non-step-delimiter line into a directive, and add it to this
+    // step.
+    lineIndex = range.location;
+    while (lineIndex < NSMaxRange(range))
+    {
+        currentLine = [lines objectAtIndex:lineIndex];
+        if ([currentLine length] > 0) {
+            CommandClass = [LDrawUtilities classForDirectiveBeginningWithLine:currentLine];
+            commandRange = [CommandClass rangeOfDirectiveBeginningAtIndex:lineIndex
+                            inLines:lines
+                            maxIndex:NSMaxRange(range) - 1];
 
 /* *INDENT-OFF* */
 #if USE_BLOCKS
@@ -172,30 +172,30 @@
 			^{
 #endif
 /* *INDENT-ON* */
-      // Parse but disallow multithreading for subparsing. LDraw
-      // objects be be deeply recursive, which means we would pile
-      // up a lot of dispatch_group_wait calls, resulting in so
-      // many threads we run out of stack space.
-      LDrawDirective *newDirective = [[CommandClass alloc] initWithLines:lines
-                                                                 inRange:commandRange
-                                                             parentGroup:stepDispatchGroup];
+            // Parse but disallow multithreading for subparsing. LDraw
+            // objects be be deeply recursive, which means we would pile
+            // up a lot of dispatch_group_wait calls, resulting in so
+            // many threads we run out of stack space.
+            LDrawDirective *newDirective = [[CommandClass alloc] initWithLines:lines
+                                            inRange:commandRange
+                                            parentGroup:stepDispatchGroup];
 
-      // Store non-retaining, but *thread-safe* container
-      // (NSMutableArray is NOT). Since it doesn't retain, we mustn't
-      // autorelease newDirective.
-      directives[insertIndex] = newDirective;
+            // Store non-retaining, but *thread-safe* container
+            // (NSMutableArray is NOT). Since it doesn't retain, we mustn't
+            // autorelease newDirective.
+            directives[insertIndex] = newDirective;
 /* *INDENT-OFF* */
 #if USE_BLOCKS
 			});
 #endif
 /* *INDENT-ON* */
-      lineIndex    = NSMaxRange(commandRange);
-      insertIndex += 1;
+            lineIndex    = NSMaxRange(commandRange);
+            insertIndex += 1;
+        }
+        else {
+            lineIndex += 1;
+        }
     }
-    else {
-      lineIndex += 1;
-    }
-  }
 
 /* *INDENT-OFF* */
 #if USE_BLOCKS
@@ -203,17 +203,17 @@
 	^{
 #endif
 /* *INDENT-ON* */
-  NSUInteger     counter           = 0;
-  LDrawDirective *currentDirective = nil;
+    NSUInteger     counter           = 0;
+    LDrawDirective *currentDirective = nil;
 
-  // Add the accumulated directives *in order*
-  for (counter = 0; counter < insertIndex; counter++) {
-    currentDirective = directives[counter];
+    // Add the accumulated directives *in order*
+    for (counter = 0; counter < insertIndex; counter++) {
+        currentDirective = directives[counter];
 
-    [self addDirective:currentDirective];
-    [currentDirective release];
-  }
-  free(directives);
+        [self addDirective:currentDirective];
+        [currentDirective release];
+    }
+    free(directives);
 
 /* *INDENT-OFF* */
 #if USE_BLOCKS
@@ -228,7 +228,7 @@
 #endif
 /* *INDENT-ON* */
 
-  return(self);
+    return(self);
 }// end initWithLines:inRange:
 
 
@@ -241,18 +241,18 @@
 // ==============================================================================
 - (id)initWithCoder:(NSCoder *)decoder
 {
-  const uint8_t *temporary = NULL; // pointer to a temporary buffer returned by the decoder.
+    const uint8_t *temporary = NULL; // pointer to a temporary buffer returned by the decoder.
 
-  self         = [super initWithCoder:decoder];
-  cachedBounds = InvalidBox;
-  [self invalCache:CacheFlagBounds];
+    self         = [super initWithCoder:decoder];
+    cachedBounds = InvalidBox;
+    [self invalCache:CacheFlagBounds];
 
-  temporary = [decoder decodeBytesForKey:@"rotationAngle" returnedLength:NULL];
-  memcpy(&rotationAngle, temporary, sizeof(Tuple3));
+    temporary = [decoder decodeBytesForKey:@"rotationAngle" returnedLength:NULL];
+    memcpy(&rotationAngle, temporary, sizeof(Tuple3));
 
-  stepRotationType = [decoder decodeIntForKey:@"stepRotationType"];
+    stepRotationType = [decoder decodeIntForKey:@"stepRotationType"];
 
-  return(self);
+    return(self);
 }// end initWithCoder:
 
 
@@ -265,10 +265,10 @@
 // ==============================================================================
 - (void)encodeWithCoder:(NSCoder *)encoder
 {
-  [super encodeWithCoder:encoder];
+    [super encodeWithCoder:encoder];
 
-  [encoder encodeBytes:(void *)&rotationAngle length:sizeof(Tuple3) forKey:@"rotationAngle"];
-  [encoder encodeInt:stepRotationType forKey:@"stepRotationType"];
+    [encoder encodeBytes:(void *)&rotationAngle length:sizeof(Tuple3) forKey:@"rotationAngle"];
+    [encoder encodeInt:stepRotationType forKey:@"stepRotationType"];
 }// end encodeWithCoder:
 
 
@@ -279,14 +279,14 @@
 // ==============================================================================
 - (id)copyWithZone:(NSZone *)zone
 {
-  LDrawStep *copied = (LDrawStep *)[super copyWithZone:zone];
+    LDrawStep *copied = (LDrawStep *)[super copyWithZone:zone];
 
-  [copied setStepFlavor:self->stepFlavor];
-  [copied setStepRotationType:self->stepRotationType];
-  [copied setRotationAngle:self->rotationAngle];
-  copied->cachedBounds = cachedBounds;
+    [copied setStepFlavor:self->stepFlavor];
+    [copied setStepRotationType:self->stepRotationType];
+    [copied setRotationAngle:self->rotationAngle];
+    copied->cachedBounds = cachedBounds;
 
-  return(copied);
+    return(copied);
 }// end copyWithZone:
 
 
@@ -298,36 +298,36 @@
 //
 // ------------------------------------------------------------------------------
 + (NSRange)rangeOfDirectiveBeginningAtIndex:(NSUInteger)index
-  inLines:(NSArray *)lines
-  maxIndex:(NSUInteger)maxIndex
+    inLines:(NSArray *)lines
+    maxIndex:(NSUInteger)maxIndex
 {
-  NSString   *currentLine = nil;
-  NSUInteger counter      = 0;
-  NSRange    testRange    = NSMakeRange(index, maxIndex - index + 1);
-  NSInteger  stepLength   = 0;
-  NSRange    stepRange;
+    NSString   *currentLine = nil;
+    NSUInteger counter      = 0;
+    NSRange    testRange    = NSMakeRange(index, maxIndex - index + 1);
+    NSInteger  stepLength   = 0;
+    NSRange    stepRange;
 
-  // Find the last line in the step. Steps either end with the step delimiter,
-  // or they simply go all the way to the end of the file.
-  // Convert each non-step-delimiter line into a directive, and add it to this
-  // step.
-  for (counter = testRange.location; counter < NSMaxRange(testRange); counter++) {
-    currentLine = [lines objectAtIndex:counter];
-    stepLength++;
+    // Find the last line in the step. Steps either end with the step delimiter,
+    // or they simply go all the way to the end of the file.
+    // Convert each non-step-delimiter line into a directive, and add it to this
+    // step.
+    for (counter = testRange.location; counter < NSMaxRange(testRange); counter++) {
+        currentLine = [lines objectAtIndex:counter];
+        stepLength++;
 
-    // See if the line is a step delimiter. If the delimiter doesn't exist,
-    // it's implied (such as in a 1-step model). Otherwise, it marks the end
-    // of the step.
-    if ([[self class] lineIsStepTerminator:currentLine]
-        || [[self class] lineIsRotationStepTerminator:currentLine]) {
-      // Nothing more to parse. Stop.
-      break;
+        // See if the line is a step delimiter. If the delimiter doesn't exist,
+        // it's implied (such as in a 1-step model). Otherwise, it marks the end
+        // of the step.
+        if ([[self class] lineIsStepTerminator:currentLine]
+            || [[self class] lineIsRotationStepTerminator:currentLine]) {
+            // Nothing more to parse. Stop.
+            break;
+        }
     }
-  }
 
-  stepRange = NSMakeRange(index, stepLength);
+    stepRange = NSMakeRange(index, stepLength);
 
-  return(stepRange);
+    return(stepRange);
 }// end rangeOfDirectiveBeginningAtIndex:inLines:maxIndex:
 
 
@@ -346,15 +346,15 @@
 // ==============================================================================
 - (void)draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)parentColor
 {
-  NSArray        *commandsInStep   = [self subdirectives];
-  LDrawDirective *currentDirective = nil;
+    NSArray        *commandsInStep   = [self subdirectives];
+    LDrawDirective *currentDirective = nil;
 
-  // Draw each element in the step.
-  for (currentDirective in commandsInStep) {
-    [currentDirective draw:optionsMask
-                 viewScale:scaleFactor
-               parentColor:parentColor];
-  }
+    // Draw each element in the step.
+    for (currentDirective in commandsInStep) {
+        [currentDirective draw:optionsMask
+         viewScale:scaleFactor
+         parentColor:parentColor];
+    }
 }// end draw:viewScale:parentColor:
 
 
@@ -370,13 +370,13 @@
 // ================================================================================
 - (void)drawSelf:(id <LDrawRenderer>)renderer
 {
-  NSArray        *commandsInStep   = [self subdirectives];
-  LDrawDirective *currentDirective = nil;
+    NSArray        *commandsInStep   = [self subdirectives];
+    LDrawDirective *currentDirective = nil;
 
-  // Draw each element in the step.
-  for (currentDirective in commandsInStep) {
-    [currentDirective drawSelf:renderer];
-  }
+    // Draw each element in the step.
+    for (currentDirective in commandsInStep) {
+        [currentDirective drawSelf:renderer];
+    }
 }// end drawSelf:
 
 
@@ -392,14 +392,14 @@
 // ================================================================================
 - (void)collectSelf:(id <LDrawCollector>)renderer
 {
-  NSArray        *commandsInStep   = [self subdirectives];
-  LDrawDirective *currentDirective = nil;
+    NSArray        *commandsInStep   = [self subdirectives];
+    LDrawDirective *currentDirective = nil;
 
-  // Draw each element in the step.
-  for (currentDirective in commandsInStep) {
-    [currentDirective collectSelf:renderer];
-  }
-  [self revalCache:DisplayList];
+    // Draw each element in the step.
+    for (currentDirective in commandsInStep) {
+        [currentDirective collectSelf:renderer];
+    }
+    [self revalCache:DisplayList];
 }// end collectSelf:
 
 
@@ -411,15 +411,15 @@
 // ==============================================================================
 - (void)debugDrawboundingBox
 {
-  NSArray        *commandsInStep   = [self subdirectives];
-  LDrawDirective *currentDirective = nil;
+    NSArray        *commandsInStep   = [self subdirectives];
+    LDrawDirective *currentDirective = nil;
 
-  // Draw each element in the step.
-  for (currentDirective in commandsInStep) {
-    [currentDirective debugDrawboundingBox];
-  }
+    // Draw each element in the step.
+    for (currentDirective in commandsInStep) {
+        [currentDirective debugDrawboundingBox];
+    }
 
-  [super debugDrawboundingBox];
+    [super debugDrawboundingBox];
 }// end debugDrawboundingBox
 
 
@@ -429,27 +429,27 @@
 //
 // ==============================================================================
 - (void)hitTest:(Ray3)pickRay
-  transform:(Matrix4)transform
-  viewScale:(double)scaleFactor
-  boundsOnly:(BOOL)boundsOnly
-  creditObject:(id)creditObject
-  hits:(NSMutableDictionary *)hits
+    transform:(Matrix4)transform
+    viewScale:(double)scaleFactor
+    boundsOnly:(BOOL)boundsOnly
+    creditObject:(id)creditObject
+    hits:(NSMutableDictionary *)hits
 {
-  NSArray    *commandsInStep   = [self subdirectives];
-  NSUInteger commandCount      = [commandsInStep count];
-  LDrawStep  *currentDirective = nil;
-  NSUInteger counter           = 0;
+    NSArray    *commandsInStep   = [self subdirectives];
+    NSUInteger commandCount      = [commandsInStep count];
+    LDrawStep  *currentDirective = nil;
+    NSUInteger counter           = 0;
 
-  // Draw all the steps in the model
-  for (counter = 0; counter < commandCount; counter++) {
-    currentDirective = [commandsInStep objectAtIndex:counter];
-    [currentDirective hitTest:pickRay
-                    transform:transform
-                    viewScale:scaleFactor
-                   boundsOnly:boundsOnly
-                 creditObject:creditObject
-                         hits:hits];
-  }
+    // Draw all the steps in the model
+    for (counter = 0; counter < commandCount; counter++) {
+        currentDirective = [commandsInStep objectAtIndex:counter];
+        [currentDirective hitTest:pickRay
+         transform:transform
+         viewScale:scaleFactor
+         boundsOnly:boundsOnly
+         creditObject:creditObject
+         hits:hits];
+    }
 }// end hitTest:transform:viewScale:boundsOnly:creditObject:hits:
 
 
@@ -459,37 +459,37 @@
 //
 // ==============================================================================
 - (BOOL)boxTest:(Box2)bounds
-  transform:(Matrix4)transform
-  boundsOnly:(BOOL)boundsOnly
-  creditObject:(id)creditObject
-  hits:(NSMutableSet *)hits
+    transform:(Matrix4)transform
+    boundsOnly:(BOOL)boundsOnly
+    creditObject:(id)creditObject
+    hits:(NSMutableSet *)hits
 {
-  if (!VolumeCanIntersectBox(
-        [self boundingBox3],
-        transform,
-        bounds)) {
-    return(FALSE);
-  }
-
-  NSArray    *commandsInStep   = [self subdirectives];
-  NSUInteger commandCount      = [commandsInStep count];
-  LDrawStep  *currentDirective = nil;
-  NSUInteger counter           = 0;
-
-  // Draw all the steps in the model
-  for (counter = 0; counter < commandCount; counter++) {
-    currentDirective = [commandsInStep objectAtIndex:counter];
-    if ([currentDirective boxTest:bounds
-                        transform:transform
-                       boundsOnly:boundsOnly
-                     creditObject:creditObject
-                             hits:hits]) {
-      if (creditObject != nil) {
-        return(TRUE);
-      }
+    if (!VolumeCanIntersectBox(
+            [self boundingBox3],
+            transform,
+            bounds)) {
+        return(FALSE);
     }
-  }
-  return(FALSE);
+
+    NSArray    *commandsInStep   = [self subdirectives];
+    NSUInteger commandCount      = [commandsInStep count];
+    LDrawStep  *currentDirective = nil;
+    NSUInteger counter           = 0;
+
+    // Draw all the steps in the model
+    for (counter = 0; counter < commandCount; counter++) {
+        currentDirective = [commandsInStep objectAtIndex:counter];
+        if ([currentDirective boxTest:bounds
+             transform:transform
+             boundsOnly:boundsOnly
+             creditObject:creditObject
+             hits:hits]) {
+            if (creditObject != nil) {
+                return(TRUE);
+            }
+        }
+    }
+    return(FALSE);
 }// end boxTest:transform:boundsOnly:creditObject:hits:
 
 
@@ -501,31 +501,31 @@
 //
 // ==============================================================================
 - (void)depthTest:(Point2)pt
-  inBox:(Box2)bounds
-  transform:(Matrix4)transform
-  creditObject:(id)creditObject
-  bestObject:(id *)bestObject
-  bestDepth:(double *)bestDepth
+    inBox:(Box2)bounds
+    transform:(Matrix4)transform
+    creditObject:(id)creditObject
+    bestObject:(id *)bestObject
+    bestDepth:(double *)bestDepth
 {
-  if (!VolumeCanIntersectPoint([self boundingBox3], transform, bounds, *bestDepth)) {
-    return;
-  }
+    if (!VolumeCanIntersectPoint([self boundingBox3], transform, bounds, *bestDepth)) {
+        return;
+    }
 
-  NSArray    *commandsInStep   = [self subdirectives];
-  NSUInteger commandCount      = [commandsInStep count];
-  LDrawStep  *currentDirective = nil;
-  NSUInteger counter           = 0;
+    NSArray    *commandsInStep   = [self subdirectives];
+    NSUInteger commandCount      = [commandsInStep count];
+    LDrawStep  *currentDirective = nil;
+    NSUInteger counter           = 0;
 
-  // Draw all the steps in the model
-  for (counter = 0; counter < commandCount; counter++) {
-    currentDirective = [commandsInStep objectAtIndex:counter];
-    [currentDirective depthTest:pt
-                          inBox:bounds
-                      transform:transform
-                   creditObject:creditObject
-                     bestObject:bestObject
-                      bestDepth:bestDepth];
-  }
+    // Draw all the steps in the model
+    for (counter = 0; counter < commandCount; counter++) {
+        currentDirective = [commandsInStep objectAtIndex:counter];
+        [currentDirective depthTest:pt
+         inBox:bounds
+         transform:transform
+         creditObject:creditObject
+         bestObject:bestObject
+         bestDepth:bestDepth];
+    }
 }// end depthTest:inBox:transform:creditObject:bestObject:bestDepth:
 
 
@@ -537,7 +537,7 @@
 // ==============================================================================
 - (NSString *)write
 {
-  return([self writeWithStepCommand:YES]);
+    return([self writeWithStepCommand:YES]);
 }// end write
 
 
@@ -555,67 +555,67 @@
 // ==============================================================================
 - (NSString *)writeWithStepCommand:(BOOL)flag
 {
-  NSMutableString *written = [NSMutableString string];
-  NSString        *CRLF    = [NSString CRLF];
-  Tuple3          angleZYX = [self rotationAngleZYX];
+    NSMutableString *written = [NSMutableString string];
+    NSString        *CRLF    = [NSString CRLF];
+    Tuple3          angleZYX = [self rotationAngleZYX];
 
-  NSArray        *commandsInStep = [self subdirectives];
-  LDrawDirective *currentCommand = nil;
-  NSUInteger     numberCommands  = [commandsInStep count];
-  NSUInteger     counter         = 0;
+    NSArray        *commandsInStep = [self subdirectives];
+    LDrawDirective *currentCommand = nil;
+    NSUInteger     numberCommands  = [commandsInStep count];
+    NSUInteger     counter         = 0;
 
-  // Write all the step's subdirectives
-  for (counter = 0; counter < numberCommands; counter++) {
-    currentCommand = [commandsInStep objectAtIndex:counter];
-    [written appendFormat:@"%@%@", [currentCommand write], CRLF];
-  }
-
-  // End with 0 STEP or 0 ROTSTEP
-  if (flag == YES ||
-      self->stepRotationType != LDrawStepRotationNone) {
-    switch (self->stepRotationType)
-    {
-      case LDrawStepRotationNone :
-        [written appendFormat:@"0 %@", LDRAW_STEP_TERMINATOR];
-        break;
-
-      case LDrawStepRotationRelative :
-        [written appendFormat:@"0 %@ %.3f %.3f %.3f %@", LDRAW_ROTATION_STEP_TERMINATOR,
-         angleZYX.x,
-         angleZYX.y,
-         angleZYX.z,
-         LDRAW_ROTATION_RELATIVE];
-        break;
-
-      case LDrawStepRotationAbsolute :
-        [written appendFormat:@"0 %@ %.3f %.3f %.3f %@", LDRAW_ROTATION_STEP_TERMINATOR,
-         angleZYX.x,
-         angleZYX.y,
-         angleZYX.z,
-         LDRAW_ROTATION_ABSOLUTE];
-        break;
-
-      case LDrawStepRotationAdditive :
-        [written appendFormat:@"0 %@ %.3f %.3f %.3f %@", LDRAW_ROTATION_STEP_TERMINATOR,
-         angleZYX.x,
-         angleZYX.y,
-         angleZYX.z,
-         LDRAW_ROTATION_ADDITIVE];
-        break;
-
-      case LDrawStepRotationEnd :
-        [written appendFormat:@"0 %@ %@", LDRAW_ROTATION_STEP_TERMINATOR, LDRAW_ROTATION_END];
-        break;
+    // Write all the step's subdirectives
+    for (counter = 0; counter < numberCommands; counter++) {
+        currentCommand = [commandsInStep objectAtIndex:counter];
+        [written appendFormat:@"%@%@", [currentCommand write], CRLF];
     }
-  }
 
-  // Now remove that last CRLF, if it's there.
-  if ([written hasSuffix:CRLF]) {
-    NSRange lastNewline = NSMakeRange([written length] - [CRLF length], [CRLF length]);
-    [written deleteCharactersInRange:lastNewline];
-  }
+    // End with 0 STEP or 0 ROTSTEP
+    if (flag == YES ||
+        self->stepRotationType != LDrawStepRotationNone) {
+        switch (self->stepRotationType)
+        {
+            case LDrawStepRotationNone :
+                [written appendFormat:@"0 %@", LDRAW_STEP_TERMINATOR];
+                break;
 
-  return(written);
+            case LDrawStepRotationRelative :
+                [written appendFormat:@"0 %@ %.3f %.3f %.3f %@", LDRAW_ROTATION_STEP_TERMINATOR,
+                 angleZYX.x,
+                 angleZYX.y,
+                 angleZYX.z,
+                 LDRAW_ROTATION_RELATIVE];
+                break;
+
+            case LDrawStepRotationAbsolute :
+                [written appendFormat:@"0 %@ %.3f %.3f %.3f %@", LDRAW_ROTATION_STEP_TERMINATOR,
+                 angleZYX.x,
+                 angleZYX.y,
+                 angleZYX.z,
+                 LDRAW_ROTATION_ABSOLUTE];
+                break;
+
+            case LDrawStepRotationAdditive :
+                [written appendFormat:@"0 %@ %.3f %.3f %.3f %@", LDRAW_ROTATION_STEP_TERMINATOR,
+                 angleZYX.x,
+                 angleZYX.y,
+                 angleZYX.z,
+                 LDRAW_ROTATION_ADDITIVE];
+                break;
+
+            case LDrawStepRotationEnd :
+                [written appendFormat:@"0 %@ %@", LDRAW_ROTATION_STEP_TERMINATOR, LDRAW_ROTATION_END];
+                break;
+        }
+    }
+
+    // Now remove that last CRLF, if it's there.
+    if ([written hasSuffix:CRLF]) {
+        NSRange lastNewline = NSMakeRange([written length] - [CRLF length], [CRLF length]);
+        [written deleteCharactersInRange:lastNewline];
+    }
+
+    return(written);
 }// end writeWithStepCommand:
 
 
@@ -631,25 +631,25 @@
 // ==============================================================================
 - (NSString *)browsingDescription
 {
-  LDrawModel *enclosingModel = [self enclosingModel];
-  NSString   *description    = nil;
+    LDrawModel *enclosingModel = [self enclosingModel];
+    NSString   *description    = nil;
 
-  // If there is no parent model, just display the word step. This situtation
-  // would be highly irregular.
-  if (enclosingModel == nil) {
-    description = NSLocalizedString(@"Step", nil);
-  }
-  else {
-    // Return the step number.
-    NSArray    *modelSteps = [enclosingModel steps];
-    NSUInteger stepIndex   = [modelSteps indexOfObjectIdenticalTo:self];
+    // If there is no parent model, just display the word step. This situtation
+    // would be highly irregular.
+    if (enclosingModel == nil) {
+        description = NSLocalizedString(@"Step", nil);
+    }
+    else {
+        // Return the step number.
+        NSArray    *modelSteps = [enclosingModel steps];
+        NSUInteger stepIndex   = [modelSteps indexOfObjectIdenticalTo:self];
 
-    description = [NSString stringWithFormat:
-                   NSLocalizedString(@"StepDisplayWithNumber", nil),
-                   (long)stepIndex + 1];
-  }
+        description = [NSString stringWithFormat:
+                       NSLocalizedString(@"StepDisplayWithNumber", nil),
+                       (long)stepIndex + 1];
+    }
 
-  return(description);
+    return(description);
 }// end browsingDescription
 
 
@@ -661,24 +661,24 @@
 // ==============================================================================
 - (NSString *)iconName
 {
-  NSString *iconName = nil;
+    NSString *iconName = nil;
 
-  switch (self->stepRotationType)
-  {
-    case LDrawStepRotationNone :
-      // no image.
-      break;
+    switch (self->stepRotationType)
+    {
+        case LDrawStepRotationNone :
+            // no image.
+            break;
 
-    case LDrawStepRotationEnd :
-      iconName = @"RotationStepEnd";
-      break;
+        case LDrawStepRotationEnd :
+            iconName = @"RotationStepEnd";
+            break;
 
-    default :
-      iconName = @"RotationStep";
-      break;
-  }
+        default :
+            iconName = @"RotationStep";
+            break;
+    }
 
-  return(iconName);
+    return(iconName);
 }// end iconName
 
 
@@ -689,7 +689,7 @@
 // ==============================================================================
 - (NSString *)inspectorClassName
 {
-  return(@"InspectionStep");
+    return(@"InspectionStep");
 }// end inspectorClassName
 
 
@@ -701,10 +701,10 @@
 // ==============================================================================
 - (Box3)boundingBox3
 {
-  if ([self revalCache:CacheFlagBounds] == CacheFlagBounds) {
-    cachedBounds = [LDrawUtilities boundingBox3ForDirectives:[self subdirectives]];
-  }
-  return(cachedBounds);
+    if ([self revalCache:CacheFlagBounds] == CacheFlagBounds) {
+        cachedBounds = [LDrawUtilities boundingBox3ForDirectives:[self subdirectives]];
+    }
+    return(cachedBounds);
 }// end boundingBox3
 
 
@@ -715,7 +715,7 @@
 // ==============================================================================
 - (LDrawModel *)enclosingModel
 {
-  return((LDrawModel *)[self enclosingDirective]);
+    return((LDrawModel *)[self enclosingDirective]);
 }// end enclosingModel
 
 
@@ -727,7 +727,7 @@
 // ==============================================================================
 - (Tuple3)rotationAngle
 {
-  return(self->rotationAngle);
+    return(self->rotationAngle);
 }// end rotationAngle
 
 
@@ -743,51 +743,51 @@
 // ==============================================================================
 - (Tuple3)rotationAngleZYX
 {
-  // ---------- Convert XYZ to ZYX --------------------------------------------
+    // ---------- Convert XYZ to ZYX --------------------------------------------
 
-  // Translate our internal XYZ angle to ZYX by creating a rotation matrix and
-  // decomposing it in a different order.
+    // Translate our internal XYZ angle to ZYX by creating a rotation matrix and
+    // decomposing it in a different order.
 
-  Matrix4 rotationMatrix = Matrix4Rotate(IdentityMatrix4, self->rotationAngle);
-  Tuple3  angleZYX       = Matrix4DecomposeZYXRotation(rotationMatrix);
+    Matrix4 rotationMatrix = Matrix4Rotate(IdentityMatrix4, self->rotationAngle);
+    Tuple3  angleZYX       = Matrix4DecomposeZYXRotation(rotationMatrix);
 
-  // convert from radians to degrees
-  angleZYX.x = degrees(angleZYX.x);
-  angleZYX.y = degrees(angleZYX.y);
-  angleZYX.z = degrees(angleZYX.z);
+    // convert from radians to degrees
+    angleZYX.x = degrees(angleZYX.x);
+    angleZYX.y = degrees(angleZYX.y);
+    angleZYX.z = degrees(angleZYX.z);
 
 
-  // ---------- Fix weird float values ----------------------------------------
+    // ---------- Fix weird float values ----------------------------------------
 
-  // Sometimes these get decomposed with a -180 rotation, which is the same as
-  // a 180 rotation. Fix it for display purposes.
-  if (FloatsApproximatelyEqual(angleZYX.x, -180.0)) {
-    angleZYX.x = 180;
-  }
+    // Sometimes these get decomposed with a -180 rotation, which is the same as
+    // a 180 rotation. Fix it for display purposes.
+    if (FloatsApproximatelyEqual(angleZYX.x, -180.0)) {
+        angleZYX.x = 180;
+    }
 
-  if (FloatsApproximatelyEqual(angleZYX.y, -180.0)) {
-    angleZYX.y = 180;
-  }
+    if (FloatsApproximatelyEqual(angleZYX.y, -180.0)) {
+        angleZYX.y = 180;
+    }
 
-  if (FloatsApproximatelyEqual(angleZYX.z, -180.0)) {
-    angleZYX.z = 180;
-  }
+    if (FloatsApproximatelyEqual(angleZYX.z, -180.0)) {
+        angleZYX.z = 180;
+    }
 
-  // Sometimes we wind up with a -0 rotation, which ought to be plain old 0.
-  // Fix it for display purposes.
-  if (FloatsApproximatelyEqual(angleZYX.x, -0.0)) {
-    angleZYX.x = 0;
-  }
+    // Sometimes we wind up with a -0 rotation, which ought to be plain old 0.
+    // Fix it for display purposes.
+    if (FloatsApproximatelyEqual(angleZYX.x, -0.0)) {
+        angleZYX.x = 0;
+    }
 
-  if (FloatsApproximatelyEqual(angleZYX.y, -0.0)) {
-    angleZYX.y = 0;
-  }
+    if (FloatsApproximatelyEqual(angleZYX.y, -0.0)) {
+        angleZYX.y = 0;
+    }
 
-  if (FloatsApproximatelyEqual(angleZYX.z, -0.0)) {
-    angleZYX.z = 0;
-  }
+    if (FloatsApproximatelyEqual(angleZYX.z, -0.0)) {
+        angleZYX.z = 0;
+    }
 
-  return(angleZYX);
+    return(angleZYX);
 }// end rotationAngleZYX
 
 
@@ -799,7 +799,7 @@
 // ==============================================================================
 - (LDrawStepFlavorT)stepFlavor
 {
-  return(self->stepFlavor);
+    return(self->stepFlavor);
 }// end stepFlavor
 
 
@@ -810,7 +810,7 @@
 // ==============================================================================
 - (LDrawStepRotationT)stepRotationType
 {
-  return(self->stepRotationType);
+    return(self->stepRotationType);
 }// end stepRotationType
 
 
@@ -824,7 +824,7 @@
 // ==============================================================================
 - (void)setModel:(LDrawModel *)enclosingModel
 {
-  [self setEnclosingDirective:enclosingModel];
+    [self setEnclosingDirective:enclosingModel];
 }// end setModel:
 
 
@@ -839,13 +839,13 @@
 // ==============================================================================
 - (void)setRotationAngle:(Tuple3)newAngle
 {
-  self->rotationAngle = newAngle;
+    self->rotationAngle = newAngle;
 
-  if (self->postsNotifications) {
-    [[NSNotificationCenter defaultCenter]
-     postNotificationName:LDrawStepDidChangeNotification
-                   object:self];
-  }
+    if (self->postsNotifications) {
+        [[NSNotificationCenter defaultCenter]
+         postNotificationName:LDrawStepDidChangeNotification
+         object:self];
+    }
 }// end setRotationAngle:
 
 
@@ -862,32 +862,32 @@
 // ==============================================================================
 - (void)setRotationAngleZYX:(Tuple3)newAngleZYX
 {
-  Matrix4 rotationMatrix = IdentityMatrix4;
-  Tuple3  newAngleXYZ    = ZeroPoint3;
+    Matrix4 rotationMatrix = IdentityMatrix4;
+    Tuple3  newAngleXYZ    = ZeroPoint3;
 
-  rotationMatrix = Matrix4Rotate(rotationMatrix, V3Make(0, 0, newAngleZYX.z));
-  rotationMatrix = Matrix4Rotate(rotationMatrix, V3Make(0, newAngleZYX.y, 0));
-  rotationMatrix = Matrix4Rotate(rotationMatrix, V3Make(newAngleZYX.x, 0, 0));
+    rotationMatrix = Matrix4Rotate(rotationMatrix, V3Make(0, 0, newAngleZYX.z));
+    rotationMatrix = Matrix4Rotate(rotationMatrix, V3Make(0, newAngleZYX.y, 0));
+    rotationMatrix = Matrix4Rotate(rotationMatrix, V3Make(newAngleZYX.x, 0, 0));
 
-  newAngleXYZ = Matrix4DecomposeXYZRotation(rotationMatrix);
+    newAngleXYZ = Matrix4DecomposeXYZRotation(rotationMatrix);
 
-  // convert from radians to degrees
-  newAngleXYZ.x = degrees(newAngleXYZ.x);
-  newAngleXYZ.y = degrees(newAngleXYZ.y);
-  newAngleXYZ.z = degrees(newAngleXYZ.z);
+    // convert from radians to degrees
+    newAngleXYZ.x = degrees(newAngleXYZ.x);
+    newAngleXYZ.y = degrees(newAngleXYZ.y);
+    newAngleXYZ.z = degrees(newAngleXYZ.z);
 
-  // Sometimes these get decomposed with a -180 rotation, which is the same as
-  // a 180 rotation. Fix it for display purposes.
-  if (FloatsApproximatelyEqual(newAngleXYZ.x, -180.0)) {
-    newAngleXYZ.x = 180;
-  }
-  if (FloatsApproximatelyEqual(newAngleXYZ.y, -180.0)) {
-    newAngleXYZ.y = 180;
-  }
-  if (FloatsApproximatelyEqual(newAngleXYZ.z, -180.0)) {
-    newAngleXYZ.z = 180;
-  }
-  [self setRotationAngle:newAngleXYZ];
+    // Sometimes these get decomposed with a -180 rotation, which is the same as
+    // a 180 rotation. Fix it for display purposes.
+    if (FloatsApproximatelyEqual(newAngleXYZ.x, -180.0)) {
+        newAngleXYZ.x = 180;
+    }
+    if (FloatsApproximatelyEqual(newAngleXYZ.y, -180.0)) {
+        newAngleXYZ.y = 180;
+    }
+    if (FloatsApproximatelyEqual(newAngleXYZ.z, -180.0)) {
+        newAngleXYZ.z = 180;
+    }
+    [self setRotationAngle:newAngleXYZ];
 }// end setRotationAngleZYX:
 
 
@@ -902,11 +902,11 @@
 // ==============================================================================
 - (void)setStepFlavor:(LDrawStepFlavorT)newFlavor
 {
-  self->stepFlavor = newFlavor;
-  if (self->postsNotifications) {
-    [[NSNotificationCenter defaultCenter]
-     postNotificationName:LDrawStepDidChangeNotification object:self];
-  }
+    self->stepFlavor = newFlavor;
+    if (self->postsNotifications) {
+        [[NSNotificationCenter defaultCenter]
+         postNotificationName:LDrawStepDidChangeNotification object:self];
+    }
 }// end setStepFlavor:
 
 
@@ -920,11 +920,11 @@
 // ==============================================================================
 - (void)setStepRotationType:(LDrawStepRotationT)newValue
 {
-  self->stepRotationType = newValue;
-  if (self->postsNotifications) {
-    [[NSNotificationCenter defaultCenter]
-     postNotificationName:LDrawStepDidChangeNotification object:self];
-  }
+    self->stepRotationType = newValue;
+    if (self->postsNotifications) {
+        [[NSNotificationCenter defaultCenter]
+         postNotificationName:LDrawStepDidChangeNotification object:self];
+    }
 }// end setStepRotationType:
 
 
@@ -937,8 +937,8 @@
 // ==============================================================================
 - (void)insertDirective:(LDrawDirective *)directive atIndex:(NSInteger)index
 {
-  [self invalCache:CacheFlagBounds | DisplayList];
-  [super insertDirective:directive atIndex:index];
+    [self invalCache:CacheFlagBounds | DisplayList];
+    [super insertDirective:directive atIndex:index];
 }// end insertDirective:atIndex:
 
 
@@ -949,10 +949,10 @@
 // ==============================================================================
 - (void)removeDirectiveAtIndex:(NSInteger)index
 {
-  [self invalCache:CacheFlagBounds | DisplayList];
-  LDrawDirective *directive = [[[self subdirectives] objectAtIndex:index] retain];
-  [super removeDirectiveAtIndex:index];
-  [directive release];
+    [self invalCache:CacheFlagBounds | DisplayList];
+    LDrawDirective *directive = [[[self subdirectives] objectAtIndex:index] retain];
+    [super removeDirectiveAtIndex:index];
+    [directive release];
 }// end removeDirectiveAtIndex:
 
 
@@ -967,18 +967,18 @@
 // ==============================================================================
 + (BOOL)lineIsStepTerminator:(NSString *)line
 {
-  NSString *parsedField = nil;
-  NSString *workingLine = line;
-  BOOL     isStep       = NO;
+    NSString *parsedField = nil;
+    NSString *workingLine = line;
+    BOOL     isStep       = NO;
 
-  parsedField = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
-  if ([parsedField isEqualToString:@"0"]) {
     parsedField = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
-    if ([parsedField isEqualToString:LDRAW_STEP_TERMINATOR]) {
-      isStep = YES;
+    if ([parsedField isEqualToString:@"0"]) {
+        parsedField = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
+        if ([parsedField isEqualToString:LDRAW_STEP_TERMINATOR]) {
+            isStep = YES;
+        }
     }
-  }
-  return(isStep);
+    return(isStep);
 }
 
 
@@ -991,17 +991,18 @@
 // ==============================================================================
 - (BOOL)acceptsDroppedDirective:(LDrawDirective *)directive
 {
-  // explicitly disregard LSynth directives
-  if ([directive isKindOfClass:[LDrawLSynthDirective class]]) {
-    return(NO);
-  }
-  // explicitly disregard self-references if the dropped directive is a model "part"
-  else if ([directive isKindOfClass:[LDrawPart class]] &&
-           [[((LDrawPart *)directive) referenceName] isEqualToString:[((LDrawMPDModel *)[self enclosingModel]) modelName
-            ]]) {
-    return(NO);
-  }
-  return(YES);
+    // explicitly disregard LSynth directives
+    if ([directive isKindOfClass:[LDrawLSynthDirective class]]) {
+        return(NO);
+    }
+    // explicitly disregard self-references if the dropped directive is a model "part"
+    else if ([directive isKindOfClass:[LDrawPart class]] &&
+             [[((LDrawPart *)directive) referenceName] isEqualToString:[((LDrawMPDModel *)[self enclosingModel])
+                                                                        modelName
+              ]]) {
+        return(NO);
+    }
+    return(YES);
 }
 
 
@@ -1012,18 +1013,18 @@
 // ==============================================================================
 + (BOOL)lineIsRotationStepTerminator:(NSString *)line
 {
-  NSString *parsedField   = nil;
-  NSString *workingLine   = line;
-  BOOL     isRotationStep = NO;
+    NSString *parsedField   = nil;
+    NSString *workingLine   = line;
+    BOOL     isRotationStep = NO;
 
-  parsedField = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
-  if ([parsedField isEqualToString:@"0"]) {
     parsedField = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
-    if ([parsedField isEqualToString:LDRAW_ROTATION_STEP_TERMINATOR]) {
-      isRotationStep = YES;
+    if ([parsedField isEqualToString:@"0"]) {
+        parsedField = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
+        if ([parsedField isEqualToString:LDRAW_ROTATION_STEP_TERMINATOR]) {
+            isRotationStep = YES;
+        }
     }
-  }
-  return(isRotationStep);
+    return(isRotationStep);
 }
 
 
@@ -1047,78 +1048,78 @@
 // ==============================================================================
 - (BOOL)parseRotationStepFromLine:(NSString *)rotstep
 {
-  NSScanner *scanner = [NSScanner scannerWithString:rotstep];
-  Tuple3    angles   = ZeroPoint3;
-  BOOL      success  = YES;
+    NSScanner *scanner = [NSScanner scannerWithString:rotstep];
+    Tuple3    angles   = ZeroPoint3;
+    BOOL      success  = YES;
 
-  @try
-  {
-    if ([scanner scanString:@"0" intoString:NULL] == NO) {
-      @throw [NSException exceptionWithName:@"BricksmithParseException"
-                                     reason:@"Bad ROTSTEP syntax"
-                                   userInfo:nil];
+    @try
+    {
+        if ([scanner scanString:@"0" intoString:NULL] == NO) {
+            @throw [NSException exceptionWithName:@"BricksmithParseException"
+                    reason:@"Bad ROTSTEP syntax"
+                    userInfo:nil];
+        }
+
+        if ([scanner scanString:LDRAW_ROTATION_STEP_TERMINATOR intoString:NULL] == NO) {
+            @throw [NSException exceptionWithName:@"BricksmithParseException"
+                    reason:@"Bad ROTSTEP syntax"
+                    userInfo:nil];
+        }
+
+        // Is it an end rotation?
+        if ([scanner scanString:LDRAW_ROTATION_END intoString:NULL] == YES) {
+            [self setStepRotationType:LDrawStepRotationEnd];
+        }
+        else {
+            // ---------- Angles ------------------------------------------------
+            if ([scanner scanDouble:&(angles.x)] == NO) {
+                @throw [NSException exceptionWithName:@"BricksmithParseException"
+                        reason:@"Bad ROTSTEP syntax"
+                        userInfo:nil];
+            }
+
+            if ([scanner scanDouble:&(angles.y)] == NO) {
+                @throw [NSException exceptionWithName:@"BricksmithParseException"
+                        reason:@"Bad ROTSTEP syntax"
+                        userInfo:nil];
+            }
+
+            if ([scanner scanDouble:&(angles.z)] == NO) {
+                @throw [NSException exceptionWithName:@"BricksmithParseException"
+                        reason:@"Bad ROTSTEP syntax"
+                        userInfo:nil];
+            }
+
+            // ---------- Rotation Type -----------------------------------------
+            if ([scanner scanString:LDRAW_ROTATION_ABSOLUTE intoString:NULL] == YES) {
+                [self setStepRotationType:LDrawStepRotationAbsolute];
+            }
+            else if ([scanner scanString:LDRAW_ROTATION_ADDITIVE intoString:NULL] == YES) {
+                [self setStepRotationType:LDrawStepRotationAdditive];
+            }
+            else if ([scanner scanString:LDRAW_ROTATION_RELATIVE intoString:NULL] == YES) {
+                [self setStepRotationType:LDrawStepRotationRelative];
+            }
+            // if no type is explicitly specified, it is a relative rotation.
+            else if ([scanner isAtEnd] == YES) {
+                [self setStepRotationType:LDrawStepRotationRelative];
+            }
+            // there is some syntax we don't recognize. Abort parsing attempt.
+            else {
+                @throw [NSException exceptionWithName:@"BricksmithParseException"
+                        reason:@"Bad ROTSTEP syntax"
+                        userInfo:nil];
+            }
+            // Set the parsed angles if we successfully got the type.
+            [self setRotationAngleZYX:angles];
+        }
+    }
+    @catch (NSException *exception)
+    {
+        success = NO;
     }
 
-    if ([scanner scanString:LDRAW_ROTATION_STEP_TERMINATOR intoString:NULL] == NO) {
-      @throw [NSException exceptionWithName:@"BricksmithParseException"
-                                     reason:@"Bad ROTSTEP syntax"
-                                   userInfo:nil];
-    }
-
-    // Is it an end rotation?
-    if ([scanner scanString:LDRAW_ROTATION_END intoString:NULL] == YES) {
-      [self setStepRotationType:LDrawStepRotationEnd];
-    }
-    else {
-      // ---------- Angles ------------------------------------------------
-      if ([scanner scanDouble:&(angles.x)] == NO) {
-        @throw [NSException exceptionWithName:@"BricksmithParseException"
-                                       reason:@"Bad ROTSTEP syntax"
-                                     userInfo:nil];
-      }
-
-      if ([scanner scanDouble:&(angles.y)] == NO) {
-        @throw [NSException exceptionWithName:@"BricksmithParseException"
-                                       reason:@"Bad ROTSTEP syntax"
-                                     userInfo:nil];
-      }
-
-      if ([scanner scanDouble:&(angles.z)] == NO) {
-        @throw [NSException exceptionWithName:@"BricksmithParseException"
-                                       reason:@"Bad ROTSTEP syntax"
-                                     userInfo:nil];
-      }
-
-      // ---------- Rotation Type -----------------------------------------
-      if ([scanner scanString:LDRAW_ROTATION_ABSOLUTE intoString:NULL] == YES) {
-        [self setStepRotationType:LDrawStepRotationAbsolute];
-      }
-      else if ([scanner scanString:LDRAW_ROTATION_ADDITIVE intoString:NULL] == YES) {
-        [self setStepRotationType:LDrawStepRotationAdditive];
-      }
-      else if ([scanner scanString:LDRAW_ROTATION_RELATIVE intoString:NULL] == YES) {
-        [self setStepRotationType:LDrawStepRotationRelative];
-      }
-      // if no type is explicitly specified, it is a relative rotation.
-      else if ([scanner isAtEnd] == YES) {
-        [self setStepRotationType:LDrawStepRotationRelative];
-      }
-      // there is some syntax we don't recognize. Abort parsing attempt.
-      else {
-        @throw [NSException exceptionWithName:@"BricksmithParseException"
-                                       reason:@"Bad ROTSTEP syntax"
-                                     userInfo:nil];
-      }
-      // Set the parsed angles if we successfully got the type.
-      [self setRotationAngleZYX:angles];
-    }
-  }
-  @catch (NSException *exception)
-  {
-    success = NO;
-  }
-
-  return(success);
+    return(success);
 }// end parseRotationStepFromLine:
 
 
@@ -1130,11 +1131,11 @@
 // ==============================================================================
 - (void)registerUndoActions:(NSUndoManager *)undoManager
 {
-  [super registerUndoActions:undoManager];
+    [super registerUndoActions:undoManager];
 
-  [[undoManager prepareWithInvocationTarget:self] setRotationAngle:[self rotationAngle]];
-  [[undoManager prepareWithInvocationTarget:self] setStepRotationType:[self stepRotationType]];
-  [undoManager setActionName:NSLocalizedString(@"UndoAttributesStep", nil)];
+    [[undoManager prepareWithInvocationTarget:self] setRotationAngle:[self rotationAngle]];
+    [[undoManager prepareWithInvocationTarget:self] setStepRotationType:[self stepRotationType]];
+    [undoManager setActionName:NSLocalizedString(@"UndoAttributesStep", nil)];
 }// end registerUndoActions:
 
 
@@ -1149,7 +1150,7 @@
 // ==============================================================================
 - (void)dealloc
 {
-  [super dealloc];
+    [super dealloc];
 }// end dealloc
 
 

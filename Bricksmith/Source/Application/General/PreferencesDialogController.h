@@ -19,9 +19,9 @@
 // The different LSynth selection modes
 typedef enum
 {
-  TransparentSelection        = 0,
-  ColoredSelection            = 1,
-  TransparentColoredSelection = 2
+    TransparentSelection        = 0,
+    ColoredSelection            = 1,
+    TransparentColoredSelection = 2
 } LSynthSelectionModeT;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -31,54 +31,54 @@ typedef enum
 ////////////////////////////////////////////////////////////////////////////////
 @interface PreferencesDialogController : NSObject <NSToolbarDelegate, NSTextFieldDelegate>
 {
-  IBOutlet NSWindow *preferencesWindow;
+    IBOutlet NSWindow *preferencesWindow;
 
-  NSView          *blankContent; // the initial, empty content of the window in the Nib.
-  IBOutlet NSView *generalTabContentView;
-  IBOutlet NSView *stylesContentView;
-  IBOutlet NSView *ldrawContentView;
-  IBOutlet NSView *lsynthContentView;
+    NSView          *blankContent; // the initial, empty content of the window in the Nib.
+    IBOutlet NSView *generalTabContentView;
+    IBOutlet NSView *stylesContentView;
+    IBOutlet NSView *ldrawContentView;
+    IBOutlet NSView *lsynthContentView;
 
-  // General Tab
-  IBOutlet NSForm   *gridSpacingForm;
-  IBOutlet NSMatrix *mouseDraggingRadioButtons;
+    // General Tab
+    IBOutlet NSForm   *gridSpacingForm;
+    IBOutlet NSMatrix *mouseDraggingRadioButtons;
 
-  IBOutlet NSMatrix *rotateModeRadioButtons;
-  IBOutlet NSMatrix *rightButtonRadioButtons;
-  IBOutlet NSMatrix *mouseWheelRadioButtons;
+    IBOutlet NSMatrix *rotateModeRadioButtons;
+    IBOutlet NSMatrix *rightButtonRadioButtons;
+    IBOutlet NSMatrix *mouseWheelRadioButtons;
 
-  IBOutlet NSButton *showAxisLinesButton;
+    IBOutlet NSButton *showAxisLinesButton;
 
-  // Parts Tab
-  IBOutlet NSTextField *LDrawPathTextField;
-  IBOutlet NSMatrix    *partBrowserStyleRadioButtons;
+    // Parts Tab
+    IBOutlet NSTextField *LDrawPathTextField;
+    IBOutlet NSMatrix    *partBrowserStyleRadioButtons;
 
-  // Style Tab
-  IBOutlet NSColorWell *backgroundColorWell;
+    // Style Tab
+    IBOutlet NSColorWell *backgroundColorWell;
 
-  IBOutlet NSColorWell *modelsColorWell;
-  IBOutlet NSColorWell *stepsColorWell;
-  IBOutlet NSColorWell *partsColorWell;
-  IBOutlet NSColorWell *primitivesColorWell;
-  IBOutlet NSColorWell *colorsColorWell;
-  IBOutlet NSColorWell *commentsColorWell;
-  IBOutlet NSColorWell *unknownColorWell;
+    IBOutlet NSColorWell *modelsColorWell;
+    IBOutlet NSColorWell *stepsColorWell;
+    IBOutlet NSColorWell *partsColorWell;
+    IBOutlet NSColorWell *primitivesColorWell;
+    IBOutlet NSColorWell *colorsColorWell;
+    IBOutlet NSColorWell *commentsColorWell;
+    IBOutlet NSColorWell *unknownColorWell;
 
-  // LSynth Tab
-  IBOutlet NSTextField *lsynthExecutablePath;
-  IBOutlet NSTextField *lsynthConfigurationPath;
-  IBOutlet NSMatrix    *lsynthSelectionModeMatrix;
-  IBOutlet NSSlider    *lsynthTransparencySlider;
-  IBOutlet NSTextField *lsynthTransparencyText;
-  IBOutlet NSColorWell *lsynthSelectionColorWell;
-  IBOutlet NSButton    *lsynthSaveSynthesizedParts;
-  IBOutlet NSView      *lsynthExecutableChooserAccessoryView;
-  IBOutlet NSView      *lsynthConfigurationChooserAccessoryView;
-  NSTextField          *lsynthTransparencyNumberChanged;
-  IBOutlet NSButton    *lsynthShowBasicPartsList;
+    // LSynth Tab
+    IBOutlet NSTextField *lsynthExecutablePath;
+    IBOutlet NSTextField *lsynthConfigurationPath;
+    IBOutlet NSMatrix    *lsynthSelectionModeMatrix;
+    IBOutlet NSSlider    *lsynthTransparencySlider;
+    IBOutlet NSTextField *lsynthTransparencyText;
+    IBOutlet NSColorWell *lsynthSelectionColorWell;
+    IBOutlet NSButton    *lsynthSaveSynthesizedParts;
+    IBOutlet NSView      *lsynthExecutableChooserAccessoryView;
+    IBOutlet NSView      *lsynthConfigurationChooserAccessoryView;
+    NSTextField          *lsynthTransparencyNumberChanged;
+    IBOutlet NSButton    *lsynthShowBasicPartsList;
 
-  // Miscellaneous
-  IBOutlet NSView *folderChooserAccessoryView;
+    // Miscellaneous
+    IBOutlet NSView *folderChooserAccessoryView;
 }
 
 // Initialization

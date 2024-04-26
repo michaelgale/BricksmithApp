@@ -23,9 +23,9 @@
 // ==============================================================================
 - (void)keyDown:(NSEvent *)theEvent
 {
-  // You can trap certain key events here. But really, why?
+    // You can trap certain key events here. But really, why?
 
-  [super keyDown:theEvent];
+    [super keyDown:theEvent];
 }// end keyDown:
 
 
@@ -53,7 +53,7 @@
 // if(needsEnableUpdate == NO)
 // NSDisableScreenUpdates(); //or DisableScreenUpdates() in Carbon.
 
-  needsEnableUpdate = YES;
+    needsEnableUpdate = YES;
 }// end disableUpdatesUntilFlush
 
 
@@ -66,11 +66,11 @@
 // ==============================================================================
 - (void)flushWindow
 {
-  [super flushWindow];
-  if (needsEnableUpdate) {
-    needsEnableUpdate = NO;
+    [super flushWindow];
+    if (needsEnableUpdate) {
+        needsEnableUpdate = NO;
 // NSEnableScreenUpdates(); //or EnableScreenUpdates() in Carbon.
-  }
+    }
 }// end flushWindow
 
 

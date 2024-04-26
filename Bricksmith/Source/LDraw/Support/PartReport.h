@@ -28,11 +28,11 @@ extern NSString *PART_REPORT_PART_QUANTITY; // NSNumber of how many of this part
 ////////////////////////////////////////////////////////////////////////////////
 @interface PartReport : NSObject
 {
-  LDrawContainer      *reportedObject;
-  NSMutableDictionary *partsReport;     // see -registerPart: for a description of this data
-  NSMutableArray      *missingParts;
-  NSMutableArray      *movedParts;
-  NSUInteger          totalNumberOfParts; // how many parts are in the model.
+    LDrawContainer      *reportedObject;
+    NSMutableDictionary *partsReport;   // see -registerPart: for a description of this data
+    NSMutableArray      *missingParts;
+    NSMutableArray      *movedParts;
+    NSUInteger          totalNumberOfParts; // how many parts are in the model.
 }
 
 // Initialization

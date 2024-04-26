@@ -11,7 +11,7 @@
 
 @interface LDrawDocumentWindow : NSWindow
 {
-  BOOL needsEnableUpdate;
+    BOOL needsEnableUpdate;
 }
 - (void)disableUpdatesUntilFlush;
 

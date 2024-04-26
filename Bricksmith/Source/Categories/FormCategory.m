@@ -20,13 +20,13 @@
 // ==============================================================================
 - (Point3)coordinateValue
 {
-  Point3 representedPoint = ZeroPoint3;
+    Point3 representedPoint = ZeroPoint3;
 
-  representedPoint.x = [[self cellAtIndex:0] floatValue];
-  representedPoint.y = [[self cellAtIndex:1] floatValue];
-  representedPoint.z = [[self cellAtIndex:2] floatValue];
+    representedPoint.x = [[self cellAtIndex:0] floatValue];
+    representedPoint.y = [[self cellAtIndex:1] floatValue];
+    representedPoint.z = [[self cellAtIndex:2] floatValue];
 
-  return(representedPoint);
+    return(representedPoint);
 }// end coordinateValue
 
 
@@ -38,9 +38,9 @@
 // ==============================================================================
 - (void)setCoordinateValue:(Point3)newPoint
 {
-  [[self cellAtIndex:0] setFloatValue:newPoint.x];
-  [[self cellAtIndex:1] setFloatValue:newPoint.y];
-  [[self cellAtIndex:2] setFloatValue:newPoint.z];
+    [[self cellAtIndex:0] setFloatValue:newPoint.x];
+    [[self cellAtIndex:1] setFloatValue:newPoint.y];
+    [[self cellAtIndex:2] setFloatValue:newPoint.z];
 }// end setCoordinateValue:
 
 

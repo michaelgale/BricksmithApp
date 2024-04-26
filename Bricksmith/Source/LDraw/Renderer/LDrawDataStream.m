@@ -15,10 +15,10 @@
 #if WINDOWED_STREAM
 
 struct LDrawDataStream {
-  GLuint vbo;
-  int    total_size;
-  int    cur_base;
-  int    cur_size;
+    GLuint vbo;
+    int    total_size;
+    int    cur_base;
+    int    cur_size;
 };
 
 // ========== LDrawDataStreamCreate ===============================================
@@ -59,8 +59,8 @@ struct LDrawDataStream *LDrawDataStreamCreate(int buffer_size)
 // ================================================================================
 void LDrawDataStreamDestroy(struct LDrawDataStream *str)
 {
-  glDeleteBuffers(1, &str->vbo);
-  free(str);
+    glDeleteBuffers(1, &str->vbo);
+    free(str);
 }// end LDrawDataStreamDestroy
 
 
@@ -81,19 +81,19 @@ void LDrawDataStreamDestroy(struct LDrawDataStream *str)
 // ================================================================================
 void *LDrawDataStreamMap(struct LDrawDataStream *str, int size_desired)
 {
-  assert(size_desired <= str->total_size);
-  glBindBuffer(GL_ARRAY_BUFFER, str->vbo);
+    assert(size_desired <= str->total_size);
+    glBindBuffer(GL_ARRAY_BUFFER, str->vbo);
 
-  int remaining = str->total_size - str->cur_base;
-  if (remaining < size_desired) {
-    glBufferData(GL_ARRAY_BUFFER, str->total_size, NULL, GL_DYNAMIC_DRAW);
-    str->cur_base = 0;
-    str->cur_size = 0;
-  }
-  str->cur_size = size_desired;
-  char *r = (char *)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
-  glBindBuffer(GL_ARRAY_BUFFER, 0);
-  return(r + str->cur_base);
+    int remaining = str->total_size - str->cur_base;
+    if (remaining < size_desired) {
+        glBufferData(GL_ARRAY_BUFFER, str->total_size, NULL, GL_DYNAMIC_DRAW);
+        str->cur_base = 0;
+        str->cur_size = 0;
+    }
+    str->cur_size = size_desired;
+    char *r = (char *)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    return(r + str->cur_base);
 }// end LDrawDataStreamMap
 
 
@@ -108,14 +108,14 @@ void *LDrawDataStreamMap(struct LDrawDataStream *str, int size_desired)
 // ================================================================================
 void *LDrawDataStreamUnmap(struct LDrawDataStream *str)
 {
-  glBindBuffer(GL_ARRAY_BUFFER, str->vbo);
-  glUnmapBuffer(GL_ARRAY_BUFFER);
-  glFlushMappedBufferRangeAPPLE(GL_ARRAY_BUFFER, str->cur_base, str->cur_size);
-  char *p = NULL;
-  p             += str->cur_base;
-  str->cur_base += str->cur_size;
-  str->cur_size  = 0;
-  return(p);
+    glBindBuffer(GL_ARRAY_BUFFER, str->vbo);
+    glUnmapBuffer(GL_ARRAY_BUFFER);
+    glFlushMappedBufferRangeAPPLE(GL_ARRAY_BUFFER, str->cur_base, str->cur_size);
+    char *p = NULL;
+    p             += str->cur_base;
+    str->cur_base += str->cur_size;
+    str->cur_size  = 0;
+    return(p);
 }// end LDrawDataStreamUnmap
 
 
@@ -125,7 +125,7 @@ void *LDrawDataStreamUnmap(struct LDrawDataStream *str)
 // for bugs in the streaming implementatin.
 
 struct LDrawDataStream {
-  GLuint vbo;
+    GLuint vbo;
 };
 
 // ========== LDrawDataStreamCreate ===============================================
@@ -155,8 +155,8 @@ struct LDrawDataStream *LDrawDataStreamCreate(int buffer_size)
 // ================================================================================
 void LDrawDataStreamDestroy(struct LDrawDataStream *str)
 {
-  glDeleteBuffers(1, &str->vbo);
-  free(str);
+    glDeleteBuffers(1, &str->vbo);
+    free(str);
 }// end LDrawDataStreamDestroy
 
 
@@ -177,9 +177,9 @@ void LDrawDataStreamDestroy(struct LDrawDataStream *str)
 // ================================================================================
 void *LDrawDataStreamMap(struct LDrawDataStream *str, int size_desired)
 {
-  glBindBuffer(GL_ARRAY_BUFFER, str->vbo);
-  glBufferData(GL_ARRAY_BUFFER, size_desired, NULL, GL_DYNAMIC_DRAW);
-  return(glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY));
+    glBindBuffer(GL_ARRAY_BUFFER, str->vbo);
+    glBufferData(GL_ARRAY_BUFFER, size_desired, NULL, GL_DYNAMIC_DRAW);
+    return(glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY));
 }// end LDrawDataStreamMap
 
 
@@ -194,9 +194,9 @@ void *LDrawDataStreamMap(struct LDrawDataStream *str, int size_desired)
 // ================================================================================
 void *LDrawDataStreamUnmap(struct LDrawDataStream *str)
 {
-  glBindBuffer(GL_ARRAY_BUFFER, str->vbo);
-  glUnmapBuffer(GL_ARRAY_BUFFER);
-  return(NULL);
+    glBindBuffer(GL_ARRAY_BUFFER, str->vbo);
+    glUnmapBuffer(GL_ARRAY_BUFFER);
+    return(NULL);
 }// end LDrawDataStreamUnmap
 
 

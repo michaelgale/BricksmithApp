@@ -28,13 +28,13 @@
 // ==============================================================================
 - (NSString *)autosaveName
 {
-  // Use the Leopard implementation if we can.
-  if ([NSSplitView instancesRespondToSelector:@selector(autosaveName)]) {
-    return([super autosaveName]);
-  }
-  else {
-    return(self->autosaveName);
-  }
+    // Use the Leopard implementation if we can.
+    if ([NSSplitView instancesRespondToSelector:@selector(autosaveName)]) {
+        return([super autosaveName]);
+    }
+    else {
+        return(self->autosaveName);
+    }
 }// end autosaveName
 
 
@@ -49,32 +49,32 @@
 // ==============================================================================
 - (void)setAutosaveName:(NSString *)newName
 {
-  // Use the Leopard implementation if we can.
-  if ([NSSplitView instancesRespondToSelector:@selector(setAutosaveName:)]) {
-    [super setAutosaveName:newName];
-  }
-  else {
-    [newName retain];
-    [self->autosaveName release];
-
-    autosaveName = newName;
-
-    // Automatically restore. This is what Apple is doing in Leopard.
-    [self restoreConfiguration];
-
-    // Start watching subviews here so we can autosave when the change size.
-    // They do not go through -didAddSubview: when being unarchived from a
-    // nib!
-    NSArray *subviews = [self subviews];
-    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-    NSUInteger           counter             = 0;
-    for (counter = 0; counter < [subviews count]; counter++) {
-      [notificationCenter addObserver:self
-                             selector:@selector(subviewFrameDidChange:)
-                                 name:NSViewFrameDidChangeNotification
-                               object:[subviews objectAtIndex:counter]];
+    // Use the Leopard implementation if we can.
+    if ([NSSplitView instancesRespondToSelector:@selector(setAutosaveName:)]) {
+        [super setAutosaveName:newName];
     }
-  }
+    else {
+        [newName retain];
+        [self->autosaveName release];
+
+        autosaveName = newName;
+
+        // Automatically restore. This is what Apple is doing in Leopard.
+        [self restoreConfiguration];
+
+        // Start watching subviews here so we can autosave when the change size.
+        // They do not go through -didAddSubview: when being unarchived from a
+        // nib!
+        NSArray *subviews = [self subviews];
+        NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+        NSUInteger           counter             = 0;
+        for (counter = 0; counter < [subviews count]; counter++) {
+            [notificationCenter addObserver:self
+             selector:@selector(subviewFrameDidChange:)
+             name:NSViewFrameDidChangeNotification
+             object:[subviews objectAtIndex:counter]];
+        }
+    }
 }// end setAutosaveName:
 
 
@@ -92,52 +92,52 @@
 // ==============================================================================
 - (void)restoreConfiguration
 {
-  // Unnecessary under Leopard
-  if ([NSSplitView instancesRespondToSelector:@selector(setAutosaveName:)] == NO) {
-    NSUserDefaults *userDefaults   = [NSUserDefaults standardUserDefaults];
-    NSArray        *subviews       = [self subviews];
-    NSView         *currentSubview = nil;
-    NSRect         currentRect     = NSZeroRect;
-    NSString       *rectString     = nil;
-    NSMutableArray *frameSizes     = nil;
-    NSInteger      counter         = 0;
+    // Unnecessary under Leopard
+    if ([NSSplitView instancesRespondToSelector:@selector(setAutosaveName:)] == NO) {
+        NSUserDefaults *userDefaults   = [NSUserDefaults standardUserDefaults];
+        NSArray        *subviews       = [self subviews];
+        NSView         *currentSubview = nil;
+        NSRect         currentRect     = NSZeroRect;
+        NSString       *rectString     = nil;
+        NSMutableArray *frameSizes     = nil;
+        NSInteger      counter         = 0;
 
-    if (self->autosaveName != nil) {
-      frameSizes = [userDefaults objectForKey:self->autosaveName];
-      if (frameSizes != nil && [subviews count] == [frameSizes count]) {
-        for (counter = 0; counter < [subviews count]; counter++) {
-          currentSubview = [subviews objectAtIndex:counter];
-          rectString     = [frameSizes objectAtIndex:counter];
-          currentRect    = NSRectFromString(rectString);
+        if (self->autosaveName != nil) {
+            frameSizes = [userDefaults objectForKey:self->autosaveName];
+            if (frameSizes != nil && [subviews count] == [frameSizes count]) {
+                for (counter = 0; counter < [subviews count]; counter++) {
+                    currentSubview = [subviews objectAtIndex:counter];
+                    rectString     = [frameSizes objectAtIndex:counter];
+                    currentRect    = NSRectFromString(rectString);
 
-          // we have a BIG collapsing problem. The SplitView does not
-          // have a convenient -setCollapsed: method! We are going
-          // off this experimentally-verified result that the origin
-          // of a collapsed subview gets set to (1,000,000 , 1,000,000).
-          // But if we just restore that frame, it WON'T WORK! Sooooo...
-          // we set the size to 0, which forces it it out of view.
-          if (NSMinX(currentRect) == 1e6 && NSMinY(currentRect) == 1e6) {
-            currentRect.size.height = 0;
-            currentRect.size.width  = 0;
-          }
+                    // we have a BIG collapsing problem. The SplitView does not
+                    // have a convenient -setCollapsed: method! We are going
+                    // off this experimentally-verified result that the origin
+                    // of a collapsed subview gets set to (1,000,000 , 1,000,000).
+                    // But if we just restore that frame, it WON'T WORK! Sooooo...
+                    // we set the size to 0, which forces it it out of view.
+                    if (NSMinX(currentRect) == 1e6 && NSMinY(currentRect) == 1e6) {
+                        currentRect.size.height = 0;
+                        currentRect.size.width  = 0;
+                    }
 
-          [currentSubview setFrame:currentRect];
+                    [currentSubview setFrame:currentRect];
+                }
+            }
         }
-      }
+
+        // clean up our mess.
+        [self adjustSubviews];
+
+        // subviews		= [self subviews];
+        // for(counter = 0; counter < [subviews count]; counter++){
+        // currentSubview	= [subviews objectAtIndex:counter];
+        // currentRect		= [currentSubview frame];
+        // rectString		= NSStringFromRect(currentRect);
+        // NSLog(@"%@", rectString);
+        // }
+        // NSLog(@"\n\n\n");
     }
-
-    // clean up our mess.
-    [self adjustSubviews];
-
-    // subviews		= [self subviews];
-    // for(counter = 0; counter < [subviews count]; counter++){
-    // currentSubview	= [subviews objectAtIndex:counter];
-    // currentRect		= [currentSubview frame];
-    // rectString		= NSStringFromRect(currentRect);
-    // NSLog(@"%@", rectString);
-    // }
-    // NSLog(@"\n\n\n");
-  }
 }// end restoreConfiguration
 
 
@@ -151,30 +151,30 @@
 // ==============================================================================
 - (void)saveConfiguration
 {
-  if (self->autosaveName != nil) {
-    // Unnecessary under Leopard
-    if ([NSSplitView instancesRespondToSelector:@selector(setAutosaveName:)] == NO) {
-      NSUserDefaults *userDefaults   = [NSUserDefaults standardUserDefaults];
-      NSArray        *subviews       = [self subviews];
-      NSView         *currentSubview = nil;
-      NSRect         currentRect     = NSZeroRect;
-      NSString       *rectString     = nil;
-      NSMutableArray *frameSizes     = [NSMutableArray array];
-      NSInteger      counter         = 0;
+    if (self->autosaveName != nil) {
+        // Unnecessary under Leopard
+        if ([NSSplitView instancesRespondToSelector:@selector(setAutosaveName:)] == NO) {
+            NSUserDefaults *userDefaults   = [NSUserDefaults standardUserDefaults];
+            NSArray        *subviews       = [self subviews];
+            NSView         *currentSubview = nil;
+            NSRect         currentRect     = NSZeroRect;
+            NSString       *rectString     = nil;
+            NSMutableArray *frameSizes     = [NSMutableArray array];
+            NSInteger      counter         = 0;
 
-      for (counter = 0; counter < [subviews count]; counter++) {
-        currentSubview = [subviews objectAtIndex:counter];
-        currentRect    = [currentSubview frame];
-        rectString     = NSStringFromRect(currentRect);
-        [frameSizes addObject:rectString];
-      }
+            for (counter = 0; counter < [subviews count]; counter++) {
+                currentSubview = [subviews objectAtIndex:counter];
+                currentRect    = [currentSubview frame];
+                rectString     = NSStringFromRect(currentRect);
+                [frameSizes addObject:rectString];
+            }
 
-      if (self->autosaveName != nil) {
-        [userDefaults setObject:frameSizes
-                         forKey:self->autosaveName];
-      }
+            if (self->autosaveName != nil) {
+                [userDefaults setObject:frameSizes
+                 forKey:self->autosaveName];
+            }
+        }
     }
-  }
 }// end saveConfiguration
 
 
@@ -193,7 +193,7 @@
 // ==============================================================================
 - (void)subviewFrameDidChange:(NSNotification *)notification
 {
-  [self saveConfiguration];
+    [self saveConfiguration];
 }// end subviewFrameDidChange:
 
 
@@ -205,14 +205,14 @@
 // ==============================================================================
 - (void)didAddSubview:(NSView *)subview
 {
-  NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
 
-  [super didAddSubview:subview];
+    [super didAddSubview:subview];
 
-  [notificationCenter addObserver:self
-                         selector:@selector(subviewFrameDidChange:)
-                             name:NSViewFrameDidChangeNotification
-                           object:subview];
+    [notificationCenter addObserver:self
+     selector:@selector(subviewFrameDidChange:)
+     name:NSViewFrameDidChangeNotification
+     object:subview];
 }// end didAddSubview:
 
 
@@ -224,13 +224,13 @@
 // ==============================================================================
 - (void)willRemoveSubview:(NSView *)subview
 {
-  NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
 
-  [super willRemoveSubview:subview];
+    [super willRemoveSubview:subview];
 
-  [notificationCenter removeObserver:self
-                                name:NSViewFrameDidChangeNotification
-                              object:subview];
+    [notificationCenter removeObserver:self
+     name:NSViewFrameDidChangeNotification
+     object:subview];
 }// end willRemoveSubview:
 
 
@@ -245,9 +245,9 @@
 // ==============================================================================
 - (void)dealloc
 {
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 
-  [super dealloc];
+    [super dealloc];
 }// end dealloc
 
 

@@ -13,12 +13,12 @@
 
 @interface InspectionMPDModel : ObjectInspectionController
 {
-  IBOutlet NSTextField *modelNameField;
-  IBOutlet NSTextField *descriptionField;
-  IBOutlet NSTextField *authorField;
+    IBOutlet NSTextField *modelNameField;
+    IBOutlet NSTextField *descriptionField;
+    IBOutlet NSTextField *authorField;
 
-  IBOutlet NSTextField *numberStepsField;
-  IBOutlet NSTextField *numberElementsField;
+    IBOutlet NSTextField *numberStepsField;
+    IBOutlet NSTextField *numberElementsField;
 }
 
 // Actions

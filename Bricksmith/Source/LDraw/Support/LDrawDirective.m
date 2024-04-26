@@ -23,7 +23,7 @@
 // ==============================================================================
 + (NSString *)defaultIconName
 {
-  return(nil);
+    return(nil);
 }
 
 
@@ -39,17 +39,17 @@
 // ==============================================================================
 - (id)init
 {
-  self = [super init];
+    self = [super init];
 
-  enclosingDirective = nil;
-  iconName           = @"";
+    enclosingDirective = nil;
+    iconName           = @"";
 
   #if NEW_SET
-  LDrawFastSetInit(observers);
+    LDrawFastSetInit(observers);
   #else
-  observers = [[NSMutableArray alloc] init];
+    observers = [[NSMutableArray alloc] init];
   #endif
-  return(self);
+    return(self);
 }// end init
 
 
@@ -59,25 +59,25 @@
 //
 // ==============================================================================
 - (id)initWithLines:(NSArray *)lines
-  inRange:(NSRange)range
+    inRange:(NSRange)range
 {
-  LDrawDirective   *directive = nil;
-  dispatch_group_t group      = NULL;
+    LDrawDirective   *directive = nil;
+    dispatch_group_t group      = NULL;
 
 #if USE_BLOCKS
-  group = dispatch_group_create();
+    group = dispatch_group_create();
 #endif
 
-  directive = [self initWithLines:lines
-                          inRange:range
-                      parentGroup:group];
+    directive = [self initWithLines:lines
+                 inRange:range
+                 parentGroup:group];
 
 #if USE_BLOCKS
-  dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
-  dispatch_release(group);
+    dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
+    dispatch_release(group);
 #endif
 
-  return(directive);
+    return(directive);
 }// end initWithLines:inRange:
 
 
@@ -98,17 +98,17 @@
 //
 // ==============================================================================
 - (id)initWithLines:(NSArray *)lines
-  inRange:(NSRange)range
-  parentGroup:(dispatch_group_t)parentGroup
+    inRange:(NSRange)range
+    parentGroup:(dispatch_group_t)parentGroup
 {
-  self = [self init]; // call basic initializer
+    self = [self init]; // call basic initializer
 
-  if ([lines count] == 0) {
-    [self autorelease];
-    self = nil;
-  }
+    if ([lines count] == 0) {
+        [self autorelease];
+        self = nil;
+    }
 
-  return(self);
+    return(self);
 }// end initWithLines:inRange:
 
 
@@ -121,18 +121,18 @@
 // ==============================================================================
 - (id)initWithCoder:(NSCoder *)decoder
 {
-  // The superclass doesn't support NSCoding. So we just call the default init.
-  self = [super init];
+    // The superclass doesn't support NSCoding. So we just call the default init.
+    self = [super init];
 
   #if NEW_SET
-  LDrawFastSetInit(observers);
+    LDrawFastSetInit(observers);
   #else
-  observers = [[NSMutableArray alloc] init];
+    observers = [[NSMutableArray alloc] init];
   #endif
 
-  [self setEnclosingDirective:[decoder decodeObjectForKey:@"enclosingDirective"]];
+    [self setEnclosingDirective:[decoder decodeObjectForKey:@"enclosingDirective"]];
 
-  return(self);
+    return(self);
 }// end initWithCoder:
 
 
@@ -145,12 +145,12 @@
 // ==============================================================================
 - (void)encodeWithCoder:(NSCoder *)encoder
 {
-  // self = [super encodeWithCoder:encoder]; //super doesn't implement this method.
+    // self = [super encodeWithCoder:encoder]; //super doesn't implement this method.
 
-  // We encode the parent conditionally--it won't actually get encoded unless
-  // someone else encodes the parent unconditionally.
-  [encoder encodeConditionalObject:enclosingDirective
-                            forKey:@"enclosingDirective"];
+    // We encode the parent conditionally--it won't actually get encoded unless
+    // someone else encodes the parent unconditionally.
+    [encoder encodeConditionalObject:enclosingDirective
+     forKey:@"enclosingDirective"];
 }// end encodeWithCoder:
 
 
@@ -162,16 +162,16 @@
 // ==============================================================================
 - (id)copyWithZone:(NSZone *)zone
 {
-  // Allocate a new instance because we don't inherit -copy: from anybody.
-  // Note the code to ensure that the correct subclass is allocated!
-  // Since LDrawDirective is the root LDraw class, all [subclass copy]
-  // messages wind up here.
-  LDrawDirective *copied = [[[self class] allocWithZone:zone] init];
+    // Allocate a new instance because we don't inherit -copy: from anybody.
+    // Note the code to ensure that the correct subclass is allocated!
+    // Since LDrawDirective is the root LDraw class, all [subclass copy]
+    // messages wind up here.
+    LDrawDirective *copied = [[[self class] allocWithZone:zone] init];
 
-  [copied setEnclosingDirective:nil]; // if that is to be copied, then it should be assigned via accessors.
-  [copied setSelected:self->isSelected];
+    [copied setEnclosingDirective:nil]; // if that is to be copied, then it should be assigned via accessors.
+    [copied setSelected:self->isSelected];
 
-  return(copied);
+    return(copied);
 }// end copyWithZone:
 
 
@@ -198,12 +198,12 @@
 //
 // ------------------------------------------------------------------------------
 + (NSRange)rangeOfDirectiveBeginningAtIndex:(NSUInteger)index
-  inLines:(NSArray *)lines
-  maxIndex:(NSUInteger)maxIndex
+    inLines:(NSArray *)lines
+    maxIndex:(NSUInteger)maxIndex
 {
-  // Most LDraw directives are only one line. For those that aren't the
-  // subclass should override this method and perform its own parsing.
-  return(NSMakeRange(index, 1));
+    // Most LDraw directives are only one line. For those that aren't the
+    // subclass should override this method and perform its own parsing.
+    return(NSMakeRange(index, 1));
 }// end rangeOfDirectiveBeginningAtIndex:inLines:maxIndex:
 
 
@@ -221,7 +221,7 @@
 // ==============================================================================
 - (void)draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)parentColor
 {
-  // subclasses should override this with OpenGL code to draw the line.
+    // subclasses should override this with OpenGL code to draw the line.
 }// end draw:viewScale:parentColor:
 
 
@@ -238,49 +238,49 @@
 // ==============================================================================
 - (void)debugDrawboundingBox
 {
-  Box3 my_bounds = [self boundingBox3];
+    Box3 my_bounds = [self boundingBox3];
 
-  if (my_bounds.min.x <= my_bounds.max.x &&
-      my_bounds.min.y <= my_bounds.max.y &&
-      my_bounds.min.z <= my_bounds.max.z) {
-    GLfloat verts[6 * 4 * 3] =
-    {
-      my_bounds.min.x, my_bounds.min.y, my_bounds.min.z,
-      my_bounds.min.x, my_bounds.min.y, my_bounds.max.z,
-      my_bounds.min.x, my_bounds.max.y, my_bounds.max.z,
-      my_bounds.min.x, my_bounds.max.y, my_bounds.min.z,
+    if (my_bounds.min.x <= my_bounds.max.x &&
+        my_bounds.min.y <= my_bounds.max.y &&
+        my_bounds.min.z <= my_bounds.max.z) {
+        GLfloat verts[6 * 4 * 3] =
+        {
+            my_bounds.min.x, my_bounds.min.y, my_bounds.min.z,
+            my_bounds.min.x, my_bounds.min.y, my_bounds.max.z,
+            my_bounds.min.x, my_bounds.max.y, my_bounds.max.z,
+            my_bounds.min.x, my_bounds.max.y, my_bounds.min.z,
 
-      my_bounds.max.x, my_bounds.min.y, my_bounds.min.z,
-      my_bounds.max.x, my_bounds.min.y, my_bounds.max.z,
-      my_bounds.max.x, my_bounds.max.y, my_bounds.max.z,
-      my_bounds.max.x, my_bounds.max.y, my_bounds.min.z,
-
-
-      my_bounds.min.x, my_bounds.min.y, my_bounds.min.z,
-      my_bounds.min.x, my_bounds.max.y, my_bounds.min.z,
-      my_bounds.max.x, my_bounds.max.y, my_bounds.min.z,
-      my_bounds.max.x, my_bounds.min.y, my_bounds.min.z,
-
-      my_bounds.min.x, my_bounds.min.y, my_bounds.max.z,
-      my_bounds.min.x, my_bounds.max.y, my_bounds.max.z,
-      my_bounds.max.x, my_bounds.max.y, my_bounds.max.z,
-      my_bounds.max.x, my_bounds.min.y, my_bounds.max.z,
+            my_bounds.max.x, my_bounds.min.y, my_bounds.min.z,
+            my_bounds.max.x, my_bounds.min.y, my_bounds.max.z,
+            my_bounds.max.x, my_bounds.max.y, my_bounds.max.z,
+            my_bounds.max.x, my_bounds.max.y, my_bounds.min.z,
 
 
-      my_bounds.min.x, my_bounds.min.y, my_bounds.min.z,
-      my_bounds.min.x, my_bounds.min.y, my_bounds.max.z,
-      my_bounds.max.x, my_bounds.min.y, my_bounds.max.z,
-      my_bounds.max.x, my_bounds.min.y, my_bounds.min.z,
+            my_bounds.min.x, my_bounds.min.y, my_bounds.min.z,
+            my_bounds.min.x, my_bounds.max.y, my_bounds.min.z,
+            my_bounds.max.x, my_bounds.max.y, my_bounds.min.z,
+            my_bounds.max.x, my_bounds.min.y, my_bounds.min.z,
 
-      my_bounds.min.x, my_bounds.max.y, my_bounds.min.z,
-      my_bounds.min.x, my_bounds.max.y, my_bounds.max.z,
-      my_bounds.max.x, my_bounds.max.y, my_bounds.max.z,
-      my_bounds.max.x, my_bounds.max.y, my_bounds.min.z
-    };
+            my_bounds.min.x, my_bounds.min.y, my_bounds.max.z,
+            my_bounds.min.x, my_bounds.max.y, my_bounds.max.z,
+            my_bounds.max.x, my_bounds.max.y, my_bounds.max.z,
+            my_bounds.max.x, my_bounds.min.y, my_bounds.max.z,
 
-    glVertexPointer(3, GL_FLOAT, 0, verts);
-    glDrawArrays(GL_QUADS, 0, 24);
-  }
+
+            my_bounds.min.x, my_bounds.min.y, my_bounds.min.z,
+            my_bounds.min.x, my_bounds.min.y, my_bounds.max.z,
+            my_bounds.max.x, my_bounds.min.y, my_bounds.max.z,
+            my_bounds.max.x, my_bounds.min.y, my_bounds.min.z,
+
+            my_bounds.min.x, my_bounds.max.y, my_bounds.min.z,
+            my_bounds.min.x, my_bounds.max.y, my_bounds.max.z,
+            my_bounds.max.x, my_bounds.max.y, my_bounds.max.z,
+            my_bounds.max.x, my_bounds.max.y, my_bounds.min.z
+        };
+
+        glVertexPointer(3, GL_FLOAT, 0, verts);
+        glDrawArrays(GL_QUADS, 0, 24);
+    }
 }// end debugDrawboundingBox
 
 
@@ -299,7 +299,7 @@
 // ==============================================================================
 - (Box3)boundingBox3
 {
-  return(InvalidBox);
+    return(InvalidBox);
 }// end boundingBox3
 
 
@@ -322,13 +322,13 @@
 //
 // ==============================================================================
 - (void)hitTest:(Ray3)pickRay
-  transform:(Matrix4)transform
-  viewScale:(double)scaleFactor
-  boundsOnly:(BOOL)boundsOnly
-  creditObject:(id)creditObject
-  hits:(NSMutableDictionary *)hits
+    transform:(Matrix4)transform
+    viewScale:(double)scaleFactor
+    boundsOnly:(BOOL)boundsOnly
+    creditObject:(id)creditObject
+    hits:(NSMutableDictionary *)hits
 {
-  // subclasses should override this with hit-detection code
+    // subclasses should override this with hit-detection code
 }// end hitTest:transform:viewScale:boundsOnly:creditObject:hits:
 
 
@@ -372,13 +372,13 @@
 //
 // ==============================================================================
 - (BOOL)boxTest:(Box2)bounds
-  transform:(Matrix4)transform
-  boundsOnly:(BOOL)boundsOnly
-  creditObject:(id)creditObject
-  hits:(NSMutableSet *)hits
+    transform:(Matrix4)transform
+    boundsOnly:(BOOL)boundsOnly
+    creditObject:(id)creditObject
+    hits:(NSMutableSet *)hits
 {
-  // subclasses should override this with hit-detection code
-  return(FALSE);
+    // subclasses should override this with hit-detection code
+    return(FALSE);
 }// end boxTest:transform:boundsOnly:creditObject:hits:
 
 
@@ -412,13 +412,13 @@
 //
 // ==============================================================================
 - (void)depthTest:(Point2)pt
-  inBox:(Box2)bounds
-  transform:(Matrix4)transform
-  creditObject:(id)creditObject
-  bestObject:(id *)bestObject
-  bestDepth:(double *)bestDepth
+    inBox:(Box2)bounds
+    transform:(Matrix4)transform
+    creditObject:(id)creditObject
+    bestObject:(id *)bestObject
+    bestDepth:(double *)bestDepth
 {
-  // subclasses should override this.
+    // subclasses should override this.
 }// end depthTest:inBox:transform: creditObject:bestObject:bestDepth:
 
 
@@ -433,8 +433,8 @@
 // ==============================================================================
 - (NSString *)write
 {
-  // Returns a representation of the line which can be written out to a file.
-  return([NSString string]); // empty string; subclasses should override this method.
+    // Returns a representation of the line which can be written out to a file.
+    return([NSString string]); // empty string; subclasses should override this method.
 }// end write
 
 
@@ -450,7 +450,7 @@
 // ==============================================================================
 - (NSString *)browsingDescription
 {
-  return([NSString stringWithFormat:@"%@", [self class]]);
+    return([NSString stringWithFormat:@"%@", [self class]]);
 }// end browsingDescription
 
 
@@ -462,10 +462,10 @@
 // ==============================================================================
 - (NSString *)iconName
 {
-  if (self->iconName) {
-    return(self->iconName);
-  }
-  return(@"");  // Nothing.
+    if (self->iconName) {
+        return(self->iconName);
+    }
+    return(@""); // Nothing.
 }// end iconName
 
 
@@ -476,7 +476,7 @@
 // ==============================================================================
 - (NSString *)inspectorClassName
 {
-  return(@"");
+    return(@"");
 }// end inspectorClassName
 
 
@@ -494,17 +494,17 @@
 // ==============================================================================
 - (NSArray *)ancestors
 {
-  NSMutableArray *ancestors       = [NSMutableArray arrayWithCapacity:3];
-  LDrawDirective *currentAncestor = self;
+    NSMutableArray *ancestors       = [NSMutableArray arrayWithCapacity:3];
+    LDrawDirective *currentAncestor = self;
 
-  while (currentAncestor != nil)
-  {
-    [ancestors insertObject:currentAncestor
-                    atIndex:0];
-    currentAncestor = [currentAncestor enclosingDirective];
-  }
+    while (currentAncestor != nil)
+    {
+        [ancestors insertObject:currentAncestor
+         atIndex:0];
+        currentAncestor = [currentAncestor enclosingDirective];
+    }
 
-  return(ancestors);
+    return(ancestors);
 }// end ancestors
 
 
@@ -533,7 +533,7 @@
 // ==============================================================================
 - (LDrawContainer *)enclosingDirective
 {
-  return(enclosingDirective);
+    return(enclosingDirective);
 }// end enclosingDirective
 
 
@@ -545,24 +545,24 @@
 // ==============================================================================
 - (LDrawFile *)enclosingFile
 {
-  LDrawDirective *currentAncestor = self;
-  BOOL           foundIt          = NO;
+    LDrawDirective *currentAncestor = self;
+    BOOL           foundIt          = NO;
 
-  while (currentAncestor != nil)
-  {
-    if ([currentAncestor isKindOfClass:[LDrawFile class]]) {
-      foundIt = YES;
-      break;
+    while (currentAncestor != nil)
+    {
+        if ([currentAncestor isKindOfClass:[LDrawFile class]]) {
+            foundIt = YES;
+            break;
+        }
+        currentAncestor = [currentAncestor enclosingDirective];
     }
-    currentAncestor = [currentAncestor enclosingDirective];
-  }
 
-  if (foundIt == YES) {
-    return((LDrawFile *)currentAncestor);
-  }
-  else {
-    return(nil);
-  }
+    if (foundIt == YES) {
+        return((LDrawFile *)currentAncestor);
+    }
+    else {
+        return(nil);
+    }
 }// end enclosingFile
 
 
@@ -574,24 +574,24 @@
 // ==============================================================================
 - (LDrawModel *)enclosingModel
 {
-  LDrawDirective *currentAncestor = self;
-  BOOL           foundIt          = NO;
+    LDrawDirective *currentAncestor = self;
+    BOOL           foundIt          = NO;
 
-  while (currentAncestor != nil)
-  {
-    if ([currentAncestor isKindOfClass:[LDrawModel class]]) {
-      foundIt = YES;
-      break;
+    while (currentAncestor != nil)
+    {
+        if ([currentAncestor isKindOfClass:[LDrawModel class]]) {
+            foundIt = YES;
+            break;
+        }
+        currentAncestor = [currentAncestor enclosingDirective];
     }
-    currentAncestor = [currentAncestor enclosingDirective];
-  }
 
-  if (foundIt == YES) {
-    return((LDrawModel *)currentAncestor);
-  }
-  else {
-    return(nil);
-  }
+    if (foundIt == YES) {
+        return((LDrawModel *)currentAncestor);
+    }
+    else {
+        return(nil);
+    }
 }// end enclosingModel
 
 
@@ -603,24 +603,24 @@
 // ==============================================================================
 - (LDrawStep *)enclosingStep
 {
-  LDrawDirective *currentAncestor = self;
-  BOOL           foundIt          = NO;
+    LDrawDirective *currentAncestor = self;
+    BOOL           foundIt          = NO;
 
-  while (currentAncestor != nil)
-  {
-    if ([currentAncestor isKindOfClass:[LDrawStep class]]) {
-      foundIt = YES;
-      break;
+    while (currentAncestor != nil)
+    {
+        if ([currentAncestor isKindOfClass:[LDrawStep class]]) {
+            foundIt = YES;
+            break;
+        }
+        currentAncestor = [currentAncestor enclosingDirective];
     }
-    currentAncestor = [currentAncestor enclosingDirective];
-  }
 
-  if (foundIt == YES) {
-    return((LDrawStep *)currentAncestor);
-  }
-  else {
-    return(nil);
-  }
+    if (foundIt == YES) {
+        return((LDrawStep *)currentAncestor);
+    }
+    else {
+        return(nil);
+    }
 }// end enclosingStep
 
 
@@ -631,7 +631,7 @@
 // ==============================================================================
 - (BOOL)isSelected
 {
-  return(self->isSelected);
+    return(self->isSelected);
 }// end isSelected
 
 
@@ -645,7 +645,7 @@
 // ==============================================================================
 - (void)setEnclosingDirective:(LDrawContainer *)newParent
 {
-  enclosingDirective = newParent;
+    enclosingDirective = newParent;
 }// end setEnclosingDirective:
 
 
@@ -656,7 +656,7 @@
 // ==============================================================================
 - (void)setSelected:(BOOL)flag
 {
-  self->isSelected = flag;
+    self->isSelected = flag;
 }// end setSelected:
 
 
@@ -667,9 +667,9 @@
 // ==============================================================================
 - (void)setIconName:(NSString *)icon
 {
-  [icon retain];
-  [self->iconName release];
-  self->iconName = icon;
+    [icon retain];
+    [self->iconName release];
+    self->iconName = icon;
 }// end setIconName:
 
 
@@ -686,7 +686,7 @@
 // ==============================================================================
 - (BOOL)containsReferenceTo:(NSString *)name
 {
-  return(NO);
+    return(NO);
 }
 
 
@@ -698,7 +698,7 @@
 // ==============================================================================
 - (NSString *)description
 {
-  return([NSString stringWithFormat:@"%@\n%@", [self class], [self write]]);
+    return([NSString stringWithFormat:@"%@\n%@", [self class], [self write]]);
 }// end description
 
 
@@ -718,17 +718,17 @@
 //
 // ==============================================================================
 - (void)flattenIntoLines:(NSMutableArray *)lines
-  triangles:(NSMutableArray *)triangles
-  quadrilaterals:(NSMutableArray *)quadrilaterals
-  other:(NSMutableArray *)everythingElse
-  currentColor:(LDrawColor *)parentColor
-  currentTransform:(Matrix4)transform
-  normalTransform:(Matrix3)normalTransform
-  recursive:(BOOL)recursive
+    triangles:(NSMutableArray *)triangles
+    quadrilaterals:(NSMutableArray *)quadrilaterals
+    other:(NSMutableArray *)everythingElse
+    currentColor:(LDrawColor *)parentColor
+    currentTransform:(Matrix4)transform
+    normalTransform:(Matrix3)normalTransform
+    recursive:(BOOL)recursive
 {
-  // By default, a directive does not add itself to the list, an indication
-  // that it is not drawn. Subclasses override this routine to add themselves
-  // to the appropriate list.
+    // By default, a directive does not add itself to the list, an indication
+    // that it is not drawn. Subclasses override this routine to add themselves
+    // to the appropriate list.
 }// end flattenIntoLines:triangles:quadrilaterals:other:currentColor:
 
 
@@ -745,15 +745,15 @@
 // ==============================================================================
 - (BOOL)isAncestorInList:(NSArray *)containers
 {
-  LDrawDirective *ancestor   = self;
-  BOOL           foundInList = NO;
+    LDrawDirective *ancestor   = self;
+    BOOL           foundInList = NO;
 
-  do{
-    ancestor    = [ancestor enclosingDirective];
-    foundInList = [containers containsObject:ancestor];
-  }while (ancestor != nil && foundInList == NO);
+    do{
+        ancestor    = [ancestor enclosingDirective];
+        foundInList = [containers containsObject:ancestor];
+    }while (ancestor != nil && foundInList == NO);
 
-  return(foundInList);
+    return(foundInList);
 }// end isAncestorInList:
 
 
@@ -766,9 +766,9 @@
 // ==============================================================================
 - (void)noteNeedsDisplay
 {
-  [[NSNotificationCenter defaultCenter]
-   postNotificationName:LDrawDirectiveDidChangeNotification
-                 object:self];
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:LDrawDirectiveDidChangeNotification
+     object:self];
 }// end setNeedsDisplay
 
 
@@ -780,8 +780,8 @@
 // ==============================================================================
 - (void)registerUndoActions:(NSUndoManager *)undoManager
 {
-  // LDrawDirectives are fairly abstract, so all undoable attributes come
-  // from subclasses.
+    // LDrawDirectives are fairly abstract, so all undoable attributes come
+    // from subclasses.
 }// end registerUndoActions:
 
 
@@ -794,13 +794,13 @@
 - (void)addObserver:(id <LDrawObserver>)observer
 {
   #if NEW_SET
-  LDrawFastSetInsert(observers, observer);
+    LDrawFastSetInsert(observers, observer);
   #else
-  if (observers == nil) {
-    printf("WARNING: OBSERVERS ARE NULL.\n");
-  }
-  // printf("directive %p told to add observer %p.\n", self,observer);
-  [observers addObject:[NSValue valueWithPointer:observer]];
+    if (observers == nil) {
+        printf("WARNING: OBSERVERS ARE NULL.\n");
+    }
+    // printf("directive %p told to add observer %p.\n", self,observer);
+    [observers addObject:[NSValue valueWithPointer:observer]];
   #endif
 }// end addObserver:
 
@@ -814,17 +814,17 @@
 - (void)removeObserver:(id <LDrawObserver>)observer
 {
   #if NEW_SET
-  LDrawFastSetRemove(observers, observer);
+    LDrawFastSetRemove(observers, observer);
   #else
-  if (observers == nil) {
-    printf("WARNING: OBSERVERS ARE NULL.\n");
-  }
-  // printf("directive %p told to lose observer %p.\n", self,observer);
-  if (![observers containsObject:[NSValue valueWithPointer:observer]]) {
-    NSLog(@"ERROR: removing unknown observer.\n");
-  }
+    if (observers == nil) {
+        printf("WARNING: OBSERVERS ARE NULL.\n");
+    }
+    // printf("directive %p told to lose observer %p.\n", self,observer);
+    if (![observers containsObject:[NSValue valueWithPointer:observer]]) {
+        NSLog(@"ERROR: removing unknown observer.\n");
+    }
 
-  [observers removeObject:[NSValue valueWithPointer:observer]];
+    [observers removeObject:[NSValue valueWithPointer:observer]];
   #endif
 }// end removeObserver
 
@@ -843,7 +843,7 @@
 // ================================================================================
 - (void)drawSelf:(id <LDrawRenderer>)renderer
 {
-  // Default implementation does ... nothing.
+    // Default implementation does ... nothing.
 }// end drawSelf:
 
 
@@ -867,7 +867,7 @@
 // ================================================================================
 - (void)collectSelf:(id <LDrawCollector>)renderer
 {
-  // Default implementation collects...nothing.
+    // Default implementation collects...nothing.
 }// end collectSelf:
 
 
@@ -888,28 +888,28 @@
 - (void)dealloc
 {
   #if NEW_SET
-  MESSAGE_FOR_SET(observers, LDrawObserver, observableSaysGoodbyeCruelWorld: self);
-  LDrawFastSetDealloc(observers);
+    MESSAGE_FOR_SET(observers, LDrawObserver, observableSaysGoodbyeCruelWorld: self);
+    LDrawFastSetDealloc(observers);
   #else
-  if (observers == nil) {
-    printf("WARNING: OBSERVERS ARE NULL.\n");
-  }
-  // printf("Directive %p about to die.\n",self);
-  NSSet *orig = [NSSet setWithSet:observers];
-  for (NSValue *o in orig) {
-    if ([observers containsObject:o]) {
-      id <LDrawObserver> oo = [o pointerValue];
-      // printf("   directive %p telling observer %p that we are going to die.\n",self,oo);
-      [oo observableSaysGoodbyeCruelWorld:self];
+    if (observers == nil) {
+        printf("WARNING: OBSERVERS ARE NULL.\n");
     }
-  }
-  [observers release];
-  observers = (id)0xDEADBEEF;
+    // printf("Directive %p about to die.\n",self);
+    NSSet *orig = [NSSet setWithSet:observers];
+    for (NSValue *o in orig) {
+        if ([observers containsObject:o]) {
+            id <LDrawObserver> oo = [o pointerValue];
+            // printf("   directive %p telling observer %p that we are going to die.\n",self,oo);
+            [oo observableSaysGoodbyeCruelWorld:self];
+        }
+    }
+    [observers release];
+    observers = (id)0xDEADBEEF;
   #endif
 
 
-  [super dealloc];
-  // printf(" %p is clear.\n",self);
+    [super dealloc];
+    // printf(" %p is clear.\n",self);
 }
 
 
@@ -923,16 +923,16 @@
 - (void)sendMessageToObservers:(MessageT)msg
 {
   #if NEW_SET
-  MESSAGE_FOR_SET(observers, LDrawObserver, receiveMessage: msg who: self);
+    MESSAGE_FOR_SET(observers, LDrawObserver, receiveMessage: msg who: self);
   #else
-  NSSet *orig = [NSSet setWithSet:observers];
-  for (NSValue *o in orig) {
-    if ([observers containsObject:o]) {
-      id <LDrawObserver> oo = [o pointerValue];
-      [oo receiveMessage:msg
-                     who:self];
+    NSSet *orig = [NSSet setWithSet:observers];
+    for (NSValue *o in orig) {
+        if ([observers containsObject:o]) {
+            id <LDrawObserver> oo = [o pointerValue];
+            [oo receiveMessage:msg
+             who:self];
+        }
     }
-  }
   #endif
 }
 
@@ -951,24 +951,24 @@
 // ==============================================================================
 - (void)invalCache:(CacheFlagsT)flags
 {
-  CacheFlagsT newFlags = flags & ~invalFlags;
+    CacheFlagsT newFlags = flags & ~invalFlags;
 
-  if (newFlags != 0) {
-    invalFlags |= newFlags;
+    if (newFlags != 0) {
+        invalFlags |= newFlags;
 
     #if NEW_SET
-    MESSAGE_FOR_SET(observers, LDrawObserver, statusInvalidated: newFlags who: self);
+        MESSAGE_FOR_SET(observers, LDrawObserver, statusInvalidated: newFlags who: self);
     #else
-    NSSet *orig = [NSSet setWithSet:observers];
-    for (NSValue *o in orig) {
-      if ([observers containsObject:o]) {
-        id <LDrawObserver> oo = [o pointerValue];
-        [oo statusInvalidated:newFlags
-                          who:self];
-      }
-    }
+        NSSet *orig = [NSSet setWithSet:observers];
+        for (NSValue *o in orig) {
+            if ([observers containsObject:o]) {
+                id <LDrawObserver> oo = [o pointerValue];
+                [oo statusInvalidated:newFlags
+                 who:self];
+            }
+        }
     #endif
-  }
+    }
 }
 
 
@@ -998,10 +998,10 @@
 // ==============================================================================
 - (CacheFlagsT)revalCache:(CacheFlagsT)flags
 {
-  CacheFlagsT were_dirty = flags & invalFlags;
+    CacheFlagsT were_dirty = flags & invalFlags;
 
-  invalFlags &= ~flags;
-  return(were_dirty);
+    invalFlags &= ~flags;
+    return(were_dirty);
 }
 
 

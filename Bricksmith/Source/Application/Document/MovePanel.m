@@ -26,11 +26,11 @@ MovePanel *sharedMovePanel = nil;
 // ------------------------------------------------------------------------------
 + (id)movePanel
 {
-  if (sharedMovePanel == nil) {
-    sharedMovePanel = [[MovePanel alloc] init];
-  }
+    if (sharedMovePanel == nil) {
+        sharedMovePanel = [[MovePanel alloc] init];
+    }
 
-  return(sharedMovePanel);
+    return(sharedMovePanel);
 }// end movePanel
 
 
@@ -45,7 +45,7 @@ MovePanel *sharedMovePanel = nil;
 // ==============================================================================
 - (NSString *)panelNibName
 {
-  return(@"MovePanel");
+    return(@"MovePanel");
 }// end panelNibName
 
 
@@ -56,7 +56,7 @@ MovePanel *sharedMovePanel = nil;
 // ==============================================================================
 - (Vector3)movementVector
 {
-  return(V3Make(movementX, movementY, movementZ));
+    return(V3Make(movementX, movementY, movementZ));
 }// end movementVector
 
 
@@ -72,9 +72,9 @@ MovePanel *sharedMovePanel = nil;
 // ==============================================================================
 - (IBAction)moveButtonClicked:(id)sender
 {
-  [NSApp sendAction:@selector(panelMoveParts:)
-                 to:nil
-               from:self];
+    [NSApp sendAction:@selector(panelMoveParts:)
+     to:nil
+     from:self];
 }// end moveButtonClicked:
 
 
@@ -89,9 +89,9 @@ MovePanel *sharedMovePanel = nil;
 // ==============================================================================
 - (void)dealloc
 {
-  [formatterPoints release];
+    [formatterPoints release];
 
-  [super dealloc];
+    [super dealloc];
 }// end dealloc
 
 

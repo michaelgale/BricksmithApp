@@ -36,21 +36,21 @@
 // ==============================================================================
 - (id)init
 {
-  self = [super init];
-  if ([[NSBundle mainBundle] loadNibNamed:@"Inspector" owner:self topLevelObjects:nil] == NO) {
-    NSLog(@"Can't load Inspector nib file");
-  }
+    self = [super init];
+    if ([[NSBundle mainBundle] loadNibNamed:@"Inspector" owner:self topLevelObjects:nil] == NO) {
+        NSLog(@"Can't load Inspector nib file");
+    }
 // inspectorPanel = _inspectorPanel;
 
-  // When the Nib first loads, it contains the view we intend to use for an
-  // empty inspector.
-  emptyInspectorTitle = [[_inspectorPanel title] retain];
-  emptyInspectorView  = [[_inspectorPanel contentView] retain];
+    // When the Nib first loads, it contains the view we intend to use for an
+    // empty inspector.
+    emptyInspectorTitle = [[_inspectorPanel title] retain];
+    emptyInspectorView  = [[_inspectorPanel contentView] retain];
 
-  // Display a message appropriate to inspecting nothing.
-  [self inspectObject:nil];
+    // Display a message appropriate to inspecting nothing.
+    [self inspectObject:nil];
 
-  return(self);
+    return(self);
 }// end init
 
 
@@ -65,16 +65,16 @@
 // ==============================================================================
 - (void)inspectObject:(id)object
 {
-  NSArray *objectList;
+    NSArray *objectList;
 
-  if (object != nil) {
-    objectList = [NSArray arrayWithObject:object];
-  }
-  else {
-    objectList = [NSArray array];
-  }
+    if (object != nil) {
+        objectList = [NSArray arrayWithObject:object];
+    }
+    else {
+        objectList = [NSArray array];
+    }
 
-  [self inspectObjects:objectList];
+    [self inspectObjects:objectList];
 }// end inspectObject:
 
 
@@ -90,45 +90,45 @@
 // ==============================================================================
 - (void)inspectObjects:(NSArray *)objects
 {
-  BOOL     foundInspector  = NO;
-  NSString *errorString    = nil;
-  id       objectToInspect = nil;
+    BOOL     foundInspector  = NO;
+    NSString *errorString    = nil;
+    id       objectToInspect = nil;
 
-  // No object to inspect? Just show the empty message.
-  if (objects == nil || [objects count] == 0) {
-    errorString = NSLocalizedString(@"EmptySelection", nil);
-    [self unloadInspector];
-  }
-  else if ([objects count] > 1) {
-    errorString = NSLocalizedString(@"MultipleSelection", nil);
-    [self unloadInspector];
-  }
-  else {
-    // We have an object; let's see if we can get an inspector for it.
-    objectToInspect = [objects objectAtIndex:0];
-
-    if ([currentInspector object] != objectToInspect) {
-      [self unloadInspector];
-
-      foundInspector = [self loadInspectorForObject:objectToInspect];
-
-      // We have an object, but it doesn't have an inspector we understand.
-      // Display a message indicating there is nothing here to inspect.
-      if (foundInspector == NO) {
-        errorString = NSLocalizedString(@"NoInspector", nil);
-      }
+    // No object to inspect? Just show the empty message.
+    if (objects == nil || [objects count] == 0) {
+        errorString = NSLocalizedString(@"EmptySelection", nil);
+        [self unloadInspector];
+    }
+    else if ([objects count] > 1) {
+        errorString = NSLocalizedString(@"MultipleSelection", nil);
+        [self unloadInspector];
     }
     else {
-      foundInspector = YES;
-      [currentInspector revert:self]; // calling revert should set the values of the palette.
-    }
-  }
+        // We have an object; let's see if we can get an inspector for it.
+        objectToInspect = [objects objectAtIndex:0];
 
-  if (foundInspector == NO) {
-    [_inspectorPanel setContentView:emptyInspectorView];
-    [_inspectorPanel setTitle:emptyInspectorTitle];
-    [errorTextField setStringValue:errorString];
-  }
+        if ([currentInspector object] != objectToInspect) {
+            [self unloadInspector];
+
+            foundInspector = [self loadInspectorForObject:objectToInspect];
+
+            // We have an object, but it doesn't have an inspector we understand.
+            // Display a message indicating there is nothing here to inspect.
+            if (foundInspector == NO) {
+                errorString = NSLocalizedString(@"NoInspector", nil);
+            }
+        }
+        else {
+            foundInspector = YES;
+            [currentInspector revert:self]; // calling revert should set the values of the palette.
+        }
+    }
+
+    if (foundInspector == NO) {
+        [_inspectorPanel setContentView:emptyInspectorView];
+        [_inspectorPanel setTitle:emptyInspectorTitle];
+        [errorTextField setStringValue:errorString];
+    }
 }// end inspectObjects:
 
 
@@ -142,31 +142,31 @@
 // ==============================================================================
 - (BOOL)loadInspectorForObject:(id)objectToInspect
 {
-  BOOL foundInspector = NO; // not yet, anyway.
+    BOOL foundInspector = NO; // not yet, anyway.
 
-  // Inspectable objects will tell us what class to use to inspect with.
-  if ([objectToInspect respondsToSelector:@selector(inspectorClassName)]) {
-    // Find the class to use, and instantiate one.
-    NSString *className      = [objectToInspect performSelector:@selector(inspectorClassName)];
-    Class    InspectionClass = NSClassFromString(className);
+    // Inspectable objects will tell us what class to use to inspect with.
+    if ([objectToInspect respondsToSelector:@selector(inspectorClassName)]) {
+        // Find the class to use, and instantiate one.
+        NSString *className      = [objectToInspect performSelector:@selector(inspectorClassName)];
+        Class    InspectionClass = NSClassFromString(className);
 
-    if ([InspectionClass isSubclassOfClass:[ObjectInspectionController class]]) {
-      // We have an inspector for the object that we understand!
-      foundInspector = YES;
-      id objectInspector = [[InspectionClass alloc] init];
-      [objectInspector setObject:objectToInspect];
+        if ([InspectionClass isSubclassOfClass:[ObjectInspectionController class]]) {
+            // We have an inspector for the object that we understand!
+            foundInspector = YES;
+            id objectInspector = [[InspectionClass alloc] init];
+            [objectInspector setObject:objectToInspect];
 
-      // Show the inspector palette.
-      [_inspectorPanel setContentView:[[objectInspector window] contentView]];
-      [_inspectorPanel setTitle:[[objectInspector window] title]];
+            // Show the inspector palette.
+            [_inspectorPanel setContentView:[[objectInspector window] contentView]];
+            [_inspectorPanel setTitle:[[objectInspector window] title]];
 
-      // Save the inspector, so we know what we are inspecting, and so
-      // we can clean up the memory for it.
-      currentInspector = objectInspector;
-    }
-  }// end inspectable check.
+            // Save the inspector, so we know what we are inspecting, and so
+            // we can clean up the memory for it.
+            currentInspector = objectInspector;
+        }
+    }// end inspectable check.
 
-  return(foundInspector);
+    return(foundInspector);
 }// end loadInspectorForObject:
 
 
@@ -177,11 +177,11 @@
 // ==============================================================================
 - (void)unloadInspector
 {
-  // End any editing happening in the current inspector. It is very important
-  // to do this *before* attempting to replace the inspector!
-  [_inspectorPanel makeFirstResponder:nil];
-  [currentInspector release];
-  currentInspector = nil;
+    // End any editing happening in the current inspector. It is very important
+    // to do this *before* attempting to replace the inspector!
+    [_inspectorPanel makeFirstResponder:nil];
+    [currentInspector release];
+    currentInspector = nil;
 }
 
 
@@ -192,7 +192,7 @@
 // ==============================================================================
 - (void)show:(id)sender
 {
-  [_inspectorPanel makeKeyAndOrderFront:sender];
+    [_inspectorPanel makeKeyAndOrderFront:sender];
 }// end show:
 
 
@@ -208,14 +208,14 @@
 // ==============================================================================
 - (void)windowDidResignKey:(NSNotification *)notification
 {
-  // End any editing happening in the current inspector. We need to do this
-  // because once the inspector is no longer key, you can do nasty things to
-  // the object it is editing -- like deleting it, for example. If you were to
-  // delete the object the inspector is using, the inspector would then try to
-  // commit any outstanding edits on an object which is no longer in the
-  // document. This confuses Undo horribly; the application can hang if you
-  // try to undo over that change.
-  [_inspectorPanel makeFirstResponder:nil];
+    // End any editing happening in the current inspector. We need to do this
+    // because once the inspector is no longer key, you can do nasty things to
+    // the object it is editing -- like deleting it, for example. If you were to
+    // delete the object the inspector is using, the inspector would then try to
+    // commit any outstanding edits on an object which is no longer in the
+    // document. This confuses Undo horribly; the application can hang if you
+    // try to undo over that change.
+    [_inspectorPanel makeFirstResponder:nil];
 }
 
 
@@ -228,9 +228,9 @@
 // ==============================================================================
 - (NSUndoManager *)windowWillReturnUndoManager:(NSWindow *)sender
 {
-  NSDocument *currentDocument = [[NSDocumentController sharedDocumentController] currentDocument];
+    NSDocument *currentDocument = [[NSDocumentController sharedDocumentController] currentDocument];
 
-  return([currentDocument undoManager]);
+    return([currentDocument undoManager]);
 }// end windowWillReturnUndoManager:
 
 
@@ -245,12 +245,12 @@
 // ==============================================================================
 - (void)dealloc
 {
-  [_inspectorPanel release];
-  [emptyInspectorTitle release];
-  [emptyInspectorView release];
-  [currentInspector release];
+    [_inspectorPanel release];
+    [emptyInspectorTitle release];
+    [emptyInspectorView release];
+    [currentInspector release];
 
-  [super dealloc];
+    [super dealloc];
 }// end dealloc
 
 

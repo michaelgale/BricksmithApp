@@ -22,19 +22,19 @@
 // ==============================================================================
 - (NSRect)frameRectForContentSize:(NSSize)newSize
 {
-  // Get the current size.
-  NSSize currentContentSize = [[self contentView] frame].size;
-  // And the current frame, which takes into account the title bar and toolbar.
-  NSRect newFrameRect = [self frame];
+    // Get the current size.
+    NSSize currentContentSize = [[self contentView] frame].size;
+    // And the current frame, which takes into account the title bar and toolbar.
+    NSRect newFrameRect = [self frame];
 
-  // Now adjust the frame by the difference between the size of its current
-  // contents and newSize.
-  newFrameRect.size.width  += newSize.width - currentContentSize.width;
-  newFrameRect.size.height += newSize.height - currentContentSize.height;
+    // Now adjust the frame by the difference between the size of its current
+    // contents and newSize.
+    newFrameRect.size.width  += newSize.width - currentContentSize.width;
+    newFrameRect.size.height += newSize.height - currentContentSize.height;
 
-  newFrameRect.origin.y -= newSize.height - currentContentSize.height;
+    newFrameRect.origin.y -= newSize.height - currentContentSize.height;
 
-  return(newFrameRect);
+    return(newFrameRect);
 }// end frameRectForContentSize:
 
 
@@ -46,12 +46,12 @@
 // ==============================================================================
 - (void)resizeToSize:(NSSize)newSize animate:(BOOL)animate
 {
-  NSRect  currentFrame = [self frame];
-  NSPoint upperLeft    = NSMakePoint(NSMinX(currentFrame), NSMaxY(currentFrame));
-  NSRect  newRect      = NSMakeRect(upperLeft.x, upperLeft.y - newSize.height,
-                                    newSize.width, newSize.height);
+    NSRect  currentFrame = [self frame];
+    NSPoint upperLeft    = NSMakePoint(NSMinX(currentFrame), NSMaxY(currentFrame));
+    NSRect  newRect      = NSMakeRect(upperLeft.x, upperLeft.y - newSize.height,
+                                      newSize.width, newSize.height);
 
-  [self setFrame:newRect display:YES animate:animate];
+    [self setFrame:newRect display:YES animate:animate];
 }// end resizeToSize:animate:
 
 

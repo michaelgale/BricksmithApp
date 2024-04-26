@@ -19,22 +19,22 @@
 
 enum
 {
-  tex_proj_planar = 0
+    tex_proj_planar = 0
 };
 
 enum            // Culling codes from renderer culling checks.
 {
-  cull_skip,    // Don't draw - object is off screen or too-small-to-care.
-  cull_box,     // Draw, but consider replacing with a box for speed - the object is rather small.
-  cull_draw     // Draw, the object is on screen and big.
+    cull_skip,  // Don't draw - object is off screen or too-small-to-care.
+    cull_box,   // Draw, but consider replacing with a box for speed - the object is rather small.
+    cull_draw   // Draw, the object is on screen and big.
 };
 
 
 struct  LDrawTextureSpec {
-  int    projection;
-  GLuint tex_obj;
-  float  plane_s[4];
-  float  plane_t[4];
+    int    projection;
+    GLuint tex_obj;
+    float  plane_s[4];
+    float  plane_t[4];
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

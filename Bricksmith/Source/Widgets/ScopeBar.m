@@ -29,11 +29,11 @@
 // ==============================================================================
 - (id)initWithFrame:(NSRect)frame
 {
-  self = [super initWithFrame:frame];
-  if (self) {
-    // Initialization code here.
-  }
-  return(self);
+    self = [super initWithFrame:frame];
+    if (self) {
+        // Initialization code here.
+    }
+    return(self);
 }// end initWithFrame:
 
 
@@ -51,7 +51,7 @@
 // ==============================================================================
 - (void)drawRect:(NSRect)rect
 {
-  // The default system appearance is better!
+    // The default system appearance is better!
 
 // NSColor         *topColor       = [NSColor colorWithCalibratedWhite:0.12 alpha:1.0];
 // NSColor         *bottomColor    = [NSColor colorWithCalibratedWhite:0.12 alpha:1.0];

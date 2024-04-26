@@ -13,13 +13,13 @@
 
 @interface PartChooserPanel : NSPanel
 {
-  IBOutlet PartChooserPanel      *partChooserPanel;
-  IBOutlet PartBrowserDataSource *partsBrowser;
-  IBOutlet NSSearchField         *searchField;
-  id oldSelf; // when this class is created, it reassigns itself to
-  // a nib object. This reference will point to the original
-  // allocation, which will then be releasable when the dialog
-  // closes.
+    IBOutlet PartChooserPanel      *partChooserPanel;
+    IBOutlet PartBrowserDataSource *partsBrowser;
+    IBOutlet NSSearchField         *searchField;
+    id oldSelf; // when this class is created, it reassigns itself to
+    // a nib object. This reference will point to the original
+    // allocation, which will then be releasable when the dialog
+    // closes.
 }
 
 // Initialization

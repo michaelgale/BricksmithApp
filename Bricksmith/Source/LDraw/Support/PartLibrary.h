@@ -46,15 +46,15 @@ extern NSString *Category_Subparts;
 ////////////////////////////////////////////////////////////////////////////////
 @interface PartLibrary : NSObject
 {
-  id <PartLibraryDelegate> delegate;
-  NSDictionary             *partCatalog;
-  NSMutableArray           *favorites;        // parts names in the "Favorites" pseduocategory
-  NSMutableDictionary      *loadedFiles;      // list of LDrawFiles which have been read off disk.
-  NSMutableDictionary      *loadedImages;
-  NSMutableDictionary      *optimizedTextures;  // GLuint texture tags
-  NSMutableDictionary      *optimizedRepresentations; // access stored vertex objects by part name, then color.
-  dispatch_queue_t         catalogAccessQueue;  // serial queue to mutex changes to the part catalog
-  NSMutableDictionary      *parsingGroups;      // arrays of dispatch_group_t's which have requested each file currently being parsed
+    id <PartLibraryDelegate> delegate;
+    NSDictionary             *partCatalog;
+    NSMutableArray           *favorites;      // parts names in the "Favorites" pseduocategory
+    NSMutableDictionary      *loadedFiles;    // list of LDrawFiles which have been read off disk.
+    NSMutableDictionary      *loadedImages;
+    NSMutableDictionary      *optimizedTextures; // GLuint texture tags
+    NSMutableDictionary      *optimizedRepresentations; // access stored vertex objects by part name, then color.
+    dispatch_queue_t         catalogAccessQueue; // serial queue to mutex changes to the part catalog
+    NSMutableDictionary      *parsingGroups;     // arrays of dispatch_group_t's which have requested each file currently being parsed
 }
 
 // Initialization
@@ -97,19 +97,19 @@ extern NSString *Category_Subparts;
 
 // Utilites
 - (void)addPartsInFolder:(NSString *)folderPath
-  toCatalog:(NSMutableDictionary *)catalog
-  underCategory:(NSString *)category
-  namePrefix:(NSString *)namePrefix;
+    toCatalog:(NSMutableDictionary *)catalog
+    underCategory:(NSString *)category
+    namePrefix:(NSString *)namePrefix;
 - (NSString *)categoryForDescription:(NSString *)modelDescription;
 - (NSString *)descriptionForPart:(LDrawPart *)part;
 - (NSString *)descriptionForPartName:(NSString *)name;
 - (NSMutableDictionary *)catalogInfoForFileAtPath:(NSString *)filepath;
 - (CGImageRef)readImageAtPath:(NSString *)imagePath
-  asynchronously:(BOOL)asynchronous
-  completionHandler:(void (^)(CGImageRef))completionBlock;
+    asynchronously:(BOOL)asynchronous
+    completionHandler:(void (^)(CGImageRef))completionBlock;
 - (LDrawModel *)readModelAtPath:(NSString *)partPath
-  asynchronously:(BOOL)asynchronous
-  completionHandler:(void (^)(LDrawModel *))completionBlock;
+    asynchronously:(BOOL)asynchronous
+    completionHandler:(void (^)(LDrawModel *))completionBlock;
 
 @end
 

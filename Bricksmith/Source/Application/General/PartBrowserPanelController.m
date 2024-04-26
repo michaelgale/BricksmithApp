@@ -25,8 +25,8 @@ static PartBrowserPanelController *sharedPartBrowserPanel = nil;
 // ==============================================================================
 - (void)awakeFromNib
 {
-  [self->splitView setAutosaveName:@"PartBrowserPanelSplitView"];
-  [self->splitView restoreConfiguration];
+    [self->splitView setAutosaveName:@"PartBrowserPanelSplitView"];
+    [self->splitView restoreConfiguration];
 }// end awakeFromNib
 
 
@@ -34,7 +34,7 @@ static PartBrowserPanelController *sharedPartBrowserPanel = nil;
 // ==============================================================================
 - (void)windowDidLoad
 {
-  [self->partsBrowser scrollSelectedCategoryToCenter];
+    [self->partsBrowser scrollSelectedCategoryToCenter];
 }
 
 
@@ -49,11 +49,11 @@ static PartBrowserPanelController *sharedPartBrowserPanel = nil;
 // ------------------------------------------------------------------------------
 + (PartBrowserPanelController *)sharedPartBrowserPanel
 {
-  if (sharedPartBrowserPanel == nil) {
-    sharedPartBrowserPanel = [[PartBrowserPanelController alloc] init];
-  }
+    if (sharedPartBrowserPanel == nil) {
+        sharedPartBrowserPanel = [[PartBrowserPanelController alloc] init];
+    }
 
-  return(sharedPartBrowserPanel);
+    return(sharedPartBrowserPanel);
 }// end sharedPartBrowserPanel
 
 
@@ -64,9 +64,9 @@ static PartBrowserPanelController *sharedPartBrowserPanel = nil;
 // ==============================================================================
 - (id)init
 {
-  self = [super initWithWindowNibName:@"PartBrowser"];
+    self = [super initWithWindowNibName:@"PartBrowser"];
 
-  return(self);
+    return(self);
 }// end init
 
 
@@ -82,7 +82,7 @@ static PartBrowserPanelController *sharedPartBrowserPanel = nil;
 // ==============================================================================
 - (PartBrowserDataSource *)partBrowser
 {
-  return(self->partsBrowser);
+    return(self->partsBrowser);
 }// end partBrowser
 
 
@@ -105,9 +105,9 @@ static PartBrowserPanelController *sharedPartBrowserPanel = nil;
 // ==============================================================================
 - (void)windowWillClose:(NSNotification *)notification
 {
-  // Make sure our memory is all released.
-  sharedPartBrowserPanel = nil;
-  [self autorelease];
+    // Make sure our memory is all released.
+    sharedPartBrowserPanel = nil;
+    [self autorelease];
 }// end windowWillClose:
 
 
@@ -120,9 +120,9 @@ static PartBrowserPanelController *sharedPartBrowserPanel = nil;
 // ==============================================================================
 - (NSUndoManager *)windowWillReturnUndoManager:(NSWindow *)sender
 {
-  NSDocument *currentDocument = [[NSDocumentController sharedDocumentController] currentDocument];
+    NSDocument *currentDocument = [[NSDocumentController sharedDocumentController] currentDocument];
 
-  return([currentDocument undoManager]);
+    return([currentDocument undoManager]);
 }// end windowWillReturnUndoManager:
 
 
@@ -133,7 +133,7 @@ static PartBrowserPanelController *sharedPartBrowserPanel = nil;
 // ==============================================================================
 - (CGFloat)splitView:(NSSplitView *)sender constrainMinCoordinate:(CGFloat)proposedMin ofSubviewAt:(NSInteger)offset
 {
-  return(96);
+    return(96);
 }// end splitView:constrainMinCoordinate:ofSubviewAt:
 
 
@@ -148,9 +148,9 @@ static PartBrowserPanelController *sharedPartBrowserPanel = nil;
 // ==============================================================================
 - (void)dealloc
 {
-  // no need to release top-level nib objects, as this is an NSWindowController
+    // no need to release top-level nib objects, as this is an NSWindowController
 
-  [super dealloc];
+    [super dealloc];
 }// end dealloc
 
 

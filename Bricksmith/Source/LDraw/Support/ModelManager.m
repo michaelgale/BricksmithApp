@@ -46,16 +46,16 @@
 ////////////////////////////////////////////////////////////////////////////////
 @interface ModelServiceTable : NSObject
 {
-  @public
-  LDrawFile *file;
-  NSString  *fileName;
-  NSString  *parentDirectory;
+    @public
+    LDrawFile *file;
+    NSString  *fileName;
+    NSString  *parentDirectory;
 
-  // These are the file names present in the same directory as this model.
-  NSMutableSet *peerFileNames;          // NSString * filename
+    // These are the file names present in the same directory as this model.
+    NSMutableSet *peerFileNames;        // NSString * filename
 
-  // This is each file we are tracking and using as input for this model - the key is a full path on disk.
-  NSMutableDictionary *trackedFiles;    // NSString * filepath -> LDrawFile* modelfile
+    // This is each file we are tracking and using as input for this model - the key is a full path on disk.
+    NSMutableDictionary *trackedFiles;  // NSString * filepath -> LDrawFile* modelfile
 }
 
 - (id)initWithFileName:(NSString *)fileName parentDir:(NSString *)parentDir file:(LDrawFile *)file;
@@ -78,30 +78,30 @@
 //
 // ==============================================================================
 - (id)initWithFileName:(NSString *)inFileName parentDir:(NSString *)inParentDir file:(LDrawFile *)
-  inFile;
+    inFile;
 {
-  // NSLog(@"Starting service on file %p as %@/%@\n",inFile,inParentDir,inFileName);
-  self = [super init];
+    // NSLog(@"Starting service on file %p as %@/%@\n",inFile,inParentDir,inFileName);
+    self = [super init];
 
-  // NSLog(@"Init service table %p\n", self);
-  self->file            = inFile;
-  self->fileName        = [inFileName retain];
-  self->parentDirectory = [inParentDir retain];
+    // NSLog(@"Init service table %p\n", self);
+    self->file            = inFile;
+    self->fileName        = [inFileName retain];
+    self->parentDirectory = [inParentDir retain];
 
-  NSFileManager *fileManager = [[[NSFileManager alloc] init] autorelease];
-  NSArray       *partNames   = [fileManager contentsOfDirectoryAtPath:inParentDir
-                                                                error:NULL];
+    NSFileManager *fileManager = [[[NSFileManager alloc] init] autorelease];
+    NSArray       *partNames   = [fileManager contentsOfDirectoryAtPath:inParentDir
+                                  error:NULL];
 
-  // Must use reference-style names. Peer file names are only cached for the
-  // purposes of finding whether or not a part references a peer file.
-  partNames = [partNames valueForKey:@"lowercaseString"];
+    // Must use reference-style names. Peer file names are only cached for the
+    // purposes of finding whether or not a part references a peer file.
+    partNames = [partNames valueForKey:@"lowercaseString"];
 
-  peerFileNames = [[NSMutableSet alloc] initWithArray:partNames];
-  trackedFiles  = [[NSMutableDictionary alloc] init];
+    peerFileNames = [[NSMutableSet alloc] initWithArray:partNames];
+    trackedFiles  = [[NSMutableDictionary alloc] init];
 
-  // NSLog(@"Found %d peers.\n", [self->peerFileNames count]);
+    // NSLog(@"Found %d peers.\n", [self->peerFileNames count]);
 
-  return(self);
+    return(self);
 }
 
 
@@ -118,25 +118,25 @@
 // ==============================================================================
 - (void)dealloc
 {
-  // NSLog(@"Nuking sevice table %p\n",self);
+    // NSLog(@"Nuking sevice table %p\n",self);
 
-  // Go through all tracked files and tell their first model's clients that
-  // they are going away.
-  for (NSString *partPath in trackedFiles) {
-    LDrawFile *deadFile = [trackedFiles objectForKey:partPath];
-    [[deadFile firstModel] sendMessageToObservers:MessageScopeChanged];
-    [[ModelManager sharedModelManager] documentSignOut:deadFile];
-  }
+    // Go through all tracked files and tell their first model's clients that
+    // they are going away.
+    for (NSString *partPath in trackedFiles) {
+        LDrawFile *deadFile = [trackedFiles objectForKey:partPath];
+        [[deadFile firstModel] sendMessageToObservers:MessageScopeChanged];
+        [[ModelManager sharedModelManager] documentSignOut:deadFile];
+    }
 
-  [peerFileNames release];
-  // When we nuke the trackedFiles we release our retain count on the
-  // LDrawFiles.
-  [trackedFiles release];
-  [fileName release];
-  [parentDirectory release];
+    [peerFileNames release];
+    // When we nuke the trackedFiles we release our retain count on the
+    // LDrawFiles.
+    [trackedFiles release];
+    [fileName release];
+    [parentDirectory release];
 
-  // NSLog(@"%p Gone\n",self);
-  [super dealloc];
+    // NSLog(@"%p Gone\n",self);
+    [super dealloc];
 }
 
 
@@ -147,53 +147,53 @@
 // ==============================================================================
 - (LDrawFile *)beginService:(NSString *)inPartialPath
 {
-  // Calculate full path for this model from our root + the "partial" we were asked about.
-  // NSLog(@"%p: Loading model for part name: %@\n", self, inPartialPath);
-  NSString *fullPath = [parentDirectory stringByAppendingPathComponent:inPartialPath];
+    // Calculate full path for this model from our root + the "partial" we were asked about.
+    // NSLog(@"%p: Loading model for part name: %@\n", self, inPartialPath);
+    NSString *fullPath = [parentDirectory stringByAppendingPathComponent:inPartialPath];
 
-  fullPath = [fullPath stringByReplacingOccurrencesOfString:@"\\"
-                                                 withString:@"/"];
+    fullPath = [fullPath stringByReplacingOccurrencesOfString:@"\\"
+                withString:@"/"];
 
-  NSFileManager *fileManager = [[[NSFileManager alloc] init] autorelease];
+    NSFileManager *fileManager = [[[NSFileManager alloc] init] autorelease];
 
-  // Quick check whether the file is still there.
-  if (![fileManager fileExistsAtPath:fullPath]) {
-    return(nil);
-  }
+    // Quick check whether the file is still there.
+    if (![fileManager fileExistsAtPath:fullPath]) {
+        return(nil);
+    }
 
-  NSString *fileContents = [LDrawUtilities stringFromFile:fullPath];
-  NSArray  *lines        = [fileContents separateByLine];
+    NSString *fileContents = [LDrawUtilities stringFromFile:fullPath];
+    NSArray  *lines        = [fileContents separateByLine];
 
-  dispatch_group_t group = NULL;
-
-#if USE_BLOCKS
-  group = dispatch_group_create();
-#endif
-
-  LDrawFile *parsedFile = [[LDrawFile alloc] initWithLines:lines
-                                                   inRange:NSMakeRange(0, [lines count])
-                                               parentGroup:group];
+    dispatch_group_t group = NULL;
 
 #if USE_BLOCKS
-  dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
-  dispatch_release(group);
+    group = dispatch_group_create();
 #endif
-  if (parsedFile) {
-    [parsedFile setPath:fullPath];
-    [trackedFiles setObject:parsedFile forKey:fullPath];
-    [parsedFile release];     // Hash table tracked files retains the ONLY
-    // ref count - our "init" ref count gets tossed!
 
-    // The model we just opened (to help the user's doc) might in turn refer to yet more
-    // peer files, so recursively open service on it.  The "internal" version won't freak
-    // out that another document owns us.
-    [[ModelManager sharedModelManager] documentSignInInternal:fullPath
-                                                     withFile:parsedFile];
-  }
+    LDrawFile *parsedFile = [[LDrawFile alloc] initWithLines:lines
+                             inRange:NSMakeRange(0, [lines count])
+                             parentGroup:group];
+
+#if USE_BLOCKS
+    dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
+    dispatch_release(group);
+#endif
+    if (parsedFile) {
+        [parsedFile setPath:fullPath];
+        [trackedFiles setObject:parsedFile forKey:fullPath];
+        [parsedFile release]; // Hash table tracked files retains the ONLY
+        // ref count - our "init" ref count gets tossed!
+
+        // The model we just opened (to help the user's doc) might in turn refer to yet more
+        // peer files, so recursively open service on it.  The "internal" version won't freak
+        // out that another document owns us.
+        [[ModelManager sharedModelManager] documentSignInInternal:fullPath
+         withFile:parsedFile];
+    }
 
 
-  // NSLog(@"   Loaded %p\n", parsedFile);
-  return(parsedFile);
+    // NSLog(@"   Loaded %p\n", parsedFile);
+    return(parsedFile);
 }
 
 
@@ -212,20 +212,20 @@
 // ==============================================================================
 - (BOOL)dropService:(NSString *)inFilePath
 {
-  LDrawFile *deadFile = [trackedFiles objectForKey:inFilePath];
+    LDrawFile *deadFile = [trackedFiles objectForKey:inFilePath];
 
-  if (deadFile) {
-    // NSLog(@"%p: drop sevice for %@\n", self,inFileName);
-    [[deadFile firstModel] sendMessageToObservers:MessageScopeChanged];
+    if (deadFile) {
+        // NSLog(@"%p: drop sevice for %@\n", self,inFileName);
+        [[deadFile firstModel] sendMessageToObservers:MessageScopeChanged];
 
-    // This releases any files that deadFile was in tunr using.
-    [[ModelManager sharedModelManager] documentSignOut:deadFile];
+        // This releases any files that deadFile was in tunr using.
+        [[ModelManager sharedModelManager] documentSignOut:deadFile];
 
-    [trackedFiles removeObjectForKey:inFilePath];
+        [trackedFiles removeObjectForKey:inFilePath];
 
-    return(TRUE);
-  }
-  return(FALSE);
+        return(TRUE);
+    }
+    return(FALSE);
 }
 
 
@@ -242,11 +242,11 @@ static ModelManager *SharedModelManager = nil;
 // ==============================================================================
 + (ModelManager *)sharedModelManager
 {
-  if (SharedModelManager == nil) {
-    SharedModelManager = [[ModelManager alloc] init];
-  }
+    if (SharedModelManager == nil) {
+        SharedModelManager = [[ModelManager alloc] init];
+    }
 
-  return(SharedModelManager);
+    return(SharedModelManager);
 }
 
 
@@ -257,10 +257,10 @@ static ModelManager *SharedModelManager = nil;
 // ==============================================================================
 - (id)init
 {
-  self          = [super init];
-  serviceTables = [[NSMutableDictionary alloc] init];
-  dirChars      = [[NSCharacterSet characterSetWithCharactersInString:@"\\/"] retain];
-  return(self);
+    self          = [super init];
+    serviceTables = [[NSMutableDictionary alloc] init];
+    dirChars      = [[NSCharacterSet characterSetWithCharactersInString:@"\\/"] retain];
+    return(self);
 }
 
 
@@ -271,15 +271,15 @@ static ModelManager *SharedModelManager = nil;
 // ==============================================================================
 - (void)dealloc
 {
-  // NSLog(@"model mgr gone - why?\n");
+    // NSLog(@"model mgr gone - why?\n");
 // for(NSValue * key in serviceTables)
 // {
 // LDrawFile * f = [key pointerValue];
 // [f release];
 // }
-  [serviceTables release];
-  [dirChars release];
-  [super dealloc];
+    [serviceTables release];
+    [dirChars release];
+    [super dealloc];
 }
 
 
@@ -293,45 +293,45 @@ static ModelManager *SharedModelManager = nil;
 // ==============================================================================
 - (void)documentSignIn:(NSString *)docPath withFile:(LDrawFile *)file
 {
-  if ([serviceTables objectForKey:[NSValue valueWithPointer:file]] != nil) {
-    return;
-  }
-
-  // NSLog(@"Accepting sign-in of document %@ as file %p\n", docPath, file);
-
-  NSString *docParentDir = [docPath stringByDeletingLastPathComponent];
-  NSString *docFileName  = [docPath lastPathComponent];
-
-  // First: go figure out if we were providing this ldraw file for some other document.
-  // If so, we really need to drop it!
-
-  // Two bits of chaos:
-  // 1. While we walk the service table to see if the document coming in was opened as a peer
-  // to someone else we may close that document.  If we do, we drop that doc's service table
-  // which mutates the collection.  So for now we hack and just restart the search.
-  // 2. This restart is needed anyway, because closing a doc might cause a chain reaction
-  // of service roll-ups.
-
-  bool did_drop = false;
-  do {
-    did_drop = false;
-
-    for (NSValue *key in serviceTables) {
-      ModelServiceTable *table = [serviceTables objectForKey:key];
-
-      // NSLog(@"Open document %@/%@ had to drop service on peer %@\n", table->parentDirectory, table->fileName, docFileName);
-      if ([table dropService:docPath]) {
-        did_drop = true;
-        break;
-      }
+    if ([serviceTables objectForKey:[NSValue valueWithPointer:file]] != nil) {
+        return;
     }
-  } while (did_drop);
 
-  ModelServiceTable *newTable = [[ModelServiceTable alloc] initWithFileName:docFileName
-                                                                  parentDir:docParentDir
-                                                                       file:file];
-  [serviceTables setObject:newTable forKey:[NSValue valueWithPointer:file]];
-  [newTable release];
+    // NSLog(@"Accepting sign-in of document %@ as file %p\n", docPath, file);
+
+    NSString *docParentDir = [docPath stringByDeletingLastPathComponent];
+    NSString *docFileName  = [docPath lastPathComponent];
+
+    // First: go figure out if we were providing this ldraw file for some other document.
+    // If so, we really need to drop it!
+
+    // Two bits of chaos:
+    // 1. While we walk the service table to see if the document coming in was opened as a peer
+    // to someone else we may close that document.  If we do, we drop that doc's service table
+    // which mutates the collection.  So for now we hack and just restart the search.
+    // 2. This restart is needed anyway, because closing a doc might cause a chain reaction
+    // of service roll-ups.
+
+    bool did_drop = false;
+    do {
+        did_drop = false;
+
+        for (NSValue *key in serviceTables) {
+            ModelServiceTable *table = [serviceTables objectForKey:key];
+
+            // NSLog(@"Open document %@/%@ had to drop service on peer %@\n", table->parentDirectory, table->fileName, docFileName);
+            if ([table dropService:docPath]) {
+                did_drop = true;
+                break;
+            }
+        }
+    } while (did_drop);
+
+    ModelServiceTable *newTable = [[ModelServiceTable alloc] initWithFileName:docFileName
+                                   parentDir:docParentDir
+                                   file:file];
+    [serviceTables setObject:newTable forKey:[NSValue valueWithPointer:file]];
+    [newTable release];
 }// end documentSignIn:withFile:
 
 
@@ -345,20 +345,20 @@ static ModelManager *SharedModelManager = nil;
 // ==============================================================================
 - (void)documentSignInInternal:(NSString *)docPath withFile:(LDrawFile *)file
 {
-  if ([serviceTables objectForKey:[NSValue valueWithPointer:file]] != nil) {
-    return;
-  }
+    if ([serviceTables objectForKey:[NSValue valueWithPointer:file]] != nil) {
+        return;
+    }
 
-  // NSLog(@"Accepting sign-in of document %@ as file %p\n", docPath, file);
+    // NSLog(@"Accepting sign-in of document %@ as file %p\n", docPath, file);
 
-  NSString *docParentDir = [docPath stringByDeletingLastPathComponent];
-  NSString *docFileName  = [docPath lastPathComponent];
+    NSString *docParentDir = [docPath stringByDeletingLastPathComponent];
+    NSString *docFileName  = [docPath lastPathComponent];
 
-  ModelServiceTable *newTable = [[ModelServiceTable alloc] initWithFileName:docFileName
-                                                                  parentDir:docParentDir
-                                                                       file:file];
-  [serviceTables setObject:newTable forKey:[NSValue valueWithPointer:file]];
-  [newTable release];
+    ModelServiceTable *newTable = [[ModelServiceTable alloc] initWithFileName:docFileName
+                                   parentDir:docParentDir
+                                   file:file];
+    [serviceTables setObject:newTable forKey:[NSValue valueWithPointer:file]];
+    [newTable release];
 }
 
 
@@ -371,39 +371,39 @@ static ModelManager *SharedModelManager = nil;
 // ==============================================================================
 - (void)documentSignOut:(LDrawFile *)doc
 {
-  ModelServiceTable *t = [serviceTables objectForKey:[NSValue valueWithPointer:doc]];
+    ModelServiceTable *t = [serviceTables objectForKey:[NSValue valueWithPointer:doc]];
 
-  if (t) {
-    // NSLog(@"Accepting sign-out for doc %p\n", doc);
+    if (t) {
+        // NSLog(@"Accepting sign-out for doc %p\n", doc);
 
-    // Ben says: the extra retain/release matter!!  If we don't retain "t", then
-    // the ONLY strong reference to T comes frmo the servicesTables dictionary
-    // (the logical owner of all service tables) - removing the object at key
-    // releases the last ref and deletes the service table.
-    //
-    // Buuuuuuut!  The dealloc method of the service table kills off sub-files by
-    // calling...wait for it...documentSignOut!  The child will go and try to
-    // remove _its_ own services table.
-    //
-    // At this point we are calling removeObjectForKey on an object from INSIDE
-    // the callstack of removeObjectForKey on the same object.  In other words,
-    // we're single threaded but still re-entrant.  Is this okay?
-    //
-    // The answer seems to be: NO for 10.6.8 but MAYBE for 10.7 and later.
-    // NSMutableDictionary is Implemented via a CFMutableDictionary, and the code
-    // got a rework from 10.6.8 to 10.7.5.  I haven't found any docs saying it's
-    // okay to re-entrantly remove keys, but the newer code looks like it could
-    // be plausibly safe - it sets all keys to nulls (recursive) first and then
-    // winds down the hash table.  The old code mixed container mutation and
-    // callbacks, which seems dangerous.
-    //
-    // Either way we can MOOT the issue by simply retaining t.  When we remove
-    // it from the dictionary, now WE own the last reference, and our release
-    // triggers the recursive-dealloc.  This happens outside a CF container call.
-    [t retain];
-    [serviceTables removeObjectForKey:[NSValue valueWithPointer:doc]];
-    [t release];
-  }
+        // Ben says: the extra retain/release matter!!  If we don't retain "t", then
+        // the ONLY strong reference to T comes frmo the servicesTables dictionary
+        // (the logical owner of all service tables) - removing the object at key
+        // releases the last ref and deletes the service table.
+        //
+        // Buuuuuuut!  The dealloc method of the service table kills off sub-files by
+        // calling...wait for it...documentSignOut!  The child will go and try to
+        // remove _its_ own services table.
+        //
+        // At this point we are calling removeObjectForKey on an object from INSIDE
+        // the callstack of removeObjectForKey on the same object.  In other words,
+        // we're single threaded but still re-entrant.  Is this okay?
+        //
+        // The answer seems to be: NO for 10.6.8 but MAYBE for 10.7 and later.
+        // NSMutableDictionary is Implemented via a CFMutableDictionary, and the code
+        // got a rework from 10.6.8 to 10.7.5.  I haven't found any docs saying it's
+        // okay to re-entrantly remove keys, but the newer code looks like it could
+        // be plausibly safe - it sets all keys to nulls (recursive) first and then
+        // winds down the hash table.  The old code mixed container mutation and
+        // callbacks, which seems dangerous.
+        //
+        // Either way we can MOOT the issue by simply retaining t.  When we remove
+        // it from the dictionary, now WE own the last reference, and our release
+        // triggers the recursive-dealloc.  This happens outside a CF container call.
+        [t retain];
+        [serviceTables removeObjectForKey:[NSValue valueWithPointer:doc]];
+        [t release];
+    }
 }
 
 
@@ -419,55 +419,55 @@ static ModelManager *SharedModelManager = nil;
 // ==============================================================================
 - (LDrawModel *)requestModel:(NSString *)partName withDocument:(LDrawFile *)whoIsAsking
 {
-  ModelServiceTable *table = [serviceTables objectForKey:[NSValue valueWithPointer:whoIsAsking]];
+    ModelServiceTable *table = [serviceTables objectForKey:[NSValue valueWithPointer:whoIsAsking]];
 
-  if (table == nil) {
-    // NSLog(@"    ignoring part lookup on part %@ because file %p is unknown.\n", partName, whoIsAsking);
+    if (table == nil) {
+        // NSLog(@"    ignoring part lookup on part %@ because file %p is unknown.\n", partName, whoIsAsking);
+        return(nil);
+    }
+    // NSLog(@"Part check for known file %@/%@ - wants part %@\n", table->parentDirectory, table->fileName, partName);
+
+    NSString *fullPath = [table->parentDirectory stringByAppendingPathComponent:partName];
+
+    fullPath = [fullPath stringByReplacingOccurrencesOfString:@"\\" withString:@"/"];
+
+
+    for (LDrawFile *key in serviceTables) {
+        ModelServiceTable *otherDoc = [serviceTables objectForKey:key];
+
+        NSString *otherFullPath =
+            [otherDoc->parentDirectory stringByAppendingPathComponent:otherDoc->fileName];
+
+        if ([fullPath isEqualToString:otherFullPath]) {
+            // NSLog(@" Part was already loaded - returning.\n");
+            return([otherDoc->file firstModel]);
+        }
+    }
+
+    LDrawFile *alreadyOpenedFile = [table->trackedFiles objectForKey:fullPath];
+
+    if (alreadyOpenedFile) {
+        return([alreadyOpenedFile firstModel]);
+    }
+
+
+    if (![table->peerFileNames containsObject:partName]) {
+        // Fast case: since we cached our directory, if the part has no relative path
+        // and is missing, we can bail now.
+        if ([partName rangeOfCharacterFromSet:dirChars].location == NSNotFound) {
+            return(nil);
+        }
+    }
+
+
+    // NSLog(@" Part may exist - trying to open. - returning.\n");
+    LDrawFile *justOpenedNow = [table beginService:partName];
+
+    if (justOpenedNow) {
+        return([justOpenedNow firstModel]);
+    }
+
     return(nil);
-  }
-  // NSLog(@"Part check for known file %@/%@ - wants part %@\n", table->parentDirectory, table->fileName, partName);
-
-  NSString *fullPath = [table->parentDirectory stringByAppendingPathComponent:partName];
-
-  fullPath = [fullPath stringByReplacingOccurrencesOfString:@"\\" withString:@"/"];
-
-
-  for (LDrawFile *key in serviceTables) {
-    ModelServiceTable *otherDoc = [serviceTables objectForKey:key];
-
-    NSString *otherFullPath =
-      [otherDoc->parentDirectory stringByAppendingPathComponent:otherDoc->fileName];
-
-    if ([fullPath isEqualToString:otherFullPath]) {
-      // NSLog(@" Part was already loaded - returning.\n");
-      return([otherDoc->file firstModel]);
-    }
-  }
-
-  LDrawFile *alreadyOpenedFile = [table->trackedFiles objectForKey:fullPath];
-
-  if (alreadyOpenedFile) {
-    return([alreadyOpenedFile firstModel]);
-  }
-
-
-  if (![table->peerFileNames containsObject:partName]) {
-    // Fast case: since we cached our directory, if the part has no relative path
-    // and is missing, we can bail now.
-    if ([partName rangeOfCharacterFromSet:dirChars].location == NSNotFound) {
-      return(nil);
-    }
-  }
-
-
-  // NSLog(@" Part may exist - trying to open. - returning.\n");
-  LDrawFile *justOpenedNow = [table beginService:partName];
-
-  if (justOpenedNow) {
-    return([justOpenedNow firstModel]);
-  }
-
-  return(nil);
 }
 
 

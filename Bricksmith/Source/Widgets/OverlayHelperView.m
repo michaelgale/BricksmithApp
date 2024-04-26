@@ -36,24 +36,24 @@
 // ==============================================================================
 - (id)initWithOverlayView:(NSView *)overlayView
 {
-  self = [super initWithFrame:NSZeroRect];
+    self = [super initWithFrame:NSZeroRect];
 
-  // The overlay content itself is offloaded to a child window (which is
-  // hardware-composited by the OS for sizzling performance).
-  self->helperWindow =
-    [[OverlayHelperWindow alloc] initWithContentRect:NSMakeRect(-10000, -10000,
-                                                                1, 1)
-                                           styleMask:NSWindowStyleMaskBorderless
-                                             backing:NSBackingStoreBuffered
-                                               defer:YES
-                                             ordered:NSWindowAbove];
-  // The window can get auto-closed by the OS when its parent window is
-  // closed, leaving us with a dangling pointer if we didn't call this.
-  [helperWindow setReleasedWhenClosed:NO];
+    // The overlay content itself is offloaded to a child window (which is
+    // hardware-composited by the OS for sizzling performance).
+    self->helperWindow =
+        [[OverlayHelperWindow alloc] initWithContentRect:NSMakeRect(-10000, -10000,
+                                                                    1, 1)
+         styleMask:NSWindowStyleMaskBorderless
+         backing:NSBackingStoreBuffered
+         defer:YES
+         ordered:NSWindowAbove];
+    // The window can get auto-closed by the OS when its parent window is
+    // closed, leaving us with a dangling pointer if we didn't call this.
+    [helperWindow setReleasedWhenClosed:NO];
 
-  [helperWindow setContentView:overlayView];
+    [helperWindow setContentView:overlayView];
 
-  return(self);
+    return(self);
 }// end initWithFrame:
 
 
@@ -69,7 +69,7 @@
 // ==============================================================================
 - (NSView *)overlayView
 {
-  return([self->helperWindow contentView]);
+    return([self->helperWindow contentView]);
 }// end overlayView
 
 
@@ -84,7 +84,7 @@
 // ==============================================================================
 - (void)viewWillMoveToWindow:(NSWindow *)theWindow
 {
-  [helperWindow parentViewWillMoveToWindow:theWindow];
+    [helperWindow parentViewWillMoveToWindow:theWindow];
 }// end viewWillMoveToWindow:
 
 
@@ -95,7 +95,7 @@
 // ==============================================================================
 - (void)viewDidMoveToWindow
 {
-  [helperWindow parentViewDidMoveToWindow];
+    [helperWindow parentViewDidMoveToWindow];
 }// end viewDidMoveToWindow
 
 
@@ -108,9 +108,9 @@
 // ==============================================================================
 - (void)viewWillMoveToSuperview:(NSView *)newSuperview
 {
-  // The child window needs to watch the frame of the hardware-accelerated
-  // view.
-  [helperWindow setParentView:newSuperview];
+    // The child window needs to watch the frame of the hardware-accelerated
+    // view.
+    [helperWindow setParentView:newSuperview];
 }// end viewWillMoveToSuperview:
 
 
@@ -125,9 +125,9 @@
 // ==============================================================================
 - (void)dealloc
 {
-  [helperWindow release];
+    [helperWindow release];
 
-  [super dealloc];
+    [super dealloc];
 }// end dealloc
 
 

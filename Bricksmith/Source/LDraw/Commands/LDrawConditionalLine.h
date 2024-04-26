@@ -16,8 +16,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 @interface LDrawConditionalLine : LDrawLine <NSCoding>
 {
-  Point3 conditionalVertex1;
-  Point3 conditionalVertex2;
+    Point3 conditionalVertex1;
+    Point3 conditionalVertex2;
 }
 
 // Accessors

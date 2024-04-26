@@ -18,13 +18,13 @@
 ////////////////////////////////////////////////////////////////////////////////
 @interface LDrawTriangle : LDrawDrawableElement <NSCoding>
 {
-  Point3 vertex1;
-  Point3 vertex2;
-  Point3 vertex3;
+    Point3 vertex1;
+    Point3 vertex2;
+    Point3 vertex3;
 
-  Vector3 normal;
+    Vector3 normal;
 
-  NSArray *dragHandles;
+    NSArray *dragHandles;
 }
 
 // Accessors

@@ -13,7 +13,7 @@
 
 @interface InspectionComment : ObjectInspectionController
 {
-  IBOutlet NSTextField *commandField;
+    IBOutlet NSTextField *commandField;
 }
 
 // Actions

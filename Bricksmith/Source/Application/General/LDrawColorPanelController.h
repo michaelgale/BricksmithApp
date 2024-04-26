@@ -20,17 +20,17 @@
 ////////////////////////////////////////////////////////////////////////////////
 @interface LDrawColorPanelController : NSWindowController <LDrawColorable>
 {
-  IBOutlet LDrawColorBar *colorBar;
-  IBOutlet NSPopUpButton *materialPopUpButton;
-  IBOutlet NSTableView   *colorTable;
-  IBOutlet NSSearchField *searchField;
-  IBOutlet NSButton      *addRemoveFavoriteButton;
+    IBOutlet LDrawColorBar *colorBar;
+    IBOutlet NSPopUpButton *materialPopUpButton;
+    IBOutlet NSTableView   *colorTable;
+    IBOutlet NSSearchField *searchField;
+    IBOutlet NSButton      *addRemoveFavoriteButton;
 
-  IBOutlet NSArrayController *colorListController;
+    IBOutlet NSArrayController *colorListController;
 
-  // YES if we are in the middle of updating the color panel to
-  // reflect the current selection, NO any other time.
-  BOOL updatingToReflectFile;
+    // YES if we are in the middle of updating the color panel to
+    // reflect the current selection, NO any other time.
+    BOOL updatingToReflectFile;
 }
 
 // Initialization

@@ -30,11 +30,11 @@
 // ==============================================================================
 - (id)init
 {
-  self = [super init];
+    self = [super init];
 
-  self->hidden = NO;
+    self->hidden = NO;
 
-  return(self);
+    return(self);
 }// end init
 
 
@@ -47,27 +47,27 @@
 // ==============================================================================
 - (id)initWithCoder:(NSCoder *)decoder
 {
-  self = [super initWithCoder:decoder];
+    self = [super initWithCoder:decoder];
 
-  [self setLDrawColor:[decoder decodeObjectForKey:@"color"]];
-  [self setHidden:[decoder decodeBoolForKey:@"hidden"]];
+    [self setLDrawColor:[decoder decodeObjectForKey:@"color"]];
+    [self setHidden:[decoder decodeBoolForKey:@"hidden"]];
 
-  // If the part's color comes from the library, use the library version
-  // instead of the dearchived one.
-  //
-  // Note: This won't help us for file-local colors. They are messy. We don't
-  // know what model we belong to until after the part's step has been
-  // fully unpacked and added to the model. Only then can we finally
-  // retrieve the model's local color library. Currently we have no
-  // hooks for that operation; we need a -directiveDidMoveToModel: call
-  // and distribute it to all children.
-  ColorLibrary *colorLibrary = [ColorLibrary sharedColorLibrary];
-  LDrawColor   *libraryColor = [colorLibrary colorForCode:[self->color colorCode]];
-  if (libraryColor) {
-    [self setLDrawColor:libraryColor];
-  }
+    // If the part's color comes from the library, use the library version
+    // instead of the dearchived one.
+    //
+    // Note: This won't help us for file-local colors. They are messy. We don't
+    // know what model we belong to until after the part's step has been
+    // fully unpacked and added to the model. Only then can we finally
+    // retrieve the model's local color library. Currently we have no
+    // hooks for that operation; we need a -directiveDidMoveToModel: call
+    // and distribute it to all children.
+    ColorLibrary *colorLibrary = [ColorLibrary sharedColorLibrary];
+    LDrawColor   *libraryColor = [colorLibrary colorForCode:[self->color colorCode]];
+    if (libraryColor) {
+        [self setLDrawColor:libraryColor];
+    }
 
-  return(self);
+    return(self);
 }// end initWithCoder:
 
 
@@ -80,12 +80,12 @@
 // ==============================================================================
 - (void)encodeWithCoder:(NSCoder *)encoder
 {
-  [super encodeWithCoder:encoder];
+    [super encodeWithCoder:encoder];
 
-  [encoder encodeObject:self->color
-                 forKey:@"color"];
-  [encoder encodeBool:hidden
-               forKey:@"hidden"];
+    [encoder encodeObject:self->color
+     forKey:@"color"];
+    [encoder encodeBool:hidden
+     forKey:@"hidden"];
 }// end encodeWithCoder:
 
 
@@ -96,12 +96,12 @@
 // ==============================================================================
 - (id)copyWithZone:(NSZone *)zone
 {
-  LDrawDrawableElement *copied = (LDrawDrawableElement *)[super copyWithZone:zone];
+    LDrawDrawableElement *copied = (LDrawDrawableElement *)[super copyWithZone:zone];
 
-  // Colors are references, so they don't get copied
-  [copied setLDrawColor:[self LDrawColor]];
+    // Colors are references, so they don't get copied
+    [copied setLDrawColor:[self LDrawColor]];
 
-  return(copied);
+    return(copied);
 }// end copyWithZone:
 
 
@@ -119,35 +119,35 @@
 - (void)draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)parentColor
 
 {
-  // [super draw]; //does nothing anyway; don't call it.
+    // [super draw]; //does nothing anyway; don't call it.
 
-  if (self->hidden == NO) {
-    // Resolve color and draw
+    if (self->hidden == NO) {
+        // Resolve color and draw
 
-    switch ([self->color colorCode])
-    {
-      case LDrawCurrentColor :
-        // Just draw; don't fool with colors. A significant portion of our
-        // drawing code probably falls into this category.
-        [self drawElement:optionsMask
-                viewScale:scaleFactor
-                withColor:parentColor];
-        break;
+        switch ([self->color colorCode])
+        {
+            case LDrawCurrentColor :
+                // Just draw; don't fool with colors. A significant portion of our
+                // drawing code probably falls into this category.
+                [self drawElement:optionsMask
+                 viewScale:scaleFactor
+                 withColor:parentColor];
+                break;
 
-      case LDrawEdgeColor :
-        [self drawElement:optionsMask
-                viewScale:scaleFactor
-                withColor:[self->color complimentColor]];
-        break;
+            case LDrawEdgeColor :
+                [self drawElement:optionsMask
+                 viewScale:scaleFactor
+                 withColor:[self->color complimentColor]];
+                break;
 
-      case LDrawColorCustomRGB :
-      default :
-        [self drawElement:optionsMask
-                viewScale:scaleFactor
-                withColor:self->color];
-        break;
+            case LDrawColorCustomRGB :
+            default :
+                [self drawElement:optionsMask
+                 viewScale:scaleFactor
+                 withColor:self->color];
+                break;
+        }
     }
-  }
 }// end draw:optionsMask:
 
 
@@ -157,45 +157,45 @@
 //
 // ==============================================================================
 - (VBOVertexData *)writeToVertexBuffer:(VBOVertexData *)vertexBuffer
-  parentColor:(LDrawColor *)parentColor
-  wireframe:(BOOL)wireframe
+    parentColor:(LDrawColor *)parentColor
+    wireframe:(BOOL)wireframe
 {
-  VBOVertexData *endPointer = NULL;
+    VBOVertexData *endPointer = NULL;
 
-  if (parentColor == nil || self->color == nil) {
-    NSLog(@"nil color");
-  }
+    if (parentColor == nil || self->color == nil) {
+        NSLog(@"nil color");
+    }
 
-  switch ([self->color colorCode])
-  {
-    case LDrawCurrentColor :
-      // Just draw; don't fool with colors. A significant portion of our
-      // drawing code probably falls into this category.
-      endPointer = [self writeElementToVertexBuffer:vertexBuffer
-                                          withColor:parentColor
-                                          wireframe:wireframe];
-      break;
+    switch ([self->color colorCode])
+    {
+        case LDrawCurrentColor :
+            // Just draw; don't fool with colors. A significant portion of our
+            // drawing code probably falls into this category.
+            endPointer = [self writeElementToVertexBuffer:vertexBuffer
+                          withColor:parentColor
+                          wireframe:wireframe];
+            break;
 
-    case LDrawEdgeColor :
-      // We'll need to turn this on to support file-local colors.
-      // ColorLibrary	*colorLibrary	= [[[self enclosingDirective] enclosingModel] colorLibrary];
-      // LDrawColor		*colorObject	= [colorLibrary colorForCode:self->color];
-      endPointer =
-        [self writeElementToVertexBuffer:vertexBuffer
-                               withColor:[parentColor complimentColor]
-                               wireframe:
-         wireframe];
-      break;
+        case LDrawEdgeColor :
+            // We'll need to turn this on to support file-local colors.
+            // ColorLibrary	*colorLibrary	= [[[self enclosingDirective] enclosingModel] colorLibrary];
+            // LDrawColor		*colorObject	= [colorLibrary colorForCode:self->color];
+            endPointer =
+                [self writeElementToVertexBuffer:vertexBuffer
+                 withColor:[parentColor complimentColor]
+                 wireframe:
+                 wireframe];
+            break;
 
-    case LDrawColorCustomRGB :
-    default :
-      endPointer = [self writeElementToVertexBuffer:vertexBuffer
-                                          withColor:self->color
-                                          wireframe:wireframe];
-      break;
-  }
+        case LDrawColorCustomRGB :
+        default :
+            endPointer = [self writeElementToVertexBuffer:vertexBuffer
+                          withColor:self->color
+                          wireframe:wireframe];
+            break;
+    }
 
-  return(endPointer);
+    return(endPointer);
 }// end writeToVertexBuffer:parentColor:
 
 
@@ -207,9 +207,9 @@
 //
 // ==============================================================================
 - (void)drawElement:(NSUInteger)optionsMask viewScale:(double)scaleFactor withColor:(LDrawColor *)
-  drawingColor
+    drawingColor
 {
-  // implemented by subclasses.
+    // implemented by subclasses.
 }// end drawElement:withColor:
 
 
@@ -220,11 +220,11 @@
 //
 // ==============================================================================
 - (VBOVertexData *)writeElementToVertexBuffer:(VBOVertexData *)vertexBuffer
-  withColor:(LDrawColor *)drawingColor
-  wireframe:(BOOL)wireframe
+    withColor:(LDrawColor *)drawingColor
+    wireframe:(BOOL)wireframe
 {
-  // implemented by subclasses.
-  return(NULL);
+    // implemented by subclasses.
+    return(NULL);
 }
 
 
@@ -240,11 +240,11 @@
 // ==============================================================================
 - (Box3)boundingBox3
 {
-  Box3 bounds = InvalidBox;
+    Box3 bounds = InvalidBox;
 
-  // You shouldn't be here. Look in a subclass.
+    // You shouldn't be here. Look in a subclass.
 
-  return(bounds);
+    return(bounds);
 }// end boundingBox3
 
 
@@ -255,56 +255,56 @@
 //
 // ==============================================================================
 - (Box3)projectedBoundingBoxWithModelView:(Matrix4)modelView
-  projection:(Matrix4)projection
-  view:(Box2)viewport;
+    projection:(Matrix4)projection
+    view:(Box2)viewport;
 {
-  Box3   bounds          = [self boundingBox3];
-  Point3 windowPoint     = ZeroPoint3;
-  Box3   projectedBounds = InvalidBox;
+    Box3   bounds          = [self boundingBox3];
+    Point3 windowPoint     = ZeroPoint3;
+    Box3   projectedBounds = InvalidBox;
 
-  if (V3EqualBoxes(bounds, InvalidBox) == NO) {
-    // front lower left
-    windowPoint = V3Project(bounds.min,
-                            modelView, projection, viewport);
-    projectedBounds = V3UnionBoxAndPoint(projectedBounds, windowPoint);
+    if (V3EqualBoxes(bounds, InvalidBox) == NO) {
+        // front lower left
+        windowPoint = V3Project(bounds.min,
+                                modelView, projection, viewport);
+        projectedBounds = V3UnionBoxAndPoint(projectedBounds, windowPoint);
 
-    // front lower right
-    windowPoint = V3Project(V3Make(bounds.max.x, bounds.min.y, bounds.min.z),
-                            modelView, projection, viewport);
-    projectedBounds = V3UnionBoxAndPoint(projectedBounds, windowPoint);
+        // front lower right
+        windowPoint = V3Project(V3Make(bounds.max.x, bounds.min.y, bounds.min.z),
+                                modelView, projection, viewport);
+        projectedBounds = V3UnionBoxAndPoint(projectedBounds, windowPoint);
 
-    // front upper right
-    windowPoint = V3Project(V3Make(bounds.max.x, bounds.max.y, bounds.min.z),
-                            modelView, projection, viewport);
-    projectedBounds = V3UnionBoxAndPoint(projectedBounds, windowPoint);
+        // front upper right
+        windowPoint = V3Project(V3Make(bounds.max.x, bounds.max.y, bounds.min.z),
+                                modelView, projection, viewport);
+        projectedBounds = V3UnionBoxAndPoint(projectedBounds, windowPoint);
 
-    // front upper left
-    windowPoint = V3Project(V3Make(bounds.min.x, bounds.max.y, bounds.min.z),
-                            modelView, projection, viewport);
-    projectedBounds = V3UnionBoxAndPoint(projectedBounds, windowPoint);
+        // front upper left
+        windowPoint = V3Project(V3Make(bounds.min.x, bounds.max.y, bounds.min.z),
+                                modelView, projection, viewport);
+        projectedBounds = V3UnionBoxAndPoint(projectedBounds, windowPoint);
 
-    // back lower left
-    windowPoint = V3Project(V3Make(bounds.min.x, bounds.min.y, bounds.max.z),
-                            modelView, projection, viewport);
-    projectedBounds = V3UnionBoxAndPoint(projectedBounds, windowPoint);
+        // back lower left
+        windowPoint = V3Project(V3Make(bounds.min.x, bounds.min.y, bounds.max.z),
+                                modelView, projection, viewport);
+        projectedBounds = V3UnionBoxAndPoint(projectedBounds, windowPoint);
 
-    // back lower right
-    windowPoint = V3Project(V3Make(bounds.max.x, bounds.min.y, bounds.max.z),
-                            modelView, projection, viewport);
-    projectedBounds = V3UnionBoxAndPoint(projectedBounds, windowPoint);
+        // back lower right
+        windowPoint = V3Project(V3Make(bounds.max.x, bounds.min.y, bounds.max.z),
+                                modelView, projection, viewport);
+        projectedBounds = V3UnionBoxAndPoint(projectedBounds, windowPoint);
 
-    // back upper right
-    windowPoint = V3Project(V3Make(bounds.max.x, bounds.max.y, bounds.max.z),
-                            modelView, projection, viewport);
-    projectedBounds = V3UnionBoxAndPoint(projectedBounds, windowPoint);
+        // back upper right
+        windowPoint = V3Project(V3Make(bounds.max.x, bounds.max.y, bounds.max.z),
+                                modelView, projection, viewport);
+        projectedBounds = V3UnionBoxAndPoint(projectedBounds, windowPoint);
 
-    // back upper left
-    windowPoint = V3Project(V3Make(bounds.min.x, bounds.max.y, bounds.max.z),
-                            modelView, projection, viewport);
-    projectedBounds = V3UnionBoxAndPoint(projectedBounds, windowPoint);
-  }
+        // back upper left
+        windowPoint = V3Project(V3Make(bounds.min.x, bounds.max.y, bounds.max.z),
+                                modelView, projection, viewport);
+        projectedBounds = V3UnionBoxAndPoint(projectedBounds, windowPoint);
+    }
 
-  return(projectedBounds);
+    return(projectedBounds);
 }// end projectedBoundingBoxWithModelView:projection:view:
 
 
@@ -315,7 +315,7 @@
 // ==============================================================================
 - (BOOL)isHidden
 {
-  return(self->hidden);
+    return(self->hidden);
 }// end isHidden
 
 
@@ -326,7 +326,7 @@
 // ==============================================================================
 - (LDrawColor *)LDrawColor
 {
-  return(color);
+    return(color);
 }// end LDrawColor
 
 
@@ -338,7 +338,7 @@
 // ==============================================================================
 - (Point3)position
 {
-  return(ZeroPoint3);
+    return(ZeroPoint3);
 }// end position
 
 
@@ -354,10 +354,10 @@
 // ==============================================================================
 - (void)setHidden:(BOOL)flag
 {
-  if (self->hidden != flag) {
-    self->hidden = flag;
-    [self invalCache:(CacheFlagBounds | DisplayList)];
-  }
+    if (self->hidden != flag) {
+        self->hidden = flag;
+        [self invalCache:(CacheFlagBounds | DisplayList)];
+    }
 }// end setHidden:
 
 
@@ -368,10 +368,10 @@
 // ==============================================================================
 - (void)setLDrawColor:(LDrawColor *)newColor
 {
-  [newColor retain];
-  [self->color release];
-  self->color = newColor;
-  [self invalCache:(DisplayList)];  // Needed to force anyone who is cached to recompute the new DL with possibly baked color!
+    [newColor retain];
+    [self->color release];
+    self->color = newColor;
+    [self invalCache:(DisplayList)]; // Needed to force anyone who is cached to recompute the new DL with possibly baked color!
 }// end setLDrawColor:
 
 
@@ -389,8 +389,8 @@
 // ==============================================================================
 - (Vector3)displacementForNudge:(Vector3)nudgeVector
 {
-  // possibly refined by subclasses.
-  return(nudgeVector);
+    // possibly refined by subclasses.
+    return(nudgeVector);
 }// end displacementForNudge:
 
 
@@ -407,7 +407,7 @@
 // ==============================================================================
 - (void)moveBy:(Vector3)moveVector
 {
-  // implemented by subclasses.
+    // implemented by subclasses.
 }// end moveBy:
 
 
@@ -426,13 +426,13 @@
 //
 // ==============================================================================
 - (Point3)position:(Point3)position
-  snappedToGrid:(double)gridSpacing
+    snappedToGrid:(double)gridSpacing
 {
-  position.x = round(position.x / gridSpacing) * gridSpacing;
-  position.y = round(position.y / gridSpacing) * gridSpacing;
-  position.z = round(position.z / gridSpacing) * gridSpacing;
+    position.x = round(position.x / gridSpacing) * gridSpacing;
+    position.y = round(position.y / gridSpacing) * gridSpacing;
+    position.z = round(position.z / gridSpacing) * gridSpacing;
 
-  return(position);
+    return(position);
 }// end position:snappedToGrid:
 
 
@@ -455,44 +455,44 @@
 //
 // ==============================================================================
 - (void)flattenIntoLines:(NSMutableArray *)lines
-  triangles:(NSMutableArray *)triangles
-  quadrilaterals:(NSMutableArray *)quadrilaterals
-  other:(NSMutableArray *)everythingElse
-  currentColor:(LDrawColor *)parentColor
-  currentTransform:(Matrix4)transform
-  normalTransform:(Matrix3)normalTransform
-  recursive:(BOOL)recursive
+    triangles:(NSMutableArray *)triangles
+    quadrilaterals:(NSMutableArray *)quadrilaterals
+    other:(NSMutableArray *)everythingElse
+    currentColor:(LDrawColor *)parentColor
+    currentTransform:(Matrix4)transform
+    normalTransform:(Matrix3)normalTransform
+    recursive:(BOOL)recursive
 {
-  // Resolve the correct color and set it. Our subclasses will be responsible
-  // for then adding themselves to the correct list.
+    // Resolve the correct color and set it. Our subclasses will be responsible
+    // for then adding themselves to the correct list.
 
-  // Figure out the actual color of the directive.
+    // Figure out the actual color of the directive.
 
-  if ([self->color colorCode] == LDrawCurrentColor) {
-    if ([parentColor colorCode] == LDrawCurrentColor) {
-      // just add
+    if ([self->color colorCode] == LDrawCurrentColor) {
+        if ([parentColor colorCode] == LDrawCurrentColor) {
+            // just add
+        }
+        else {
+            // set directiveCopy to parent color
+            [self setLDrawColor:parentColor];
+        }
+    }
+    else if ([self->color colorCode] == LDrawEdgeColor) {
+        if ([parentColor colorCode] == LDrawCurrentColor) {
+            // just add
+        }
+        else {
+            // set directiveCopy to compliment color
+            LDrawColor *complimentColor = [parentColor complimentColor];
+
+            [self setLDrawColor:complimentColor];
+
+            // then add.
+        }
     }
     else {
-      // set directiveCopy to parent color
-      [self setLDrawColor:parentColor];
+        // This directive is already explicitly colored. Just add.
     }
-  }
-  else if ([self->color colorCode] == LDrawEdgeColor) {
-    if ([parentColor colorCode] == LDrawCurrentColor) {
-      // just add
-    }
-    else {
-      // set directiveCopy to compliment color
-      LDrawColor *complimentColor = [parentColor complimentColor];
-
-      [self setLDrawColor:complimentColor];
-
-      // then add.
-    }
-  }
-  else {
-    // This directive is already explicitly colored. Just add.
-  }
 }// end flattenIntoLines:triangles:quadrilaterals:other:currentColor:
 
 

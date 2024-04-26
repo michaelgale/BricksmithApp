@@ -100,13 +100,13 @@ struct LDrawBDP *LDrawBDPCreate(void)
 // ================================================================================
 void LDrawBDPDestroy(struct LDrawBDP *pool)
 {
-  while (pool->first)
-  {
-    struct BDPPage *k = pool->first;
-    pool->first = pool->first->header.next;
-    free(k);
-  }
-  free(pool);
+    while (pool->first)
+    {
+        struct BDPPage *k = pool->first;
+        pool->first = pool->first->header.next;
+        free(k);
+    }
+    free(pool);
 }// end LDrawBDPDestroy
 
 
@@ -121,35 +121,35 @@ void LDrawBDPDestroy(struct LDrawBDP *pool)
 // ================================================================================
 void *          LDrawBDPAllocate(struct LDrawBDP *pool, size_t sz)
 {
-  struct BDPPage *page = pool->cur;
+    struct BDPPage *page = pool->cur;
 
-  if ((page->header.end - page->header.cur) >= sz) {
-    // Quick case: room in the current pool.
-    void *ret = page->header.cur;
-    page->header.cur += sz;
-    return(ret);
-  }
-  else if (sz > BDP_PAYLOAD_SIZE) {
-    // Oversized case - we make a custom-sized page for this one allocation
-    // and pop it on the head of the list - the tail stays open - maybe
-    // it still has space.
-    char *raw_buf           = (char *)malloc(sizeof(struct BDPPageHeader) + sz);
-    struct BDPPageHeader *h = (struct BDPPageHeader *)raw_buf;
-    h->next     = pool->first;
-    h->cur      = h->end = raw_buf + sizeof(struct BDPPageHeader) + sz;
-    pool->first = (struct BDPPage *)h;
-    return(raw_buf + sizeof(struct BDPPageHeader));
-  }
-  else {
-    // Allocate a new page and we're ready to go.
-    assert(sz <= BDP_PAYLOAD_SIZE);
-    struct BDPPage *np = get_new_page();
-    page->header.next = np;
-    np->header.next   = NULL;
+    if ((page->header.end - page->header.cur) >= sz) {
+        // Quick case: room in the current pool.
+        void *ret = page->header.cur;
+        page->header.cur += sz;
+        return(ret);
+    }
+    else if (sz > BDP_PAYLOAD_SIZE) {
+        // Oversized case - we make a custom-sized page for this one allocation
+        // and pop it on the head of the list - the tail stays open - maybe
+        // it still has space.
+        char *raw_buf           = (char *)malloc(sizeof(struct BDPPageHeader) + sz);
+        struct BDPPageHeader *h = (struct BDPPageHeader *)raw_buf;
+        h->next     = pool->first;
+        h->cur      = h->end = raw_buf + sizeof(struct BDPPageHeader) + sz;
+        pool->first = (struct BDPPage *)h;
+        return(raw_buf + sizeof(struct BDPPageHeader));
+    }
+    else {
+        // Allocate a new page and we're ready to go.
+        assert(sz <= BDP_PAYLOAD_SIZE);
+        struct BDPPage *np = get_new_page();
+        page->header.next = np;
+        np->header.next   = NULL;
 
-    void *ret = np->header.cur;
-    np->header.cur += sz;
-    pool->cur       = np;
-    return(ret);
-  }
+        void *ret = np->header.cur;
+        np->header.cur += sz;
+        pool->cur       = np;
+        return(ret);
+    }
 }// end LDrawBDPAllocate

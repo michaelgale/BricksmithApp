@@ -38,16 +38,16 @@
 // ==============================================================================
 - (id)init
 {
-  [NSBundle loadNibNamed:[self panelNibName]
-                   owner:self];
+    [NSBundle loadNibNamed:[self panelNibName]
+     owner:self];
 
-  // this don't look good, but it works.
-  // this takes the place of calling [super init]
-  // Note that connections in the Nib file must be made
-  // to the PieceCountPanel, not to the File's Owner!
-  [self autorelease];
+    // this don't look good, but it works.
+    // this takes the place of calling [super init]
+    // Note that connections in the Nib file must be made
+    // to the PieceCountPanel, not to the File's Owner!
+    [self autorelease];
 
-  return(dialogPanel);
+    return(dialogPanel);
 }// end init
 
 
@@ -67,9 +67,9 @@
 // ==============================================================================
 - (NSString *)panelNibName
 {
-  NSLog(@"No Nib name has been specified for this panel!");
+    NSLog(@"No Nib name has been specified for this panel!");
 
-  return(nil);
+    return(nil);
 }// end panelNibName
 
 
@@ -84,12 +84,12 @@
 // ==============================================================================
 - (IBAction)okButtonClicked:(id)sender
 {
-  [NSApp endSheet:self];
-  [self close];
+    [NSApp endSheet:self];
+    [self close];
 
-  // The object controller apparently retains its content. We must break that
-  // cycle in order to fully deallocate.
-  [objectController setContent:nil];
+    // The object controller apparently retains its content. We must break that
+    // cycle in order to fully deallocate.
+    [objectController setContent:nil];
 }// end okButtonClicked:
 
 
@@ -104,9 +104,9 @@
 // ==============================================================================
 - (void)dealloc
 {
-  [objectController release];
+    [objectController release];
 
-  [super dealloc];
+    [super dealloc];
 }// end dealloc
 
 

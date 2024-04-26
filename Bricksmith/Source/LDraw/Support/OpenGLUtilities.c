@@ -13,19 +13,19 @@
 
 GLboolean   glIsDisabled(GLenum cap)
 {
-  return(!glIsEnabled(cap));
+    return(!glIsEnabled(cap));
 }
 
 
 GLboolean   glCheckInteger(GLenum cap, GLint value)
 {
-  GLint v = 0;
+    GLint v = 0;
 
-  glGetIntegerv(cap, &v);
-  if (v != value) {
-    printf("Expected tag %04x to be %d but was %d\n", cap, value, v);
-  }
-  return(v == value);
+    glGetIntegerv(cap, &v);
+    if (v != value) {
+        printf("Expected tag %04x to be %d but was %d\n", cap, value, v);
+    }
+    return(v == value);
 }
 
 

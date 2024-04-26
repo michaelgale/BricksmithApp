@@ -19,78 +19,78 @@
 
 @interface MinifigureDialogController : NSObject
 {
-  MLCadIni      *iniFile;
-  NSString      *minifigureName;
-  LDrawMPDModel *minifigure;
+    MLCadIni      *iniFile;
+    NSString      *minifigureName;
+    LDrawMPDModel *minifigure;
 
-  BOOL hasHat;
-  BOOL hasNeckAccessory;
-  BOOL hasHips;
-  BOOL hasRightArm;
-  BOOL hasRightHand;
-  BOOL hasRightHandAccessory;
-  BOOL hasRightLeg;
-  BOOL hasRightLegAccessory;
-  BOOL hasLeftArm;
-  BOOL hasLeftHand;
-  BOOL hasLeftHandAccessory;
-  BOOL hasLeftLeg;
-  BOOL hasLeftLegAccessory;
+    BOOL hasHat;
+    BOOL hasNeckAccessory;
+    BOOL hasHips;
+    BOOL hasRightArm;
+    BOOL hasRightHand;
+    BOOL hasRightHandAccessory;
+    BOOL hasRightLeg;
+    BOOL hasRightLegAccessory;
+    BOOL hasLeftArm;
+    BOOL hasLeftHand;
+    BOOL hasLeftHandAccessory;
+    BOOL hasLeftLeg;
+    BOOL hasLeftLegAccessory;
 
-  float headElevation;
+    float headElevation;
 
-  float angleOfHat;
-  float angleOfHead;
-  float angleOfNeck;
-  float angleOfRightArm;
-  float angleOfRightHand;
-  float angleOfRightHandAccessory;
-  float angleOfRightLeg;
-  float angleOfRightLegAccessory;
-  float angleOfLeftArm;
-  float angleOfLeftHand;
-  float angleOfLeftHandAccessory;
-  float angleOfLeftLeg;
-  float angleOfLeftLegAccessory;
+    float angleOfHat;
+    float angleOfHead;
+    float angleOfNeck;
+    float angleOfRightArm;
+    float angleOfRightHand;
+    float angleOfRightHandAccessory;
+    float angleOfRightLeg;
+    float angleOfRightLegAccessory;
+    float angleOfLeftArm;
+    float angleOfLeftHand;
+    float angleOfLeftHandAccessory;
+    float angleOfLeftLeg;
+    float angleOfLeftLegAccessory;
 
-  // top-level objects
+    // top-level objects
 
-  IBOutlet NSArrayController *hatsController;
-  IBOutlet NSArrayController *headsController;
-  IBOutlet NSArrayController *necksController;
-  IBOutlet NSArrayController *torsosController;
-  IBOutlet NSArrayController *rightArmsController;
-  IBOutlet NSArrayController *rightHandsController;
-  IBOutlet NSArrayController *rightHandAccessoriesController;
-  IBOutlet NSArrayController *leftArmsController;
-  IBOutlet NSArrayController *leftHandsController;
-  IBOutlet NSArrayController *leftHandAccessoriesController;
-  IBOutlet NSArrayController *hipsController;
-  IBOutlet NSArrayController *rightLegsController;
-  IBOutlet NSArrayController *rightLegAccessoriesController;
-  IBOutlet NSArrayController *leftLegsController;
-  IBOutlet NSArrayController *leftLegAccessoriesController;
+    IBOutlet NSArrayController *hatsController;
+    IBOutlet NSArrayController *headsController;
+    IBOutlet NSArrayController *necksController;
+    IBOutlet NSArrayController *torsosController;
+    IBOutlet NSArrayController *rightArmsController;
+    IBOutlet NSArrayController *rightHandsController;
+    IBOutlet NSArrayController *rightHandAccessoriesController;
+    IBOutlet NSArrayController *leftArmsController;
+    IBOutlet NSArrayController *leftHandsController;
+    IBOutlet NSArrayController *leftHandAccessoriesController;
+    IBOutlet NSArrayController *hipsController;
+    IBOutlet NSArrayController *rightLegsController;
+    IBOutlet NSArrayController *rightLegAccessoriesController;
+    IBOutlet NSArrayController *leftLegsController;
+    IBOutlet NSArrayController *leftLegAccessoriesController;
 
-  // Nib widgets
+    // Nib widgets
 
-  IBOutlet NSPanel     *minifigureGeneratorPanel;
-  IBOutlet LDrawGLView *minifigurePreview;
+    IBOutlet NSPanel     *minifigureGeneratorPanel;
+    IBOutlet LDrawGLView *minifigurePreview;
 
-  IBOutlet LDrawColorWell *hatsColorWell;
-  IBOutlet LDrawColorWell *headsColorWell;
-  IBOutlet LDrawColorWell *necksColorWell;
-  IBOutlet LDrawColorWell *torsosColorWell;
-  IBOutlet LDrawColorWell *rightArmsColorWell;
-  IBOutlet LDrawColorWell *rightHandsColorWell;
-  IBOutlet LDrawColorWell *rightHandAccessoriesColorWell;
-  IBOutlet LDrawColorWell *leftArmsColorWell;
-  IBOutlet LDrawColorWell *leftHandsColorWell;
-  IBOutlet LDrawColorWell *leftHandAccessoriesColorWell;
-  IBOutlet LDrawColorWell *hipsColorWell;
-  IBOutlet LDrawColorWell *rightLegsColorWell;
-  IBOutlet LDrawColorWell *rightLegAccessoriesColorWell;
-  IBOutlet LDrawColorWell *leftLegsColorWell;
-  IBOutlet LDrawColorWell *leftLegAccessoriesColorWell;
+    IBOutlet LDrawColorWell *hatsColorWell;
+    IBOutlet LDrawColorWell *headsColorWell;
+    IBOutlet LDrawColorWell *necksColorWell;
+    IBOutlet LDrawColorWell *torsosColorWell;
+    IBOutlet LDrawColorWell *rightArmsColorWell;
+    IBOutlet LDrawColorWell *rightHandsColorWell;
+    IBOutlet LDrawColorWell *rightHandAccessoriesColorWell;
+    IBOutlet LDrawColorWell *leftArmsColorWell;
+    IBOutlet LDrawColorWell *leftHandsColorWell;
+    IBOutlet LDrawColorWell *leftHandAccessoriesColorWell;
+    IBOutlet LDrawColorWell *hipsColorWell;
+    IBOutlet LDrawColorWell *rightLegsColorWell;
+    IBOutlet LDrawColorWell *rightLegAccessoriesColorWell;
+    IBOutlet LDrawColorWell *leftLegsColorWell;
+    IBOutlet LDrawColorWell *leftLegAccessoriesColorWell;
 }
 
 + (void)doMinifigureGenerator;

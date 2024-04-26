@@ -28,24 +28,24 @@
 // ==============================================================================
 - (void)awakeFromNib
 {
-  // Retain all our custom views for toolbar items. Why? Because all of these
-  // could be inserted into the toolbar's view hierarchy, thereby *removing*
-  // them from their current superview, which holds the ONLY retain on them!
-  // The result is that without retains here, all these views would be
-  // deallocated once added then removed from the toolbar!
-  [gridSegmentedControl retain];
-  [orientationSegmentedControl retain];
-  [nudgeXToolView retain];
-  [nudgeYToolView retain];
-  [nudgeZToolView retain];
-  [zoomToolView retain];
+    // Retain all our custom views for toolbar items. Why? Because all of these
+    // could be inserted into the toolbar's view hierarchy, thereby *removing*
+    // them from their current superview, which holds the ONLY retain on them!
+    // The result is that without retains here, all these views would be
+    // deallocated once added then removed from the toolbar!
+    [gridSegmentedControl retain];
+    [orientationSegmentedControl retain];
+    [nudgeXToolView retain];
+    [nudgeYToolView retain];
+    [nudgeZToolView retain];
+    [zoomToolView retain];
 
-  [gridSegmentedControl removeFromSuperview];
-  [orientationSegmentedControl removeFromSuperview];
-  [nudgeXToolView removeFromSuperview];
-  [nudgeYToolView removeFromSuperview];
-  [nudgeZToolView removeFromSuperview];
-  [zoomToolView removeFromSuperview];
+    [gridSegmentedControl removeFromSuperview];
+    [orientationSegmentedControl removeFromSuperview];
+    [nudgeXToolView removeFromSuperview];
+    [nudgeYToolView removeFromSuperview];
+    [nudgeZToolView removeFromSuperview];
+    [zoomToolView removeFromSuperview];
 }// end awakeFromNib
 
 
@@ -60,32 +60,32 @@
 // ==============================================================================
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar
 {
-  return([NSArray arrayWithObjects:
-          TOOLBAR_GRID_SPACING_IDENTIFIER,
-          TOOLBAR_GRID_ORIENTATION_IDENTIFIER,
-          TOOLBAR_NUDGE_X_IDENTIFIER,
-          TOOLBAR_NUDGE_Y_IDENTIFIER,
-          TOOLBAR_NUDGE_Z_IDENTIFIER,
-          TOOLBAR_PART_BROWSER,
-          TOOLBAR_ROTATE_NEGATIVE_X,
-          TOOLBAR_ROTATE_NEGATIVE_Y,
-          TOOLBAR_ROTATE_NEGATIVE_Z,
-          TOOLBAR_ROTATE_POSITIVE_X,
-          TOOLBAR_ROTATE_POSITIVE_Y,
-          TOOLBAR_ROTATE_POSITIVE_Z,
-          TOOLBAR_SHOW_COLORS,
-          TOOLBAR_SHOW_INSPECTOR,
-          TOOLBAR_SNAP_TO_GRID,
+    return([NSArray arrayWithObjects:
+            TOOLBAR_GRID_SPACING_IDENTIFIER,
+            TOOLBAR_GRID_ORIENTATION_IDENTIFIER,
+            TOOLBAR_NUDGE_X_IDENTIFIER,
+            TOOLBAR_NUDGE_Y_IDENTIFIER,
+            TOOLBAR_NUDGE_Z_IDENTIFIER,
+            TOOLBAR_PART_BROWSER,
+            TOOLBAR_ROTATE_NEGATIVE_X,
+            TOOLBAR_ROTATE_NEGATIVE_Y,
+            TOOLBAR_ROTATE_NEGATIVE_Z,
+            TOOLBAR_ROTATE_POSITIVE_X,
+            TOOLBAR_ROTATE_POSITIVE_Y,
+            TOOLBAR_ROTATE_POSITIVE_Z,
+            TOOLBAR_SHOW_COLORS,
+            TOOLBAR_SHOW_INSPECTOR,
+            TOOLBAR_SNAP_TO_GRID,
 // TOOLBAR_ZOOM_IN,
 // TOOLBAR_ZOOM_OUT,
-          TOOLBAR_ZOOM_SPECIFY,
+            TOOLBAR_ZOOM_SPECIFY,
 
-          // Cocoa doodads
-          NSToolbarSeparatorItemIdentifier,
-          NSToolbarSpaceItemIdentifier,
-          NSToolbarFlexibleSpaceItemIdentifier,
-          NSToolbarCustomizeToolbarItemIdentifier,
-          nil]);
+            // Cocoa doodads
+            NSToolbarSeparatorItemIdentifier,
+            NSToolbarSpaceItemIdentifier,
+            NSToolbarFlexibleSpaceItemIdentifier,
+            NSToolbarCustomizeToolbarItemIdentifier,
+            nil]);
 }// end toolbarAllowedItemIdentifiers:
 
 
@@ -97,24 +97,24 @@
 // ==============================================================================
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar
 {
-  return([NSArray arrayWithObjects:
+    return([NSArray arrayWithObjects:
 // TOOLBAR_ZOOM_IN,
-          TOOLBAR_ZOOM_SPECIFY,
+            TOOLBAR_ZOOM_SPECIFY,
 // TOOLBAR_ZOOM_OUT,
-          NSToolbarSeparatorItemIdentifier,
-          TOOLBAR_SNAP_TO_GRID,
-          TOOLBAR_GRID_SPACING_IDENTIFIER,
-          NSToolbarSeparatorItemIdentifier,
-          TOOLBAR_ROTATE_POSITIVE_X,
-          TOOLBAR_ROTATE_NEGATIVE_X,
-          TOOLBAR_ROTATE_POSITIVE_Y,
-          TOOLBAR_ROTATE_NEGATIVE_Y,
-          TOOLBAR_ROTATE_POSITIVE_Z,
-          TOOLBAR_ROTATE_NEGATIVE_Z,
-          NSToolbarFlexibleSpaceItemIdentifier,
-          TOOLBAR_SHOW_INSPECTOR,
-          TOOLBAR_PART_BROWSER,
-          nil]);
+            NSToolbarSeparatorItemIdentifier,
+            TOOLBAR_SNAP_TO_GRID,
+            TOOLBAR_GRID_SPACING_IDENTIFIER,
+            NSToolbarSeparatorItemIdentifier,
+            TOOLBAR_ROTATE_POSITIVE_X,
+            TOOLBAR_ROTATE_NEGATIVE_X,
+            TOOLBAR_ROTATE_POSITIVE_Y,
+            TOOLBAR_ROTATE_NEGATIVE_Y,
+            TOOLBAR_ROTATE_POSITIVE_Z,
+            TOOLBAR_ROTATE_NEGATIVE_Z,
+            NSToolbarFlexibleSpaceItemIdentifier,
+            TOOLBAR_SHOW_INSPECTOR,
+            TOOLBAR_PART_BROWSER,
+            nil]);
 }// end toolbarDefaultItemIdentifiers:
 
 
@@ -124,80 +124,80 @@
 //
 // ==============================================================================
 - (NSToolbarItem *)toolbar:(NSToolbar *)toolbar
-  itemForItemIdentifier:(NSString *)itemIdentifier
-  willBeInsertedIntoToolbar:(BOOL)flag
+    itemForItemIdentifier:(NSString *)itemIdentifier
+    willBeInsertedIntoToolbar:(BOOL)flag
 {
-  NSToolbarItem *newItem =
-    [[[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier] autorelease];
+    NSToolbarItem *newItem =
+        [[[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier] autorelease];
 
-  if ([itemIdentifier isEqualToString:TOOLBAR_NUDGE_X_IDENTIFIER]) {
-    [newItem setLabel:NSLocalizedString(@"NudgeX", nil)];
-    [newItem setPaletteLabel:NSLocalizedString(@"NudgeX", nil)];
-    [newItem setView:nudgeXToolView];
-    [newItem setMinSize:[nudgeXToolView frame].size];
-  }
-  else if ([itemIdentifier isEqualToString:TOOLBAR_NUDGE_Y_IDENTIFIER]) {
-    [newItem setLabel:NSLocalizedString(@"NudgeY", nil)];
-    [newItem setPaletteLabel:NSLocalizedString(@"NudgeY", nil)];
-    [newItem setView:nudgeYToolView];
-    [newItem setMinSize:[nudgeYToolView frame].size];
-  }
-  else if ([itemIdentifier isEqualToString:TOOLBAR_NUDGE_Z_IDENTIFIER]) {
-    [newItem setLabel:NSLocalizedString(@"NudgeZ", nil)];
-    [newItem setPaletteLabel:NSLocalizedString(@"NudgeZ", nil)];
-    [newItem setView:nudgeZToolView];
-    [newItem setMinSize:[nudgeZToolView frame].size];
-  }
-  else if ([itemIdentifier isEqualToString:TOOLBAR_GRID_SPACING_IDENTIFIER]) {
-    newItem = [self makeGridSpacingItem];
-  }
-  else if ([itemIdentifier isEqualToString:TOOLBAR_GRID_ORIENTATION_IDENTIFIER]) {
-    newItem = [self makeGridOrientationItem];
-  }
-  else if ([itemIdentifier isEqualToString:TOOLBAR_PART_BROWSER]) {
-    newItem = [self makePartBrowserItem];
-  }
-  // Rotations
-  else if ([itemIdentifier isEqualToString:TOOLBAR_ROTATE_POSITIVE_X]) {
-    newItem = [self makeRotationPlusXItem];
-  }
-  else if ([itemIdentifier isEqualToString:TOOLBAR_ROTATE_NEGATIVE_X]) {
-    newItem = [self makeRotationMinusXItem];
-  }
-  else if ([itemIdentifier isEqualToString:TOOLBAR_ROTATE_POSITIVE_Y]) {
-    newItem = [self makeRotationPlusYItem];
-  }
-  else if ([itemIdentifier isEqualToString:TOOLBAR_ROTATE_NEGATIVE_Y]) {
-    newItem = [self makeRotationMinusYItem];
-  }
-  else if ([itemIdentifier isEqualToString:TOOLBAR_ROTATE_POSITIVE_Z]) {
-    newItem = [self makeRotationPlusZItem];
-  }
-  else if ([itemIdentifier isEqualToString:TOOLBAR_ROTATE_NEGATIVE_Z]) {
-    newItem = [self makeRotationMinusZItem];
-  }
-  else if ([itemIdentifier isEqualToString:TOOLBAR_SHOW_COLORS]) {
-    newItem = [self makeShowColorsItem];
-  }
-  else if ([itemIdentifier isEqualToString:TOOLBAR_SHOW_INSPECTOR]) {
-    newItem = [self makeShowInspectorItem];
-  }
-  else if ([itemIdentifier isEqualToString:TOOLBAR_SNAP_TO_GRID]) {
-    newItem = [self makeSnapToGridItem];
-  }
-  else if ([itemIdentifier isEqualToString:TOOLBAR_ZOOM_IN]) {
+    if ([itemIdentifier isEqualToString:TOOLBAR_NUDGE_X_IDENTIFIER]) {
+        [newItem setLabel:NSLocalizedString(@"NudgeX", nil)];
+        [newItem setPaletteLabel:NSLocalizedString(@"NudgeX", nil)];
+        [newItem setView:nudgeXToolView];
+        [newItem setMinSize:[nudgeXToolView frame].size];
+    }
+    else if ([itemIdentifier isEqualToString:TOOLBAR_NUDGE_Y_IDENTIFIER]) {
+        [newItem setLabel:NSLocalizedString(@"NudgeY", nil)];
+        [newItem setPaletteLabel:NSLocalizedString(@"NudgeY", nil)];
+        [newItem setView:nudgeYToolView];
+        [newItem setMinSize:[nudgeYToolView frame].size];
+    }
+    else if ([itemIdentifier isEqualToString:TOOLBAR_NUDGE_Z_IDENTIFIER]) {
+        [newItem setLabel:NSLocalizedString(@"NudgeZ", nil)];
+        [newItem setPaletteLabel:NSLocalizedString(@"NudgeZ", nil)];
+        [newItem setView:nudgeZToolView];
+        [newItem setMinSize:[nudgeZToolView frame].size];
+    }
+    else if ([itemIdentifier isEqualToString:TOOLBAR_GRID_SPACING_IDENTIFIER]) {
+        newItem = [self makeGridSpacingItem];
+    }
+    else if ([itemIdentifier isEqualToString:TOOLBAR_GRID_ORIENTATION_IDENTIFIER]) {
+        newItem = [self makeGridOrientationItem];
+    }
+    else if ([itemIdentifier isEqualToString:TOOLBAR_PART_BROWSER]) {
+        newItem = [self makePartBrowserItem];
+    }
+    // Rotations
+    else if ([itemIdentifier isEqualToString:TOOLBAR_ROTATE_POSITIVE_X]) {
+        newItem = [self makeRotationPlusXItem];
+    }
+    else if ([itemIdentifier isEqualToString:TOOLBAR_ROTATE_NEGATIVE_X]) {
+        newItem = [self makeRotationMinusXItem];
+    }
+    else if ([itemIdentifier isEqualToString:TOOLBAR_ROTATE_POSITIVE_Y]) {
+        newItem = [self makeRotationPlusYItem];
+    }
+    else if ([itemIdentifier isEqualToString:TOOLBAR_ROTATE_NEGATIVE_Y]) {
+        newItem = [self makeRotationMinusYItem];
+    }
+    else if ([itemIdentifier isEqualToString:TOOLBAR_ROTATE_POSITIVE_Z]) {
+        newItem = [self makeRotationPlusZItem];
+    }
+    else if ([itemIdentifier isEqualToString:TOOLBAR_ROTATE_NEGATIVE_Z]) {
+        newItem = [self makeRotationMinusZItem];
+    }
+    else if ([itemIdentifier isEqualToString:TOOLBAR_SHOW_COLORS]) {
+        newItem = [self makeShowColorsItem];
+    }
+    else if ([itemIdentifier isEqualToString:TOOLBAR_SHOW_INSPECTOR]) {
+        newItem = [self makeShowInspectorItem];
+    }
+    else if ([itemIdentifier isEqualToString:TOOLBAR_SNAP_TO_GRID]) {
+        newItem = [self makeSnapToGridItem];
+    }
+    else if ([itemIdentifier isEqualToString:TOOLBAR_ZOOM_IN]) {
 // newItem = [self makeZoomInItem];
-    newItem = nil; // deprecated in Bricksmith 2.5
-  }
-  else if ([itemIdentifier isEqualToString:TOOLBAR_ZOOM_OUT]) {
+        newItem = nil; // deprecated in Bricksmith 2.5
+    }
+    else if ([itemIdentifier isEqualToString:TOOLBAR_ZOOM_OUT]) {
 // newItem = [self makeZoomOutItem];
-    newItem = nil; // deprecated in Bricksmith 2.5
-  }
-  else if ([itemIdentifier isEqualToString:TOOLBAR_ZOOM_SPECIFY]) {
-    newItem = [self makeZoomItem];
-  }
+        newItem = nil; // deprecated in Bricksmith 2.5
+    }
+    else if ([itemIdentifier isEqualToString:TOOLBAR_ZOOM_SPECIFY]) {
+        newItem = [self makeZoomItem];
+    }
 
-  return(newItem);
+    return(newItem);
 }// end toolbar:itemForItemIdentifier:willBeInsertedIntoToolbar:
 
 
@@ -214,7 +214,7 @@
 // ==============================================================================
 - (void)setGridSpacingMode:(gridSpacingModeT)newMode
 {
-  [self->gridSegmentedControl selectSegmentWithTag:newMode];
+    [self->gridSegmentedControl selectSegmentWithTag:newMode];
 }// end setGridSpacingMode:
 
 
@@ -226,7 +226,7 @@
 // ==============================================================================
 - (void)setGridOrientationMode:(gridOrientationModeT)newMode
 {
-  [self->orientationSegmentedControl selectSegmentWithTag:newMode];
+    [self->orientationSegmentedControl selectSegmentWithTag:newMode];
 }// end setGridOrientationMode:
 
 
@@ -242,18 +242,18 @@
 // ==============================================================================
 - (NSToolbarItem *)makeGridSpacingItem
 {
-  NSToolbarItem *newItem =
-    [[NSToolbarItem alloc] initWithItemIdentifier:TOOLBAR_GRID_SPACING_IDENTIFIER];
-  gridSpacingModeT gridMode = [self->document gridSpacingMode];
+    NSToolbarItem *newItem =
+        [[NSToolbarItem alloc] initWithItemIdentifier:TOOLBAR_GRID_SPACING_IDENTIFIER];
+    gridSpacingModeT gridMode = [self->document gridSpacingMode];
 
-  [self->gridSegmentedControl selectSegmentWithTag:gridMode];
+    [self->gridSegmentedControl selectSegmentWithTag:gridMode];
 
-  [newItem setView:self->gridSegmentedControl];
+    [newItem setView:self->gridSegmentedControl];
 // [newItem setMinSize:[[self->gridSegmentedControl cell] cellSize]];
-  [newItem setLabel:NSLocalizedString(@"GridSpacing", nil)];
-  [newItem setPaletteLabel:NSLocalizedString(@"GridSpacing", nil)];
+    [newItem setLabel:NSLocalizedString(@"GridSpacing", nil)];
+    [newItem setPaletteLabel:NSLocalizedString(@"GridSpacing", nil)];
 
-  return([newItem autorelease]);
+    return([newItem autorelease]);
 }// end makeGridSpacingItem
 
 
@@ -265,18 +265,18 @@
 // ==============================================================================
 - (NSToolbarItem *)makeGridOrientationItem
 {
-  NSToolbarItem *newItem =
-    [[NSToolbarItem alloc] initWithItemIdentifier:TOOLBAR_GRID_ORIENTATION_IDENTIFIER];
-  gridOrientationModeT gridMode = [self->document gridOrientationMode];
+    NSToolbarItem *newItem =
+        [[NSToolbarItem alloc] initWithItemIdentifier:TOOLBAR_GRID_ORIENTATION_IDENTIFIER];
+    gridOrientationModeT gridMode = [self->document gridOrientationMode];
 
-  [self->orientationSegmentedControl selectSegmentWithTag:gridMode];
+    [self->orientationSegmentedControl selectSegmentWithTag:gridMode];
 
-  [newItem setView:self->orientationSegmentedControl];
+    [newItem setView:self->orientationSegmentedControl];
 // [newItem setMinSize:[[self->orientationSegmentedControl cell] cellSize]];
-  [newItem setLabel:NSLocalizedString(@"GridOrientation", nil)];
-  [newItem setPaletteLabel:NSLocalizedString(@"GridOrientation", nil)];
+    [newItem setLabel:NSLocalizedString(@"GridOrientation", nil)];
+    [newItem setPaletteLabel:NSLocalizedString(@"GridOrientation", nil)];
 
-  return([newItem autorelease]);
+    return([newItem autorelease]);
 }// end makeGridOrientationItem
 
 
@@ -287,19 +287,19 @@
 // ==============================================================================
 - (NSToolbarItem *)makePartBrowserItem
 {
-  NSToolbarItem *newItem = [[NSToolbarItem alloc]
-                            initWithItemIdentifier:TOOLBAR_PART_BROWSER];
+    NSToolbarItem *newItem = [[NSToolbarItem alloc]
+                              initWithItemIdentifier:TOOLBAR_PART_BROWSER];
 
-  [newItem setLabel:NSLocalizedString(@"ShowPartBrowser", nil)];
-  [newItem setPaletteLabel:NSLocalizedString(@"ShowPartBrowser", nil)];
-  [newItem setImage:[NSImage imageNamed:@"PartBrowser"]];
+    [newItem setLabel:NSLocalizedString(@"ShowPartBrowser", nil)];
+    [newItem setPaletteLabel:NSLocalizedString(@"ShowPartBrowser", nil)];
+    [newItem setImage:[NSImage imageNamed:@"PartBrowser"]];
 
-  // Part Browser action lives in LDrawApplication, but it's easiest to just
-  // dispatch it to the responder chain. That's what the menu item does.
-  [newItem setTarget:nil];
-  [newItem setAction:@selector(doPartBrowser:)];
+    // Part Browser action lives in LDrawApplication, but it's easiest to just
+    // dispatch it to the responder chain. That's what the menu item does.
+    [newItem setTarget:nil];
+    [newItem setAction:@selector(doPartBrowser:)];
 
-  return([newItem autorelease]);
+    return([newItem autorelease]);
 }// end makePartBrowserItem
 
 
@@ -310,18 +310,18 @@
 // ==============================================================================
 - (NSToolbarItem *)makeRotationPlusXItem
 {
-  NSToolbarItem *newItem = [[NSToolbarItem alloc]
-                            initWithItemIdentifier:TOOLBAR_ROTATE_POSITIVE_X];
+    NSToolbarItem *newItem = [[NSToolbarItem alloc]
+                              initWithItemIdentifier:TOOLBAR_ROTATE_POSITIVE_X];
 
-  [newItem setLabel:NSLocalizedString(TOOLBAR_ROTATE_POSITIVE_X, nil)];
-  [newItem setPaletteLabel:NSLocalizedString(TOOLBAR_ROTATE_POSITIVE_X, nil)];
-  [newItem setImage:[NSImage imageNamed:TOOLBAR_ROTATE_POSITIVE_X]];
+    [newItem setLabel:NSLocalizedString(TOOLBAR_ROTATE_POSITIVE_X, nil)];
+    [newItem setPaletteLabel:NSLocalizedString(TOOLBAR_ROTATE_POSITIVE_X, nil)];
+    [newItem setImage:[NSImage imageNamed:TOOLBAR_ROTATE_POSITIVE_X]];
 
-  [newItem setTarget:self->document];
-  [newItem setAction:@selector(quickRotateClicked:)];
-  [newItem setTag:rotatePositiveXTag];
+    [newItem setTarget:self->document];
+    [newItem setAction:@selector(quickRotateClicked:)];
+    [newItem setTag:rotatePositiveXTag];
 
-  return([newItem autorelease]);
+    return([newItem autorelease]);
 }// end makeRotationPlusXItem
 
 
@@ -332,18 +332,18 @@
 // ==============================================================================
 - (NSToolbarItem *)makeRotationMinusXItem
 {
-  NSToolbarItem *newItem = [[NSToolbarItem alloc]
-                            initWithItemIdentifier:TOOLBAR_ROTATE_NEGATIVE_X];
+    NSToolbarItem *newItem = [[NSToolbarItem alloc]
+                              initWithItemIdentifier:TOOLBAR_ROTATE_NEGATIVE_X];
 
-  [newItem setLabel:NSLocalizedString(TOOLBAR_ROTATE_NEGATIVE_X, nil)];
-  [newItem setPaletteLabel:NSLocalizedString(TOOLBAR_ROTATE_NEGATIVE_X, nil)];
-  [newItem setImage:[NSImage imageNamed:TOOLBAR_ROTATE_NEGATIVE_X]];
+    [newItem setLabel:NSLocalizedString(TOOLBAR_ROTATE_NEGATIVE_X, nil)];
+    [newItem setPaletteLabel:NSLocalizedString(TOOLBAR_ROTATE_NEGATIVE_X, nil)];
+    [newItem setImage:[NSImage imageNamed:TOOLBAR_ROTATE_NEGATIVE_X]];
 
-  [newItem setTarget:self->document];
-  [newItem setAction:@selector(quickRotateClicked:)];
-  [newItem setTag:rotateNegativeXTag];
+    [newItem setTarget:self->document];
+    [newItem setAction:@selector(quickRotateClicked:)];
+    [newItem setTag:rotateNegativeXTag];
 
-  return([newItem autorelease]);
+    return([newItem autorelease]);
 }// end makeRotationMinusXItem
 
 
@@ -354,18 +354,18 @@
 // ==============================================================================
 - (NSToolbarItem *)makeRotationPlusYItem
 {
-  NSToolbarItem *newItem = [[NSToolbarItem alloc]
-                            initWithItemIdentifier:TOOLBAR_ROTATE_POSITIVE_Y];
+    NSToolbarItem *newItem = [[NSToolbarItem alloc]
+                              initWithItemIdentifier:TOOLBAR_ROTATE_POSITIVE_Y];
 
-  [newItem setLabel:NSLocalizedString(TOOLBAR_ROTATE_POSITIVE_Y, nil)];
-  [newItem setPaletteLabel:NSLocalizedString(TOOLBAR_ROTATE_POSITIVE_Y, nil)];
-  [newItem setImage:[NSImage imageNamed:TOOLBAR_ROTATE_POSITIVE_Y]];
+    [newItem setLabel:NSLocalizedString(TOOLBAR_ROTATE_POSITIVE_Y, nil)];
+    [newItem setPaletteLabel:NSLocalizedString(TOOLBAR_ROTATE_POSITIVE_Y, nil)];
+    [newItem setImage:[NSImage imageNamed:TOOLBAR_ROTATE_POSITIVE_Y]];
 
-  [newItem setTarget:self->document];
-  [newItem setAction:@selector(quickRotateClicked:)];
-  [newItem setTag:rotatePositiveYTag];
+    [newItem setTarget:self->document];
+    [newItem setAction:@selector(quickRotateClicked:)];
+    [newItem setTag:rotatePositiveYTag];
 
-  return([newItem autorelease]);
+    return([newItem autorelease]);
 }// end makeRotationPlusYItem
 
 
@@ -376,18 +376,18 @@
 // ==============================================================================
 - (NSToolbarItem *)makeRotationMinusYItem
 {
-  NSToolbarItem *newItem = [[NSToolbarItem alloc]
-                            initWithItemIdentifier:TOOLBAR_ROTATE_NEGATIVE_Y];
+    NSToolbarItem *newItem = [[NSToolbarItem alloc]
+                              initWithItemIdentifier:TOOLBAR_ROTATE_NEGATIVE_Y];
 
-  [newItem setLabel:NSLocalizedString(TOOLBAR_ROTATE_NEGATIVE_Y, nil)];
-  [newItem setPaletteLabel:NSLocalizedString(TOOLBAR_ROTATE_NEGATIVE_Y, nil)];
-  [newItem setImage:[NSImage imageNamed:TOOLBAR_ROTATE_NEGATIVE_Y]];
+    [newItem setLabel:NSLocalizedString(TOOLBAR_ROTATE_NEGATIVE_Y, nil)];
+    [newItem setPaletteLabel:NSLocalizedString(TOOLBAR_ROTATE_NEGATIVE_Y, nil)];
+    [newItem setImage:[NSImage imageNamed:TOOLBAR_ROTATE_NEGATIVE_Y]];
 
-  [newItem setTarget:self->document];
-  [newItem setAction:@selector(quickRotateClicked:)];
-  [newItem setTag:rotateNegativeYTag];
+    [newItem setTarget:self->document];
+    [newItem setAction:@selector(quickRotateClicked:)];
+    [newItem setTag:rotateNegativeYTag];
 
-  return([newItem autorelease]);
+    return([newItem autorelease]);
 }// end makeRotationMinusYItem
 
 
@@ -398,18 +398,18 @@
 // ==============================================================================
 - (NSToolbarItem *)makeRotationPlusZItem
 {
-  NSToolbarItem *newItem = [[NSToolbarItem alloc]
-                            initWithItemIdentifier:TOOLBAR_ROTATE_POSITIVE_Z];
+    NSToolbarItem *newItem = [[NSToolbarItem alloc]
+                              initWithItemIdentifier:TOOLBAR_ROTATE_POSITIVE_Z];
 
-  [newItem setLabel:NSLocalizedString(TOOLBAR_ROTATE_POSITIVE_Z, nil)];
-  [newItem setPaletteLabel:NSLocalizedString(TOOLBAR_ROTATE_POSITIVE_Z, nil)];
-  [newItem setImage:[NSImage imageNamed:TOOLBAR_ROTATE_POSITIVE_Z]];
+    [newItem setLabel:NSLocalizedString(TOOLBAR_ROTATE_POSITIVE_Z, nil)];
+    [newItem setPaletteLabel:NSLocalizedString(TOOLBAR_ROTATE_POSITIVE_Z, nil)];
+    [newItem setImage:[NSImage imageNamed:TOOLBAR_ROTATE_POSITIVE_Z]];
 
-  [newItem setTarget:self->document];
-  [newItem setAction:@selector(quickRotateClicked:)];
-  [newItem setTag:rotatePositiveZTag];
+    [newItem setTarget:self->document];
+    [newItem setAction:@selector(quickRotateClicked:)];
+    [newItem setTag:rotatePositiveZTag];
 
-  return([newItem autorelease]);
+    return([newItem autorelease]);
 }// end makeRotationPlusZItem
 
 
@@ -420,18 +420,18 @@
 // ==============================================================================
 - (NSToolbarItem *)makeRotationMinusZItem
 {
-  NSToolbarItem *newItem = [[NSToolbarItem alloc]
-                            initWithItemIdentifier:TOOLBAR_ROTATE_NEGATIVE_Z];
+    NSToolbarItem *newItem = [[NSToolbarItem alloc]
+                              initWithItemIdentifier:TOOLBAR_ROTATE_NEGATIVE_Z];
 
-  [newItem setLabel:NSLocalizedString(TOOLBAR_ROTATE_NEGATIVE_Z, nil)];
-  [newItem setPaletteLabel:NSLocalizedString(TOOLBAR_ROTATE_NEGATIVE_Z, nil)];
-  [newItem setImage:[NSImage imageNamed:TOOLBAR_ROTATE_NEGATIVE_Z]];
+    [newItem setLabel:NSLocalizedString(TOOLBAR_ROTATE_NEGATIVE_Z, nil)];
+    [newItem setPaletteLabel:NSLocalizedString(TOOLBAR_ROTATE_NEGATIVE_Z, nil)];
+    [newItem setImage:[NSImage imageNamed:TOOLBAR_ROTATE_NEGATIVE_Z]];
 
-  [newItem setTarget:self->document];
-  [newItem setAction:@selector(quickRotateClicked:)];
-  [newItem setTag:rotateNegativeZTag];
+    [newItem setTarget:self->document];
+    [newItem setAction:@selector(quickRotateClicked:)];
+    [newItem setTag:rotateNegativeZTag];
 
-  return([newItem autorelease]);
+    return([newItem autorelease]);
 }// end makeRotationMinusZItem
 
 
@@ -442,18 +442,18 @@
 // ==============================================================================
 - (NSToolbarItem *)makeShowColorsItem
 {
-  NSToolbarItem *newItem = [[NSToolbarItem alloc]
-                            initWithItemIdentifier:TOOLBAR_SHOW_COLORS];
-  NSImage *image = [NSImage imageNamed:NSImageNameColorPanel];
+    NSToolbarItem *newItem = [[NSToolbarItem alloc]
+                              initWithItemIdentifier:TOOLBAR_SHOW_COLORS];
+    NSImage *image = [NSImage imageNamed:NSImageNameColorPanel];
 
-  [newItem setLabel:NSLocalizedString(@"ShowColors", nil)];
-  [newItem setPaletteLabel:NSLocalizedString(@"ShowColors", nil)];
-  [newItem setImage:image];
+    [newItem setLabel:NSLocalizedString(@"ShowColors", nil)];
+    [newItem setPaletteLabel:NSLocalizedString(@"ShowColors", nil)];
+    [newItem setImage:image];
 
-  [newItem setTarget:nil];
-  [newItem setAction:@selector(showColors:)];
+    [newItem setTarget:nil];
+    [newItem setAction:@selector(showColors:)];
 
-  return([newItem autorelease]);
+    return([newItem autorelease]);
 }// end makeShowColorsItem
 
 
@@ -464,18 +464,18 @@
 // ==============================================================================
 - (NSToolbarItem *)makeShowInspectorItem
 {
-  NSToolbarItem *newItem = [[NSToolbarItem alloc]
-                            initWithItemIdentifier:TOOLBAR_SHOW_INSPECTOR];
-  NSImage *image = [NSImage imageNamed:NSImageNameInfo];
+    NSToolbarItem *newItem = [[NSToolbarItem alloc]
+                              initWithItemIdentifier:TOOLBAR_SHOW_INSPECTOR];
+    NSImage *image = [NSImage imageNamed:NSImageNameInfo];
 
-  [newItem setLabel:NSLocalizedString(@"ShowInspector", nil)];
-  [newItem setPaletteLabel:NSLocalizedString(@"ShowInspector", nil)];
-  [newItem setImage:image];
+    [newItem setLabel:NSLocalizedString(@"ShowInspector", nil)];
+    [newItem setPaletteLabel:NSLocalizedString(@"ShowInspector", nil)];
+    [newItem setImage:image];
 
-  [newItem setTarget:nil];
-  [newItem setAction:@selector(showInspector:)];
+    [newItem setTarget:nil];
+    [newItem setAction:@selector(showInspector:)];
 
-  return([newItem autorelease]);
+    return([newItem autorelease]);
 }// end makeShowInspectorItem
 
 
@@ -486,17 +486,17 @@
 // ==============================================================================
 - (NSToolbarItem *)makeSnapToGridItem
 {
-  NSToolbarItem *newItem = [[NSToolbarItem alloc]
-                            initWithItemIdentifier:TOOLBAR_SNAP_TO_GRID];
+    NSToolbarItem *newItem = [[NSToolbarItem alloc]
+                              initWithItemIdentifier:TOOLBAR_SNAP_TO_GRID];
 
-  [newItem setLabel:NSLocalizedString(@"SnapToGrid", nil)];
-  [newItem setPaletteLabel:NSLocalizedString(@"SnapToGrid", nil)];
-  [newItem setImage:[NSImage imageNamed:@"Snap To Grid"]];
+    [newItem setLabel:NSLocalizedString(@"SnapToGrid", nil)];
+    [newItem setPaletteLabel:NSLocalizedString(@"SnapToGrid", nil)];
+    [newItem setImage:[NSImage imageNamed:@"Snap To Grid"]];
 
-  [newItem setTarget:self->document];
-  [newItem setAction:@selector(snapSelectionToGrid:)];
+    [newItem setTarget:self->document];
+    [newItem setAction:@selector(snapSelectionToGrid:)];
 
-  return([newItem autorelease]);
+    return([newItem autorelease]);
 }// end makeSnapToGridItem
 
 
@@ -509,17 +509,17 @@
 // ==============================================================================
 - (NSToolbarItem *)makeZoomInItem
 {
-  NSToolbarItem *newItem = [[NSToolbarItem alloc]
-                            initWithItemIdentifier:TOOLBAR_ZOOM_IN];
+    NSToolbarItem *newItem = [[NSToolbarItem alloc]
+                              initWithItemIdentifier:TOOLBAR_ZOOM_IN];
 
-  [newItem setLabel:NSLocalizedString(@"ZoomIn", nil)];
-  [newItem setPaletteLabel:NSLocalizedString(@"ZoomIn", nil)];
-  [newItem setImage:[NSImage imageNamed:@"ZoomIn"]];
+    [newItem setLabel:NSLocalizedString(@"ZoomIn", nil)];
+    [newItem setPaletteLabel:NSLocalizedString(@"ZoomIn", nil)];
+    [newItem setImage:[NSImage imageNamed:@"ZoomIn"]];
 
-  [newItem setTarget:self->document];
-  [newItem setAction:@selector(zoomIn:)];
+    [newItem setTarget:self->document];
+    [newItem setAction:@selector(zoomIn:)];
 
-  return([newItem autorelease]);
+    return([newItem autorelease]);
 }// end makeZoomInItem
 
 
@@ -532,17 +532,17 @@
 // ==============================================================================
 - (NSToolbarItem *)makeZoomOutItem
 {
-  NSToolbarItem *newItem = [[NSToolbarItem alloc]
-                            initWithItemIdentifier:TOOLBAR_ZOOM_OUT];
+    NSToolbarItem *newItem = [[NSToolbarItem alloc]
+                              initWithItemIdentifier:TOOLBAR_ZOOM_OUT];
 
-  [newItem setLabel:NSLocalizedString(@"ZoomOut", nil)];
-  [newItem setPaletteLabel:NSLocalizedString(@"ZoomOut", nil)];
-  [newItem setImage:[NSImage imageNamed:@"ZoomOut"]];
+    [newItem setLabel:NSLocalizedString(@"ZoomOut", nil)];
+    [newItem setPaletteLabel:NSLocalizedString(@"ZoomOut", nil)];
+    [newItem setImage:[NSImage imageNamed:@"ZoomOut"]];
 
-  [newItem setTarget:self->document];
-  [newItem setAction:@selector(zoomOut:)];
+    [newItem setTarget:self->document];
+    [newItem setAction:@selector(zoomOut:)];
 
-  return([newItem autorelease]);
+    return([newItem autorelease]);
 }// end makeZoomOutItem
 
 
@@ -557,15 +557,15 @@
 // ==============================================================================
 - (NSToolbarItem *)makeZoomItem
 {
-  NSToolbarItem *newItem = [[NSToolbarItem alloc]
-                            initWithItemIdentifier:TOOLBAR_ZOOM_SPECIFY];
+    NSToolbarItem *newItem = [[NSToolbarItem alloc]
+                              initWithItemIdentifier:TOOLBAR_ZOOM_SPECIFY];
 
-  [newItem setLabel:NSLocalizedString(@"Zoom", nil)];
-  [newItem setPaletteLabel:NSLocalizedString(@"Zoom", nil)];
-  [newItem setView:zoomToolView];
+    [newItem setLabel:NSLocalizedString(@"Zoom", nil)];
+    [newItem setPaletteLabel:NSLocalizedString(@"Zoom", nil)];
+    [newItem setView:zoomToolView];
 // [newItem setMinSize:[zoomToolView frame].size];
 
-  return([newItem autorelease]);
+    return([newItem autorelease]);
 }// end makeZoomItem
 
 
@@ -581,12 +581,12 @@
 // ==============================================================================
 - (void)gridSpacingSegmentedControlClicked:(id)sender
 {
-  NSInteger        selectedSegment = [sender selectedSegment];
-  gridSpacingModeT newGridMode     = (int)[[sender cell] tagForSegment:selectedSegment];
+    NSInteger        selectedSegment = [sender selectedSegment];
+    gridSpacingModeT newGridMode     = (int)[[sender cell] tagForSegment:selectedSegment];
 
 // gridSpacingModeT	newGridMode		= [sender selectedTag]; // WHY does this not work!? Sheesh!
 
-  [self->document setGridSpacingMode:newGridMode];
+    [self->document setGridSpacingMode:newGridMode];
 }// end gridSpacingSegmentedControlClicked:
 
 
@@ -598,10 +598,10 @@
 // ==============================================================================
 - (IBAction)gridOrientationSegmentedControlClicked:(id)sender
 {
-  NSInteger            selectedSegment = [sender selectedSegment];
-  gridOrientationModeT newGridMode     = (int)[[sender cell] tagForSegment:selectedSegment];
+    NSInteger            selectedSegment = [sender selectedSegment];
+    gridOrientationModeT newGridMode     = (int)[[sender cell] tagForSegment:selectedSegment];
 
-  [self->document setGridOrientationMode:newGridMode];
+    [self->document setGridOrientationMode:newGridMode];
 }// emd gridOrientationSegmentedControlClicked:
 
 
@@ -615,11 +615,11 @@
 // ==============================================================================
 - (IBAction)nudgeXClicked:(id)sender
 {
-  Vector3 nudgeVector = V3Make(1, 0, 0);
+    Vector3 nudgeVector = V3Make(1, 0, 0);
 
-  nudgeVector.x *= [[sender selectedCell] tag];
+    nudgeVector.x *= [[sender selectedCell] tag];
 
-  [document nudgeSelectionBy:nudgeVector];
+    [document nudgeSelectionBy:nudgeVector];
 }// end nudgeXClicked:
 
 
@@ -633,11 +633,11 @@
 // ==============================================================================
 - (IBAction)nudgeYClicked:(id)sender
 {
-  Vector3 nudgeVector = V3Make(0, 1, 0);
+    Vector3 nudgeVector = V3Make(0, 1, 0);
 
-  nudgeVector.y *= [[sender selectedCell] tag];
+    nudgeVector.y *= [[sender selectedCell] tag];
 
-  [document nudgeSelectionBy:nudgeVector];
+    [document nudgeSelectionBy:nudgeVector];
 }// end nudgeYClicked:
 
 
@@ -651,11 +651,11 @@
 // ==============================================================================
 - (IBAction)nudgeZClicked:(id)sender
 {
-  Vector3 nudgeVector = V3Make(0, 0, 1);
+    Vector3 nudgeVector = V3Make(0, 0, 1);
 
-  nudgeVector.z *= [[sender selectedCell] tag];
+    nudgeVector.z *= [[sender selectedCell] tag];
 
-  [document nudgeSelectionBy:nudgeVector];
+    [document nudgeSelectionBy:nudgeVector];
 }// end nudgeZClicked:
 
 
@@ -667,16 +667,16 @@
 // ==============================================================================
 - (void)zoomSegmentedControlClicked:(id)sender
 {
-  NSUInteger selectedSegment = [sender selectedSegment];
+    NSUInteger selectedSegment = [sender selectedSegment];
 
-  switch (selectedSegment)
-  {
-    case 0 :[document zoomOut:sender];  break;
+    switch (selectedSegment)
+    {
+        case 0 :[document zoomOut:sender];  break;
 
-    case 1 :               break; // center cell is just a spacer hidden behind zoom text field.
+        case 1 :               break;// center cell is just a spacer hidden behind zoom text field.
 
-    case 2 :[document zoomIn:sender]; break;
-  }
+        case 2 :[document zoomIn:sender]; break;
+    }
 }// end zoomSegmentedControlClicked:
 
 
@@ -688,9 +688,9 @@
 // ==============================================================================
 - (IBAction)zoomScaleChanged:(id)sender
 {
-  CGFloat newZoom = [sender doubleValue];
+    CGFloat newZoom = [sender doubleValue];
 
-  [self->document setZoomPercentage:newZoom];
+    [self->document setZoomPercentage:newZoom];
 }// end zoomScaleChanged:
 
 
@@ -707,36 +707,36 @@
 // ==============================================================================
 - (BOOL)validateToolbarItem:(NSToolbarItem *)item
 {
-  LDrawPart *selectedPart  = [self->document selectedPart];
-  NSArray   *selectedItems = [self->document selectedObjects];
-  NSString  *identifier    = [item itemIdentifier];
-  BOOL      enabled        = NO;
+    LDrawPart *selectedPart  = [self->document selectedPart];
+    NSArray   *selectedItems = [self->document selectedObjects];
+    NSString  *identifier    = [item itemIdentifier];
+    BOOL      enabled        = NO;
 
-  // Must have something selected.
-  if ([identifier isEqualToString:TOOLBAR_NUDGE_X_IDENTIFIER]
-      || [identifier isEqualToString:TOOLBAR_NUDGE_Y_IDENTIFIER]
-      || [identifier isEqualToString:TOOLBAR_NUDGE_Z_IDENTIFIER]) {
-    if ([selectedItems count] > 0) {
-      enabled = YES;
+    // Must have something selected.
+    if ([identifier isEqualToString:TOOLBAR_NUDGE_X_IDENTIFIER]
+        || [identifier isEqualToString:TOOLBAR_NUDGE_Y_IDENTIFIER]
+        || [identifier isEqualToString:TOOLBAR_NUDGE_Z_IDENTIFIER]) {
+        if ([selectedItems count] > 0) {
+            enabled = YES;
+        }
     }
-  }
-  // Must have a part selected.
-  else if ([identifier isEqualToString:TOOLBAR_ROTATE_POSITIVE_X]
-           || [identifier isEqualToString:TOOLBAR_ROTATE_NEGATIVE_X]
-           || [identifier isEqualToString:TOOLBAR_ROTATE_POSITIVE_Y]
-           || [identifier isEqualToString:TOOLBAR_ROTATE_NEGATIVE_Y]
-           || [identifier isEqualToString:TOOLBAR_ROTATE_POSITIVE_Z]
-           || [identifier isEqualToString:TOOLBAR_ROTATE_NEGATIVE_Z]) {
-    if (selectedPart != nil) {
-      enabled = YES;
+    // Must have a part selected.
+    else if ([identifier isEqualToString:TOOLBAR_ROTATE_POSITIVE_X]
+             || [identifier isEqualToString:TOOLBAR_ROTATE_NEGATIVE_X]
+             || [identifier isEqualToString:TOOLBAR_ROTATE_POSITIVE_Y]
+             || [identifier isEqualToString:TOOLBAR_ROTATE_NEGATIVE_Y]
+             || [identifier isEqualToString:TOOLBAR_ROTATE_POSITIVE_Z]
+             || [identifier isEqualToString:TOOLBAR_ROTATE_NEGATIVE_Z]) {
+        if (selectedPart != nil) {
+            enabled = YES;
+        }
     }
-  }
-  // We don't have special conditions for it; give it a pass.
-  else {
-    enabled = YES;
-  }
+    // We don't have special conditions for it; give it a pass.
+    else {
+        enabled = YES;
+    }
 
-  return(enabled);
+    return(enabled);
 }// end validateToolbarItem:
 
 
@@ -754,13 +754,13 @@
 // ==============================================================================
 - (void)dealloc
 {
-  [gridSegmentedControl release];
-  [nudgeXToolView release];
-  [nudgeYToolView release];
-  [nudgeZToolView release];
-  [zoomToolView release];
+    [gridSegmentedControl release];
+    [nudgeXToolView release];
+    [nudgeYToolView release];
+    [nudgeZToolView release];
+    [zoomToolView release];
 
-  [super dealloc];
+    [super dealloc];
 }// end dealloc
 
 

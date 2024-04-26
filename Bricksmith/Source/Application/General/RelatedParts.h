@@ -20,17 +20,17 @@
 ////////////////////////////////////////////////////////////////////////////////
 @interface RelatedPart : NSObject
 {
-  NSString *parent;
-  NSString *child;
-  NSString *childName;
-  NSString *role;
-  GLfloat  transform[16];
+    NSString *parent;
+    NSString *child;
+    NSString *childName;
+    NSString *role;
+    GLfloat  transform[16];
 }
 
 - (id)initWithParent:(NSString *)parentName
-  offset:(GLfloat *)offset
-  relation:(NSString *)relation
-  childLine:(NSString *)line;
+    offset:(GLfloat *)offset
+    relation:(NSString *)relation
+    childLine:(NSString *)line;
 
 - (void)dump;
 
@@ -49,7 +49,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 @interface RelatedParts : NSObject
 {
-  NSArray *relatedParts;
+    NSArray *relatedParts;
 }
 
 + (RelatedParts *)sharedRelatedParts;

@@ -23,8 +23,8 @@
 
 typedef enum
 {
-  rotationAbsolute = 0,
-  rotationRelative = 1
+    rotationAbsolute = 0,
+    rotationRelative = 1
 } RotationT;
 
 @interface InspectionPart ()
@@ -68,13 +68,13 @@ typedef enum
 // ==============================================================================
 - (id)init
 {
-  self = [super init];
+    self = [super init];
 
-  if ([NSBundle loadNibNamed:@"InspectorPart" owner:self] == NO) {
-    NSLog(@"Couldn't load InspectorPart.nib");
-  }
+    if ([NSBundle loadNibNamed:@"InspectorPart" owner:self] == NO) {
+        NSLog(@"Couldn't load InspectorPart.nib");
+    }
 
-  return(self);
+    return(self);
 }// end init
 
 
@@ -82,11 +82,11 @@ typedef enum
 // ==============================================================================
 - (void)awakeFromNib
 {
-  [super awakeFromNib];
+    [super awakeFromNib];
 
-  [_formatterBasic autorelease];
-  [_formatterAngle autorelease];
-  [_formatterScale autorelease];
+    [_formatterBasic autorelease];
+    [_formatterAngle autorelease];
+    [_formatterScale autorelease];
 }
 
 
@@ -101,26 +101,26 @@ typedef enum
 // ==============================================================================
 - (void)commitChanges:(id)sender
 {
-  LDrawPart           *representedObject = [self object];
-  TransformComponents oldComponents      = [representedObject transformComponents];
-  TransformComponents components         = IdentityComponents;
-  Point3  position = [self coordinateValueFromFields:@[_locationXField, _locationYField, _locationZField]];
-  Vector3 scaling  = [self coordinateValueFromFields:@[_scaleXField, _scaleYField, _scaleZField]];
-  Tuple3  shear    = [self coordinateValueFromFields:@[_shearXYField, _shearXZField, _shearYZField]];
+    LDrawPart           *representedObject = [self object];
+    TransformComponents oldComponents      = [representedObject transformComponents];
+    TransformComponents components         = IdentityComponents;
+    Point3  position = [self coordinateValueFromFields:@[_locationXField, _locationYField, _locationZField]];
+    Vector3 scaling  = [self coordinateValueFromFields:@[_scaleXField, _scaleYField, _scaleZField]];
+    Tuple3  shear    = [self coordinateValueFromFields:@[_shearXYField, _shearXZField, _shearYZField]];
 
-  [representedObject setDisplayName:[_partNameField stringValue]];
+    [representedObject setDisplayName:[_partNameField stringValue]];
 
-  // Fill the components structure.
-  components.scale     = V3MulScalar(scaling, 0.01); // convert from percentage
-  components.shear_XY  = shear.x;
-  components.shear_XZ  = shear.y;
-  components.shear_YZ  = shear.z;
-  components.rotate    = oldComponents.rotate; // rotation is handled by the Apply button.
-  components.translate = position;
+    // Fill the components structure.
+    components.scale     = V3MulScalar(scaling, 0.01); // convert from percentage
+    components.shear_XY  = shear.x;
+    components.shear_XZ  = shear.y;
+    components.shear_YZ  = shear.z;
+    components.rotate    = oldComponents.rotate; // rotation is handled by the Apply button.
+    components.translate = position;
 
-  [representedObject setTransformComponents:components];
+    [representedObject setTransformComponents:components];
 
-  [super commitChanges:sender];
+    [super commitChanges:sender];
 }// end commitChanges:
 
 
@@ -134,45 +134,45 @@ typedef enum
 // ==============================================================================
 - (IBAction)revert:(id)sender
 {
-  LDrawPart           *representedObject = [self object];
-  TransformComponents components         = [representedObject transformComponents];
-  NSString            *description       = [[PartLibrary sharedPartLibrary] descriptionForPart:representedObject];
-  Point3  position = ZeroPoint3;
-  Vector3 scaling  = ZeroPoint3;
-  Tuple3  shear    = ZeroPoint3;
+    LDrawPart           *representedObject = [self object];
+    TransformComponents components         = [representedObject transformComponents];
+    NSString            *description       = [[PartLibrary sharedPartLibrary] descriptionForPart:representedObject];
+    Point3  position = ZeroPoint3;
+    Vector3 scaling  = ZeroPoint3;
+    Tuple3  shear    = ZeroPoint3;
 
 
-  [_partDescriptionField setStringValue:description];
-  [_partDescriptionField setToolTip:description]; // in case it overflows the field.
-  [_partNameField setStringValue:[representedObject displayName]];
+    [_partDescriptionField setStringValue:description];
+    [_partDescriptionField setToolTip:description]; // in case it overflows the field.
+    [_partNameField setStringValue:[representedObject displayName]];
 
-  [_colorWell setLDrawColor:[representedObject LDrawColor]];
+    [_colorWell setLDrawColor:[representedObject LDrawColor]];
 
-  position = components.translate;
+    position = components.translate;
 
-  scaling.x = components.scale.x * 100.0; // convert to percentage.
-  scaling.y = components.scale.y * 100.0; // convert to percentage.
-  scaling.z = components.scale.z * 100.0; // convert to percentage.
+    scaling.x = components.scale.x * 100.0; // convert to percentage.
+    scaling.y = components.scale.y * 100.0; // convert to percentage.
+    scaling.z = components.scale.z * 100.0; // convert to percentage.
 
-  // stuff the shear into the structure, despite the bad name mismatches.
-  shear.x = components.shear_XY;
-  shear.y = components.shear_XZ;
-  shear.z = components.shear_YZ;
+    // stuff the shear into the structure, despite the bad name mismatches.
+    shear.x = components.shear_XY;
+    shear.y = components.shear_XZ;
+    shear.z = components.shear_YZ;
 
-  [self setCoordinateValue:position onFields:@[_locationXField, _locationYField, _locationZField]];
-  [self setCoordinateValue:scaling onFields:@[_scaleXField, _scaleYField, _scaleZField]];
-  [self setCoordinateValue:shear onFields:@[_shearXYField, _shearXZField, _shearYZField]];
+    [self setCoordinateValue:position onFields:@[_locationXField, _locationYField, _locationZField]];
+    [self setCoordinateValue:scaling onFields:@[_scaleXField, _scaleYField, _scaleZField]];
+    [self setCoordinateValue:shear onFields:@[_shearXYField, _shearXZField, _shearYZField]];
 
-  // Rotation is a bit trickier since we have two different modes for the data
-  // entered. An absolute rotation means that the actual rotation angles for
-  // the part are displayed and edited. A relative rotation means that what-
-  // ever we enter in is added to the current angles.
-  [self setRotationAngles];
+    // Rotation is a bit trickier since we have two different modes for the data
+    // entered. An absolute rotation means that the actual rotation angles for
+    // the part are displayed and edited. A relative rotation means that what-
+    // ever we enter in is added to the current angles.
+    [self setRotationAngles];
 
-  [super revert:sender];
+    [super revert:sender];
 
-  // Someone else might care that the part's changed
-  [representedObject sendMessageToObservers:MessageObservedChanged];
+    // Someone else might care that the part's changed
+    [representedObject sendMessageToObservers:MessageObservedChanged];
 }// end revert:
 
 
@@ -189,22 +189,22 @@ typedef enum
 // ==============================================================================
 - (void)setRotationAngles
 {
-  LDrawPart           *representedObject = [self object];
-  TransformComponents components         = [representedObject transformComponents];
-  RotationT           rotationType       = [[_rotationTypePopUp selectedItem] tag];
+    LDrawPart           *representedObject = [self object];
+    TransformComponents components         = [representedObject transformComponents];
+    RotationT           rotationType       = [[_rotationTypePopUp selectedItem] tag];
 
-  if (rotationType == rotationRelative) {
-    // Rotations entered will be additive.
-    [_rotationXField setDoubleValue:0.0];
-    [_rotationYField setDoubleValue:0.0];
-    [_rotationZField setDoubleValue:0.0];
-  }
-  else {
-    // Absolute rotation; fill in the real rotation angles.
-    [_rotationXField setDoubleValue:degrees(components.rotate.x)];
-    [_rotationYField setDoubleValue:degrees(components.rotate.y)];
-    [_rotationZField setDoubleValue:degrees(components.rotate.z)];
-  }
+    if (rotationType == rotationRelative) {
+        // Rotations entered will be additive.
+        [_rotationXField setDoubleValue:0.0];
+        [_rotationYField setDoubleValue:0.0];
+        [_rotationZField setDoubleValue:0.0];
+    }
+    else {
+        // Absolute rotation; fill in the real rotation angles.
+        [_rotationXField setDoubleValue:degrees(components.rotate.x)];
+        [_rotationYField setDoubleValue:degrees(components.rotate.y)];
+        [_rotationZField setDoubleValue:degrees(components.rotate.z)];
+    }
 }// end setRotationAngles
 
 
@@ -222,46 +222,46 @@ typedef enum
 // ==============================================================================
 - (IBAction)applyRotationClicked:(id)sender
 {
-  LDrawPart     *representedObject = [self object];
-  LDrawDocument *currentDocument   = [[NSDocumentController sharedDocumentController] currentDocument];
-  RotationT     rotationType       = [[_rotationTypePopUp selectedItem] tag];
+    LDrawPart     *representedObject = [self object];
+    LDrawDocument *currentDocument   = [[NSDocumentController sharedDocumentController] currentDocument];
+    RotationT     rotationType       = [[_rotationTypePopUp selectedItem] tag];
 
-  // Save out the current state.
-  [currentDocument preserveDirectiveState:representedObject];
+    // Save out the current state.
+    [currentDocument preserveDirectiveState:representedObject];
 
-  if (rotationType == rotationRelative) {
-    Tuple3 additiveRotation;
+    if (rotationType == rotationRelative) {
+        Tuple3 additiveRotation;
 
-    additiveRotation.x = [_rotationXField doubleValue];
-    additiveRotation.y = [_rotationYField doubleValue];
-    additiveRotation.z = [_rotationZField doubleValue];
+        additiveRotation.x = [_rotationXField doubleValue];
+        additiveRotation.y = [_rotationYField doubleValue];
+        additiveRotation.z = [_rotationZField doubleValue];
 
-    [representedObject rotateByDegrees:additiveRotation];
-  }
-  // An absolute rotation.
-  else {
-    TransformComponents components = [[self object] transformComponents];
+        [representedObject rotateByDegrees:additiveRotation];
+    }
+    // An absolute rotation.
+    else {
+        TransformComponents components = [[self object] transformComponents];
 
-    components.rotate.x = radians([_rotationXField doubleValue]); // convert from degrees
-    components.rotate.y = radians([_rotationYField doubleValue]);
-    components.rotate.z = radians([_rotationZField doubleValue]);
+        components.rotate.x = radians([_rotationXField doubleValue]); // convert from degrees
+        components.rotate.y = radians([_rotationYField doubleValue]);
+        components.rotate.z = radians([_rotationZField doubleValue]);
 
-    [representedObject setTransformComponents:components];
-  }
+        [representedObject setTransformComponents:components];
+    }
 
-  // Note that the part has changed.
-  [representedObject noteNeedsDisplay];
+    // Note that the part has changed.
+    [representedObject noteNeedsDisplay];
 
-  // For a relative rotation, prepare for the next additive rotation by
-  // resetting the rotations values to zero
-  if (rotationType == rotationRelative) {
-    [_rotationXField setDoubleValue:0.0];
-    [_rotationYField setDoubleValue:0.0];
-    [_rotationZField setDoubleValue:0.0];
-  }
+    // For a relative rotation, prepare for the next additive rotation by
+    // resetting the rotations values to zero
+    if (rotationType == rotationRelative) {
+        [_rotationXField setDoubleValue:0.0];
+        [_rotationYField setDoubleValue:0.0];
+        [_rotationZField setDoubleValue:0.0];
+    }
 
-  // Someone else might care that the part's orientation has changed
-  [representedObject sendMessageToObservers:MessageObservedChanged];
+    // Someone else might care that the part's orientation has changed
+    [representedObject sendMessageToObservers:MessageObservedChanged];
 }// end applyRotationClicked:
 
 
@@ -274,14 +274,14 @@ typedef enum
 // ==============================================================================
 - (IBAction)locationEndedEditing:(id)sender
 {
-  Point3 formContents            = [self coordinateValueFromFields:@[_locationXField, _locationYField,
-                                                                     _locationZField]];
-  TransformComponents components = [[self object] transformComponents];
+    Point3 formContents = [self coordinateValueFromFields:@[_locationXField, _locationYField,
+                                                            _locationZField]];
+    TransformComponents components = [[self object] transformComponents];
 
-  // If the values really did change, then update.
-  if (V3EqualPoints(formContents, components.translate) == NO) {
-    [self finishedEditing:sender];
-  }
+    // If the values really did change, then update.
+    if (V3EqualPoints(formContents, components.translate) == NO) {
+        [self finishedEditing:sender];
+    }
 }// end locationEndedEditing:
 
 
@@ -294,13 +294,13 @@ typedef enum
 // ==============================================================================
 - (IBAction)partNameEndedEditing:(id)sender
 {
-  NSString *newName = [_partNameField stringValue];
-  NSString *oldName = [[self object] displayName];
+    NSString *newName = [_partNameField stringValue];
+    NSString *oldName = [[self object] displayName];
 
-  if ([oldName isEqualToString:newName] == NO) {
-    [self finishedEditing:sender];
-    [self revert:sender];
-  }
+    if ([oldName isEqualToString:newName] == NO) {
+        [self finishedEditing:sender];
+        [self revert:sender];
+    }
 }// end partNameEndedEditing:
 
 
@@ -311,7 +311,7 @@ typedef enum
 // ==============================================================================
 - (IBAction)rotationTypeChanged:(id)sender
 {
-  [self setRotationAngles];
+    [self setRotationAngles];
 }// end rotationTypeChanged:
 
 
@@ -325,16 +325,16 @@ typedef enum
 // ==============================================================================
 - (IBAction)scalingEndedEditing:(id)sender
 {
-  Vector3             formContents = [self coordinateValueFromFields:@[_scaleXField, _scaleYField, _scaleZField]];
-  TransformComponents components   = [[self object] transformComponents];
+    Vector3             formContents = [self coordinateValueFromFields:@[_scaleXField, _scaleYField, _scaleZField]];
+    TransformComponents components   = [[self object] transformComponents];
 
-  // If the values really did change, then update.
-  if (formContents.x != components.scale.x * 100.0 ||
-      formContents.y != components.scale.y * 100.0 ||
-      formContents.z != components.scale.z * 100.0
-      ) {
-    [self finishedEditing:sender];
-  }
+    // If the values really did change, then update.
+    if (formContents.x != components.scale.x * 100.0 ||
+        formContents.y != components.scale.y * 100.0 ||
+        formContents.z != components.scale.z * 100.0
+        ) {
+        [self finishedEditing:sender];
+    }
 }// end scalingEndedEditing:
 
 
@@ -348,17 +348,17 @@ typedef enum
 // ==============================================================================
 - (IBAction)shearEndedEditing:(id)sender
 {
-  Vector3             formContents = [self coordinateValueFromFields:@[_shearXYField, _shearXZField, _shearYZField]];
-  TransformComponents components   = [[self object] transformComponents];
+    Vector3             formContents = [self coordinateValueFromFields:@[_shearXYField, _shearXZField, _shearYZField]];
+    TransformComponents components   = [[self object] transformComponents];
 
-  // If the values really did change, then update.
-  // (please disregard the meaningless x, y, and z tags in the formContents.)
-  if (formContents.x != components.shear_XY ||
-      formContents.y != components.shear_XZ ||
-      formContents.z != components.shear_YZ
-      ) {
-    [self finishedEditing:sender];
-  }
+    // If the values really did change, then update.
+    // (please disregard the meaningless x, y, and z tags in the formContents.)
+    if (formContents.x != components.shear_XY ||
+        formContents.y != components.shear_XZ ||
+        formContents.z != components.shear_YZ
+        ) {
+        [self finishedEditing:sender];
+    }
 }// end shearEndedEditing:
 
 
@@ -373,12 +373,13 @@ typedef enum
 // ==============================================================================
 - (void)dealloc
 {
-  // Top level nib objects:
-  [_formatterBasic release];
-  [_formatterAngle release];
-  [_formatterScale release];
+    // Top level nib objects:
+    [_formatterBasic release];
+    [_formatterAngle release];
+    [_formatterScale release];
 
-  [super dealloc];
+    [super dealloc];
 }// end dealloc
+
 
 @end

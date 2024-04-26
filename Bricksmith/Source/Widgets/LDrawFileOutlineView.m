@@ -19,12 +19,12 @@
 // ==============================================================================
 - (NSDragOperation)draggingSourceOperationMaskForLocal:(BOOL)isLocal
 {
-  if (isLocal == NO) {
-    return(NSDragOperationCopy);
-  }
-  else {
-    return([super draggingSourceOperationMaskForLocal:isLocal]);
-  }
+    if (isLocal == NO) {
+        return(NSDragOperationCopy);
+    }
+    else {
+        return([super draggingSourceOperationMaskForLocal:isLocal]);
+    }
 }// end draggingSourceOperationMaskForLocal:
 
 
@@ -36,22 +36,22 @@
 // ==============================================================================
 - (NSIndexSet *)selectObjects:(NSArray *)objects
 {
-  // Select all the objects which have been added.
-  id                currentObject    = nil;
-  NSUInteger        indexOfObject    = 0;
-  NSMutableIndexSet *indexesToSelect = [NSMutableIndexSet indexSet];
-  NSInteger         counter          = 0;
+    // Select all the objects which have been added.
+    id                currentObject    = nil;
+    NSUInteger        indexOfObject    = 0;
+    NSMutableIndexSet *indexesToSelect = [NSMutableIndexSet indexSet];
+    NSInteger         counter          = 0;
 
-  // Gather up the indices of the pasted objects.
-  for (counter = 0; counter < [objects count]; counter++) {
-    currentObject = [objects objectAtIndex:counter];
-    indexOfObject = [self rowForItem:currentObject];
-    [indexesToSelect addIndex:indexOfObject];
-  }
-  [self selectRowIndexes:indexesToSelect
-    byExtendingSelection:NO];
+    // Gather up the indices of the pasted objects.
+    for (counter = 0; counter < [objects count]; counter++) {
+        currentObject = [objects objectAtIndex:counter];
+        indexOfObject = [self rowForItem:currentObject];
+        [indexesToSelect addIndex:indexOfObject];
+    }
+    [self selectRowIndexes:indexesToSelect
+     byExtendingSelection:NO];
 
-  return(indexesToSelect);
+    return(indexesToSelect);
 }// end selectObjects:
 
 

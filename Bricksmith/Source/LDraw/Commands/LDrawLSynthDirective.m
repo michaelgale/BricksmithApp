@@ -21,12 +21,12 @@
 // ==============================================================================
 - (void)setSelected:(BOOL)flag
 {
-  [super setSelected:flag];
+    [super setSelected:flag];
 
-  // would like LDrawContainer to be a protocol.  In its absence, respondsToSelector: works
-  if ([[self enclosingDirective] respondsToSelector:@selector(setSubdirectiveSelected:)]) {
-    [[self enclosingDirective] setSubdirectiveSelected:flag];
-  }
+    // would like LDrawContainer to be a protocol.  In its absence, respondsToSelector: works
+    if ([[self enclosingDirective] respondsToSelector:@selector(setSubdirectiveSelected:)]) {
+        [[self enclosingDirective] setSubdirectiveSelected:flag];
+    }
 }// end setSelected:
 
 
@@ -42,17 +42,17 @@
 // ==============================================================================
 - (NSString *)browsingDescription
 {
-  if ([[self stringValue] isEqualToString:@"INSIDE"]) {
-    return(@"Inside");
-  }
-  else if ([[self stringValue] isEqualToString:@"OUTSIDE"]) {
-    return(@"Outside");
-  }
-  else if ([[self stringValue] isEqualToString:@"CROSS"]) {
-    return(@"Cross");
-  }
+    if ([[self stringValue] isEqualToString:@"INSIDE"]) {
+        return(@"Inside");
+    }
+    else if ([[self stringValue] isEqualToString:@"OUTSIDE"]) {
+        return(@"Outside");
+    }
+    else if ([[self stringValue] isEqualToString:@"CROSS"]) {
+        return(@"Cross");
+    }
 
-  return(@"Unknown LSynth Direction");
+    return(@"Unknown LSynth Direction");
 }// end browsingDescription
 
 
@@ -64,7 +64,7 @@
 // ==============================================================================
 - (NSString *)iconName
 {
-  return(@"LSynthDirection");
+    return(@"LSynthDirection");
 }// end iconName
 
 
@@ -81,7 +81,7 @@
 // ==============================================================================
 - (NSString *)write
 {
-  return([NSString stringWithFormat:@"0 SYNTH %@", [self stringValue]]);
+    return([NSString stringWithFormat:@"0 SYNTH %@", [self stringValue]]);
 }// end write
 
 

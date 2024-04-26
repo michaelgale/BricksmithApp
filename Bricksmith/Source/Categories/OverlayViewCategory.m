@@ -58,12 +58,12 @@
 // ==============================================================================
 - (void)addOverlayView:(NSView *)overlayView
 {
-  OverlayHelperView *helperView = nil;
+    OverlayHelperView *helperView = nil;
 
-  // Add a special NSView to the parent so we can track a few things...
-  helperView = [[OverlayHelperView alloc] initWithOverlayView:overlayView];
-  [self addSubview:helperView];
-  [helperView release];
+    // Add a special NSView to the parent so we can track a few things...
+    helperView = [[OverlayHelperView alloc] initWithOverlayView:overlayView];
+    [self addSubview:helperView];
+    [helperView release];
 }// end addOverlayView:ordered:
 
 
@@ -78,24 +78,24 @@
 // ==============================================================================
 - (void)removeOverlayView:(NSView *)overlayViewIn
 {
-  NSView *currentView    = nil;
-  NSView *overlayHelper  = nil;
-  NSView *currentOverlay = nil;
+    NSView *currentView    = nil;
+    NSView *overlayHelper  = nil;
+    NSView *currentOverlay = nil;
 
-  // Find the helper view which manages the given overlay
-  for (currentView in [self subviews]) {
-    if ([currentView respondsToSelector:@selector(overlayView)]) {
-      currentOverlay = [(OverlayHelperView *) currentView overlayView];
-      if (currentOverlay == overlayViewIn) {
-        overlayHelper = currentView;
-        break;
-      }
+    // Find the helper view which manages the given overlay
+    for (currentView in [self subviews]) {
+        if ([currentView respondsToSelector:@selector(overlayView)]) {
+            currentOverlay = [(OverlayHelperView *) currentView overlayView];
+            if (currentOverlay == overlayViewIn) {
+                overlayHelper = currentView;
+                break;
+            }
+        }
     }
-  }
-  if (overlayHelper) {
-    [overlayHelper removeFromSuperview];
-  }
-  [self setNeedsDisplay:YES];
+    if (overlayHelper) {
+        [overlayHelper removeFromSuperview];
+    }
+    [self setNeedsDisplay:YES];
 }// end removeOverlayView:
 
 

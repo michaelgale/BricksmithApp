@@ -22,14 +22,14 @@
 // ==============================================================================
 - (id)init
 {
-  self = [super init];
+    self = [super init];
 
 // if ([NSBundle loadNibNamed:@"InspectorComment"
 // owner:self] == NO) {
 // NSLog(@"Couldn't load InspectorComment.nib");
 // }
 
-  return(self);
+    return(self);
 }// end init
 
 
@@ -44,13 +44,13 @@
 // ==============================================================================
 - (void)commitChanges:(id)sender
 {
-  LDrawComment *representedObject = [self object];
+    LDrawComment *representedObject = [self object];
 
-  NSString *newCommand = [commandField stringValue];
+    NSString *newCommand = [commandField stringValue];
 
-  [representedObject setStringValue:newCommand];
+    [representedObject setStringValue:newCommand];
 
-  [super commitChanges:sender];
+    [super commitChanges:sender];
 }// end commitChanges:
 
 
@@ -64,11 +64,11 @@
 // ==============================================================================
 - (IBAction)revert:(id)sender
 {
-  LDrawComment *representedObject = [self object];
+    LDrawComment *representedObject = [self object];
 
-  [commandField setStringValue:[representedObject stringValue]];
+    [commandField setStringValue:[representedObject stringValue]];
 
-  [super revert:sender];
+    [super revert:sender];
 }// end revert:
 
 
@@ -81,13 +81,13 @@
 // ==============================================================================
 - (IBAction)commandFieldChanged:(id)sender
 {
-  NSString *newComment = [commandField stringValue];
-  NSString *oldComment = [[self object] stringValue];
+    NSString *newComment = [commandField stringValue];
+    NSString *oldComment = [[self object] stringValue];
 
-  // If the values really did change, then update.
-  if ([newComment isEqualToString:oldComment] == NO) {
-    [self finishedEditing:sender];
-  }
+    // If the values really did change, then update.
+    if ([newComment isEqualToString:oldComment] == NO) {
+        [self finishedEditing:sender];
+    }
 }// end commandFieldChanged:
 
 

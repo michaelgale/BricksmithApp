@@ -24,18 +24,18 @@
 // ==============================================================================
 - (void)drawRect:(NSRect)rect
 {
-  NSBezierPath *trianglePath = [NSBezierPath bezierPath];
-  NSRect       frame         = NSInsetRect([self bounds], 2, 2);
+    NSBezierPath *trianglePath = [NSBezierPath bezierPath];
+    NSRect       frame         = NSInsetRect([self bounds], 2, 2);
 
-  [trianglePath moveToPoint:NSMakePoint(NSMinX(frame), NSMinY(frame))];
-  [trianglePath lineToPoint:NSMakePoint(NSMaxX(frame), NSMinY(frame))];
-  [trianglePath lineToPoint:NSMakePoint(NSMaxX(frame), NSMaxY(frame))];
-  [trianglePath lineToPoint:NSMakePoint(NSMinX(frame), NSMaxY(frame))];
-  [trianglePath closePath];
+    [trianglePath moveToPoint:NSMakePoint(NSMinX(frame), NSMinY(frame))];
+    [trianglePath lineToPoint:NSMakePoint(NSMaxX(frame), NSMinY(frame))];
+    [trianglePath lineToPoint:NSMakePoint(NSMaxX(frame), NSMaxY(frame))];
+    [trianglePath lineToPoint:NSMakePoint(NSMinX(frame), NSMaxY(frame))];
+    [trianglePath closePath];
 
-  [[NSColor grayColor] set];
-  [trianglePath setLineWidth:1.5];
-  [trianglePath stroke];
+    [[NSColor grayColor] set];
+    [trianglePath setLineWidth:1.5];
+    [trianglePath stroke];
 }// end drawRect:
 
 
@@ -50,14 +50,14 @@
 // ==============================================================================
 - (id)init
 {
-  self = [super init];
+    self = [super init];
 
-  if ([NSBundle loadNibNamed:@"InspectorQuadrilateral"
-                       owner:self] == NO) {
-    NSLog(@"Couldn't load InspectorQuadrilateral.nib");
-  }
+    if ([NSBundle loadNibNamed:@"InspectorQuadrilateral"
+         owner:self] == NO) {
+        NSLog(@"Couldn't load InspectorQuadrilateral.nib");
+    }
 
-  return(self);
+    return(self);
 }// end init
 
 
@@ -72,19 +72,19 @@
 // ==============================================================================
 - (void)commitChanges:(id)sender
 {
-  LDrawQuadrilateral *representedObject = [self object];
+    LDrawQuadrilateral *representedObject = [self object];
 
-  Point3 vertex1 = [vertex1Form coordinateValue];
-  Point3 vertex2 = [vertex2Form coordinateValue];
-  Point3 vertex3 = [vertex3Form coordinateValue];
-  Point3 vertex4 = [vertex4Form coordinateValue];
+    Point3 vertex1 = [vertex1Form coordinateValue];
+    Point3 vertex2 = [vertex2Form coordinateValue];
+    Point3 vertex3 = [vertex3Form coordinateValue];
+    Point3 vertex4 = [vertex4Form coordinateValue];
 
-  [representedObject setVertex1:vertex1];
-  [representedObject setVertex2:vertex2];
-  [representedObject setVertex3:vertex3];
-  [representedObject setVertex4:vertex4];
+    [representedObject setVertex1:vertex1];
+    [representedObject setVertex2:vertex2];
+    [representedObject setVertex3:vertex3];
+    [representedObject setVertex4:vertex4];
 
-  [super commitChanges:sender];
+    [super commitChanges:sender];
 }// end commitChanges:
 
 
@@ -98,21 +98,21 @@
 // ==============================================================================
 - (IBAction)revert:(id)sender
 {
-  LDrawQuadrilateral *representedObject = [self object];
+    LDrawQuadrilateral *representedObject = [self object];
 
-  [colorWell setLDrawColor:[representedObject LDrawColor]];
+    [colorWell setLDrawColor:[representedObject LDrawColor]];
 
-  Point3 vertex1 = [representedObject vertex1];
-  Point3 vertex2 = [representedObject vertex2];
-  Point3 vertex3 = [representedObject vertex3];
-  Point3 vertex4 = [representedObject vertex4];
+    Point3 vertex1 = [representedObject vertex1];
+    Point3 vertex2 = [representedObject vertex2];
+    Point3 vertex3 = [representedObject vertex3];
+    Point3 vertex4 = [representedObject vertex4];
 
-  [vertex1Form setCoordinateValue:vertex1];
-  [vertex2Form setCoordinateValue:vertex2];
-  [vertex3Form setCoordinateValue:vertex3];
-  [vertex4Form setCoordinateValue:vertex4];
+    [vertex1Form setCoordinateValue:vertex1];
+    [vertex2Form setCoordinateValue:vertex2];
+    [vertex3Form setCoordinateValue:vertex3];
+    [vertex4Form setCoordinateValue:vertex4];
 
-  [super revert:sender];
+    [super revert:sender];
 }// end revert:
 
 
@@ -127,13 +127,13 @@
 // ==============================================================================
 - (IBAction)vertex1EndedEditing:(id)sender
 {
-  Point3 formContents = [vertex1Form coordinateValue];
-  Point3 vertex1      = [[self object] vertex1];
+    Point3 formContents = [vertex1Form coordinateValue];
+    Point3 vertex1      = [[self object] vertex1];
 
-  // If the values really did change, then update.
-  if (V3EqualPoints(formContents, vertex1) == NO) {
-    [self finishedEditing:sender];
-  }
+    // If the values really did change, then update.
+    if (V3EqualPoints(formContents, vertex1) == NO) {
+        [self finishedEditing:sender];
+    }
 }// end vertex1EndedEditing:
 
 
@@ -146,13 +146,13 @@
 // ==============================================================================
 - (IBAction)vertex2EndedEditing:(id)sender
 {
-  Point3 formContents = [vertex2Form coordinateValue];
-  Point3 vertex2      = [[self object] vertex2];
+    Point3 formContents = [vertex2Form coordinateValue];
+    Point3 vertex2      = [[self object] vertex2];
 
-  // If the values really did change, then update.
-  if (V3EqualPoints(formContents, vertex2) == NO) {
-    [self finishedEditing:sender];
-  }
+    // If the values really did change, then update.
+    if (V3EqualPoints(formContents, vertex2) == NO) {
+        [self finishedEditing:sender];
+    }
 }// end vertex2EndedEditing:
 
 
@@ -165,13 +165,13 @@
 // ==============================================================================
 - (IBAction)vertex3EndedEditing:(id)sender
 {
-  Point3 formContents = [vertex3Form coordinateValue];
-  Point3 vertex3      = [[self object] vertex3];
+    Point3 formContents = [vertex3Form coordinateValue];
+    Point3 vertex3      = [[self object] vertex3];
 
-  // If the values really did change, then update.
-  if (V3EqualPoints(formContents, vertex3) == NO) {
-    [self finishedEditing:sender];
-  }
+    // If the values really did change, then update.
+    if (V3EqualPoints(formContents, vertex3) == NO) {
+        [self finishedEditing:sender];
+    }
 }// end vertex3EndedEditing:
 
 
@@ -184,13 +184,13 @@
 // ==============================================================================
 - (IBAction)vertex4EndedEditing:(id)sender
 {
-  Point3 formContents = [vertex4Form coordinateValue];
-  Point3 vertex4      = [[self object] vertex4];
+    Point3 formContents = [vertex4Form coordinateValue];
+    Point3 vertex4      = [[self object] vertex4];
 
-  // If the values really did change, then update.
-  if (V3EqualPoints(formContents, vertex4) == NO) {
-    [self finishedEditing:sender];
-  }
+    // If the values really did change, then update.
+    if (V3EqualPoints(formContents, vertex4) == NO) {
+        [self finishedEditing:sender];
+    }
 }// end vertex4EndedEditing:
 
 

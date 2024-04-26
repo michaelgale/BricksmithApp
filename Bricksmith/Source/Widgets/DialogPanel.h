@@ -13,13 +13,13 @@
 
 @interface DialogPanel : NSPanel
 {
-  // A referece to the actual panel which will become "us."
-  IBOutlet DialogPanel *dialogPanel;
+    // A referece to the actual panel which will become "us."
+    IBOutlet DialogPanel *dialogPanel;
 
-  // All following outlets should be connected to dialogPanel,
-  // NOT to File's Owner. File's Owner will be deallocated as
-  // soon as the Nib is loaded; only dialogPanel will survive.
-  IBOutlet NSObjectController *objectController;
+    // All following outlets should be connected to dialogPanel,
+    // NOT to File's Owner. File's Owner will be deallocated as
+    // soon as the Nib is loaded; only dialogPanel will survive.
+    IBOutlet NSObjectController *objectController;
 }
 
 // Accessors

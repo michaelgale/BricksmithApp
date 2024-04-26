@@ -13,12 +13,12 @@
 
 typedef enum
 {
-  InspectorRotationShortcutCustom             = -1, // tag for both relative and absolute
-  InspectorRotationShortcutUpsideDown         = 0,
-  InspectorRotationShortcutClockwise90        = 1,
-  InspectorRotationShortcutCounterClockwise90 = 2,
-  InspectorRotationShortcutBackside           = 3
-    // the rest of the tags match ViewOrientationT
+    InspectorRotationShortcutCustom             = -1, // tag for both relative and absolute
+    InspectorRotationShortcutUpsideDown         = 0,
+    InspectorRotationShortcutClockwise90        = 1,
+    InspectorRotationShortcutCounterClockwise90 = 2,
+    InspectorRotationShortcutBackside           = 3
+        // the rest of the tags match ViewOrientationT
 } StepInspectorRotationShortcutT;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -28,15 +28,15 @@ typedef enum
 ////////////////////////////////////////////////////////////////////////////////
 @interface InspectionStep : ObjectInspectionController
 {
-  IBOutlet NSMatrix *rotationTypeRadioButtons;
+    IBOutlet NSMatrix *rotationTypeRadioButtons;
 
-  IBOutlet NSPopUpButton *relativeRotationPopUpMenu;
-  IBOutlet NSPopUpButton *absoluteRotationPopUpMenu;
+    IBOutlet NSPopUpButton *relativeRotationPopUpMenu;
+    IBOutlet NSPopUpButton *absoluteRotationPopUpMenu;
 
-  IBOutlet NSTextField *rotationXField;
-  IBOutlet NSTextField *rotationYField;
-  IBOutlet NSTextField *rotationZField;
-  IBOutlet NSButton    *useCurrentAngleButton;
+    IBOutlet NSTextField *rotationXField;
+    IBOutlet NSTextField *rotationYField;
+    IBOutlet NSTextField *rotationZField;
+    IBOutlet NSButton    *useCurrentAngleButton;
 }
 
 // Constraints

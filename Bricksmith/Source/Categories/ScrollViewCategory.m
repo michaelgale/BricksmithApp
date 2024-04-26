@@ -21,25 +21,25 @@
 // ==============================================================================
 - (void)centerDocumentView
 {
-  NSView            *documentView      = [[self documentView] retain];
-  NSClipView        *oldClipView       = [self contentView];
-  CenteringClipView *centeringClipView =
-    [[CenteringClipView alloc] initWithFrame:[oldClipView frame]];
-  NSRect visibleRect = [self documentVisibleRect];
+    NSView            *documentView      = [[self documentView] retain];
+    NSClipView        *oldClipView       = [self contentView];
+    CenteringClipView *centeringClipView =
+        [[CenteringClipView alloc] initWithFrame:[oldClipView frame]];
+    NSRect visibleRect = [self documentVisibleRect];
 
-  // replicate settings
-  [centeringClipView setBackgroundColor:[NSColor windowBackgroundColor]];
-  [centeringClipView setCopiesOnScroll:NO];
-  [centeringClipView setDrawsBackground:[oldClipView drawsBackground]];
+    // replicate settings
+    [centeringClipView setBackgroundColor:[NSColor windowBackgroundColor]];
+    [centeringClipView setCopiesOnScroll:NO];
+    [centeringClipView setDrawsBackground:[oldClipView drawsBackground]];
 
-  // set the new view in the scroll view
-  [self setContentView:centeringClipView];
-  [self setDocumentView:documentView];
-  [[self documentView] scrollRectToVisible:visibleRect];
+    // set the new view in the scroll view
+    [self setContentView:centeringClipView];
+    [self setDocumentView:documentView];
+    [[self documentView] scrollRectToVisible:visibleRect];
 
-  // Let My Bits Go!
-  [documentView release];
-  [centeringClipView release];
+    // Let My Bits Go!
+    [documentView release];
+    [centeringClipView release];
 }// end centerDocumentView
 
 

@@ -12,24 +12,24 @@
 
 @interface MLCadIni : NSObject
 {
-  NSArray *lsynthVisibleTypes;
+    NSArray *lsynthVisibleTypes;
 
-  // Minifigure Generator
-  NSMutableArray *minifigureHats;
-  NSMutableArray *minifigureHeads;
-  NSMutableArray *minifigureNecks;
-  NSMutableArray *minifigureTorsos;
-  NSMutableArray *minifigureHips;
-  NSMutableArray *minifigureArmsLeft;
-  NSMutableArray *minifigureArmsRight;
-  NSMutableArray *minifigureHandsLeft;
-  NSMutableArray *minifigureHandsLeftAccessories;
-  NSMutableArray *minifigureHandsRight;
-  NSMutableArray *minifigureHandsRightAccessories;
-  NSMutableArray *minifigureLegsLeft;
-  NSMutableArray *minifigureLegsLeftAcessories;
-  NSMutableArray *minifigureLegsRight;
-  NSMutableArray *minifigureLegsRightAccessories;
+    // Minifigure Generator
+    NSMutableArray *minifigureHats;
+    NSMutableArray *minifigureHeads;
+    NSMutableArray *minifigureNecks;
+    NSMutableArray *minifigureTorsos;
+    NSMutableArray *minifigureHips;
+    NSMutableArray *minifigureArmsLeft;
+    NSMutableArray *minifigureArmsRight;
+    NSMutableArray *minifigureHandsLeft;
+    NSMutableArray *minifigureHandsLeftAccessories;
+    NSMutableArray *minifigureHandsRight;
+    NSMutableArray *minifigureHandsRightAccessories;
+    NSMutableArray *minifigureLegsLeft;
+    NSMutableArray *minifigureLegsLeftAcessories;
+    NSMutableArray *minifigureLegsRight;
+    NSMutableArray *minifigureLegsRightAccessories;
 }
 
 // Initialization

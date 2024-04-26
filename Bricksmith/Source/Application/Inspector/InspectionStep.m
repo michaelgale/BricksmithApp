@@ -41,13 +41,13 @@
 // ==============================================================================
 - (id)init
 {
-  self = [super init];
+    self = [super init];
 
-  if ([NSBundle loadNibNamed:@"InspectorStep" owner:self] == NO) {
-    NSLog(@"Couldn't load InspectorStep.nib");
-  }
+    if ([NSBundle loadNibNamed:@"InspectorStep" owner:self] == NO) {
+        NSLog(@"Couldn't load InspectorStep.nib");
+    }
 
-  return(self);
+    return(self);
 }// end init
 
 
@@ -63,33 +63,33 @@
 // ==============================================================================
 - (void)updateConstraints
 {
-  LDrawStep          *representedObject  = [self object];
-  BOOL               enableAngleField    = NO;
-  LDrawStepRotationT stepRotationType    = [representedObject stepRotationType];
-  BOOL               showViewAngleButton = NO;
+    LDrawStep          *representedObject  = [self object];
+    BOOL               enableAngleField    = NO;
+    LDrawStepRotationT stepRotationType    = [representedObject stepRotationType];
+    BOOL               showViewAngleButton = NO;
 
-  // Enable manual angle entry?
-  if (stepRotationType == LDrawStepRotationRelative &&
-      [self->relativeRotationPopUpMenu selectedTag] == InspectorRotationShortcutCustom) {
-    enableAngleField = YES;
-  }
-  else if (stepRotationType == LDrawStepRotationAbsolute &&
-           [self->absoluteRotationPopUpMenu selectedTag] == InspectorRotationShortcutCustom) {
-    enableAngleField    = YES;
-    showViewAngleButton = YES;
-  }
-  else if (stepRotationType == LDrawStepRotationAdditive) {
-    enableAngleField = YES;
-  }
+    // Enable manual angle entry?
+    if (stepRotationType == LDrawStepRotationRelative &&
+        [self->relativeRotationPopUpMenu selectedTag] == InspectorRotationShortcutCustom) {
+        enableAngleField = YES;
+    }
+    else if (stepRotationType == LDrawStepRotationAbsolute &&
+             [self->absoluteRotationPopUpMenu selectedTag] == InspectorRotationShortcutCustom) {
+        enableAngleField    = YES;
+        showViewAngleButton = YES;
+    }
+    else if (stepRotationType == LDrawStepRotationAdditive) {
+        enableAngleField = YES;
+    }
 
-  [self->relativeRotationPopUpMenu setEnabled:(stepRotationType == LDrawStepRotationRelative)];
-  [self->absoluteRotationPopUpMenu setEnabled:(stepRotationType == LDrawStepRotationAbsolute)];
+    [self->relativeRotationPopUpMenu setEnabled:(stepRotationType == LDrawStepRotationRelative)];
+    [self->absoluteRotationPopUpMenu setEnabled:(stepRotationType == LDrawStepRotationAbsolute)];
 
-  [self->rotationXField setEnabled:enableAngleField];
-  [self->rotationYField setEnabled:enableAngleField];
-  [self->rotationZField setEnabled:enableAngleField];
+    [self->rotationXField setEnabled:enableAngleField];
+    [self->rotationYField setEnabled:enableAngleField];
+    [self->rotationZField setEnabled:enableAngleField];
 
-  [self->useCurrentAngleButton setHidden:(showViewAngleButton == NO)];
+    [self->useCurrentAngleButton setHidden:(showViewAngleButton == NO)];
 }// end updateConstraints
 
 
@@ -104,19 +104,19 @@
 // ==============================================================================
 - (void)commitChanges:(id)sender
 {
-  LDrawStep *representedObject = [self object];
+    LDrawStep *representedObject = [self object];
 
-  LDrawStepRotationT stepRotationType = (int)[[self->rotationTypeRadioButtons selectedCell] tag];
-  Tuple3             rotationAngle    = ZeroPoint3;
+    LDrawStepRotationT stepRotationType = (int)[[self->rotationTypeRadioButtons selectedCell] tag];
+    Tuple3             rotationAngle    = ZeroPoint3;
 
-  rotationAngle.x = [self->rotationXField doubleValue];
-  rotationAngle.y = [self->rotationYField doubleValue];
-  rotationAngle.z = [self->rotationZField doubleValue];
+    rotationAngle.x = [self->rotationXField doubleValue];
+    rotationAngle.y = [self->rotationYField doubleValue];
+    rotationAngle.z = [self->rotationZField doubleValue];
 
-  [representedObject setStepRotationType:stepRotationType];
-  [representedObject setRotationAngle:rotationAngle];
+    [representedObject setStepRotationType:stepRotationType];
+    [representedObject setRotationAngle:rotationAngle];
 
-  [super commitChanges:sender];
+    [super commitChanges:sender];
 }// end commitChanges:
 
 
@@ -130,54 +130,54 @@
 // ==============================================================================
 - (IBAction)revert:(id)sender
 {
-  LDrawStep *representedObject = [self object];
+    LDrawStep *representedObject = [self object];
 
-  LDrawStepRotationT stepRotationType = [representedObject stepRotationType];
-  Tuple3             rotationAngle    = [representedObject rotationAngle];
-  ViewOrientationT   viewOrientation  = ViewOrientation3D;
+    LDrawStepRotationT stepRotationType = [representedObject stepRotationType];
+    Tuple3             rotationAngle    = [representedObject rotationAngle];
+    ViewOrientationT   viewOrientation  = ViewOrientation3D;
 
-  [self->rotationTypeRadioButtons selectCellWithTag:stepRotationType];
-  [self->rotationXField setDoubleValue:rotationAngle.x];
-  [self->rotationYField setDoubleValue:rotationAngle.y];
-  [self->rotationZField setDoubleValue:rotationAngle.z];
+    [self->rotationTypeRadioButtons selectCellWithTag:stepRotationType];
+    [self->rotationXField setDoubleValue:rotationAngle.x];
+    [self->rotationYField setDoubleValue:rotationAngle.y];
+    [self->rotationZField setDoubleValue:rotationAngle.z];
 
-  // See if we recognize the angles as something we provide a shortcut for.
-  if (stepRotationType == LDrawStepRotationRelative &&
-      [self->relativeRotationPopUpMenu selectedTag] != InspectorRotationShortcutCustom) {
-    if (V3PointsWithinTolerance(rotationAngle, V3Make(0, 0, 180)) == YES) {
-      [self->relativeRotationPopUpMenu selectItemWithTag:InspectorRotationShortcutUpsideDown];
+    // See if we recognize the angles as something we provide a shortcut for.
+    if (stepRotationType == LDrawStepRotationRelative &&
+        [self->relativeRotationPopUpMenu selectedTag] != InspectorRotationShortcutCustom) {
+        if (V3PointsWithinTolerance(rotationAngle, V3Make(0, 0, 180)) == YES) {
+            [self->relativeRotationPopUpMenu selectItemWithTag:InspectorRotationShortcutUpsideDown];
+        }
+        else if (V3PointsWithinTolerance(rotationAngle, V3Make(0, 90, 0)) == YES) {
+            [self->relativeRotationPopUpMenu selectItemWithTag:InspectorRotationShortcutClockwise90];
+        }
+        else if (V3PointsWithinTolerance(rotationAngle, V3Make(0, -90, 0)) == YES) {
+            [self->relativeRotationPopUpMenu selectItemWithTag:InspectorRotationShortcutCounterClockwise90
+            ];
+        }
+        else if (V3PointsWithinTolerance(rotationAngle, V3Make(0, 180, 0)) == YES ||
+                 V3PointsWithinTolerance(rotationAngle, V3Make(180, 0, 180)) == YES) { // an alternate decomposition that comes out of Bricksmith's math
+            [self->relativeRotationPopUpMenu selectItemWithTag:InspectorRotationShortcutBackside];
+        }
+        else {
+            [self->relativeRotationPopUpMenu selectItemWithTag:InspectorRotationShortcutCustom];
+        }
     }
-    else if (V3PointsWithinTolerance(rotationAngle, V3Make(0, 90, 0)) == YES) {
-      [self->relativeRotationPopUpMenu selectItemWithTag:InspectorRotationShortcutClockwise90];
-    }
-    else if (V3PointsWithinTolerance(rotationAngle, V3Make(0, -90, 0)) == YES) {
-      [self->relativeRotationPopUpMenu selectItemWithTag:InspectorRotationShortcutCounterClockwise90
-      ];
-    }
-    else if (V3PointsWithinTolerance(rotationAngle, V3Make(0, 180, 0)) == YES ||
-             V3PointsWithinTolerance(rotationAngle, V3Make(180, 0, 180)) == YES) { // an alternate decomposition that comes out of Bricksmith's math
-      [self->relativeRotationPopUpMenu selectItemWithTag:InspectorRotationShortcutBackside];
-    }
-    else {
-      [self->relativeRotationPopUpMenu selectItemWithTag:InspectorRotationShortcutCustom];
-    }
-  }
-  else if (stepRotationType == LDrawStepRotationAbsolute &&
-           [self->absoluteRotationPopUpMenu selectedTag] != InspectorRotationShortcutCustom) {
-    viewOrientation = [LDrawUtilities viewOrientationForAngle:rotationAngle];
+    else if (stepRotationType == LDrawStepRotationAbsolute &&
+             [self->absoluteRotationPopUpMenu selectedTag] != InspectorRotationShortcutCustom) {
+        viewOrientation = [LDrawUtilities viewOrientationForAngle:rotationAngle];
 
-    // If the angle is a known head-on view, select that, otherwise, call it "custom."
-    if (viewOrientation != ViewOrientation3D) {
-      [self->absoluteRotationPopUpMenu selectItemWithTag:viewOrientation];
+        // If the angle is a known head-on view, select that, otherwise, call it "custom."
+        if (viewOrientation != ViewOrientation3D) {
+            [self->absoluteRotationPopUpMenu selectItemWithTag:viewOrientation];
+        }
+        else {
+            [self->absoluteRotationPopUpMenu selectItemWithTag:InspectorRotationShortcutCustom];
+        }
     }
-    else {
-      [self->absoluteRotationPopUpMenu selectItemWithTag:InspectorRotationShortcutCustom];
-    }
-  }
 
 
-  [super revert:sender];
-  [self updateConstraints];
+    [super revert:sender];
+    [self updateConstraints];
 }// end revert:
 
 
@@ -192,10 +192,10 @@
 {
 // LDrawStepRotationT	stepRotationType	= [[self->rotationTypeRadioButtons selectedCell] tag];
 
-  [self setAngleUIAccordingToPopUp];
+    [self setAngleUIAccordingToPopUp];
 
-  [self finishedEditing:sender];
-  [self updateConstraints];
+    [self finishedEditing:sender];
+    [self updateConstraints];
 }// end rotationTypeRadioButtonsClicked:
 
 
@@ -206,11 +206,11 @@
 // ==============================================================================
 - (void)relativeRotationPopUpMenuChanged:(id)sender
 {
-  // set the angle values in the UI.
-  [self setAngleUIAccordingToPopUp];
+    // set the angle values in the UI.
+    [self setAngleUIAccordingToPopUp];
 
-  [self finishedEditing:sender];
-  [self updateConstraints];
+    [self finishedEditing:sender];
+    [self updateConstraints];
 }// end relativeRotationPopUpMenuChanged:
 
 
@@ -221,11 +221,11 @@
 // ==============================================================================
 - (void)absoluteRotationPopUpMenuChanged:(id)sender
 {
-  // set the angle values in the UI.
-  [self setAngleUIAccordingToPopUp];
+    // set the angle values in the UI.
+    [self setAngleUIAccordingToPopUp];
 
-  [self finishedEditing:sender];
-  [self updateConstraints];
+    [self finishedEditing:sender];
+    [self updateConstraints];
 }// end absoluteRotationPopUpMenuChanged:
 
 
@@ -239,21 +239,21 @@
 // ==============================================================================
 - (IBAction)useCurrentViewingAngleClicked:(id)sender
 {
-  LDrawDocument *currentDocument =
-    [[NSDocumentController sharedDocumentController] currentDocument];
-  Tuple3 viewingAngle = [currentDocument viewingAngle];
+    LDrawDocument *currentDocument =
+        [[NSDocumentController sharedDocumentController] currentDocument];
+    Tuple3 viewingAngle = [currentDocument viewingAngle];
 
-  // I seem to be beset by -0. I don't want to display -0!
-  viewingAngle.x = round(viewingAngle.x);
-  viewingAngle.y = round(viewingAngle.y);
-  viewingAngle.z = round(viewingAngle.z);
+    // I seem to be beset by -0. I don't want to display -0!
+    viewingAngle.x = round(viewingAngle.x);
+    viewingAngle.y = round(viewingAngle.y);
+    viewingAngle.z = round(viewingAngle.z);
 
-  // set the values in the UI.
-  [self->rotationXField setDoubleValue:viewingAngle.x];
-  [self->rotationYField setDoubleValue:viewingAngle.y];
-  [self->rotationZField setDoubleValue:viewingAngle.z];
+    // set the values in the UI.
+    [self->rotationXField setDoubleValue:viewingAngle.x];
+    [self->rotationYField setDoubleValue:viewingAngle.y];
+    [self->rotationZField setDoubleValue:viewingAngle.z];
 
-  [self finishedEditing:sender];
+    [self finishedEditing:sender];
 }// end useCurrentViewingAngleClicked:
 
 
@@ -266,9 +266,9 @@
 // ==============================================================================
 - (void)doHelp:(id)sender
 {
-  LDrawApplication *application = [[NSApplication sharedApplication] delegate];
+    LDrawApplication *application = [[NSApplication sharedApplication] delegate];
 
-  [application openHelpAnchor:@"Steps"];
+    [application openHelpAnchor:@"Steps"];
 }// end doHelp:
 
 
@@ -284,58 +284,58 @@
 // ==============================================================================
 - (void)setAngleUIAccordingToPopUp
 {
-  LDrawStepRotationT stepRotationType = (int)[self->rotationTypeRadioButtons selectedTag];
-  NSInteger          shortcut         = 0;
-  Tuple3             newAngle         = ZeroPoint3;
+    LDrawStepRotationT stepRotationType = (int)[self->rotationTypeRadioButtons selectedTag];
+    NSInteger          shortcut         = 0;
+    Tuple3             newAngle         = ZeroPoint3;
 
-  // Relative rotation?
-  if (stepRotationType == LDrawStepRotationRelative) {
-    shortcut = [self->relativeRotationPopUpMenu selectedTag];
+    // Relative rotation?
+    if (stepRotationType == LDrawStepRotationRelative) {
+        shortcut = [self->relativeRotationPopUpMenu selectedTag];
 
-    switch (shortcut)
-    {
-      case InspectorRotationShortcutUpsideDown :
-        newAngle = V3Make(0, 0, 180);
-        break;
+        switch (shortcut)
+        {
+            case InspectorRotationShortcutUpsideDown :
+                newAngle = V3Make(0, 0, 180);
+                break;
 
-      case InspectorRotationShortcutClockwise90 :
-        newAngle = V3Make(0, 90, 0);
-        break;
+            case InspectorRotationShortcutClockwise90 :
+                newAngle = V3Make(0, 90, 0);
+                break;
 
-      case InspectorRotationShortcutCounterClockwise90 :
-        newAngle = V3Make(0, -90, 0);
-        break;
+            case InspectorRotationShortcutCounterClockwise90 :
+                newAngle = V3Make(0, -90, 0);
+                break;
 
-      case InspectorRotationShortcutBackside :
-        newAngle = V3Make(0, 180, 0);
-        break;
+            case InspectorRotationShortcutBackside :
+                newAngle = V3Make(0, 180, 0);
+                break;
 
-      case InspectorRotationShortcutCustom :
-        newAngle = V3Make(0, 0, 0);
-        break;
+            case InspectorRotationShortcutCustom :
+                newAngle = V3Make(0, 0, 0);
+                break;
+        }
     }
-  }
-  // Absolute Rotation?
-  else if (stepRotationType == LDrawStepRotationAbsolute) {
-    shortcut = [self->absoluteRotationPopUpMenu selectedTag];
+    // Absolute Rotation?
+    else if (stepRotationType == LDrawStepRotationAbsolute) {
+        shortcut = [self->absoluteRotationPopUpMenu selectedTag];
 
-    switch (shortcut)
-    {
-      case InspectorRotationShortcutCustom :
-        newAngle = V3Make(0, 0, 0);
-        break;
+        switch (shortcut)
+        {
+            case InspectorRotationShortcutCustom :
+                newAngle = V3Make(0, 0, 0);
+                break;
 
-      default :
-        // This is one of the head-on views
-        newAngle = [LDrawUtilities angleForViewOrientation:(int)shortcut];
-        break;
+            default :
+                // This is one of the head-on views
+                newAngle = [LDrawUtilities angleForViewOrientation:(int)shortcut];
+                break;
+        }
     }
-  }
 
-  // set the values in the UI.
-  [self->rotationXField setDoubleValue:newAngle.x];
-  [self->rotationYField setDoubleValue:newAngle.y];
-  [self->rotationZField setDoubleValue:newAngle.z];
+    // set the values in the UI.
+    [self->rotationXField setDoubleValue:newAngle.x];
+    [self->rotationYField setDoubleValue:newAngle.y];
+    [self->rotationZField setDoubleValue:newAngle.z];
 }// end setAngleUIAccordingToPopUp
 
 

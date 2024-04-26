@@ -24,14 +24,14 @@
 // ==============================================================================
 - (id)init
 {
-  self = [super init];
+    self = [super init];
 
-  if ([NSBundle loadNibNamed:@"InspectorMPDModel"
-                       owner:self] == NO) {
-    NSLog(@"Couldn't load InspectorMPDModel.nib");
-  }
+    if ([NSBundle loadNibNamed:@"InspectorMPDModel"
+         owner:self] == NO) {
+        NSLog(@"Couldn't load InspectorMPDModel.nib");
+    }
 
-  return(self);
+    return(self);
 }// end init
 
 
@@ -46,31 +46,31 @@
 // ==============================================================================
 - (void)commitChanges:(id)sender
 {
-  LDrawMPDModel *representedObject = [self object];
-  LDrawFile     *enclosingFile     = [representedObject enclosingFile];
+    LDrawMPDModel *representedObject = [self object];
+    LDrawFile     *enclosingFile     = [representedObject enclosingFile];
 
-  NSString *oldName        = [representedObject modelName];
-  NSString *newName        = [modelNameField stringValue];
-  NSString *newDescription = [descriptionField stringValue];
-  NSString *newAuthor      = [authorField stringValue];
+    NSString *oldName        = [representedObject modelName];
+    NSString *newName        = [modelNameField stringValue];
+    NSString *newDescription = [descriptionField stringValue];
+    NSString *newAuthor      = [authorField stringValue];
 
-  // For the sake of simplicity, we group these similar fields of the MPD and
-  // regular model together.
-  [representedObject setFileName:newName];
+    // For the sake of simplicity, we group these similar fields of the MPD and
+    // regular model together.
+    [representedObject setFileName:newName];
 
-  [representedObject setModelDescription:newDescription];
-  [representedObject setAuthor:newAuthor];
+    [representedObject setModelDescription:newDescription];
+    [representedObject setAuthor:newAuthor];
 
-  // When renaming the model, also update all references to this submodel
-  // within the entire file (in an undo-friendly way).
-  if ([oldName isEqualToString:newName] == NO) {
-    // The file object is the one responsible for coordinating model
-    // renames, because it has to update references in other submodels.
-    [enclosingFile renameModel:representedObject
-                        toName:newName];
-  }
+    // When renaming the model, also update all references to this submodel
+    // within the entire file (in an undo-friendly way).
+    if ([oldName isEqualToString:newName] == NO) {
+        // The file object is the one responsible for coordinating model
+        // renames, because it has to update references in other submodels.
+        [enclosingFile renameModel:representedObject
+         toName:newName];
+    }
 
-  [super commitChanges:sender];
+    [super commitChanges:sender];
 }// end commitChanges:
 
 
@@ -84,16 +84,16 @@
 // ==============================================================================
 - (IBAction)revert:(id)sender
 {
-  LDrawMPDModel *representedObject = [self object];
+    LDrawMPDModel *representedObject = [self object];
 
-  [modelNameField setStringValue:[representedObject modelName]];
-  [descriptionField setStringValue:[representedObject modelDescription]];
-  [authorField setStringValue:[representedObject author]];
+    [modelNameField setStringValue:[representedObject modelName]];
+    [descriptionField setStringValue:[representedObject modelDescription]];
+    [authorField setStringValue:[representedObject author]];
 
-  [numberElementsField setIntegerValue:[representedObject numberElements]];
-  [numberStepsField setIntegerValue:[[representedObject steps] count]];
+    [numberElementsField setIntegerValue:[representedObject numberElements]];
+    [numberStepsField setIntegerValue:[[representedObject steps] count]];
 
-  [super revert:sender];
+    [super revert:sender];
 }// end revert:
 
 
@@ -109,52 +109,52 @@
 // ==============================================================================
 - (IBAction)modelNameFieldChanged:(id)sender
 {
-  NSString *newValue       = [sender stringValue];
-  NSString *oldValue       = [[self object] modelName];
-  NSString *compliantValue = [LDrawMPDModel ldrawCompliantNameForName:newValue];
+    NSString *newValue       = [sender stringValue];
+    NSString *oldValue       = [[self object] modelName];
+    NSString *compliantValue = [LDrawMPDModel ldrawCompliantNameForName:newValue];
 
-  // ---------- Error Checking ------------------------------------------------
+    // ---------- Error Checking ------------------------------------------------
 
-  // They may have entered a name the spec claims is invalid. #@$!@%!
-  // But life goes on, we will fix it for them.
-  if ([newValue isEqualToString:compliantValue] == NO) {
-    // Use the compliant name, show it in the UI and beep to complain. (I'm
-    // too lazy to write a dialog here.)
-    newValue = compliantValue;
-    [self->modelNameField setStringValue:newValue];
-    NSBeep();
-  }
+    // They may have entered a name the spec claims is invalid. #@$!@%!
+    // But life goes on, we will fix it for them.
+    if ([newValue isEqualToString:compliantValue] == NO) {
+        // Use the compliant name, show it in the UI and beep to complain. (I'm
+        // too lazy to write a dialog here.)
+        newValue = compliantValue;
+        [self->modelNameField setStringValue:newValue];
+        NSBeep();
+    }
 
-  // Duplicate model names are not allowed, because they cause nasty things to
-  // happen when automatically renaming references to them.
-  if ([newValue caseInsensitiveCompare:oldValue] != NSOrderedSame &&      // actually changed the name!
-      [[[self object] enclosingFile] modelWithName:newValue] != nil) { // is a duplicate!
-    NSAlert  *alert   = [[NSAlert alloc] init];
-    NSString *message = nil;
+    // Duplicate model names are not allowed, because they cause nasty things to
+    // happen when automatically renaming references to them.
+    if ([newValue caseInsensitiveCompare:oldValue] != NSOrderedSame &&    // actually changed the name!
+        [[[self object] enclosingFile] modelWithName:newValue] != nil) { // is a duplicate!
+        NSAlert  *alert   = [[NSAlert alloc] init];
+        NSString *message = nil;
 
-    message =
-      [NSString stringWithFormat:NSLocalizedString(@"DuplicateModelnameMessage", nil), newValue];
+        message =
+            [NSString stringWithFormat:NSLocalizedString(@"DuplicateModelnameMessage", nil), newValue];
 
-    [alert setMessageText:message];
-    [alert setInformativeText:NSLocalizedString(@"DuplicateModelnameInformative", nil)];
+        [alert setMessageText:message];
+        [alert setInformativeText:NSLocalizedString(@"DuplicateModelnameInformative", nil)];
 
-    [alert runModal];
+        [alert runModal];
 
-    // Revert the change; it's not very nice to throw out the user's
-    // changes, but that's what the Finder does! (And it's easy.)
-    newValue = oldValue;
-    [self->modelNameField setStringValue:newValue];
+        // Revert the change; it's not very nice to throw out the user's
+        // changes, but that's what the Finder does! (And it's easy.)
+        newValue = oldValue;
+        [self->modelNameField setStringValue:newValue];
 
-    [alert release];
-  }
+        [alert release];
+    }
 
 
-  // ---------- Apply Change --------------------------------------------------
+    // ---------- Apply Change --------------------------------------------------
 
-  // If the values really *did* change, then update.
-  if ([newValue isEqualToString:oldValue] == NO) {
-    [self finishedEditing:sender];
-  }
+    // If the values really *did* change, then update.
+    if ([newValue isEqualToString:oldValue] == NO) {
+        [self finishedEditing:sender];
+    }
 }// end modelNameFieldChanged:
 
 
@@ -165,13 +165,13 @@
 // ==============================================================================
 - (IBAction)descriptionFieldChanged:(id)sender
 {
-  NSString *newValue = [sender stringValue];
-  NSString *oldValue = [[self object] modelDescription];
+    NSString *newValue = [sender stringValue];
+    NSString *oldValue = [[self object] modelDescription];
 
-  // If the values really did change, then update.
-  if ([newValue isEqualToString:oldValue] == NO) {
-    [self finishedEditing:sender];
-  }
+    // If the values really did change, then update.
+    if ([newValue isEqualToString:oldValue] == NO) {
+        [self finishedEditing:sender];
+    }
 }// end descriptionFieldChanged:
 
 
@@ -182,13 +182,13 @@
 // ==============================================================================
 - (IBAction)authorFieldChanged:(id)sender
 {
-  NSString *newValue = [sender stringValue];
-  NSString *oldValue = [[self object] author];
+    NSString *newValue = [sender stringValue];
+    NSString *oldValue = [[self object] author];
 
-  // If the values really did change, then update.
-  if ([newValue isEqualToString:oldValue] == NO) {
-    [self finishedEditing:sender];
-  }
+    // If the values really did change, then update.
+    if ([newValue isEqualToString:oldValue] == NO) {
+        [self finishedEditing:sender];
+    }
 }// end authorFieldChanged:
 
 

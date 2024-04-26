@@ -18,12 +18,12 @@
 // ==============================================================================
 - (id)initWithFrame:(NSRect)frame
 {
-  self = [super initWithFrame:frame];
-  if (self) {
-    // Initialization code here.
-  }
+    self = [super initWithFrame:frame];
+    if (self) {
+        // Initialization code here.
+    }
 
-  return(self);
+    return(self);
 }// end initWithFrame:
 
 
@@ -38,10 +38,10 @@
 // ==============================================================================
 - (void)setBackgroundColor:(NSColor *)colorIn
 {
-  [colorIn retain];
-  [self->backgroundColor release];
+    [colorIn retain];
+    [self->backgroundColor release];
 
-  self->backgroundColor = colorIn;
+    self->backgroundColor = colorIn;
 }// end setBackgroundColor:
 
 
@@ -52,8 +52,8 @@
 // ==============================================================================
 - (void)drawRect:(NSRect)rect
 {
-  [self->backgroundColor set];
-  NSRectFill(rect);
+    [self->backgroundColor set];
+    NSRectFill(rect);
 }// end drawRect:
 
 
@@ -68,9 +68,9 @@
 // ==============================================================================
 - (void)dealloc
 {
-  [self->backgroundColor release];
+    [self->backgroundColor release];
 
-  [super dealloc];
+    [super dealloc];
 }// end dealloc
 
 

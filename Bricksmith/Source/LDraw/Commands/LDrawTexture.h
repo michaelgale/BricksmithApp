@@ -13,19 +13,19 @@
 
 @interface LDrawTexture : LDrawContainer
 {
-  NSArray  *fallback;
-  NSString *imageDisplayName;
-  NSString *imageReferenceName;
-  NSString *glossmapName;
+    NSArray  *fallback;
+    NSString *imageDisplayName;
+    NSString *imageReferenceName;
+    NSString *glossmapName;
 
-  Point3 planePoint1;
-  Point3 planePoint2;
-  Point3 planePoint3;
+    Point3 planePoint1;
+    Point3 planePoint2;
+    Point3 planePoint3;
 
-  NSArray *dragHandles;
-  Box3    cachedBounds;     // cached bounds of the enclosed directives
+    NSArray *dragHandles;
+    Box3    cachedBounds;   // cached bounds of the enclosed directives
 
-  GLuint textureTag;
+    GLuint textureTag;
 }
 
 // Accessors
@@ -36,7 +36,7 @@
 - (void)setGlossmapName:(NSString *)newName;
 - (void)setImageDisplayName:(NSString *)newName;
 - (void)setImageDisplayName:(NSString *)newName parse:(BOOL)shouldParse inGroup:(dispatch_group_t)
-  parentGroup;
+    parentGroup;
 
 // Utilities
 + (BOOL)lineIsTextureBeginning:(NSString *)line;

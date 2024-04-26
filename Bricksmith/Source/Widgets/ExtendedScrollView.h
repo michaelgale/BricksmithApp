@@ -17,10 +17,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 @interface ExtendedScrollView : NSScrollView
 {
-  NSPoint documentScrollCenterPoint;
-  BOOL    preservesScrollCenterDuringLiveResize;
-  BOOL    storesScrollCenterAsFraction;
-  NSView  *verticalPlacard;
+    NSPoint documentScrollCenterPoint;
+    BOOL    preservesScrollCenterDuringLiveResize;
+    BOOL    storesScrollCenterAsFraction;
+    NSView  *verticalPlacard;
 }
 
 // Accessors

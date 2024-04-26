@@ -32,38 +32,38 @@
 // Projection Mode
 typedef enum
 {
-  ProjectionModePerspective  = 0,
-  ProjectionModeOrthographic = 1
+    ProjectionModePerspective  = 0,
+    ProjectionModeOrthographic = 1
 } ProjectionModeT;
 
 typedef enum
 {
-  LocationModeModel       = 0,
-  LocationModeWalkthrough = 1
+    LocationModeModel       = 0,
+    LocationModeWalkthrough = 1
 } LocationModeT;
 
 @protocol LDrawGLCameraScroller;
 
 @interface LDrawGLCamera : NSObject
 {
-  id <LDrawGLCameraScroller> scroller;
+    id <LDrawGLCameraScroller> scroller;
 
-  GLfloat projection[16];
-  GLfloat modelView[16];
-  GLfloat orientation[16];
+    GLfloat projection[16];
+    GLfloat modelView[16];
+    GLfloat orientation[16];
 
-  ProjectionModeT projectionMode;
-  LocationModeT   locationMode;
-  Box3            modelSize;
+    ProjectionModeT projectionMode;
+    LocationModeT   locationMode;
+    Box3            modelSize;
 
-  BOOL   viewportExpandsToAvailableSize;
-  double zoomFactor;
+    BOOL   viewportExpandsToAvailableSize;
+    double zoomFactor;
 
-  GLfloat cameraDistance;     // location of camera on the z-axis; distance from (0,0,0);
-  Point3  rotationCenter;
-  Size2   snugFrameSize;
+    GLfloat cameraDistance;   // location of camera on the z-axis; distance from (0,0,0);
+    Point3  rotationCenter;
+    Size2   snugFrameSize;
 
-  int mute;                   // Counted 'mute' to stop re-entrant calls to tickle...
+    int mute;                 // Counted 'mute' to stop re-entrant calls to tickle...
 }
 
 - (id)init;

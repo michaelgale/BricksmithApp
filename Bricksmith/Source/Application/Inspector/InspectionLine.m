@@ -24,12 +24,12 @@
 // ==============================================================================
 - (id)init
 {
-  self = [super init];
+    self = [super init];
 
-  if ([NSBundle loadNibNamed:@"InspectorLine" owner:self] == NO) {
-    NSLog(@"Couldn't load InspectorLine.nib");
-  }
-  return(self);
+    if ([NSBundle loadNibNamed:@"InspectorLine" owner:self] == NO) {
+        NSLog(@"Couldn't load InspectorLine.nib");
+    }
+    return(self);
 }// end init
 
 
@@ -44,15 +44,15 @@
 // ==============================================================================
 - (void)commitChanges:(id)sender
 {
-  LDrawLine *representedObject = [self object];
+    LDrawLine *representedObject = [self object];
 
-  Point3 vertex1 = [startPoint coordinateValue];
-  Point3 vertex2 = [endPoint coordinateValue];
+    Point3 vertex1 = [startPoint coordinateValue];
+    Point3 vertex2 = [endPoint coordinateValue];
 
-  [representedObject setVertex1:vertex1];
-  [representedObject setVertex2:vertex2];
+    [representedObject setVertex1:vertex1];
+    [representedObject setVertex2:vertex2];
 
-  [super commitChanges:sender];
+    [super commitChanges:sender];
 }// end commitChanges:
 
 
@@ -66,17 +66,17 @@
 // ==============================================================================
 - (IBAction)revert:(id)sender
 {
-  LDrawLine *representedObject = [self object];
+    LDrawLine *representedObject = [self object];
 
-  [colorWell setLDrawColor:[representedObject LDrawColor]];
+    [colorWell setLDrawColor:[representedObject LDrawColor]];
 
-  Point3 vertex1 = [representedObject vertex1];
-  Point3 vertex2 = [representedObject vertex2];
+    Point3 vertex1 = [representedObject vertex1];
+    Point3 vertex2 = [representedObject vertex2];
 
-  [startPoint setCoordinateValue:vertex1];
-  [endPoint setCoordinateValue:vertex2];
+    [startPoint setCoordinateValue:vertex1];
+    [endPoint setCoordinateValue:vertex2];
 
-  [super revert:sender];
+    [super revert:sender];
 }// end revert:
 
 
@@ -91,13 +91,13 @@
 // ==============================================================================
 - (IBAction)startPointEndedEditing:(id)sender
 {
-  Point3 formContents = [startPoint coordinateValue];
-  Point3 vertex1      = [[self object] vertex1];
+    Point3 formContents = [startPoint coordinateValue];
+    Point3 vertex1      = [[self object] vertex1];
 
-  // If the values really did change, then update.
-  if (V3EqualPoints(formContents, vertex1) == NO) {
-    [self finishedEditing:sender];
-  }
+    // If the values really did change, then update.
+    if (V3EqualPoints(formContents, vertex1) == NO) {
+        [self finishedEditing:sender];
+    }
 }// end startPointEndedEditing:
 
 
@@ -110,13 +110,13 @@
 // ==============================================================================
 - (IBAction)endPointEndedEditing:(id)sender
 {
-  Point3 formContents = [endPoint coordinateValue];
-  Point3 vertex2      = [[self object] vertex2];
+    Point3 formContents = [endPoint coordinateValue];
+    Point3 vertex2      = [[self object] vertex2];
 
-  // If the values really did change, then update.
-  if (V3EqualPoints(formContents, vertex2) == NO) {
-    [self finishedEditing:sender];
-  }
+    // If the values really did change, then update.
+    if (V3EqualPoints(formContents, vertex2) == NO) {
+        [self finishedEditing:sender];
+    }
 }// end endPointEndedEditing:
 
 

@@ -21,7 +21,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 @interface PartLibraryController : NSObject <PartLibraryDelegate>
 {
-  AMSProgressPanel *progressPanel;
+    AMSProgressPanel *progressPanel;
 }
 
 // Actions

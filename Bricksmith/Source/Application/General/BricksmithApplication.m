@@ -39,34 +39,34 @@
 // ==============================================================================
 - (void)sendEvent:(NSEvent *)theEvent
 {
-  // We want to track keyboard events in our own little place, completely
-  // separate from the responder chain.
-  if ([theEvent type] == NSEventTypeKeyDown ||
-      [theEvent type] == NSEventTypeKeyUp ||
-      [theEvent type] == NSEventTypeFlagsChanged) {
-    [[NSNotificationCenter defaultCenter]
-     postNotificationName:LDrawKeyboardDidChangeNotification
-                   object:theEvent];
-  }
-  // Tablet Proximity usually gets routed to a black hole in the responder
-  // chain. Make this global like it should be. Cocoa kindly sends us
-  // tablet-prox messages when the application activates, so we'll
-  // actually be correct as we track this now.
-  else if ([theEvent type] == NSEventTypeTabletProximity) {
-    [[NSNotificationCenter defaultCenter]
-     postNotificationName:LDrawPointingDeviceDidChangeNotification
-                   object:theEvent];
-  }
+    // We want to track keyboard events in our own little place, completely
+    // separate from the responder chain.
+    if ([theEvent type] == NSEventTypeKeyDown ||
+        [theEvent type] == NSEventTypeKeyUp ||
+        [theEvent type] == NSEventTypeFlagsChanged) {
+        [[NSNotificationCenter defaultCenter]
+         postNotificationName:LDrawKeyboardDidChangeNotification
+         object:theEvent];
+    }
+    // Tablet Proximity usually gets routed to a black hole in the responder
+    // chain. Make this global like it should be. Cocoa kindly sends us
+    // tablet-prox messages when the application activates, so we'll
+    // actually be correct as we track this now.
+    else if ([theEvent type] == NSEventTypeTabletProximity) {
+        [[NSNotificationCenter defaultCenter]
+         postNotificationName:LDrawPointingDeviceDidChangeNotification
+         object:theEvent];
+    }
 
 
-  // Deliver all events except for Command-space. That has special meaning to
-  // the Bricksmith tool palette, but it is never actually processed by
-  // Bricksmith's responder chain. That mean it generates a beep when pressed.
-  if ([self shouldPropogateEvent:theEvent] == YES) {
-    // Send all events, even command-keyups, to the application to do
-    // whatever it expects to do with them.
-    [super sendEvent:theEvent];
-  }
+    // Deliver all events except for Command-space. That has special meaning to
+    // the Bricksmith tool palette, but it is never actually processed by
+    // Bricksmith's responder chain. That mean it generates a beep when pressed.
+    if ([self shouldPropogateEvent:theEvent] == YES) {
+        // Send all events, even command-keyups, to the application to do
+        // whatever it expects to do with them.
+        [super sendEvent:theEvent];
+    }
 }// end sendEvent:
 
 
@@ -87,16 +87,16 @@
 // ==============================================================================
 - (BOOL)shouldPropogateEvent:(NSEvent *)theEvent
 {
-  if ([theEvent type] == NSEventTypeKeyDown &&
-      [[theEvent characters] isEqualToString:@" "] == YES &&
-      ([theEvent modifierFlags] & NSEventModifierFlagDeviceIndependentFlagsMask) ==
-      NSEventModifierFlagCommand
-      ) {
-    return(NO);
-  }
-  else {
-    return(YES);
-  }
+    if ([theEvent type] == NSEventTypeKeyDown &&
+        [[theEvent characters] isEqualToString:@" "] == YES &&
+        ([theEvent modifierFlags] & NSEventModifierFlagDeviceIndependentFlagsMask) ==
+        NSEventModifierFlagCommand
+        ) {
+        return(NO);
+    }
+    else {
+        return(YES);
+    }
 }// end shouldPropogateEvent:
 
 

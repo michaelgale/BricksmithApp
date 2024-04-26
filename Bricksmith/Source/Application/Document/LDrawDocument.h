@@ -46,44 +46,44 @@
 ////////////////////////////////////////////////////////////////////////////////
 @interface LDrawDocument : NSDocument <ViewportArrangerDelegate>
 {
-  IBOutlet DocumentToolbarController *toolbarController;
-  IBOutlet NSObjectController        *bindingsController;
+    IBOutlet DocumentToolbarController *toolbarController;
+    IBOutlet NSObjectController        *bindingsController;
 
-  // Window satellites
-  IBOutlet NSDrawer *partBrowserDrawer;
-  IBOutlet PartBrowserDataSource *partsBrowser;
+    // Window satellites
+    IBOutlet NSDrawer *partBrowserDrawer;
+    IBOutlet PartBrowserDataSource *partsBrowser;
 
-  // Scope bar
-  IBOutlet NSButton           *viewAllButton;
-  IBOutlet NSButton           *viewStepsButton;
-  IBOutlet NSPopUpButton      *submodelPopUpMenu;
-  IBOutlet NSView             *scopeStepControlsContainer;
-  IBOutlet NSTextField        *stepField;
-  IBOutlet NSSegmentedControl *stepNavigator;
+    // Scope bar
+    IBOutlet NSButton           *viewAllButton;
+    IBOutlet NSButton           *viewStepsButton;
+    IBOutlet NSPopUpButton      *submodelPopUpMenu;
+    IBOutlet NSView             *scopeStepControlsContainer;
+    IBOutlet NSTextField        *stepField;
+    IBOutlet NSSegmentedControl *stepNavigator;
 
-  // Window contents
-  IBOutlet ExtendedSplitView    *fileContentsSplitView;
-  IBOutlet LDrawFileOutlineView *fileContentsOutline;
-  IBOutlet NSPopUpButton        *addReferenceButton;
+    // Window contents
+    IBOutlet ExtendedSplitView    *fileContentsSplitView;
+    IBOutlet LDrawFileOutlineView *fileContentsOutline;
+    IBOutlet NSPopUpButton        *addReferenceButton;
 
-  // LDraw graphic view
-  IBOutlet ViewportArranger *viewportArranger;
-  IBOutlet NSTextField      *coordinateLabelX;
-  IBOutlet NSTextField      *coordinateLabelY;
-  IBOutlet NSTextField      *coordinateLabelZ;
-  IBOutlet NSTextField      *coordinateFieldX;
-  IBOutlet NSTextField      *coordinateFieldY;
-  IBOutlet NSTextField      *coordinateFieldZ;
+    // LDraw graphic view
+    IBOutlet ViewportArranger *viewportArranger;
+    IBOutlet NSTextField      *coordinateLabelX;
+    IBOutlet NSTextField      *coordinateLabelY;
+    IBOutlet NSTextField      *coordinateLabelZ;
+    IBOutlet NSTextField      *coordinateFieldX;
+    IBOutlet NSTextField      *coordinateFieldY;
+    IBOutlet NSTextField      *coordinateFieldZ;
 
-  @private
-  LDrawFile            *documentContents;
-  LDrawPart            *lastSelectedPart; // the part in the file which was most recently selected in the contents. (retained)
-  NSArray              *selectedDirectives; // mirrors the selection of the file contents outline.
-  NSArray              *selectedDirectivesBeforeCopyDrag;
-  gridSpacingModeT     gridMode;
-  gridOrientationModeT gridOrientation;
-  LDrawGLView          *mostRecentLDrawView; // file graphic view which most recently had focus. Weak link.
-  NSArray              *markedSelection; // if we are mid-marquee selection, this is an array of the previously selected directives before drag started
+    @private
+    LDrawFile            *documentContents;
+    LDrawPart            *lastSelectedPart; // the part in the file which was most recently selected in the contents. (retained)
+    NSArray              *selectedDirectives; // mirrors the selection of the file contents outline.
+    NSArray              *selectedDirectivesBeforeCopyDrag;
+    gridSpacingModeT     gridMode;
+    gridOrientationModeT gridOrientation;
+    LDrawGLView          *mostRecentLDrawView; // file graphic view which most recently had focus. Weak link.
+    NSArray              *markedSelection; // if we are mid-marquee selection, this is an array of the previously selected directives before drag started
 }
 
 // Accessors
@@ -189,7 +189,7 @@
 // Undoable Activities
 - (void)addDirective:(LDrawDirective *)newDirective toParent:(LDrawContainer *)parent;
 - (void)addDirective:(LDrawDirective *)newDirective toParent:(LDrawContainer *)parent atIndex:(NSInteger)
-  index;
+    index;
 - (void)deleteDirective:(LDrawDirective *)doomedDirective;
 - (void)moveDirective:(LDrawDrawableElement *)object inDirection:(Vector3)moveVector;
 - (void)preserveDirectiveState:(LDrawDirective *)directive;
@@ -223,7 +223,7 @@
 - (BOOL)canDeleteDirective:(LDrawDirective *)directive displayErrors:(BOOL)errorFlag;
 - (BOOL)elementsAreSelectedOfVisibility:(BOOL)visibleFlag;
 - (NSAttributedString *)formatDirective:(LDrawDirective *)item withStringRepresentation:(NSString *)
-  representation;
+    representation;
 - (void)loadDataIntoDocumentUI;
 - (LDrawContainer *)selectedContainer;
 - (NSArray *)selectedObjects;
@@ -235,7 +235,7 @@
 - (void)updateViewingAngleToMatchStep;
 - (void)writeDirectives:(NSArray *)directives toPasteboard:(NSPasteboard *)pasteboard;
 - (NSArray *)pasteFromPasteboard:(NSPasteboard *)pasteboard preventNameCollisions:(BOOL)renameModels
-  parent:(LDrawContainer *)parent index:(NSInteger)insertAtIndex;
+    parent:(LDrawContainer *)parent index:(NSInteger)insertAtIndex;
 
 - (void)flushDocChangesAndSelect:(NSArray *)directives;
 

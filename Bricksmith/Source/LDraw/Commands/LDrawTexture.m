@@ -23,103 +23,103 @@
 //
 // ==============================================================================
 - (id)initWithLines:(NSArray *)lines
-  inRange:(NSRange)range
-  parentGroup:(dispatch_group_t)parentGroup
+    inRange:(NSRange)range
+    parentGroup:(dispatch_group_t)parentGroup
 {
-  NSString       *currentLine   = nil;
-  Class          CommandClass   = Nil;
-  NSRange        commandRange   = range;
-  NSRange        fallbackRange  = NSMakeRange(NSNotFound, 0);
-  NSUInteger     lineIndex      = 0;
-  NSMutableArray *strippedLines = [NSMutableArray array];
+    NSString       *currentLine   = nil;
+    Class          CommandClass   = Nil;
+    NSRange        commandRange   = range;
+    NSRange        fallbackRange  = NSMakeRange(NSNotFound, 0);
+    NSUInteger     lineIndex      = 0;
+    NSMutableArray *strippedLines = [NSMutableArray array];
 
-  self = [super initWithLines:lines
-                      inRange:range
-                  parentGroup:parentGroup];
-  if (self) {
-    self->cachedBounds = InvalidBox;
+    self = [super initWithLines:lines
+            inRange:range
+            parentGroup:parentGroup];
+    if (self) {
+        self->cachedBounds = InvalidBox;
 
-    currentLine = [lines objectAtIndex:range.location];
-    [self parsePlanarTextureFromLine:currentLine
-                         parentGroup:parentGroup];
+        currentLine = [lines objectAtIndex:range.location];
+        [self parsePlanarTextureFromLine:currentLine
+         parentGroup:parentGroup];
 
-    // Parse out the END command
-    if (range.length > 0) {
-      currentLine = [lines objectAtIndex:(NSMaxRange(range) - 1)];
+        // Parse out the END command
+        if (range.length > 0) {
+            currentLine = [lines objectAtIndex:(NSMaxRange(range) - 1)];
 
-      if ([[self class] lineIsTextureTerminator:currentLine]) {
-        range.length -= 1;
-      }
-    }
-
-    // ---------- Textured geometry -----------------------------------------
-
-    // Strip the !: from the beginning of any geometry lines
-    lineIndex = range.location + 1;
-    while (lineIndex < NSMaxRange(range))
-    {
-      currentLine = [lines objectAtIndex:lineIndex];
-      lineIndex  += 1;
-
-      NSString *strippedLine = nil;
-      NSString *field        = [LDrawUtilities readNextField:currentLine
-                                                   remainder:&strippedLine];
-      BOOL handled = NO;
-
-      if ([field isEqualToString:@"0"]) {
-        field = [LDrawUtilities readNextField:strippedLine
-                                    remainder:&strippedLine];
-        if ([field isEqualToString:LDRAW_TEXTURE_GEOMETRY]) {
-          [strippedLines addObject:strippedLine];
-          handled = YES;
+            if ([[self class] lineIsTextureTerminator:currentLine]) {
+                range.length -= 1;
+            }
         }
-        else if ([field isEqualToString:LDRAW_TEXTURE]) {
-          field = [LDrawUtilities readNextField:strippedLine
+
+        // ---------- Textured geometry -----------------------------------------
+
+        // Strip the !: from the beginning of any geometry lines
+        lineIndex = range.location + 1;
+        while (lineIndex < NSMaxRange(range))
+        {
+            currentLine = [lines objectAtIndex:lineIndex];
+            lineIndex  += 1;
+
+            NSString *strippedLine = nil;
+            NSString *field        = [LDrawUtilities readNextField:currentLine
                                       remainder:&strippedLine];
-          if ([field isEqualToString:LDRAW_TEXTURE_FALLBACK]) {
-            fallbackRange.location = lineIndex;
-            fallbackRange.length   = NSMaxRange(range) - lineIndex;
-            handled = YES;
-            break;
-          }
+            BOOL handled = NO;
+
+            if ([field isEqualToString:@"0"]) {
+                field = [LDrawUtilities readNextField:strippedLine
+                         remainder:&strippedLine];
+                if ([field isEqualToString:LDRAW_TEXTURE_GEOMETRY]) {
+                    [strippedLines addObject:strippedLine];
+                    handled = YES;
+                }
+                else if ([field isEqualToString:LDRAW_TEXTURE]) {
+                    field = [LDrawUtilities readNextField:strippedLine
+                             remainder:&strippedLine];
+                    if ([field isEqualToString:LDRAW_TEXTURE_FALLBACK]) {
+                        fallbackRange.location = lineIndex;
+                        fallbackRange.length   = NSMaxRange(range) - lineIndex;
+                        handled = YES;
+                        break;
+                    }
+                }
+            }
+
+            if (handled == NO) {
+                // Line did not have a protective meta prefix. Keep the
+                // original line intact.
+                [strippedLines addObject:currentLine];
+            }
         }
-      }
 
-      if (handled == NO) {
-        // Line did not have a protective meta prefix. Keep the
-        // original line intact.
-        [strippedLines addObject:currentLine];
-      }
+        // Interpret geometry
+        lineIndex = 0;
+        while (lineIndex < [strippedLines count])
+        {
+            currentLine = [strippedLines objectAtIndex:lineIndex];
+
+            CommandClass = [LDrawUtilities classForDirectiveBeginningWithLine:currentLine];
+            commandRange = [CommandClass rangeOfDirectiveBeginningAtIndex:lineIndex
+                            inLines:strippedLines
+                            maxIndex:[strippedLines count] - 1];
+            LDrawDirective *newDirective =
+                [[CommandClass alloc] initWithLines:strippedLines
+                 inRange:commandRange
+                 parentGroup:parentGroup];
+            [self addDirective:newDirective];
+
+            lineIndex = NSMaxRange(commandRange);
+        }
+
+        // ---------- Fallback geometry -----------------------------------------
+
+        if (fallbackRange.location != NSNotFound) {
+            // not even going to bother parsing this.
+            fallback = [[lines subarrayWithRange:fallbackRange] retain];
+        }
     }
 
-    // Interpret geometry
-    lineIndex = 0;
-    while (lineIndex < [strippedLines count])
-    {
-      currentLine = [strippedLines objectAtIndex:lineIndex];
-
-      CommandClass = [LDrawUtilities classForDirectiveBeginningWithLine:currentLine];
-      commandRange = [CommandClass rangeOfDirectiveBeginningAtIndex:lineIndex
-                                                            inLines:strippedLines
-                                                           maxIndex:[strippedLines count] - 1];
-      LDrawDirective *newDirective =
-        [[CommandClass alloc] initWithLines:strippedLines
-                                    inRange:commandRange
-                                parentGroup:parentGroup];
-      [self addDirective:newDirective];
-
-      lineIndex = NSMaxRange(commandRange);
-    }
-
-    // ---------- Fallback geometry -----------------------------------------
-
-    if (fallbackRange.location != NSNotFound) {
-      // not even going to bother parsing this.
-      fallback = [[lines subarrayWithRange:fallbackRange] retain];
-    }
-  }
-
-  return(self);
+    return(self);
 }// end initWithLines:inRange:
 
 
@@ -132,30 +132,30 @@
 // ==============================================================================
 - (id)initWithCoder:(NSCoder *)decoder
 {
-  const uint8_t *temporary = NULL; // pointer to a temporary buffer returned by the decoder.
+    const uint8_t *temporary = NULL; // pointer to a temporary buffer returned by the decoder.
 
-  self = [super initWithCoder:decoder];
-  self->cachedBounds = InvalidBox;
-  [self invalCache:CacheFlagBounds];
+    self = [super initWithCoder:decoder];
+    self->cachedBounds = InvalidBox;
+    [self invalCache:CacheFlagBounds];
 
-  [self setImageDisplayName:[decoder decodeObjectForKey:@"imageDisplayName"]];
-  [self setGlossmapName:[decoder decodeObjectForKey:@"glossmapName"]];
+    [self setImageDisplayName:[decoder decodeObjectForKey:@"imageDisplayName"]];
+    [self setGlossmapName:[decoder decodeObjectForKey:@"glossmapName"]];
 
-  temporary = [decoder decodeBytesForKey:@"planePoint1"
-                          returnedLength:NULL];
-  memcpy(&planePoint1, temporary, sizeof(Point3));
+    temporary = [decoder decodeBytesForKey:@"planePoint1"
+                 returnedLength:NULL];
+    memcpy(&planePoint1, temporary, sizeof(Point3));
 
-  temporary = [decoder decodeBytesForKey:@"planePoint2"
-                          returnedLength:NULL];
-  memcpy(&planePoint2, temporary, sizeof(Point3));
+    temporary = [decoder decodeBytesForKey:@"planePoint2"
+                 returnedLength:NULL];
+    memcpy(&planePoint2, temporary, sizeof(Point3));
 
-  temporary = [decoder decodeBytesForKey:@"planePoint3"
-                          returnedLength:NULL];
-  memcpy(&planePoint3, temporary, sizeof(Point3));
+    temporary = [decoder decodeBytesForKey:@"planePoint3"
+                 returnedLength:NULL];
+    memcpy(&planePoint3, temporary, sizeof(Point3));
 
-  self->fallback = [[decoder decodeObjectForKey:@"fallback"] retain];
+    self->fallback = [[decoder decodeObjectForKey:@"fallback"] retain];
 
-  return(self);
+    return(self);
 }// end initWithCoder:
 
 
@@ -168,24 +168,24 @@
 // ==============================================================================
 - (void)encodeWithCoder:(NSCoder *)encoder
 {
-  [super encodeWithCoder:encoder];
+    [super encodeWithCoder:encoder];
 
-  [encoder encodeObject:fallback
-                 forKey:@"fallback"];
-  [encoder encodeObject:imageDisplayName
-                 forKey:@"imageDisplayName"];
-  [encoder encodeObject:glossmapName
-                 forKey:@"glossmapName"];
+    [encoder encodeObject:fallback
+     forKey:@"fallback"];
+    [encoder encodeObject:imageDisplayName
+     forKey:@"imageDisplayName"];
+    [encoder encodeObject:glossmapName
+     forKey:@"glossmapName"];
 
-  [encoder encodeBytes:(void *)&planePoint1
-                length:sizeof(Point3)
-                forKey:@"planePoint1"];
-  [encoder encodeBytes:(void *)&planePoint2
-                length:sizeof(Point3)
-                forKey:@"planePoint2"];
-  [encoder encodeBytes:(void *)&planePoint3
-                length:sizeof(Point3)
-                forKey:@"planePoint3"];
+    [encoder encodeBytes:(void *)&planePoint1
+     length:sizeof(Point3)
+     forKey:@"planePoint1"];
+    [encoder encodeBytes:(void *)&planePoint2
+     length:sizeof(Point3)
+     forKey:@"planePoint2"];
+    [encoder encodeBytes:(void *)&planePoint3
+     length:sizeof(Point3)
+     forKey:@"planePoint3"];
 }// end encodeWithCoder:
 
 
@@ -196,17 +196,17 @@
 // ==============================================================================
 - (id)copyWithZone:(NSZone *)zone
 {
-  LDrawTexture *copied = (LDrawTexture *)[super copyWithZone:zone];
+    LDrawTexture *copied = (LDrawTexture *)[super copyWithZone:zone];
 
-  copied->fallback = [self->fallback copy];
-  [copied setImageDisplayName:[self imageDisplayName]];
-  [copied setGlossmapName:[self glossmapName]];
-  copied->planePoint1  = self->planePoint1;
-  copied->planePoint2  = self->planePoint2;
-  copied->planePoint3  = self->planePoint3;
-  copied->cachedBounds = self->cachedBounds;
+    copied->fallback = [self->fallback copy];
+    [copied setImageDisplayName:[self imageDisplayName]];
+    [copied setGlossmapName:[self glossmapName]];
+    copied->planePoint1  = self->planePoint1;
+    copied->planePoint2  = self->planePoint2;
+    copied->planePoint3  = self->planePoint3;
+    copied->cachedBounds = self->cachedBounds;
 
-  return(copied);
+    return(copied);
 }// end copyWithZone:
 
 
@@ -218,31 +218,31 @@
 //
 // ------------------------------------------------------------------------------
 + (NSRange)rangeOfDirectiveBeginningAtIndex:(NSUInteger)index
-  inLines:(NSArray *)lines
-  maxIndex:(NSUInteger)maxIndex
+    inLines:(NSArray *)lines
+    maxIndex:(NSUInteger)maxIndex
 {
-  NSString   *currentLine  = nil;
-  NSUInteger counter       = 0;
-  NSRange    testRange     = NSMakeRange(index, maxIndex - index + 1);
-  NSInteger  textureLength = 0;
-  NSRange    textureRange;
+    NSString   *currentLine  = nil;
+    NSUInteger counter       = 0;
+    NSRange    testRange     = NSMakeRange(index, maxIndex - index + 1);
+    NSInteger  textureLength = 0;
+    NSRange    textureRange;
 
-  NSString *parsedField = nil;
-  NSString *workingLine = nil;
+    NSString *parsedField = nil;
+    NSString *workingLine = nil;
 
-  // Regretfully, we have a NEXT directive which saves a whole whopping ONE
-  // LINE of LDraw code. SWEETNESS! And for this INCREDIBLE, STUPENDOUS
-  // SAVINGS, we have to do much more complicated parsing.
-  currentLine = [lines objectAtIndex:index];
-  parsedField = [LDrawUtilities readNextField:currentLine
-                                    remainder:&currentLine];
-  if ([parsedField isEqualToString:@"0"]) {
+    // Regretfully, we have a NEXT directive which saves a whole whopping ONE
+    // LINE of LDraw code. SWEETNESS! And for this INCREDIBLE, STUPENDOUS
+    // SAVINGS, we have to do much more complicated parsing.
+    currentLine = [lines objectAtIndex:index];
     parsedField = [LDrawUtilities readNextField:currentLine
-                                      remainder:&currentLine];
+                   remainder:&currentLine];
+    if ([parsedField isEqualToString:@"0"]) {
+        parsedField = [LDrawUtilities readNextField:currentLine
+                       remainder:&currentLine];
 
-    if ([parsedField isEqualToString:LDRAW_TEXTURE]) {
-      parsedField = [LDrawUtilities readNextField:workingLine
-                                        remainder:&workingLine];
+        if ([parsedField isEqualToString:LDRAW_TEXTURE]) {
+            parsedField = [LDrawUtilities readNextField:workingLine
+                           remainder:&workingLine];
 // if([parsedField isEqualToString:LDRAW_TEXTURE_NEXT] )
 // {
 //// 0 !TEXMAP NEXT
@@ -251,45 +251,45 @@
 // textureLength = 2; // the header and the next line
 // }
 // else
-      {
-        // 0 !TEXMAP START
-        // .....
-        // 0 !TEXMAP END
-        //
-        // Find the last line in the texture.
-        for (counter = testRange.location + 1; counter < NSMaxRange(testRange); counter++) {
-          currentLine = [lines objectAtIndex:counter];
+            {
+                // 0 !TEXMAP START
+                // .....
+                // 0 !TEXMAP END
+                //
+                // Find the last line in the texture.
+                for (counter = testRange.location + 1; counter < NSMaxRange(testRange); counter++) {
+                    currentLine = [lines objectAtIndex:counter];
 
-          if ([[self class] lineIsTextureBeginning:currentLine]) {
-            // Get length of nested texture using a recursive call. This handles
-            // any level of texture nesting.
-            // This is only necessary at all if nested textures are permitted to
-            // be added without a leading "0 !:".
-            NSRange nestedTextureRange =
-              [[self class] rangeOfDirectiveBeginningAtIndex:counter
-                                                     inLines:lines
-                                                    maxIndex:NSMaxRange(
-                 testRange)];
-            textureLength += nestedTextureRange.length;
-          }
-          else {
-            textureLength += 1;
-          }
+                    if ([[self class] lineIsTextureBeginning:currentLine]) {
+                        // Get length of nested texture using a recursive call. This handles
+                        // any level of texture nesting.
+                        // This is only necessary at all if nested textures are permitted to
+                        // be added without a leading "0 !:".
+                        NSRange nestedTextureRange =
+                            [[self class] rangeOfDirectiveBeginningAtIndex:counter
+                             inLines:lines
+                             maxIndex:NSMaxRange(
+                                 testRange)];
+                        textureLength += nestedTextureRange.length;
+                    }
+                    else {
+                        textureLength += 1;
+                    }
 
-          if ([self lineIsTextureTerminator:currentLine]) {
-            // Nothing more to parse. Stop.
-            textureLength += 1;
-            break;
-          }
+                    if ([self lineIsTextureTerminator:currentLine]) {
+                        // Nothing more to parse. Stop.
+                        textureLength += 1;
+                        break;
+                    }
+                }
+            }
         }
-      }
     }
-  }
 
 
-  textureRange = NSMakeRange(index, textureLength);
+    textureRange = NSMakeRange(index, textureLength);
 
-  return(textureRange);
+    return(textureRange);
 }// end rangeOfDirectiveBeginningAtIndex:inLines:maxIndex:
 
 
@@ -304,7 +304,7 @@
 // ==============================================================================
 - (void)draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)parentColor
 {
-  assert(!"Not used.");
+    assert(!"Not used.");
 }// end draw:viewScale:parentColor:
 
 
@@ -322,44 +322,44 @@
 // ================================================================================
 - (void)drawSelf:(id <LDrawRenderer>)renderer
 {
-  NSArray        *commands         = [self subdirectives];
-  LDrawDirective *currentDirective = nil;
+    NSArray        *commands         = [self subdirectives];
+    LDrawDirective *currentDirective = nil;
 
-  Vector3 normal = ZeroPoint3;
-  float   length = 0;
+    Vector3 normal = ZeroPoint3;
+    float   length = 0;
 
-  if (textureTag == 0) {
-    textureTag = [[PartLibrary sharedPartLibrary] textureTagForTexture:self];
-  }
+    if (textureTag == 0) {
+        textureTag = [[PartLibrary sharedPartLibrary] textureTagForTexture:self];
+    }
 
-  struct LDrawTextureSpec spec;
+    struct LDrawTextureSpec spec;
 
-  normal = V3Sub(self->planePoint2, self->planePoint1);
-  length = V3Length(normal);// 128./80;//
-  normal = V3Normalize(normal);
+    normal = V3Sub(self->planePoint2, self->planePoint1);
+    length = V3Length(normal);// 128./80;//
+    normal = V3Normalize(normal);
 
-  spec.plane_s[0] = normal.x / length;
-  spec.plane_s[1] = normal.y / length;
-  spec.plane_s[2] = normal.z / length;
-  spec.plane_s[3] = V3DistanceFromPointToPlane(ZeroPoint3, normal, self->planePoint1) / length;
+    spec.plane_s[0] = normal.x / length;
+    spec.plane_s[1] = normal.y / length;
+    spec.plane_s[2] = normal.z / length;
+    spec.plane_s[3] = V3DistanceFromPointToPlane(ZeroPoint3, normal, self->planePoint1) / length;
 
-  normal = V3Sub(self->planePoint3, self->planePoint1);
-  length = V3Length(normal);// 128./80;//
-  normal = V3Normalize(normal);
+    normal = V3Sub(self->planePoint3, self->planePoint1);
+    length = V3Length(normal);// 128./80;//
+    normal = V3Normalize(normal);
 
-  spec.plane_t[0] = normal.x / length;
-  spec.plane_t[1] = normal.y / length;
-  spec.plane_t[2] = normal.z / length;
-  spec.plane_t[3] = V3DistanceFromPointToPlane(ZeroPoint3, normal, self->planePoint1) / length;
+    spec.plane_t[0] = normal.x / length;
+    spec.plane_t[1] = normal.y / length;
+    spec.plane_t[2] = normal.z / length;
+    spec.plane_t[3] = V3DistanceFromPointToPlane(ZeroPoint3, normal, self->planePoint1) / length;
 
-  spec.projection = tex_proj_planar;
-  spec.tex_obj    = self->textureTag;
+    spec.projection = tex_proj_planar;
+    spec.tex_obj    = self->textureTag;
 
-  [renderer pushTexture:&spec];
-  for (currentDirective in commands) {
-    [currentDirective drawSelf:renderer];
-  }
-  [renderer popTexture];
+    [renderer pushTexture:&spec];
+    for (currentDirective in commands) {
+        [currentDirective drawSelf:renderer];
+    }
+    [renderer popTexture];
 }// end drawSelf:
 
 
@@ -377,45 +377,45 @@
 // ================================================================================
 - (void)collectSelf:(id <LDrawCollector>)renderer
 {
-  NSArray        *commands         = [self subdirectives];
-  LDrawDirective *currentDirective = nil;
+    NSArray        *commands         = [self subdirectives];
+    LDrawDirective *currentDirective = nil;
 
-  Vector3 normal = ZeroPoint3;
-  float   length = 0;
+    Vector3 normal = ZeroPoint3;
+    float   length = 0;
 
-  if (textureTag == 0) {
-    textureTag = [[PartLibrary sharedPartLibrary] textureTagForTexture:self];
-  }
+    if (textureTag == 0) {
+        textureTag = [[PartLibrary sharedPartLibrary] textureTagForTexture:self];
+    }
 
-  struct LDrawTextureSpec spec;
+    struct LDrawTextureSpec spec;
 
-  normal = V3Sub(self->planePoint2, self->planePoint1);
-  length = V3Length(normal);// 128./80;//
-  normal = V3Normalize(normal);
+    normal = V3Sub(self->planePoint2, self->planePoint1);
+    length = V3Length(normal);// 128./80;//
+    normal = V3Normalize(normal);
 
-  spec.plane_s[0] = normal.x / length;
-  spec.plane_s[1] = normal.y / length;
-  spec.plane_s[2] = normal.z / length;
-  spec.plane_s[3] = V3DistanceFromPointToPlane(ZeroPoint3, normal, self->planePoint1) / length;
+    spec.plane_s[0] = normal.x / length;
+    spec.plane_s[1] = normal.y / length;
+    spec.plane_s[2] = normal.z / length;
+    spec.plane_s[3] = V3DistanceFromPointToPlane(ZeroPoint3, normal, self->planePoint1) / length;
 
-  normal = V3Sub(self->planePoint3, self->planePoint1);
-  length = V3Length(normal);// 128./80;//
-  normal = V3Normalize(normal);
+    normal = V3Sub(self->planePoint3, self->planePoint1);
+    length = V3Length(normal);// 128./80;//
+    normal = V3Normalize(normal);
 
-  spec.plane_t[0] = normal.x / length;
-  spec.plane_t[1] = normal.y / length;
-  spec.plane_t[2] = normal.z / length;
-  spec.plane_t[3] = V3DistanceFromPointToPlane(ZeroPoint3, normal, self->planePoint1) / length;
+    spec.plane_t[0] = normal.x / length;
+    spec.plane_t[1] = normal.y / length;
+    spec.plane_t[2] = normal.z / length;
+    spec.plane_t[3] = V3DistanceFromPointToPlane(ZeroPoint3, normal, self->planePoint1) / length;
 
-  spec.projection = tex_proj_planar;
-  spec.tex_obj    = self->textureTag;
+    spec.projection = tex_proj_planar;
+    spec.tex_obj    = self->textureTag;
 
-  [renderer pushTexture:&spec];
-  for (currentDirective in commands) {
-    [currentDirective collectSelf:renderer];
-  }
-  [renderer popTexture];
-  [self revalCache:DisplayList];
+    [renderer pushTexture:&spec];
+    for (currentDirective in commands) {
+        [currentDirective collectSelf:renderer];
+    }
+    [renderer popTexture];
+    [self revalCache:DisplayList];
 }// end collectSelf:
 
 
@@ -425,37 +425,37 @@
 //
 // ==============================================================================
 - (void)hitTest:(Ray3)pickRay
-  transform:(Matrix4)transform
-  viewScale:(double)scaleFactor
-  boundsOnly:(BOOL)boundsOnly
-  creditObject:(id)creditObject
-  hits:(NSMutableDictionary *)hits
+    transform:(Matrix4)transform
+    viewScale:(double)scaleFactor
+    boundsOnly:(BOOL)boundsOnly
+    creditObject:(id)creditObject
+    hits:(NSMutableDictionary *)hits
 {
-  NSArray    *commands         = [self subdirectives];
-  NSUInteger commandCount      = [commands count];
-  LDrawStep  *currentDirective = nil;
-  NSUInteger counter           = 0;
+    NSArray    *commands         = [self subdirectives];
+    NSUInteger commandCount      = [commands count];
+    LDrawStep  *currentDirective = nil;
+    NSUInteger counter           = 0;
 
-  for (counter = 0; counter < commandCount; counter++) {
-    currentDirective = [commands objectAtIndex:counter];
-    [currentDirective hitTest:pickRay
-                    transform:transform
-                    viewScale:scaleFactor
-                   boundsOnly:boundsOnly
-                 creditObject:creditObject
-                         hits:hits];
-  }
-
-  if (self->dragHandles) {
-    for (LDrawDragHandle *handle in self->dragHandles) {
-      [handle hitTest:pickRay
-            transform:transform
-            viewScale:scaleFactor
-           boundsOnly:boundsOnly
-         creditObject:nil
-                 hits:hits];
+    for (counter = 0; counter < commandCount; counter++) {
+        currentDirective = [commands objectAtIndex:counter];
+        [currentDirective hitTest:pickRay
+         transform:transform
+         viewScale:scaleFactor
+         boundsOnly:boundsOnly
+         creditObject:creditObject
+         hits:hits];
     }
-  }
+
+    if (self->dragHandles) {
+        for (LDrawDragHandle *handle in self->dragHandles) {
+            [handle hitTest:pickRay
+             transform:transform
+             viewScale:scaleFactor
+             boundsOnly:boundsOnly
+             creditObject:nil
+             hits:hits];
+        }
+    }
 }// end hitTest:transform:viewScale:boundsOnly:creditObject:hits:
 
 
@@ -465,29 +465,29 @@
 //
 // ==============================================================================
 - (BOOL)boxTest:(Box2)bounds
-  transform:(Matrix4)transform
-  boundsOnly:(BOOL)boundsOnly
-  creditObject:(id)creditObject
-  hits:(NSMutableSet *)hits
+    transform:(Matrix4)transform
+    boundsOnly:(BOOL)boundsOnly
+    creditObject:(id)creditObject
+    hits:(NSMutableSet *)hits
 {
-  NSArray    *commands         = [self subdirectives];
-  NSUInteger commandCount      = [commands count];
-  LDrawStep  *currentDirective = nil;
-  NSUInteger counter           = 0;
+    NSArray    *commands         = [self subdirectives];
+    NSUInteger commandCount      = [commands count];
+    LDrawStep  *currentDirective = nil;
+    NSUInteger counter           = 0;
 
-  for (counter = 0; counter < commandCount; counter++) {
-    currentDirective = [commands objectAtIndex:counter];
-    if ([currentDirective boxTest:bounds
-                        transform:transform
-                       boundsOnly:boundsOnly
-                     creditObject:creditObject
-                             hits:hits]) {
-      if (creditObject != nil) {
-        return(TRUE);
-      }
+    for (counter = 0; counter < commandCount; counter++) {
+        currentDirective = [commands objectAtIndex:counter];
+        if ([currentDirective boxTest:bounds
+             transform:transform
+             boundsOnly:boundsOnly
+             creditObject:creditObject
+             hits:hits]) {
+            if (creditObject != nil) {
+                return(TRUE);
+            }
+        }
     }
-  }
-  return(FALSE);
+    return(FALSE);
 }// end boxTest:transform:boundsOnly:creditObject:hits:
 
 
@@ -499,39 +499,39 @@
 //
 // ==============================================================================
 - (void)depthTest:(Point2)testPt
-  inBox:(Box2)bounds
-  transform:(Matrix4)transform
-  creditObject:(id)creditObject
-  bestObject:(id *)bestObject
-  bestDepth:(double *)bestDepth
+    inBox:(Box2)bounds
+    transform:(Matrix4)transform
+    creditObject:(id)creditObject
+    bestObject:(id *)bestObject
+    bestDepth:(double *)bestDepth
 {
-  NSArray    *commands         = [self subdirectives];
-  NSUInteger commandCount      = [commands count];
-  LDrawStep  *currentDirective = nil;
-  NSUInteger counter           = 0;
+    NSArray    *commands         = [self subdirectives];
+    NSUInteger commandCount      = [commands count];
+    LDrawStep  *currentDirective = nil;
+    NSUInteger counter           = 0;
 
-  for (counter = 0; counter < commandCount; counter++) {
-    currentDirective = [commands objectAtIndex:counter];
-    [currentDirective depthTest:testPt
-                          inBox:bounds
-                      transform:transform
-                   creditObject:creditObject
-                     bestObject:
-     bestObject
-                      bestDepth:bestDepth];
-  }
-
-  if (self->dragHandles) {
-    for (LDrawDragHandle *handle in self->dragHandles) {
-      [handle depthTest:testPt
-                  inBox:bounds
-              transform:transform
-           creditObject:creditObject
-             bestObject:
-       bestObject
-              bestDepth:bestDepth];
+    for (counter = 0; counter < commandCount; counter++) {
+        currentDirective = [commands objectAtIndex:counter];
+        [currentDirective depthTest:testPt
+         inBox:bounds
+         transform:transform
+         creditObject:creditObject
+         bestObject:
+         bestObject
+         bestDepth:bestDepth];
     }
-  }
+
+    if (self->dragHandles) {
+        for (LDrawDragHandle *handle in self->dragHandles) {
+            [handle depthTest:testPt
+             inBox:bounds
+             transform:transform
+             creditObject:creditObject
+             bestObject:
+             bestObject
+             bestDepth:bestDepth];
+        }
+    }
 }// end depthTest:inBox:transform:creditObject:bestObject:bestDepth:
 
 
@@ -543,72 +543,72 @@
 // ==============================================================================
 - (NSString *)write
 {
-  NSMutableString *written        = [NSMutableString string];
-  NSString        *CRLF           = [NSString CRLF];
-  NSArray         *commands       = [self subdirectives];
-  LDrawDirective  *currentCommand = nil;
-  NSString        *commandString  = nil;
-  NSUInteger      numberCommands  = 0;
-  NSUInteger      counter         = 0;
+    NSMutableString *written        = [NSMutableString string];
+    NSString        *CRLF           = [NSString CRLF];
+    NSArray         *commands       = [self subdirectives];
+    LDrawDirective  *currentCommand = nil;
+    NSString        *commandString  = nil;
+    NSUInteger      numberCommands  = 0;
+    NSUInteger      counter         = 0;
 
-  // Start
-  [written appendFormat:@"0 %@ %@ %@ %@ %@ %@ %@ %@ %@ %@ %@ %@ %@",
-   LDRAW_TEXTURE, LDRAW_TEXTURE_START, LDRAW_TEXTURE_METHOD_PLANAR,
+    // Start
+    [written appendFormat:@"0 %@ %@ %@ %@ %@ %@ %@ %@ %@ %@ %@ %@ %@",
+     LDRAW_TEXTURE, LDRAW_TEXTURE_START, LDRAW_TEXTURE_METHOD_PLANAR,
 
-   [LDrawUtilities outputStringForFloat:planePoint1.x],
-   [LDrawUtilities outputStringForFloat:planePoint1.y],
-   [LDrawUtilities outputStringForFloat:planePoint1.z],
+     [LDrawUtilities outputStringForFloat:planePoint1.x],
+     [LDrawUtilities outputStringForFloat:planePoint1.y],
+     [LDrawUtilities outputStringForFloat:planePoint1.z],
 
-   [LDrawUtilities outputStringForFloat:planePoint2.x],
-   [LDrawUtilities outputStringForFloat:planePoint2.y],
-   [LDrawUtilities outputStringForFloat:planePoint2.z],
+     [LDrawUtilities outputStringForFloat:planePoint2.x],
+     [LDrawUtilities outputStringForFloat:planePoint2.y],
+     [LDrawUtilities outputStringForFloat:planePoint2.z],
 
-   [LDrawUtilities outputStringForFloat:planePoint3.x],
-   [LDrawUtilities outputStringForFloat:planePoint3.y],
-   [LDrawUtilities outputStringForFloat:planePoint3.z],
+     [LDrawUtilities outputStringForFloat:planePoint3.x],
+     [LDrawUtilities outputStringForFloat:planePoint3.y],
+     [LDrawUtilities outputStringForFloat:planePoint3.z],
 
-   imageDisplayName];
+     imageDisplayName];
 
-  if (glossmapName) {
-    [written appendFormat:@" %@ %@", LDRAW_TEXTURE_GLOSSMAP, glossmapName];
-  }
-
-  [written appendString:CRLF];
-
-  // Write all the primary geometry
-  numberCommands = [commands count];
-  for (counter = 0; counter < numberCommands; counter++) {
-    currentCommand = [commands objectAtIndex:counter];
-    commandString  = [currentCommand write];
-
-    // Pre-pend the !: meta if it hasn't already been put there. Nesting !:
-    // is illegal.
-    if ([commandString hasPrefix:LDRAW_TEXTURE_GEOMETRY] == NO) {
-      // Note: I make no attempt to remember if the original geometry had
-      // the !: meta when parsed. Doing so is far more trouble than
-      // it seems worth.
-      [written appendFormat:@"0 %@ %@", LDRAW_TEXTURE_GEOMETRY, commandString];
+    if (glossmapName) {
+        [written appendFormat:@" %@ %@", LDRAW_TEXTURE_GLOSSMAP, glossmapName];
     }
-    else {
-      [written appendString:commandString];
-    }
+
     [written appendString:CRLF];
-  }
 
-  // Fallback geometry
-  if ([self->fallback count] > 0) {
-    [written appendFormat:@"0 %@ %@%@", LDRAW_TEXTURE, LDRAW_TEXTURE_FALLBACK, CRLF];
+    // Write all the primary geometry
+    numberCommands = [commands count];
+    for (counter = 0; counter < numberCommands; counter++) {
+        currentCommand = [commands objectAtIndex:counter];
+        commandString  = [currentCommand write];
 
-    for (NSString *line in fallback) {
-      [written appendString:line];
-      [written appendString:CRLF];
+        // Pre-pend the !: meta if it hasn't already been put there. Nesting !:
+        // is illegal.
+        if ([commandString hasPrefix:LDRAW_TEXTURE_GEOMETRY] == NO) {
+            // Note: I make no attempt to remember if the original geometry had
+            // the !: meta when parsed. Doing so is far more trouble than
+            // it seems worth.
+            [written appendFormat:@"0 %@ %@", LDRAW_TEXTURE_GEOMETRY, commandString];
+        }
+        else {
+            [written appendString:commandString];
+        }
+        [written appendString:CRLF];
     }
-  }
 
-  // End
-  [written appendFormat:@"0 %@ %@", LDRAW_TEXTURE, LDRAW_TEXTURE_END];
+    // Fallback geometry
+    if ([self->fallback count] > 0) {
+        [written appendFormat:@"0 %@ %@%@", LDRAW_TEXTURE, LDRAW_TEXTURE_FALLBACK, CRLF];
 
-  return(written);
+        for (NSString *line in fallback) {
+            [written appendString:line];
+            [written appendString:CRLF];
+        }
+    }
+
+    // End
+    [written appendFormat:@"0 %@ %@", LDRAW_TEXTURE, LDRAW_TEXTURE_END];
+
+    return(written);
 }// end write
 
 
@@ -624,7 +624,7 @@
 // ==============================================================================
 - (NSString *)browsingDescription
 {
-  return(imageDisplayName);
+    return(imageDisplayName);
 }// end browsingDescription
 
 
@@ -636,7 +636,7 @@
 // ==============================================================================
 - (NSString *)iconName
 {
-  return(@"Texture");
+    return(@"Texture");
 }// end iconName
 
 
@@ -648,10 +648,10 @@
 // ==============================================================================
 - (Box3)boundingBox3
 {
-  if ([self revalCache:CacheFlagBounds] == CacheFlagBounds) {
-    cachedBounds = [LDrawUtilities boundingBox3ForDirectives:[self subdirectives]];
-  }
-  return(cachedBounds);
+    if ([self revalCache:CacheFlagBounds] == CacheFlagBounds) {
+        cachedBounds = [LDrawUtilities boundingBox3ForDirectives:[self subdirectives]];
+    }
+    return(cachedBounds);
 }// end boundingBox3
 
 
@@ -659,7 +659,7 @@
 // ==============================================================================
 - (NSString *)glossmapName
 {
-  return(glossmapName);
+    return(glossmapName);
 }
 
 
@@ -667,7 +667,7 @@
 // ==============================================================================
 - (NSString *)imageDisplayName
 {
-  return(self->imageDisplayName);
+    return(self->imageDisplayName);
 }
 
 
@@ -680,7 +680,7 @@
 // ==============================================================================
 - (NSString *)imageReferenceName
 {
-  return(self->imageReferenceName);
+    return(self->imageReferenceName);
 }
 
 
@@ -694,9 +694,9 @@
 // ==============================================================================
 - (void)setGlossmapName:(NSString *)newName
 {
-  [newName retain];
-  [self->glossmapName release];
-  self->glossmapName = newName;
+    [newName retain];
+    [self->glossmapName release];
+    self->glossmapName = newName;
 }
 
 
@@ -707,9 +707,9 @@
 // ==============================================================================
 - (void)setImageDisplayName:(NSString *)newName
 {
-  [self setImageDisplayName:newName
-                      parse:YES
-                    inGroup:NULL];
+    [self setImageDisplayName:newName
+     parse:YES
+     inGroup:NULL];
 }
 
 
@@ -725,43 +725,43 @@
 //
 // ==============================================================================
 - (void)setImageDisplayName:(NSString *)newName
-  parse:(BOOL)shouldParse
-  inGroup:(dispatch_group_t)parentGroup
+    parse:(BOOL)shouldParse
+    inGroup:(dispatch_group_t)parentGroup
 {
-  NSString         *newReferenceName = [newName lowercaseString];
-  dispatch_group_t parseGroup        = NULL;
+    NSString         *newReferenceName = [newName lowercaseString];
+    dispatch_group_t parseGroup        = NULL;
 
-  [newName retain];
-  [self->imageDisplayName release];
-  self->imageDisplayName = newName;
+    [newName retain];
+    [self->imageDisplayName release];
+    self->imageDisplayName = newName;
 
-  [newReferenceName retain];
-  [self->imageReferenceName release];
-  self->imageReferenceName = newReferenceName;
+    [newReferenceName retain];
+    [self->imageReferenceName release];
+    self->imageReferenceName = newReferenceName;
 
-  // Force the part library to parse the model this part will display. This
-  // pushes all parsing into the same operation, which improves loading time
-  // predictability and allows better potential threading optimization.
-  if (shouldParse == YES && newName != nil && [newName length] > 0) {
+    // Force the part library to parse the model this part will display. This
+    // pushes all parsing into the same operation, which improves loading time
+    // predictability and allows better potential threading optimization.
+    if (shouldParse == YES && newName != nil && [newName length] > 0) {
 #if USE_BLOCKS
-    // Create a parsing group if needed.
-    if (parentGroup == NULL) {
-      parseGroup = dispatch_group_create();
-    }
-    else {
-      parseGroup = parentGroup;
-    }
+        // Create a parsing group if needed.
+        if (parentGroup == NULL) {
+            parseGroup = dispatch_group_create();
+        }
+        else {
+            parseGroup = parentGroup;
+        }
 #endif
-    [[PartLibrary sharedPartLibrary] loadImageForName:self->imageDisplayName
-                                              inGroup:parseGroup];
+        [[PartLibrary sharedPartLibrary] loadImageForName:self->imageDisplayName
+         inGroup:parseGroup];
 
 #if USE_BLOCKS
-    if (parentGroup == NULL) {
-      dispatch_group_wait(parseGroup, DISPATCH_TIME_FOREVER);
-      dispatch_release(parseGroup);
-    }
+        if (parentGroup == NULL) {
+            dispatch_group_wait(parseGroup, DISPATCH_TIME_FOREVER);
+            dispatch_release(parseGroup);
+        }
 #endif
-  }
+    }
 }// end setImageDisplayName:
 
 
@@ -772,12 +772,12 @@
 // ==============================================================================
 - (void)setPlanePoint1:(Point3)newPlanePoint
 {
-  self->planePoint1 = newPlanePoint;
+    self->planePoint1 = newPlanePoint;
 
-  if (dragHandles) {
-    [[self->dragHandles objectAtIndex:0] setPosition:newPlanePoint
-                                        updateTarget:NO];
-  }
+    if (dragHandles) {
+        [[self->dragHandles objectAtIndex:0] setPosition:newPlanePoint
+         updateTarget:NO];
+    }
 }// end setPlanePoint1:
 
 
@@ -788,12 +788,12 @@
 // ==============================================================================
 - (void)setPlanePoint2:(Point3)newPlanePoint
 {
-  self->planePoint2 = newPlanePoint;
+    self->planePoint2 = newPlanePoint;
 
-  if (dragHandles) {
-    [[self->dragHandles objectAtIndex:1] setPosition:newPlanePoint
-                                        updateTarget:NO];
-  }
+    if (dragHandles) {
+        [[self->dragHandles objectAtIndex:1] setPosition:newPlanePoint
+         updateTarget:NO];
+    }
 }// end setPlanePoint2:
 
 
@@ -804,12 +804,12 @@
 // ==============================================================================
 - (void)setPlanePoint3:(Point3)newPlanePoint
 {
-  self->planePoint3 = newPlanePoint;
+    self->planePoint3 = newPlanePoint;
 
-  if (dragHandles) {
-    [[self->dragHandles objectAtIndex:2] setPosition:newPlanePoint
-                                        updateTarget:NO];
-  }
+    if (dragHandles) {
+        [[self->dragHandles objectAtIndex:2] setPosition:newPlanePoint
+         updateTarget:NO];
+    }
 }// end setPlanePoint3:
 
 
@@ -820,33 +820,33 @@
 // ==============================================================================
 - (void)setSelected:(BOOL)flag
 {
-  [super setSelected:flag];
+    [super setSelected:flag];
 
-  if (flag == YES) {
-    LDrawDragHandle *handle1 =
-      [[[LDrawDragHandle alloc] initWithTag:1
-                                   position:self->planePoint1] autorelease];
-    LDrawDragHandle *handle2 =
-      [[[LDrawDragHandle alloc] initWithTag:2
-                                   position:self->planePoint2] autorelease];
-    LDrawDragHandle *handle3 =
-      [[[LDrawDragHandle alloc] initWithTag:3
-                                   position:self->planePoint3] autorelease];
+    if (flag == YES) {
+        LDrawDragHandle *handle1 =
+            [[[LDrawDragHandle alloc] initWithTag:1
+              position:self->planePoint1] autorelease];
+        LDrawDragHandle *handle2 =
+            [[[LDrawDragHandle alloc] initWithTag:2
+              position:self->planePoint2] autorelease];
+        LDrawDragHandle *handle3 =
+            [[[LDrawDragHandle alloc] initWithTag:3
+              position:self->planePoint3] autorelease];
 
-    [handle1 setTarget:self];
-    [handle2 setTarget:self];
-    [handle3 setTarget:self];
+        [handle1 setTarget:self];
+        [handle2 setTarget:self];
+        [handle3 setTarget:self];
 
-    [handle1 setAction:@selector(dragHandleChanged:)];
-    [handle2 setAction:@selector(dragHandleChanged:)];
-    [handle3 setAction:@selector(dragHandleChanged:)];
+        [handle1 setAction:@selector(dragHandleChanged:)];
+        [handle2 setAction:@selector(dragHandleChanged:)];
+        [handle3 setAction:@selector(dragHandleChanged:)];
 
-    self->dragHandles = [[NSArray alloc] initWithObjects:handle1, handle2, handle3, nil];
-  }
-  else {
-    [self->dragHandles release];
-    self->dragHandles = nil;
-  }
+        self->dragHandles = [[NSArray alloc] initWithObjects:handle1, handle2, handle3, nil];
+    }
+    else {
+        [self->dragHandles release];
+        self->dragHandles = nil;
+    }
 }// end setSelected:
 
 
@@ -859,10 +859,10 @@
 // ==============================================================================
 - (void)insertDirective:(LDrawDirective *)directive atIndex:(NSInteger)index
 {
-  [super insertDirective:directive
-                 atIndex:index];
+    [super insertDirective:directive
+     atIndex:index];
 
-  [self invalCache:CacheFlagBounds | DisplayList];
+    [self invalCache:CacheFlagBounds | DisplayList];
 }// end insertDirective:atIndex:
 
 
@@ -873,13 +873,13 @@
 // ==============================================================================
 - (void)removeDirectiveAtIndex:(NSInteger)index
 {
-  LDrawDirective *directive = [[[self subdirectives] objectAtIndex:index] retain];
+    LDrawDirective *directive = [[[self subdirectives] objectAtIndex:index] retain];
 
-  [super removeDirectiveAtIndex:index];
+    [super removeDirectiveAtIndex:index];
 
-  [self invalCache:CacheFlagBounds | DisplayList];
+    [self invalCache:CacheFlagBounds | DisplayList];
 
-  [directive release];
+    [directive release];
 }// end removeDirectiveAtIndex:
 
 
@@ -894,18 +894,18 @@
 // ==============================================================================
 - (void)dragHandleChanged:(id)sender
 {
-  LDrawDragHandle *handle      = (LDrawDragHandle *)sender;
-  Point3          newPosition  = [handle position];
-  NSInteger       vertexNumber = [handle tag];
+    LDrawDragHandle *handle      = (LDrawDragHandle *)sender;
+    Point3          newPosition  = [handle position];
+    NSInteger       vertexNumber = [handle tag];
 
-  switch (vertexNumber)
-  {
-    case 1 :[self setPlanePoint1:newPosition]; break;
+    switch (vertexNumber)
+    {
+        case 1 :[self setPlanePoint1:newPosition]; break;
 
-    case 2 :[self setPlanePoint2:newPosition]; break;
+        case 2 :[self setPlanePoint2:newPosition]; break;
 
-    case 3 :[self setPlanePoint3:newPosition]; break;
-  }
+        case 3 :[self setPlanePoint3:newPosition]; break;
+    }
 }// end dragHandleChanged:
 
 
@@ -920,26 +920,26 @@
 // ==============================================================================
 + (BOOL)lineIsTextureFallback:(NSString *)line
 {
-  NSString *parsedField = nil;
-  NSString *workingLine = line;
-  BOOL     isEnd        = NO;
+    NSString *parsedField = nil;
+    NSString *workingLine = line;
+    BOOL     isEnd        = NO;
 
-  parsedField = [LDrawUtilities readNextField:workingLine
-                                    remainder:&workingLine];
-  if ([parsedField isEqualToString:@"0"]) {
     parsedField = [LDrawUtilities readNextField:workingLine
-                                      remainder:&workingLine];
+                   remainder:&workingLine];
+    if ([parsedField isEqualToString:@"0"]) {
+        parsedField = [LDrawUtilities readNextField:workingLine
+                       remainder:&workingLine];
 
-    if ([parsedField isEqualToString:LDRAW_TEXTURE]) {
-      parsedField = [LDrawUtilities readNextField:workingLine
-                                        remainder:&workingLine];
-      if ([parsedField isEqualToString:LDRAW_TEXTURE_FALLBACK]) {
-        isEnd = YES;
-      }
+        if ([parsedField isEqualToString:LDRAW_TEXTURE]) {
+            parsedField = [LDrawUtilities readNextField:workingLine
+                           remainder:&workingLine];
+            if ([parsedField isEqualToString:LDRAW_TEXTURE_FALLBACK]) {
+                isEnd = YES;
+            }
+        }
     }
-  }
 
-  return(isEnd);
+    return(isEnd);
 }
 
 
@@ -950,31 +950,31 @@
 // ==============================================================================
 + (BOOL)lineIsTextureBeginning:(NSString *)line
 {
-  NSString *parsedField = nil;
-  NSString *workingLine = line;
-  BOOL     isStart      = NO;
+    NSString *parsedField = nil;
+    NSString *workingLine = line;
+    BOOL     isStart      = NO;
 
-  parsedField = [LDrawUtilities readNextField:workingLine
-                                    remainder:&workingLine];
-  if ([parsedField isEqualToString:@"0"]) {
     parsedField = [LDrawUtilities readNextField:workingLine
-                                      remainder:&workingLine];
-
-    if ([parsedField isEqualToString:LDRAW_TEXTURE]) {
-      parsedField = [LDrawUtilities readNextField:workingLine
-                                        remainder:&workingLine];
-      if ([parsedField isEqualToString:LDRAW_TEXTURE_START]
-          || [parsedField isEqualToString:LDRAW_TEXTURE_NEXT]) {
+                   remainder:&workingLine];
+    if ([parsedField isEqualToString:@"0"]) {
         parsedField = [LDrawUtilities readNextField:workingLine
-                                          remainder:&workingLine];
-        if ([parsedField isEqualToString:LDRAW_TEXTURE_METHOD_PLANAR]) {
-          isStart = YES;
-        }
-      }
-    }
-  }
+                       remainder:&workingLine];
 
-  return(isStart);
+        if ([parsedField isEqualToString:LDRAW_TEXTURE]) {
+            parsedField = [LDrawUtilities readNextField:workingLine
+                           remainder:&workingLine];
+            if ([parsedField isEqualToString:LDRAW_TEXTURE_START]
+                || [parsedField isEqualToString:LDRAW_TEXTURE_NEXT]) {
+                parsedField = [LDrawUtilities readNextField:workingLine
+                               remainder:&workingLine];
+                if ([parsedField isEqualToString:LDRAW_TEXTURE_METHOD_PLANAR]) {
+                    isStart = YES;
+                }
+            }
+        }
+    }
+
+    return(isStart);
 }
 
 
@@ -985,26 +985,26 @@
 // ==============================================================================
 + (BOOL)lineIsTextureTerminator:(NSString *)line
 {
-  NSString *parsedField = nil;
-  NSString *workingLine = line;
-  BOOL     isEnd        = NO;
+    NSString *parsedField = nil;
+    NSString *workingLine = line;
+    BOOL     isEnd        = NO;
 
-  parsedField = [LDrawUtilities readNextField:workingLine
-                                    remainder:&workingLine];
-  if ([parsedField isEqualToString:@"0"]) {
     parsedField = [LDrawUtilities readNextField:workingLine
-                                      remainder:&workingLine];
+                   remainder:&workingLine];
+    if ([parsedField isEqualToString:@"0"]) {
+        parsedField = [LDrawUtilities readNextField:workingLine
+                       remainder:&workingLine];
 
-    if ([parsedField isEqualToString:LDRAW_TEXTURE]) {
-      parsedField = [LDrawUtilities readNextField:workingLine
-                                        remainder:&workingLine];
-      if ([parsedField isEqualToString:LDRAW_TEXTURE_END]) {
-        isEnd = YES;
-      }
+        if ([parsedField isEqualToString:LDRAW_TEXTURE]) {
+            parsedField = [LDrawUtilities readNextField:workingLine
+                           remainder:&workingLine];
+            if ([parsedField isEqualToString:LDRAW_TEXTURE_END]) {
+                isEnd = YES;
+            }
+        }
     }
-  }
 
-  return(isEnd);
+    return(isEnd);
 }
 
 
@@ -1014,137 +1014,137 @@
 //
 // ==============================================================================
 - (BOOL)parsePlanarTextureFromLine:(NSString *)line
-  parentGroup:(dispatch_group_t)parentGroup
+    parentGroup:(dispatch_group_t)parentGroup
 {
-  NSScanner *scanner = [NSScanner scannerWithString:line];
-  BOOL      success  = YES;
+    NSScanner *scanner = [NSScanner scannerWithString:line];
+    BOOL      success  = YES;
 
-  @try
-  {
-    if ([scanner scanString:@"0"
-                 intoString:NULL] == NO) {
-      @throw [NSException exceptionWithName:@"BricksmithParseException"
-                                     reason:@"Bad Planar TEXMAP syntax"
-                                   userInfo:nil];
+    @try
+    {
+        if ([scanner scanString:@"0"
+             intoString:NULL] == NO) {
+            @throw [NSException exceptionWithName:@"BricksmithParseException"
+                    reason:@"Bad Planar TEXMAP syntax"
+                    userInfo:nil];
+        }
+
+        if ([scanner scanString:LDRAW_TEXTURE
+             intoString:NULL] == NO) {
+            @throw [NSException exceptionWithName:@"BricksmithParseException"
+                    reason:@"Bad Planar TEXMAP syntax"
+                    userInfo:nil];
+        }
+
+        if ([scanner scanString:LDRAW_TEXTURE_START
+             intoString:NULL] == NO &&
+            [scanner scanString:LDRAW_TEXTURE_NEXT
+             intoString:NULL] == NO) {
+            @throw [NSException exceptionWithName:@"BricksmithParseException"
+                    reason:@"Bad Planar TEXMAP syntax"
+                    userInfo:nil];
+        }
+
+        if ([scanner scanString:LDRAW_TEXTURE_METHOD_PLANAR
+             intoString:NULL] == NO) {
+            @throw [NSException exceptionWithName:@"BricksmithParseException"
+                    reason:@"Bad Planar TEXMAP syntax"
+                    userInfo:nil];
+        }
+
+        // ---------- Coordinates -----------------------------------------------
+
+        if ([scanner scanDouble:&(planePoint1.x)] == NO) {
+            @throw [NSException exceptionWithName:@"BricksmithParseException"
+                    reason:@"Bad Planar TEXMAP syntax"
+                    userInfo:nil];
+        }
+
+        if ([scanner scanDouble:&(planePoint1.y)] == NO) {
+            @throw [NSException exceptionWithName:@"BricksmithParseException"
+                    reason:@"Bad Planar TEXMAP syntax"
+                    userInfo:nil];
+        }
+
+        if ([scanner scanDouble:&(planePoint1.z)] == NO) {
+            @throw [NSException exceptionWithName:@"BricksmithParseException"
+                    reason:@"Bad Planar TEXMAP syntax"
+                    userInfo:nil];
+        }
+
+
+        if ([scanner scanDouble:&(planePoint2.x)] == NO) {
+            @throw [NSException exceptionWithName:@"BricksmithParseException"
+                    reason:@"Bad Planar TEXMAP syntax"
+                    userInfo:nil];
+        }
+
+        if ([scanner scanDouble:&(planePoint2.y)] == NO) {
+            @throw [NSException exceptionWithName:@"BricksmithParseException"
+                    reason:@"Bad Planar TEXMAP syntax"
+                    userInfo:nil];
+        }
+
+        if ([scanner scanDouble:&(planePoint2.z)] == NO) {
+            @throw [NSException exceptionWithName:@"BricksmithParseException"
+                    reason:@"Bad Planar TEXMAP syntax"
+                    userInfo:nil];
+        }
+
+
+        if ([scanner scanDouble:&(planePoint3.x)] == NO) {
+            @throw [NSException exceptionWithName:@"BricksmithParseException"
+                    reason:@"Bad Planar TEXMAP syntax"
+                    userInfo:nil];
+        }
+
+        if ([scanner scanDouble:&(planePoint3.y)] == NO) {
+            @throw [NSException exceptionWithName:@"BricksmithParseException"
+                    reason:@"Bad Planar TEXMAP syntax"
+                    userInfo:nil];
+        }
+
+        if ([scanner scanDouble:&(planePoint3.z)] == NO) {
+            @throw [NSException exceptionWithName:@"BricksmithParseException"
+                    reason:@"Bad Planar TEXMAP syntax"
+                    userInfo:nil];
+        }
+
+        // ---------- Name ------------------------------------------------------
+        // TEXMAP has different syntax from linetype 1 because Joshua Delahunty
+        // wouldn't consider synchronizing the two.
+        NSString *parsedName = [LDrawUtilities scanQuotableToken:scanner];
+        if ([parsedName length] == 0) {
+            @throw [NSException exceptionWithName:@"BricksmithParseException"
+                    reason:@"Bad Planar TEXMAP syntax"
+                    userInfo:nil];
+        }
+        [self setImageDisplayName:parsedName];
+        [self setImageDisplayName:parsedName
+         parse:YES
+         inGroup:parentGroup];
+
+        // ---------- Glossmap --------------------------------------------------
+        // It's optional and unused. It should have been on a separate TEXMAP
+        // line so we didn't have to even bother with it. See above for reason
+        // it's not.
+        if ([scanner scanString:LDRAW_TEXTURE_GLOSSMAP
+             intoString:NULL]) {
+            NSString *parsedGlossmapName = [LDrawUtilities scanQuotableToken:scanner];
+            if ([parsedGlossmapName length] == 0) {
+                @throw [NSException exceptionWithName:@"BricksmithParseException"
+                        reason:@"Bad Planar TEXMAP syntax"
+                        userInfo:nil];
+            }
+
+            [self setGlossmapName:parsedGlossmapName];
+        }
+    }
+    @catch (NSException *exception)
+    {
+        success = NO;
     }
 
-    if ([scanner scanString:LDRAW_TEXTURE
-                 intoString:NULL] == NO) {
-      @throw [NSException exceptionWithName:@"BricksmithParseException"
-                                     reason:@"Bad Planar TEXMAP syntax"
-                                   userInfo:nil];
-    }
-
-    if ([scanner scanString:LDRAW_TEXTURE_START
-                 intoString:NULL] == NO &&
-        [scanner scanString:LDRAW_TEXTURE_NEXT
-                 intoString:NULL] == NO) {
-      @throw [NSException exceptionWithName:@"BricksmithParseException"
-                                     reason:@"Bad Planar TEXMAP syntax"
-                                   userInfo:nil];
-    }
-
-    if ([scanner scanString:LDRAW_TEXTURE_METHOD_PLANAR
-                 intoString:NULL] == NO) {
-      @throw [NSException exceptionWithName:@"BricksmithParseException"
-                                     reason:@"Bad Planar TEXMAP syntax"
-                                   userInfo:nil];
-    }
-
-    // ---------- Coordinates -----------------------------------------------
-
-    if ([scanner scanDouble:&(planePoint1.x)] == NO) {
-      @throw [NSException exceptionWithName:@"BricksmithParseException"
-                                     reason:@"Bad Planar TEXMAP syntax"
-                                   userInfo:nil];
-    }
-
-    if ([scanner scanDouble:&(planePoint1.y)] == NO) {
-      @throw [NSException exceptionWithName:@"BricksmithParseException"
-                                     reason:@"Bad Planar TEXMAP syntax"
-                                   userInfo:nil];
-    }
-
-    if ([scanner scanDouble:&(planePoint1.z)] == NO) {
-      @throw [NSException exceptionWithName:@"BricksmithParseException"
-                                     reason:@"Bad Planar TEXMAP syntax"
-                                   userInfo:nil];
-    }
-
-
-    if ([scanner scanDouble:&(planePoint2.x)] == NO) {
-      @throw [NSException exceptionWithName:@"BricksmithParseException"
-                                     reason:@"Bad Planar TEXMAP syntax"
-                                   userInfo:nil];
-    }
-
-    if ([scanner scanDouble:&(planePoint2.y)] == NO) {
-      @throw [NSException exceptionWithName:@"BricksmithParseException"
-                                     reason:@"Bad Planar TEXMAP syntax"
-                                   userInfo:nil];
-    }
-
-    if ([scanner scanDouble:&(planePoint2.z)] == NO) {
-      @throw [NSException exceptionWithName:@"BricksmithParseException"
-                                     reason:@"Bad Planar TEXMAP syntax"
-                                   userInfo:nil];
-    }
-
-
-    if ([scanner scanDouble:&(planePoint3.x)] == NO) {
-      @throw [NSException exceptionWithName:@"BricksmithParseException"
-                                     reason:@"Bad Planar TEXMAP syntax"
-                                   userInfo:nil];
-    }
-
-    if ([scanner scanDouble:&(planePoint3.y)] == NO) {
-      @throw [NSException exceptionWithName:@"BricksmithParseException"
-                                     reason:@"Bad Planar TEXMAP syntax"
-                                   userInfo:nil];
-    }
-
-    if ([scanner scanDouble:&(planePoint3.z)] == NO) {
-      @throw [NSException exceptionWithName:@"BricksmithParseException"
-                                     reason:@"Bad Planar TEXMAP syntax"
-                                   userInfo:nil];
-    }
-
-    // ---------- Name ------------------------------------------------------
-    // TEXMAP has different syntax from linetype 1 because Joshua Delahunty
-    // wouldn't consider synchronizing the two.
-    NSString *parsedName = [LDrawUtilities scanQuotableToken:scanner];
-    if ([parsedName length] == 0) {
-      @throw [NSException exceptionWithName:@"BricksmithParseException"
-                                     reason:@"Bad Planar TEXMAP syntax"
-                                   userInfo:nil];
-    }
-    [self setImageDisplayName:parsedName];
-    [self setImageDisplayName:parsedName
-                        parse:YES
-                      inGroup:parentGroup];
-
-    // ---------- Glossmap --------------------------------------------------
-    // It's optional and unused. It should have been on a separate TEXMAP
-    // line so we didn't have to even bother with it. See above for reason
-    // it's not.
-    if ([scanner scanString:LDRAW_TEXTURE_GLOSSMAP
-                 intoString:NULL]) {
-      NSString *parsedGlossmapName = [LDrawUtilities scanQuotableToken:scanner];
-      if ([parsedGlossmapName length] == 0) {
-        @throw [NSException exceptionWithName:@"BricksmithParseException"
-                                       reason:@"Bad Planar TEXMAP syntax"
-                                     userInfo:nil];
-      }
-
-      [self setGlossmapName:parsedGlossmapName];
-    }
-  }
-  @catch (NSException *exception)
-  {
-    success = NO;
-  }
-
-  return(success);
+    return(success);
 }
 
 
@@ -1155,72 +1155,72 @@
 //
 // ==============================================================================
 - (void)flattenIntoLines:(NSMutableArray *)lines
-  triangles:(NSMutableArray *)triangles
-  quadrilaterals:(NSMutableArray *)quadrilaterals
-  other:(NSMutableArray *)everythingElse
-  currentColor:(LDrawColor *)parentColor
-  currentTransform:(Matrix4)transform
-  normalTransform:(Matrix3)normalTransform
-  recursive:(BOOL)recursive
+    triangles:(NSMutableArray *)triangles
+    quadrilaterals:(NSMutableArray *)quadrilaterals
+    other:(NSMutableArray *)everythingElse
+    currentColor:(LDrawColor *)parentColor
+    currentTransform:(Matrix4)transform
+    normalTransform:(Matrix3)normalTransform
+    recursive:(BOOL)recursive
 {
-  self->planePoint1 = V3MulPointByProjMatrix(self->planePoint1, transform);
-  self->planePoint2 = V3MulPointByProjMatrix(self->planePoint2, transform);
-  self->planePoint3 = V3MulPointByProjMatrix(self->planePoint3, transform);
+    self->planePoint1 = V3MulPointByProjMatrix(self->planePoint1, transform);
+    self->planePoint2 = V3MulPointByProjMatrix(self->planePoint2, transform);
+    self->planePoint3 = V3MulPointByProjMatrix(self->planePoint3, transform);
 
-  if (recursive == YES) {
-    NSMutableArray *texLines          = [NSMutableArray array];
-    NSMutableArray *texTriangles      = [NSMutableArray array];
-    NSMutableArray *texQuadrilaterals = [NSMutableArray array];
-    NSMutableArray *texEverythingElse = [NSMutableArray array];
+    if (recursive == YES) {
+        NSMutableArray *texLines          = [NSMutableArray array];
+        NSMutableArray *texTriangles      = [NSMutableArray array];
+        NSMutableArray *texQuadrilaterals = [NSMutableArray array];
+        NSMutableArray *texEverythingElse = [NSMutableArray array];
 
-    LDrawDirective *directive     = nil;
-    NSUInteger     directiveCount = 0;
-    NSInteger      counter        = 0;
+        LDrawDirective *directive     = nil;
+        NSUInteger     directiveCount = 0;
+        NSInteger      counter        = 0;
 
-    // Traverse the entire hiearchy of part references and sort out each
-    // primitive type into a flat list. This allows staggering speed increases.
-    for (LDrawDirective *directive in [self subdirectives]) {
-      [directive flattenIntoLines:texLines
-                        triangles:texTriangles
-                   quadrilaterals:texQuadrilaterals
-                            other:texEverythingElse
-                     currentColor:parentColor
-                 currentTransform:transform
-                  normalTransform:normalTransform
-                        recursive:recursive];
+        // Traverse the entire hiearchy of part references and sort out each
+        // primitive type into a flat list. This allows staggering speed increases.
+        for (LDrawDirective *directive in [self subdirectives]) {
+            [directive flattenIntoLines:texLines
+             triangles:texTriangles
+             quadrilaterals:texQuadrilaterals
+             other:texEverythingElse
+             currentColor:parentColor
+             currentTransform:transform
+             normalTransform:normalTransform
+             recursive:recursive];
+        }
+
+        // Remove all existing directives
+        directiveCount = [[self subdirectives] count];
+        for (counter = (directiveCount - 1); counter >= 0; counter--) {
+            [self removeDirectiveAtIndex:counter];
+        }
+
+        [fallback release];
+        fallback = nil;
+
+        // Add back all the flattened geometry
+
+        for (directive in texLines) {
+            [self addDirective:directive];
+        }
+
+        for (directive in texTriangles) {
+            [self addDirective:directive];
+        }
+
+        for (directive in texQuadrilaterals) {
+            [self addDirective:directive];
+        }
+
+        for (directive in texEverythingElse) {
+            [self addDirective:directive];
+        }
     }
 
-    // Remove all existing directives
-    directiveCount = [[self subdirectives] count];
-    for (counter = (directiveCount - 1); counter >= 0; counter--) {
-      [self removeDirectiveAtIndex:counter];
-    }
-
-    [fallback release];
-    fallback = nil;
-
-    // Add back all the flattened geometry
-
-    for (directive in texLines) {
-      [self addDirective:directive];
-    }
-
-    for (directive in texTriangles) {
-      [self addDirective:directive];
-    }
-
-    for (directive in texQuadrilaterals) {
-      [self addDirective:directive];
-    }
-
-    for (directive in texEverythingElse) {
-      [self addDirective:directive];
-    }
-  }
-
-  // Textures are responsible for drawing their own geometry. We reveal only
-  // ourself to the parent, not our child geometry.
-  [everythingElse addObject:self];
+    // Textures are responsible for drawing their own geometry. We reveal only
+    // ourself to the parent, not our child geometry.
+    [everythingElse addObject:self];
 }// end flattenIntoLines:triangles:quadrilaterals:other:currentColor:
 
 
@@ -1235,14 +1235,14 @@
 // ==============================================================================
 - (void)dealloc
 {
-  [fallback release];
-  [imageDisplayName release];
-  [imageReferenceName release];
-  [glossmapName release];
+    [fallback release];
+    [imageDisplayName release];
+    [imageReferenceName release];
+    [glossmapName release];
 
-  [dragHandles release];
+    [dragHandles release];
 
-  [super dealloc];
+    [super dealloc];
 }
 
 

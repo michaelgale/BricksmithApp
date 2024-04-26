@@ -33,16 +33,16 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // ==============================================================================
 - (id)init
 {
-  self = [super init];
+    self = [super init];
 
-  [self setColorCode:LDrawColorBogus];
-  [self setEdgeColorCode:LDrawColorBogus];
-  [self setMaterial:LDrawColorMaterialNone];
-  [self setName:@""];
+    [self setColorCode:LDrawColorBogus];
+    [self setEdgeColorCode:LDrawColorBogus];
+    [self setMaterial:LDrawColorMaterialNone];
+    [self setName:@""];
 
-  colorRGBA[3] = 1.0; // alpha.
+    colorRGBA[3] = 1.0; // alpha.
 
-  return(self);
+    return(self);
 }// end init
 
 
@@ -55,27 +55,27 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // ==============================================================================
 - (id)initWithCoder:(NSCoder *)decoder
 {
-  self = [super initWithCoder:decoder];
+    self = [super initWithCoder:decoder];
 
-  self->colorCode          = [decoder decodeIntForKey:@"colorCode"];
-  self->colorRGBA[0]       = [decoder decodeFloatForKey:@"colorRGBARed"];
-  self->colorRGBA[1]       = [decoder decodeFloatForKey:@"colorRGBAGreen"];
-  self->colorRGBA[2]       = [decoder decodeFloatForKey:@"colorRGBABlue"];
-  self->colorRGBA[3]       = [decoder decodeFloatForKey:@"colorRGBAAlpha"];
-  self->edgeColorCode      = [decoder decodeIntForKey:@"edgeColorCode"];
-  self->edgeColorRGBA[0]   = [decoder decodeFloatForKey:@"edgeColorRGBARed"];
-  self->edgeColorRGBA[1]   = [decoder decodeFloatForKey:@"edgeColorRGBAGreen"];
-  self->edgeColorRGBA[2]   = [decoder decodeFloatForKey:@"edgeColorRGBABlue"];
-  self->edgeColorRGBA[3]   = [decoder decodeFloatForKey:@"edgeColorRGBAAlpha"];
-  self->hasExplicitAlpha   = [decoder decodeBoolForKey:@"hasExplicitAlpha"];
-  self->hasLuminance       = [decoder decodeBoolForKey:@"hasLuminance"];
-  self->isFavorite         = [decoder decodeBoolForKey:@"isFavorite"];
-  self->luminance          = (uint8_t)[decoder decodeIntForKey:@"luminance"];
-  self->material           = [decoder decodeIntForKey:@"material"];
-  self->materialParameters = [[decoder decodeObjectForKey:@"materialParameters"] retain];
-  self->name = [[decoder decodeObjectForKey:@"name"] retain];
+    self->colorCode          = [decoder decodeIntForKey:@"colorCode"];
+    self->colorRGBA[0]       = [decoder decodeFloatForKey:@"colorRGBARed"];
+    self->colorRGBA[1]       = [decoder decodeFloatForKey:@"colorRGBAGreen"];
+    self->colorRGBA[2]       = [decoder decodeFloatForKey:@"colorRGBABlue"];
+    self->colorRGBA[3]       = [decoder decodeFloatForKey:@"colorRGBAAlpha"];
+    self->edgeColorCode      = [decoder decodeIntForKey:@"edgeColorCode"];
+    self->edgeColorRGBA[0]   = [decoder decodeFloatForKey:@"edgeColorRGBARed"];
+    self->edgeColorRGBA[1]   = [decoder decodeFloatForKey:@"edgeColorRGBAGreen"];
+    self->edgeColorRGBA[2]   = [decoder decodeFloatForKey:@"edgeColorRGBABlue"];
+    self->edgeColorRGBA[3]   = [decoder decodeFloatForKey:@"edgeColorRGBAAlpha"];
+    self->hasExplicitAlpha   = [decoder decodeBoolForKey:@"hasExplicitAlpha"];
+    self->hasLuminance       = [decoder decodeBoolForKey:@"hasLuminance"];
+    self->isFavorite         = [decoder decodeBoolForKey:@"isFavorite"];
+    self->luminance          = (uint8_t)[decoder decodeIntForKey:@"luminance"];
+    self->material           = [decoder decodeIntForKey:@"material"];
+    self->materialParameters = [[decoder decodeObjectForKey:@"materialParameters"] retain];
+    self->name = [[decoder decodeObjectForKey:@"name"] retain];
 
-  return(self);
+    return(self);
 }// end initWithCoder:
 
 
@@ -88,25 +88,25 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // ==============================================================================
 - (void)encodeWithCoder:(NSCoder *)encoder
 {
-  [super encodeWithCoder:encoder];
+    [super encodeWithCoder:encoder];
 
-  [encoder encodeInt:colorCode forKey:@"colorCode"];
-  [encoder encodeFloat:colorRGBA[0] forKey:@"colorRGBARed"];
-  [encoder encodeFloat:colorRGBA[1] forKey:@"colorRGBAGreen"];
-  [encoder encodeFloat:colorRGBA[2] forKey:@"colorRGBABlue"];
-  [encoder encodeFloat:colorRGBA[3] forKey:@"colorRGBAAlpha"];
-  [encoder encodeInt:edgeColorCode forKey:@"edgeColorCode"];
-  [encoder encodeFloat:edgeColorRGBA[0] forKey:@"edgeColorRGBARed"];
-  [encoder encodeFloat:edgeColorRGBA[1] forKey:@"edgeColorRGBAGreen"];
-  [encoder encodeFloat:edgeColorRGBA[2] forKey:@"edgeColorRGBABlue"];
-  [encoder encodeFloat:edgeColorRGBA[3] forKey:@"edgeColorRGBAAlpha"];
-  [encoder encodeBool:hasExplicitAlpha forKey:@"hasExplicitAlpha"];
-  [encoder encodeBool:hasLuminance forKey:@"hasLuminance"];
-  [encoder encodeBool:isFavorite forKey:@"isFavorite"];
-  [encoder encodeInt:luminance forKey:@"luminance"];
-  [encoder encodeInt:material forKey:@"material"];
-  [encoder encodeObject:materialParameters forKey:@"materialParameters"];
-  [encoder encodeObject:name forKey:@"name"];
+    [encoder encodeInt:colorCode forKey:@"colorCode"];
+    [encoder encodeFloat:colorRGBA[0] forKey:@"colorRGBARed"];
+    [encoder encodeFloat:colorRGBA[1] forKey:@"colorRGBAGreen"];
+    [encoder encodeFloat:colorRGBA[2] forKey:@"colorRGBABlue"];
+    [encoder encodeFloat:colorRGBA[3] forKey:@"colorRGBAAlpha"];
+    [encoder encodeInt:edgeColorCode forKey:@"edgeColorCode"];
+    [encoder encodeFloat:edgeColorRGBA[0] forKey:@"edgeColorRGBARed"];
+    [encoder encodeFloat:edgeColorRGBA[1] forKey:@"edgeColorRGBAGreen"];
+    [encoder encodeFloat:edgeColorRGBA[2] forKey:@"edgeColorRGBABlue"];
+    [encoder encodeFloat:edgeColorRGBA[3] forKey:@"edgeColorRGBAAlpha"];
+    [encoder encodeBool:hasExplicitAlpha forKey:@"hasExplicitAlpha"];
+    [encoder encodeBool:hasLuminance forKey:@"hasLuminance"];
+    [encoder encodeBool:isFavorite forKey:@"isFavorite"];
+    [encoder encodeInt:luminance forKey:@"luminance"];
+    [encoder encodeInt:material forKey:@"material"];
+    [encoder encodeObject:materialParameters forKey:@"materialParameters"];
+    [encoder encodeObject:name forKey:@"name"];
 }// end encodeWithCoder:
 
 
@@ -121,13 +121,13 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // ==============================================================================
 - (id)copyWithZone:(NSZone *)zone
 {
-  // Since almost all colors are supposed to be from libraries, and since copy
-  // must be efficient because dictionary keys are copied, and particularly
-  // since equal objects must have the same hash, it is *VASTLY* easier to
-  // return the object itself for its "copy."
-  //
-  // The -hash implementation will die if this is not the case.
-  return([self retain]);
+    // Since almost all colors are supposed to be from libraries, and since copy
+    // must be efficient because dictionary keys are copied, and particularly
+    // since equal objects must have the same hash, it is *VASTLY* easier to
+    // return the object itself for its "copy."
+    //
+    // The -hash implementation will die if this is not the case.
+    return([self retain]);
 
 // LDrawColor *copied = (LDrawColor *)[super copyWithZone:zone];
 //
@@ -160,21 +160,21 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // ==============================================================================
 - (id)fullCopyWithZone:(NSZone *)zone
 {
-  LDrawColor *copied = (LDrawColor *)[super copyWithZone:zone];
+    LDrawColor *copied = (LDrawColor *)[super copyWithZone:zone];
 
-  copied->colorCode = self->colorCode;
-  memcpy(copied->colorRGBA, self->colorRGBA, sizeof(colorRGBA));
-  copied->edgeColorCode = self->edgeColorCode;
-  memcpy(copied->edgeColorRGBA, self->edgeColorRGBA, sizeof(edgeColorRGBA));
-  copied->hasExplicitAlpha = self->hasExplicitAlpha;
-  copied->hasLuminance     = self->hasLuminance;
-  copied->luminance        = self->luminance;
-  copied->isFavorite       = self->isFavorite;
-  copied->material         = self->material;
-  [copied setMaterialParameters:[self materialParameters]];
-  [copied setName:[self name]];
+    copied->colorCode = self->colorCode;
+    memcpy(copied->colorRGBA, self->colorRGBA, sizeof(colorRGBA));
+    copied->edgeColorCode = self->edgeColorCode;
+    memcpy(copied->edgeColorRGBA, self->edgeColorRGBA, sizeof(edgeColorRGBA));
+    copied->hasExplicitAlpha = self->hasExplicitAlpha;
+    copied->hasLuminance     = self->hasLuminance;
+    copied->luminance        = self->luminance;
+    copied->isFavorite       = self->isFavorite;
+    copied->material         = self->material;
+    [copied setMaterialParameters:[self materialParameters]];
+    [copied setName:[self name]];
 
-  return(copied);
+    return(copied);
 }// end copyWithZone:
 
 
@@ -188,122 +188,122 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // ==============================================================================
 - (BOOL)finishParsing:(NSScanner *)scanner
 {
-  NSString *field           = nil;
-  int      scannedAlpha     = 0;
-  int      scannedLuminance = 0;
-  float    parsedColor[4]   = { 0.0 };
+    NSString *field           = nil;
+    int      scannedAlpha     = 0;
+    int      scannedLuminance = 0;
+    float    parsedColor[4]   = { 0.0 };
 
-  [scanner setCharactersToBeSkipped:[NSCharacterSet whitespaceCharacterSet]];
+    [scanner setCharactersToBeSkipped:[NSCharacterSet whitespaceCharacterSet]];
 
-  // Name
-  [scanner scanUpToCharactersFromSet:[NSCharacterSet whitespaceCharacterSet]
-                          intoString:&field];
-  [self setName:field];
+    // Name
+    [scanner scanUpToCharactersFromSet:[NSCharacterSet whitespaceCharacterSet]
+     intoString:&field];
+    [self setName:field];
 
-  // Color Code
-  if ([scanner scanString:LDRAW_COLOR_DEF_CODE
-               intoString:nil] == NO) {
-    @throw [NSException exceptionWithName:@"BricksmithParseException"
-                                   reason:@"Bad !COLOUR syntax"
-                                 userInfo:
-            nil];
-  }
-  if ([scanner scanInt:&self->colorCode] == NO) {
-    @throw [NSException exceptionWithName:@"BricksmithParseException"
-                                   reason:@"Bad !COLOUR syntax"
-                                 userInfo:
-            nil];
-  }
+    // Color Code
+    if ([scanner scanString:LDRAW_COLOR_DEF_CODE
+         intoString:nil] == NO) {
+        @throw [NSException exceptionWithName:@"BricksmithParseException"
+                reason:@"Bad !COLOUR syntax"
+                userInfo:
+                nil];
+    }
+    if ([scanner scanInt:&self->colorCode] == NO) {
+        @throw [NSException exceptionWithName:@"BricksmithParseException"
+                reason:@"Bad !COLOUR syntax"
+                userInfo:
+                nil];
+    }
 
-  // Color Components
-  if ([scanner scanString:LDRAW_COLOR_DEF_VALUE
-               intoString:nil] == NO) {
-    @throw [NSException exceptionWithName:@"BricksmithParseException"
-                                   reason:@"Bad !COLOUR syntax"
-                                 userInfo:
-            nil];
-  }
-  if ([self scanHexString:scanner
-                  intoRGB:self->colorRGBA] == NO) {
-    @throw [NSException exceptionWithName:@"BricksmithParseException"
-                                   reason:@"Bad !COLOUR syntax"
-                                 userInfo:
-            nil];
-  }
+    // Color Components
+    if ([scanner scanString:LDRAW_COLOR_DEF_VALUE
+         intoString:nil] == NO) {
+        @throw [NSException exceptionWithName:@"BricksmithParseException"
+                reason:@"Bad !COLOUR syntax"
+                userInfo:
+                nil];
+    }
+    if ([self scanHexString:scanner
+         intoRGB:self->colorRGBA] == NO) {
+        @throw [NSException exceptionWithName:@"BricksmithParseException"
+                reason:@"Bad !COLOUR syntax"
+                userInfo:
+                nil];
+    }
 
-  // Edge
-  if ([scanner scanString:LDRAW_COLOR_DEF_EDGE
-               intoString:nil] == NO) {
-    @throw [NSException exceptionWithName:@"BricksmithParseException"
-                                   reason:@"Bad !COLOUR syntax"
-                                 userInfo:
-            nil];
-  }
-  if ([self scanHexString:scanner
-                  intoRGB:parsedColor] == YES) {
-    [self setEdgeColorRGBA:parsedColor];
-  }
-  else {
-    [scanner scanInt:&self->edgeColorCode];
-  }
+    // Edge
+    if ([scanner scanString:LDRAW_COLOR_DEF_EDGE
+         intoString:nil] == NO) {
+        @throw [NSException exceptionWithName:@"BricksmithParseException"
+                reason:@"Bad !COLOUR syntax"
+                userInfo:
+                nil];
+    }
+    if ([self scanHexString:scanner
+         intoRGB:parsedColor] == YES) {
+        [self setEdgeColorRGBA:parsedColor];
+    }
+    else {
+        [scanner scanInt:&self->edgeColorCode];
+    }
 
-  // Optional Fields
+    // Optional Fields
 
-  // - Alpha
-  if ([scanner scanString:LDRAW_COLOR_DEF_ALPHA intoString:nil] == YES) {
-    [scanner scanInt:&scannedAlpha];
-    self->colorRGBA[3]     = (float)scannedAlpha / 255;
-    self->hasExplicitAlpha = YES;
-  }
+    // - Alpha
+    if ([scanner scanString:LDRAW_COLOR_DEF_ALPHA intoString:nil] == YES) {
+        [scanner scanInt:&scannedAlpha];
+        self->colorRGBA[3]     = (float)scannedAlpha / 255;
+        self->hasExplicitAlpha = YES;
+    }
 
-  // - Luminance
-  if ([scanner scanString:LDRAW_COLOR_DEF_LUMINANCE intoString:nil] == YES) {
-    [scanner scanInt:&scannedLuminance];
-    [self setLuminance:scannedLuminance];
-  }
-  // - Favorite
-  if ([scanner scanString:LDRAW_COLOR_DEF_FAV intoString:nil] == YES) {
-    self->isFavorite = YES;
-  }
+    // - Luminance
+    if ([scanner scanString:LDRAW_COLOR_DEF_LUMINANCE intoString:nil] == YES) {
+        [scanner scanInt:&scannedLuminance];
+        [self setLuminance:scannedLuminance];
+    }
+    // - Favorite
+    if ([scanner scanString:LDRAW_COLOR_DEF_FAV intoString:nil] == YES) {
+        self->isFavorite = YES;
+    }
 
-  // - Material
-  if ([scanner scanString:LDRAW_COLOR_DEF_MATERIAL_CHROME
-               intoString:nil] == YES) {
-    [self setMaterial:LDrawColorMaterialChrome];
-  }
-  else if ([scanner scanString:LDRAW_COLOR_DEF_MATERIAL_PEARLESCENT
-                    intoString:nil] == YES) {
-    [self setMaterial:LDrawColorMaterialPearlescent];
-  }
-  else if ([scanner scanString:LDRAW_COLOR_DEF_MATERIAL_RUBBER
-                    intoString:nil] == YES) {
-    [self setMaterial:LDrawColorMaterialRubber];
-  }
-  else if ([scanner scanString:LDRAW_COLOR_DEF_MATERIAL_MATTE_METALLIC
-                    intoString:nil] == YES) {
-    [self setMaterial:LDrawColorMaterialMatteMetallic];
-  }
-  else if ([scanner scanString:LDRAW_COLOR_DEF_MATERIAL_METAL
-                    intoString:nil] == YES) {
-    [self setMaterial:LDrawColorMaterialMetal];
-  }
-  else if ([scanner scanString:LDRAW_COLOR_DEF_MATERIAL_CUSTOM
-                    intoString:nil] == YES) {
-    [self setMaterial:LDrawColorMaterialCustom];
+    // - Material
+    if ([scanner scanString:LDRAW_COLOR_DEF_MATERIAL_CHROME
+         intoString:nil] == YES) {
+        [self setMaterial:LDrawColorMaterialChrome];
+    }
+    else if ([scanner scanString:LDRAW_COLOR_DEF_MATERIAL_PEARLESCENT
+              intoString:nil] == YES) {
+        [self setMaterial:LDrawColorMaterialPearlescent];
+    }
+    else if ([scanner scanString:LDRAW_COLOR_DEF_MATERIAL_RUBBER
+              intoString:nil] == YES) {
+        [self setMaterial:LDrawColorMaterialRubber];
+    }
+    else if ([scanner scanString:LDRAW_COLOR_DEF_MATERIAL_MATTE_METALLIC
+              intoString:nil] == YES) {
+        [self setMaterial:LDrawColorMaterialMatteMetallic];
+    }
+    else if ([scanner scanString:LDRAW_COLOR_DEF_MATERIAL_METAL
+              intoString:nil] == YES) {
+        [self setMaterial:LDrawColorMaterialMetal];
+    }
+    else if ([scanner scanString:LDRAW_COLOR_DEF_MATERIAL_CUSTOM
+              intoString:nil] == YES) {
+        [self setMaterial:LDrawColorMaterialCustom];
 
-    // eat whitespace
-    [scanner setCharactersToBeSkipped:nil];
-    [scanner scanCharactersFromSet:[NSCharacterSet whitespaceCharacterSet]
-                        intoString:nil];
+        // eat whitespace
+        [scanner setCharactersToBeSkipped:nil];
+        [scanner scanCharactersFromSet:[NSCharacterSet whitespaceCharacterSet]
+         intoString:nil];
 
-    // Custom material parameters are implementation-defined and follow the
-    // MATERIAL keyword. Just scan them and save them; we can't do anything
-    // with them except write them back out when the file is saved.
-    field = [[scanner string] substringFromIndex:[scanner scanLocation]];
-    [self setMaterialParameters:field];
-  }
+        // Custom material parameters are implementation-defined and follow the
+        // MATERIAL keyword. Just scan them and save them; we can't do anything
+        // with them except write them back out when the file is saved.
+        field = [[scanner string] substringFromIndex:[scanner scanLocation]];
+        [self setMaterialParameters:field];
+    }
 
-  return(YES);
+    return(YES);
 }// end lineWithDirectiveText
 
 
@@ -337,53 +337,53 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // ------------------------------------------------------------------------------
 + (LDrawColor *)blendedColorForCode:(LDrawColorT)colorCode
 {
-  uint8_t ldrawEXEColorTable[16][3] =
-  {
-    { 51,  51,  51  },
-    { 0,   51,  178 },
-    { 0,   127, 51  },
-    { 0,   181, 166 },
-    { 204, 0,   0   },
-    { 255, 51,  153 },
-    { 102, 51,  0   },
-    { 153, 153, 153 },
-    { 102, 102, 88  },
-    { 0,   128, 255 },
-    { 51,  255, 102 },
-    { 171, 253, 249 },
-    { 255, 0,   0   },
-    { 255, 176, 204 },
-    { 255, 229, 0   },
-    { 255, 255, 255 }
-  };
+    uint8_t ldrawEXEColorTable[16][3] =
+    {
+        { 51,  51,  51  },
+        { 0,   51,  178 },
+        { 0,   127, 51  },
+        { 0,   181, 166 },
+        { 204, 0,   0   },
+        { 255, 51,  153 },
+        { 102, 51,  0   },
+        { 153, 153, 153 },
+        { 102, 102, 88  },
+        { 0,   128, 255 },
+        { 51,  255, 102 },
+        { 171, 253, 249 },
+        { 255, 0,   0   },
+        { 255, 176, 204 },
+        { 255, 229, 0   },
+        { 255, 255, 255 }
+    };
 
-  int        blendCode1           = 0;
-  int        blendCode2           = 0;
-  GLfloat    blendedComponents[4] = { 0.0 };
-  LDrawColor *blendedColor        = [[LDrawColor alloc] init];
+    int        blendCode1           = 0;
+    int        blendCode2           = 0;
+    GLfloat    blendedComponents[4] = { 0.0 };
+    LDrawColor *blendedColor        = [[LDrawColor alloc] init];
 
-  // Find the two base indexes of the blended color's dither.
-  blendCode1 = (colorCode - 256) / 16; // div (integer division)
-  blendCode2 = (colorCode - 256) % 16;
+    // Find the two base indexes of the blended color's dither.
+    blendCode1 = (colorCode - 256) / 16; // div (integer division)
+    blendCode2 = (colorCode - 256) % 16;
 
-  // Derive the components. Hold your nose.
-  // Obviously, we don't support dithering. We average the colors to produce
-  // something which looks nicer.
-  // red
-  blendedComponents[0] = (float)(ldrawEXEColorTable[blendCode1][0] + ldrawEXEColorTable[blendCode2][0]) / 2 / 255;
-  // green
-  blendedComponents[1] = (float)(ldrawEXEColorTable[blendCode1][1] + ldrawEXEColorTable[blendCode2][1]) / 2 / 255;
-  // blue
-  blendedComponents[2] = (float)(ldrawEXEColorTable[blendCode1][2] + ldrawEXEColorTable[blendCode2][2]) / 2 / 255;
-  // alpha
-  blendedComponents[3] = 1.0;
+    // Derive the components. Hold your nose.
+    // Obviously, we don't support dithering. We average the colors to produce
+    // something which looks nicer.
+    // red
+    blendedComponents[0] = (float)(ldrawEXEColorTable[blendCode1][0] + ldrawEXEColorTable[blendCode2][0]) / 2 / 255;
+    // green
+    blendedComponents[1] = (float)(ldrawEXEColorTable[blendCode1][1] + ldrawEXEColorTable[blendCode2][1]) / 2 / 255;
+    // blue
+    blendedComponents[2] = (float)(ldrawEXEColorTable[blendCode1][2] + ldrawEXEColorTable[blendCode2][2]) / 2 / 255;
+    // alpha
+    blendedComponents[3] = 1.0;
 
-  // Create a color to hold them.
-  [blendedColor setColorCode:colorCode];
-  [blendedColor setColorRGBA:blendedComponents];
-  [blendedColor setName:[NSString stringWithFormat:@"BlendedColor%d", colorCode]];
+    // Create a color to hold them.
+    [blendedColor setColorCode:colorCode];
+    [blendedColor setColorRGBA:blendedComponents];
+    [blendedColor setName:[NSString stringWithFormat:@"BlendedColor%d", colorCode]];
 
-  return([blendedColor autorelease]);
+    return([blendedColor autorelease]);
 }// end blendedColorForCode:
 
 
@@ -397,14 +397,14 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 //
 // ==============================================================================
 - (void)draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)
-  parentColor
+    parentColor
 
 {
-  // Need to add this color to the model's color library.
-  ColorLibrary *colorLibrary =
-    [[(LDrawStep *)[self enclosingDirective] enclosingModel] colorLibrary];
+    // Need to add this color to the model's color library.
+    ColorLibrary *colorLibrary =
+        [[(LDrawStep *)[self enclosingDirective] enclosingModel] colorLibrary];
 
-  [colorLibrary addColor:self];
+    [colorLibrary addColor:self];
 }// end draw:viewScale:parentColor:
 
 
@@ -422,66 +422,66 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // ==============================================================================
 - (NSString *)write
 {
-  NSMutableString *line = nil;
+    NSMutableString *line = nil;
 
-  line = [NSMutableString stringWithFormat:
-          @"0 %@ %@ %@ %d %@ %@",
-          // |	  |		|
-          LDRAW_COLOR_DEFINITION, self->name,
-          // |		|
-          LDRAW_COLOR_DEF_CODE, self->colorCode,
-          // |
-          LDRAW_COLOR_DEF_VALUE, [self hexStringForRGB:self->colorRGBA]];
+    line = [NSMutableString stringWithFormat:
+            @"0 %@ %@ %@ %d %@ %@",
+            // |	  |		|
+            LDRAW_COLOR_DEFINITION, self->name,
+            // |		|
+            LDRAW_COLOR_DEF_CODE, self->colorCode,
+            // |
+            LDRAW_COLOR_DEF_VALUE, [self hexStringForRGB:self->colorRGBA]];
 
-  if (self->edgeColorCode == LDrawColorBogus) {
-    [line appendFormat:@" %@ %@", LDRAW_COLOR_DEF_EDGE, [self hexStringForRGB:self->edgeColorRGBA]];
-  }
-  else {
-    [line appendFormat:@" %@ %d", LDRAW_COLOR_DEF_EDGE, self->edgeColorCode];
-  }
+    if (self->edgeColorCode == LDrawColorBogus) {
+        [line appendFormat:@" %@ %@", LDRAW_COLOR_DEF_EDGE, [self hexStringForRGB:self->edgeColorRGBA]];
+    }
+    else {
+        [line appendFormat:@" %@ %d", LDRAW_COLOR_DEF_EDGE, self->edgeColorCode];
+    }
 
-  if (self->hasExplicitAlpha == YES) {
-    [line appendFormat:@" %@ %d", LDRAW_COLOR_DEF_ALPHA, (int)(self->colorRGBA[3] * 255)];
-  }
+    if (self->hasExplicitAlpha == YES) {
+        [line appendFormat:@" %@ %d", LDRAW_COLOR_DEF_ALPHA, (int)(self->colorRGBA[3] * 255)];
+    }
 
-  if (self->hasLuminance == YES) {
-    [line appendFormat:@" %@ %d", LDRAW_COLOR_DEF_LUMINANCE, self->luminance];
-  }
-  if (self->isFavorite == YES) {
-    [line appendFormat:@" %@", LDRAW_COLOR_DEF_FAV];
-  }
+    if (self->hasLuminance == YES) {
+        [line appendFormat:@" %@ %d", LDRAW_COLOR_DEF_LUMINANCE, self->luminance];
+    }
+    if (self->isFavorite == YES) {
+        [line appendFormat:@" %@", LDRAW_COLOR_DEF_FAV];
+    }
 
-  switch (self->material)
-  {
-    case LDrawColorMaterialNone :
-      break;
+    switch (self->material)
+    {
+        case LDrawColorMaterialNone :
+            break;
 
-    case LDrawColorMaterialChrome :
-      [line appendFormat:@" %@", LDRAW_COLOR_DEF_MATERIAL_CHROME];
-      break;
+        case LDrawColorMaterialChrome :
+            [line appendFormat:@" %@", LDRAW_COLOR_DEF_MATERIAL_CHROME];
+            break;
 
-    case LDrawColorMaterialPearlescent :
-      [line appendFormat:@" %@", LDRAW_COLOR_DEF_MATERIAL_PEARLESCENT];
-      break;
+        case LDrawColorMaterialPearlescent :
+            [line appendFormat:@" %@", LDRAW_COLOR_DEF_MATERIAL_PEARLESCENT];
+            break;
 
-    case LDrawColorMaterialRubber :
-      [line appendFormat:@" %@", LDRAW_COLOR_DEF_MATERIAL_RUBBER];
-      break;
+        case LDrawColorMaterialRubber :
+            [line appendFormat:@" %@", LDRAW_COLOR_DEF_MATERIAL_RUBBER];
+            break;
 
-    case LDrawColorMaterialMatteMetallic :
-      [line appendFormat:@" %@", LDRAW_COLOR_DEF_MATERIAL_MATTE_METALLIC];
-      break;
+        case LDrawColorMaterialMatteMetallic :
+            [line appendFormat:@" %@", LDRAW_COLOR_DEF_MATERIAL_MATTE_METALLIC];
+            break;
 
-    case LDrawColorMaterialMetal :
-      [line appendFormat:@" %@", LDRAW_COLOR_DEF_MATERIAL_METAL];
-      break;
+        case LDrawColorMaterialMetal :
+            [line appendFormat:@" %@", LDRAW_COLOR_DEF_MATERIAL_METAL];
+            break;
 
-    case LDrawColorMaterialCustom :
-      [line appendFormat:@" %@ %@", LDRAW_COLOR_DEF_MATERIAL_CUSTOM, self->materialParameters];
-      break;
-  }
+        case LDrawColorMaterialCustom :
+            [line appendFormat:@" %@ %@", LDRAW_COLOR_DEF_MATERIAL_CUSTOM, self->materialParameters];
+            break;
+    }
 
-  return(line);
+    return(line);
 }// end write
 
 
@@ -497,7 +497,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // ==============================================================================
 - (NSString *)browsingDescription
 {
-  return([self name]);
+    return([self name]);
 }// end browsingDescription
 
 
@@ -509,7 +509,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // ==============================================================================
 - (NSString *)iconName
 {
-  return(@"ColorDroplet");
+    return(@"ColorDroplet");
 }// end iconName
 
 
@@ -520,7 +520,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // ==============================================================================
 - (NSString *)inspectorClassName
 {
-  return(nil);
+    return(nil);
 }// end inspectorClassName
 
 
@@ -532,7 +532,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // ==============================================================================
 - (GLfloat)alpha
 {
-  return(colorRGBA[3]);
+    return(colorRGBA[3]);
 }
 
 
@@ -540,7 +540,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // ==============================================================================
 - (LDrawColorT)colorCode
 {
-  return(self->colorCode);
+    return(self->colorCode);
 }// end colorCode
 
 
@@ -552,19 +552,19 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // ==============================================================================
 - (LDrawColor *)complimentColor
 {
-  // LDConfig compliment colors look ugly. Bricksmith uses internally-derived
-  // compliments which look more like the original LDraw.
-  if (fakeComplimentColor == nil) {
-    self->fakeComplimentColor = [[LDrawColor alloc] init];
+    // LDConfig compliment colors look ugly. Bricksmith uses internally-derived
+    // compliments which look more like the original LDraw.
+    if (fakeComplimentColor == nil) {
+        self->fakeComplimentColor = [[LDrawColor alloc] init];
 
-    GLfloat fakeComplimentComponents[4] = {};
-    complimentColor(self->colorRGBA, fakeComplimentComponents);
+        GLfloat fakeComplimentComponents[4] = {};
+        complimentColor(self->colorRGBA, fakeComplimentComponents);
 
-    [fakeComplimentColor setColorCode:LDrawEdgeColor];
-    [fakeComplimentColor setColorRGBA:fakeComplimentComponents];
-  }
+        [fakeComplimentColor setColorCode:LDrawEdgeColor];
+        [fakeComplimentColor setColorRGBA:fakeComplimentComponents];
+    }
 
-  return(fakeComplimentColor);
+    return(fakeComplimentColor);
 }
 
 
@@ -579,7 +579,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // ==============================================================================
 - (LDrawColorT)edgeColorCode
 {
-  return(self->edgeColorCode);
+    return(self->edgeColorCode);
 }// end edgeColorCode
 
 
@@ -591,7 +591,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // ==============================================================================
 - (void)getColorRGBA:(GLfloat *)inComponents
 {
-  memcpy(inComponents, self->colorRGBA, sizeof(GLfloat) * 4);
+    memcpy(inComponents, self->colorRGBA, sizeof(GLfloat) * 4);
 }// end getColorRGBA:
 
 
@@ -608,7 +608,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // ==============================================================================
 - (void)getEdgeColorRGBA:(GLfloat *)inComponents
 {
-  memcpy(inComponents, self->edgeColorRGBA, sizeof(GLfloat) * 4);
+    memcpy(inComponents, self->edgeColorRGBA, sizeof(GLfloat) * 4);
 }// end getEdgeColorRGBA:
 
 
@@ -627,36 +627,36 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // ==============================================================================
 - (NSString *)localizedName
 {
-  NSString *nameKey   = nil;
-  NSString *colorName = nil;
+    NSString *nameKey   = nil;
+    NSString *colorName = nil;
 
-  // Find the color's name in the localized string file.
-  // Color names are conveniently keyed.
-  nameKey   = [NSString stringWithFormat:@"LDraw: %d", colorCode];
-  colorName = NSLocalizedString(nameKey, nil);
+    // Find the color's name in the localized string file.
+    // Color names are conveniently keyed.
+    nameKey   = [NSString stringWithFormat:@"LDraw: %d", colorCode];
+    colorName = NSLocalizedString(nameKey, nil);
 
-  // If no localization was defined, then fall back on the name defined in the
-  // color directive.
-  if ([colorName isEqualToString:nameKey]) {
-    // Since spaces are verboten in !COLOUR directives, color names tend to
-    // have a bunch of unsightly underscores in them. We don't want to show
-    // that to the user.
-    NSMutableString *fixedName = [[[self name] mutableCopy] autorelease];
-    [fixedName replaceOccurrencesOfString:@"_"
-                               withString:@" "
-                                  options:NSLiteralSearch
-                                    range:NSMakeRange(0,
-                                                      [
-                                                        fixedName
-                                                        length
-                                                      ])];
-    colorName = fixedName;
+    // If no localization was defined, then fall back on the name defined in the
+    // color directive.
+    if ([colorName isEqualToString:nameKey]) {
+        // Since spaces are verboten in !COLOUR directives, color names tend to
+        // have a bunch of unsightly underscores in them. We don't want to show
+        // that to the user.
+        NSMutableString *fixedName = [[[self name] mutableCopy] autorelease];
+        [fixedName replaceOccurrencesOfString:@"_"
+         withString:@" "
+         options:NSLiteralSearch
+         range:NSMakeRange(0,
+                           [
+                               fixedName
+                               length
+                           ])];
+        colorName = fixedName;
 
-    // Alas! 10.5 only!
+        // Alas! 10.5 only!
 // colorName = [[self name] stringByReplacingOccurrencesOfString:@"_" withString:@" "];
-  }
+    }
 
-  return(colorName);
+    return(colorName);
 }// end localizedName
 
 
@@ -664,7 +664,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // ==============================================================================
 - (uint8_t)luminance
 {
-  return(self->luminance);
+    return(self->luminance);
 }// end luminance
 
 
@@ -672,7 +672,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // ==============================================================================
 - (LDrawColorMaterialT)material
 {
-  return(self->material);
+    return(self->material);
 }// end material
 
 
@@ -680,7 +680,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // ==============================================================================
 - (NSString *)materialParameters
 {
-  return(self->materialParameters);
+    return(self->materialParameters);
 }// end materialParameters
 
 
@@ -688,13 +688,13 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // ==============================================================================
 - (NSString *)name
 {
-  return(self->name);
+    return(self->name);
 }// end name
 
 
 - (BOOL)isFavorite
 {
-  return(self->isFavorite);
+    return(self->isFavorite);
 }
 
 
@@ -702,7 +702,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 
 - (void)setFavorite:(BOOL)flag
 {
-  self->isFavorite = flag;
+    self->isFavorite = flag;
 }
 
 
@@ -713,7 +713,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // ==============================================================================
 - (void)setColorCode:(LDrawColorT)newCode
 {
-  self->colorCode = newCode;
+    self->colorCode = newCode;
 }// end setColorCode:
 
 
@@ -724,7 +724,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // ==============================================================================
 - (void)setColorRGBA:(GLfloat *)newComponents
 {
-  memcpy(self->colorRGBA, newComponents, sizeof(GLfloat[4]));
+    memcpy(self->colorRGBA, newComponents, sizeof(GLfloat[4]));
 }// end setColorRGBA:
 
 
@@ -741,7 +741,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // ==============================================================================
 - (void)setEdgeColorCode:(LDrawColorT)newCode
 {
-  self->edgeColorCode = newCode;
+    self->edgeColorCode = newCode;
 }// end setEdgeColorCode:
 
 
@@ -758,10 +758,10 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // ==============================================================================
 - (void)setEdgeColorRGBA:(GLfloat *)newComponents
 {
-  memcpy(self->edgeColorRGBA, newComponents, sizeof(GLfloat[4]));
+    memcpy(self->edgeColorRGBA, newComponents, sizeof(GLfloat[4]));
 
-  // Disable the edge color code, since we have real color values for it now.
-  [self setEdgeColorCode:LDrawColorBogus];
+    // Disable the edge color code, since we have real color values for it now.
+    [self setEdgeColorCode:LDrawColorBogus];
 }// end setEdgeColorRGBA:
 
 
@@ -775,8 +775,8 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // ==============================================================================
 - (void)setLuminance:(uint8_t)newValue
 {
-  self->luminance    = newValue;
-  self->hasLuminance = YES;
+    self->luminance    = newValue;
+    self->hasLuminance = YES;
 }// end setLuminance:
 
 
@@ -790,7 +790,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // ==============================================================================
 - (void)setMaterial:(LDrawColorMaterialT)newValue
 {
-  self->material = newValue;
+    self->material = newValue;
 }// end setMaterial:
 
 
@@ -805,10 +805,10 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // ==============================================================================
 - (void)setMaterialParameters:(NSString *)newValue
 {
-  [newValue retain];
-  [self->materialParameters release];
+    [newValue retain];
+    [self->materialParameters release];
 
-  self->materialParameters = newValue;
+    self->materialParameters = newValue;
 }// end setMaterialParameters:
 
 
@@ -820,10 +820,10 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // ==============================================================================
 - (void)setName:(NSString *)newName
 {
-  [newName retain];
-  [self->name release];
+    [newName retain];
+    [self->name release];
 
-  self->name = newName;
+    self->name = newName;
 }// end setName:
 
 
@@ -844,18 +844,18 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // ==============================================================================
 - (BOOL)isEqual:(id)anObject
 {
-  BOOL isEqual = NO;
+    BOOL isEqual = NO;
 
-  // If two objects are equal, they must return the same hash. The hash is a
-  // pain to compute, so we don't want to do anything fancy with equality.
+    // If two objects are equal, they must return the same hash. The hash is a
+    // pain to compute, so we don't want to do anything fancy with equality.
 // if([anObject isMemberOfClass:[LDrawColor class]])
 // {
 // isEqual = (self->colorCode == [anObject colorCode]);
 // }
 
-  isEqual = (anObject == self);
+    isEqual = (anObject == self);
 
-  return(isEqual);
+    return(isEqual);
 }
 
 
@@ -867,7 +867,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // ==============================================================================
 - (NSUInteger)hash
 {
-  return((NSUInteger)self);
+    return((NSUInteger)self);
 }
 
 
@@ -878,7 +878,7 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // ==============================================================================
 - (NSComparisonResult)compare:(LDrawColor *)otherColor
 {
-  return([self HSVACompare:otherColor]);
+    return([self HSVACompare:otherColor]);
 }
 
 
@@ -890,60 +890,60 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // ==============================================================================
 - (NSComparisonResult)HSVACompare:(LDrawColor *)otherColor
 {
-  NSComparisonResult result = NSOrderedSame;
-  float ourHSV[4]           = { 0.0 };
-  float otherColorHSV[4]    = { 0.0 };
+    NSComparisonResult result = NSOrderedSame;
+    float ourHSV[4]           = { 0.0 };
+    float otherColorHSV[4]    = { 0.0 };
 
-  // Convert both to Hue-saturation-brightness
-  RGBtoHSV(self->colorRGBA[0], self->colorRGBA[1], self->colorRGBA[2],
-           &ourHSV[0], &ourHSV[1], &ourHSV[2]);
+    // Convert both to Hue-saturation-brightness
+    RGBtoHSV(self->colorRGBA[0], self->colorRGBA[1], self->colorRGBA[2],
+             &ourHSV[0], &ourHSV[1], &ourHSV[2]);
 
-  RGBtoHSV(otherColor->colorRGBA[0], otherColor->colorRGBA[1], otherColor->colorRGBA[2],
-           &otherColorHSV[0], &otherColorHSV[1], &otherColorHSV[2]);
+    RGBtoHSV(otherColor->colorRGBA[0], otherColor->colorRGBA[1], otherColor->colorRGBA[2],
+             &otherColorHSV[0], &otherColorHSV[1], &otherColorHSV[2]);
 
-  // Alpha
-  ourHSV[3]        = self->colorRGBA[3];
-  otherColorHSV[3] = self->colorRGBA[3];
+    // Alpha
+    ourHSV[3]        = self->colorRGBA[3];
+    otherColorHSV[3] = self->colorRGBA[3];
 
-  // Hue
-  if (ourHSV[0] > otherColorHSV[0]) {
-    result = NSOrderedDescending;
-  }
-  else if (ourHSV[0] < otherColorHSV[0]) {
-    result = NSOrderedAscending;
-  }
-  else {
-    // Saturation
-    if (ourHSV[1] > otherColorHSV[1]) {
-      result = NSOrderedDescending;
+    // Hue
+    if (ourHSV[0] > otherColorHSV[0]) {
+        result = NSOrderedDescending;
     }
-    else if (ourHSV[1] < otherColorHSV[1]) {
-      result = NSOrderedAscending;
+    else if (ourHSV[0] < otherColorHSV[0]) {
+        result = NSOrderedAscending;
     }
     else {
-      // Brightness
-      if (ourHSV[2] > otherColorHSV[2]) {
-        result = NSOrderedDescending;
-      }
-      else if (ourHSV[2] < otherColorHSV[2]) {
-        result = NSOrderedAscending;
-      }
-      else {
-        // Alpha
-        if (ourHSV[3] > otherColorHSV[3]) {
-          result = NSOrderedDescending;
+        // Saturation
+        if (ourHSV[1] > otherColorHSV[1]) {
+            result = NSOrderedDescending;
         }
-        else if (ourHSV[3] < otherColorHSV[3]) {
-          result = NSOrderedAscending;
+        else if (ourHSV[1] < otherColorHSV[1]) {
+            result = NSOrderedAscending;
         }
         else {
-          result = NSOrderedSame;
+            // Brightness
+            if (ourHSV[2] > otherColorHSV[2]) {
+                result = NSOrderedDescending;
+            }
+            else if (ourHSV[2] < otherColorHSV[2]) {
+                result = NSOrderedAscending;
+            }
+            else {
+                // Alpha
+                if (ourHSV[3] > otherColorHSV[3]) {
+                    result = NSOrderedDescending;
+                }
+                else if (ourHSV[3] < otherColorHSV[3]) {
+                    result = NSOrderedAscending;
+                }
+                else {
+                    result = NSOrderedSame;
+                }
+            }
         }
-      }
     }
-  }
 
-  return(result);
+    return(result);
 }// end HSVACompare:
 
 
@@ -956,12 +956,12 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // ==============================================================================
 - (NSString *)hexStringForRGB:(GLfloat *)components
 {
-  NSString *hexString = [NSString stringWithFormat:@"#%02X%02X%02X",
-                         (int)(components[0] * 255),
-                         (int)(components[1] * 255),
-                         (int)(components[2] * 255)];
+    NSString *hexString = [NSString stringWithFormat:@"#%02X%02X%02X",
+                           (int)(components[0] * 255),
+                           (int)(components[1] * 255),
+                           (int)(components[2] * 255)];
 
-  return(hexString);
+    return(hexString);
 }// end hexStringForRGB:
 
 
@@ -980,30 +980,30 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // ==============================================================================
 - (BOOL)scanHexString:(NSScanner *)hexScanner intoRGB:(GLfloat *)components
 {
-  unsigned hexBytes = 0;
-  BOOL     success  = NO;
+    unsigned hexBytes = 0;
+    BOOL     success  = NO;
 
-  // Make sure it has the required prefix, whichever it might be
-  if ([hexScanner scanString:@"#"
-                  intoString:nil] == YES ||
-      [hexScanner scanString:@"0x"
-                  intoString:nil] == YES) {
-    success = YES;
-  }
+    // Make sure it has the required prefix, whichever it might be
+    if ([hexScanner scanString:@"#"
+         intoString:nil] == YES ||
+        [hexScanner scanString:@"0x"
+         intoString:nil] == YES) {
+        success = YES;
+    }
 
-  if (success == YES) {
-    // Scan the hex bytes into a packed integer, because that's the easiest
-    // thing to do with this NSScanner API.
-    [hexScanner scanHexInt:&hexBytes];
+    if (success == YES) {
+        // Scan the hex bytes into a packed integer, because that's the easiest
+        // thing to do with this NSScanner API.
+        [hexScanner scanHexInt:&hexBytes];
 
-    // Colors will be stored in the integer as follows: xxRRGGBB
-    components[0] = (GLfloat)((hexBytes >> 2 * 8) & 0xFF) / 255;  // Red
-    components[1] = (GLfloat)((hexBytes >> 1 * 8) & 0xFF) / 255;  // Green
-    components[2] = (GLfloat)((hexBytes >> 0 * 8) & 0xFF) / 255;  // Blue
-    components[3] = 1.0; // we shall assume alpha
-  }
+        // Colors will be stored in the integer as follows: xxRRGGBB
+        components[0] = (GLfloat)((hexBytes >> 2 * 8) & 0xFF) / 255; // Red
+        components[1] = (GLfloat)((hexBytes >> 1 * 8) & 0xFF) / 255; // Green
+        components[2] = (GLfloat)((hexBytes >> 0 * 8) & 0xFF) / 255; // Blue
+        components[3] = 1.0; // we shall assume alpha
+    }
 
-  return(success);
+    return(success);
 }// end parseHexString:intoRGB:
 
 
@@ -1018,12 +1018,12 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // ==============================================================================
 - (void)dealloc
 {
-  [materialParameters release];
-  [name release];
+    [materialParameters release];
+    [name release];
 
-  [fakeComplimentColor release];
+    [fakeComplimentColor release];
 
-  [super dealloc];
+    [super dealloc];
 }// end dealloc
 
 
@@ -1045,37 +1045,37 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v);
 // ==============================================================================
 void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v)
 {
-  float min, max, delta;
+    float min, max, delta;
 
-  min = MIN(r, MIN(g, b));
-  max = MAX(r, MAX(g, b));
-  *v  = max;      // v
+    min = MIN(r, MIN(g, b));
+    max = MAX(r, MAX(g, b));
+    *v  = max;    // v
 
-  delta = max - min;
+    delta = max - min;
 
-  if (max != 0) {
-    *s = delta / max;   // s
-  }
-  else {
-    // r = g = b = 0		// s = 0, v is undefined
-    *s = 0;
-    *h = -1;
-    return;
-  }
+    if (max != 0) {
+        *s = delta / max; // s
+    }
+    else {
+        // r = g = b = 0		// s = 0, v is undefined
+        *s = 0;
+        *h = -1;
+        return;
+    }
 
-  if (r == max) {
-    *h = (g - b) / delta;     // between yellow & magenta
-  }
-  else if (g == max) {
-    *h = 2 + (b - r) / delta;   // between cyan & yellow
-  }
-  else {
-    *h = 4 + (r - g) / delta;   // between magenta & cyan
-  }
-  *h *= 60;       // degrees
-  if (*h < 0) {
-    *h += 360;
-  }
+    if (r == max) {
+        *h = (g - b) / delta; // between yellow & magenta
+    }
+    else if (g == max) {
+        *h = 2 + (b - r) / delta; // between cyan & yellow
+    }
+    else {
+        *h = 4 + (r - g) / delta; // between magenta & cyan
+    }
+    *h *= 60;     // degrees
+    if (*h < 0) {
+        *h += 360;
+    }
 }
 
 
@@ -1092,58 +1092,58 @@ void RGBtoHSV(float r, float g, float b, float *h, float *s, float *v)
 // ==============================================================================
 void HSVtoRGB(float h, float s, float v, float *r, float *g, float *b)
 {
-  int   i;
-  float f, p, q, t;
+    int   i;
+    float f, p, q, t;
 
-  if (s == 0) {
-    // achromatic (grey)
-    *r = *g = *b = v;
-    return;
-  }
+    if (s == 0) {
+        // achromatic (grey)
+        *r = *g = *b = v;
+        return;
+    }
 
-  h /= 60;      // sector 0 to 5
-  i  = floor(h);
-  f  = h - i;     // factorial part of h
-  p  = v * (1 - s);
-  q  = v * (1 - s * f);
-  t  = v * (1 - s * (1 - f));
+    h /= 60;    // sector 0 to 5
+    i  = floor(h);
+    f  = h - i;   // factorial part of h
+    p  = v * (1 - s);
+    q  = v * (1 - s * f);
+    t  = v * (1 - s * (1 - f));
 
-  switch (i)
-  {
-    case 0 :
-      *r = v;
-      *g = t;
-      *b = p;
-      break;
+    switch (i)
+    {
+        case 0 :
+            *r = v;
+            *g = t;
+            *b = p;
+            break;
 
-    case 1 :
-      *r = q;
-      *g = v;
-      *b = p;
-      break;
+        case 1 :
+            *r = q;
+            *g = v;
+            *b = p;
+            break;
 
-    case 2 :
-      *r = p;
-      *g = v;
-      *b = t;
-      break;
+        case 2 :
+            *r = p;
+            *g = v;
+            *b = t;
+            break;
 
-    case 3 :
-      *r = p;
-      *g = q;
-      *b = v;
-      break;
+        case 3 :
+            *r = p;
+            *g = q;
+            *b = v;
+            break;
 
-    case 4 :
-      *r = t;
-      *g = p;
-      *b = v;
-      break;
+        case 4 :
+            *r = t;
+            *g = p;
+            *b = v;
+            break;
 
-    default :    // case 5:
-      *r = v;
-      *g = p;
-      *b = q;
-      break;
-  }
+        default : // case 5:
+            *r = v;
+            *g = p;
+            *b = q;
+            break;
+    }
 }
