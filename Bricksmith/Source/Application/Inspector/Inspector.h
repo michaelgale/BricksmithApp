@@ -13,13 +13,13 @@
 
 @interface Inspector : NSObject
 {
-  IBOutlet NSPanel     *inspectorPanel;   // the main window.
-  NSString             *emptyInspectorTitle; // window title for empty selection
-  NSView               *emptyInspectorView; // content view used for invalid inspections
-  IBOutlet NSTextField *errorTextField;     // inside emptyInspectorView; use to explain the problem.
-
-  ObjectInspectionController *currentInspector;   // controller for the loaded inspector.
+// NSPanel     *inspectorPanel;   // the main window.
+  NSString *emptyInspectorTitle;             // window title for empty selection
+  NSView   *emptyInspectorView;             // content view used for invalid inspections
+  IBOutlet NSTextField       *errorTextField;   // inside emptyInspectorView; use to explain the problem.
+  ObjectInspectionController *currentInspector; // controller for the loaded inspector.
 }
+@property (nonatomic, strong) IBOutlet NSPanel *inspectorPanel;
 
 - (void)inspectObject:(id)object;
 - (void)inspectObjects:(NSArray *)objects;

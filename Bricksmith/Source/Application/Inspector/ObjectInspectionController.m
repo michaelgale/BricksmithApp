@@ -100,7 +100,7 @@
 // ==============================================================================
 - (NSWindow *)window
 {
-  return(window);
+  return(_window);
 }// end window
 
 
@@ -191,6 +191,53 @@
 }// end directiveDidChange:
 
 
+// MARK: - UTILITIES -
+
+// ========== coordinateValueFromFields: ========================================
+///
+/// @abstract	Returns the x,y,z coordinate represented in the first three
+///				fields of the form.
+///
+// ==============================================================================
+- (Point3)coordinateValueFromFields:(NSArray <NSTextField *> *)fields
+{
+  if (fields.count != 3) {
+    return(ZeroPoint3);
+  }
+
+  Point3 representedPoint = ZeroPoint3;
+
+  representedPoint.x = [fields[0] floatValue];
+  representedPoint.y = [fields[1] floatValue];
+  representedPoint.z = [fields[2] floatValue];
+
+  return(representedPoint);
+}// end coordinateValue
+
+
+// ========== setCoordinateValue:onFields: ======================================
+///
+/// @abstract	Sets the first three cells of this form to the x,y,z coordinate
+///				newPoint.
+///
+// ==============================================================================
+- (void)setCoordinateValue:(Point3)newPoint onFields:(NSArray <NSTextField *> *)fields
+{
+  if (fields.count != 3) {
+    return;
+  }
+
+  [fields[0] setFloatValue:newPoint.x];
+  [fields[1] setFloatValue:newPoint.y];
+  [fields[2] setFloatValue:newPoint.z];
+}// end setCoordinateValue:
+
+
+#pragma mark -
+#pragma mark DESTRUCTOR
+#pragma mark -
+
+
 #pragma mark -
 #pragma mark DESTRUCTOR
 #pragma mark -
@@ -206,7 +253,7 @@
   [[NSNotificationCenter defaultCenter] removeObserver:self];
 
   // Release top-level nib objects and instance variables.
-  [window release];
+  [_window release];
   [editingObject release];
 
   [super dealloc];

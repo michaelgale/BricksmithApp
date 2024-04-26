@@ -196,8 +196,8 @@
 // ==============================================================================
 - (void)draw
 {
-  NSDate         *startTime       = nil;
-  NSUInteger     options          = DRAW_NO_OPTIONS;
+  NSDate *startTime = nil;
+// NSUInteger     options          = DRAW_NO_OPTIONS;
   NSTimeInterval drawTime         = 0;
   BOOL           considerFastDraw = NO;
 
@@ -211,9 +211,9 @@
      && [(id)self->fileBeingDrawn draggingDirectives] != nil
     );
 #if DEBUG_DRAWING == 0
-  if (considerFastDraw == YES && self->rotationDrawMode == LDrawGLDrawExtremelyFast) {
-    options |= DRAW_BOUNDS_ONLY;
-  }
+// if (considerFastDraw == YES && self->rotationDrawMode == LDrawGLDrawExtremelyFast) {
+// options |= DRAW_BOUNDS_ONLY;
+// }
 #endif // DEBUG_DRAWING
 
   assert(glCheckInteger(GL_VERTEX_ARRAY_BINDING_APPLE, 0));

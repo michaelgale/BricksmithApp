@@ -442,8 +442,8 @@
   else {
     visibilityPlane =
       [self nearOrthoClippingRectFromVisibleRect:[scroller getVisibleRect]];
-    visibilityPlane.size.height = MAX(visibilityPlane.size.height, 8.0);
-    visibilityPlane.size.width  = MAX(visibilityPlane.size.width, 8.0);
+    visibilityPlane.size.height = MAX(visibilityPlane.size.height, 16.0);
+    visibilityPlane.size.width  = MAX(visibilityPlane.size.width, 16.0);
 
     assert(visibilityPlane.size.width > 0.0);
     assert(visibilityPlane.size.height > 0.0);

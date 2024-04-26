@@ -24,10 +24,10 @@
 {
   self = [super init];
 
-  if ([NSBundle loadNibNamed:@"InspectorComment"
-                       owner:self] == NO) {
-    NSLog(@"Couldn't load InspectorComment.nib");
-  }
+// if ([NSBundle loadNibNamed:@"InspectorComment"
+// owner:self] == NO) {
+// NSLog(@"Couldn't load InspectorComment.nib");
+// }
 
   return(self);
 }// end init

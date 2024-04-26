@@ -37,16 +37,15 @@
 - (id)init
 {
   self = [super init];
-
-  if ([NSBundle loadNibNamed:@"Inspector"
-                       owner:self] == NO) {
+  if ([[NSBundle mainBundle] loadNibNamed:@"Inspector" owner:self topLevelObjects:nil] == NO) {
     NSLog(@"Can't load Inspector nib file");
   }
+// inspectorPanel = _inspectorPanel;
 
   // When the Nib first loads, it contains the view we intend to use for an
   // empty inspector.
-  emptyInspectorTitle = [[inspectorPanel title] retain];
-  emptyInspectorView  = [[inspectorPanel contentView] retain];
+  emptyInspectorTitle = [[_inspectorPanel title] retain];
+  emptyInspectorView  = [[_inspectorPanel contentView] retain];
 
   // Display a message appropriate to inspecting nothing.
   [self inspectObject:nil];
@@ -126,8 +125,8 @@
   }
 
   if (foundInspector == NO) {
-    [inspectorPanel setContentView:emptyInspectorView];
-    [inspectorPanel setTitle:emptyInspectorTitle];
+    [_inspectorPanel setContentView:emptyInspectorView];
+    [_inspectorPanel setTitle:emptyInspectorTitle];
     [errorTextField setStringValue:errorString];
   }
 }// end inspectObjects:
@@ -158,8 +157,8 @@
       [objectInspector setObject:objectToInspect];
 
       // Show the inspector palette.
-      [inspectorPanel setContentView:[[objectInspector window] contentView]];
-      [inspectorPanel setTitle:[[objectInspector window] title]];
+      [_inspectorPanel setContentView:[[objectInspector window] contentView]];
+      [_inspectorPanel setTitle:[[objectInspector window] title]];
 
       // Save the inspector, so we know what we are inspecting, and so
       // we can clean up the memory for it.
@@ -180,7 +179,7 @@
 {
   // End any editing happening in the current inspector. It is very important
   // to do this *before* attempting to replace the inspector!
-  [inspectorPanel makeFirstResponder:nil];
+  [_inspectorPanel makeFirstResponder:nil];
   [currentInspector release];
   currentInspector = nil;
 }
@@ -193,7 +192,7 @@
 // ==============================================================================
 - (void)show:(id)sender
 {
-  [inspectorPanel makeKeyAndOrderFront:sender];
+  [_inspectorPanel makeKeyAndOrderFront:sender];
 }// end show:
 
 
@@ -216,7 +215,7 @@
   // commit any outstanding edits on an object which is no longer in the
   // document. This confuses Undo horribly; the application can hang if you
   // try to undo over that change.
-  [inspectorPanel makeFirstResponder:nil];
+  [_inspectorPanel makeFirstResponder:nil];
 }
 
 
@@ -246,7 +245,7 @@
 // ==============================================================================
 - (void)dealloc
 {
-  [inspectorPanel release];
+  [_inspectorPanel release];
   [emptyInspectorTitle release];
   [emptyInspectorView release];
   [currentInspector release];

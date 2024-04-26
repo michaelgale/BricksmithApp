@@ -2792,8 +2792,11 @@ static NSSize Size2ToNSSize(Size2 size)
 // ==============================================================================
 - (void)showAxisLinesDidChange:(NSNotification *)notification
 {
-  BOOL showAxisLines = [notification object];
+  BOOL showAxisLines = NO;
 
+  if ([notification object]) {
+    showAxisLines = YES;
+  }
   [self->renderer setViewAxisLines:showAxisLines];
 }
 
