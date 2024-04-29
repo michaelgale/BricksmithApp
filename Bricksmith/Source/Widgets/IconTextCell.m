@@ -26,11 +26,11 @@
 {
     self = [super init];
 
-    image        = nil;
+    image = nil;
     imagePadding = 3.0;
 
     return(self);
-}// end init
+} // end init
 
 
 // ========== initWithCoder: ====================================================
@@ -42,11 +42,11 @@
 {
     self = [super initWithCoder:decoder];
 
-    image        = nil;
+    image = nil;
     imagePadding = 3.0;
 
     return(self);
-}// end initWithCoder:
+} // end initWithCoder:
 
 
 // ========== copyWithZone: =====================================================
@@ -64,7 +64,7 @@
     cell->image = [image retain];
 
     return(cell);
-}// end copyWithZone:
+} // end copyWithZone:
 
 
 #pragma mark -
@@ -87,7 +87,7 @@
     cellSize.width += 2 * imagePadding;
 
     return(cellSize);
-}// end cellSize
+} // end cellSize
 
 
 // ========== titleRectForBounds: ===============================================
@@ -119,17 +119,15 @@
 // ==============================================================================
 - (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
-    NSRect            textFrame  = cellFrame;
-    NSSize            imageSize  = NSZeroSize;
-    NSRect            imageFrame = NSZeroRect;
-    NSAffineTransform *inverter  = [NSAffineTransform transform];
+    NSRect textFrame  = cellFrame;
+    NSSize imageSize  = NSZeroSize;
+    NSRect imageFrame = NSZeroRect;
+    NSAffineTransform *inverter = [NSAffineTransform transform];
 
     if (image != nil) {
         // Divide the cell frame into the image portion and the text portion.
         imageSize = [image size];
-        NSDivideRect(cellFrame,
-                     &imageFrame, &textFrame,
-                     imageSize.width + 2 * imagePadding, NSMinXEdge);
+        NSDivideRect(cellFrame, &imageFrame, &textFrame, imageSize.width + 2 * imagePadding, NSMinXEdge);
 
         // Shift the image over by the amount of margins we need.
         imageFrame.origin.x += imagePadding;
@@ -147,17 +145,13 @@
         // coordinate system and relocate it appropriately so that the image will
         // be drawn right-side up.
         if ([controlView isFlipped]) {
-            [inverter scaleXBy:1.0
-             yBy:-1.0];
-            [inverter translateXBy:0
-             yBy:-2 * NSMinY(imageFrame)];
+            [inverter scaleXBy:1.0 yBy:-1.0];
+            [inverter translateXBy:0 yBy:-2 * NSMinY(imageFrame)];
         }
         [inverter concat];
         {
-            [image drawAtPoint:imageFrame.origin
-             fromRect:NSZeroRect
-             operation:NSCompositingOperationSourceOver
-             fraction:1.0];
+            [image drawAtPoint:imageFrame.origin fromRect:NSZeroRect operation:
+            NSCompositingOperationSourceOver fraction:1.0];
         }
         [inverter invert];
         [inverter concat];
@@ -166,9 +160,8 @@
     // Now draw the text.
     NSRect titleRect = [self titleRectForBounds:textFrame];
 
-    [super drawInteriorWithFrame:titleRect
-     inView:controlView];
-}// end drawInteriorWithFrame:inView:
+    [super drawInteriorWithFrame:titleRect inView:controlView];
+} // end drawInteriorWithFrame:inView:
 
 
 // ========== selectWithFrame:inView:editor:delegate:start:length: ==============
@@ -176,12 +169,8 @@
 // Purpose:		Selects the text to edit; much like editWithFrame
 //
 // ==============================================================================
-- (void)selectWithFrame:(NSRect)cellFrame
-    inView:(NSView *)controlView
-    editor:(NSText *)textObject
-    delegate:(id)anObject
-    start:(NSInteger)selectionStart
-    length:(NSInteger)selectionLength
+- (void)selectWithFrame:(NSRect)cellFrame inView:(NSView *)controlView editor:(NSText *)textObject delegate:(
+        id)anObject start:(NSInteger)selectionStart length:(NSInteger)selectionLength
 {
     NSRect textFrame = cellFrame;
 
@@ -191,19 +180,13 @@
 
         // Divide the cell frame into the image portion and the text portion.
         imageSize = [image size];
-        NSDivideRect(cellFrame,
-                     &imageFrame, &textFrame,
-                     imageSize.width + 2 * imagePadding, NSMinXEdge);
+        NSDivideRect(cellFrame, &imageFrame, &textFrame, imageSize.width + 2 * imagePadding, NSMinXEdge);
     }
 
 
-    [super selectWithFrame:textFrame
-     inView:controlView
-     editor:textObject
-     delegate:anObject
-     start:selectionStart
-     length:selectionLength];
-}// end selectWithFrame:inView:editor:delegate:start:length:
+    [super selectWithFrame:textFrame inView:controlView editor:textObject delegate:anObject start:
+    selectionStart length:selectionLength];
+} // end selectWithFrame:inView:editor:delegate:start:length:
 
 
 // ========== editWithFrame:inView:editor:delegate:start:length: ================
@@ -213,11 +196,8 @@
 // devoted to the image.
 //
 // ==============================================================================
-- (void)editWithFrame:(NSRect)cellFrame
-    inView:(NSView *)controlView
-    editor:(NSText *)textObject
-    delegate:(id)anObject
-    event:(NSEvent *)theEvent
+- (void)editWithFrame:(NSRect)cellFrame inView:(NSView *)controlView editor:(NSText *)textObject delegate:(id)
+    anObject event:(NSEvent *)theEvent
 {
     NSRect textFrame = cellFrame;
 
@@ -227,18 +207,13 @@
 
         // Divide the cell frame into the image portion and the text portion.
         imageSize = [image size];
-        NSDivideRect(cellFrame,
-                     &imageFrame, &textFrame,
-                     imageSize.width + 2 * imagePadding, NSMinXEdge);
+        NSDivideRect(cellFrame, &imageFrame, &textFrame, imageSize.width + 2 * imagePadding, NSMinXEdge);
     }
 
 
-    [super editWithFrame:textFrame
-     inView:controlView
-     editor:textObject
-     delegate:anObject
-     event:(NSEvent *)theEvent];
-}// end editWithFrame:inView:editor:delegate:start:length:
+    [super editWithFrame:textFrame inView:controlView editor:textObject delegate:anObject event:(NSEvent *)
+    theEvent];
+} // end editWithFrame:inView:editor:delegate:start:length:
 
 
 #pragma mark -
@@ -250,7 +225,7 @@
 - (NSImage *)image
 {
     return(image);
-}// end image
+} // end image
 
 
 // ========== imagePadding ======================================================
@@ -258,7 +233,7 @@
 - (CGFloat)imagePadding
 {
     return(imagePadding);
-}// end imagePadding
+} // end imagePadding
 
 
 // ========== verticallyCentersTitle ============================================
@@ -281,7 +256,7 @@
     [newImage retain];
     [image release];
     image = newImage;
-}// end setImage:
+} // end setImage:
 
 
 // ========== setImagePadding: ==================================================
@@ -293,7 +268,7 @@
 - (void)setImagePadding:(CGFloat)newAmount
 {
     imagePadding = newAmount;
-}// end setImagePadding:
+} // end setImagePadding:
 
 
 // ========== setVerticallyCentersTitle: ========================================
@@ -324,7 +299,6 @@
 {
     [image release];
     [super dealloc];
-}// end dealloc
-
+} // end dealloc
 
 @end

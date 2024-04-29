@@ -32,14 +32,12 @@
 // Projection Mode
 typedef enum
 {
-    ProjectionModePerspective  = 0,
-    ProjectionModeOrthographic = 1
+    ProjectionModePerspective = 0, ProjectionModeOrthographic = 1
 } ProjectionModeT;
 
 typedef enum
 {
-    LocationModeModel       = 0,
-    LocationModeWalkthrough = 1
+    LocationModeModel = 0, LocationModeWalkthrough = 1
 } LocationModeT;
 
 @protocol LDrawGLCameraScroller;
@@ -54,16 +52,16 @@ typedef enum
 
     ProjectionModeT projectionMode;
     LocationModeT   locationMode;
-    Box3            modelSize;
+    Box3 modelSize;
 
     BOOL   viewportExpandsToAvailableSize;
     double zoomFactor;
 
-    GLfloat cameraDistance;   // location of camera on the z-axis; distance from (0,0,0);
+    GLfloat cameraDistance; // location of camera on the z-axis; distance from (0,0,0);
     Point3  rotationCenter;
     Size2   snugFrameSize;
 
-    int mute;                 // Counted 'mute' to stop re-entrant calls to tickle...
+    int mute; // Counted 'mute' to stop re-entrant calls to tickle...
 }
 
 - (id)init;
@@ -106,8 +104,6 @@ typedef enum
 - (void)rotateByDegrees:(double)angle;
 
 @end
-
-
 ////////////////////////////////////////////////////////////////////////////////
 //
 // LDrawGLCameraScroller
@@ -124,19 +120,18 @@ typedef enum
 @protocol LDrawGLCameraScroller <NSObject>
 
 @required
-
 // Document size, in model units.  The camera can request a document size
 // change; NS code won't change the document size behind the camera's back.
 - (Size2)getDocumentSize;
 - (void)setDocumentSize:(Size2)newDocumentSize;
 
 // Scrolling
-- (Box2)getVisibleRect;                   // From this we get our scroll position and visible area, in doc units.
-- (Size2)getMaxVisibleSizeDoc;            // Max size we can show in doc units before we scroll.
-- (Size2)getMaxVisibleSizeGL;             // Max size we can show in GL viewport pixels units before we scroll.
+- (Box2)getVisibleRect; // From this we get our scroll position and visible area, in doc units.
+- (Size2)getMaxVisibleSizeDoc; // Max size we can show in doc units before we scroll.
+- (Size2)getMaxVisibleSizeGL; // Max size we can show in GL viewport pixels units before we scroll.
 
-- (void)setScaleFactor:(CGFloat)newScaleFactor;      // This sets the scale factor from UI points to doc units - 2.0 makes our model look twice as big on screen.
-- (void)setScrollOrigin:(Point2)visibleOrigin;       // This scrolls the scroller so that the model point "visibleOrigin" is in the upper right corner of the
+- (void)setScaleFactor:(CGFloat)newScaleFactor; // This sets the scale factor from UI points to doc units - 2.0 makes our model look twice as big on screen.
+- (void)setScrollOrigin:(Point2)visibleOrigin; // This scrolls the scroller so that the model point "visibleOrigin" is in the upper right corner of the
 
 // visible screen.
 @end

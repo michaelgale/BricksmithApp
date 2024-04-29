@@ -27,7 +27,7 @@
     if ([[self enclosingDirective] respondsToSelector:@selector(setSubdirectiveSelected:)]) {
         [[self enclosingDirective] setSubdirectiveSelected:flag];
     }
-}// end setSelected:
+} // end setSelected:
 
 
 #pragma mark -
@@ -53,7 +53,7 @@
     }
 
     return(@"Unknown LSynth Direction");
-}// end browsingDescription
+} // end browsingDescription
 
 
 // ========== iconName ==========================================================
@@ -65,7 +65,7 @@
 - (NSString *)iconName
 {
     return(@"LSynthDirection");
-}// end iconName
+} // end iconName
 
 
 #pragma mark -
@@ -82,7 +82,7 @@
 - (NSString *)write
 {
     return([NSString stringWithFormat:@"0 SYNTH %@", [self stringValue]]);
-}// end write
+} // end write
 
 
 @end

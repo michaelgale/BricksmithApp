@@ -15,10 +15,10 @@
 @interface InspectionConditionalLine : ObjectInspectionController
 {
     IBOutlet LDrawColorWell *colorWell;
-    IBOutlet NSForm         *vertex1Form;
-    IBOutlet NSForm         *vertex2Form;
-    IBOutlet NSForm         *conditionalVertex1Form;
-    IBOutlet NSForm         *conditionalVertex2Form;
+    IBOutlet NSForm *vertex1Form;
+    IBOutlet NSForm *vertex2Form;
+    IBOutlet NSForm *conditionalVertex1Form;
+    IBOutlet NSForm *conditionalVertex2Form;
 }
 
 // Actions

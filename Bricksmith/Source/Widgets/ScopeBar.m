@@ -21,7 +21,6 @@
 #import "ScopeBar.h"
 
 @implementation ScopeBar
-
 // ========== initWithFrame: ====================================================
 //
 // Purpose:
@@ -34,7 +33,7 @@
         // Initialization code here.
     }
     return(self);
-}// end initWithFrame:
+} // end initWithFrame:
 
 
 // ========== drawRect: =========================================================
@@ -68,7 +67,7 @@
 //
 // [borderColor set];
 // [bottomLine stroke];
-}// end drawRect:
+} // end drawRect:
 
 
 @end

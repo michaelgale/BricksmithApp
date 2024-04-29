@@ -14,10 +14,7 @@
 // The class of a synthesis object
 typedef enum
 {
-    LSYNTH_PART = 1,
-    LSYNTH_HOSE = 2,
-    LSYNTH_BAND = 3,
-    LSYNTH_CLASSES_COUNT
+    LSYNTH_PART = 1, LSYNTH_HOSE = 2, LSYNTH_BAND = 3, LSYNTH_CLASSES_COUNT
 } LSynthClassT;
 
 @interface LSynthConfiguration : NSObject

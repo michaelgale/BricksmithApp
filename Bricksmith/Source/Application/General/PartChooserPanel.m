@@ -27,7 +27,7 @@
 + (PartChooserPanel *)partChooserPanel
 {
     return([[[PartChooserPanel alloc] init] autorelease]);
-}// end partChooserPanel
+} // end partChooserPanel
 
 
 // ========== init ==============================================================
@@ -37,8 +37,7 @@
 // ==============================================================================
 - (id)init
 {
-    [NSBundle loadNibNamed:@"PartChooser"
-     owner:self];
+    [NSBundle loadNibNamed:@"PartChooser" owner:self];
 
     oldSelf = self;
     self    = partChooserPanel; // this don't look good, but it works.
@@ -48,7 +47,7 @@
     // [oldSelf autorelease];
 
     return(self);
-}// end init
+} // end init
 
 
 #pragma mark -
@@ -65,7 +64,7 @@
 - (NSString *)selectedPartName
 {
     return([partsBrowser selectedPartName]);
-}// end selectedPartName
+} // end selectedPartName
 
 
 #pragma mark -
@@ -91,7 +90,7 @@
     }
 
     return(returnCode);
-}// end runModal
+} // end runModal
 
 
 // ========== insertPartClicked: ================================================
@@ -102,7 +101,7 @@
 - (IBAction)insertPartClicked:(id)sender
 {
     [NSApp stopModalWithCode:NSModalResponseOK];
-}// end insertPartClicked:
+} // end insertPartClicked:
 
 
 // ========== cancelClicked: ====================================================
@@ -113,7 +112,7 @@
 - (IBAction)cancelClicked:(id)sender
 {
     [NSApp stopModalWithCode:NSModalResponseCancel];
-}// end cancelClicked:
+} // end cancelClicked:
 
 
 #pragma mark -
@@ -131,7 +130,7 @@
     [partsBrowser release];
 
     [super dealloc];
-}// end dealloc
+} // end dealloc
 
 
 @end

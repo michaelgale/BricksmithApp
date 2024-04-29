@@ -17,16 +17,13 @@
 // How much parts move when you nudge them in the viewer.
 typedef enum gridSpacingMode
 {
-    gridModeFine   = 0,
-    gridModeMedium = 1,
-    gridModeCoarse = 2
+    gridModeFine = 0, gridModeMedium = 1, gridModeCoarse = 2
 } gridSpacingModeT;
 
 // Are movements aligned to the overall model or the individual selected part.
 typedef enum gridOrientationMode
 {
-    gridOrientationModel = 0,
-    gridOrientationPart  = 1
+    gridOrientationModel = 0, gridOrientationPart  = 1
 } gridOrientationModeT;
 
 ////////////////////////////////////////////////////////////////////////////////

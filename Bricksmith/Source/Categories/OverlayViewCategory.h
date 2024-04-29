@@ -18,7 +18,6 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 @interface NSView (OverlayViewCategory)
-
 // Add/remove
 - (void)addOverlayView:(NSView *)theView;
 - (void)removeOverlayView:(NSView *)theView;

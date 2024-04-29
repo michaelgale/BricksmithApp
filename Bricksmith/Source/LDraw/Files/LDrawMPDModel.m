@@ -50,7 +50,7 @@
     [newModel setModelDisplayName:name];
 
     return(newModel);
-}// end model
+} // end model
 
 
 // ========== init ==============================================================
@@ -63,7 +63,7 @@
     [super init];
     modelName = @"";
     return(self);
-}// end init
+} // end init
 
 
 // ========== initWithLines:inRange:parentGroup: ================================
@@ -77,20 +77,17 @@
 // an MPD submodel object.
 //
 // ==============================================================================
-- (id)initWithLines:(NSArray *)lines
-    inRange:(NSRange)range
-    parentGroup:(dispatch_group_t)parentGroup
+- (id)initWithLines:(NSArray *)lines inRange:(NSRange)range parentGroup:(dispatch_group_t)parentGroup
 {
-    NSString *mpdFileCommand  = [lines objectAtIndex:range.location];
-    NSString *lastLine        = nil;
+    NSString *mpdFileCommand = [lines objectAtIndex:range.location];
+    NSString *lastLine = nil;
     NSString *mpdSubmodelName = @"";
-    BOOL     isMPDModel       = NO;
-    BOOL     hasSubmodelEnd   = NO;
-    NSRange  nonMPDRange      = range;
+    BOOL     isMPDModel     = NO;
+    BOOL     hasSubmodelEnd = NO;
+    NSRange  nonMPDRange    = range;
 
     // The first line should be 0 FILE modelName
-    isMPDModel = [[self class] lineIsMPDModelStart:mpdFileCommand
-                  modelName:&mpdSubmodelName];
+    isMPDModel = [[self class] lineIsMPDModelStart:mpdFileCommand modelName:&mpdSubmodelName];
 
     // Strip out the MPD commands for model parsing, and read in the model name.
     if (isMPDModel == YES) {
@@ -112,9 +109,7 @@
     }
 
     // Create a basic model.
-    [super initWithLines:lines
-     inRange:nonMPDRange
-     parentGroup:parentGroup];       // parses model into header and steps.
+    [super initWithLines:lines inRange:nonMPDRange parentGroup:parentGroup]; // parses model into header and steps.
 
     // If it wasn't MPD, we still need a model name. We can get that via the
     // parsed model.
@@ -126,7 +121,7 @@
     [self setModelName:mpdSubmodelName];
 
     return(self);
-}// end initWithLines:inRange:
+} // end initWithLines:inRange:
 
 
 // ========== initWithCoder: ====================================================
@@ -138,10 +133,10 @@
 // ==============================================================================
 - (id)initWithCoder:(NSCoder *)decoder
 {
-    self      = [super initWithCoder:decoder];
+    self = [super initWithCoder:decoder];
     modelName = [[decoder decodeObjectForKey:@"modelName"] retain];
     return(self);
-}// end initWithCoder:
+} // end initWithCoder:
 
 
 // ========== encodeWithCoder: ==================================================
@@ -155,7 +150,7 @@
 {
     [super encodeWithCoder:encoder];
     [encoder encodeObject:modelName forKey:@"modelName"];
-}// end encodeWithCoder:
+} // end encodeWithCoder:
 
 
 // ========== copyWithZone: =====================================================
@@ -169,7 +164,7 @@
 
     [copied setModelName:[self modelName]];
     return(copied);
-}// end copyWithZone:
+} // end copyWithZone:
 
 
 #pragma mark -
@@ -179,16 +174,15 @@
 // Purpose:		Returns the range from the beginning to the end of the model.
 //
 // ------------------------------------------------------------------------------
-+ (NSRange)rangeOfDirectiveBeginningAtIndex:(NSUInteger)index
-    inLines:(NSArray *)lines
-    maxIndex:(NSUInteger)maxIndex
++ (NSRange)rangeOfDirectiveBeginningAtIndex:(NSUInteger)index inLines:(NSArray *)lines maxIndex:(NSUInteger)
+    maxIndex
 {
-    NSString   *firstLine    = nil;
-    BOOL       isMPDModel    = NO;
-    NSString   *currentLine  = nil;
-    NSRange    testRange     = NSMakeRange(index, maxIndex - index + 1);
-    NSRange    modelRange    = testRange;
-    NSUInteger counter       = 0;
+    NSString   *firstLine   = nil;
+    BOOL       isMPDModel   = NO;
+    NSString   *currentLine = nil;
+    NSRange    testRange    = NSMakeRange(index, maxIndex - index + 1);
+    NSRange    modelRange   = testRange;
+    NSUInteger counter = 0;
     NSUInteger modelEndIndex = 0;
 
     if (testRange.length > 1) {
@@ -224,7 +218,7 @@
     }
 
     return(modelRange);
-}// end rangeOfDirectiveBeginningAtIndex:inLines:maxIndex:
+} // end rangeOfDirectiveBeginningAtIndex:inLines:maxIndex:
 
 
 #pragma mark -
@@ -254,7 +248,7 @@
     [written appendFormat:@"0 %@", LDRAW_MPD_SUBMODEL_END];
 
     return(written);
-}// end write
+} // end write
 
 
 // ========== writeModel =============================================================
@@ -265,7 +259,7 @@
 - (NSString *)writeModel
 {
     return([super write]);
-}// end writeModel
+} // end writeModel
 
 
 #pragma mark -
@@ -281,7 +275,7 @@
 - (NSString *)browsingDescription
 {
     return([self modelDisplayName]);
-}// end browsingDescription
+} // end browsingDescription
 
 
 // ========== inspectorClassName ================================================
@@ -292,7 +286,7 @@
 - (NSString *)inspectorClassName
 {
     return(@"InspectionMPDModel");
-}// end inspectorClassName
+} // end inspectorClassName
 
 
 - (void)setEnclosingDirective:(LDrawContainer *)newParent
@@ -317,7 +311,7 @@
     // Chop off that hideous un-Maclike .ldr extension that the LDraw File
     // Specification forces us to add.
     return([[self modelName] stringByDeletingPathExtension]);
-}// end modelDisplayName
+} // end modelDisplayName
 
 
 // ========== modelName =========================================================
@@ -329,7 +323,7 @@
 - (NSString *)modelName
 {
     return(modelName);
-}// end modelName
+} // end modelName
 
 
 // ========== setModelName: =====================================================
@@ -344,7 +338,7 @@
     [modelName release];
     modelName = newModelName;
     [self sendMessageToObservers:MessageNameChanged];
-}// end setModelName:
+} // end setModelName:
 
 
 // ========== setModelDisplayName: ==============================================
@@ -363,7 +357,7 @@
     NSString *acceptableName = [LDrawMPDModel ldrawCompliantNameForName:newDisplayName];
 
     [self setModelName:acceptableName];
-}// end setModelDisplayName:
+} // end setModelDisplayName:
 
 
 #pragma mark -
@@ -385,8 +379,7 @@
     // Since LDraw is space-delimited, we can't have whitespace at the beginning
     // of the name. We'll chop of ending whitespace for good measure.
     acceptableName =
-        [newDisplayName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet
-         ]];
+        [newDisplayName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 
     // The LDraw spec demands that the model name end with a valid LDraw
     // extension. Yuck!
@@ -395,7 +388,7 @@
         acceptableName = [acceptableName stringByAppendingString:@".ldr"];
     }
     return(acceptableName);
-}// end ldrawCompliantNameForName:
+} // end ldrawCompliantNameForName:
 
 
 // ========== lineIsMPDModelStart:modelName: ====================================
@@ -427,8 +420,7 @@
         // Extract MPD-specific data: the submodel name.
         // Leading and trailing whitespace is ignored, in keeping with the rules
         // for parsing file references (type 1 lines)
-        *modelNamePtr =
-            [workingLine stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        *modelNamePtr = [workingLine stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     }
 
     return(isMPDModel);
@@ -466,7 +458,7 @@
 - (void)registerUndoActions:(NSUndoManager *)undoManager
 {
     LDrawFile *enclosingFile = [self enclosingFile];
-    NSString  *oldName       = [self modelName];
+    NSString  *oldName = [self modelName];
 
     [super registerUndoActions:undoManager];
 
@@ -475,13 +467,12 @@
     // their names too. That operation is the responsibility of the LDrawFile,
     // not us.
     if (enclosingFile != nil) {
-        [[undoManager prepareWithInvocationTarget:enclosingFile]
-         renameModel:self toName:oldName];
+        [[undoManager prepareWithInvocationTarget:enclosingFile] renameModel:self toName:oldName];
     }
     else {
         [[undoManager prepareWithInvocationTarget:self] setModelName:oldName];
     }
-}// end registerUndoActions:
+} // end registerUndoActions:
 
 
 #pragma mark -
@@ -498,7 +489,6 @@
     [modelName release];
 
     [super dealloc];
-}// end dealloc
-
+} // end dealloc
 
 @end

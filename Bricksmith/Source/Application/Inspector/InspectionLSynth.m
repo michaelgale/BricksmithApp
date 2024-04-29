@@ -19,7 +19,6 @@
 #import "LDrawGLView.h"
 
 @implementation InspectionLSynth
-
 // @synthesize typePopup;
 
 
@@ -37,7 +36,7 @@
     }
 
     return(self);
-}// end init
+} // end init
 
 
 #pragma mark -
@@ -58,20 +57,17 @@
     NSArray      *types    = [self typesForLSynthClass:classType];
 
     [representedObject setLsynthClass:(int)[[lsynthClassChooserMatrix selectedCell] tag]];
-    [representedObject setLsynthType:[[types objectAtIndex:[typePopup indexOfSelectedItem]]
-                                      valueForKey:
-                                      @"LSYNTH_TYPE"]];
+    [representedObject setLsynthType:[[types objectAtIndex:[typePopup indexOfSelectedItem]] valueForKey:
+    @"LSYNTH_TYPE"]];
 
     // Change all constraints to the default one
     for (LDrawDirective *directive in [representedObject subdirectives]) {
         if ([directive isKindOfClass:[LDrawPart class]]) {
             if ([[sender selectedCell] tag] == LSYNTH_BAND) {
-                [(LDrawPart *) directive
-                 setDisplayName:[LSynthConfiguration defaultBandConstraint]];
+                [(LDrawPart *) directive setDisplayName:[LSynthConfiguration defaultBandConstraint]];
             }
             else if ([[sender selectedCell] tag] == LSYNTH_HOSE) {
-                [(LDrawPart *) directive
-                 setDisplayName:[LSynthConfiguration defaultHoseConstraint]];
+                [(LDrawPart *) directive setDisplayName:[LSynthConfiguration defaultHoseConstraint]];
             }
 
             // Maybe update the constraint icons (e.g. if the part class has changed)
@@ -83,7 +79,7 @@
     [representedObject invalCache:ContainerInvalid];
 
     [super commitChanges:sender];
-}// end commitChanges:
+} // end commitChanges:
 
 
 // ========== setObject: ========================================================
@@ -119,7 +115,7 @@
 
     // Set the synthesized part count
     [synthesizedPartCount setStringValue:[NSString stringWithFormat:@"(approx. %i pieces)",
-                                          [representedObject synthesizedPartsCount]]];
+    [representedObject synthesizedPartsCount]]];
 
     // Set the Type label
     [self updateSynthTypeLabel:[representedObject lsynthClass]];
@@ -138,7 +134,7 @@
     [self populateDefaultConstraint:[representedObject lsynthClass]];
 
     [super revert:sender];
-}// end revert:
+} // end revert:
 
 
 #pragma mark -
@@ -186,25 +182,26 @@
 
     // Get the default constraint, dependent on class
     if (classTag == LSYNTH_BAND) {
-        constraints       = [[LSynthConfiguration sharedInstance] getBandConstraints];
+        constraints = [[LSynthConfiguration sharedInstance] getBandConstraints];
         defaultConstraint = [LSynthConfiguration defaultBandConstraint];
     }
     else if (classTag == LSYNTH_HOSE) {
-        constraints       = [[LSynthConfiguration sharedInstance] getHoseConstraints];
+        constraints = [[LSynthConfiguration sharedInstance] getHoseConstraints];
         defaultConstraint = [LSynthConfiguration defaultHoseConstraint];
     }
     // For a complete Part the constraints depend on the part class.  Handily we worked this
     // out when we read in the LSynth config.
     else if (classTag == LSYNTH_PART) {
-        NSArray      *types    = [self typesForLSynthClass:classTag];
+        NSArray *types = [self typesForLSynthClass:classTag];
         LSynthClassT partClass =
-            (int)[[[types objectAtIndex:[typePopup indexOfSelectedItem]] valueForKey:@"LSYNTH_CLASS"] integerValue];
+            (int)[[[types objectAtIndex:[typePopup indexOfSelectedItem]] valueForKey:@"LSYNTH_CLASS"]
+            integerValue];
         if (partClass == LSYNTH_BAND) {
-            constraints       = [[LSynthConfiguration sharedInstance] getBandConstraints];
+            constraints = [[LSynthConfiguration sharedInstance] getBandConstraints];
             defaultConstraint = [LSynthConfiguration defaultBandConstraint];
         }
         else if (partClass == LSYNTH_HOSE) {
-            constraints       = [[LSynthConfiguration sharedInstance] getHoseConstraints];
+            constraints = [[LSynthConfiguration sharedInstance] getHoseConstraints];
             defaultConstraint = [LSynthConfiguration defaultHoseConstraint];
         }
     }
@@ -223,7 +220,7 @@
 
             // ... selecting the default one
             if ([[[constraint valueForKey:@"partName"] uppercaseString] isEqualToString:[defaultConstraint
-                                                                                         uppercaseString]]) {
+                uppercaseString]]) {
                 [constraintDefaultPopup selectItemAtIndex:index];
             }
             index++;
@@ -300,13 +297,14 @@
 // TODO: Our defaults are arbitrary but could be preferences
 //
 // ==============================================================================
-- (IBAction)makeConstraintsDefaultForClass:(id)sender {
+- (IBAction)makeConstraintsDefaultForClass:(id)sender
+{
     LDrawLSynth *representedObject = [self object];
 
     for (LDrawDirective *directive in [representedObject subdirectives]) {
         if ([directive isKindOfClass:[LDrawPart class]]) {
-            [(LDrawPart *) directive
-             setDisplayName:[[[constraintDefaultPopup selectedItem] representedObject] valueForKey:@"partName"]];
+            [(LDrawPart *) directive setDisplayName:[[[constraintDefaultPopup selectedItem] representedObject]
+            valueForKey:@"partName"]];
         }
     }
 
@@ -357,7 +355,7 @@
     }
 
     return(nil);
-}// end typesForLSynthClass:
+} // end typesForLSynthClass:
 
 
 // ========== updateSynthTypeLabel: =============================================
@@ -389,10 +387,10 @@
 // Purpose:		Cockle warming for larger ladies
 //
 // ==============================================================================
-- (void)dealloc {
+- (void)dealloc
+{
     // [typePopup release];
     [super dealloc];
-}// end dealloc
-
+} // end dealloc
 
 @end

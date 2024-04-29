@@ -42,7 +42,7 @@
     self = [super init];
     [self setStringValue:@""];
     return(self);
-}// end init
+} // end init
 
 
 // ========== initWithLines:inRange:parentGroup: ================================
@@ -60,16 +60,14 @@
 // than the receiver.
 //
 // ==============================================================================
-- (id)initWithLines:(NSArray *)lines
-    inRange:(NSRange)range
-    parentGroup:(dispatch_group_t)parentGroup
+- (id)initWithLines:(NSArray *)lines inRange:(NSRange)range parentGroup:(dispatch_group_t)parentGroup
 {
     self = [super init];
 
-    LDrawMetaCommand *directive   = nil;
-    NSString         *parsedField = nil;
-    NSString         *firstLine   = [lines objectAtIndex:range.location];
-    NSScanner        *scanner     = [NSScanner scannerWithString:firstLine];
+    LDrawMetaCommand *directive = nil;
+    NSString  *parsedField = nil;
+    NSString  *firstLine   = [lines objectAtIndex:range.location];
+    NSScanner *scanner     = [NSScanner scannerWithString:firstLine];
     int  lineCode      = 0;
     BOOL gotLineCode   = 0;
     int  metaLineStart = 0;
@@ -81,8 +79,7 @@
     @try
     {
         // skip leading whitespace
-        [scanner scanCharactersFromSet:[NSCharacterSet whitespaceCharacterSet]
-         intoString:nil];
+        [scanner scanCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:nil];
 
         // Read in the line code and advance past it.
         gotLineCode = [scanner scanInt:&lineCode];
@@ -92,17 +89,15 @@
             // itself, and thus the syntax of the rest of the line. However, the
             // first word might not be a recognized command. It might not even
             // be anything. "0\n" is perfectly valid LDraw.
-            [scanner scanCharactersFromSet:[NSCharacterSet whitespaceCharacterSet]
-             intoString:nil];
+            [scanner scanCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:nil];
             metaLineStart = (int)[scanner scanLocation];
 
-            [scanner scanUpToCharactersFromSet:[NSCharacterSet whitespaceCharacterSet]
-             intoString:&parsedField];
+            [scanner scanUpToCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:&parsedField];
 
             // Comment?
-            if ([parsedField isEqualToString:LDRAW_COMMENT_SLASH]
-                || [parsedField isEqualToString:LDRAW_COMMENT_WRITE]
-                || [parsedField isEqualToString:LDRAW_COMMENT_PRINT]) {
+            if ([parsedField isEqualToString:LDRAW_COMMENT_SLASH] ||
+                [parsedField isEqualToString:LDRAW_COMMENT_WRITE] ||
+                [parsedField isEqualToString:LDRAW_COMMENT_PRINT]) {
                 directive = [[LDrawComment alloc] init];
             }
             // Color Definition?
@@ -134,9 +129,8 @@
         }
         else {
             // nonzero linetype!
-            @throw [NSException exceptionWithName:@"BricksmithParseException"
-                    reason:@"Bad metacommand syntax"
-                    userInfo:nil];
+            @throw [NSException exceptionWithName:@"BricksmithParseException" reason:@"Bad metacommand syntax"
+                   userInfo:nil];
         }
     }
     @catch (NSException *exception)
@@ -150,7 +144,7 @@
     self = nil;
 
     return(directive);
-}// end initWithLines:inRange:
+} // end initWithLines:inRange:
 
 
 // ========== initWithCoder: ====================================================
@@ -167,7 +161,7 @@
     commandString = [[decoder decodeObjectForKey:@"commandString"] retain];
 
     return(self);
-}// end initWithCoder:
+} // end initWithCoder:
 
 
 // ========== encodeWithCoder: ==================================================
@@ -181,9 +175,8 @@
 {
     [super encodeWithCoder:encoder];
 
-    [encoder encodeObject:commandString
-     forKey:@"commandString"];
-}// end encodeWithCoder:
+    [encoder encodeObject:commandString forKey:@"commandString"];
+} // end encodeWithCoder:
 
 
 // ========== copyWithZone: =====================================================
@@ -198,7 +191,7 @@
     [copied setStringValue:[self stringValue]];
 
     return(copied);
-}// end copyWithZone:
+} // end copyWithZone:
 
 
 // ========== finishParsing: ====================================================
@@ -215,7 +208,7 @@
     // LDrawMetaCommand itself doesn't have any special syntax, so we shouldn't
     // be getting any in this method.
     return(NO);
-}// end finishParsing:
+} // end finishParsing:
 
 
 #pragma mark -
@@ -230,7 +223,7 @@
 - (void)draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)parentColor
 {
     // Nothing to do here.
-}// end draw:viewScale:parentColor:
+} // end draw:viewScale:parentColor:
 
 
 // ========== write =============================================================
@@ -242,12 +235,8 @@
 // ==============================================================================
 - (NSString *)write
 {
-    return([NSString stringWithFormat:
-            @"0 %@",
-            [self stringValue]
-
-           ]);
-}// end write
+    return([NSString stringWithFormat:@"0 %@", [self stringValue]]);
+} // end write
 
 
 #pragma mark -
@@ -264,7 +253,7 @@
 {
 // return NSLocalizedString(@"Unknown Metacommand", nil);
     return(commandString);
-}// end browsingDescription
+} // end browsingDescription
 
 
 // ========== iconName ==========================================================
@@ -276,7 +265,7 @@
 - (NSString *)iconName
 {
     return(@"Unknown");
-}// end iconName
+} // end iconName
 
 
 // ========== inspectorClassName ================================================
@@ -287,7 +276,7 @@
 - (NSString *)inspectorClassName
 {
     return(@"InspectionUnknownCommand");
-}// end inspectorClassName
+} // end inspectorClassName
 
 
 #pragma mark -
@@ -305,7 +294,7 @@
     [commandString release];
 
     commandString = newString;
-}// end setStringValue:
+} // end setStringValue:
 
 
 // ========== stringValue =======================================================
@@ -316,7 +305,7 @@
 - (NSString *)stringValue
 {
     return(commandString);
-}// end stringValue
+} // end stringValue
 
 
 #pragma mark -
@@ -337,7 +326,7 @@
 
     // [undoManager setActionName:NSLocalizedString(@"UndoAttributesLine", nil)];
     // (unused for this class; a plain "Undo" will probably be less confusing.)
-}// end registerUndoActions:
+} // end registerUndoActions:
 
 
 #pragma mark -
@@ -354,7 +343,6 @@
     [commandString release];
 
     [super dealloc];
-}// end dealloc
-
+} // end dealloc
 
 @end

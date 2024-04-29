@@ -107,7 +107,7 @@ void LDrawBDPDestroy(struct LDrawBDP *pool)
         free(k);
     }
     free(pool);
-}// end LDrawBDPDestroy
+} // end LDrawBDPDestroy
 
 
 // ========== LDrawBDPAllocate ====================================================
@@ -119,7 +119,7 @@ void LDrawBDPDestroy(struct LDrawBDP *pool)
 // requested is large.
 //
 // ================================================================================
-void *          LDrawBDPAllocate(struct LDrawBDP *pool, size_t sz)
+void *LDrawBDPAllocate(struct LDrawBDP *pool, size_t sz)
 {
     struct BDPPage *page = pool->cur;
 
@@ -133,7 +133,7 @@ void *          LDrawBDPAllocate(struct LDrawBDP *pool, size_t sz)
         // Oversized case - we make a custom-sized page for this one allocation
         // and pop it on the head of the list - the tail stays open - maybe
         // it still has space.
-        char *raw_buf           = (char *)malloc(sizeof(struct BDPPageHeader) + sz);
+        char *raw_buf = (char *)malloc(sizeof(struct BDPPageHeader) + sz);
         struct BDPPageHeader *h = (struct BDPPageHeader *)raw_buf;
         h->next     = pool->first;
         h->cur      = h->end = raw_buf + sizeof(struct BDPPageHeader) + sz;
@@ -149,7 +149,7 @@ void *          LDrawBDPAllocate(struct LDrawBDP *pool, size_t sz)
 
         void *ret = np->header.cur;
         np->header.cur += sz;
-        pool->cur       = np;
+        pool->cur = np;
         return(ret);
     }
-}// end LDrawBDPAllocate
+} // end LDrawBDPAllocate

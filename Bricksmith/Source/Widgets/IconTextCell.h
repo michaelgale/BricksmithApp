@@ -16,8 +16,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 @interface IconTextCell : NSTextFieldCell
 {
-    @private
-    NSImage *image;
+    @private NSImage *image;
     CGFloat imagePadding; // amount of space to the left and right of the image.
     BOOL    verticallyCentersTitle;
 }

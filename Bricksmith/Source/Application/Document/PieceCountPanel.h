@@ -18,7 +18,7 @@
 
 @interface PieceCountPanel : DialogPanel
 {
-    LDrawFile      *file;
+    LDrawFile *file;
     LDrawMPDModel  *activeModel;
     PartReport     *partReport;
     NSMutableArray *flattenedReport;

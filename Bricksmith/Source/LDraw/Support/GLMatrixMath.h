@@ -41,25 +41,25 @@ void buildRotationMatrix(GLfloat m[16], GLfloat angle, GLfloat x, GLfloat y, GLf
 void buildTranslationMatrix(GLfloat m[16], GLfloat x, GLfloat y, GLfloat z);
 void buildIdentity(GLfloat m[16]);
 void buildOrthoMatrix(GLfloat m[16],
-                      GLfloat left,
-                      GLfloat right,
-                      GLfloat bottom,
-                      GLfloat top,
-                      GLfloat zNear,
-                      GLfloat zFar);
+    GLfloat                   left,
+    GLfloat                   right,
+    GLfloat                   bottom,
+    GLfloat                   top,
+    GLfloat                   zNear,
+    GLfloat                   zFar);
 void buildFrustumMatrix(GLfloat m[16],
-                        GLfloat left,
-                        GLfloat right,
-                        GLfloat bottom,
-                        GLfloat top,
-                        GLfloat zNear,
-                        GLfloat zFar);
+    GLfloat                     left,
+    GLfloat                     right,
+    GLfloat                     bottom,
+    GLfloat                     top,
+    GLfloat                     zNear,
+    GLfloat                     zFar);
 
 void applyRotationMatrix(GLfloat m[16], GLfloat angle, GLfloat x, GLfloat y, GLfloat z);
 
 
 void meshToClipbox(GLfloat *vertices, int vcount, const int *lines, const GLfloat m[16],
-                   GLfloat out_aabb_ndc[6]);
+    GLfloat out_aabb_ndc[6]);
 void aabbToClipbox(const GLfloat aabb_mv[6], const GLfloat m[16], GLfloat aabb_ndc[6]);
 
 int clipTriangle(const GLfloat in_tri[12], GLfloat out_tri[18]);

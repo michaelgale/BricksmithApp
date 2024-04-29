@@ -55,20 +55,18 @@ NSString *PART_KEYWORDS_KEY = @"Keywords";
 NSString *VERSION_KEY = @"Version";
 NSString *COMPATIBILITY_VERSION_KEY = @"CompatibilityVersion";
 
-NSString *CategoryNameKey        = @"Name";
+NSString *CategoryNameKey = @"Name";
 NSString *CategoryDisplayNameKey = @"DisplayName";
 NSString *CategoryChildrenKey    = @"Children";
 
-NSString *Category_All        = @"AllCategories";
+NSString *Category_All = @"AllCategories";
 NSString *Category_Favorites  = @"Favorites";
 NSString *Category_Alias      = @"Alias";
 NSString *Category_Moved      = @"Moved";
 NSString *Category_Primitives = @"Primitives";
 NSString *Category_Subparts   = @"Subparts";
 
-@implementation PartLibrary
-
-static PartLibrary *SharedPartLibrary = nil;
+@implementation PartLibrary static PartLibrary *SharedPartLibrary = nil;
 
 // ---------- sharedPartLibrary ---------------------------------------[static]--
 //
@@ -86,7 +84,7 @@ static PartLibrary *SharedPartLibrary = nil;
     }
 
     return(SharedPartLibrary);
-}// end sharedPartLibrary
+} // end sharedPartLibrary
 
 
 // ========== init ==============================================================
@@ -98,10 +96,10 @@ static PartLibrary *SharedPartLibrary = nil;
 {
     self = [super init];
 
-    loadedFiles              = [[NSMutableDictionary dictionaryWithCapacity:400] retain];
-    loadedImages             = [[NSMutableDictionary alloc] init];
+    loadedFiles  = [[NSMutableDictionary dictionaryWithCapacity:400] retain];
+    loadedImages = [[NSMutableDictionary alloc] init];
     optimizedRepresentations = [[NSMutableDictionary dictionaryWithCapacity:400] retain];
-    optimizedTextures        = [[NSMutableDictionary alloc] init];
+    optimizedTextures = [[NSMutableDictionary alloc] init];
 
     favorites = [[NSMutableArray alloc] init];
 
@@ -113,7 +111,7 @@ static PartLibrary *SharedPartLibrary = nil;
     [self setPartCatalog:[NSDictionary dictionary]];
 
     return(self);
-}// end init
+} // end init
 
 
 #pragma mark -
@@ -131,7 +129,7 @@ static PartLibrary *SharedPartLibrary = nil;
 
     // all the reference numbers for parts.
     return([partList allValues]);
-}// end allPartCatalogRecords
+} // end allPartCatalogRecords
 
 
 // ========== categories ========================================================
@@ -143,7 +141,7 @@ static PartLibrary *SharedPartLibrary = nil;
 - (NSArray *)categories
 {
     return([[self->partCatalog objectForKey:PARTS_CATALOG_KEY] allKeys]);
-}// end categories
+} // end categories
 
 
 // ========== categoryHierarchy =================================================
@@ -156,78 +154,54 @@ static PartLibrary *SharedPartLibrary = nil;
     NSMutableArray *fullCategoryList = [NSMutableArray array];
     NSMutableArray *libraryItems     = [NSMutableArray array];
     NSMutableArray *categoryItems    = [NSMutableArray array];
-    NSMutableArray *otherItems       = [NSMutableArray array];
+    NSMutableArray *otherItems = [NSMutableArray array];
 
     // Library group
-    [libraryItems addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                             Category_All, CategoryNameKey,
-                             [self displayNameForCategory:Category_All], CategoryDisplayNameKey,
-                             nil]];
+    [libraryItems addObject:[NSDictionary dictionaryWithObjectsAndKeys:Category_All, CategoryNameKey,
+    [self displayNameForCategory:Category_All], CategoryDisplayNameKey, nil]];
 
-    [libraryItems addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                             Category_Favorites, CategoryNameKey,
-                             [self displayNameForCategory:Category_Favorites], CategoryDisplayNameKey,
-                             nil]];
+    [libraryItems addObject:[NSDictionary dictionaryWithObjectsAndKeys:Category_Favorites, CategoryNameKey,
+    [self displayNameForCategory:Category_Favorites], CategoryDisplayNameKey, nil]];
 
-    [fullCategoryList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                 @"Library", CategoryNameKey,
-                                 NSLocalizedString(@"CategoryGroup_Library", nil),
-                                 CategoryDisplayNameKey,
-                                 libraryItems, CategoryChildrenKey,
-                                 nil]];
+    [fullCategoryList addObject:[NSDictionary dictionaryWithObjectsAndKeys:@"Library", CategoryNameKey,
+    NSLocalizedString(@"CategoryGroup_Library", nil), CategoryDisplayNameKey, libraryItems,
+    CategoryChildrenKey, nil]];
 
     // Main categories
     NSArray *categories = [[self categories] sortedArrayUsingSelector:@selector(compare:)];
 
     for (NSString *name in categories) {
-        if ([name isEqualToString:Category_Alias] == NO &&
-            [name isEqualToString:Category_Moved] == NO &&
+        if ([name isEqualToString:Category_Alias] == NO && [name isEqualToString:Category_Moved] == NO &&
             [name isEqualToString:Category_Primitives] == NO &&
             [name isEqualToString:Category_Subparts] == NO) {
-            [categoryItems addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                      name, CategoryNameKey,
-                                      [self displayNameForCategory:name], CategoryDisplayNameKey,
-                                      nil]];
+            [categoryItems addObject:[NSDictionary dictionaryWithObjectsAndKeys:name, CategoryNameKey,
+            [self displayNameForCategory:name], CategoryDisplayNameKey, nil]];
         }
     }
-    [fullCategoryList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                 @"Part Categories", CategoryNameKey,
-                                 NSLocalizedString(@"CategoryGroup_PartCategories", nil),
-                                 CategoryDisplayNameKey,
-                                 categoryItems, CategoryChildrenKey,
-                                 nil]];
+    [fullCategoryList addObject:[NSDictionary dictionaryWithObjectsAndKeys:@"Part Categories",
+    CategoryNameKey, NSLocalizedString(@"CategoryGroup_PartCategories", nil), CategoryDisplayNameKey,
+    categoryItems, CategoryChildrenKey, nil]];
 
     // Other categories
 
-    [otherItems addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                           Category_Alias, CategoryNameKey,
-                           [self displayNameForCategory:Category_Alias], CategoryDisplayNameKey,
-                           nil]];
+    [otherItems addObject:[NSDictionary dictionaryWithObjectsAndKeys:Category_Alias, CategoryNameKey,
+    [self displayNameForCategory:Category_Alias], CategoryDisplayNameKey, nil]];
 
-    [otherItems addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                           Category_Moved, CategoryNameKey,
-                           [self displayNameForCategory:Category_Moved], CategoryDisplayNameKey,
-                           nil]];
+    [otherItems addObject:[NSDictionary dictionaryWithObjectsAndKeys:Category_Moved, CategoryNameKey,
+    [self displayNameForCategory:Category_Moved], CategoryDisplayNameKey, nil]];
 
-    [otherItems addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                           Category_Primitives, CategoryNameKey,
-                           [self displayNameForCategory:Category_Primitives], CategoryDisplayNameKey,
-                           nil]];
+    [otherItems addObject:[NSDictionary dictionaryWithObjectsAndKeys:Category_Primitives, CategoryNameKey,
+    [self displayNameForCategory:Category_Primitives], CategoryDisplayNameKey, nil]];
 
-    [otherItems addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                           Category_Subparts, CategoryNameKey,
-                           [self displayNameForCategory:Category_Subparts], CategoryDisplayNameKey,
-                           nil]];
+    [otherItems addObject:[NSDictionary dictionaryWithObjectsAndKeys:Category_Subparts, CategoryNameKey,
+    [self displayNameForCategory:Category_Subparts], CategoryDisplayNameKey, nil]];
 
-    [fullCategoryList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                 @"Other", CategoryNameKey,
-                                 NSLocalizedString(@"CategoryGroup_Other", nil),
-                                 CategoryDisplayNameKey,
-                                 otherItems, CategoryChildrenKey,
-                                 nil]];
+    [fullCategoryList addObject:[NSDictionary dictionaryWithObjectsAndKeys:@"Other", CategoryNameKey,
+    NSLocalizedString(@"CategoryGroup_Other", nil), CategoryDisplayNameKey, otherItems, CategoryChildrenKey,
+    nil]];
 
     return(fullCategoryList);
-}// end categoryHierarchy
+} // end categoryHierarchy
 
 
 // ========== categoryForPartName: ==============================================
@@ -254,7 +228,7 @@ static PartLibrary *SharedPartLibrary = nil;
 - (NSArray *)favoritePartNames
 {
     return(self->favorites);
-}// end favoritePartNames
+} // end favoritePartNames
 
 
 // ========== displayNameForCategory: ===========================================
@@ -300,7 +274,7 @@ static PartLibrary *SharedPartLibrary = nil;
     }
 
     return(parts);
-}// end favoritePartNames
+} // end favoritePartNames
 
 
 // ========== partCatalogRecordsInCategory: =====================================
@@ -323,12 +297,11 @@ static PartLibrary *SharedPartLibrary = nil;
         parts = [self favoritePartCatalogRecords];
     }
     else {
-        NSArray *category =
-            [[partCatalog objectForKey:PARTS_CATALOG_KEY] objectForKey:categoryName];
-        NSDictionary   *partList        = [self->partCatalog objectForKey:PARTS_LIST_KEY];
+        NSArray *category = [[partCatalog objectForKey:PARTS_CATALOG_KEY] objectForKey:categoryName];
+        NSDictionary   *partList = [self->partCatalog objectForKey:PARTS_LIST_KEY];
         NSMutableArray *partsInCategory = [NSMutableArray array];
-        NSString       *partName        = nil;
-        NSDictionary   *partInfo        = nil;
+        NSString       *partName = nil;
+        NSDictionary   *partInfo = nil;
 
         for (NSDictionary *categoryRecord in category) {
             partName = [categoryRecord objectForKey:PART_NUMBER_KEY];
@@ -343,7 +316,7 @@ static PartLibrary *SharedPartLibrary = nil;
     }
 
     return(parts);
-}// end partCatalogRecordsInCategory:
+} // end partCatalogRecordsInCategory:
 
 
 #pragma mark -
@@ -411,10 +384,9 @@ static PartLibrary *SharedPartLibrary = nil;
     partCatalog = newCatalog;
 
     // Inform any open parts browsers of the change.
-    [[NSNotificationCenter defaultCenter]
-     postNotificationName:LDrawPartLibraryDidChangeNotification
-     object:self];
-}// end setPartCatalog
+    [[NSNotificationCenter defaultCenter] postNotificationName:LDrawPartLibraryDidChangeNotification object:
+    self];
+} // end setPartCatalog
 
 
 #pragma mark -
@@ -432,11 +404,11 @@ static PartLibrary *SharedPartLibrary = nil;
 // ==============================================================================
 - (BOOL)load
 {
-    NSFileManager *fileManager    = [[[NSFileManager alloc] init] autorelease];
-    NSString      *catalogPath    = [[LDrawPaths sharedPaths] partCatalogPath];
-    BOOL          partsListExists = NO;
-    NSString      *version        = nil;
-    NSDictionary  *newCatalog     = nil;
+    NSFileManager *fileManager = [[[NSFileManager alloc] init] autorelease];
+    NSString      *catalogPath = [[LDrawPaths sharedPaths] partCatalogPath];
+    BOOL partsListExists     = NO;
+    NSString *version        = nil;
+    NSDictionary *newCatalog = nil;
 
     // Do we have an LDraw folder?
     if (catalogPath != nil) {
@@ -460,7 +432,7 @@ static PartLibrary *SharedPartLibrary = nil;
     }
 
     return(partsListExists);
-}// end load
+} // end load
 
 
 // ========== reloadParts: ======================================================
@@ -510,95 +482,67 @@ static PartLibrary *SharedPartLibrary = nil;
 
 
     // Parts
-    [searchPaths addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                            [sharedPaths partsPathForDomain:LDrawUserOfficial], @"path",
-                            nil]];
+    [searchPaths addObject:[NSDictionary dictionaryWithObjectsAndKeys:[sharedPaths partsPathForDomain:
+    LDrawUserOfficial], @"path", nil]];
 
-    [searchPaths addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                            [sharedPaths partsPathForDomain:LDrawUserUnofficial], @"path",
-                            nil]];
+    [searchPaths addObject:[NSDictionary dictionaryWithObjectsAndKeys:[sharedPaths partsPathForDomain:
+    LDrawUserUnofficial], @"path", nil]];
 
-    [searchPaths addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                            [sharedPaths partsPathForDomain:LDrawInternalOfficial], @"path",
-                            nil]];
+    [searchPaths addObject:[NSDictionary dictionaryWithObjectsAndKeys:[sharedPaths partsPathForDomain:
+    LDrawInternalOfficial], @"path", nil]];
 
-    [searchPaths addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                            [sharedPaths partsPathForDomain:LDrawInternalUnofficial], @"path",
-                            nil]];
+    [searchPaths addObject:[NSDictionary dictionaryWithObjectsAndKeys:[sharedPaths partsPathForDomain:
+    LDrawInternalUnofficial], @"path", nil]];
 
     // Primitives
-    [searchPaths addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                            [sharedPaths primitivesPathForDomain:LDrawUserOfficial], @"path",
-                            NSLocalizedString(Category_Primitives, nil), @"category",
-                            nil]];
+    [searchPaths addObject:[NSDictionary dictionaryWithObjectsAndKeys:[sharedPaths primitivesPathForDomain:
+    LDrawUserOfficial], @"path", NSLocalizedString(Category_Primitives, nil), @"category", nil]];
 
-    [searchPaths addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                            [sharedPaths primitivesPathForDomain:LDrawUserUnofficial], @"path",
-                            NSLocalizedString(Category_Primitives, nil), @"category",
-                            nil]];
+    [searchPaths addObject:[NSDictionary dictionaryWithObjectsAndKeys:[sharedPaths primitivesPathForDomain:
+    LDrawUserUnofficial], @"path", NSLocalizedString(Category_Primitives, nil), @"category", nil]];
 
-    [searchPaths addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                            [sharedPaths primitivesPathForDomain:LDrawInternalOfficial], @"path",
-                            NSLocalizedString(Category_Primitives, nil), @"category",
-                            nil]];
+    [searchPaths addObject:[NSDictionary dictionaryWithObjectsAndKeys:[sharedPaths primitivesPathForDomain:
+    LDrawInternalOfficial], @"path", NSLocalizedString(Category_Primitives, nil), @"category", nil]];
 
-    [searchPaths addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                            [sharedPaths primitivesPathForDomain:LDrawInternalUnofficial], @"path",
-                            NSLocalizedString(Category_Primitives, nil), @"category",
-                            nil]];
+    [searchPaths addObject:[NSDictionary dictionaryWithObjectsAndKeys:[sharedPaths primitivesPathForDomain:
+    LDrawInternalUnofficial], @"path", NSLocalizedString(Category_Primitives, nil), @"category", nil]];
 
     // Primitives 48
-    [searchPaths addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                            [sharedPaths primitives48PathForDomain:LDrawUserOfficial], @"path",
-                            NSLocalizedString(Category_Primitives, nil), @"category",
-                            prefix_primitives48, @"prefix",
-                            nil]];
+    [searchPaths addObject:[NSDictionary dictionaryWithObjectsAndKeys:[sharedPaths primitives48PathForDomain:
+    LDrawUserOfficial], @"path", NSLocalizedString(Category_Primitives, nil), @"category",
+    prefix_primitives48, @"prefix", nil]];
 
-    [searchPaths addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                            [sharedPaths primitives48PathForDomain:LDrawUserUnofficial], @"path",
-                            NSLocalizedString(Category_Primitives, nil), @"category",
-                            prefix_primitives48, @"prefix",
-                            nil]];
+    [searchPaths addObject:[NSDictionary dictionaryWithObjectsAndKeys:[sharedPaths primitives48PathForDomain:
+    LDrawUserUnofficial], @"path", NSLocalizedString(Category_Primitives, nil), @"category",
+    prefix_primitives48, @"prefix", nil]];
 
-    [searchPaths addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                            [sharedPaths primitives48PathForDomain:LDrawInternalOfficial], @"path",
-                            NSLocalizedString(Category_Primitives, nil), @"category",
-                            prefix_primitives48, @"prefix",
-                            nil]];
+    [searchPaths addObject:[NSDictionary dictionaryWithObjectsAndKeys:[sharedPaths primitives48PathForDomain:
+    LDrawInternalOfficial], @"path", NSLocalizedString(Category_Primitives, nil), @"category",
+    prefix_primitives48, @"prefix", nil]];
 
-    [searchPaths addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                            [sharedPaths primitives48PathForDomain:LDrawInternalUnofficial], @"path",
-                            NSLocalizedString(Category_Primitives, nil), @"category",
-                            prefix_primitives48, @"prefix",
-                            nil]];
+    [searchPaths addObject:[NSDictionary dictionaryWithObjectsAndKeys:[sharedPaths primitives48PathForDomain:
+    LDrawInternalUnofficial], @"path", NSLocalizedString(Category_Primitives, nil), @"category",
+    prefix_primitives48, @"prefix", nil]];
 
     // Subparts
-    [searchPaths addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                            [sharedPaths subpartsPathForDomain:LDrawUserOfficial], @"path",
-                            NSLocalizedString(Category_Subparts, nil), @"category",
-                            prefix_subparts, @"prefix",
-                            nil]];
+    [searchPaths addObject:[NSDictionary dictionaryWithObjectsAndKeys:[sharedPaths subpartsPathForDomain:
+    LDrawUserOfficial], @"path", NSLocalizedString(Category_Subparts, nil), @"category", prefix_subparts,
+    @"prefix", nil]];
 
-    [searchPaths addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                            [sharedPaths subpartsPathForDomain:LDrawUserUnofficial], @"path",
-                            NSLocalizedString(Category_Subparts, nil), @"category",
-                            prefix_subparts, @"prefix",
-                            nil]];
+    [searchPaths addObject:[NSDictionary dictionaryWithObjectsAndKeys:[sharedPaths subpartsPathForDomain:
+    LDrawUserUnofficial], @"path", NSLocalizedString(Category_Subparts, nil), @"category", prefix_subparts,
+    @"prefix", nil]];
 
-    [searchPaths addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                            [sharedPaths subpartsPathForDomain:LDrawInternalOfficial], @"path",
-                            NSLocalizedString(Category_Subparts, nil), @"category",
-                            prefix_subparts, @"prefix",
-                            nil]];
+    [searchPaths addObject:[NSDictionary dictionaryWithObjectsAndKeys:[sharedPaths subpartsPathForDomain:
+    LDrawInternalOfficial], @"path", NSLocalizedString(Category_Subparts, nil), @"category", prefix_subparts,
+    @"prefix", nil]];
 
-    [searchPaths addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                            [sharedPaths subpartsPathForDomain:LDrawInternalUnofficial], @"path",
-                            NSLocalizedString(Category_Subparts, nil), @"category",
-                            prefix_subparts, @"prefix",
-                            nil]];
+    [searchPaths addObject:[NSDictionary dictionaryWithObjectsAndKeys:[sharedPaths subpartsPathForDomain:
+    LDrawInternalUnofficial], @"path", NSLocalizedString(Category_Subparts, nil), @"category",
+    prefix_subparts, @"prefix", nil]];
 
-    NSString            *partCatalogPath = [sharedPaths partCatalogPath];
-    NSMutableDictionary *newPartCatalog  = [NSMutableDictionary dictionary];
+    NSString *partCatalogPath = [sharedPaths partCatalogPath];
+    NSMutableDictionary *newPartCatalog = [NSMutableDictionary dictionary];
 
     NSUInteger partCount = 0;
 
@@ -615,10 +559,9 @@ static PartLibrary *SharedPartLibrary = nil;
 
     // Scan for each part folder.
     for (NSDictionary *record in searchPaths) {
-        [self addPartsInFolder:[record objectForKey:@"path"]
-         toCatalog:newPartCatalog
-         underCategory:[record objectForKey:@"category"]     // override all internal categories
-         namePrefix:[record objectForKey:@"prefix"]];
+        [self addPartsInFolder:[record objectForKey:@"path"] toCatalog:newPartCatalog underCategory:[record
+        objectForKey:@"category"]                                // override all internal categories
+        namePrefix:[record objectForKey:@"prefix"]];
     }
 
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
@@ -634,7 +577,7 @@ static PartLibrary *SharedPartLibrary = nil;
 
     // We succeeded in loading the parts!
     return(YES);
-}// end reloadParts:
+} // end reloadParts:
 
 
 #pragma mark -
@@ -652,10 +595,9 @@ static PartLibrary *SharedPartLibrary = nil;
     [self saveFavoritesToUserDefaults];
 
     // Inform any open parts browsers of the change.
-    [[NSNotificationCenter defaultCenter]
-     postNotificationName:LDrawPartLibraryDidChangeNotification
-     object:self];
-}// end addPartNameToFavorites:
+    [[NSNotificationCenter defaultCenter] postNotificationName:LDrawPartLibraryDidChangeNotification object:
+    self];
+} // end addPartNameToFavorites:
 
 
 // ========== removePartNameFromFavorites: ======================================
@@ -669,10 +611,9 @@ static PartLibrary *SharedPartLibrary = nil;
     [self saveFavoritesToUserDefaults];
 
     // Inform any open parts browsers of the change.
-    [[NSNotificationCenter defaultCenter]
-     postNotificationName:LDrawPartLibraryDidChangeNotification
-     object:self];
-}// end removePartNameFromFavorites:
+    [[NSNotificationCenter defaultCenter] postNotificationName:LDrawPartLibraryDidChangeNotification object:
+    self];
+} // end removePartNameFromFavorites:
 
 
 // ========== saveFavoritesToUserDefaults =======================================
@@ -683,7 +624,7 @@ static PartLibrary *SharedPartLibrary = nil;
 - (void)saveFavoritesToUserDefaults
 {
     [self->delegate partLibrary:self didChangeFavorites:(self->favorites)];
-}// end saveFavoritesToUserDefaults
+} // end saveFavoritesToUserDefaults
 
 
 #pragma mark -
@@ -696,8 +637,7 @@ static PartLibrary *SharedPartLibrary = nil;
 // the given name to be loaded out of the LDraw folder.
 //
 // ==============================================================================
-- (void)loadImageForName:(NSString *)imageName
-    inGroup:(dispatch_group_t)parentGroup
+- (void)loadImageForName:(NSString *)imageName inGroup:(dispatch_group_t)parentGroup
 {
     // Determine if the model needs to be parsed.
     // Dispatch to a serial queue to effectively mutex the query
@@ -708,8 +648,8 @@ static PartLibrary *SharedPartLibrary = nil;
 		NSMutableArray  *requestingGroups   = nil;
 #endif
 /* *INDENT-ON* */
-    CGImageRef image          = NULL;
-    BOOL       alreadyParsing = NO;           // another thread is already parsing partName
+    CGImageRef image    = NULL;
+    BOOL alreadyParsing = NO; // another thread is already parsing partName
 
     // Already been parsed?
     image = (CGImageRef)[self->loadedImages objectForKey:imageName];
@@ -797,7 +737,7 @@ static PartLibrary *SharedPartLibrary = nil;
 	});
 #endif
 /* *INDENT-ON* */
-}// end loadImageForName:
+} // end loadImageForName:
 
 
 // ========== loadModelForName:inGroup: =========================================
@@ -806,8 +746,7 @@ static PartLibrary *SharedPartLibrary = nil;
 // name to be loaded out of the LDraw folder.
 //
 // ==============================================================================
-- (void)loadModelForName:(NSString *)partName
-    inGroup:(dispatch_group_t)parentGroup
+- (void)loadModelForName:(NSString *)partName inGroup:(dispatch_group_t)parentGroup
 {
     // Determine if the model needs to be parsed.
     // Dispatch to a serial queue to effectively mutex the query
@@ -818,8 +757,8 @@ static PartLibrary *SharedPartLibrary = nil;
 		NSMutableArray  *requestingGroups   = nil;
 #endif
 /* *INDENT-ON* */
-    LDrawModel *model         = nil;
-    BOOL       alreadyParsing = NO;           // another thread is already parsing partName
+    LDrawModel *model   = nil;
+    BOOL alreadyParsing = NO; // another thread is already parsing partName
 
     // Already been parsed?
     model = [self->loadedFiles objectForKey:partName];
@@ -903,7 +842,7 @@ static PartLibrary *SharedPartLibrary = nil;
 	});
 #endif
 /* *INDENT-ON* */
-}// end loadModelForName:
+} // end loadModelForName:
 
 
 // ========== imageForTextureName: ==============================================
@@ -913,7 +852,7 @@ static PartLibrary *SharedPartLibrary = nil;
 // ==============================================================================
 - (CGImageRef)imageForTextureName:(NSString *)imageName
 {
-    CGImageRef image      = NULL;
+    CGImageRef image = NULL;
     NSString   *imagePath = nil;
 
     // Has it already been parsed?
@@ -941,7 +880,7 @@ static PartLibrary *SharedPartLibrary = nil;
 - (CGImageRef)imageForTexture:(LDrawTexture *)texture
 {
     NSString   *imageName = [texture imageReferenceName];
-    CGImageRef image      = NULL;
+    CGImageRef image = NULL;
 
     // Try to get a live link if we have parsed this part off disk already.
     image = [self imageForTextureName:imageName];
@@ -953,7 +892,7 @@ static PartLibrary *SharedPartLibrary = nil;
     }
 
     return(image);
-}// end imageForTexture:
+} // end imageForTexture:
 
 
 // ========== imageFromNeighboringFileForTexture: ===============================
@@ -971,14 +910,14 @@ static PartLibrary *SharedPartLibrary = nil;
 // ==============================================================================
 - (CGImageRef)imageFromNeighboringFileForTexture:(LDrawTexture *)texture
 {
-    LDrawFile     *enclosingFile = [texture enclosingFile];
-    NSString      *filePath      = [enclosingFile path];
-    NSString      *fileDirectory = nil;
-    NSString      *imageName     = nil;
-    NSString      *testPath      = nil;
-    NSString      *imagePath     = nil;
-    CGImageRef    image          = nil;
-    NSFileManager *fileManager   = nil;
+    LDrawFile  *enclosingFile = [texture enclosingFile];
+    NSString   *filePath = [enclosingFile path];
+    NSString   *fileDirectory = nil;
+    NSString   *imageName     = nil;
+    NSString   *testPath  = nil;
+    NSString   *imagePath = nil;
+    CGImageRef image = nil;
+    NSFileManager *fileManager = nil;
 
     if (filePath != nil) {
         fileManager   = [[[NSFileManager alloc] init] autorelease];
@@ -1012,7 +951,7 @@ static PartLibrary *SharedPartLibrary = nil;
     }
 
     return(image);
-}// end imageFromNeighboringFileForTexture:
+} // end imageFromNeighboringFileForTexture:
 
 
 // ========== modelForName: =====================================================
@@ -1053,7 +992,7 @@ static PartLibrary *SharedPartLibrary = nil;
     }
 
     return(model);
-}// end modelForName
+} // end modelForName
 
 
 // ========== modelForPartInternal: =====================================================
@@ -1091,7 +1030,7 @@ static PartLibrary *SharedPartLibrary = nil;
     }
 
     return(model);
-}// end modelForPartInternal:
+} // end modelForPartInternal:
 
 
 // ========== modelForName_threadSafe: ==========================================
@@ -1139,11 +1078,10 @@ static PartLibrary *SharedPartLibrary = nil;
 // color.
 //
 // ==============================================================================
-- (LDrawDirective *)optimizedDrawableForPart:(LDrawPart *)part
-    color:(LDrawColor *)color
+- (LDrawDirective *)optimizedDrawableForPart:(LDrawPart *)part color:(LDrawColor *)color
 {
     assert(!"Not used.\n");
-}// end optimizedDrawableForPart:color:
+} // end optimizedDrawableForPart:color:
 
 
 // ========== textureTagForTexture: =============================================
@@ -1154,7 +1092,7 @@ static PartLibrary *SharedPartLibrary = nil;
 // ==============================================================================
 - (GLuint)textureTagForTexture:(LDrawTexture *)texture
 {
-    NSString *name      = [texture imageReferenceName];
+    NSString *name = [texture imageReferenceName];
     NSNumber *tagNumber = [self->optimizedTextures objectForKey:name];
     GLuint   textureTag = 0;
 
@@ -1165,24 +1103,19 @@ static PartLibrary *SharedPartLibrary = nil;
         CGImageRef image = [self imageForTexture:texture];
 
         if (image) {
-            CGRect canvasRect = CGRectMake(0,
-                                           0,
-                                           FloorPowerOfTwo(CGImageGetWidth(image)),
-                                           FloorPowerOfTwo(CGImageGetHeight(image)));
-            uint8_t *imageBuffer =
-                malloc((canvasRect.size.width) * (canvasRect.size.height) * 4);
+            CGRect canvasRect = CGRectMake(0, 0, FloorPowerOfTwo(CGImageGetWidth(image)),
+                    FloorPowerOfTwo(CGImageGetHeight(image)));
+            uint8_t *imageBuffer = malloc((canvasRect.size.width) * (canvasRect.size.height) * 4);
             CGColorSpaceRef colorSpace    = CGColorSpaceCreateDeviceRGB();
             CGContextRef    bitmapContext = CGBitmapContextCreate(imageBuffer,
-                                                                  canvasRect.size.width,
-                                                                  canvasRect.size.height,
-                                                                  8,
-                                                                  // bits per component
-                                                                  canvasRect.size.width * 4,
-                                                                  // bytes per row
-                                                                  colorSpace,
-                                                                  kCGBitmapByteOrder32Host |
-                                                                  kCGImageAlphaPremultipliedFirst
-                                                                  );
+                    canvasRect.size.width,
+                    canvasRect.size.height,
+                    8,
+                    // bits per component
+                    canvasRect.size.width * 4,
+                    // bytes per row
+                    colorSpace,
+                    kCGBitmapByteOrder32Host | kCGImageAlphaPremultipliedFirst);
 
             // Draw the image into the bitmap context. By doing so, we use the mighty
             // power of Quartz handle the nasty conversion details necessary to fill up
@@ -1209,9 +1142,9 @@ static PartLibrary *SharedPartLibrary = nil;
             glPixelStorei(GL_PACK_ALIGNMENT, 1); // byte alignment
 
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, // texture type params
-                         canvasRect.size.width, canvasRect.size.height, 0, // source image (w, h)
-                         GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, // source storage format
-                         imageBuffer);
+                canvasRect.size.width, canvasRect.size.height, 0, // source image (w, h)
+                GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV,             // source storage format
+                imageBuffer);
             // see function notes about the source storage format.
 
             // This requires GL_EXT_framebuffer_object, available on all renderers on 10.6.8 and beyond.
@@ -1263,10 +1196,8 @@ static PartLibrary *SharedPartLibrary = nil;
 // catalog.
 //
 // ==============================================================================
-- (void)addPartsInFolder:(NSString *)folderPath
-    toCatalog:(NSMutableDictionary *)catalog
-    underCategory:(NSString *)categoryOverride
-    namePrefix:(NSString *)namePrefix
+- (void)addPartsInFolder:(NSString *)folderPath toCatalog:(NSMutableDictionary *)catalog underCategory:(
+        NSString *)categoryOverride namePrefix:(NSString *)namePrefix
 {
     NSFileManager *fileManager = [[[NSFileManager alloc] init] autorelease];
 // Not working for some reason. Why?
@@ -1278,7 +1209,7 @@ static PartLibrary *SharedPartLibrary = nil;
     NSUInteger numberOfParts = [partNames count];
     NSUInteger counter;
 
-    NSString            *currentPath    = nil;
+    NSString *currentPath = nil;
     NSMutableDictionary *categoryRecord = nil;
 
     // Get the subreference tables out of the main catalog (they should already exist!).
@@ -1337,14 +1268,13 @@ static PartLibrary *SharedPartLibrary = nil;
                         // mistake; it should have been an array of part reference
                         // numbers, if not just built up at runtime.
                         NSDictionary *categoryEntry =
-                            [NSDictionary dictionaryWithObject:[categoryRecord objectForKey:PART_NUMBER_KEY] forKey:
-                             PART_NUMBER_KEY];
+                            [NSDictionary dictionaryWithObject:[categoryRecord objectForKey:PART_NUMBER_KEY]
+                            forKey:PART_NUMBER_KEY];
                         [catalog_category addObject:categoryEntry];
 
                         // Also file the part in a master list by reference name.
                         [catalog_partNumbers setObject:categoryRecord forKey:[categoryRecord objectForKey:
-                                                                              PART_NUMBER_KEY]
-                        ];
+                        PART_NUMBER_KEY]];
                     }
                     else {
                         // NSLog(@"Skipped part %s at path %s - duplicate part ID.\n", [partNumber UTF8String],[currentPath UTF8String]);
@@ -1355,8 +1285,8 @@ static PartLibrary *SharedPartLibrary = nil;
             }
         }
         [self->delegate partLibraryIncrementLoadProgressCount:self];
-    }// end loop through files
-}// end addPartsInFolder:toCatalog:underCategory:
+    } // end loop through files
+} // end addPartsInFolder:toCatalog:underCategory:
 
 
 // ========== categoryForDescription: ===========================================
@@ -1397,7 +1327,7 @@ static PartLibrary *SharedPartLibrary = nil;
         category = [category substringFromIndex:1];
     }
     return(category);
-}// end categoryForDescription:
+} // end categoryForDescription:
 
 
 // ========== descriptionForPart: ===============================================
@@ -1408,8 +1338,8 @@ static PartLibrary *SharedPartLibrary = nil;
 - (NSString *)descriptionForPart:(LDrawPart *)part
 {
     // Look up the verbose part description in the scanned part catalog.
-    NSDictionary *partList        = [self->partCatalog objectForKey:PARTS_LIST_KEY];
-    NSDictionary *partRecord      = [partList objectForKey:[part referenceName]];
+    NSDictionary *partList   = [self->partCatalog objectForKey:PARTS_LIST_KEY];
+    NSDictionary *partRecord = [partList objectForKey:[part referenceName]];
     NSString     *partDescription = [partRecord objectForKey:PART_NAME_KEY];
 
     // Maybe it's an MPD reference?
@@ -1423,7 +1353,7 @@ static PartLibrary *SharedPartLibrary = nil;
         partDescription = [part displayName];
     }
     return(partDescription);
-}// end descriptionForPart:
+} // end descriptionForPart:
 
 
 // ========== descriptionForPartName: ===========================================
@@ -1439,8 +1369,8 @@ static PartLibrary *SharedPartLibrary = nil;
 - (NSString *)descriptionForPartName:(NSString *)name
 {
     // Look up the verbose part description in the scanned part catalog.
-    NSDictionary *partList        = [self->partCatalog objectForKey:PARTS_LIST_KEY];
-    NSDictionary *partRecord      = [partList objectForKey:name];
+    NSDictionary *partList   = [self->partCatalog objectForKey:PARTS_LIST_KEY];
+    NSDictionary *partRecord = [partList objectForKey:name];
     NSString     *partDescription = [partRecord objectForKey:PART_NAME_KEY];
 
     // If the part isn't known, all we can really do is just display the number.
@@ -1448,7 +1378,7 @@ static PartLibrary *SharedPartLibrary = nil;
         partDescription = name;
     }
     return(partDescription);
-}// end descriptionForPartName:
+} // end descriptionForPartName:
 
 
 // ========== catalogInfoForFileAtPath: =========================================
@@ -1474,27 +1404,26 @@ static PartLibrary *SharedPartLibrary = nil;
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
-    NSString       *fileContents = [LDrawUtilities stringFromFile:filepath];
-    NSCharacterSet *whitespace   = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+    NSString *fileContents     = [LDrawUtilities stringFromFile:filepath];
+    NSCharacterSet *whitespace = [NSCharacterSet whitespaceAndNewlineCharacterSet];
 
-    NSString       *partNumber      = nil;
-    NSString       *partDescription = nil;
-    NSString       *category        = nil;
-    NSMutableArray *keywords        = nil;
+    NSString *partNumber = nil;
+    NSString *partDescription = nil;
+    NSString *category = nil;
+    NSMutableArray *keywords = nil;
 
     NSMutableDictionary *catalogInfo = nil;
 
 
     // Read the first line of the file. Make sure the file is parsable.
-    if (fileContents != nil &&
-        [fileContents length] > 0) {
+    if (fileContents != nil && [fileContents length] > 0) {
         NSUInteger stringLength       = [fileContents length];
         NSUInteger lineStartIndex     = 0;
         NSUInteger nextlineStartIndex = 0;
         NSUInteger newlineIndex       = 0; // index of the first newline character in the line.
-        NSInteger  lineLength         = 0;
-        NSString   *line             = nil;
-        NSString   *lineCode         = nil;
+        NSInteger  lineLength = 0;
+        NSString   *line     = nil;
+        NSString   *lineCode = nil;
         NSString   *lineRemainder    = nil;
         NSString   *implicitCategory = nil;
 
@@ -1509,14 +1438,12 @@ static PartLibrary *SharedPartLibrary = nil;
         while (nextlineStartIndex < stringLength)
         {
             // LDraw uses DOS lineendings
-            [fileContents getLineStart:&lineStartIndex
-             end:&nextlineStartIndex
-             contentsEnd:&newlineIndex
-             forRange:NSMakeRange(nextlineStartIndex, 1)];            // that is, contains the first character.
+            [fileContents getLineStart:&lineStartIndex end:&nextlineStartIndex contentsEnd:&newlineIndex
+            forRange:NSMakeRange(nextlineStartIndex, 1)];                   // that is, contains the first character.
 
             lineLength = newlineIndex - lineStartIndex;
-            line       = [fileContents substringWithRange:NSMakeRange(lineStartIndex, lineLength)];
-            lineCode   = [LDrawUtilities readNextField:line remainder:&lineRemainder];
+            line     = [fileContents substringWithRange:NSMakeRange(lineStartIndex, lineLength)];
+            lineCode = [LDrawUtilities readNextField:line remainder:&lineRemainder];
 
             // Check to see if this is a valid LDraw header.
             if (lineStartIndex == 0) {
@@ -1562,7 +1489,7 @@ static PartLibrary *SharedPartLibrary = nil;
                     // Keywords can be multiline, so must add to any we've already collected!
                     NSArray *newKeywords =
                         [lineRemainder componentsSeparatedByCharactersInSet:[NSCharacterSet
-                                                                             characterSetWithCharactersInString:@","]];
+                        characterSetWithCharactersInString:@","]];
                     for (NSString *keyword in newKeywords) {
                         [keywords addObject:[keyword stringByTrimmingCharactersInSet:whitespace]];
                     }
@@ -1588,10 +1515,9 @@ static PartLibrary *SharedPartLibrary = nil;
 
         // If no !CATEGORY directive, the the category is to be derived from the
         // first word of the description.
-        if ([catalogInfo objectForKey:PART_NAME_KEY]
-            && [catalogInfo objectForKey:PART_CATEGORY_KEY] == nil) {
+        if ([catalogInfo objectForKey:PART_NAME_KEY] && [catalogInfo objectForKey:PART_CATEGORY_KEY] == nil) {
             partDescription = [catalogInfo objectForKey:PART_NAME_KEY];
-            category        = implicitCategory;
+            category = implicitCategory;
             [catalogInfo setObject:category forKey:PART_CATEGORY_KEY];
         }
     }
@@ -1601,7 +1527,7 @@ static PartLibrary *SharedPartLibrary = nil;
     [catalogInfo retain];
     [pool drain];
     return([catalogInfo autorelease]);
-}// end catalogInfoForFileAtPath
+} // end catalogInfoForFileAtPath
 
 
 // ========== readImageAtPath: ==================================================
@@ -1614,9 +1540,8 @@ static PartLibrary *SharedPartLibrary = nil;
 // block instead.
 //
 // ==============================================================================
-- (CGImageRef)readImageAtPath:(NSString *)imagePath
-    asynchronously:(BOOL)asynchronous
-    completionHandler:(void (^)(CGImageRef))completionBlock
+- (CGImageRef)readImageAtPath:(NSString *)imagePath asynchronously:(BOOL)asynchronous completionHandler:(void
+    (^)(CGImageRef))completionBlock
 {
 /* *INDENT-OFF* */
 #if USE_BLOCKS
@@ -1659,7 +1584,7 @@ static PartLibrary *SharedPartLibrary = nil;
 /* *INDENT-ON* */
 
     return(image);
-}// end readImageAtPath:
+} // end readImageAtPath:
 
 
 // ========== readModelAtPath:asynchronously:completionHandler: =================
@@ -1672,14 +1597,13 @@ static PartLibrary *SharedPartLibrary = nil;
 // block instead.
 //
 // ==============================================================================
-- (LDrawModel *)readModelAtPath:(NSString *)partPath
-    asynchronously:(BOOL)asynchronous
-    completionHandler:(void (^)(LDrawModel *))completionBlock
+- (LDrawModel *)readModelAtPath:(NSString *)partPath asynchronously:(BOOL)asynchronous completionHandler:(void
+    (^)(LDrawModel *))completionBlock
 {
-    NSString         *fileContents = nil;
-    NSArray          *lines        = nil;
-    LDrawFile        *parsedFile   = nil;
-    dispatch_group_t group         = NULL;
+    NSString  *fileContents = nil;
+    NSArray   *lines = nil;
+    LDrawFile *parsedFile  = nil;
+    dispatch_group_t group = NULL;
 
 /* *INDENT-OFF* */
 #if USE_BLOCKS
@@ -1698,11 +1622,10 @@ static PartLibrary *SharedPartLibrary = nil;
         // We found it in the LDraw folder; now all we need to do is get the
         // model for it.
         fileContents = [LDrawUtilities stringFromFile:partPath];
-        lines        = [fileContents separateByLine];
+        lines = [fileContents separateByLine];
 
-        parsedFile = [[LDrawFile alloc] initWithLines:lines
-                      inRange:NSMakeRange(0, [lines count])
-                      parentGroup:group];
+        parsedFile = [[LDrawFile alloc] initWithLines:lines inRange:NSMakeRange(0, [lines count])
+            parentGroup:group];
     }
 
 /* *INDENT-OFF* */
@@ -1742,7 +1665,7 @@ static PartLibrary *SharedPartLibrary = nil;
 /* *INDENT-ON* */
 
     return(model);
-}// end readModelAtPath:
+} // end readModelAtPath:
 
 
 #pragma mark -
@@ -1768,7 +1691,6 @@ static PartLibrary *SharedPartLibrary = nil;
     [parsingGroups release];
 
     [super dealloc];
-}// end dealloc
-
+} // end dealloc
 
 @end

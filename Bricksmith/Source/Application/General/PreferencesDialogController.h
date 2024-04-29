@@ -19,9 +19,7 @@
 // The different LSynth selection modes
 typedef enum
 {
-    TransparentSelection        = 0,
-    ColoredSelection            = 1,
-    TransparentColoredSelection = 2
+    TransparentSelection = 0, ColoredSelection            = 1, TransparentColoredSelection = 2
 } LSynthSelectionModeT;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -33,7 +31,7 @@ typedef enum
 {
     IBOutlet NSWindow *preferencesWindow;
 
-    NSView          *blankContent; // the initial, empty content of the window in the Nib.
+    NSView *blankContent; // the initial, empty content of the window in the Nib.
     IBOutlet NSView *generalTabContentView;
     IBOutlet NSView *stylesContentView;
     IBOutlet NSView *ldrawContentView;
@@ -74,8 +72,8 @@ typedef enum
     IBOutlet NSButton    *lsynthSaveSynthesizedParts;
     IBOutlet NSView      *lsynthExecutableChooserAccessoryView;
     IBOutlet NSView      *lsynthConfigurationChooserAccessoryView;
-    NSTextField          *lsynthTransparencyNumberChanged;
-    IBOutlet NSButton    *lsynthShowBasicPartsList;
+    NSTextField *lsynthTransparencyNumberChanged;
+    IBOutlet NSButton *lsynthShowBasicPartsList;
 
     // Miscellaneous
     IBOutlet NSView *folderChooserAccessoryView;

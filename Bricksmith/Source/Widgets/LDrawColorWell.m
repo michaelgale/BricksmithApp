@@ -29,9 +29,7 @@
 #import "LDrawColor.h"
 #import "LDrawColorPanelController.h"
 
-@implementation LDrawColorWell
-
-static LDrawColorWell *sharedActiveColorWell = nil;
+@implementation LDrawColorWell static LDrawColorWell *sharedActiveColorWell = nil;
 
 #pragma mark -
 #pragma mark ACTIVE COLOR WELL
@@ -49,7 +47,7 @@ static LDrawColorWell *sharedActiveColorWell = nil;
 + (LDrawColorWell *)activeColorWell
 {
     return(sharedActiveColorWell);
-}// end activeColorWell
+} // end activeColorWell
 
 
 // ---------- setActiveColorWell: -------------------------------------[static]--
@@ -78,7 +76,7 @@ static LDrawColorWell *sharedActiveColorWell = nil;
     if (newWell) {
         [[LDrawColorPanelController sharedColorPanel] setLDrawColor:[newWell LDrawColor]];
     }
-}// end setActiveColorWell:
+} // end setActiveColorWell:
 
 
 #pragma mark -
@@ -93,7 +91,7 @@ static LDrawColorWell *sharedActiveColorWell = nil;
 - (LDrawColor *)LDrawColor
 {
     return(color);
-}// end LDrawColor
+} // end LDrawColor
 
 
 // ========== setLDrawColor: ====================================================
@@ -115,13 +113,12 @@ static LDrawColorWell *sharedActiveColorWell = nil;
     [newColor getColorRGBA:components];
 
     [self->nsColor release];
-    self->nsColor = [[NSColor colorWithCalibratedRed:components[0]
-                      green:components[1]
-                      blue:components[2]
-                      alpha:1.0] retain];
+    self->nsColor =
+        [[NSColor colorWithCalibratedRed:components[0] green:components[1] blue:components[2] alpha:1.0]
+        retain];
 
     [self setNeedsDisplay:YES];
-}// end setLDrawColor:
+} // end setLDrawColor:
 
 
 #pragma mark -
@@ -141,7 +138,7 @@ static LDrawColorWell *sharedActiveColorWell = nil;
 
     [self->nsColor set];
     NSRectFill(colorRect);
-}// end drawRect:
+} // end drawRect:
 
 
 #pragma mark -
@@ -162,9 +159,8 @@ static LDrawColorWell *sharedActiveColorWell = nil;
 
     [self setLDrawColor:newColor];
 
-    [self sendAction:[self action]
-     to:[self target]];
-}// end changeLDrawColorWell:
+    [self sendAction:[self action] to:[self target]];
+} // end changeLDrawColorWell:
 
 
 // ========== sendAction:to: ====================================================
@@ -202,8 +198,7 @@ static LDrawColorWell *sharedActiveColorWell = nil;
         [LDrawColorWell setActiveColorWell:nil];
 
         // just pass the action along.
-        handledAction = [super sendAction:theAction
-                         to:theTarget];
+        handledAction = [super sendAction:theAction to:theTarget];
     }
     else {
         // ---------- Track Active Color Well -----------------------------------
@@ -216,8 +211,7 @@ static LDrawColorWell *sharedActiveColorWell = nil;
             }
             // already active; this must be a color-change action!
             else {
-                handledAction = [super sendAction:theAction
-                                 to:theTarget];
+                handledAction = [super sendAction:theAction to:theTarget];
             }
         }
         // we deactivate?
@@ -228,7 +222,7 @@ static LDrawColorWell *sharedActiveColorWell = nil;
     }
 
     return(handledAction);
-}// end sendAction:to:
+} // end sendAction:to:
 
 
 #pragma mark -
@@ -251,7 +245,6 @@ static LDrawColorWell *sharedActiveColorWell = nil;
     [self->nsColor release];
 
     [super dealloc];
-}// end dealloc
-
+} // end dealloc
 
 @end

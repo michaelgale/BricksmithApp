@@ -22,18 +22,15 @@
 ////////////////////////////////////////////////////////////////////////////////
 @interface LDrawContainer : LDrawDirective <NSCoding, NSCopying, LDrawObserver>
 {
-    @protected
-    BOOL postsNotifications;
+    @protected BOOL postsNotifications;
 
-    @private
-    NSMutableArray *containedObjects;
+    @private NSMutableArray *containedObjects;
 }
 
 // Accessors
 - (NSArray *)allEnclosedElements;
-- (Box3)projectedBoundingBoxWithModelView:(Matrix4)modelView
-    projection:(Matrix4)projection
-    view:(Box2)viewport;
+- (Box3)projectedBoundingBoxWithModelView:(Matrix4)modelView projection:(Matrix4)projection view:(Box2)
+    viewport;
 - (NSInteger)indexOfDirective:(LDrawDirective *)directive;
 - (NSMutableArray *)subdirectives;
 

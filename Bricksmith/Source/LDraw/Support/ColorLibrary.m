@@ -26,9 +26,7 @@
 #import "LDrawPaths.h"
 #import "MacLDraw.h"
 
-@implementation ColorLibrary
-
-static ColorLibrary *sharedColorLibrary = nil;
+@implementation ColorLibrary static ColorLibrary *sharedColorLibrary = nil;
 
 
 #pragma mark -
@@ -64,8 +62,8 @@ static ColorLibrary *sharedColorLibrary = nil;
         // context. But we still need to create entries for them in the library
         // so that they can be selected in the color palette.
 
-        LDrawColor *currentColor       = [[[LDrawColor alloc] init] autorelease];
-        LDrawColor *edgeColor          = [[[LDrawColor alloc] init] autorelease];
+        LDrawColor *currentColor = [[[LDrawColor alloc] init] autorelease];
+        LDrawColor *edgeColor    = [[[LDrawColor alloc] init] autorelease];
         GLfloat    currentColorRGBA[4] = { 1.0, 1.0, 0.81, 1.0 };
         GLfloat    edgeColorRGBA[4]    = { 0.75, 0.75, 0.75, 1.0 };
 
@@ -89,7 +87,7 @@ static ColorLibrary *sharedColorLibrary = nil;
         // I'm only providing these to be a nice team player in the LDraw world.
 
         LDrawColor *blendedColor = nil;
-        int        counter       = 0;
+        int counter = 0;
 
         // Provide dithered colors for the entire valid range from LDRAW.EXE
         for (counter = 256; counter <= 511; counter++) {
@@ -99,7 +97,7 @@ static ColorLibrary *sharedColorLibrary = nil;
     }
 
     return(sharedColorLibrary);
-}// end sharedColorLibrary
+} // end sharedColorLibrary
 
 
 // ========== init ==============================================================
@@ -117,7 +115,7 @@ static ColorLibrary *sharedColorLibrary = nil;
     NSArray *defaultFavs = [[NSUserDefaults standardUserDefaults] objectForKey:FAVORITE_COLORS_KEY];
     [self setFavorites:defaultFavs];
     return(self);
-}// end init
+} // end init
 
 
 #pragma mark -
@@ -137,7 +135,7 @@ static ColorLibrary *sharedColorLibrary = nil;
 - (NSArray *)colors
 {
     return([self->colors allValues]);
-}// end LDrawColors
+} // end LDrawColors
 
 
 // ========== favoriteColors ============================================================
@@ -174,7 +172,7 @@ static ColorLibrary *sharedColorLibrary = nil;
 
     [self->favorites addObject:colorStr];
     [self saveFavoritesToUserDefaults];
-}// end addPartNameToFavorites:
+} // end addPartNameToFavorites:
 
 
 // ========== removeColorFromFavorites: ======================================
@@ -188,7 +186,7 @@ static ColorLibrary *sharedColorLibrary = nil;
 
     [self->favorites removeObject:colorStr];
     [self saveFavoritesToUserDefaults];
-}// end removePartNameFromFavorites:
+} // end removePartNameFromFavorites:
 
 
 // ========== saveFavoritesToUserDefaults =======================================
@@ -201,7 +199,7 @@ static ColorLibrary *sharedColorLibrary = nil;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
     [userDefaults setObject:self->favorites forKey:FAVORITE_COLORS_KEY];
-}// end saveFavoritesToUserDefaults
+} // end saveFavoritesToUserDefaults
 
 
 // ========== colorForCode: =====================================================
@@ -232,7 +230,7 @@ static ColorLibrary *sharedColorLibrary = nil;
     }
 
     return(color);
-}// end colorForCode:
+} // end colorForCode:
 
 
 // ========== complimentColorForCode: ===========================================
@@ -255,8 +253,7 @@ static ColorLibrary *sharedColorLibrary = nil;
 // say, pink.
 //
 // ==============================================================================
-- (void)getComplimentRGBA:(GLfloat *)complimentRGBA
-    forCode:(LDrawColorT)colorCode
+- (void)getComplimentRGBA:(GLfloat *)complimentRGBA forCode:(LDrawColorT)colorCode
 {
     LDrawColor  *mainColor    = [self colorForCode:colorCode];
     LDrawColorT edgeColorCode = LDrawColorBogus;
@@ -273,7 +270,7 @@ static ColorLibrary *sharedColorLibrary = nil;
             [[self colorForCode:edgeColorCode] getColorRGBA:complimentRGBA];
         }
     }
-}// end complimentColorForCode:
+} // end complimentColorForCode:
 
 
 #pragma mark -
@@ -288,10 +285,10 @@ static ColorLibrary *sharedColorLibrary = nil;
 - (void)addColor:(LDrawColor *)newColor
 {
     LDrawColorT colorCode = [newColor colorCode];
-    NSNumber    *key      = [NSNumber numberWithInteger:colorCode];
+    NSNumber    *key = [NSNumber numberWithInteger:colorCode];
 
     [self->colors setObject:newColor forKey:key];
-}// end addColor:
+} // end addColor:
 
 
 // ========== addPrivateColor: ==================================================
@@ -309,14 +306,14 @@ static ColorLibrary *sharedColorLibrary = nil;
 - (void)addPrivateColor:(LDrawColor *)newColor
 {
     LDrawColorT colorCode = [newColor colorCode];
-    NSNumber    *key      = [NSNumber numberWithInteger:colorCode];
+    NSNumber    *key = [NSNumber numberWithInteger:colorCode];
 
     // Allocate if it doesn't exist.
     if (self->privateColors == nil) {
         self->privateColors = [[NSMutableDictionary alloc] init];
     }
     [self->privateColors setObject:newColor forKey:key];
-}// end addPrivateColor:
+} // end addPrivateColor:
 
 
 #pragma mark -
@@ -334,9 +331,7 @@ void complimentColor(const GLfloat *originalColor, GLfloat *complimentColor)
     float brightness = 0.0;
 
     // Isolate the color's grayscale intensity http://en.wikipedia.org/wiki/Grayscale
-    brightness = originalColor[0] * 0.25
-        + originalColor[1] * 0.55
-        + originalColor[2] * 0.20;
+    brightness = originalColor[0] * 0.25 + originalColor[1] * 0.55 + originalColor[2] * 0.20;
 
     // compliment dark colors with light ones and light colors with dark ones.
     if (brightness > 0.5) {
@@ -353,7 +348,7 @@ void complimentColor(const GLfloat *originalColor, GLfloat *complimentColor)
     }
 
     complimentColor[3] = originalColor[3];
-}// end complimentColor
+} // end complimentColor
 
 
 #pragma mark -

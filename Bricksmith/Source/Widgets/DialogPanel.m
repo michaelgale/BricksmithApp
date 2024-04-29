@@ -38,8 +38,7 @@
 // ==============================================================================
 - (id)init
 {
-    [NSBundle loadNibNamed:[self panelNibName]
-     owner:self];
+    [NSBundle loadNibNamed:[self panelNibName] owner:self];
 
     // this don't look good, but it works.
     // this takes the place of calling [super init]
@@ -48,7 +47,7 @@
     [self autorelease];
 
     return(dialogPanel);
-}// end init
+} // end init
 
 
 #pragma mark -
@@ -70,7 +69,7 @@
     NSLog(@"No Nib name has been specified for this panel!");
 
     return(nil);
-}// end panelNibName
+} // end panelNibName
 
 
 #pragma mark -
@@ -90,7 +89,7 @@
     // The object controller apparently retains its content. We must break that
     // cycle in order to fully deallocate.
     [objectController setContent:nil];
-}// end okButtonClicked:
+} // end okButtonClicked:
 
 
 #pragma mark -
@@ -107,7 +106,7 @@
     [objectController release];
 
     [super dealloc];
-}// end dealloc
+} // end dealloc
 
 
 @end

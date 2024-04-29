@@ -51,9 +51,7 @@
 #define MLCAD_SECTION_MINIFIGURE_LEG_RIGHT               @"LLEG"
 #define MLCAD_SECTION_MINIFIGURE_LEG_RIGHT_ACCESSORY     @"LLEGA"
 
-@implementation MLCadIni
-
-static MLCadIni *sharedIniFile = nil;
+@implementation MLCadIni static MLCadIni *sharedIniFile = nil;
 
 #pragma mark -
 #pragma mark INITIALIZATION
@@ -83,7 +81,7 @@ static MLCadIni *sharedIniFile = nil;
         mlcadini = sharedIniFile;
     }
     return(mlcadini);
-}// end iniFile
+} // end iniFile
 
 
 // ========== init ==============================================================
@@ -97,24 +95,24 @@ static MLCadIni *sharedIniFile = nil;
 
     // these are mutable simply so I can fill them easier. Their mutability is
     // not exposed via the accessors.
-    minifigureHats                  = [[NSMutableArray alloc] init];
-    minifigureHeads                 = [[NSMutableArray alloc] init];
-    minifigureTorsos                = [[NSMutableArray alloc] init];
-    minifigureHips                  = [[NSMutableArray alloc] init];
-    minifigureNecks                 = [[NSMutableArray alloc] init];
-    minifigureArmsLeft              = [[NSMutableArray alloc] init];
-    minifigureArmsRight             = [[NSMutableArray alloc] init];
-    minifigureHandsLeft             = [[NSMutableArray alloc] init];
-    minifigureHandsLeftAccessories  = [[NSMutableArray alloc] init];
-    minifigureHandsRight            = [[NSMutableArray alloc] init];
+    minifigureHats      = [[NSMutableArray alloc] init];
+    minifigureHeads     = [[NSMutableArray alloc] init];
+    minifigureTorsos    = [[NSMutableArray alloc] init];
+    minifigureHips      = [[NSMutableArray alloc] init];
+    minifigureNecks     = [[NSMutableArray alloc] init];
+    minifigureArmsLeft  = [[NSMutableArray alloc] init];
+    minifigureArmsRight = [[NSMutableArray alloc] init];
+    minifigureHandsLeft = [[NSMutableArray alloc] init];
+    minifigureHandsLeftAccessories = [[NSMutableArray alloc] init];
+    minifigureHandsRight = [[NSMutableArray alloc] init];
     minifigureHandsRightAccessories = [[NSMutableArray alloc] init];
-    minifigureLegsLeft              = [[NSMutableArray alloc] init];
-    minifigureLegsLeftAcessories    = [[NSMutableArray alloc] init];
-    minifigureLegsRight             = [[NSMutableArray alloc] init];
-    minifigureLegsRightAccessories  = [[NSMutableArray alloc] init];
+    minifigureLegsLeft = [[NSMutableArray alloc] init];
+    minifigureLegsLeftAcessories = [[NSMutableArray alloc] init];
+    minifigureLegsRight = [[NSMutableArray alloc] init];
+    minifigureLegsRightAccessories = [[NSMutableArray alloc] init];
 
     return(self);
-}// end init
+} // end init
 
 
 #pragma mark -
@@ -144,7 +142,7 @@ static MLCadIni *sharedIniFile = nil;
 - (NSArray *)minifigureHats
 {
     return(minifigureHats);
-}// end minifigureHats
+} // end minifigureHats
 
 
 // ========== minifigureHeads ===================================================
@@ -156,7 +154,7 @@ static MLCadIni *sharedIniFile = nil;
 - (NSArray *)minifigureHeads
 {
     return(minifigureHeads);
-}// end minifigureHeads
+} // end minifigureHeads
 
 
 // ========== minifigureNecks ===================================================
@@ -168,7 +166,7 @@ static MLCadIni *sharedIniFile = nil;
 - (NSArray *)minifigureNecks
 {
     return(minifigureNecks);
-}// end minifigureNecks
+} // end minifigureNecks
 
 
 // ========== minifigureTorsos ==================================================
@@ -180,7 +178,7 @@ static MLCadIni *sharedIniFile = nil;
 - (NSArray *)minifigureTorsos
 {
     return(minifigureTorsos);
-}// end minifigureTorsos
+} // end minifigureTorsos
 
 
 // ========== minifigureHips ====================================================
@@ -192,7 +190,7 @@ static MLCadIni *sharedIniFile = nil;
 - (NSArray *)minifigureHips
 {
     return(minifigureHips);
-}// end minifigureHips
+} // end minifigureHips
 
 
 // ========== minifigureArmsLeft ================================================
@@ -204,7 +202,7 @@ static MLCadIni *sharedIniFile = nil;
 - (NSArray *)minifigureArmsLeft
 {
     return(minifigureArmsLeft);
-}// end minifigureArmsLeft
+} // end minifigureArmsLeft
 
 
 // ========== minifigureArmsRight ===============================================
@@ -216,7 +214,7 @@ static MLCadIni *sharedIniFile = nil;
 - (NSArray *)minifigureArmsRight
 {
     return(minifigureArmsRight);
-}// end minifigureArmsRight
+} // end minifigureArmsRight
 
 
 // ========== minifigureHandsLeft ===============================================
@@ -228,7 +226,7 @@ static MLCadIni *sharedIniFile = nil;
 - (NSArray *)minifigureHandsLeft
 {
     return(minifigureHandsLeft);
-}// end minifigureHandsLeft
+} // end minifigureHandsLeft
 
 
 // ========== minifigureHandsLeftAccessories ====================================
@@ -240,7 +238,7 @@ static MLCadIni *sharedIniFile = nil;
 - (NSArray *)minifigureHandsLeftAccessories
 {
     return(minifigureHandsLeftAccessories);
-}// end minifigureHandsLeftAccessories
+} // end minifigureHandsLeftAccessories
 
 
 // ========== minifigureHandsRight ==============================================
@@ -252,7 +250,7 @@ static MLCadIni *sharedIniFile = nil;
 - (NSArray *)minifigureHandsRight
 {
     return(minifigureHandsRight);
-}// end minifigureHandsRight
+} // end minifigureHandsRight
 
 
 // ========== minifigureHandsRightAccessories ===================================
@@ -264,7 +262,7 @@ static MLCadIni *sharedIniFile = nil;
 - (NSArray *)minifigureHandsRightAccessories
 {
     return(minifigureHandsRightAccessories);
-}// end minifigureHandsRightAccessories
+} // end minifigureHandsRightAccessories
 
 
 // ========== minifigureLegsLeft ================================================
@@ -276,7 +274,7 @@ static MLCadIni *sharedIniFile = nil;
 - (NSArray *)minifigureLegsLeft
 {
     return(minifigureLegsLeft);
-}// end minifigureLegsLeft
+} // end minifigureLegsLeft
 
 
 // ========== minifigureLegsLeftAcessories ======================================
@@ -288,7 +286,7 @@ static MLCadIni *sharedIniFile = nil;
 - (NSArray *)minifigureLegsLeftAcessories
 {
     return(minifigureLegsLeftAcessories);
-}// end minifigureLegsLeftAcessories
+} // end minifigureLegsLeftAcessories
 
 
 // ========== minifigureLegsRight ===============================================
@@ -300,7 +298,7 @@ static MLCadIni *sharedIniFile = nil;
 - (NSArray *)minifigureLegsRight
 {
     return(minifigureLegsRight);
-}// end minifigureLegsRight
+} // end minifigureLegsRight
 
 
 // ========== minifigureLegsRightAccessories ====================================
@@ -312,7 +310,7 @@ static MLCadIni *sharedIniFile = nil;
 - (NSArray *)minifigureLegsRightAccessories
 {
     return(minifigureLegsRightAccessories);
-}// end minifigureLegsRightAccessories
+} // end minifigureLegsRightAccessories
 
 
 #pragma mark -
@@ -329,8 +327,7 @@ static MLCadIni *sharedIniFile = nil;
 - (float)armAngleForTorsoName:(NSString *)torsoName
 {
     // Mechanical torso. No arm rotation
-    if ([torsoName isEqualToString:@"30375.dat"] == YES ||
-        [torsoName isEqualToString:@"54275.dat"] == YES) {
+    if ([torsoName isEqualToString:@"30375.dat"] == YES || [torsoName isEqualToString:@"54275.dat"] == YES) {
         return(0.0);
     }
     else {
@@ -338,7 +335,7 @@ static MLCadIni *sharedIniFile = nil;
         // -- this value is derived from a little trig on the torso surface.
         return(9.791);
     }
-}// end armAngleForTorsoName:
+} // end armAngleForTorsoName:
 
 
 #pragma mark -
@@ -351,12 +348,11 @@ static MLCadIni *sharedIniFile = nil;
 // all do exactly the same thing.
 //
 // ==============================================================================
-- (void)setParts:(NSArray *)parts
-    intoMinifigurePartList:(NSMutableArray *)partList
+- (void)setParts:(NSArray *)parts intoMinifigurePartList:(NSMutableArray *)partList
 {
     [partList removeAllObjects];
     [partList addObjectsFromArray:parts];
-}// end setParts:intoMinifigurePartList:
+} // end setParts:intoMinifigurePartList:
 
 
 #pragma mark -
@@ -370,14 +366,14 @@ static MLCadIni *sharedIniFile = nil;
 // ==============================================================================
 - (void)parseFromPath:(NSString *)path
 {
-    NSString     *fileString        = [LDrawUtilities stringFromFile:path];
-    NSArray      *rawLines          = [fileString separateByLine];
-    NSDictionary *sections          = 0;
-    NSDictionary *listsForSections  = nil;
-    NSArray      *sectionKeys       = nil;
+    NSString *fileString   = [LDrawUtilities stringFromFile:path];
+    NSArray  *rawLines     = [fileString separateByLine];
+    NSDictionary *sections = 0;
+    NSDictionary *listsForSections = nil;
+    NSArray      *sectionKeys = nil;
     NSString     *currentSectionKey = nil;
-    NSArray      *sectionLines      = nil;
-    NSArray      *sectionParts      = nil;
+    NSArray      *sectionLines = nil;
+    NSArray      *sectionParts = nil;
 
     // ---------- cull out all the comments and blank lines ---------------------
     sections = [self sectionsFromLines:rawLines];
@@ -386,37 +382,30 @@ static MLCadIni *sharedIniFile = nil;
 
     // this array associates the key for each section with the list
     // into which its parts should be stored.
-    listsForSections = [NSDictionary dictionaryWithObjectsAndKeys:
-                        minifigureHats, MLCAD_SECTION_MINIFIGURE_HATS,
-                        minifigureHeads, MLCAD_SECTION_MINIFIGURE_HEAD,
-                        minifigureTorsos, MLCAD_SECTION_MINIFIGURE_TORSO,
-                        minifigureHips, MLCAD_SECTION_MINIFIGURE_PELVIS,
-                        minifigureNecks, MLCAD_SECTION_MINIFIGURE_NECK,
-                        minifigureArmsLeft, MLCAD_SECTION_MINIFIGURE_ARM_LEFT,
-                        minifigureArmsRight, MLCAD_SECTION_MINIFIGURE_ARM_RIGHT,
-                        minifigureHandsLeft, MLCAD_SECTION_MINIFIGURE_HAND_LEFT,
-                        minifigureHandsLeftAccessories, MLCAD_SECTION_MINIFIGURE_HAND_LEFT_ACCESSORY,
-                        minifigureHandsRight, MLCAD_SECTION_MINIFIGURE_HAND_RIGHT,
-                        minifigureHandsRightAccessories,
-                        MLCAD_SECTION_MINIFIGURE_HAND_RIGHT_ACCESSORY,
-                        minifigureLegsLeft, MLCAD_SECTION_MINIFIGURE_LEG_LEFT,
-                        minifigureLegsLeftAcessories, MLCAD_SECTION_MINIFIGURE_LEG_LEFT_ACCESSORY,
-                        minifigureLegsRight, MLCAD_SECTION_MINIFIGURE_LEG_RIGHT,
-                        minifigureLegsRightAccessories, MLCAD_SECTION_MINIFIGURE_LEG_RIGHT_ACCESSORY,
-                        nil];
+    listsForSections = [NSDictionary dictionaryWithObjectsAndKeys:minifigureHats,
+        MLCAD_SECTION_MINIFIGURE_HATS, minifigureHeads, MLCAD_SECTION_MINIFIGURE_HEAD, minifigureTorsos,
+        MLCAD_SECTION_MINIFIGURE_TORSO, minifigureHips, MLCAD_SECTION_MINIFIGURE_PELVIS, minifigureNecks,
+        MLCAD_SECTION_MINIFIGURE_NECK, minifigureArmsLeft, MLCAD_SECTION_MINIFIGURE_ARM_LEFT,
+        minifigureArmsRight, MLCAD_SECTION_MINIFIGURE_ARM_RIGHT, minifigureHandsLeft,
+        MLCAD_SECTION_MINIFIGURE_HAND_LEFT, minifigureHandsLeftAccessories,
+        MLCAD_SECTION_MINIFIGURE_HAND_LEFT_ACCESSORY, minifigureHandsRight,
+        MLCAD_SECTION_MINIFIGURE_HAND_RIGHT, minifigureHandsRightAccessories,
+        MLCAD_SECTION_MINIFIGURE_HAND_RIGHT_ACCESSORY, minifigureLegsLeft, MLCAD_SECTION_MINIFIGURE_LEG_LEFT,
+        minifigureLegsLeftAcessories, MLCAD_SECTION_MINIFIGURE_LEG_LEFT_ACCESSORY, minifigureLegsRight,
+        MLCAD_SECTION_MINIFIGURE_LEG_RIGHT, minifigureLegsRightAccessories,
+        MLCAD_SECTION_MINIFIGURE_LEG_RIGHT_ACCESSORY, nil];
     sectionKeys = [listsForSections allKeys];
 
     for (currentSectionKey in sectionKeys) {
         sectionLines = [sections objectForKey:currentSectionKey];
         sectionParts = [self partsFromMinifigureLines:sectionLines];
-        [self setParts:sectionParts
-         intoMinifigurePartList:[listsForSections objectForKey:currentSectionKey]];
+        [self setParts:sectionParts intoMinifigurePartList:[listsForSections objectForKey:currentSectionKey]];
     }
 
     // ---------- Parse LSynth Section ------------------------------------------
-    sectionLines             = [sections objectForKey:MLCAD_SECTION_LSYNTH];
+    sectionLines = [sections objectForKey:MLCAD_SECTION_LSYNTH];
     self->lsynthVisibleTypes = [[self lsynthTypesFromLines:sectionLines] retain];
-}// end parseFromPath:
+} // end parseFromPath:
 
 
 #pragma mark -
@@ -429,10 +418,10 @@ static MLCadIni *sharedIniFile = nil;
 // ==============================================================================
 - (NSDictionary *)sectionsFromLines:(NSArray *)lines
 {
-    NSString            *currentLine            = nil;
-    NSCharacterSet      *whitespaceCharacterSet = [NSCharacterSet whitespaceAndNewlineCharacterSet];
-    NSString            *currentSectionName     = nil;
-    NSMutableArray      *currentSectionLines    = nil;
+    NSString *currentLine = nil;
+    NSCharacterSet *whitespaceCharacterSet = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+    NSString       *currentSectionName     = nil;
+    NSMutableArray *currentSectionLines    = nil;
     NSMutableDictionary *sections = [NSMutableDictionary dictionary];
 
     for (currentLine in lines) {
@@ -487,7 +476,7 @@ static MLCadIni *sharedIniFile = nil;
     NSString       *displayName   = nil;
     NSString       *actualName    = nil;
     NSCharacterSet *whitespaceSet = [NSCharacterSet whitespaceCharacterSet];
-    BOOL           success        = NO;
+    BOOL success = NO;
 
     for (currentLine in lines) {
         scanner = [NSScanner scannerWithString:currentLine];
@@ -505,7 +494,7 @@ static MLCadIni *sharedIniFile = nil;
     }
 
     return(namesInList);
-}// end lsynthTypesFromLines:
+} // end lsynthTypesFromLines:
 
 
 // ========== partsFromMinifigureLines: =========================================
@@ -532,19 +521,19 @@ static MLCadIni *sharedIniFile = nil;
 // ==============================================================================
 - (NSArray *)partsFromMinifigureLines:(NSArray *)lines
 {
-    NSMutableArray *parts         = [NSMutableArray arrayWithCapacity:[lines count]];
-    NSMutableArray *namesInList   = [NSMutableArray arrayWithCapacity:[lines count]];
-    NSString       *currentLine   = nil;
-    NSScanner      *scanner       = nil;
-    NSString       *partName      = nil;
-    NSString       *flags         = nil;
-    Matrix4        transformation = IdentityMatrix4;
-    LDrawPart      *currentPart   = nil;
-    NSCharacterSet *quoteSet      = [NSCharacterSet characterSetWithCharactersInString:@"\""];
+    NSMutableArray *parts = [NSMutableArray arrayWithCapacity:[lines count]];
+    NSMutableArray *namesInList = [NSMutableArray arrayWithCapacity:[lines count]];
+    NSString       *currentLine = nil;
+    NSScanner      *scanner     = nil;
+    NSString       *partName    = nil;
+    NSString       *flags    = nil;
+    Matrix4   transformation = IdentityMatrix4;
+    LDrawPart *currentPart   = nil;
+    NSCharacterSet *quoteSet = [NSCharacterSet characterSetWithCharactersInString:@"\""];
     NSCharacterSet *whitespaceSet = [NSCharacterSet whitespaceCharacterSet];
-    NSUInteger     lineCount      = [lines count];
-    BOOL           gotName        = NO;
-    NSUInteger     counter        = 0;
+    NSUInteger     lineCount = [lines count];
+    BOOL gotName = NO;
+    NSUInteger counter = 0;
 
     for (counter = 0; counter < lineCount; counter++) {
         // ---------- Extract the textual part info -----------------------------
@@ -614,12 +603,11 @@ static MLCadIni *sharedIniFile = nil;
 
     // ---------- Sort list by part name ----------------------------------------
 
-    NSSortDescriptor *sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"browsingDescription"
-                                         ascending:YES] autorelease];
+    NSSortDescriptor *sortDescriptor =
+        [[[NSSortDescriptor alloc] initWithKey:@"browsingDescription" ascending:YES] autorelease];
 
     [parts sortUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]];
     return(parts);
-}// end partsFromMinifigureLines:
-
+} // end partsFromMinifigureLines:
 
 @end

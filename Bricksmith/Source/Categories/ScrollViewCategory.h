@@ -14,8 +14,6 @@
 // category ScrollViewCategory
 //
 ////////////////////////////////////////////////////////////////////////////////
-@interface NSScrollView (ScrollViewCategory)
-
-- (void)centerDocumentView;
+@interface NSScrollView (ScrollViewCategory) - (void)centerDocumentView;
 
 @end

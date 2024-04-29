@@ -20,8 +20,6 @@
 #import "MacLDraw.h"
 
 @implementation BricksmithApplication
-
-
 // ========== sendEvent =========================================================
 //
 // Purpose:		This is the central point for all events dispatched in the
@@ -41,21 +39,18 @@
 {
     // We want to track keyboard events in our own little place, completely
     // separate from the responder chain.
-    if ([theEvent type] == NSEventTypeKeyDown ||
-        [theEvent type] == NSEventTypeKeyUp ||
+    if ([theEvent type] == NSEventTypeKeyDown || [theEvent type] == NSEventTypeKeyUp ||
         [theEvent type] == NSEventTypeFlagsChanged) {
-        [[NSNotificationCenter defaultCenter]
-         postNotificationName:LDrawKeyboardDidChangeNotification
-         object:theEvent];
+        [[NSNotificationCenter defaultCenter] postNotificationName:LDrawKeyboardDidChangeNotification object:
+        theEvent];
     }
     // Tablet Proximity usually gets routed to a black hole in the responder
     // chain. Make this global like it should be. Cocoa kindly sends us
     // tablet-prox messages when the application activates, so we'll
     // actually be correct as we track this now.
     else if ([theEvent type] == NSEventTypeTabletProximity) {
-        [[NSNotificationCenter defaultCenter]
-         postNotificationName:LDrawPointingDeviceDidChangeNotification
-         object:theEvent];
+        [[NSNotificationCenter defaultCenter] postNotificationName:LDrawPointingDeviceDidChangeNotification
+        object:theEvent];
     }
 
 
@@ -67,7 +62,7 @@
         // whatever it expects to do with them.
         [super sendEvent:theEvent];
     }
-}// end sendEvent:
+} // end sendEvent:
 
 
 // ========== shouldPropogateEvent: =============================================
@@ -87,17 +82,14 @@
 // ==============================================================================
 - (BOOL)shouldPropogateEvent:(NSEvent *)theEvent
 {
-    if ([theEvent type] == NSEventTypeKeyDown &&
-        [[theEvent characters] isEqualToString:@" "] == YES &&
+    if ([theEvent type] == NSEventTypeKeyDown && [[theEvent characters] isEqualToString:@" "] == YES &&
         ([theEvent modifierFlags] & NSEventModifierFlagDeviceIndependentFlagsMask) ==
-        NSEventModifierFlagCommand
-        ) {
+        NSEventModifierFlagCommand) {
         return(NO);
     }
     else {
         return(YES);
     }
-}// end shouldPropogateEvent:
-
+} // end shouldPropogateEvent:
 
 @end

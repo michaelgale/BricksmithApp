@@ -68,7 +68,7 @@ void perspectiveDivideInPlace(GLfloat p[4])
         p[2] *= f;
         p[3]  = f;
     }
-}// end perspectiveDivideInPlace
+} // end perspectiveDivideInPlace
 
 
 // ========== perspectiveDivide ===================================================
@@ -86,7 +86,7 @@ void perspectiveDivide(GLfloat o[3], const GLfloat p[4])
         o[1] = p[1] * f;
         o[2] = p[2] * f;
     }
-}// end perspectiveDivide
+} // end perspectiveDivide
 
 
 // ========== applyMatrixTranspose ================================================
@@ -101,7 +101,7 @@ void applyMatrixTranspose(GLfloat dst[4], const GLfloat m[16], const GLfloat v[4
     dst[1] = v[0] * m[4] + v[1] * m[5] + v[2] * m[6] + v[3] * m[7];
     dst[2] = v[0] * m[8] + v[1] * m[9] + v[2] * m[10] + v[3] * m[11];
     dst[3] = v[0] * m[12] + v[1] * m[13] + v[2] * m[14] + v[3] * m[15];
-}// end applyMatrixTranspose
+} // end applyMatrixTranspose
 
 
 // ========== multMatrices ========================================================
@@ -127,7 +127,7 @@ void multMatrices(GLfloat dst[16], const GLfloat a[16], const GLfloat b[16])
     dst[13] = b[12] * a[1] + b[13] * a[5] + b[14] * a[9] + b[15] * a[13];
     dst[14] = b[12] * a[2] + b[13] * a[6] + b[14] * a[10] + b[15] * a[14];
     dst[15] = b[12] * a[3] + b[13] * a[7] + b[14] * a[11] + b[15] * a[15];
-}// end multMatrices
+} // end multMatrices
 
 
 // ========== buildRotationMatrix =================================================
@@ -205,12 +205,12 @@ void buildIdentity(GLfloat m[16])
 //
 // ================================================================================
 void buildFrustumMatrix(GLfloat m[16],
-                        GLfloat left,
-                        GLfloat right,
-                        GLfloat bottom,
-                        GLfloat top,
-                        GLfloat zNear,
-                        GLfloat zFar)
+    GLfloat                     left,
+    GLfloat                     right,
+    GLfloat                     bottom,
+    GLfloat                     top,
+    GLfloat                     zNear,
+    GLfloat                     zFar)
 {
     GLfloat dx = right - left;
     GLfloat dy = top - bottom;
@@ -242,12 +242,12 @@ void buildFrustumMatrix(GLfloat m[16],
 //
 // ================================================================================
 void buildOrthoMatrix(GLfloat m[16],
-                      GLfloat left,
-                      GLfloat right,
-                      GLfloat bottom,
-                      GLfloat top,
-                      GLfloat zNear,
-                      GLfloat zFar)
+    GLfloat                   left,
+    GLfloat                   right,
+    GLfloat                   bottom,
+    GLfloat                   top,
+    GLfloat                   zNear,
+    GLfloat                   zFar)
 {
     GLfloat dx = right - left;
     GLfloat dy = top - bottom;
@@ -313,8 +313,8 @@ static void hintersect(const float a[4], const float b[4], float x[4])
 
     float t = -(a[2] + a[3]) / (v[2] + v[3]);
 
-    assert(t >= 0.0);   // Ben says: we might need to back off this check to account for floating point fuglies; when the
-    assert(t <= 1.0);   // two points are very near each other, the math is going go get inaccurate and our intersection may be on
+    assert(t >= 0.0); // Ben says: we might need to back off this check to account for floating point fuglies; when the
+    assert(t <= 1.0); // two points are very near each other, the math is going go get inaccurate and our intersection may be on
     // the wrong side of the segments.  Since we're just using this for bounding volumes, we can live with some
     // error.  Hurray for IEEE floating point.
 
@@ -322,7 +322,7 @@ static void hintersect(const float a[4], const float b[4], float x[4])
     x[1] = a[1] + t * v[1];
     x[2] = a[2] + t * v[2];
     x[3] = a[3] + t * v[3];
-}// end hintersect
+} // end hintersect
 
 
 // ========== hclip =======================================================
@@ -391,7 +391,7 @@ static void accum_bounds(const float a[4], const float b[4], float aabb[6])
     float p[8];
 
     if (hclip(a, b, p) == 0) { // Early exit if both points are in front of the
-        return;     // near clip plane.
+        return; // near clip plane.
     }
     // Perspective divide AFTER clipping, ensures we don't get insane results.
     perspectiveDivideInPlace(p);
@@ -411,7 +411,8 @@ static void accum_bounds(const float a[4], const float b[4], float aabb[6])
 
     aabb[3] = MAX(aabb[3], p[4]);
     aabb[4] = MAX(aabb[4], p[5]);
-    aabb[5] = MAX(aabb[5], p[6]);
+    aabb[5] = MAX(aabb[5],
+            p[6]);
 }
 
 
@@ -441,11 +442,7 @@ static void accum_bounds(const float a[4], const float b[4], float aabb[6])
 // result is a bounding volume in normalized device coordinates.
 //
 // ================================================================================
-void meshToClipbox(
-    GLfloat *vertices,
-    int vcount,
-    const int *lines,
-    const GLfloat m[16],
+void meshToClipbox(GLfloat *vertices, int vcount, const int *lines, const GLfloat m[16],
     GLfloat out_aabb_ndc[6])
 {
     out_aabb_ndc[0] = out_aabb_ndc[1] = out_aabb_ndc[2] = INFINITY;
@@ -465,7 +462,7 @@ void meshToClipbox(
         accum_bounds(vertices + 4 * lines[0], vertices + 4 * lines[1], out_aabb_ndc);
         lines += 2;
     }
-}// end meshToClipbox
+} // end meshToClipbox
 
 
 // ========== aabbToClipbox =========================================================
@@ -530,37 +527,36 @@ void meshToClipbox(
 // correct result.
 //
 // ================================================================================
-void aabbToClipbox(
-    const GLfloat aabb_mv[6],
-    const GLfloat m[16],
-    GLfloat aabb_ndc[6])
+void aabbToClipbox(const GLfloat aabb_mv[6], const GLfloat m[16], GLfloat aabb_ndc[6])
 {
     // We basically use the utility meshToClipbox to do the heavy lifting; we
     // have a hard coded 'index list' for the 12 edges of a box.
 
     GLfloat vin[32] =
     {
-        aabb_mv[0], aabb_mv[1], aabb_mv[2], 1.0f,
-        aabb_mv[0], aabb_mv[1], aabb_mv[5], 1.0f,
-        aabb_mv[0], aabb_mv[4], aabb_mv[2], 1.0f,
-        aabb_mv[0], aabb_mv[4], aabb_mv[5], 1.0f,
-
-        aabb_mv[3], aabb_mv[1], aabb_mv[2], 1.0f,
-        aabb_mv[3], aabb_mv[1], aabb_mv[5], 1.0f,
-        aabb_mv[3], aabb_mv[4], aabb_mv[2], 1.0f,
-        aabb_mv[3], aabb_mv[4], aabb_mv[5], 1.0f,
+        aabb_mv[0],     aabb_mv[1],     aabb_mv[2],     1.0f,                  aabb_mv[0],
+        aabb_mv[1],
+        aabb_mv[5],     1.0f,
+        aabb_mv[0],
+        aabb_mv[4],     aabb_mv[2],     1.0f,           aabb_mv[0],            aabb_mv[4],
+        aabb_mv[5],
+        1.0f,
+        aabb_mv[3],
+        aabb_mv[1],     aabb_mv[2],     1.0f,           aabb_mv[3],            aabb_mv[1],
+        aabb_mv[5],
+        1.0f,
+        aabb_mv[3],     aabb_mv[4],     aabb_mv[2],     1.0f,                  aabb_mv[3],
+        aabb_mv[4],
+        aabb_mv[5],     1.0f,
     };
 
     static const int line_list[] =
     {
-        0, 1, 2, 3, 4, 5, 6, 7,
-        0, 2, 1, 3, 4, 6, 5, 7,
-        0, 4, 1, 5, 2, 6, 3, 7,
-        -1
+        0, 1, 2, 3, 4, 5, 6, 7, 0, 2, 1, 3, 4, 6, 5, 7, 0, 4, 1, 5, 2, 6, 3, 7, -1
     };
 
     meshToClipbox(vin, 8, line_list, m, aabb_ndc);
-}// end aabbToClipbox
+} // end aabbToClipbox
 
 
 // ========== clipTriangle ========================================================
@@ -595,13 +591,13 @@ int clipTriangle(const GLfloat in_tri[12], GLfloat out_tri[18])
     int code = 0;
 
     if (in_tri[2] < -in_tri[3]) {
-        code |= 1;                            // vert 0 is clipped
+        code |= 1; // vert 0 is clipped
     }
     if (in_tri[6] < -in_tri[7]) {
-        code |= 2;                            // vert 1 is clipped
+        code |= 2; // vert 1 is clipped
     }
     if (in_tri[10] < -in_tri[11]) {
-        code |= 4;                            // vert 2 is clipped
+        code |= 4; // vert 2 is clipped
     }
     float r[16];
 
@@ -685,4 +681,4 @@ int clipTriangle(const GLfloat in_tri[12], GLfloat out_tri[18])
         default :
             return(0);
     }
-}// end cliTriangle
+} // end cliTriangle

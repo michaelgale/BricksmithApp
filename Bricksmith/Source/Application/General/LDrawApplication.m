@@ -43,7 +43,6 @@
 extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 
 @implementation LDrawApplication
-
 // ---------- initialize ----------------------------------------------[static]--
 //
 // Purpose:		Load things that need to be loaded *extremely* early in startup.
@@ -53,9 +52,8 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 {
     TransformerIntMinus1 *minus1Transformer = [[[TransformerIntMinus1 alloc] init] autorelease];
 
-    [NSValueTransformer setValueTransformer:minus1Transformer
-     forName:@"TransformerIntMinus1"];
-}// end initialize
+    [NSValueTransformer setValueTransformer:minus1Transformer forName:@"TransformerIntMinus1"];
+} // end initialize
 
 
 // ========== awakeFromNib ======================================================
@@ -80,16 +78,16 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
         // important, as it would identify who created a file. Not sure in the
         // OS X world how much it matters.
         connexionClientID = RegisterConnexionClient('Brik',
-                                                    "\pBricksmith",
-                                                    kConnexionClientModeTakeOver,
-                                                    kConnexionMaskAll);
+                "\pBricksmith",
+                kConnexionClientModeTakeOver,
+                kConnexionMaskAll);
 
         // This line was in the sample code, but doesn't compile, and doesn't seem to matter,
         // so has been removed.
         // Remove warning message about the framework not being available
         // ??? [mtFWNotFound removeFromSuperview];
     }
-}// end awakeFromNib
+} // end awakeFromNib
 
 
 #pragma mark -
@@ -103,18 +101,14 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // ------------------------------------------------------------------------------
 + (NSOpenGLPixelFormat *)openGLPixelFormat
 {
-    NSOpenGLPixelFormat          *pixelFormat      = nil;
-    NSOpenGLPixelFormatAttribute pixelAttributes[] =
-    { // Enable automatic use of OpenGL "share" contexts for Core Animation.
-        NSOpenGLPFANoRecovery,
-        NSOpenGLPFADoubleBuffer,
-        NSOpenGLPFADepthSize,    32,
+    NSOpenGLPixelFormat *pixelFormat = nil;
+    NSOpenGLPixelFormatAttribute pixelAttributes[] = // Enable automatic use of OpenGL "share" contexts for Core Animation.
+    {
+        NSOpenGLPFANoRecovery,  NSOpenGLPFADoubleBuffer,  NSOpenGLPFADepthSize,  32,
         // enable line antialiasing
-        NSOpenGLPFAMultisample,
-        NSOpenGLPFASampleBuffers,1,
+        NSOpenGLPFAMultisample, NSOpenGLPFASampleBuffers, 1,
         // antialiasing beauty
-        NSOpenGLPFASamples,      4,
-        0
+        NSOpenGLPFASamples,     4,                        0
     };
 
     pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:pixelAttributes];
@@ -134,7 +128,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 + (Inspector *)sharedInspector
 {
     return([[LDrawApplication shared] inspector]);
-}// end sharedInspector
+} // end sharedInspector
 
 
 // ---------- sharedOpenGLContext -------------------------------------[static]--
@@ -146,7 +140,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 + (NSOpenGLContext *)sharedOpenGLContext
 {
     return([[LDrawApplication shared] openGLContext]);
-}// end sharedOpenGLContext
+} // end sharedOpenGLContext
 
 
 // ---------- sharedPartLibraryController -----------------------------[static]--
@@ -165,7 +159,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
     PartLibraryController *libraryController = [[LDrawApplication shared] partLibraryController];
 
     return(libraryController);
-}// end sharedPartLibrary
+} // end sharedPartLibrary
 
 
 // ========== inspector =========================================================
@@ -177,7 +171,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 - (Inspector *)inspector
 {
     return(inspector);
-}// end inspector
+} // end inspector
 
 
 // ========== partLibraryController =============================================
@@ -190,7 +184,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 - (PartLibraryController *)partLibraryController
 {
     return(partLibraryController);
-}// end partLibraryController
+} // end partLibraryController
 
 
 // ========== lsynthConfiguration ===============================================
@@ -201,7 +195,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 - (LSynthConfiguration *)lsynthConfiguration
 {
     return(lsynthConfiguration);
-}// end lsynthConfiguration
+} // end lsynthConfiguration
 
 
 // ========== sharedOpenGLContext ===============================================
@@ -213,7 +207,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 - (NSOpenGLContext *)openGLContext
 {
     return(self->sharedGLContext);
-}// end openGLContext
+} // end openGLContext
 
 
 // ========== shared ============================================================
@@ -242,7 +236,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 - (IBAction)doPreferences:(id)sender
 {
     [PreferencesDialogController doPreferences];
-}// end doPreferences:
+} // end doPreferences:
 
 
 // ========== doDonate: =========================================================
@@ -254,11 +248,10 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 - (IBAction)doDonate:(id)sender
 {
     NSURL *donationURL =
-        [NSURL URLWithString:
-         @"https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=6985549"];
+        [NSURL URLWithString:@"https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=6985549"];
 
     [[NSWorkspace sharedWorkspace] openURL:donationURL];
-}// end doDonate:
+} // end doDonate:
 
 
 #pragma mark -
@@ -273,7 +266,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 - (IBAction)showInspector:(id)sender
 {
     [inspector show:sender];
-}// end showInspector:
+} // end showInspector:
 
 
 // ========== doPartBrowser: ====================================================
@@ -284,10 +277,10 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // ==============================================================================
 - (IBAction)doPartBrowser:(id)sender
 {
-    NSUserDefaults             *userDefaults       = [NSUserDefaults standardUserDefaults];
-    PartBrowserStyleT          newStyle            = (int)[userDefaults integerForKey:PART_BROWSER_STYLE_KEY];
-    NSDocumentController       *documentController = [NSDocumentController sharedDocumentController];
-    PartBrowserPanelController *partBrowser        = nil;
+    NSUserDefaults    *userDefaults = [NSUserDefaults standardUserDefaults];
+    PartBrowserStyleT newStyle = (int)[userDefaults integerForKey:PART_BROWSER_STYLE_KEY];
+    NSDocumentController *documentController = [NSDocumentController sharedDocumentController];
+    PartBrowserPanelController *partBrowser  = nil;
 
     switch (newStyle)
     {
@@ -302,7 +295,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
             [[partBrowser window] makeKeyAndOrderFront:sender];
             break;
     }
-}// end doPartBrowser:
+} // end doPartBrowser:
 
 
 // ========== showMouseTools: ===================================================
@@ -314,7 +307,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 - (IBAction)showMouseTools:(id)sender
 {
     [[ToolPalette sharedToolPalette] showToolPalette:sender];
-}// end showMouseTools:
+} // end showMouseTools:
 
 
 // ========== hideMouseTools: ===================================================
@@ -325,7 +318,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 - (IBAction)hideMouseTools:(id)sender
 {
     [[ToolPalette sharedToolPalette] hideToolPalette:sender];
-}// end hideMouseTools:
+} // end hideMouseTools:
 
 
 #pragma mark -
@@ -350,7 +343,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
     if ([[NSApp currentEvent] type] == NSEventTypeKeyDown) {
         [colorPanel focusSearchField:sender];
     }
-}// end showColors:
+} // end showColors:
 
 
 #pragma mark -
@@ -364,7 +357,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 - (IBAction)doHelp:(id)sender
 {
     [self openHelpAnchor:@"index"];
-}// end doHelp:
+} // end doHelp:
 
 
 // ========== doKeyboardShortcutHelp: ===========================================
@@ -377,7 +370,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 - (IBAction)doKeyboardShortcutHelp:(id)sender
 {
     [self openHelpAnchor:@"KeyboardShortcuts"];
-}// end doKeyboardShortcutHelp:
+} // end doKeyboardShortcutHelp:
 
 
 // ========== doGettingNewPartsHelp: ============================================
@@ -390,7 +383,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 - (IBAction)doGettingNewPartsHelp:(id)sender
 {
     [self openHelpAnchor:@"AboutLDraw"];
-}// end doKeyboardShortcutHelp:
+} // end doKeyboardShortcutHelp:
 
 
 #pragma mark -
@@ -419,11 +412,10 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
     [LDrawUtilities setDefaultAuthor:[self userName]];
 
     // Create shared objects.
-    self->inspector             = [Inspector new];
+    self->inspector = [Inspector new];
     self->partLibraryController = [[PartLibraryController alloc] init];
     self->lsynthConfiguration   = [LSynthConfiguration sharedInstance];
-    self->sharedGLContext       = [[NSOpenGLContext alloc] initWithFormat:pixelFormat
-                                   shareContext:nil];
+    self->sharedGLContext = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:nil];
 
     [sharedGLContext makeCurrentContext];
 
@@ -453,11 +445,9 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
     [self->lsynthConfiguration parseLsynthConfig:lsynthConfigPath];
 
     // Register for Notifications
-    [[NSNotificationCenter defaultCenter] addObserver:self
-     selector:@selector(partBrowserStyleDidChange:)
-     name:LDrawPartBrowserStyleDidChangeNotification
-     object:nil];
-}// end applicationWillFinishLaunching:
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(partBrowserStyleDidChange:)name:
+    LDrawPartBrowserStyleDidChangeNotification object:nil];
+} // end applicationWillFinishLaunching:
 
 
 // **** NSApplication ****
@@ -468,8 +458,8 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // ==============================================================================
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    NSUserDefaults *userDefaults   = [NSUserDefaults standardUserDefaults];
-    BOOL           showPartBrowser = [userDefaults boolForKey:PART_BROWSER_PANEL_SHOW_AT_LAUNCH];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL showPartBrowser = [userDefaults boolForKey:PART_BROWSER_PANEL_SHOW_AT_LAUNCH];
 
     [self populateLSynthModelMenus];
 
@@ -483,7 +473,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
   #else
     [[NSDocumentController sharedDocumentController] setAutosavingDelay:300];
   #endif
-}// end applicationDidFinishLaunching:
+} // end applicationDidFinishLaunching:
 
 
 // **** NSApplication ****
@@ -496,11 +486,9 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 - (void)applicationWillTerminate:(NSNotification *)notification
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    PartBrowserPanelController *partBrowserPanel =
-        [PartBrowserPanelController sharedPartBrowserPanel];
+    PartBrowserPanelController *partBrowserPanel = [PartBrowserPanelController sharedPartBrowserPanel];
 
-    [userDefaults setBool:[[partBrowserPanel window] isVisible]
-     forKey:PART_BROWSER_PANEL_SHOW_AT_LAUNCH];
+    [userDefaults setBool:[[partBrowserPanel window] isVisible] forKey:PART_BROWSER_PANEL_SHOW_AT_LAUNCH];
 
     [userDefaults synchronize];
 
@@ -510,7 +498,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
         if (connexionClientID) { UnregisterConnexionClient(connexionClientID); }
         CleanupConnexionHandlers();
     }
-}// end applicationWillTerminate:
+} // end applicationWillTerminate:
 
 
 // ========== applicationShouldTerminate: =======================================
@@ -528,7 +516,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
     }
     [donation release];
     return(NSTerminateNow);
-}// end applicationShouldTerminate:
+} // end applicationShouldTerminate:
 
 
 // ========== validateMenuItem: =================================================
@@ -571,7 +559,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
     }
 
     return(enable);
-}// end validateMenuItem:
+} // end validateMenuItem:
 
 
 #pragma mark -
@@ -601,12 +589,12 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // ==============================================================================
 - (void)partBrowserStyleDidChange:(NSNotification *)notification
 {
-    NSUserDefaults       *userDefaults       = [NSUserDefaults standardUserDefaults];
-    PartBrowserStyleT    newStyle            = (int)[userDefaults integerForKey:PART_BROWSER_STYLE_KEY];
+    NSUserDefaults    *userDefaults = [NSUserDefaults standardUserDefaults];
+    PartBrowserStyleT newStyle = (int)[userDefaults integerForKey:PART_BROWSER_STYLE_KEY];
     NSDocumentController *documentController = [NSDocumentController sharedDocumentController];
-    NSArray              *documents          = [documentController documents];
-    NSInteger            documentCount       = [documents count];
-    NSInteger            counter             = 0;
+    NSArray   *documents    = [documentController documents];
+    NSInteger documentCount = [documents count];
+    NSInteger counter = 0;
 
     switch (newStyle)
     {
@@ -628,7 +616,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
             [[[PartBrowserPanelController sharedPartBrowserPanel] window] makeKeyAndOrderFront:self];
             break;
     }
-}// end partBrowserStyleDidChange:
+} // end partBrowserStyleDidChange:
 
 
 #pragma mark -
@@ -661,15 +649,13 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 - (void)openHelpAnchor:(NSString *)helpAnchor
 {
     NSBundle *applicationBundle = [NSBundle mainBundle];
-    NSString *fileName          = helpAnchor; // help anchor is the filename by my convention
-    NSString *helpPath          = [applicationBundle pathForResource:fileName
-                                   ofType:@"html"
-                                   inDirectory:@"Help"];
-    NSURL *helpURL = [NSURL fileURLWithPath:helpPath];
+    NSString *fileName = helpAnchor; // help anchor is the filename by my convention
+    NSString *helpPath = [applicationBundle pathForResource:fileName ofType:@"html" inDirectory:@"Help"];
+    NSURL    *helpURL  = [NSURL fileURLWithPath:helpPath];
 
 // [[NSWorkspace sharedWorkspace] openFile:helpRoot withApplication:@"Help Viewer.app"];
     [[NSWorkspace sharedWorkspace] openURL:helpURL];
-}// end openHelpAnchor:
+} // end openHelpAnchor:
 
 
 // ========== findLDrawPath =====================================================
@@ -680,10 +666,10 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // ==============================================================================
 - (void)findLDrawPath
 {
-    NSUserDefaults *userDefaults   = [NSUserDefaults standardUserDefaults];
-    LDrawPaths     *paths          = [LDrawPaths sharedPaths];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    LDrawPaths     *paths = [LDrawPaths sharedPaths];
     NSString       *preferencePath = [userDefaults stringForKey:LDRAW_PATH_KEY];
-    NSString       *ldrawPath      = preferencePath;
+    NSString       *ldrawPath = preferencePath;
 
     // Search
     [paths setPreferredLDrawPath:preferencePath];
@@ -698,7 +684,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
         [self->partLibraryController validateLDrawFolderWithMessage:preferencePath];
         ldrawPath = nil;
     }
-}// end findLDrawPath
+} // end findLDrawPath
 
 
 // ========== populateLSynthModelMenus ==========================================
@@ -709,60 +695,36 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
 // ==============================================================================
 - (void)populateLSynthModelMenus
 {
-    LDrawApplication *appDelegate  = [NSApp delegate];
-    NSMenu           *mainMenu     = [NSApp mainMenu];
-    NSMenu           *modelMenu    = [[mainMenu itemWithTag:modelsMenuTag] submenu];
-    NSMenu           *lsynthMenu   = [[modelMenu itemWithTag:lsynthMenuTag] submenu];
-    NSUserDefaults   *userDefaults = [NSUserDefaults standardUserDefaults];
+    LDrawApplication *appDelegate = [NSApp delegate];
+    NSMenu *mainMenu   = [NSApp mainMenu];
+    NSMenu *modelMenu  = [[mainMenu itemWithTag:modelsMenuTag] submenu];
+    NSMenu *lsynthMenu = [[modelMenu itemWithTag:lsynthMenuTag] submenu];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
     // A declarative encoding of our LSynth menus
     // We process this, along with associated LSynthConfiguration data to generate our Model LSynth menu
-    NSArray *menus = [NSArray arrayWithObjects:
-
-                      [NSDictionary dictionaryWithObjectsAndKeys:
-                       [NSNumber numberWithInt:lsynthPartMenuTag], @"tag",
-                       @"getParts", @"getter",
-                       @"title", @"entry_key",
-                       NSStringFromSelector(@selector(insertSynthesizableDirective:)), @"action",
-                       @YES, @"shouldFilter",
-                       nil],
-
-                      [NSDictionary dictionaryWithObjectsAndKeys:
-                       [NSNumber numberWithInt:lsynthHoseMenuTag], @"tag",
-                       @"getHoseTypes", @"getter",
-                       @"title", @"entry_key",
-                       NSStringFromSelector(@selector(insertSynthesizableDirective:)), @"action",
-                       @YES, @"shouldFilter",
-                       nil],
-
-                      [NSDictionary dictionaryWithObjectsAndKeys:
-                       [NSNumber numberWithInt:lsynthHoseConstraintMenuTag], @"tag",
-                       @"getHoseConstraints", @"getter",
-                       @"description", @"entry_key",
-                       NSStringFromSelector(@selector(insertLSynthConstraint:)), @"action",
-                       @NO, @"shouldFilter",
-                       nil],
-
-                      [NSDictionary dictionaryWithObjectsAndKeys:
-                       [NSNumber numberWithInt:lsynthBandMenuTag], @"tag",
-                       @"getBandTypes", @"getter",
-                       @"title", @"entry_key",
-                       NSStringFromSelector(@selector(insertSynthesizableDirective:)), @"action",
-                       @YES, @"shouldFilter",
-                       nil],
-
-                      [NSDictionary dictionaryWithObjectsAndKeys:
-                       [NSNumber numberWithInt:lsynthBandConstraintMenuTag], @"tag",
-                       @"getBandConstraints", @"getter",
-                       @"description", @"entry_key",
-                       NSStringFromSelector(@selector(insertLSynthConstraint:)), @"action",
-                       @NO, @"shouldFilter",
-                       nil],
-
-                      nil];
+    NSArray *menus =
+        [NSArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:
+        lsynthPartMenuTag], @"tag", @"getParts", @"getter", @"title", @"entry_key",
+        NSStringFromSelector(@selector(insertSynthesizableDirective:)), @"action", @YES, @"shouldFilter",
+        nil],
+        [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:lsynthHoseMenuTag], @"tag",
+        @"getHoseTypes", @"getter", @"title", @"entry_key",
+        NSStringFromSelector(@selector(insertSynthesizableDirective:)), @"action", @YES, @"shouldFilter",
+        nil],
+        [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:lsynthHoseConstraintMenuTag],
+        @"tag", @"getHoseConstraints", @"getter", @"description", @"entry_key",
+        NSStringFromSelector(@selector(insertLSynthConstraint:)), @"action", @NO, @"shouldFilter", nil],
+        [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:lsynthBandMenuTag], @"tag",
+        @"getBandTypes", @"getter", @"title", @"entry_key",
+        NSStringFromSelector(@selector(insertSynthesizableDirective:)), @"action", @YES, @"shouldFilter",
+        nil],
+        [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:lsynthBandConstraintMenuTag],
+        @"tag", @"getBandConstraints", @"getter", @"description", @"entry_key",
+        NSStringFromSelector(@selector(insertLSynthConstraint:)), @"action", @NO, @"shouldFilter", nil], nil];
 
     for (NSDictionary *menuSpec in menus) {
-        NSInteger tag          = [[menuSpec objectForKey:@"tag"] integerValue];
+        NSInteger tag = [[menuSpec objectForKey:@"tag"] integerValue];
         NSMenu    *elementMenu = [[lsynthMenu itemWithTag:tag] submenu]; // one for each of part, constraint, hose, band etc.
 
         [elementMenu removeAllItems];
@@ -772,16 +734,14 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
         NSArray *lsynthMLCADDefaults = [[MLCadIni iniFile] lsynthVisibleTypes];
 
         for (NSDictionary *entry in [[appDelegate lsynthConfiguration] performSelector:
-                                     NSSelectorFromString([menuSpec objectForKey:@"getter"])]) {
+            NSSelectorFromString([menuSpec objectForKey:@"getter"])]) {
             // The MLCad.ini file contains a list of semi-official LSynth types.  The lsynth.mpd file also contains legacy entries
             // for backward compatibility.  We want to filter out non-semi-official synth parts unless the user has turned this off
             // in the preferences.  Parts get filtered, constraints don't.
-            if (([[menuSpec valueForKey:@"shouldFilter"] boolValue]
-                 && [lsynthMLCADDefaults indexOfObject:[entry valueForKey:@"LSYNTH_TYPE"]] != NSNotFound)
-                ||
+            if (([[menuSpec valueForKey:@"shouldFilter"] boolValue] &&
+                [lsynthMLCADDefaults indexOfObject:[entry valueForKey:@"LSYNTH_TYPE"]] != NSNotFound) ||
                 // This menu should not be filtered
-                ![[menuSpec valueForKey:@"shouldFilter"] boolValue]
-                ||
+                ![[menuSpec valueForKey:@"shouldFilter"] boolValue] ||
                 // User has turned off filtering in prefs
                 ![userDefaults boolForKey:LSYNTH_SHOW_BASIC_PARTS_LIST_KEY]) {
                 NSMenuItem *entryMenuItem = [[[NSMenuItem alloc] init] autorelease];
@@ -841,7 +801,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
     [addCrossItem setAction:@selector(insertINSIDEOUTSIDELSynthDirective:)];
     [addCrossItem setTag:lsynthInsertCROSSTag];
     [insideOutsideMenu addItem:addCrossItem];
-}// end populateLSynthModelMenus
+} // end populateLSynthModelMenus
 
 
 // ========== userName ==========================================================
@@ -873,7 +833,7 @@ extern OSErr InstallConnexionHandlers() __attribute__((weak_import));
     [sharedGLContext release];
 
     [super dealloc];
-}// end dealloc
+} // end dealloc
 
 
 #pragma mark -
@@ -935,13 +895,13 @@ void connexionMessageHandler(io_connect_t connection, natural_t messageType, voi
     // If true, each event only translates _or_ rotates, not both
     static bool oneTypeOfMotionAtATime = true;
     static ConnexionDeviceState lastState;
-    static Vector3       translationScaling;
-    static Vector3       rotationScaling;
-    static Vector3       translationAccumulatedSinceLastMove;
-    static Vector3       rotationAccumulatedSinceLastMove;
+    static Vector3 translationScaling;
+    static Vector3 rotationScaling;
+    static Vector3 translationAccumulatedSinceLastMove;
+    static Vector3 rotationAccumulatedSinceLastMove;
     ConnexionDeviceState *state;
     NSDocumentController *documentController = [NSDocumentController sharedDocumentController];
-    LDrawDocument        *currentDocument    = [documentController currentDocument];
+    LDrawDocument *currentDocument = [documentController currentDocument];
     UInt64 lagThreshold = 1000000000; // 1 second
     static mach_timebase_info_data_t sTimebaseInfo;
 
@@ -979,8 +939,8 @@ void connexionMessageHandler(io_connect_t connection, natural_t messageType, voi
                     // are queued. This accumulation makes the controller feel non-responsive. So, to
                     // avoid this, ignore messages that occurred too far in the past.
                     eventTime = state->time;
-                    now       = mach_absolute_time();
-                    deltaT    = now - eventTime;
+                    now    = mach_absolute_time();
+                    deltaT = now - eventTime;
                     // Convert to nanoseconds.
 
                     // If this is the first time we've run, get the timebase.
@@ -1001,7 +961,7 @@ void connexionMessageHandler(io_connect_t connection, natural_t messageType, voi
                         // key as the guide (this is similar to how Photoshop works, where things snap
                         // to edges and nearby points unless the control key is down). Some other
                         // mechanism could be substituted here.
-                        NSEvent *event        = [NSApp currentEvent];
+                        NSEvent *event = [NSApp currentEvent];
                         int     modifierFlags = (int)[event modifierFlags];
                         bool    controlDown   = (0 != (modifierFlags & NSEventModifierFlagControl));
 
@@ -1027,18 +987,18 @@ void connexionMessageHandler(io_connect_t connection, natural_t messageType, voi
 
                         // Add in translation and rotation from prior events that didn't register
                         // enough to actually move.
-                        translationAccumulatedSinceLastMove =
-                            V3Add(originalNudgeVector, translationAccumulatedSinceLastMove);
-                        rotationAccumulatedSinceLastMove =
-                            V3Add(originalRotation, rotationAccumulatedSinceLastMove);
+                        translationAccumulatedSinceLastMove = V3Add(originalNudgeVector,
+                                translationAccumulatedSinceLastMove);
+                        rotationAccumulatedSinceLastMove = V3Add(originalRotation,
+                                rotationAccumulatedSinceLastMove);
 
                         // Make vectors that we will manipulate (note that V3Duplicate allocates memory; we want to use the stack)
                         Vector3 translation = V3Make(translationAccumulatedSinceLastMove.x,
-                                                     translationAccumulatedSinceLastMove.y,
-                                                     translationAccumulatedSinceLastMove.z);
+                                translationAccumulatedSinceLastMove.y,
+                                translationAccumulatedSinceLastMove.z);
                         Vector3 rotation = V3Make(rotationAccumulatedSinceLastMove.x,
-                                                  rotationAccumulatedSinceLastMove.y,
-                                                  rotationAccumulatedSinceLastMove.z);
+                                rotationAccumulatedSinceLastMove.y,
+                                rotationAccumulatedSinceLastMove.z);
 
                         // The controller and Bricksmith use different scales to measure position and rotation.
                         // Here we use some scaling constants that seem to give correct responsiveness
@@ -1085,9 +1045,8 @@ void connexionMessageHandler(io_connect_t connection, natural_t messageType, voi
                         }
                         length = fabsf((float)V3Length(rotation));
                         if (length > 0) {
-                            [currentDocument rotateSelection:rotation
-                             mode:RotateAroundSelectionCenter
-                             fixedCenter:NULL];
+                            [currentDocument rotateSelection:rotation mode:RotateAroundSelectionCenter
+                            fixedCenter:NULL];
                             rotationAccumulatedSinceLastMove = V3Make(0.0, 0.0, 0.0);
                         }
                         // printf("3Dconnexion moved: %llu %12.6f %12.6f %12.6f %12.6f %12.6f %12.6f\n", deltaT, translation.x, translation.y, translation.z, rotation.x, rotation.y, rotation.z);
@@ -1136,6 +1095,5 @@ void connexionMessageHandler(io_connect_t connection, natural_t messageType, voi
             break;
     }
 }
-
 
 @end

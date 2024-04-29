@@ -41,8 +41,8 @@ typedef enum
 typedef enum
 {
     LDrawStepAnyDirectives, // step can hold any type of subdirectives.
-    LDrawStepLines,         // step can hold *only* LDrawLines.
-    LDrawStepTriangles,     // etc.
+    LDrawStepLines, // step can hold *only* LDrawLines.
+    LDrawStepTriangles, // etc.
     LDrawStepQuadrilaterals, // etc.
     LDrawStepConditionalLines // etc.
 } LDrawStepFlavorT;
@@ -55,8 +55,8 @@ typedef enum
 @interface LDrawStep : LDrawContainer
 {
     LDrawStepRotationT stepRotationType;
-    Tuple3             rotationAngle; // in degrees
-    Box3 cachedBounds;        // cached bounds of the step
+    Tuple3 rotationAngle; // in degrees
+    Box3   cachedBounds; // cached bounds of the step
     // Optimization variables
     LDrawStepFlavorT stepFlavor; // defaults to LDrawStepAnyDirectives
     LDrawColorT      colorOfAllDirectives;

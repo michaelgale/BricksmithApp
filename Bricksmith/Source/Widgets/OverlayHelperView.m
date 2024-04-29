@@ -40,13 +40,8 @@
 
     // The overlay content itself is offloaded to a child window (which is
     // hardware-composited by the OS for sizzling performance).
-    self->helperWindow =
-        [[OverlayHelperWindow alloc] initWithContentRect:NSMakeRect(-10000, -10000,
-                                                                    1, 1)
-         styleMask:NSWindowStyleMaskBorderless
-         backing:NSBackingStoreBuffered
-         defer:YES
-         ordered:NSWindowAbove];
+    self->helperWindow = [[OverlayHelperWindow alloc] initWithContentRect:NSMakeRect(-10000, -10000, 1, 1)
+        styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:YES ordered:NSWindowAbove];
     // The window can get auto-closed by the OS when its parent window is
     // closed, leaving us with a dangling pointer if we didn't call this.
     [helperWindow setReleasedWhenClosed:NO];
@@ -54,7 +49,7 @@
     [helperWindow setContentView:overlayView];
 
     return(self);
-}// end initWithFrame:
+} // end initWithFrame:
 
 
 #pragma mark -
@@ -70,7 +65,7 @@
 - (NSView *)overlayView
 {
     return([self->helperWindow contentView]);
-}// end overlayView
+} // end overlayView
 
 
 #pragma mark -
@@ -85,7 +80,7 @@
 - (void)viewWillMoveToWindow:(NSWindow *)theWindow
 {
     [helperWindow parentViewWillMoveToWindow:theWindow];
-}// end viewWillMoveToWindow:
+} // end viewWillMoveToWindow:
 
 
 // ========== viewDidMoveToWindow ===============================================
@@ -96,7 +91,7 @@
 - (void)viewDidMoveToWindow
 {
     [helperWindow parentViewDidMoveToWindow];
-}// end viewDidMoveToWindow
+} // end viewDidMoveToWindow
 
 
 // ========== viewWillMoveToSuperview: ==========================================
@@ -111,7 +106,7 @@
     // The child window needs to watch the frame of the hardware-accelerated
     // view.
     [helperWindow setParentView:newSuperview];
-}// end viewWillMoveToSuperview:
+} // end viewWillMoveToSuperview:
 
 
 #pragma mark -
@@ -128,7 +123,7 @@
     [helperWindow release];
 
     [super dealloc];
-}// end dealloc
+} // end dealloc
 
 
 @end

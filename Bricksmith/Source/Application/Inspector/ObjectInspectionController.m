@@ -17,7 +17,6 @@
 #import "MacLDraw.h"
 
 @implementation ObjectInspectionController
-
 // ========== init ==============================================================
 //
 // Purpose:		Subclass implementations should load a Nib file containing their
@@ -37,7 +36,7 @@
 // }
 //
     return(self);
-}// end init
+} // end init
 
 
 #pragma mark -
@@ -52,7 +51,7 @@
 - (id)object
 {
     return(editingObject);
-}// end object
+} // end object
 
 
 // ========== setObject =========================================================
@@ -67,10 +66,8 @@
         // De-register any possible notification observer for the previous editing
         // object. In normal circumstances, there never is a previous object, so
         // this method is pointless. It is only here as a safeguard.
-        [[NSNotificationCenter defaultCenter]
-         removeObserver:self
-         name:LDrawDirectiveDidChangeNotification
-         object:nil];
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:LDrawDirectiveDidChangeNotification
+        object:nil];
 
         // Retain-release in preparation for changing the instance variable.
         [newObject retain];
@@ -81,13 +78,10 @@
         [self revert:self]; // calling revert should set the values of the palette.
 
         // We want to know when our object changes out from under us.
-        [[NSNotificationCenter defaultCenter]
-         addObserver:self
-         selector:@selector(directiveDidChange:)
-         name:LDrawDirectiveDidChangeNotification
-         object:newObject];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(directiveDidChange:)name:
+        LDrawDirectiveDidChangeNotification object:newObject];
     }
-}// end setObject:
+} // end setObject:
 
 
 // ========== window ============================================================
@@ -101,7 +95,7 @@
 - (NSWindow *)window
 {
     return(_window);
-}// end window
+} // end window
 
 
 #pragma mark -
@@ -122,7 +116,7 @@
 - (void)commitChanges:(id)sender
 {
     // Subclasses should implement this method to update their editing objects.
-}// end commitChanges:
+} // end commitChanges:
 
 
 // ========== finishedEditing: ==================================================
@@ -133,8 +127,7 @@
 - (IBAction)finishedEditing:(id)sender
 {
     LDrawDirective *representedObject = [self object];
-    LDrawDocument  *currentDocument   =
-        [[NSDocumentController sharedDocumentController] currentDocument];
+    LDrawDocument  *currentDocument   = [[NSDocumentController sharedDocumentController] currentDocument];
 
     // Note: This code is tightly coupled to the LDrawDocument to support
     // registering undo actions and providing a persistent target for
@@ -157,7 +150,7 @@
 
     // Someone else might care that the part has changed
     [representedObject sendMessageToObservers:MessageObservedChanged];
-}// end finishedEditing:
+} // end finishedEditing:
 
 
 // ========== revert ============================================================
@@ -171,7 +164,7 @@
 - (IBAction)revert:(id)sender
 {
     // does nothing, yet.
-}// end revert:
+} // end revert:
 
 
 #pragma mark -
@@ -188,7 +181,7 @@
 {
     // Update our state so we are not stale.
     [self revert:self];
-}// end directiveDidChange:
+} // end directiveDidChange:
 
 
 // MARK: - UTILITIES -
@@ -212,7 +205,7 @@
     representedPoint.z = [fields[2] floatValue];
 
     return(representedPoint);
-}// end coordinateValue
+} // end coordinateValue
 
 
 // ========== setCoordinateValue:onFields: ======================================
@@ -230,7 +223,7 @@
     [fields[0] setFloatValue:newPoint.x];
     [fields[1] setFloatValue:newPoint.y];
     [fields[2] setFloatValue:newPoint.z];
-}// end setCoordinateValue:
+} // end setCoordinateValue:
 
 
 #pragma mark -
@@ -257,7 +250,6 @@
     [editingObject release];
 
     [super dealloc];
-}// end dealloc
-
+} // end dealloc
 
 @end

@@ -68,7 +68,7 @@
     [newModel addStep];
 
     return([newModel autorelease]);
-}// end model
+} // end model
 
 
 // ========== init ==============================================================
@@ -89,7 +89,7 @@
     [self setStepDisplay:NO];
 
     return(self);
-}// end init
+} // end init
 
 
 // ========== initWithLines:inRange:parentGroup: ================================
@@ -111,25 +111,23 @@
 // markers still has one step.
 //
 // ==============================================================================
-- (id)initWithLines:(NSArray *)lines
-    inRange:(NSRange)range
-    parentGroup:(dispatch_group_t)parentGroup
+- (id)initWithLines:(NSArray *)lines inRange:(NSRange)range parentGroup:(dispatch_group_t)parentGroup
 {
     NSUInteger contentStartIndex = 0;
-    NSRange    stepRange         = range;
-    NSUInteger maxLineIndex      = 0;
-    NSUInteger insertIndex       = 0;
-    id         *substeps         = NULL;
+    NSRange    stepRange    = range;
+    NSUInteger maxLineIndex = 0;
+    NSUInteger insertIndex  = 0;
+    id *substeps = NULL;
 
     // Start with a nice blank model.
     self = [super initWithLines:lines inRange:range parentGroup:parentGroup];
     self->cachedBounds = InvalidBox;
-    substeps           = calloc(range.length, sizeof(LDrawDirective *));
+    substeps = calloc(range.length, sizeof(LDrawDirective *));
 
     // Try and get the header out of the file. If it's there, the lines returned
     // will not contain it.
     contentStartIndex = [self parseHeaderFromLines:lines beginningAtIndex:range.location];
-    maxLineIndex      = NSMaxRange(range) - 1;
+    maxLineIndex = NSMaxRange(range) - 1;
     dispatch_group_t modelDispatchGroup = NULL;
 
 /* *INDENT-OFF* */
@@ -193,7 +191,7 @@
 #endif	
 /* *INDENT-ON* */
     return(self);
-}// end initWithLines:inRange:
+} // end initWithLines:inRange:
 
 
 // ========== initWithCoder: ====================================================
@@ -210,11 +208,11 @@
     [self invalCache:CacheFlagBounds];
 
     modelDescription = [[decoder decodeObjectForKey:@"modelDescription"] retain];
-    fileName         = [[decoder decodeObjectForKey:@"fileName"] retain];
-    author           = [[decoder decodeObjectForKey:@"author"] retain];
+    fileName = [[decoder decodeObjectForKey:@"fileName"] retain];
+    author   = [[decoder decodeObjectForKey:@"author"] retain];
 
     return(self);
-}// end initWithCoder:
+} // end initWithCoder:
 
 
 // ========== encodeWithCoder: ==================================================
@@ -230,7 +228,7 @@
     [encoder encodeObject:modelDescription forKey:@"modelDescription"];
     [encoder encodeObject:fileName forKey:@"fileName"];
     [encoder encodeObject:author forKey:@"author"];
-}// end encodeWithCoder:
+} // end encodeWithCoder:
 
 
 // ========== copyWithZone: =====================================================
@@ -251,7 +249,7 @@
 
     // I don't think we care about the cached bounds.
     return(copied);
-}// end copyWithZone:
+} // end copyWithZone:
 
 
 #pragma mark -
@@ -264,14 +262,12 @@
 // their constituents.
 //
 // ==============================================================================
-- (void)draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)
-    parentColor
-
+- (void)draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)parentColor
 {
-    NSArray    *steps            = [self subdirectives];
-    NSUInteger maxIndex          = [self maxStepIndexToOutput];
+    NSArray    *steps   = [self subdirectives];
+    NSUInteger maxIndex = [self maxStepIndexToOutput];
     LDrawStep  *currentDirective = nil;
-    NSUInteger counter           = 0;
+    NSUInteger counter = 0;
 
     // Draw all the steps in the model
     for (counter = 0; counter <= maxIndex; counter++) {
@@ -283,7 +279,7 @@
     if (self->draggingDirectives != nil) {
         [self->draggingDirectives draw:optionsMask viewScale:scaleFactor parentColor:parentColor];
     }
-}// end draw:viewScale:parentColor:
+} // end draw:viewScale:parentColor:
 
 
 // ========== drawSelf: ===========================================================
@@ -332,7 +328,7 @@
         if ([self revalCache:DisplayList] == DisplayList) {
             dl_dtor(dl);
             dl_dtor = NULL;
-            dl      = NULL;
+            dl = NULL;
         }
     }
     else {
@@ -362,10 +358,10 @@
         // Library parts are guaranteed to be only steps of primitives,
         // so there is no need for this.
 
-        NSArray    *steps            = [self subdirectives];
-        NSUInteger maxIndex          = [self maxStepIndexToOutput];
+        NSArray    *steps   = [self subdirectives];
+        NSUInteger maxIndex = [self maxStepIndexToOutput];
         LDrawStep  *currentDirective = nil;
-        NSUInteger counter           = 0;
+        NSUInteger counter = 0;
 
         for (counter = 0; counter <= maxIndex; counter++) {
             currentDirective = [steps objectAtIndex:counter];
@@ -382,7 +378,7 @@
         // number of raw primitives.
 
         if (self->draggingDirectives != nil) {
-            LDrawDLHandle    drag_dl      = NULL;
+            LDrawDLHandle    drag_dl = NULL;
             LDrawDLCleanup_f drag_dl_dtor = NULL;
 
             id <LDrawCollector> collector = [renderer beginDL];
@@ -396,7 +392,7 @@
             [self->draggingDirectives drawSelf:renderer];
         }
     }
-}// drawSelf:
+} // drawSelf:
 
 
 // ========== collectSelf: ========================================================
@@ -417,17 +413,17 @@
 // ================================================================================
 - (void)collectSelf:(id <LDrawCollector>)renderer
 {
-    NSArray    *steps            = [self subdirectives];
-    NSUInteger maxIndex          = [self maxStepIndexToOutput];
+    NSArray    *steps   = [self subdirectives];
+    NSUInteger maxIndex = [self maxStepIndexToOutput];
     LDrawStep  *currentDirective = nil;
-    NSUInteger counter           = 0;
+    NSUInteger counter = 0;
 
     // Draw all the steps in the model
     for (counter = 0; counter <= maxIndex; counter++) {
         currentDirective = [steps objectAtIndex:counter];
         [currentDirective collectSelf:renderer];
     }
-}// end collectSelf:
+} // end collectSelf:
 
 
 // ========== debugDrawboundingBox ==============================================
@@ -438,10 +434,10 @@
 // ==============================================================================
 - (void)debugDrawboundingBox
 {
-    NSArray    *steps            = [self subdirectives];
-    NSUInteger maxIndex          = [self maxStepIndexToOutput];
+    NSArray    *steps   = [self subdirectives];
+    NSUInteger maxIndex = [self maxStepIndexToOutput];
     LDrawStep  *currentDirective = nil;
-    NSUInteger counter           = 0;
+    NSUInteger counter = 0;
 
     // Draw all the steps in the model
     for (counter = 0; counter <= maxIndex; counter++) {
@@ -450,7 +446,7 @@
     }
 
     [super debugDrawboundingBox];
-}// end debugDrawboundingBox
+} // end debugDrawboundingBox
 
 
 // ========== hitTest:transform:viewScale:boundsOnly:creditObject:hits: =======
@@ -458,29 +454,21 @@
 // Purpose:		Hit-test the geometry.
 //
 // ==============================================================================
-- (void)hitTest:(Ray3)pickRay
-    transform:(Matrix4)transform
-    viewScale:(double)scaleFactor
-    boundsOnly:(BOOL)boundsOnly
-    creditObject:(id)creditObject
-    hits:(NSMutableDictionary *)hits
+- (void)hitTest:(Ray3)pickRay transform:(Matrix4)transform viewScale:(double)scaleFactor boundsOnly:(BOOL)
+    boundsOnly creditObject:(id)creditObject hits:(NSMutableDictionary *)hits
 {
-    NSArray    *steps            = [self subdirectives];
-    NSUInteger maxIndex          = [self maxStepIndexToOutput];
+    NSArray    *steps   = [self subdirectives];
+    NSUInteger maxIndex = [self maxStepIndexToOutput];
     LDrawStep  *currentDirective = nil;
-    NSUInteger counter           = 0;
+    NSUInteger counter = 0;
 
     // Draw all the steps in the model
     for (counter = 0; counter <= maxIndex; counter++) {
         currentDirective = [steps objectAtIndex:counter];
-        [currentDirective hitTest:pickRay
-         transform:transform
-         viewScale:scaleFactor
-         boundsOnly:boundsOnly
-         creditObject:creditObject
-         hits:hits];
+        [currentDirective hitTest:pickRay transform:transform viewScale:scaleFactor boundsOnly:boundsOnly
+        creditObject:creditObject hits:hits];
     }
-}// end hitTest:transform:viewScale:boundsOnly:creditObject:hits:
+} // end hitTest:transform:viewScale:boundsOnly:creditObject:hits:
 
 
 // ========== boxTest:transform:boundsOnly:creditObject:hits: ===================
@@ -488,39 +476,30 @@
 // Purpose:		Check for intersections with screen-space geometry.
 //
 // ==============================================================================
-- (BOOL)boxTest:(Box2)bounds
-    transform:(Matrix4)transform
-    boundsOnly:(BOOL)boundsOnly
-    creditObject:(id)creditObject
-    hits:(NSMutableSet *)hits
+- (BOOL)boxTest:(Box2)bounds transform:(Matrix4)transform boundsOnly:(BOOL)boundsOnly creditObject:(id)
+    creditObject hits:(NSMutableSet *)hits
 {
-    if (!VolumeCanIntersectBox(
-            [self boundingBox3],
-            transform,
-            bounds)) {
+    if (!VolumeCanIntersectBox([self boundingBox3], transform, bounds)) {
         return(FALSE);
     }
 
-    NSArray    *steps            = [self subdirectives];
-    NSUInteger maxIndex          = [self maxStepIndexToOutput];
+    NSArray    *steps   = [self subdirectives];
+    NSUInteger maxIndex = [self maxStepIndexToOutput];
     LDrawStep  *currentDirective = nil;
-    NSUInteger counter           = 0;
+    NSUInteger counter = 0;
 
     // Draw all the steps in the model
     for (counter = 0; counter <= maxIndex; counter++) {
         currentDirective = [steps objectAtIndex:counter];
-        if ([currentDirective boxTest:bounds
-             transform:transform
-             boundsOnly:boundsOnly
-             creditObject:creditObject
-             hits:hits]) {
+        if ([currentDirective boxTest:bounds transform:transform boundsOnly:boundsOnly creditObject:
+            creditObject hits:hits]) {
             if (creditObject != nil) {
                 return(TRUE);
             }
         }
     }
     return(FALSE);
-}// end boxTest:transform:boundsOnly:creditObject:hits:
+} // end boxTest:transform:boundsOnly:creditObject:hits:
 
 
 // ========== depthTest:inBox:transform:creditObject:bestObject:bestDepth:=======
@@ -530,33 +509,25 @@
 // depth.
 //
 // ==============================================================================
-- (void)depthTest:(Point2)pt
-    inBox:(Box2)bounds
-    transform:(Matrix4)transform
-    creditObject:(id)creditObject
-    bestObject:(id *)bestObject
-    bestDepth:(double *)bestDepth
+- (void)depthTest:(Point2)pt inBox:(Box2)bounds transform:(Matrix4)transform creditObject:(id)creditObject
+    bestObject:(id *)bestObject bestDepth:(double *)bestDepth
 {
     if (!VolumeCanIntersectPoint([self boundingBox3], transform, bounds, *bestDepth)) {
         return;
     }
 
-    NSArray    *steps            = [self subdirectives];
-    NSUInteger maxIndex          = [self maxStepIndexToOutput];
+    NSArray    *steps   = [self subdirectives];
+    NSUInteger maxIndex = [self maxStepIndexToOutput];
     LDrawStep  *currentDirective = nil;
-    NSUInteger counter           = 0;
+    NSUInteger counter = 0;
 
     // Draw all the steps in the model
     for (counter = 0; counter <= maxIndex; counter++) {
         currentDirective = [steps objectAtIndex:counter];
-        [currentDirective depthTest:pt
-         inBox:bounds
-         transform:transform
-         creditObject:creditObject
-         bestObject:bestObject
-         bestDepth:bestDepth];
+        [currentDirective depthTest:pt inBox:bounds transform:transform creditObject:creditObject bestObject:
+        bestObject bestDepth:bestDepth];
     }
-}// end depthTest:inBox:transform:creditObject:bestObject:bestDepth:
+} // end depthTest:inBox:transform:creditObject:bestObject:bestDepth:
 
 
 // ========== write =============================================================
@@ -566,14 +537,14 @@
 // ==============================================================================
 - (NSString *)write
 {
-    NSString *CRLF = [NSString CRLF];                // we need a DOS line-end marker, because
+    NSString *CRLF = [NSString CRLF]; // we need a DOS line-end marker, because
     // LDraw is predominantly DOS-based.
-    NSMutableString *written     = [NSMutableString string];
-    NSArray         *steps       = [self subdirectives];
-    NSUInteger      numberSteps  = [steps count];
-    LDrawStep       *currentStep = nil;
-    NSString        *stepOutput  = nil;
-    NSUInteger      counter      = 0;
+    NSMutableString *written = [NSMutableString string];
+    NSArray    *steps = [self subdirectives];
+    NSUInteger numberSteps  = [steps count];
+    LDrawStep  *currentStep = nil;
+    NSString   *stepOutput  = nil;
+    NSUInteger counter = 0;
 
     // Write out the file header in all of its irritating glory.
     [written appendFormat:@"0 %@%@", [self modelDescription], CRLF];
@@ -600,7 +571,7 @@
     [written deleteCharactersInRange:NSMakeRange([written length] - [CRLF length], [CRLF length])];
 
     return(written);
-}// end write
+} // end write
 
 
 #pragma mark -
@@ -616,7 +587,7 @@
 - (NSString *)browsingDescription
 {
     return([self modelDescription]);
-}// end browsingDescription
+} // end browsingDescription
 
 
 // ========== iconName ==========================================================
@@ -628,7 +599,7 @@
 - (NSString *)iconName
 {
     return(@"Document");
-}// end iconName
+} // end iconName
 
 
 #pragma mark -
@@ -652,10 +623,10 @@
     if ([self revalCache:CacheFlagBounds] == CacheFlagBounds) {
         cachedBounds = InvalidBox;
 
-        NSArray    *steps            = [self subdirectives];
-        NSUInteger maxIndex          = [self maxStepIndexToOutput];
+        NSArray    *steps   = [self subdirectives];
+        NSUInteger maxIndex = [self maxStepIndexToOutput];
         LDrawStep  *currentDirective = nil;
-        NSUInteger counter           = 0;
+        NSUInteger counter = 0;
         // Draw all the steps in the model
         for (counter = 0; counter <= maxIndex; counter++) {
             currentDirective = [steps objectAtIndex:counter];
@@ -666,13 +637,12 @@
 
     // If drag-and-drop objects are present, add them into the bounds.
     if (self->draggingDirectives != nil) {
-        draggingBounds =
-            [LDrawUtilities boundingBox3ForDirectives:[self->draggingDirectives subdirectives]];
-        totalBounds = V3UnionBox(draggingBounds, totalBounds);
+        draggingBounds = [LDrawUtilities boundingBox3ForDirectives:[self->draggingDirectives subdirectives]];
+        totalBounds    = V3UnionBox(draggingBounds, totalBounds);
     }
 
     return(totalBounds);
-}// end boundingBox3
+} // end boundingBox3
 
 
 // ========== category ==========================================================
@@ -707,7 +677,7 @@
     }
 
     return(category);
-}// end category
+} // end category
 
 
 // ========== colorLibrary ======================================================
@@ -727,7 +697,7 @@
 - (ColorLibrary *)colorLibrary
 {
     return(self->colorLibrary);
-}// end colorLibrary
+} // end colorLibrary
 
 
 // ========== draggingDirectives ================================================
@@ -739,7 +709,7 @@
 - (NSArray *)draggingDirectives
 {
     return([self->draggingDirectives subdirectives]);
-}// end draggingDirectives
+} // end draggingDirectives
 
 
 // ========== enclosingFile =====================================================
@@ -750,7 +720,7 @@
 - (LDrawFile *)enclosingFile
 {
     return((LDrawFile *)[self enclosingDirective]);
-}// end enclosingFile
+} // end enclosingFile
 
 
 // ========== modelDescription ==================================================
@@ -762,7 +732,7 @@
 - (NSString *)modelDescription
 {
     return(modelDescription);
-}// end modelDescription
+} // end modelDescription
 
 
 // ========== fileName ==========================================================
@@ -774,7 +744,7 @@
 - (NSString *)fileName
 {
     return(fileName);
-}// end fileName
+} // end fileName
 
 
 // ========== author ============================================================
@@ -785,7 +755,7 @@
 - (NSString *)author
 {
     return(author);
-}// end author
+} // end author
 
 
 // ========== maximumStepIndexDisplayed =========================================
@@ -797,7 +767,7 @@
 - (NSUInteger)maximumStepIndexForStepDisplay
 {
     return(self->currentStepDisplayed);
-}// end maximumStepIndexDisplayed
+} // end maximumStepIndexDisplayed
 
 
 // ========== rotationAngleForStepAtIndex: ======================================
@@ -823,15 +793,15 @@
 // ==============================================================================
 - (Tuple3)rotationAngleForStepAtIndex:(NSUInteger)stepNumber
 {
-    NSArray            *steps            = [self steps];
-    LDrawStep          *currentStep      = nil;
-    LDrawStepRotationT rotationType      = LDrawStepRotationNone;
-    Tuple3             stepRotationAngle = ZeroPoint3;
-    Tuple3             previousRotation  = ZeroPoint3;
-    Tuple3             newRotation       = ZeroPoint3;
-    Tuple3             totalRotation     = ZeroPoint3;
-    Matrix4            rotationMatrix    = IdentityMatrix4;
-    NSUInteger         counter           = 0;
+    NSArray   *steps = [self steps];
+    LDrawStep *currentStep = nil;
+    LDrawStepRotationT rotationType = LDrawStepRotationNone;
+    Tuple3     stepRotationAngle    = ZeroPoint3;
+    Tuple3     previousRotation     = ZeroPoint3;
+    Tuple3     newRotation    = ZeroPoint3;
+    Tuple3     totalRotation  = ZeroPoint3;
+    Matrix4    rotationMatrix = IdentityMatrix4;
+    NSUInteger counter = 0;
 
     // Start with the default 3D angle onto the stack. If no rotation is ever
     // specified, that is the one we use.
@@ -840,8 +810,8 @@
 
     // Build the rotation stack
     for (counter = 0; counter <= stepNumber && counter < [steps count]; counter++) {
-        currentStep       = [steps objectAtIndex:counter];
-        rotationType      = [currentStep stepRotationType];
+        currentStep  = [steps objectAtIndex:counter];
+        rotationType = [currentStep stepRotationType];
         stepRotationAngle = [currentStep rotationAngle];
 
         switch (rotationType)
@@ -906,7 +876,7 @@
     // we are to set the view.
 
     return(totalRotation);
-}// end rotationAngleForStepAtIndex:
+} // end rotationAngleForStepAtIndex:
 
 
 // ========== rotationCenter ====================================================
@@ -926,7 +896,7 @@
 - (BOOL)stepDisplay
 {
     return(self->stepDisplayActive);
-}// end stepDisplay
+} // end stepDisplay
 
 
 // ========== steps =============================================================
@@ -937,7 +907,7 @@
 - (NSArray *)steps
 {
     return([self subdirectives]);
-}// end steps
+} // end steps
 
 
 // ========== visibleStep =======================================================
@@ -959,7 +929,7 @@
     }
 
     return(lastStep);
-}// end visibleStep
+} // end visibleStep
 
 
 #pragma mark -
@@ -972,26 +942,20 @@
 // ==============================================================================
 - (void)setDraggingDirectives:(NSArray *)directives
 {
-    LDrawStep      *dragStep         = nil;
+    LDrawStep *dragStep = nil;
     LDrawDirective *currentDirective = nil;
-    NSUInteger     counter           = 0;
+    NSUInteger     counter = 0;
 
     // Remove primitives from the previous dragging directives from the
     // optimized vertexes
     if (self->draggingDirectives) {
-        NSMutableArray *lines          = [NSMutableArray array];
-        NSMutableArray *triangles      = [NSMutableArray array];
+        NSMutableArray *lines     = [NSMutableArray array];
+        NSMutableArray *triangles = [NSMutableArray array];
         NSMutableArray *quadrilaterals = [NSMutableArray array];
 
-        [self->draggingDirectives flattenIntoLines:lines
-         triangles:triangles
-         quadrilaterals:quadrilaterals
-         other:nil
-         currentColor:[[ColorLibrary sharedColorLibrary] colorForCode:
-                       LDrawCurrentColor]
-         currentTransform:IdentityMatrix4
-         normalTransform:IdentityMatrix3
-         recursive:NO];
+        [self->draggingDirectives flattenIntoLines:lines triangles:triangles quadrilaterals:quadrilaterals
+        other:nil currentColor:[[ColorLibrary sharedColorLibrary] colorForCode:LDrawCurrentColor]
+        currentTransform:IdentityMatrix4 normalTransform:IdentityMatrix3 recursive:NO];
     }
 
     // When we get sent nil directives, nil out the drag step.
@@ -1014,25 +978,20 @@
 
         // ---------- Optimize primitives ---------------------------------------
 
-        NSMutableArray *lines          = [NSMutableArray array];
-        NSMutableArray *triangles      = [NSMutableArray array];
+        NSMutableArray *lines     = [NSMutableArray array];
+        NSMutableArray *triangles = [NSMutableArray array];
         NSMutableArray *quadrilaterals = [NSMutableArray array];
 
-        [dragStep flattenIntoLines:lines
-         triangles:triangles
-         quadrilaterals:quadrilaterals
-         other:nil
-         currentColor:[[ColorLibrary sharedColorLibrary] colorForCode:LDrawCurrentColor]
-         currentTransform:IdentityMatrix4
-         normalTransform:IdentityMatrix3
-         recursive:NO];
+        [dragStep flattenIntoLines:lines triangles:triangles quadrilaterals:quadrilaterals other:nil
+        currentColor:[[ColorLibrary sharedColorLibrary] colorForCode:LDrawCurrentColor] currentTransform:
+        IdentityMatrix4 normalTransform:IdentityMatrix3 recursive:NO];
     }
 
     [dragStep retain];
     [self->draggingDirectives release];
 
     self->draggingDirectives = dragStep;
-}// end setDraggingDirectives:
+} // end setDraggingDirectives:
 
 
 // ========== setModelDescription: ==============================================
@@ -1045,7 +1004,7 @@
     [newDescription retain];
     [modelDescription release];
     modelDescription = newDescription;
-}// end setModelDescription:
+} // end setModelDescription:
 
 
 // ========== setFileName: ======================================================
@@ -1061,7 +1020,7 @@
     [newName retain];
     [fileName release];
     fileName = newName;
-}// end setFileName:
+} // end setFileName:
 
 
 // ========== setAuthor: ========================================================
@@ -1079,7 +1038,7 @@
     [newAuthor retain];
     [author release];
     author = newAuthor;
-}// end setAuthor:
+} // end setAuthor:
 
 
 // ========== setMaximumStepIndexForStepDisplay: ================================
@@ -1095,14 +1054,14 @@
     NSInteger maximumIndex = [[self steps] count] - 1;
 
     if (stepIndex > maximumIndex) {
-        [NSException raise:NSRangeException
-         format:@"index (%ld) beyond maximum step index %ld", (long)stepIndex, (long)maximumIndex];
+        [NSException raise:NSRangeException format:@"index (%ld) beyond maximum step index %ld",
+        (long)stepIndex, (long)maximumIndex];
     }
     else {
         [self invalCache:CacheFlagBounds | DisplayList];
         self->currentStepDisplayed = stepIndex;
     }
-}// end setMaximumStepIndexForStepDisplay:
+} // end setMaximumStepIndexForStepDisplay:
 
 
 // ========== setRotationCenter: ================================================
@@ -1118,13 +1077,11 @@
     self->rotationCenter = newPoint;
 
     NSDictionary *info =
-        [NSDictionary dictionaryWithObject:[NSValue valueWithBytes:&oldPoint objCType:@encode(Point3)] forKey:
-         @"oldRotationCenter"];
+        [NSDictionary dictionaryWithObject:[NSValue valueWithBytes:&oldPoint objCType:@encode(
+            Point3)] forKey:@"oldRotationCenter"];
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:
-     LDrawModelRotationCenterDidChangeNotification
-     object:[self enclosingFile]
-     userInfo:info];
+    [[NSNotificationCenter defaultCenter] postNotificationName:LDrawModelRotationCenterDidChangeNotification
+    object:[self enclosingFile] userInfo:info];
 }
 
 
@@ -1138,7 +1095,7 @@
 {
     [self invalCache:CacheFlagBounds | DisplayList];
     self->stepDisplayActive = flag;
-}// end setStepDisplay:
+} // end setStepDisplay:
 
 
 #pragma mark -
@@ -1157,7 +1114,7 @@
 
     [self addDirective:newStep]; // adds the step and tells it who it belongs to.
     return(newStep);
-}// end addStep
+} // end addStep
 
 
 // ========== addStep: ==========================================================
@@ -1168,7 +1125,7 @@
 - (void)addStep:(LDrawStep *)newStep
 {
     [self addDirective:newStep];
-}// end addStep:
+} // end addStep:
 
 
 // ========== makeStepVisible: ==================================================
@@ -1181,12 +1138,11 @@
     NSUInteger stepIndex = [self indexOfDirective:step];
 
     // If we're in step display, but below this step, make it visible.
-    if (stepIndex != NSNotFound &&
-        stepIndex > [self maxStepIndexToOutput]) {
+    if (stepIndex != NSNotFound && stepIndex > [self maxStepIndexToOutput]) {
         [self setMaximumStepIndexForStepDisplay:stepIndex];
     }
     // Otherwise, we see everything, so by definition this step is visible.
-}// end makeStepVisible
+} // end makeStepVisible
 
 
 // ========== removeDirectiveAtIndex: ===========================================
@@ -1231,7 +1187,7 @@
     }
     // explicitly disregard self-references if the dropped directive is a model "part"
     else if ([directive isKindOfClass:[LDrawPart class]]) {
-        NSString *referenceName      = [((LDrawPart *)directive) referenceName];
+        NSString *referenceName = [((LDrawPart *)directive) referenceName];
         NSString *enclosingModelName = @"";
         if ([[self enclosingModel] respondsToSelector:@selector(modelName)]) {
             enclosingModelName = [[self enclosingModel] performSelector:@selector(modelName)];
@@ -1268,7 +1224,7 @@
         maxStep = [steps count] - 1;
     }
     return(maxStep);
-}// end maxStepIndexToOutput
+} // end maxStepIndexToOutput
 
 
 // ========== numberElements ====================================================
@@ -1280,17 +1236,17 @@
 // ==============================================================================
 - (NSUInteger)numberElements
 {
-    NSArray    *steps         = [self steps];
+    NSArray    *steps = [self steps];
     LDrawStep  *currentStep   = nil;
     NSUInteger numberElements = 0;
-    NSUInteger counter        = 0;
+    NSUInteger counter = 0;
 
     for (counter = 0; counter < [steps count]; counter++) {
         currentStep     = [steps objectAtIndex:counter];
         numberElements += [[currentStep subdirectives] count];
     }
     return(numberElements);
-}// end numberElements
+} // end numberElements
 
 
 // ========== optimizeStructure =================================================
@@ -1316,30 +1272,25 @@
 {
     NSArray *steps = [self subdirectives];
 
-    NSMutableArray *lines              = [NSMutableArray array];
-    NSMutableArray *triangles          = [NSMutableArray array];
-    NSMutableArray *quadrilaterals     = [NSMutableArray array];
-    NSMutableArray *everythingElse     = [NSMutableArray array];
-    LDrawStep      *linesStep          = [LDrawStep emptyStepWithFlavor:LDrawStepLines];
-    LDrawStep      *trianglesStep      = [LDrawStep emptyStepWithFlavor:LDrawStepTriangles];
+    NSMutableArray *lines     = [NSMutableArray array];
+    NSMutableArray *triangles = [NSMutableArray array];
+    NSMutableArray *quadrilaterals = [NSMutableArray array];
+    NSMutableArray *everythingElse = [NSMutableArray array];
+    LDrawStep      *linesStep     = [LDrawStep emptyStepWithFlavor:LDrawStepLines];
+    LDrawStep      *trianglesStep = [LDrawStep emptyStepWithFlavor:LDrawStepTriangles];
     LDrawStep      *quadrilateralsStep = [LDrawStep emptyStepWithFlavor:LDrawStepQuadrilaterals];
     LDrawStep      *everythingElseStep = [LDrawStep emptyStepWithFlavor:LDrawStepAnyDirectives];
-    NSUInteger     directiveCount      = 0;
-    NSInteger      counter             = 0;
+    NSUInteger     directiveCount = 0;
+    NSInteger      counter = 0;
 
     // Traverse the entire hiearchy of part references and sort out each
     // primitive type into a flat list. This allows staggering speed increases.
     //
     // If we were to only sort without flattening, we would get a 100% speed
     // increase. But flattening and sorting yields over 1000%.
-    [self flattenIntoLines:lines
-     triangles:triangles
-     quadrilaterals:quadrilaterals
-     other:everythingElse
-     currentColor:[[ColorLibrary sharedColorLibrary] colorForCode:LDrawCurrentColor]
-     currentTransform:IdentityMatrix4
-     normalTransform:IdentityMatrix3
-     recursive:YES];
+    [self flattenIntoLines:lines triangles:triangles quadrilaterals:quadrilaterals other:everythingElse
+    currentColor:[[ColorLibrary sharedColorLibrary] colorForCode:LDrawCurrentColor] currentTransform:
+    IdentityMatrix4 normalTransform:IdentityMatrix3 recursive:YES];
 
     // Now that we have everything separated, remove the main step (it's the one
     // that has the entire model in it) and .
@@ -1375,7 +1326,7 @@
     }
 
     isOptimized = TRUE;
-}// end optimizeStructure
+} // end optimizeStructure
 
 
 // ========== parseHeaderFromLines:beginningAtIndex: ============================
@@ -1396,14 +1347,13 @@
 // Returns the line index of the first non-header line.
 //
 // ==============================================================================
-- (NSUInteger)parseHeaderFromLines:(NSArray *)lines
-    beginningAtIndex:(NSUInteger)index
+- (NSUInteger)parseHeaderFromLines:(NSArray *)lines beginningAtIndex:(NSUInteger)index
 {
-    NSString   *currentLine        = nil;
-    NSUInteger counter             = 0;
-    BOOL       lineValidForHeader  = NO;
+    NSString   *currentLine = nil;
+    NSUInteger counter = 0;
+    BOOL lineValidForHeader = NO;
     NSUInteger firstNonHeaderIndex = index;
-    NSString   *payload            = nil;
+    NSString   *payload = nil;
 
     @try
     {
@@ -1419,11 +1369,11 @@
         // them.
         lineValidForHeader = YES;
         for (counter = firstNonHeaderIndex;
-             counter < firstNonHeaderIndex + 3 && lineValidForHeader == YES;
-             counter++) {
-            currentLine        = [lines objectAtIndex:counter];
+            counter < firstNonHeaderIndex + 3 && lineValidForHeader == YES;
+            counter++) {
+            currentLine = [lines objectAtIndex:counter];
             lineValidForHeader = NO; // assume not, then disprove
-            payload            = nil;
+            payload = nil;
 
             // Second line. Should be file name.
             if ([self line:currentLine isValidForHeader:LDRAW_HEADER_NAME info:&payload]) {
@@ -1438,8 +1388,8 @@
             // Fourth line. MLCad used it as a nonstandard way of indicating
             // official status. Since it was nonstandard, nobody used it.
             else if ([self line:currentLine isValidForHeader:@""  info:&payload]) {
-                if ([payload isEqualToString:@"LDraw.org Official Model Repository"]
-                    || [payload isEqualToString:@"Unofficial Model"]) {
+                if ([payload isEqualToString:@"LDraw.org Official Model Repository"] ||
+                    [payload isEqualToString:@"Unofficial Model"]) {
                     // Bricksmith followed MLCad spewing out this garbage for
                     // years. It is unnecessary. Now I am just stripping it out
                     // of any file I encounter.
@@ -1457,7 +1407,7 @@
         // Ran out of lines in the file. Oh well. We got what we got.
     }
     return(firstNonHeaderIndex);
-}// end parseHeaderFromLines
+} // end parseHeaderFromLines
 
 
 // ========== line:isValidForHeader: ============================================
@@ -1466,13 +1416,11 @@
 // the specified field in a model header.
 //
 // ==============================================================================
-- (BOOL)line:(NSString *)line
-    isValidForHeader:(NSString *)headerKey
-    info:(NSString **)infoPtr
+- (BOOL)line:(NSString *)line isValidForHeader:(NSString *)headerKey info:(NSString **)infoPtr
 {
     NSString *parsedField = nil;
     NSString *workingLine = line;
-    BOOL     isValid      = NO;
+    BOOL     isValid = NO;
 
     parsedField = [LDrawUtilities readNextField:line remainder:&workingLine];
     if ([parsedField isEqualToString:@"0"]) {
@@ -1491,7 +1439,7 @@
         }
     }
     return(isValid);
-}// end line:isValidForHeader:
+} // end line:isValidForHeader:
 
 
 // ========== registerUndoActions ===============================================
@@ -1508,7 +1456,7 @@
     [[undoManager prepareWithInvocationTarget:self] setFileName:[self fileName]];
     [[undoManager prepareWithInvocationTarget:self] setModelDescription:[self modelDescription]];
     [undoManager setActionName:NSLocalizedString(@"UndoAttributesModel", nil)];
-}// end registerUndoActions:
+} // end registerUndoActions:
 
 
 #pragma mark -
@@ -1531,7 +1479,7 @@
     [author release];
     [colorLibrary release];
     [super dealloc];
-}// end dealloc
+} // end dealloc
 
 
 // - (void) invalCache:(CacheFlagsT) flags

@@ -12,7 +12,6 @@
 #import <math.h>
 
 @implementation NSTableView (TableViewCategory)
-
 // ========== scrollRowToCenter: ================================================
 //
 // Purpose:		Scrolls the table view's clip view such that the row is centered
@@ -25,8 +24,7 @@
     NSRect  scrollFrame = [[self enclosingScrollView] documentVisibleRect];
     NSPoint scrollPoint = NSZeroPoint;
 
-    scrollFrame = [self convertRect:scrollFrame
-                   fromView:[[self enclosingScrollView] documentView]];
+    scrollFrame = [self convertRect:scrollFrame fromView:[[self enclosingScrollView] documentView]];
     scrollPoint = rowRect.origin;
 
     scrollPoint.y -= NSHeight(scrollFrame) / 2;

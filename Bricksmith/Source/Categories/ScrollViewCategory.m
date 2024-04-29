@@ -12,7 +12,6 @@
 #import "CenteringClipView.h"
 
 @implementation NSScrollView (ScrollViewCategory)
-
 // ========== centerDocumentView ================================================
 //
 // Purpose:		Forces the document view to be drawn in the center of the scroll
@@ -21,10 +20,9 @@
 // ==============================================================================
 - (void)centerDocumentView
 {
-    NSView            *documentView      = [[self documentView] retain];
-    NSClipView        *oldClipView       = [self contentView];
-    CenteringClipView *centeringClipView =
-        [[CenteringClipView alloc] initWithFrame:[oldClipView frame]];
+    NSView *documentView    = [[self documentView] retain];
+    NSClipView *oldClipView = [self contentView];
+    CenteringClipView *centeringClipView = [[CenteringClipView alloc] initWithFrame:[oldClipView frame]];
     NSRect visibleRect = [self documentVisibleRect];
 
     // replicate settings
@@ -40,7 +38,7 @@
     // Let My Bits Go!
     [documentView release];
     [centeringClipView release];
-}// end centerDocumentView
+} // end centerDocumentView
 
 
 @end

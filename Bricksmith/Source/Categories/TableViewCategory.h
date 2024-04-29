@@ -9,8 +9,6 @@
 // ==============================================================================
 #import <Cocoa/Cocoa.h>
 
-@interface NSTableView (TableViewCategory)
-
-- (void)scrollRowToCenter:(NSInteger)rowIndex;
+@interface NSTableView (TableViewCategory) - (void)scrollRowToCenter : (NSInteger)rowIndex;
 
 @end

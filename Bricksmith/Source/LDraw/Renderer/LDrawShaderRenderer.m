@@ -17,16 +17,10 @@
 // and its order must match the attr_position...array in the .h.
 static const char *attribs[] =
 {
-    "position",
-    "normal",
-    "color",
-    "transform_x",
-    "transform_y",
+    "position",      "normal",           "color",           "transform_x",             "transform_y",
     "transform_z",
     "transform_w",
-    "color_current",
-    "color_compliment",
-    "texture_mix", NULL
+    "color_current", "color_compliment", "texture_mix",     NULL
 };
 
 // Drag handle linked list.  When we get drag handle requests we transform the location into eye-space (to 'capture' the
@@ -65,8 +59,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
     else {
         memcpy(storage, c, sizeof(GLfloat) * 4);
     }
-}// end set_color4fv
-
+} // end set_color4fv
 
 // ================================================================================
 @implementation LDrawShaderRenderer
@@ -78,9 +71,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
 // Purpose: initialize our renderer, and grab all basic OpenGL state we need.
 //
 // ================================================================================
-- (id)initWithScale:(double)initial_scale
-    modelView:(GLfloat *)mv_matrix
-    projection:(GLfloat *)proj_matrix
+- (id)initWithScale:(double)initial_scale modelView:(GLfloat *)mv_matrix projection:(GLfloat *)proj_matrix
 {
     pool = LDrawBDPCreate();
     // Build our shader if it doesn't exist yet.  For now, just stash the GL
@@ -97,7 +88,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
     else {
         glUseProgram(prog);
     }
-    self        = [super init];
+    self = [super init];
     self->scale = initial_scale;
 
     [[[ColorLibrary sharedColorLibrary] colorForCode:LDrawCurrentColor] getColorRGBA:color_now];
@@ -126,7 +117,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
     drag_handles = NULL;
 
     return(self);
-}// end init:
+} // end init:
 
 
 // ========== dealloc: ============================================================
@@ -147,18 +138,19 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
 
     for (dh = drag_handles; dh != NULL; dh = dh->next) {
         GLfloat s     = dh->size / self->scale;
-        GLfloat m[16] =
-        { s,                   0, 0, 0, 0, s, 0, 0, 0, 0, s, 0, (GLfloat)dh->xyz[0],
-          (GLfloat)dh->xyz[1],
-          (GLfloat)dh->xyz[2],
-          1.0f };
+        GLfloat m[16] = { s,                   0,                             0,                   0,
+                          0,                             s,                             0,
+                          0,                   0,                             0,                   s,
+                          0,
+                          (GLfloat)dh->xyz[0],
+                          (GLfloat)dh->xyz[1],
+                          (GLfloat)dh->xyz[2], 1.0f };
 
         [self pushMatrix:m];
         xyz[0] = (GLfloat)dh->xyz[0];
         xyz[1] = (GLfloat)dh->xyz[1];
         xyz[2] = (GLfloat)dh->xyz[2];
-        [self drawDragHandleImm:&xyz[0]
-         withSize:dh->size];
+        [self drawDragHandleImm:&xyz[0] withSize:dh->size];
         [self popMatrix];
     }
 
@@ -176,7 +168,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
     LDrawBDPDestroy(pool);
 
     [super dealloc];
-}// end dealloc:
+} // end dealloc:
 
 
 // ========== pushMatrix: =========================================================
@@ -212,7 +204,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
         memcpy(tex_now.plane_t, t, sizeof(t));
     }
     multMatrices(cull_now, mvp, transform_now);
-}// end pushMatrix:
+} // end pushMatrix:
 
 
 // ========== checkCull:to: =======================================================
@@ -229,19 +221,14 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
 // ================================================================================
 - (int)checkCull:(GLfloat *)minXYZ to:(GLfloat *)maxXYZ
 {
-    if (minXYZ[0] > maxXYZ[0] ||
-        minXYZ[1] > maxXYZ[1] ||
-        minXYZ[2] > maxXYZ[2]) { return(cull_skip); }
+    if (minXYZ[0] > maxXYZ[0] || minXYZ[1] > maxXYZ[1] || minXYZ[2] > maxXYZ[2]) { return(cull_skip); }
 
     GLfloat aabb_model[6] = { minXYZ[0], minXYZ[1], minXYZ[2], maxXYZ[0], maxXYZ[1], maxXYZ[2] };
     GLfloat aabb_ndc[6];
 
     aabbToClipbox(aabb_model, cull_now, aabb_ndc);
 
-    if (aabb_ndc[3] < -1.0f ||
-        aabb_ndc[4] < -1.0f ||
-        aabb_ndc[0] > 1.0f ||
-        aabb_ndc[1] > 1.0f) {
+    if (aabb_ndc[3] < -1.0f || aabb_ndc[4] < -1.0f || aabb_ndc[0] > 1.0f || aabb_ndc[1] > 1.0f) {
         return(cull_skip);
     }
 
@@ -256,7 +243,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
         return(cull_box);
     }
     return(cull_draw);
-}// end pushMatrix:to:
+} // end pushMatrix:to:
 
 
 // ========== drawBoxFrom:to: =====================================================
@@ -306,19 +293,16 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
     }
     GLfloat dim[3] =
     {
-        maxXyz[0] - minXyz[0],
-        maxXyz[1] - minXyz[1],
-        maxXyz[2] - minXyz[2]
+        maxXyz[0] - minXyz[0], maxXyz[1] - minXyz[1], maxXyz[2] - minXyz[2]
     };
-    GLfloat rescale[16] = { dim[0],    0,         0,         0,
-                            0,         dim[1],    0,         0,
-                            0,         0,         dim[2],    0,
-                            minXyz[0], minXyz[1], minXyz[2], 1 };
+    GLfloat rescale[16] = { dim[0],    0,    0,    0,    0,    dim[1], 0, 0, 0, 0, dim[2], 0, minXyz[0],
+                            minXyz[1],
+                            minXyz[2], 1 };
 
     [self pushMatrix:rescale];
     [self drawDL:unit_cube];
     [self popMatrix];
-}// end drawBoxFrom:to:
+} // end drawBoxFrom:to:
 
 
 // ========== popMatrix: ==========================================================
@@ -337,7 +321,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
     --transform_stack_top;
     memcpy(transform_now, transform_stack + 16 * transform_stack_top, sizeof(transform_now));
     multMatrices(cull_now, mvp, transform_now);
-}// end popMatrix:
+} // end popMatrix:
 
 
 // ========== pushColor: ==========================================================
@@ -365,7 +349,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
         color_now[3] = color[3];
         complimentColor(color_now, compl_now);
     }
-}// end pushColor:
+} // end pushColor:
 
 
 // ========== popColor: ===========================================================
@@ -383,7 +367,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
     color_now[2] = top[2];
     color_now[3] = top[3];
     complimentColor(color_now, compl_now);
-}// end popColor:
+} // end popColor:
 
 
 // ========== pushTexture: ========================================================
@@ -401,7 +385,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
     if (dl_stack_top) {
         LDrawDLBuilderSetTex(dl_now, &tex_now);
     }
-}// end pushTexture:
+} // end pushTexture:
 
 
 // ========== popTexture: =========================================================
@@ -418,7 +402,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
     if (dl_stack_top) {
         LDrawDLBuilderSetTex(dl_now, &tex_now);
     }
-}// end popTexture:
+} // end popTexture:
 
 
 // ========== pushWireFrame: ======================================================
@@ -432,7 +416,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
     if (wire_frame_count++ == 0) {
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     }
-}// end pushWireFrame:
+} // end pushWireFrame:
 
 
 // ========== popWireFrame: =======================================================
@@ -446,7 +430,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
     if (--wire_frame_count == 0) {
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     }
-}// end popWireFrame:
+} // end popWireFrame:
 
 
 // ========== drawQuad:normal:color: ==============================================
@@ -464,7 +448,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
     GLfloat c[4];
     set_color4fv(color, c);
     LDrawDLBuilderAddQuad(dl_now, vertices, normal, c);
-}// end drawQuad:normal:color:
+} // end drawQuad:normal:color:
 
 
 // ========== drawTri:normal:color: ===============================================
@@ -478,7 +462,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
     GLfloat c[4];
     set_color4fv(color, c);
     LDrawDLBuilderAddTri(dl_now, vertices, normal, c);
-}// end drawTri:normal:color:
+} // end drawTri:normal:color:
 
 
 // ========== drawLine:normal:color: ==============================================
@@ -492,7 +476,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
     GLfloat c[4];
     set_color4fv(color, c);
     LDrawDLBuilderAddLine(dl_now, vertices, normal, c);
-}// end drawLine:normal:color:
+} // end drawLine:normal:color:
 
 
 // ========== drawDragHandle:withSize: ============================================
@@ -509,9 +493,8 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
 // ================================================================================
 - (void)drawDragHandle:(GLfloat *)xyz withSize:(GLfloat)size
 {
-    struct LDrawDragHandleInstance *dh =
-        (struct LDrawDragHandleInstance *)LDrawBDPAllocate(pool,
-                                                           sizeof(struct LDrawDragHandleInstance));
+    struct LDrawDragHandleInstance *dh = (struct LDrawDragHandleInstance *)LDrawBDPAllocate(pool,
+            sizeof(struct LDrawDragHandleInstance));
 
     dh->next     = drag_handles;
     drag_handles = dh;
@@ -526,7 +509,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
     dh->xyz[1] = (double)handle_world[1];
     dh->xyz[2] = (double)handle_world[2];
     dh->size   = (double)size;
-}// end drawDragHandle:withSize:
+} // end drawDragHandle:withSize:
 
 
 // ========== drawDragHandle:withSize: ============================================
@@ -546,22 +529,22 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
 // ================================================================================
 - (void)drawDragHandleImm:(GLfloat *)xyz withSize:(GLfloat)size
 {
-    static GLuint vaoTag         = 0;
-    static GLuint vboTag         = 0;
+    static GLuint vaoTag = 0;
+    static GLuint vboTag = 0;
     static GLuint vboVertexCount = 0;
 
     if (vaoTag == 0) {
         // Bail if we've already done it.
         int     latitudeSections  = 8;
         int     longitudeSections = 8;
-        double  latitudeRadians   = (M_PI / latitudeSections);  // lat. wraps halfway around sphere
+        double  latitudeRadians   = (M_PI / latitudeSections);      // lat. wraps halfway around sphere
         double  longitudeRadians  = (2 * M_PI / longitudeSections); // long. wraps all the way
-        int     vertexCount       = 0;
-        GLfloat *vertexes         = NULL;
-        int     latitudeCount     = 0;
-        int     longitudeCount    = 0;
-        double  latitude          = 0;
-        double  longitude         = 0;
+        int     vertexCount    = 0;
+        GLfloat *vertexes      = NULL;
+        int     latitudeCount  = 0;
+        int     longitudeCount = 0;
+        double  latitude  = 0;
+        double  longitude = 0;
 
         // ---------- Generate Sphere -----------------------------------------------
 
@@ -627,10 +610,10 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
 
     for (i = 0; i < 4; ++i) {
         glVertexAttrib4f(attr_transform_x + i,
-                         transform_now[i],
-                         transform_now[4 + i],
-                         transform_now[8 + i],
-                         transform_now[12 + i]);
+            transform_now[i],
+            transform_now[4 + i],
+            transform_now[8 + i],
+            transform_now[12 + i]);
     }
 
     glVertexAttrib4f(attr_color, 0.50, 0.53, 1.00, 1.00); // Nice lavendar color for the whole sphere.
@@ -640,7 +623,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
     glBindVertexArrayAPPLE(0); // Failing to unbind can cause bizarre crashes if other VAOs are in display lists
 
     glEnable(GL_TEXTURE_2D);
-}// end drawDragHandleImm:
+} // end drawDragHandleImm:
 
 
 // ========== beginDL: ============================================================
@@ -657,7 +640,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
     dl_now = LDrawDLBuilderCreate();
 
     return(self);
-}// end beginDL:
+} // end beginDL:
 
 
 // ========== endDL:cleanupFunc: ==================================================
@@ -673,8 +656,8 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
     dl_now = dl_stack[dl_stack_top];
 
     *outHandle = (LDrawDLHandle)dl;
-    *func      = (LDrawDLCleanup_f)LDrawDLDestroy;
-}// end endDL:cleanupFunc:
+    *func = (LDrawDLCleanup_f)LDrawDLDestroy;
+} // end endDL:cleanupFunc:
 
 
 // ========== drawDL: =============================================================
@@ -685,15 +668,13 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
 // ================================================================================
 - (void)drawDL:(LDrawDLHandle)dl
 {
-    LDrawDLDraw(
-        session,
+    LDrawDLDraw(session,
         (struct LDrawDL *)dl,
         &tex_now,
         color_now,
         compl_now,
         transform_now,
         wire_frame_count > 0);
-}// end drawDL:
-
+} // end drawDL:
 
 @end

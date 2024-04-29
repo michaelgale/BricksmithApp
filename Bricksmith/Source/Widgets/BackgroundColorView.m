@@ -10,7 +10,6 @@
 #import "BackgroundColorView.h"
 
 @implementation BackgroundColorView
-
 // ========== initWithFrame: ====================================================
 //
 // Purpose:
@@ -24,7 +23,7 @@
     }
 
     return(self);
-}// end initWithFrame:
+} // end initWithFrame:
 
 
 #pragma mark -
@@ -42,7 +41,7 @@
     [self->backgroundColor release];
 
     self->backgroundColor = colorIn;
-}// end setBackgroundColor:
+} // end setBackgroundColor:
 
 
 // ========== drawRect: =========================================================
@@ -54,7 +53,7 @@
 {
     [self->backgroundColor set];
     NSRectFill(rect);
-}// end drawRect:
+} // end drawRect:
 
 
 #pragma mark -
@@ -71,7 +70,7 @@
     [self->backgroundColor release];
 
     [super dealloc];
-}// end dealloc
+} // end dealloc
 
 
 @end

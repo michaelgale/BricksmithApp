@@ -16,7 +16,6 @@
 #import "FormCategory.h"
 
 @implementation TriangleView
-
 // ========== drawRect: =========================================================
 //
 // Purpose:		Draw a triangle outline.
@@ -25,7 +24,7 @@
 - (void)drawRect:(NSRect)rect
 {
     NSBezierPath *trianglePath = [NSBezierPath bezierPath];
-    NSRect       frame         = NSInsetRect([self bounds], 2, 2);
+    NSRect frame = NSInsetRect([self bounds], 2, 2);
 
     [trianglePath moveToPoint:NSMakePoint(NSMinX(frame), NSMinY(frame))];
     [trianglePath lineToPoint:NSMakePoint(NSMaxX(frame), NSMinY(frame))];
@@ -35,13 +34,12 @@
     [[NSColor grayColor] set];
     [trianglePath setLineWidth:1.5];
     [trianglePath stroke];
-}// end drawRect:
+} // end drawRect:
 
 
 @end
 
 @implementation InspectionTriangle
-
 // ========== init ==============================================================
 //
 // Purpose:		Load the interface for this inspector.
@@ -56,7 +54,7 @@
     }
 
     return(self);
-}// end init
+} // end init
 
 
 #pragma mark -
@@ -81,7 +79,7 @@
     [representedObject setVertex3:vertex3];
 
     [super commitChanges:sender];
-}// end commitChanges:
+} // end commitChanges:
 
 
 // ========== revert ============================================================
@@ -107,7 +105,7 @@
     [vertex3Form setCoordinateValue:vertex3];
 
     [super revert:sender];
-}// end revert:
+} // end revert:
 
 
 #pragma mark -
@@ -122,13 +120,13 @@
 - (IBAction)vertex1EndedEditing:(id)sender
 {
     Point3 formContents = [vertex1Form coordinateValue];
-    Point3 vertex1      = [[self object] vertex1];
+    Point3 vertex1 = [[self object] vertex1];
 
     // If the values really did change, then update.
     if (V3EqualPoints(formContents, vertex1) == NO) {
         [self finishedEditing:sender];
     }
-}// end vertex1EndedEditing:
+} // end vertex1EndedEditing:
 
 
 // ========== vertex2EndedEditing: ==============================================
@@ -141,13 +139,13 @@
 - (IBAction)vertex2EndedEditing:(id)sender
 {
     Point3 formContents = [vertex2Form coordinateValue];
-    Point3 vertex2      = [[self object] vertex2];
+    Point3 vertex2 = [[self object] vertex2];
 
     // If the values really did change, then update.
     if (V3EqualPoints(formContents, vertex2) == NO) {
         [self finishedEditing:sender];
     }
-}// end vertex2EndedEditing:
+} // end vertex2EndedEditing:
 
 
 // ========== vertex3EndedEditing: ==============================================
@@ -160,13 +158,13 @@
 - (IBAction)vertex3EndedEditing:(id)sender
 {
     Point3 formContents = [vertex3Form coordinateValue];
-    Point3 vertex3      = [[self object] vertex3];
+    Point3 vertex3 = [[self object] vertex3];
 
     // If the values really did change, then update.
     if (V3EqualPoints(formContents, vertex3) == NO) {
         [self finishedEditing:sender];
     }
-}// end vertex3EndedEditing:
+} // end vertex3EndedEditing:
 
 
 @end

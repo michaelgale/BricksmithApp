@@ -45,9 +45,7 @@
 // 3 colour x1 y1 z1 x2 y2 z2 x3 y3 z3
 //
 // ==============================================================================
-- (id)initWithLines:(NSArray *)lines
-    inRange:(NSRange)range
-    parentGroup:(dispatch_group_t)parentGroup
+- (id)initWithLines:(NSArray *)lines inRange:(NSRange)range parentGroup:(dispatch_group_t)parentGroup
 {
     NSString   *workingLine  = [lines objectAtIndex:range.location];
     NSString   *parsedField  = nil;
@@ -110,9 +108,8 @@
             [self setVertex3:workingVertex];
         }
         else {
-            @throw [NSException exceptionWithName:@"BricksmithParseException"
-                    reason:@"Bad triangle syntax" userInfo
-                    :nil];
+            @throw [NSException exceptionWithName:@"BricksmithParseException" reason:@"Bad triangle syntax"
+                   userInfo:nil];
         }
     }
     @catch (NSException *exception)
@@ -124,7 +121,7 @@
     }
 
     return(self);
-}// end initWithLines:inRange:
+} // end initWithLines:inRange:
 
 
 // ========== initWithCoder: ====================================================
@@ -154,7 +151,7 @@
     memcpy(&normal, temporary, sizeof(Vector3));
 
     return(self);
-}// end initWithCoder:
+} // end initWithCoder:
 
 
 // ========== encodeWithCoder: ==================================================
@@ -172,7 +169,7 @@
     [encoder encodeBytes:(void *)&vertex2 length:sizeof(Point3) forKey:@"vertex2"];
     [encoder encodeBytes:(void *)&vertex3 length:sizeof(Point3) forKey:@"vertex3"];
     [encoder encodeBytes:(void *)&normal length:sizeof(Vector3) forKey:@"normal"];
-}// end encodeWithCoder:
+} // end encodeWithCoder:
 
 
 // ========== copyWithZone: =====================================================
@@ -189,7 +186,7 @@
     [copied setVertex3:[self vertex3]];
 
     return(copied);
-}// end copyWithZone:
+} // end copyWithZone:
 
 
 #pragma mark -
@@ -202,15 +199,14 @@
 // subroutine of -draw: in LDrawDrawableElement.
 //
 // ==============================================================================
-- (void)drawElement:(NSUInteger)optionsMask viewScale:(double)scaleFactor withColor:(LDrawColor *)
-    drawingColor
+- (void)drawElement:(NSUInteger)optionsMask viewScale:(double)scaleFactor withColor:(LDrawColor *)drawingColor
 {
     if (self->dragHandles) {
         for (LDrawDragHandle *handle in self->dragHandles) {
             [handle draw:optionsMask viewScale:scaleFactor parentColor:drawingColor];
         }
     }
-}// end drawElement:parentColor:
+} // end drawElement:parentColor:
 
 
 // ========== drawSelf: ===========================================================
@@ -233,7 +229,7 @@
             }
         }
     }
-}// end drawSelf:
+} // end drawSelf:
 
 
 // ========== collectSelf: ========================================================
@@ -258,9 +254,7 @@
     if (self->hidden == NO) {
         GLfloat v[9] =
         {
-            vertex1.x, vertex1.y, vertex1.z,
-            vertex2.x, vertex2.y, vertex2.z,
-            vertex3.x, vertex3.y, vertex3.z
+            vertex1.x, vertex1.y, vertex1.z, vertex2.x, vertex2.y, vertex2.z, vertex3.x, vertex3.y, vertex3.z
         };
 
         GLfloat n[3] = { normal.x, normal.y, normal.z };
@@ -277,7 +271,7 @@
             [renderer drawTri:v normal:n color:rgba];
         }
     }
-}// end collectSelf:
+} // end collectSelf:
 
 
 // ========== hitTest:transform:viewScale:boundsOnly:creditObject:hits: =======
@@ -286,12 +280,8 @@
 // between the pickRay and the directive's drawn content.
 //
 // ==============================================================================
-- (void)hitTest:(Ray3)pickRay
-    transform:(Matrix4)transform
-    viewScale:(double)scaleFactor
-    boundsOnly:(BOOL)boundsOnly
-    creditObject:(id)creditObject
-    hits:(NSMutableDictionary *)hits
+- (void)hitTest:(Ray3)pickRay transform:(Matrix4)transform viewScale:(double)scaleFactor boundsOnly:(BOOL)
+    boundsOnly creditObject:(id)creditObject hits:(NSMutableDictionary *)hits
 {
     if (self->hidden == NO) {
         Vector3 worldVertex1   = V3MulPointByProjMatrix(self->vertex1, transform);
@@ -301,28 +291,23 @@
         bool    intersects     = false;
 
         intersects = V3RayIntersectsTriangle(pickRay,
-                                             worldVertex1, worldVertex2, worldVertex3,
-                                             &intersectDepth, NULL);
+                worldVertex1,
+                worldVertex2,
+                worldVertex3,
+                &intersectDepth,
+                NULL);
         if (intersects) {
-            [LDrawUtilities registerHitForObject:self
-             depth:intersectDepth
-             creditObject:creditObject
-             hits:hits];
+            [LDrawUtilities registerHitForObject:self depth:intersectDepth creditObject:creditObject hits:hits];
         }
 
         if (self->dragHandles) {
             for (LDrawDragHandle *handle in self->dragHandles) {
-                [handle hitTest:pickRay
-                 transform:transform
-                 viewScale:scaleFactor
-                 boundsOnly:boundsOnly
-                 creditObject:
-                 nil
-                 hits:hits];
+                [handle hitTest:pickRay transform:transform viewScale:scaleFactor boundsOnly:boundsOnly
+                creditObject:nil hits:hits];
             }
         }
     }
-}// end hitTest:transform:viewScale:boundsOnly:creditObject:hits:
+} // end hitTest:transform:viewScale:boundsOnly:creditObject:hits:
 
 
 // ========== boxTest:transform:boundsOnly:creditObject:hits: ===================
@@ -330,11 +315,8 @@
 // Purpose:		Check for intersections with screen-space geometry.
 //
 // ==============================================================================
-- (BOOL)boxTest:(Box2)bounds
-    transform:(Matrix4)transform
-    boundsOnly:(BOOL)boundsOnly
-    creditObject:(id)creditObject
-    hits:(NSMutableSet *)hits
+- (BOOL)boxTest:(Box2)bounds transform:(Matrix4)transform boundsOnly:(BOOL)boundsOnly creditObject:(id)
+    creditObject hits:(NSMutableSet *)hits
 {
     if (self->hidden == NO) {
         Point4 clipVertex1 = V4MulPointByMatrix(V4FromPoint3(self->vertex1), transform);
@@ -343,9 +325,8 @@
 
         float h_tri[12] =
         {
-            clipVertex1.x, clipVertex1.y, clipVertex1.z, clipVertex1.w,
-            clipVertex2.x, clipVertex2.y, clipVertex2.z, clipVertex2.w,
-            clipVertex3.x, clipVertex3.y, clipVertex3.z, clipVertex3.w
+            clipVertex1.x, clipVertex1.y, clipVertex1.z, clipVertex1.w, clipVertex2.x,     clipVertex2.y,
+            clipVertex2.z, clipVertex2.w, clipVertex3.x, clipVertex3.y, clipVertex3.z,     clipVertex3.w
         };
 
         float ndc_tris[18];
@@ -360,9 +341,7 @@
             };
 
             if (V2BoxIntersectsPolygon(bounds, tri, 3)) {
-                [LDrawUtilities registerHitForObject:self
-                 creditObject:creditObject
-                 hits:hits];
+                [LDrawUtilities registerHitForObject:self creditObject:creditObject hits:hits];
                 if (creditObject) {
                     return(TRUE);
                 }
@@ -370,7 +349,7 @@
         }
     }
     return(FALSE);
-}// end boxTest:transform:boundsOnly:creditObject:hits:
+} // end boxTest:transform:boundsOnly:creditObject:hits:
 
 
 // ========== depthTest:inBox:transform:creditObject:bestObject:bestDepth:=======
@@ -380,12 +359,8 @@
 // depth.
 //
 // ==============================================================================
-- (void)depthTest:(Point2)pt
-    inBox:(Box2)bounds
-    transform:(Matrix4)transform
-    creditObject:(id)creditObject
-    bestObject:(id *)bestObject
-    bestDepth:(double *)bestDepth
+- (void)depthTest:(Point2)pt inBox:(Box2)bounds transform:(Matrix4)transform creditObject:(id)creditObject
+    bestObject:(id *)bestObject bestDepth:(double *)bestDepth
 {
     if (self->hidden == NO) {
         Point4 clipVertex1 = V4MulPointByMatrix(V4FromPoint3(self->vertex1), transform);
@@ -396,9 +371,8 @@
 
         float h_tri[12] =
         {
-            clipVertex1.x, clipVertex1.y, clipVertex1.z, clipVertex1.w,
-            clipVertex2.x, clipVertex2.y, clipVertex2.z, clipVertex2.w,
-            clipVertex3.x, clipVertex3.y, clipVertex3.z, clipVertex3.w
+            clipVertex1.x, clipVertex1.y, clipVertex1.z, clipVertex1.w, clipVertex2.x,     clipVertex2.y,
+            clipVertex2.z, clipVertex2.w, clipVertex3.x, clipVertex3.y, clipVertex3.z,     clipVertex3.w
         };
 
         float ndc_tris[18];
@@ -419,16 +393,12 @@
 
         if (self->dragHandles) {
             for (LDrawDragHandle *handle in self->dragHandles) {
-                [handle depthTest:pt
-                 inBox:bounds
-                 transform:transform
-                 creditObject:creditObject
-                 bestObject:bestObject
-                 bestDepth:bestDepth];
+                [handle depthTest:pt inBox:bounds transform:transform creditObject:creditObject bestObject:
+                bestObject bestDepth:bestDepth];
             }
         }
     }
-}// end depthTest:inBox:transform:creditObject:bestObject:bestDepth:
+} // end depthTest:inBox:transform:creditObject:bestObject:bestDepth:
 
 
 // ========== write =============================================================
@@ -440,24 +410,13 @@
 // ==============================================================================
 - (NSString *)write
 {
-    return([NSString stringWithFormat:
-            @"3 %@ %@ %@ %@ %@ %@ %@ %@ %@ %@",
-            [LDrawUtilities outputStringForColor:self->color],
-
-            [LDrawUtilities outputStringForFloat:vertex1.x],
-            [LDrawUtilities outputStringForFloat:vertex1.y],
-            [LDrawUtilities outputStringForFloat:vertex1.z],
-
-            [LDrawUtilities outputStringForFloat:vertex2.x],
-            [LDrawUtilities outputStringForFloat:vertex2.y],
-            [LDrawUtilities outputStringForFloat:vertex2.z],
-
-            [LDrawUtilities outputStringForFloat:vertex3.x],
-            [LDrawUtilities outputStringForFloat:vertex3.y],
-            [LDrawUtilities outputStringForFloat:vertex3.z]
-
-           ]);
-}// end write
+    return([NSString stringWithFormat:@"3 %@ %@ %@ %@ %@ %@ %@ %@ %@ %@",
+           [LDrawUtilities outputStringForColor:self->color], [LDrawUtilities outputStringForFloat:vertex1.x],
+           [LDrawUtilities outputStringForFloat:vertex1.y], [LDrawUtilities outputStringForFloat:vertex1.z],
+           [LDrawUtilities outputStringForFloat:vertex2.x], [LDrawUtilities outputStringForFloat:vertex2.y],
+           [LDrawUtilities outputStringForFloat:vertex2.z], [LDrawUtilities outputStringForFloat:vertex3.x],
+           [LDrawUtilities outputStringForFloat:vertex3.y], [LDrawUtilities outputStringForFloat:vertex3.z]]);
+} // end write
 
 
 // ========== writeElementToVertexBuffer:withColor:wireframe: ===================
@@ -467,9 +426,8 @@
 // is to be stored. Store subsequent vertexs after the first.
 //
 // ==============================================================================
-- (VBOVertexData *)writeElementToVertexBuffer:(VBOVertexData *)vertexBuffer
-    withColor:(LDrawColor *)drawingColor
-    wireframe:(BOOL)wireframe
+- (VBOVertexData *)writeElementToVertexBuffer:(VBOVertexData *)vertexBuffer withColor:(LDrawColor *)
+    drawingColor wireframe:(BOOL)wireframe
 {
     GLfloat components[4] = {};
     int     vertexCount   = 0;
@@ -554,7 +512,7 @@
     }
 
     return(vertexBuffer + vertexCount);
-}// end writeElementToVertexBuffer:withColor:
+} // end writeElementToVertexBuffer:withColor:
 
 
 #pragma mark -
@@ -570,7 +528,7 @@
 - (NSString *)browsingDescription
 {
     return(NSLocalizedString(@"Triangle", nil));
-}// end browsingDescription
+} // end browsingDescription
 
 
 // ========== iconName ==========================================================
@@ -582,7 +540,7 @@
 - (NSString *)iconName
 {
     return(@"Triangle");
-}// end iconName
+} // end iconName
 
 
 // ========== inspectorClassName ================================================
@@ -593,7 +551,7 @@
 - (NSString *)inspectorClassName
 {
     return(@"InspectionTriangle");
-}// end inspectorClassName
+} // end inspectorClassName
 
 
 #pragma mark -
@@ -625,7 +583,7 @@
     bounds = V3UnionBoxAndPoint(bounds, vertex3);
 
     return(bounds);
-}// end boundingBox3
+} // end boundingBox3
 
 
 // ========== position ==========================================================
@@ -637,7 +595,7 @@
 - (Point3)position
 {
     return(self->vertex1);
-}// end position
+} // end position
 
 
 // ========== vertex1 ===========================================================
@@ -645,7 +603,7 @@
 - (Point3)vertex1
 {
     return(self->vertex1);
-}// end vertex1
+} // end vertex1
 
 
 // ========== vertex2 ===========================================================
@@ -653,7 +611,7 @@
 - (Point3)vertex2
 {
     return(self->vertex2);
-}// end vertex2
+} // end vertex2
 
 
 // ========== vertex3 ===========================================================
@@ -661,7 +619,7 @@
 - (Point3)vertex3
 {
     return(self->vertex3);
-}// end vertex3
+} // end vertex3
 
 
 #pragma mark -
@@ -697,7 +655,7 @@
         [self->dragHandles release];
         self->dragHandles = nil;
     }
-}// end setSelected:
+} // end setSelected:
 
 
 // ========== setVertex1: =======================================================
@@ -714,7 +672,7 @@
     if (dragHandles) {
         [[self->dragHandles objectAtIndex:0] setPosition:newVertex updateTarget:NO];
     }
-}// end setVertex1:
+} // end setVertex1:
 
 
 // ========== setVertex2: =======================================================
@@ -731,7 +689,7 @@
     if (dragHandles) {
         [[self->dragHandles objectAtIndex:1] setPosition:newVertex updateTarget:NO];
     }
-}// end setVertex2:
+} // end setVertex2:
 
 
 // ========== setVertex3: =======================================================
@@ -748,7 +706,7 @@
     if (dragHandles) {
         [[self->dragHandles objectAtIndex:2] setPosition:newVertex updateTarget:NO];
     }
-}// end setVertex3:
+} // end setVertex3:
 
 
 #pragma mark -
@@ -762,9 +720,9 @@
 // ==============================================================================
 - (void)dragHandleChanged:(id)sender
 {
-    LDrawDragHandle *handle      = (LDrawDragHandle *)sender;
-    Point3          newPosition  = [handle position];
-    NSInteger       vertexNumber = [handle tag];
+    LDrawDragHandle *handle = (LDrawDragHandle *)sender;
+    Point3    newPosition   = [handle position];
+    NSInteger vertexNumber  = [handle tag];
 
     switch (vertexNumber)
     {
@@ -780,7 +738,7 @@
             [self setVertex3:newPosition];
             break;
     }
-}// end dragHandleChanged:
+} // end dragHandleChanged:
 
 
 // ========== moveBy: ===========================================================
@@ -797,7 +755,7 @@
     [self setVertex1:newVertex1];
     [self setVertex2:newVertex2];
     [self setVertex3:newVertex3];
-}// end moveBy:
+} // end moveBy:
 
 
 #pragma mark -
@@ -809,23 +767,13 @@
 // Purpose:		Appends the directive into the appropriate container.
 //
 // ==============================================================================
-- (void)flattenIntoLines:(NSMutableArray *)lines
-    triangles:(NSMutableArray *)triangles
-    quadrilaterals:(NSMutableArray *)quadrilaterals
-    other:(NSMutableArray *)everythingElse
-    currentColor:(LDrawColor *)parentColor
-    currentTransform:(Matrix4)transform
-    normalTransform:(Matrix3)normalTransform
-    recursive:(BOOL)recursive
+- (void)flattenIntoLines:(NSMutableArray *)lines triangles:(NSMutableArray *)triangles quadrilaterals:(
+        NSMutableArray *)quadrilaterals other:(NSMutableArray *)everythingElse currentColor:(LDrawColor *)
+    parentColor currentTransform:(Matrix4)transform normalTransform:(Matrix3)normalTransform recursive:(BOOL)
+    recursive
 {
-    [super flattenIntoLines:lines
-     triangles:triangles
-     quadrilaterals:quadrilaterals
-     other:everythingElse
-     currentColor:parentColor
-     currentTransform:transform
-     normalTransform:normalTransform
-     recursive:recursive];
+    [super flattenIntoLines:lines triangles:triangles quadrilaterals:quadrilaterals other:everythingElse
+    currentColor:parentColor currentTransform:transform normalTransform:normalTransform recursive:recursive];
 
     self->vertex1 = V3MulPointByProjMatrix(self->vertex1, transform);
     self->vertex2 = V3MulPointByProjMatrix(self->vertex2, transform);
@@ -834,7 +782,7 @@
     self->normal = V3MulPointByMatrix(self->normal, normalTransform);
 
     [triangles addObject:self];
-}// end flattenIntoLines:triangles:quadrilaterals:other:currentColor:
+} // end flattenIntoLines:triangles:quadrilaterals:other:currentColor:
 
 
 // ========== recomputeNormal ===================================================
@@ -850,7 +798,7 @@
     vector2 = V3Sub(self->vertex3, self->vertex1);
 
     self->normal = V3Cross(vector1, vector2);
-}// end recomputeNormal
+} // end recomputeNormal
 
 
 // ========== registerUndoActions ===============================================
@@ -868,7 +816,7 @@
     [[undoManager prepareWithInvocationTarget:self] setVertex1:[self vertex1]];
 
     [undoManager setActionName:NSLocalizedString(@"UndoAttributesTriangle", nil)];
-}// end registerUndoActions:
+} // end registerUndoActions:
 
 
 #pragma mark -
@@ -886,6 +834,5 @@
 
     [super dealloc];
 }
-
 
 @end

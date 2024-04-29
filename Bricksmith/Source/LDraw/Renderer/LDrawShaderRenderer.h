@@ -24,16 +24,9 @@
 enum
 {
     attr_position = 0, // This defines the attribute indices for our particular shader.
-    attr_normal,     // This must be kept in sync with the string list in the .m file.
-    attr_color,
-    attr_transform_x,
-    attr_transform_y,
-    attr_transform_z,
-    attr_transform_w,
-    attr_color_current,
-    attr_color_compliment,
-    attr_texture_mix,
-    attr_count
+    attr_normal, // This must be kept in sync with the string list in the .m file.
+    attr_color, attr_transform_x, attr_transform_y, attr_transform_z, attr_transform_w, attr_color_current,
+    attr_color_compliment, attr_texture_mix, attr_count
 };
 
 

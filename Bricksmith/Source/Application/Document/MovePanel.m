@@ -11,9 +11,7 @@
 // ==============================================================================
 #import "MovePanel.h"
 
-@implementation MovePanel
-
-MovePanel *sharedMovePanel = nil;
+@implementation MovePanel MovePanel *sharedMovePanel = nil;
 
 #pragma mark -
 #pragma mark INITIALIZATION
@@ -31,7 +29,7 @@ MovePanel *sharedMovePanel = nil;
     }
 
     return(sharedMovePanel);
-}// end movePanel
+} // end movePanel
 
 
 #pragma mark -
@@ -46,7 +44,7 @@ MovePanel *sharedMovePanel = nil;
 - (NSString *)panelNibName
 {
     return(@"MovePanel");
-}// end panelNibName
+} // end panelNibName
 
 
 // ========== movementVector ====================================================
@@ -57,7 +55,7 @@ MovePanel *sharedMovePanel = nil;
 - (Vector3)movementVector
 {
     return(V3Make(movementX, movementY, movementZ));
-}// end movementVector
+} // end movementVector
 
 
 #pragma mark -
@@ -72,10 +70,8 @@ MovePanel *sharedMovePanel = nil;
 // ==============================================================================
 - (IBAction)moveButtonClicked:(id)sender
 {
-    [NSApp sendAction:@selector(panelMoveParts:)
-     to:nil
-     from:self];
-}// end moveButtonClicked:
+    [NSApp sendAction:@selector(panelMoveParts:)to:nil from:self];
+} // end moveButtonClicked:
 
 
 #pragma mark -
@@ -92,7 +88,7 @@ MovePanel *sharedMovePanel = nil;
     [formatterPoints release];
 
     [super dealloc];
-}// end dealloc
+} // end dealloc
 
 
 @end

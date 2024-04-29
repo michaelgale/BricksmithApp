@@ -26,20 +26,20 @@
     NSString *author;
     Point3   rotationCenter;
 
-    ColorLibrary *colorLibrary;     // in-scope !COLOURS local to the model
-    BOOL         stepDisplayActive; // YES if we are only display steps 1-currentStepDisplayed
-    NSUInteger   currentStepDisplayed; // display up to and including this step index
+    ColorLibrary *colorLibrary; // in-scope !COLOURS local to the model
+    BOOL stepDisplayActive; // YES if we are only display steps 1-currentStepDisplayed
+    NSUInteger currentStepDisplayed; // display up to and including this step index
 
-    Box3 cachedBounds;             // bounds of the model - only covers steps that are showing
+    Box3 cachedBounds; // bounds of the model - only covers steps that are showing
 
     // steps are stored in the superclass.
 
     // Drag and Drop
     LDrawStep *draggingDirectives;
 
-    BOOL isOptimized;              // Were we ever structure-optimized - used to optimize out
+    BOOL isOptimized; // Were we ever structure-optimized - used to optimize out
     // some drawing on library parts.
-    LDrawDLHandle    dl;           // Cached DL if we have one.
+    LDrawDLHandle    dl; // Cached DL if we have one.
     LDrawDLCleanup_f dl_dtor;
 }
 

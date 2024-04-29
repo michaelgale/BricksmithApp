@@ -6,7 +6,6 @@
  *  Copyright 2012 __MyCompanyName__. All rights reserved.
  *
  */
-
 /*
  * LDrawFastSet - THEORY OF OPERATION
  *
@@ -73,8 +72,8 @@ typedef struct {
 
 #define LDrawFastSetContains(this, p)                                             \
         ((this.obj.flag == NULL && this.obj.mutable_set != nil) ?                       \
-         ([this.obj.mutable_set containsObject : [NSValue valueWithPointer : p]] ? 1 : 0) : \
-         ((this.ptr.p1 == p || this.ptr.p2 == p) ? 1 : 0))
+        ([this.obj.mutable_set containsObject : [NSValue valueWithPointer : p]] ? 1 : 0) : \
+        ((this.ptr.p1 == p || this.ptr.p2 == p) ? 1 : 0))
 
 #define LDrawFastSetInit(this)        \
         do {                                \
@@ -100,7 +99,7 @@ typedef struct {
                         [new_set addObject:[NSValue valueWithPointer:this.ptr.p1]];        \
                         [new_set addObject:[NSValue valueWithPointer:this.ptr.p2]];        \
                         [new_set addObject:[NSValue valueWithPointer:p]];                  \
-                        this.obj.flag        = NULL;                                       \
+                        this.obj.flag = NULL;                                       \
                         this.obj.mutable_set = new_set;                                    \
                     }                                                                    \
                 }                                                                      \
@@ -134,7 +133,7 @@ typedef struct {
                 assert([this.obj.mutable_set count] >= 2);              \
                 if ([this.obj.mutable_set count] == 2)                  \
                 {                                                       \
-                    void         **ptr = &this.ptr.p1;                    \
+                    void **ptr = &this.ptr.p1;                    \
                     NSMutableSet *dead = this.obj.mutable_set;            \
                     for (NSValue *o in dead)                              \
                     {                                                     \

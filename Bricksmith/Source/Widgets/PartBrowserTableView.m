@@ -13,7 +13,6 @@
 #import "BricksmithUtilities.h"
 
 @implementation PartBrowserTableView
-
 // ========== dragImageForRowsWithIndexes:tableColumns:event:offset: ============
 //
 // Purpose:		Return a better image for part drag-and-drop.
@@ -23,10 +22,8 @@
 // it is dragged into.
 //
 // ==============================================================================
-- (NSImage *)dragImageForRowsWithIndexes:(NSIndexSet *)dragRows
-    tableColumns:(NSArray *)tableColumns
-    event:(NSEvent *)dragEvent
-    offset:(NSPointPointer)dragImageOffset
+- (NSImage *)dragImageForRowsWithIndexes:(NSIndexSet *)dragRows tableColumns:(NSArray *)tableColumns event:(
+        NSEvent *)dragEvent offset:(NSPointPointer)dragImageOffset
 {
     NSPoint offset     = NSZeroPoint;
     NSImage *dragImage = [BricksmithUtilities dragImageWithOffset:&offset];
@@ -49,7 +46,7 @@
 
 
     return(dragImage);
-}// end dragImageForRows:event:dragImageOffset:
+} // end dragImageForRows:event:dragImageOffset:
 
 
 // ========== keyDown: ==========================================================
@@ -69,19 +66,17 @@
 
     switch (firstChar)
     {
-        case NSEnterCharacter :  // Enter key
+        case NSEnterCharacter : // Enter key
         case NSCarriageReturnCharacter : // Return key
         case NSNewlineCharacter : // ???
             if ([self doubleAction] != NULL) {
-                [[self target] performSelector:[self doubleAction]
-                 withObject:self];
+                [[self target] performSelector:[self doubleAction] withObject:self];
             }
             break;
 
         default :
             [super keyDown:theEvent];
     }
-}// end keyDown:
-
+} // end keyDown:
 
 @end

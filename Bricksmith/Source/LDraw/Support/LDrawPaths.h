@@ -11,9 +11,7 @@
 
 typedef enum
 {
-    LDrawUserOfficial       = 0,
-    LDrawUserUnofficial     = 1,
-    LDrawInternalOfficial   = 2,
+    LDrawUserOfficial       = 0, LDrawUserUnofficial     = 1, LDrawInternalOfficial   = 2,
     LDrawInternalUnofficial = 3,
 } LDrawDomain;
 

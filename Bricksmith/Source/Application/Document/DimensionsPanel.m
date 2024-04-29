@@ -46,7 +46,7 @@
     dimensions = [[DimensionsPanel alloc] initWithFile:fileIn];
 
     return([dimensions autorelease]);
-}// end dimensionPanelForFile:
+} // end dimensionPanelForFile:
 
 
 // ========== initWithFile: =====================================================
@@ -66,7 +66,7 @@
     [self setFile:fileIn];
 
     return(self);
-}// end initWithFile:
+} // end initWithFile:
 
 
 #pragma mark -
@@ -82,7 +82,7 @@
 - (LDrawMPDModel *)activeModel
 {
     return(self->activeModel);
-}// end activeModel
+} // end activeModel
 
 
 // ========== file ==============================================================
@@ -93,7 +93,7 @@
 - (LDrawFile *)file
 {
     return(self->file);
-}// end file
+} // end file
 
 
 // ========== panelNibName ======================================================
@@ -105,7 +105,7 @@
 - (NSString *)panelNibName
 {
     return(@"Dimensions");
-}// end panelNibName
+} // end panelNibName
 
 
 #pragma mark -
@@ -123,7 +123,7 @@
     self->activeModel = newModel;
 
     [dimensionsTable reloadData];
-}// end setActiveModel:
+} // end setActiveModel:
 
 
 // ========== setFile: ==========================================================
@@ -138,7 +138,7 @@
 
     file = newFile;
     [self setActiveModel:[newFile activeModel]];
-}// end setFile:
+} // end setFile:
 
 
 #pragma mark -
@@ -152,8 +152,7 @@
 // ==============================================================================
 - (IBAction)legonianRulerButtonClicked:(id)sender
 {
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"Legonian Ruler"
-                      ofType:@"pdf"];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"Legonian Ruler" ofType:@"pdf"];
 
     [[NSWorkspace sharedWorkspace] openFile:path];
 }
@@ -174,7 +173,7 @@
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
     return(NUMBER_OF_UNITS);
-}// end numberOfRowsInTableView:
+} // end numberOfRowsInTableView:
 
 
 // **** NSTableDataSource ****
@@ -187,9 +186,8 @@
 // integers, floats, and strings in one table.
 //
 // ==============================================================================
-- (id)tableView:(NSTableView *)tableView
-    objectValueForTableColumn:(NSTableColumn *)tableColumn
-    row:(NSInteger)rowIndex
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)
+    rowIndex
 {
     NSNumberFormatter *floatFormatter = [[NSNumberFormatter new] autorelease];
     NSNumberFormatter *studFormatter  = [[NSNumberFormatter new] autorelease];
@@ -201,10 +199,10 @@
     double value  = 0;
 
     // 1 stud = 20 LDraw units = 8 mm ≈ 3/8".
-    double studsPerLDU       = 1 / 20.0;  // HORIZONTAL studs!
-    double mmPerStud         = 8.0;       // HORIZONTAL studs!
-    double inchesPerMM       = 1 / 25.4;
-    double brickHeightPerLDU = 1 / 24.;   // brick aspect ratio of width to height is 5:6
+    double studsPerLDU = 1 / 20.0; // HORIZONTAL studs!
+    double mmPerStud   = 8.0;      // HORIZONTAL studs!
+    double inchesPerMM = 1 / 25.4;
+    double brickHeightPerLDU = 1 / 24.; // brick aspect ratio of width to height is 5:6
     double legoInchPerInch   = 128 / 3.0; // Legonian Imperial Feet are a 3:128 scale.
 
 
@@ -278,8 +276,7 @@
                 break;
 
             case LEGONIAN_FEET_ROW_INDEX :
-                value *= studsPerLDU * mmPerStud * inchesPerMM *
-                    legoInchPerInch;
+                value *= studsPerLDU * mmPerStud * inchesPerMM * legoInchPerInch;
                 break;
 
             case LDU_ROW_INDEX :
@@ -308,8 +305,8 @@
             // This one's a doozy--format in feet and inches.
             case LEGONIAN_FEET_ROW_INDEX :
                 object = [NSString stringWithFormat:NSLocalizedString(@"FeetAndInchesFormat", nil),
-                          (int)floor(value / 12),                                   // feet
-                          (int)fmod(value, 12)                                      // inches
+                    (int)floor(value / 12), // feet
+                    (int)fmod(value, 12)    // inches
                     ];
                 break;
 
@@ -320,7 +317,7 @@
     }
 
     return(object);
-}// end tableView:objectValueForTableColumn:row:
+} // end tableView:objectValueForTableColumn:row:
 
 
 #pragma mark -
@@ -338,7 +335,6 @@
     [activeModel release];
 
     [super dealloc];
-}// end dealloc
-
+} // end dealloc
 
 @end

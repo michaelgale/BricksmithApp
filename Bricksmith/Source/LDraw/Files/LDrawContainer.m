@@ -35,7 +35,7 @@
     postsNotifications = NO;
 
     return(self);
-}// end init
+} // end init
 
 
 // ========== initWithCoder: ====================================================
@@ -56,7 +56,7 @@
     }
 
     return(self);
-}// end initWithCoder:
+} // end initWithCoder:
 
 
 // ========== encodeWithCoder: ==================================================
@@ -71,7 +71,7 @@
     [super encodeWithCoder:encoder];
 
     [encoder encodeObject:containedObjects forKey:@"containedObjects"];
-}// end encodeWithCoder:
+} // end encodeWithCoder:
 
 
 // ========== copyWithZone: =====================================================
@@ -84,9 +84,9 @@
 - (id)copyWithZone:(NSZone *)zone
 {
     LDrawContainer *copiedContainer = (LDrawContainer *)[super copyWithZone:zone];
-    id             currentObject    = nil;
-    id             copiedObject     = nil;
-    NSInteger      counter          = 0;
+    id currentObject  = nil;
+    id copiedObject   = nil;
+    NSInteger counter = 0;
 
     // Copy each subdirective and transfer it into the copied container.
     for (currentObject in self->containedObjects) {
@@ -96,7 +96,7 @@
     }
 
     return(copiedContainer);
-}// end copyWithZone:
+} // end copyWithZone:
 
 
 #pragma mark -
@@ -112,8 +112,8 @@
 // ==============================================================================
 - (NSArray *)allEnclosedElements
 {
-    NSMutableArray *subelements     = [NSMutableArray array];
-    id             currentDirective = nil;
+    NSMutableArray *subelements = [NSMutableArray array];
+    id currentDirective = nil;
 
     for (currentDirective in self->containedObjects) {
         if ([currentDirective respondsToSelector:@selector(allEnclosedElements)]) {
@@ -125,7 +125,7 @@
     }
 
     return(subelements);
-}// end allEnclosedElements
+} // end allEnclosedElements
 
 
 // ========== boundingBox3 ======================================================
@@ -155,28 +155,28 @@
 // object's bounds.
 //
 // ==============================================================================
-- (Box3)projectedBoundingBoxWithModelView:(Matrix4)modelView
-    projection:(Matrix4)projection
-    view:(Box2)viewport;
+- (Box3)projectedBoundingBoxWithModelView:(Matrix4)modelView projection:(Matrix4)projection view:(Box2)
+    viewport;
 {
-    Box3      bounds             = InvalidBox;
-    Box3      partBounds         = InvalidBox;
-    id        currentDirective   = nil;
+    Box3 bounds     = InvalidBox;
+    Box3 partBounds = InvalidBox;
+    id   currentDirective = nil;
     NSInteger numberOfDirectives = [self->containedObjects count];
-    NSInteger counter            = 0;
+    NSInteger counter = 0;
 
     for (counter = 0; counter < numberOfDirectives; counter++) {
         currentDirective = [self->containedObjects objectAtIndex:counter];
-        if ([currentDirective respondsToSelector:@selector(projectedBoundingBoxWithModelView:projection:view:)]) {
-            partBounds = [currentDirective projectedBoundingBoxWithModelView:modelView
-                          projection:projection
-                          view:viewport];
+        if ([currentDirective respondsToSelector:@selector(projectedBoundingBoxWithModelView:projection:view:)])
+        {
+            partBounds =
+                [currentDirective projectedBoundingBoxWithModelView:modelView projection:projection view:
+                viewport];
             bounds = V3UnionBox(bounds, partBounds);
         }
     }
 
     return(bounds);
-}// end projectedBoundingBoxWithModelView:projection:view:
+} // end projectedBoundingBoxWithModelView:projection:view:
 
 
 // ========== indexOfDirective: =================================================
@@ -187,7 +187,7 @@
 - (NSInteger)indexOfDirective:(LDrawDirective *)directive
 {
     return([containedObjects indexOfObjectIdenticalTo:directive]);
-}// end indexOfDirective:
+} // end indexOfDirective:
 
 
 // ========== subdirectives =====================================================
@@ -198,7 +198,7 @@
 - (NSMutableArray *)subdirectives
 {
     return(containedObjects);
-}// end subdirectives
+} // end subdirectives
 
 
 #pragma mark -
@@ -224,7 +224,7 @@
             [childDirective setPostsNotifications:flag];
         }
     }
-}// end setPostsNotifications:
+} // end setPostsNotifications:
 
 
 #pragma mark -
@@ -241,7 +241,7 @@
     NSInteger index = [containedObjects count];
 
     [self insertDirective:directive atIndex:index];
-}// end addDirective:
+} // end addDirective:
 
 
 // ========== collectPartReport: ================================================
@@ -252,8 +252,8 @@
 // ==============================================================================
 - (void)collectPartReport:(PartReport *)report
 {
-    id        currentDirective = nil;
-    NSInteger counter          = 0;
+    id currentDirective = nil;
+    NSInteger counter   = 0;
 
     for (counter = 0; counter < [containedObjects count]; counter++) {
         currentDirective = [containedObjects objectAtIndex:counter];
@@ -262,7 +262,7 @@
             [currentDirective collectPartReport:report];
         }
     }
-}// end collectPartReport:
+} // end collectPartReport:
 
 
 // ========== applyToAllParts: ==================================================
@@ -273,8 +273,8 @@
 // ==============================================================================
 - (void)applyToAllParts:(LDrawPartVisitor)visitor
 {
-    id        currentDirective = nil;
-    NSInteger counter          = 0;
+    id currentDirective = nil;
+    NSInteger counter   = 0;
 
     for (counter = 0; counter < [containedObjects count]; counter++) {
         currentDirective = [containedObjects objectAtIndex:counter];
@@ -283,7 +283,7 @@
             [currentDirective applyToAllParts:visitor];
         }
     }
-}// end applyToAllParts:
+} // end applyToAllParts:
 
 
 // ========== removeDirective: ==================================================
@@ -302,7 +302,7 @@
         // We found it; kill it!
         [self removeDirectiveAtIndex:indexOfObject];
     }
-}// end removeDirective:
+} // end removeDirective:
 
 
 // ========== insertDirective:atIndex: ==========================================
@@ -319,8 +319,7 @@
     // Apply notification policy to new children
     if ([directive respondsToSelector:@selector(setPostsNotifications:)] == YES) {
         if ([(LDrawContainer *) directive postsNotifications] != self->postsNotifications) {
-            [(LDrawContainer *) directive
-             setPostsNotifications:self->postsNotifications];
+            [(LDrawContainer *) directive setPostsNotifications:self->postsNotifications];
         }
     }
 
@@ -331,7 +330,7 @@
     if (self->postsNotifications == YES) {
         [self noteNeedsDisplay];
     }
-}// end insertDirective:atIndex:
+} // end insertDirective:atIndex:
 
 
 // ========== removeDirectiveAtIndex: ===========================================
@@ -354,7 +353,7 @@
     if (self->postsNotifications == YES) {
         [self noteNeedsDisplay];
     }
-}// end removeDirectiveAtIndex:
+} // end removeDirectiveAtIndex:
 
 
 // ========== setSubdirectiveSelected: ==========================================
@@ -382,9 +381,9 @@
 // ==============================================================================
 - (BOOL)containsReferenceTo:(NSString *)name
 {
-    NSArray        *subdirectives    = [self subdirectives];
+    NSArray *subdirectives = [self subdirectives];
     LDrawDirective *currentDirective = 0;
-    BOOL           containsReference = NO;
+    BOOL containsReference = NO;
 
     for (currentDirective in subdirectives) {
         containsReference = [currentDirective containsReferenceTo:name];
@@ -405,7 +404,7 @@
 - (BOOL)acceptsDroppedDirective:(LDrawDirective *)directive
 {
     return(YES);
-}// end acceptsDroppedDirective:
+} // end acceptsDroppedDirective:
 
 
 // ========== flattenIntoLines:triangles:quadrilaterals:other:currentColor: =====
@@ -413,29 +412,20 @@
 // Purpose:		Appends the directive into the appropriate container.
 //
 // ==============================================================================
-- (void)flattenIntoLines:(NSMutableArray *)lines
-    triangles:(NSMutableArray *)triangles
-    quadrilaterals:(NSMutableArray *)quadrilaterals
-    other:(NSMutableArray *)everythingElse
-    currentColor:(LDrawColor *)parentColor
-    currentTransform:(Matrix4)transform
-    normalTransform:(Matrix3)normalTransform
-    recursive:(BOOL)recursive
+- (void)flattenIntoLines:(NSMutableArray *)lines triangles:(NSMutableArray *)triangles quadrilaterals:(
+        NSMutableArray *)quadrilaterals other:(NSMutableArray *)everythingElse currentColor:(LDrawColor *)
+    parentColor currentTransform:(Matrix4)transform normalTransform:(Matrix3)normalTransform recursive:(BOOL)
+    recursive
 {
-    NSArray        *subdirectives    = [self subdirectives];
+    NSArray *subdirectives = [self subdirectives];
     LDrawDirective *currentDirective = 0;
 
     for (currentDirective in subdirectives) {
-        [currentDirective flattenIntoLines:lines
-         triangles:triangles
-         quadrilaterals:quadrilaterals
-         other:everythingElse
-         currentColor:parentColor
-         currentTransform:transform
-         normalTransform:normalTransform
-         recursive:recursive];
+        [currentDirective flattenIntoLines:lines triangles:triangles quadrilaterals:quadrilaterals other:
+        everythingElse currentColor:parentColor currentTransform:transform normalTransform:normalTransform
+        recursive:recursive];
     }
-}// end flattenIntoLines:triangles:quadrilaterals:other:currentColor:
+} // end flattenIntoLines:triangles:quadrilaterals:other:currentColor:
 
 
 #pragma mark -
@@ -453,13 +443,12 @@
         [i removeObserver:self];
     }
     // the children must not be allowed to remember us. Crashes could result otherwise.
-    [self->containedObjects makeObjectsPerformSelector:@selector(setEnclosingDirective:)
-     withObject:nil];
+    [self->containedObjects makeObjectsPerformSelector:@selector(setEnclosingDirective:)withObject:nil];
 
     // release instance variables
     [containedObjects release];
     [super dealloc];
-}// end dealloc
+} // end dealloc
 
 
 #pragma mark -
@@ -509,6 +498,5 @@
 - (void)receiveMessage:(MessageT)msg who:(id <LDrawObservable>)observable
 {
 }
-
 
 @end

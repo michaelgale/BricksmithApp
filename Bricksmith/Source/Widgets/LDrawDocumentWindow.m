@@ -26,7 +26,7 @@
     // You can trap certain key events here. But really, why?
 
     [super keyDown:theEvent];
-}// end keyDown:
+} // end keyDown:
 
 
 #pragma mark -
@@ -54,7 +54,7 @@
 // NSDisableScreenUpdates(); //or DisableScreenUpdates() in Carbon.
 
     needsEnableUpdate = YES;
-}// end disableUpdatesUntilFlush
+} // end disableUpdatesUntilFlush
 
 
 // ========== flushWindow =======================================================
@@ -71,7 +71,7 @@
         needsEnableUpdate = NO;
 // NSEnableScreenUpdates(); //or EnableScreenUpdates() in Carbon.
     }
-}// end flushWindow
+} // end flushWindow
 
 
 @end

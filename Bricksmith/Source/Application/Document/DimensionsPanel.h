@@ -16,7 +16,7 @@
 
 @interface DimensionsPanel : DialogPanel
 {
-    LDrawFile     *file;
+    LDrawFile *file;
     LDrawMPDModel *activeModel;
 
     IBOutlet NSTableView *dimensionsTable;

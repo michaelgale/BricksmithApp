@@ -15,20 +15,18 @@
 
 typedef enum
 {
-    RotateAroundSelectionCenter = 0,
-    RotateAroundPartPositions   = 1,
-    RotateAroundFixedPoint      = 2
+    RotateAroundSelectionCenter = 0, RotateAroundPartPositions   = 1, RotateAroundFixedPoint      = 2
 } RotationModeT;
 
 @interface RotationPanelController : NSWindowController
 {
     RotationModeT rotationMode;
-    float         angleX;
-    float         angleY;
-    float         angleZ;
-    float         fixedPointX;
-    float         fixedPointY;
-    float         fixedPointZ;
+    float angleX;
+    float angleY;
+    float angleZ;
+    float fixedPointX;
+    float fixedPointY;
+    float fixedPointZ;
 
     IBOutlet NSObjectController *objectController;
 }

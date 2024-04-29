@@ -19,8 +19,8 @@
 
 @interface MinifigureDialogController : NSObject
 {
-    MLCadIni      *iniFile;
-    NSString      *minifigureName;
+    MLCadIni *iniFile;
+    NSString *minifigureName;
     LDrawMPDModel *minifigure;
 
     BOOL hasHat;
@@ -73,7 +73,7 @@
 
     // Nib widgets
 
-    IBOutlet NSPanel     *minifigureGeneratorPanel;
+    IBOutlet NSPanel *minifigureGeneratorPanel;
     IBOutlet LDrawGLView *minifigurePreview;
 
     IBOutlet LDrawColorWell *hatsColorWell;

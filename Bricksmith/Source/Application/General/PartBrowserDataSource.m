@@ -35,8 +35,6 @@
 #import "TableViewCategory.h"
 
 @implementation PartBrowserDataSource
-
-
 // ========== awakeFromNib ======================================================
 //
 // Purpose:		This class is just about always initialized in a Nib file.
@@ -47,11 +45,10 @@
 {
     NSUserDefaults *userDefaults     = [NSUserDefaults standardUserDefaults];
     NSString       *startingCategory = [userDefaults stringForKey:PART_BROWSER_PREVIOUS_CATEGORY];
-    NSInteger      startingRow       =
-        [userDefaults integerForKey:PART_BROWSER_PREVIOUS_SELECTED_ROW];
-    NSMenu     *searchMenuTemplate = nil;
-    NSMenuItem *recentsItem        = nil;
-    NSMenuItem *noRecentsItem      = nil;
+    NSInteger      startingRow = [userDefaults integerForKey:PART_BROWSER_PREVIOUS_SELECTED_ROW];
+    NSMenu *searchMenuTemplate = nil;
+    NSMenuItem *recentsItem    = nil;
+    NSMenuItem *noRecentsItem  = nil;
 
     // Loading main nib (the one in which this helper controller was allocated)
     // By the time this is called, our accessory nib has already been loaded in
@@ -89,10 +86,8 @@
         [self->partPreview setDelegate:self];
         if ([[self->partPreview enclosingScrollView] isKindOfClass:[ExtendedScrollView class]]) {
             [(ExtendedScrollView *)[self->partPreview enclosingScrollView]
-             setPreservesScrollCenterDuringLiveResize:
-             YES];
-            [(ExtendedScrollView *)[self->partPreview enclosingScrollView] setStoresScrollCenterAsFraction
-             :YES];
+            setPreservesScrollCenterDuringLiveResize:YES];
+            [(ExtendedScrollView *)[self->partPreview enclosingScrollView] setStoresScrollCenterAsFraction:YES];
         }
 
 
@@ -124,26 +119,21 @@
         searchMenuTemplate = [[NSMenu alloc] initWithTitle:@"Search template"];
 
         noRecentsItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"NoRecentSearches", nil)
-                         action:NULL
-                         keyEquivalent:@""];
+            action:NULL keyEquivalent:@""];
         [noRecentsItem setTag:NSSearchFieldNoRecentsMenuItemTag];
 
-        recentsItem = [[NSMenuItem alloc] initWithTitle:@"recent items placeholder"
-                       action:NULL
-                       keyEquivalent:@""];
+        recentsItem =
+            [[NSMenuItem alloc] initWithTitle:@"recent items placeholder" action:NULL keyEquivalent:@""];
         [recentsItem setTag:NSSearchFieldRecentsMenuItemTag];
 
-        [searchMenuTemplate insertItem:noRecentsItem
-         atIndex:0];
-        [searchMenuTemplate insertItem:recentsItem
-         atIndex:1];
+        [searchMenuTemplate insertItem:noRecentsItem atIndex:0];
+        [searchMenuTemplate insertItem:recentsItem atIndex:1];
 
         [[self->searchField cell] setSearchMenuTemplate:searchMenuTemplate];
 
         // If there is no sort order yet, define one.
         if ([[self->partsTable sortDescriptors] count] == 0) {
-            NSTableColumn *descriptionColumn =
-                [self->partsTable tableColumnWithIdentifier:PART_NAME_KEY];
+            NSTableColumn *descriptionColumn = [self->partsTable tableColumnWithIdentifier:PART_NAME_KEY];
             NSSortDescriptor *sortDescriptor = [descriptionColumn sortDescriptorPrototype];
 
             if (sortDescriptor != nil) {
@@ -160,8 +150,7 @@
         [self loadCategory:startingCategory];
 
         [partsTable scrollRowToVisible:startingRow];
-        [partsTable selectRowIndexes:[NSIndexSet indexSetWithIndex:startingRow]
-         byExtendingSelection:NO];
+        [partsTable selectRowIndexes:[NSIndexSet indexSetWithIndex:startingRow] byExtendingSelection:NO];
         [self syncSelectionAndPartDisplayed];
         [self->partPreview scrollCenterToModelPoint:ZeroPoint3];
 
@@ -169,10 +158,8 @@
         // ---------- Notifications ---------------------------------------------
 
         // We also want to know if the part catalog changes while the program is running.
-        [[NSNotificationCenter defaultCenter] addObserver:self
-         selector:@selector(sharedPartCatalogDidChange:)
-         name:LDrawPartLibraryDidChangeNotification
-         object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sharedPartCatalogDidChange:)
+        name:LDrawPartLibraryDidChangeNotification object:nil];
 
 
         // ---------- Free Memory -----------------------------------------------
@@ -183,7 +170,7 @@
     // Loading "PartBrowserAccessories.nib"
     else {
     }
-}// end awakeFromNib
+} // end awakeFromNib
 
 
 // ========== init ==============================================================
@@ -201,10 +188,10 @@
     // Not displaying anything yet.
     categoryList    = [[NSArray array] retain];
     tableDataSource = [[NSMutableArray array] retain];
-    searchMode      = (int)[[NSUserDefaults standardUserDefaults] integerForKey:PART_BROWSER_SEARCH_MODE];
+    searchMode = (int)[[NSUserDefaults standardUserDefaults] integerForKey:PART_BROWSER_SEARCH_MODE];
 
     return(self);
-}// end init
+} // end init
 
 
 #pragma mark -
@@ -219,7 +206,7 @@
 - (NSString *)category
 {
     return(self->selectedCategory);
-}// end category
+} // end category
 
 
 // ========== selectedPartName ==================================================
@@ -230,7 +217,7 @@
 // ==============================================================================
 - (NSString *)selectedPartName
 {
-    NSInteger    rowIndex    = [partsTable selectedRow];
+    NSInteger rowIndex = [partsTable selectedRow];
     NSDictionary *partRecord = nil;
     NSString     *partName   = nil;
 
@@ -240,7 +227,7 @@
     }
 
     return(partName);
-}// end selectedPartName
+} // end selectedPartName
 
 
 #pragma mark -
@@ -253,13 +240,13 @@
 // ==============================================================================
 - (BOOL)loadCategory:(NSString *)newCategory
 {
-    NSArray        *partsInCategory = nil;
-    NSMutableArray *allPartRecords  = [NSMutableArray array];
-    BOOL           success          = NO;
+    NSArray *partsInCategory = nil;
+    NSMutableArray *allPartRecords = [NSMutableArray array];
+    BOOL success = NO;
 
     // Get the part list for the category:
     partsInCategory = [self->partLibrary partCatalogRecordsInCategory:newCategory];
-    success         = (partsInCategory != nil);
+    success = (partsInCategory != nil);
 
     // Assign instance variable
     [newCategory retain];
@@ -282,7 +269,7 @@
     [self setConstraints];
 
     return(success);
-}// end loadCategory:
+} // end loadCategory:
 
 
 // ========== setPartCatalog: ===================================================
@@ -304,7 +291,7 @@
 
     // And set the current category to show everything
     [self loadCategory:Category_All];
-}// end setPartCatalog:
+} // end setPartCatalog:
 
 
 // ========== setCategoryList: ==================================================
@@ -328,7 +315,7 @@
     for (id item in categoryList) {
         [categoryTable expandItem:item];
     }
-}// end setCategoryList
+} // end setCategoryList
 
 
 // ========== setTableDataSource: ===============================================
@@ -343,7 +330,7 @@
 - (void)setTableDataSource:(NSMutableArray *)allPartRecords
 {
     NSString   *originalSelectedPartName = [self selectedPartName];
-    NSUInteger newSelectedIndex          = NSNotFound;
+    NSUInteger newSelectedIndex = NSNotFound;
 
     [allPartRecords sortUsingDescriptors:[partsTable sortDescriptors]];
 
@@ -362,10 +349,9 @@
     }
 
     // Scroll to the new selection
-    [partsTable selectRowIndexes:[NSIndexSet indexSetWithIndex:newSelectedIndex]
-     byExtendingSelection:NO];
+    [partsTable selectRowIndexes:[NSIndexSet indexSetWithIndex:newSelectedIndex] byExtendingSelection:NO];
     [partsTable scrollRowToVisible:newSelectedIndex];
-}// end setTableDataSource
+} // end setTableDataSource
 
 
 #pragma mark -
@@ -380,8 +366,7 @@
 - (IBAction)searchAllCategoriesButtonClicked:(id)sender
 {
     self->searchMode = SearchModeAllCategories;
-    [[NSUserDefaults standardUserDefaults] setInteger:SearchModeAllCategories
-     forKey:PART_BROWSER_SEARCH_MODE];
+    [[NSUserDefaults standardUserDefaults] setInteger:SearchModeAllCategories forKey:PART_BROWSER_SEARCH_MODE];
 
     [self performSearch];
 }
@@ -395,8 +380,8 @@
 - (IBAction)searchSelectedCategoryButtonClicked:(id)sender
 {
     self->searchMode = SearchModeSelectedCategory;
-    [[NSUserDefaults standardUserDefaults] setInteger:SearchModeSelectedCategory
-     forKey:PART_BROWSER_SEARCH_MODE];
+    [[NSUserDefaults standardUserDefaults] setInteger:SearchModeSelectedCategory forKey:
+    PART_BROWSER_SEARCH_MODE];
 
     [self performSearch];
 }
@@ -412,10 +397,8 @@
 - (IBAction)addPartClicked:(id)sender
 {
     // anyone who implements this message will know what to do.
-    [NSApp sendAction:@selector(insertLDrawPart:)
-     to:nil
-     from:self];
-}// end addPartClicked:
+    [NSApp sendAction:@selector(insertLDrawPart:)to:nil from:self];
+} // end addPartClicked:
 
 
 // ========== addFavoriteClicked: ===============================================
@@ -431,7 +414,7 @@
     [self->partLibrary addPartNameToFavorites:selectedPartName];
 
     [self setConstraints];
-}// end addFavoriteClicked:
+} // end addFavoriteClicked:
 
 
 // ========== doubleClickedInPartTable: =========================================
@@ -442,7 +425,7 @@
 - (void)doubleClickedInPartTable:(id)sender
 {
     [self addPartClicked:sender];
-}// end doubleClickedInPartTable:
+} // end doubleClickedInPartTable:
 
 
 // ========== removeFavoriteClicked: ============================================
@@ -458,7 +441,7 @@
     [self->partLibrary removePartNameFromFavorites:selectedPartName];
 
     [self setConstraints];
-}// end removeFavoriteClicked:
+} // end removeFavoriteClicked:
 
 
 // ========== searchFieldChanged: ===============================================
@@ -470,7 +453,7 @@
 - (IBAction)searchFieldChanged:(id)sender
 {
     [self performSearch];
-}// end searchFieldChanged:
+} // end searchFieldChanged:
 
 
 #pragma mark -
@@ -515,13 +498,12 @@
 
 // ========== outlineView:objectValueForTableColumn:byItem: =====================
 // ==============================================================================
-- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)
-    tableColumn byItem:(id)item
+- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(
+        id)item
 {
-    BOOL isGroupHeading = [self outlineView:outlineView
-                           isGroupItem:item];
-    NSString *name       = nil;
-    id       displayName = nil;
+    BOOL isGroupHeading = [self outlineView:outlineView isGroupItem:item];
+    NSString *name = nil;
+    id displayName = nil;
 
     name = [item objectForKey:CategoryDisplayNameKey];
 
@@ -542,8 +524,7 @@
 // ==============================================================================
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
 {
-    NSUInteger childCount = [self outlineView:outlineView
-                             numberOfChildrenOfItem:item];
+    NSUInteger childCount = [self outlineView:outlineView numberOfChildrenOfItem:item];
 
     return(childCount != 0);
 }
@@ -562,7 +543,7 @@
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
     return([tableDataSource count]);
-}// end numberOfRowsInTableView
+} // end numberOfRowsInTableView
 
 
 // **** NSTableDataSource ****
@@ -571,11 +552,10 @@
 // Purpose:		Displays information for the part in the record.
 //
 // ==============================================================================
-- (id)tableView:(NSTableView *)tableView
-    objectValueForTableColumn:(NSTableColumn *)tableColumn
-    row:(NSInteger)rowIndex
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)
+    rowIndex
 {
-    NSDictionary *partRecord       = [self->tableDataSource objectAtIndex:rowIndex];
+    NSDictionary *partRecord = [self->tableDataSource objectAtIndex:rowIndex];
     NSString     *columnIdentifier = [tableColumn identifier];
 
     NSString *cellValue = [partRecord objectForKey:columnIdentifier];
@@ -586,7 +566,7 @@
     }
 
     return(cellValue);
-}// end tableView:objectValueForTableColumn:row:
+} // end tableView:objectValueForTableColumn:row:
 
 
 // **** NSTableDataSource ****
@@ -601,7 +581,7 @@
 
     [tableDataSource sortUsingDescriptors:newDescriptors];
     [tableView reloadData];
-}// end tableView:sortDescriptorsDidChange:
+} // end tableView:sortDescriptorsDidChange:
 
 
 // **** NSTableDataSource ****
@@ -615,20 +595,18 @@
 // parameter is irrelevant.
 //
 // ==============================================================================
-- (BOOL)tableView:(NSTableView *)aTableView
-    writeRowsWithIndexes:(NSIndexSet *)rowIndexes
-    toPasteboard:(NSPasteboard *)pasteboard
+- (BOOL)tableView:(NSTableView *)aTableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(
+        NSPasteboard *)pasteboard
 {
     BOOL success = NO;
 
     // Select the dragged row (it may not have been selected), then write it to
     // the pasteboard.
-    [self->partsTable selectRowIndexes:rowIndexes
-     byExtendingSelection:NO];
+    [self->partsTable selectRowIndexes:rowIndexes byExtendingSelection:NO];
     success = [self writeSelectedPartToPasteboard:pasteboard];
 
     return(success);
-}// end tableView:writeRowsWithIndexes:toPasteboard:
+} // end tableView:writeRowsWithIndexes:toPasteboard:
 
 
 #pragma mark -
@@ -643,14 +621,13 @@
 // view.
 //
 // ==============================================================================
-- (BOOL)LDrawGLView:(LDrawGLView *)glView
-    writeDirectivesToPasteboard:(NSPasteboard *)pasteboard
-    asCopy:(BOOL)copyFlag
+- (BOOL)LDrawGLView:(LDrawGLView *)glView writeDirectivesToPasteboard:(NSPasteboard *)pasteboard asCopy:(BOOL)
+    copyFlag
 {
     BOOL success = [self writeSelectedPartToPasteboard:pasteboard];
 
     return(success);
-}// end LDrawGLView:writeDirectivesToPasteboard:asCopy:
+} // end LDrawGLView:writeDirectivesToPasteboard:asCopy:
 
 
 #pragma mark -
@@ -668,8 +645,7 @@
 // ==============================================================================
 - (BOOL)outlineView:(NSOutlineView *)outlineView isGroupItem:(id)item
 {
-    BOOL hasChildren = ([self outlineView:outlineView
-                         numberOfChildrenOfItem:item] > 0);
+    BOOL hasChildren = ([self outlineView:outlineView numberOfChildrenOfItem:item] > 0);
 
     return(hasChildren == YES);
 }
@@ -679,8 +655,7 @@
 // ==============================================================================
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item
 {
-    BOOL isGroupHeading = [self outlineView:outlineView
-                           isGroupItem:item];
+    BOOL isGroupHeading = [self outlineView:outlineView isGroupItem:item];
 
     return(isGroupHeading == NO);
 }
@@ -707,7 +682,7 @@
     NSUserDefaults *userDefaults   = [NSUserDefaults standardUserDefaults];
     NSDictionary   *categoryRecord = [self->categoryTable itemAtRow:[categoryTable selectedRow]];
     NSString       *newCategory    = [categoryRecord objectForKey:CategoryNameKey];
-    BOOL           success         = NO;
+    BOOL success = NO;
 
     // Clear the search field
     [self->searchField setStringValue:@""];
@@ -733,7 +708,7 @@
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSInteger      newRow        = [self->partsTable selectedRow];
+    NSInteger      newRow = [self->partsTable selectedRow];
 
     // Redisplay preview.
     [self syncSelectionAndPartDisplayed];
@@ -743,7 +718,7 @@
     if (newRow != -1) {
         [userDefaults setInteger:newRow forKey:PART_BROWSER_PREVIOUS_SELECTED_ROW];
     }
-}// end tableViewSelectionDidChange
+} // end tableViewSelectionDidChange
 
 
 #pragma mark -
@@ -760,8 +735,8 @@
 {
     PartLibrary *newLibrary = [notification object];
     NSString    *originalSelectedCategory = [self->selectedCategory retain];
-    NSString    *originalSearch           = [self->searchField stringValue];
-    NSInteger   selectedRow = [self->partsTable selectedRow];
+    NSString    *originalSearch = [self->searchField stringValue];
+    NSInteger   selectedRow     = [self->partsTable selectedRow];
 
     [self setPartLibrary:newLibrary];
 
@@ -775,12 +750,11 @@
     }
 
     [partsTable scrollRowToVisible:selectedRow];
-    [partsTable selectRowIndexes:[NSIndexSet indexSetWithIndex:selectedRow]
-     byExtendingSelection:NO];
+    [partsTable selectRowIndexes:[NSIndexSet indexSetWithIndex:selectedRow] byExtendingSelection:NO];
     [self syncSelectionAndPartDisplayed];
 
     [originalSelectedCategory release];
-}// end sharedPartCatalogDidChange:
+} // end sharedPartCatalogDidChange:
 
 
 #pragma mark -
@@ -808,17 +782,16 @@
 // cheeseball approach.
 //
 // ==============================================================================
-- (NSMutableArray *)filterPartRecords:(NSArray *)partRecords
-    bySearchString:(NSString *)searchString
+- (NSMutableArray *)filterPartRecords:(NSArray *)partRecords bySearchString:(NSString *)searchString
     excludeParts:(NSSet *)excludedParts
 {
-    NSDictionary   *record               = nil;
-    NSUInteger     counter               = 0;
-    NSString       *partNumber           = nil;
-    NSString       *partDescription      = nil;
-    NSString       *partSansWhitespace   = nil;
-    NSString       *category             = nil;
-    NSMutableArray *matchingParts        = nil;
+    NSDictionary   *record     = nil;
+    NSUInteger     counter     = 0;
+    NSString       *partNumber = nil;
+    NSString       *partDescription    = nil;
+    NSString       *partSansWhitespace = nil;
+    NSString       *category = nil;
+    NSMutableArray *matchingParts = nil;
     NSString       *searchSansWhitespace = [searchString ams_stringByRemovingWhitespace];
 
     if ([searchString length] == 0) {
@@ -836,11 +809,11 @@
         // search string. But search part names whitespace-neutral so as not to
         // be thrown off by goofy name spacing.
         for (counter = 0; counter < [partRecords count]; counter++) {
-            record             = [partRecords objectAtIndex:counter];
-            partNumber         = [record objectForKey:PART_NUMBER_KEY];
+            record     = [partRecords objectAtIndex:counter];
+            partNumber = [record objectForKey:PART_NUMBER_KEY];
             partDescription    = [record objectForKey:PART_NAME_KEY];
             partSansWhitespace = [partDescription ams_stringByRemovingWhitespace];
-            category           = [record objectForKey:PART_CATEGORY_KEY];
+            category = [record objectForKey:PART_CATEGORY_KEY];
 
             if ([excludedParts containsObject:partNumber] == NO) {
                 // LLW - Change to treat each word in a search string as an item in a list, and
@@ -858,15 +831,11 @@
                 // "axle pin 2x2"  "Brick 2 x 2 with Pin and Axlehole"
 
                 NSUInteger wordCounter;
-                BOOL       matches = TRUE;
+                BOOL matches = TRUE;
                 for (wordCounter = 0; matches && wordCounter < wordCount; ++wordCounter) {
                     NSString *word = [searchWords objectAtIndex:wordCounter];
-                    if (!(
-                            [partNumber ams_containsString:word
-                             options:NSCaseInsensitiveSearch] ||
-                            [partSansWhitespace ams_containsString:word
-                             options:NSCaseInsensitiveSearch])
-                        ) {
+                    if (!([partNumber ams_containsString:word options:NSCaseInsensitiveSearch] ||
+                        [partSansWhitespace ams_containsString:word options:NSCaseInsensitiveSearch])) {
                         matches = FALSE;
                     }
                 }
@@ -878,8 +847,8 @@
                     NSArray *keywords = [record objectForKey:PART_KEYWORDS_KEY];
 
                     for (NSString *keyword in keywords) {
-                        if ([[keyword ams_stringByRemovingWhitespace] ams_containsString:searchSansWhitespace options:
-                             NSCaseInsensitiveSearch]) {
+                        if ([[keyword ams_stringByRemovingWhitespace] ams_containsString:searchSansWhitespace
+                            options:NSCaseInsensitiveSearch]) {
                             [matchingParts addObject:record];
                             break;
                         }
@@ -887,11 +856,11 @@
                 }
             }
         }
-    }// end else we have to search
+    } // end else we have to search
 
 
     return(matchingParts);
-}// end filterPartRecords:bySearchString:
+} // end filterPartRecords:bySearchString:
 
 
 // ========== indexOfPartNamed: =================================================
@@ -930,7 +899,7 @@
 // } ];
 
     return(foundIndex);
-}// end indexOfPartNamed:
+} // end indexOfPartNamed:
 
 
 // ========== performSearch =====================================================
@@ -940,26 +909,24 @@
 // ==============================================================================
 - (void)performSearch
 {
-    NSString       *searchString  = [self->searchField stringValue];
-    NSArray        *allParts      = nil;
+    NSString *searchString = [self->searchField stringValue];
+    NSArray  *allParts     = nil;
     NSMutableArray *filteredParts = nil;
-    NSSet          *excludedParts = nil;
+    NSSet *excludedParts = nil;
 
     if ([searchString length] == 0 || // clearing the search; revert to selected category
         self->searchMode == SearchModeSelectedCategory) {
         allParts = [self->partLibrary partCatalogRecordsInCategory:self->selectedCategory];
     }
     else {
-        allParts      = [self->partLibrary partCatalogRecordsInCategory:Category_All];
+        allParts = [self->partLibrary partCatalogRecordsInCategory:Category_All];
         excludedParts =
             [NSSet setWithArray:[[self->partLibrary partCatalogRecordsInCategory:Category_Alias] valueForKey:
-                                 PART_NUMBER_KEY]];
+            PART_NUMBER_KEY]];
     }
 
     // Re-filter the records
-    filteredParts = [self filterPartRecords:allParts
-                     bySearchString:searchString
-                     excludeParts:excludedParts];
+    filteredParts = [self filterPartRecords:allParts bySearchString:searchString excludeParts:excludedParts];
     [self setTableDataSource:filteredParts];
 
     [self syncSelectionAndPartDisplayed];
@@ -975,13 +942,12 @@
 // ==============================================================================
 - (void)setConstraints
 {
-    NSString *selectedPart          = [self selectedPartName];
-    NSArray  *favorites             = [self->partLibrary favoritePartNames];
-    BOOL     partIsInFavorites      = NO;
+    NSString *selectedPart     = [self selectedPartName];
+    NSArray  *favorites        = [self->partLibrary favoritePartNames];
+    BOOL     partIsInFavorites = NO;
     BOOL     showSearchScopeButtons = NO;
 
-    if (selectedPart != nil &&
-        [favorites containsObject:selectedPart]) {
+    if (selectedPart != nil && [favorites containsObject:selectedPart]) {
         partIsInFavorites = YES;
     }
 
@@ -1017,7 +983,7 @@
     // Hide inapplicable menu items.
     [[self->contextualMenu itemWithTag:partBrowserAddFavoriteTag] setHidden:(partIsInFavorites == YES)];
     [[self->contextualMenu itemWithTag:partBrowserRemoveFavoriteTag] setHidden:(partIsInFavorites == NO)];
-}// end setConstraints
+} // end setConstraints
 
 
 // ========== scrollSelectedCategoryToCenter ====================================
@@ -1042,8 +1008,8 @@
 // ==============================================================================
 - (void)syncSelectionAndCategoryDisplayed
 {
-    id        categoryItem = nil;
-    NSInteger categoryRow  = 0;
+    id categoryItem = nil;
+    NSInteger categoryRow = 0;
 
     for (NSDictionary *group in self->categoryList) {
         NSArray *children = [group objectForKey:CategoryChildrenKey];
@@ -1057,8 +1023,7 @@
     }
 
     categoryRow = [categoryTable rowForItem:categoryItem];
-    [categoryTable selectRowIndexes:[NSIndexSet indexSetWithIndex:categoryRow]
-     byExtendingSelection:NO];
+    [categoryTable selectRowIndexes:[NSIndexSet indexSetWithIndex:categoryRow] byExtendingSelection:NO];
 }
 
 
@@ -1071,7 +1036,7 @@
 - (void)syncSelectionAndPartDisplayed
 {
     NSString  *selectedPartName = [self selectedPartName];
-    LDrawPart *newPart          = nil;
+    LDrawPart *newPart = nil;
 
     if (selectedPartName != nil) {
         // Not this simple anymore. We have to make sure to draw the optimized
@@ -1087,7 +1052,7 @@
         [[LDrawApplication sharedOpenGLContext] makeCurrentContext];
     }
     [partPreview setLDrawDirective:newPart];
-}// end syncSelectionAndPartDisplayed
+} // end syncSelectionAndPartDisplayed
 
 
 // ========== writeSelectedPartToPasteboard: ====================================
@@ -1098,11 +1063,11 @@
 - (BOOL)writeSelectedPartToPasteboard:(NSPasteboard *)pasteboard
 {
     NSMutableArray *archivedParts = [NSMutableArray array];
-    NSString       *partName      = [self selectedPartName];
-    LDrawPart      *newPart       = nil;
-    NSData         *partData      = nil;
-    LDrawColor     *selectedColor = [[LDrawColorPanelController sharedColorPanel] LDrawColor];
-    BOOL           success        = NO;
+    NSString       *partName = [self selectedPartName];
+    LDrawPart      *newPart  = nil;
+    NSData *partData = nil;
+    LDrawColor *selectedColor = [[LDrawColorPanelController sharedColorPanel] LDrawColor];
+    BOOL success = NO;
 
     // We got a part; let's add it!
     if (partName != nil) {
@@ -1118,20 +1083,18 @@
 
         // Set up pasteboard
         [pasteboard declareTypes:[NSArray arrayWithObjects:LDrawDraggingPboardType,
-                                  LDrawDraggingIsUninitializedPboardType, nil]
-         owner:self];
+        LDrawDraggingIsUninitializedPboardType, nil] owner:self];
 
-        [pasteboard setPropertyList:archivedParts
-         forType:LDrawDraggingPboardType];
+        [pasteboard setPropertyList:archivedParts forType:LDrawDraggingPboardType];
 
-        [pasteboard setPropertyList:[NSNumber numberWithBool:YES]
-         forType:LDrawDraggingIsUninitializedPboardType];
+        [pasteboard setPropertyList:[NSNumber numberWithBool:YES] forType:
+        LDrawDraggingIsUninitializedPboardType];
 
         success = YES;
     }
 
     return(success);
-}// end writeSelectedPartToPasteboard:
+} // end writeSelectedPartToPasteboard:
 
 
 #pragma mark -
@@ -1154,7 +1117,6 @@
     [contextualMenu release];
 
     [super dealloc];
-}// end dealloc
-
+} // end dealloc
 
 @end

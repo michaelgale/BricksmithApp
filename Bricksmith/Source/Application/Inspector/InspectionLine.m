@@ -16,7 +16,6 @@
 #import "FormCategory.h"
 
 @implementation InspectionLine
-
 // ========== init ==============================================================
 //
 // Purpose:		Load the interface for this inspector.
@@ -30,7 +29,7 @@
         NSLog(@"Couldn't load InspectorLine.nib");
     }
     return(self);
-}// end init
+} // end init
 
 
 #pragma mark -
@@ -53,7 +52,7 @@
     [representedObject setVertex2:vertex2];
 
     [super commitChanges:sender];
-}// end commitChanges:
+} // end commitChanges:
 
 
 // ========== revert ============================================================
@@ -77,7 +76,7 @@
     [endPoint setCoordinateValue:vertex2];
 
     [super revert:sender];
-}// end revert:
+} // end revert:
 
 
 #pragma mark -
@@ -92,13 +91,13 @@
 - (IBAction)startPointEndedEditing:(id)sender
 {
     Point3 formContents = [startPoint coordinateValue];
-    Point3 vertex1      = [[self object] vertex1];
+    Point3 vertex1 = [[self object] vertex1];
 
     // If the values really did change, then update.
     if (V3EqualPoints(formContents, vertex1) == NO) {
         [self finishedEditing:sender];
     }
-}// end startPointEndedEditing:
+} // end startPointEndedEditing:
 
 
 // ========== endPointEndedEditing: =================//==========================
@@ -111,13 +110,13 @@
 - (IBAction)endPointEndedEditing:(id)sender
 {
     Point3 formContents = [endPoint coordinateValue];
-    Point3 vertex2      = [[self object] vertex2];
+    Point3 vertex2 = [[self object] vertex2];
 
     // If the values really did change, then update.
     if (V3EqualPoints(formContents, vertex2) == NO) {
         [self finishedEditing:sender];
     }
-}// end endPointEndedEditing:
+} // end endPointEndedEditing:
 
 
 @end

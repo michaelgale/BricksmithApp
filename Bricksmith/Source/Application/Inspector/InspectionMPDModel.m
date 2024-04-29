@@ -16,7 +16,6 @@
 #import "LDrawUtilities.h"
 
 @implementation InspectionMPDModel
-
 // ========== init ==============================================================
 //
 // Purpose:		Load the interface for this inspector.
@@ -26,13 +25,12 @@
 {
     self = [super init];
 
-    if ([NSBundle loadNibNamed:@"InspectorMPDModel"
-         owner:self] == NO) {
+    if ([NSBundle loadNibNamed:@"InspectorMPDModel" owner:self] == NO) {
         NSLog(@"Couldn't load InspectorMPDModel.nib");
     }
 
     return(self);
-}// end init
+} // end init
 
 
 #pragma mark -
@@ -49,10 +47,10 @@
     LDrawMPDModel *representedObject = [self object];
     LDrawFile     *enclosingFile     = [representedObject enclosingFile];
 
-    NSString *oldName        = [representedObject modelName];
-    NSString *newName        = [modelNameField stringValue];
+    NSString *oldName = [representedObject modelName];
+    NSString *newName = [modelNameField stringValue];
     NSString *newDescription = [descriptionField stringValue];
-    NSString *newAuthor      = [authorField stringValue];
+    NSString *newAuthor = [authorField stringValue];
 
     // For the sake of simplicity, we group these similar fields of the MPD and
     // regular model together.
@@ -66,12 +64,11 @@
     if ([oldName isEqualToString:newName] == NO) {
         // The file object is the one responsible for coordinating model
         // renames, because it has to update references in other submodels.
-        [enclosingFile renameModel:representedObject
-         toName:newName];
+        [enclosingFile renameModel:representedObject toName:newName];
     }
 
     [super commitChanges:sender];
-}// end commitChanges:
+} // end commitChanges:
 
 
 // ========== revert ============================================================
@@ -94,7 +91,7 @@
     [numberStepsField setIntegerValue:[[representedObject steps] count]];
 
     [super revert:sender];
-}// end revert:
+} // end revert:
 
 
 #pragma mark -
@@ -109,8 +106,8 @@
 // ==============================================================================
 - (IBAction)modelNameFieldChanged:(id)sender
 {
-    NSString *newValue       = [sender stringValue];
-    NSString *oldValue       = [[self object] modelName];
+    NSString *newValue = [sender stringValue];
+    NSString *oldValue = [[self object] modelName];
     NSString *compliantValue = [LDrawMPDModel ldrawCompliantNameForName:newValue];
 
     // ---------- Error Checking ------------------------------------------------
@@ -127,13 +124,12 @@
 
     // Duplicate model names are not allowed, because they cause nasty things to
     // happen when automatically renaming references to them.
-    if ([newValue caseInsensitiveCompare:oldValue] != NSOrderedSame &&    // actually changed the name!
+    if ([newValue caseInsensitiveCompare:oldValue] != NSOrderedSame && // actually changed the name!
         [[[self object] enclosingFile] modelWithName:newValue] != nil) { // is a duplicate!
         NSAlert  *alert   = [[NSAlert alloc] init];
         NSString *message = nil;
 
-        message =
-            [NSString stringWithFormat:NSLocalizedString(@"DuplicateModelnameMessage", nil), newValue];
+        message = [NSString stringWithFormat:NSLocalizedString(@"DuplicateModelnameMessage", nil), newValue];
 
         [alert setMessageText:message];
         [alert setInformativeText:NSLocalizedString(@"DuplicateModelnameInformative", nil)];
@@ -155,7 +151,7 @@
     if ([newValue isEqualToString:oldValue] == NO) {
         [self finishedEditing:sender];
     }
-}// end modelNameFieldChanged:
+} // end modelNameFieldChanged:
 
 
 // ========== descriptionFieldChanged: ==========================================
@@ -172,7 +168,7 @@
     if ([newValue isEqualToString:oldValue] == NO) {
         [self finishedEditing:sender];
     }
-}// end descriptionFieldChanged:
+} // end descriptionFieldChanged:
 
 
 // ========== authorFieldChanged: ===============================================
@@ -189,7 +185,7 @@
     if ([newValue isEqualToString:oldValue] == NO) {
         [self finishedEditing:sender];
     }
-}// end authorFieldChanged:
+} // end authorFieldChanged:
 
 
 @end

@@ -18,7 +18,7 @@
 extern NSString *PART_REPORT_NUMBER_KEY;
 extern NSString *PART_REPORT_NAME_KEY;
 extern NSString *PART_REPORT_LDRAW_COLOR; // LDrawColor object
-extern NSString *PART_REPORT_COLOR_NAME;  // NSString representing localized name
+extern NSString *PART_REPORT_COLOR_NAME; // NSString representing localized name
 extern NSString *PART_REPORT_PART_QUANTITY; // NSNumber of how many of this part there are
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -28,11 +28,11 @@ extern NSString *PART_REPORT_PART_QUANTITY; // NSNumber of how many of this part
 ////////////////////////////////////////////////////////////////////////////////
 @interface PartReport : NSObject
 {
-    LDrawContainer      *reportedObject;
-    NSMutableDictionary *partsReport;   // see -registerPart: for a description of this data
+    LDrawContainer *reportedObject;
+    NSMutableDictionary *partsReport; // see -registerPart: for a description of this data
     NSMutableArray      *missingParts;
     NSMutableArray      *movedParts;
-    NSUInteger          totalNumberOfParts; // how many parts are in the model.
+    NSUInteger totalNumberOfParts; // how many parts are in the model.
 }
 
 // Initialization

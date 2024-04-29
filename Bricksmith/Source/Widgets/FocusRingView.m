@@ -16,7 +16,6 @@
 #import "FocusRingView.h"
 
 @implementation FocusRingView
-
 // ========== initWithFrame: ====================================================
 //
 // Purpose:		Nothing to do here, actually.
@@ -29,7 +28,7 @@
         // Initialization code here.
     }
     return(self);
-}// end initWithFrame:
+} // end initWithFrame:
 
 
 #pragma mark -
@@ -89,7 +88,7 @@
         NSSetFocusRingStyle(NSFocusRingOnly);
         NSRectFill(NSInsetRect([self visibleRect], 2, 2));
     }
-}// end drawRect:
+} // end drawRect:
 
 
 #pragma mark -
@@ -106,7 +105,7 @@
 - (NSView *)hitTest:(NSPoint)aPoint
 {
     return([self superview]);
-}// end hitTest:
+} // end hitTest:
 
 
 #pragma mark -

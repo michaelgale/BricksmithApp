@@ -23,8 +23,8 @@
 #import "PartLibrary.h"
 #import "LDrawLSynth.h"
 
-static BOOL     ColumnizesOutput = NO;
-static NSString *defaultAuthor   = @"anonymous";
+static BOOL ColumnizesOutput   = NO;
+static NSString *defaultAuthor = @"anonymous";
 
 @implementation LDrawUtilities
 
@@ -99,9 +99,9 @@ static NSString *defaultAuthor   = @"anonymous";
 // ------------------------------------------------------------------------------
 + (Class)classForDirectiveBeginningWithLine:(NSString *)line
 {
-    Class     classForType       = Nil;
+    Class classForType = Nil;
     NSString  *commandCodeString = nil;
-    NSInteger lineType           = 0;
+    NSInteger lineType = 0;
 
     commandCodeString = [LDrawUtilities readNextField:line remainder:NULL];
     // We may need to check for nil here someday.
@@ -150,7 +150,7 @@ static NSString *defaultAuthor   = @"anonymous";
     }
 
     return(classForType);
-}// end classForDirectiveBeginningWithLine:
+} // end classForDirectiveBeginningWithLine:
 
 
 // ---------- parseColorFromField: ------------------------------------[static]--
@@ -165,16 +165,15 @@ static NSString *defaultAuthor   = @"anonymous";
 // ------------------------------------------------------------------------------
 + (LDrawColor *)parseColorFromField:(NSString *)colorField
 {
-    NSScanner   *scanner       = [NSScanner scannerWithString:colorField];
-    LDrawColorT colorCode      = LDrawColorBogus;
-    unsigned    hexBytes       = 0;
-    int         customCodeType = 0;
-    GLfloat     components[4]  = {};
-    LDrawColor  *color         = nil;
+    NSScanner   *scanner  = [NSScanner scannerWithString:colorField];
+    LDrawColorT colorCode = LDrawColorBogus;
+    unsigned    hexBytes  = 0;
+    int customCodeType    = 0;
+    GLfloat components[4] = {};
+    LDrawColor *color     = nil;
 
     // Custom RGB?
-    if ([scanner scanString:@"0x"
-         intoString:nil] == YES) {
+    if ([scanner scanString:@"0x" intoString:nil] == YES) {
         // The integer should be of the format:
         // 0x2RRGGBB for opaque colors
         // 0x3RRGGBB for transparent colors
@@ -205,14 +204,14 @@ static NSString *defaultAuthor   = @"anonymous";
             // combined opaque color
             case 4 :
                 // Red
-                components[0] =
-                    (GLfloat)(((hexBytes >> 5 * 4) & 0xF) + ((hexBytes >> 2 * 4) & 0xF)) / 2 / 255;
+                components[0] = (GLfloat)(((hexBytes >> 5 * 4) & 0xF) + ((hexBytes >>
+                    2 * 4) & 0xF)) / 2 / 255;
                 // Green
-                components[0] =
-                    (GLfloat)(((hexBytes >> 4 * 4) & 0xF) + ((hexBytes >> 1 * 4) & 0xF)) / 2 / 255;
+                components[0] = (GLfloat)(((hexBytes >> 4 * 4) & 0xF) + ((hexBytes >>
+                    1 * 4) & 0xF)) / 2 / 255;
                 // Blue
-                components[0] =
-                    (GLfloat)(((hexBytes >> 3 * 4) & 0xF) + ((hexBytes >> 0 * 4) & 0xF)) / 2 / 255;
+                components[0] = (GLfloat)(((hexBytes >> 3 * 4) & 0xF) + ((hexBytes >>
+                    0 * 4) & 0xF)) / 2 / 255;
                 // alpha
                 components[3] = (GLfloat)1.0;
                 break;
@@ -248,7 +247,7 @@ static NSString *defaultAuthor   = @"anonymous";
     }
 
     return(color);
-}// end parseColorFromField:
+} // end parseColorFromField:
 
 
 // ---------- readNextField:remainder: --------------------------------[static]--
@@ -275,12 +274,11 @@ static NSString *defaultAuthor   = @"anonymous";
 // distinguish between "0 WRITE blah" and "0 COMMENT blah".
 //
 // ------------------------------------------------------------------------------
-+ (NSString *)readNextField:(NSString *)partialDirective
-    remainder:(NSString **)remainder
++ (NSString *)readNextField:(NSString *)partialDirective remainder:(NSString **)remainder
 {
     NSCharacterSet *whitespaceCharacterSet = [NSCharacterSet whitespaceAndNewlineCharacterSet];
-    NSRange        rangeOfNextWhiteSpace;
-    NSString       *fieldContents = nil;
+    NSRange  rangeOfNextWhiteSpace;
+    NSString *fieldContents = nil;
 
     // First, remove any heading whitespace.
     partialDirective = [partialDirective stringByTrimmingCharactersInSet:whitespaceCharacterSet];
@@ -305,7 +303,7 @@ static NSString *defaultAuthor   = @"anonymous";
     }
 
     return(fieldContents);
-}// end readNextField
+} // end readNextField
 
 
 // ---------- scanQuotableToken: --------------------------------------[static]--
@@ -318,8 +316,8 @@ static NSString *defaultAuthor   = @"anonymous";
 + (NSString *)scanQuotableToken:(NSScanner *)scanner
 {
     NSCharacterSet  *doubleQuote = [NSCharacterSet characterSetWithCharactersInString:@"\""];
-    NSMutableString *token       = [NSMutableString string];
-    NSString        *temp        = nil;
+    NSMutableString *token = [NSMutableString string];
+    NSString *temp = nil;
 
     if ([scanner scanCharactersFromSet:doubleQuote intoString:NULL] == YES) {
         // String is wrapped in double quotes.
@@ -341,20 +339,18 @@ static NSString *defaultAuthor   = @"anonymous";
         }
 
         // Un-escape backslashes
-        [token replaceOccurrencesOfString:@"\\\\"
-         withString:@"\\"
-         options:NSLiteralSearch
-         range:NSMakeRange(0, [token length])];
+        [token replaceOccurrencesOfString:@"\\\\" withString:@"\\" options:NSLiteralSearch range:NSMakeRange(
+            0,
+            [token length])];
     }
     else {
         // No leading quote mark
-        [scanner scanUpToCharactersFromSet:[NSCharacterSet whitespaceCharacterSet]
-         intoString:&temp];
+        [scanner scanUpToCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:&temp];
         [token appendString:temp];
     }
 
     return(token);
-}// end scanQuotableToken:
+} // end scanQuotableToken:
 
 
 // ---------- stringFromFile: -----------------------------------------[static]--
@@ -368,7 +364,7 @@ static NSString *defaultAuthor   = @"anonymous";
     NSString *fileString = [self stringFromFileData:fileData];
 
     return(fileString);
-}// end stringFromFile:
+} // end stringFromFile:
 
 
 // ---------- stringFromFileData: -------------------------------------[static]--
@@ -398,7 +394,7 @@ static NSString *defaultAuthor   = @"anonymous";
     }
 
     return([fileString autorelease]);
-}// end stringFromFileData:
+} // end stringFromFileData:
 
 
 #pragma mark -
@@ -425,16 +421,12 @@ static NSString *defaultAuthor   = @"anonymous";
     if (colorCode == LDrawColorCustomRGB) {
         // Opaque?
         if (components[3] == 1.0) {
-            outputString = [NSString stringWithFormat:@"0x2%02X%02X%02X",
-                            (uint8_t)(components[0] * 255),
-                            (uint8_t)(components[1] * 255),
-                            (uint8_t)(components[2] * 255)];
+            outputString = [NSString stringWithFormat:@"0x2%02X%02X%02X", (uint8_t)(components[0] * 255),
+                (uint8_t)(components[1] * 255), (uint8_t)(components[2] * 255)];
         }
         else {
-            outputString = [NSString stringWithFormat:@"0x3%02X%02X%02X",
-                            (uint8_t)(components[0] * 255),
-                            (uint8_t)(components[1] * 255),
-                            (uint8_t)(components[2] * 255)];
+            outputString = [NSString stringWithFormat:@"0x3%02X%02X%02X", (uint8_t)(components[0] * 255),
+                (uint8_t)(components[1] * 255), (uint8_t)(components[2] * 255)];
         }
     }
     else {
@@ -447,7 +439,7 @@ static NSString *defaultAuthor   = @"anonymous";
     }
 
     return(outputString);
-}// end outputStringForColorCode:RGB:
+} // end outputStringForColorCode:RGB:
 
 
 // ---------- outputStringForFloat: -----------------------------------[static]--
@@ -469,8 +461,8 @@ static NSString *defaultAuthor   = @"anonymous";
         // Remove all trailing zeroes (and the decimal point if an integer).
 
         char   formattedFloat[16] = "";
-        char   *endOfString       = NULL;
-        size_t fullLength         = 0;
+        char   *endOfString = NULL;
+        size_t fullLength   = 0;
 
         // First format the number into a string. We could wind up with
         // something like "50.090000".
@@ -494,7 +486,7 @@ static NSString *defaultAuthor   = @"anonymous";
     }
 
     return(outputString);
-}// end outputStringForFloat:
+} // end outputStringForFloat:
 
 
 #pragma mark -
@@ -513,12 +505,12 @@ static NSString *defaultAuthor   = @"anonymous";
 // hits - the list of hit records to modify
 //
 // ------------------------------------------------------------------------------
-+ (void)registerHitForObject:(id)hitObject depth:(double)hitDepth creditObject:(id)creditObject
-    hits:(NSMutableDictionary *)hits
++ (void)registerHitForObject:(id)hitObject depth:(double)hitDepth creditObject:(id)creditObject hits:(
+        NSMutableDictionary *)hits
 {
     NSNumber *existingRecord = [hits objectForKey:creditObject];
     double   existingDepth   = 0;
-    NSValue  *key            = nil;
+    NSValue  *key = nil;
 
     // NSDictionary copies its keys (which we don't want to do!), so we'll just
     // wrap the pointers.
@@ -583,9 +575,9 @@ static NSString *defaultAuthor   = @"anonymous";
 // ------------------------------------------------------------------------------
 + (CGImageRef)imageAtPath:(NSString *)imagePath
 {
-    NSURL            *fileURL    = nil;
+    NSURL *fileURL = nil;
     CGImageSourceRef imageSource = NULL;
-    CGImageRef       image       = NULL;
+    CGImageRef image = NULL;
 
     if (imagePath) {
         fileURL = [NSURL fileURLWithPath:imagePath];
@@ -654,7 +646,7 @@ static NSString *defaultAuthor   = @"anonymous";
     }
 
     return(angle);
-}// end angleForViewOrientation:
+} // end angleForViewOrientation:
 
 
 // ---------- boundingBox3ForDirectives: ------------------------------[static]--
@@ -670,11 +662,11 @@ static NSString *defaultAuthor   = @"anonymous";
 // ------------------------------------------------------------------------------
 + (Box3)boundingBox3ForDirectives:(NSArray *)directives
 {
-    Box3       bounds             = InvalidBox;
-    Box3       partBounds         = InvalidBox;
-    id         currentDirective   = nil;
+    Box3 bounds     = InvalidBox;
+    Box3 partBounds = InvalidBox;
+    id   currentDirective = nil;
     NSUInteger numberOfDirectives = [directives count];
-    NSUInteger counter            = 0;
+    NSUInteger counter = 0;
 
     for (counter = 0; counter < numberOfDirectives; counter++) {
         currentDirective = [directives objectAtIndex:counter];
@@ -686,7 +678,7 @@ static NSString *defaultAuthor   = @"anonymous";
     }
 
     return(bounds);
-}// end boundingBox3ForDirectives
+} // end boundingBox3ForDirectives
 
 
 // ---------- isLDrawFilenameValid: -----------------------------------[static]--
@@ -709,9 +701,7 @@ static NSString *defaultAuthor   = @"anonymous";
 
     // Make sure it has a valid extension
     if (extension == nil ||
-        ([extension isEqualToString:@"ldr"] == NO &&
-         [extension isEqualToString:@"dat"] == NO)
-        ) {
+        ([extension isEqualToString:@"ldr"] == NO && [extension isEqualToString:@"dat"] == NO)) {
         isValid = NO;
     }
     else {
@@ -719,7 +709,7 @@ static NSString *defaultAuthor   = @"anonymous";
     }
 
     return(isValid);
-}// end isLDrawFilenameValid:
+} // end isLDrawFilenameValid:
 
 
 // ---------- updateNameForMovedPart: ---------------------------------[static]--
@@ -739,7 +729,7 @@ static NSString *defaultAuthor   = @"anonymous";
     if ([description hasPrefix:LDRAW_MOVED_DESCRIPTION_PREFIX]) {
         [movedPart followRedirectionAndUpdate];
     }
-}// end updateNameForMovedPart:
+} // end updateNameForMovedPart:
 
 
 // ---------- viewOrientationForAngle: --------------------------------[static]--
@@ -752,22 +742,20 @@ static NSString *defaultAuthor   = @"anonymous";
 + (ViewOrientationT)viewOrientationForAngle:(Tuple3)rotationAngle
 {
     ViewOrientationT viewOrientation = ViewOrientation3D;
-    NSUInteger       counter         = 0;
-    Tuple3           testAngle       = ZeroPoint3;
+    NSUInteger counter   = 0;
+    Tuple3     testAngle = ZeroPoint3;
     ViewOrientationT testOrientation = ViewOrientation3D;
 
-    ViewOrientationT orientations[] = { ViewOrientationFront,
-                                        ViewOrientationBack,
+    ViewOrientationT orientations[] = { ViewOrientationFront, ViewOrientationBack,
                                         ViewOrientationLeft,
-                                        ViewOrientationRight,
-                                        ViewOrientationTop,
+                                        ViewOrientationRight, ViewOrientationTop,
                                         ViewOrientationBottom };
-    NSUInteger       orientationCount = sizeof(orientations) / sizeof(ViewOrientationT);
+    NSUInteger orientationCount = sizeof(orientations) / sizeof(ViewOrientationT);
 
     // See if the angle matches any of the head-on orientations.
     for (counter = 0; viewOrientation == ViewOrientation3D && counter < orientationCount; counter++) {
         testOrientation = orientations[counter];
-        testAngle       = [LDrawUtilities angleForViewOrientation:testOrientation];
+        testAngle = [LDrawUtilities angleForViewOrientation:testOrientation];
 
         if (V3PointsWithinTolerance(rotationAngle, testAngle) == YES) {
             viewOrientation = testOrientation;
@@ -775,7 +763,7 @@ static NSString *defaultAuthor   = @"anonymous";
     }
 
     return(viewOrientation);
-}// end viewOrientationForAngle:
+} // end viewOrientationForAngle:
 
 
 // ---------- unresolveLibraryParts: ----------------------------------[static]--
@@ -798,7 +786,6 @@ static NSString *defaultAuthor   = @"anonymous";
     if ([directive respondsToSelector:@selector(unresolvePartIfPartLibrary)]) {
         [(LDrawPart *) directive unresolvePartIfPartLibrary];
     }
-}// end unresolveLibraryParts
-
+} // end unresolveLibraryParts
 
 @end

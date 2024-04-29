@@ -23,12 +23,10 @@
 
 typedef enum
 {
-    rotationAbsolute = 0,
-    rotationRelative = 1
+    rotationAbsolute = 0, rotationRelative = 1
 } RotationT;
 
 @interface InspectionPart ()
-
 // Top-level objects
 @property (nonatomic, strong) IBOutlet NSNumberFormatter *formatterBasic;
 @property (nonatomic, strong) IBOutlet NSNumberFormatter *formatterAngle;
@@ -36,8 +34,8 @@ typedef enum
 
 // Window widgets
 
-@property (nonatomic, unsafe_unretained) IBOutlet NSTextField    *partDescriptionField;
-@property (nonatomic, unsafe_unretained) IBOutlet NSTextField    *partNameField;
+@property (nonatomic, unsafe_unretained) IBOutlet NSTextField *partDescriptionField;
+@property (nonatomic, unsafe_unretained) IBOutlet NSTextField *partNameField;
 @property (nonatomic, unsafe_unretained) IBOutlet LDrawColorWell *colorWell;
 @property (nonatomic, unsafe_unretained) IBOutlet NSPopUpButton  *rotationTypePopUp;
 
@@ -60,7 +58,6 @@ typedef enum
 @end
 
 @implementation InspectionPart
-
 // ========== init ==============================================================
 //
 // Purpose:		Load the interface for this inspector.
@@ -75,7 +72,7 @@ typedef enum
     }
 
     return(self);
-}// end init
+} // end init
 
 
 // ========== awakeFromNib ======================================================
@@ -101,12 +98,13 @@ typedef enum
 // ==============================================================================
 - (void)commitChanges:(id)sender
 {
-    LDrawPart           *representedObject = [self object];
-    TransformComponents oldComponents      = [representedObject transformComponents];
-    TransformComponents components         = IdentityComponents;
-    Point3  position = [self coordinateValueFromFields:@[_locationXField, _locationYField, _locationZField]];
-    Vector3 scaling  = [self coordinateValueFromFields:@[_scaleXField, _scaleYField, _scaleZField]];
-    Tuple3  shear    = [self coordinateValueFromFields:@[_shearXYField, _shearXZField, _shearYZField]];
+    LDrawPart *representedObject = [self object];
+    TransformComponents oldComponents = [representedObject transformComponents];
+    TransformComponents components    = IdentityComponents;
+    Point3 position = [self coordinateValueFromFields:@[ _locationXField, _locationYField,
+                                                         _locationZField ]];
+    Vector3 scaling = [self coordinateValueFromFields:@[ _scaleXField, _scaleYField, _scaleZField ]];
+    Tuple3  shear   = [self coordinateValueFromFields:@[ _shearXYField, _shearXZField, _shearYZField ]];
 
     [representedObject setDisplayName:[_partNameField stringValue]];
 
@@ -121,7 +119,7 @@ typedef enum
     [representedObject setTransformComponents:components];
 
     [super commitChanges:sender];
-}// end commitChanges:
+} // end commitChanges:
 
 
 // ========== revert ============================================================
@@ -134,12 +132,12 @@ typedef enum
 // ==============================================================================
 - (IBAction)revert:(id)sender
 {
-    LDrawPart           *representedObject = [self object];
-    TransformComponents components         = [representedObject transformComponents];
-    NSString            *description       = [[PartLibrary sharedPartLibrary] descriptionForPart:representedObject];
-    Point3  position = ZeroPoint3;
-    Vector3 scaling  = ZeroPoint3;
-    Tuple3  shear    = ZeroPoint3;
+    LDrawPart *representedObject   = [self object];
+    TransformComponents components = [representedObject transformComponents];
+    NSString *description = [[PartLibrary sharedPartLibrary] descriptionForPart:representedObject];
+    Point3   position     = ZeroPoint3;
+    Vector3  scaling = ZeroPoint3;
+    Tuple3   shear   = ZeroPoint3;
 
 
     [_partDescriptionField setStringValue:description];
@@ -159,9 +157,9 @@ typedef enum
     shear.y = components.shear_XZ;
     shear.z = components.shear_YZ;
 
-    [self setCoordinateValue:position onFields:@[_locationXField, _locationYField, _locationZField]];
-    [self setCoordinateValue:scaling onFields:@[_scaleXField, _scaleYField, _scaleZField]];
-    [self setCoordinateValue:shear onFields:@[_shearXYField, _shearXZField, _shearYZField]];
+    [self setCoordinateValue:position onFields:@[ _locationXField, _locationYField, _locationZField ]];
+    [self setCoordinateValue:scaling onFields:@[ _scaleXField, _scaleYField, _scaleZField ]];
+    [self setCoordinateValue:shear onFields:@[ _shearXYField, _shearXZField, _shearYZField ]];
 
     // Rotation is a bit trickier since we have two different modes for the data
     // entered. An absolute rotation means that the actual rotation angles for
@@ -173,7 +171,7 @@ typedef enum
 
     // Someone else might care that the part's changed
     [representedObject sendMessageToObservers:MessageObservedChanged];
-}// end revert:
+} // end revert:
 
 
 // ========== setRotationAngles =================================================
@@ -189,9 +187,9 @@ typedef enum
 // ==============================================================================
 - (void)setRotationAngles
 {
-    LDrawPart           *representedObject = [self object];
-    TransformComponents components         = [representedObject transformComponents];
-    RotationT           rotationType       = [[_rotationTypePopUp selectedItem] tag];
+    LDrawPart *representedObject   = [self object];
+    TransformComponents components = [representedObject transformComponents];
+    RotationT rotationType = [[_rotationTypePopUp selectedItem] tag];
 
     if (rotationType == rotationRelative) {
         // Rotations entered will be additive.
@@ -205,7 +203,7 @@ typedef enum
         [_rotationYField setDoubleValue:degrees(components.rotate.y)];
         [_rotationZField setDoubleValue:degrees(components.rotate.z)];
     }
-}// end setRotationAngles
+} // end setRotationAngles
 
 
 #pragma mark -
@@ -222,9 +220,9 @@ typedef enum
 // ==============================================================================
 - (IBAction)applyRotationClicked:(id)sender
 {
-    LDrawPart     *representedObject = [self object];
-    LDrawDocument *currentDocument   = [[NSDocumentController sharedDocumentController] currentDocument];
-    RotationT     rotationType       = [[_rotationTypePopUp selectedItem] tag];
+    LDrawPart *representedObject   = [self object];
+    LDrawDocument *currentDocument = [[NSDocumentController sharedDocumentController] currentDocument];
+    RotationT     rotationType     = [[_rotationTypePopUp selectedItem] tag];
 
     // Save out the current state.
     [currentDocument preserveDirectiveState:representedObject];
@@ -262,7 +260,7 @@ typedef enum
 
     // Someone else might care that the part's orientation has changed
     [representedObject sendMessageToObservers:MessageObservedChanged];
-}// end applyRotationClicked:
+} // end applyRotationClicked:
 
 
 // ========== locationEndedEditing: =============================================
@@ -274,15 +272,15 @@ typedef enum
 // ==============================================================================
 - (IBAction)locationEndedEditing:(id)sender
 {
-    Point3 formContents = [self coordinateValueFromFields:@[_locationXField, _locationYField,
-                                                            _locationZField]];
+    Point3 formContents = [self coordinateValueFromFields:@[ _locationXField, _locationYField,
+                                                             _locationZField ]];
     TransformComponents components = [[self object] transformComponents];
 
     // If the values really did change, then update.
     if (V3EqualPoints(formContents, components.translate) == NO) {
         [self finishedEditing:sender];
     }
-}// end locationEndedEditing:
+} // end locationEndedEditing:
 
 
 // ========== partNameEndedEditing: =============================================
@@ -301,7 +299,7 @@ typedef enum
         [self finishedEditing:sender];
         [self revert:sender];
     }
-}// end partNameEndedEditing:
+} // end partNameEndedEditing:
 
 
 // ========== rotationTypeChanged: ==============================================
@@ -312,7 +310,7 @@ typedef enum
 - (IBAction)rotationTypeChanged:(id)sender
 {
     [self setRotationAngles];
-}// end rotationTypeChanged:
+} // end rotationTypeChanged:
 
 
 // ========== scalingEndedEditing: ==============================================
@@ -325,17 +323,15 @@ typedef enum
 // ==============================================================================
 - (IBAction)scalingEndedEditing:(id)sender
 {
-    Vector3             formContents = [self coordinateValueFromFields:@[_scaleXField, _scaleYField, _scaleZField]];
-    TransformComponents components   = [[self object] transformComponents];
+    Vector3 formContents = [self coordinateValueFromFields:@[ _scaleXField, _scaleYField, _scaleZField ]];
+    TransformComponents components = [[self object] transformComponents];
 
     // If the values really did change, then update.
-    if (formContents.x != components.scale.x * 100.0 ||
-        formContents.y != components.scale.y * 100.0 ||
-        formContents.z != components.scale.z * 100.0
-        ) {
+    if (formContents.x != components.scale.x * 100.0 || formContents.y != components.scale.y * 100.0 ||
+        formContents.z != components.scale.z * 100.0) {
         [self finishedEditing:sender];
     }
-}// end scalingEndedEditing:
+} // end scalingEndedEditing:
 
 
 // ========== shearEndedEditing: ================================================
@@ -348,18 +344,16 @@ typedef enum
 // ==============================================================================
 - (IBAction)shearEndedEditing:(id)sender
 {
-    Vector3             formContents = [self coordinateValueFromFields:@[_shearXYField, _shearXZField, _shearYZField]];
-    TransformComponents components   = [[self object] transformComponents];
+    Vector3 formContents = [self coordinateValueFromFields:@[ _shearXYField, _shearXZField, _shearYZField ]];
+    TransformComponents components = [[self object] transformComponents];
 
     // If the values really did change, then update.
     // (please disregard the meaningless x, y, and z tags in the formContents.)
-    if (formContents.x != components.shear_XY ||
-        formContents.y != components.shear_XZ ||
-        formContents.z != components.shear_YZ
-        ) {
+    if (formContents.x != components.shear_XY || formContents.y != components.shear_XZ ||
+        formContents.z != components.shear_YZ) {
         [self finishedEditing:sender];
     }
-}// end shearEndedEditing:
+} // end shearEndedEditing:
 
 
 #pragma mark -
@@ -379,7 +373,6 @@ typedef enum
     [_formatterScale release];
 
     [super dealloc];
-}// end dealloc
-
+} // end dealloc
 
 @end

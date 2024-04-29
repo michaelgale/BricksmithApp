@@ -14,7 +14,6 @@
 #import "LDrawComment.h"
 
 @implementation InspectionComment
-
 // ========== init ==============================================================
 //
 // Purpose:		Load the interface for this inspector.
@@ -30,7 +29,7 @@
 // }
 
     return(self);
-}// end init
+} // end init
 
 
 #pragma mark -
@@ -51,7 +50,7 @@
     [representedObject setStringValue:newCommand];
 
     [super commitChanges:sender];
-}// end commitChanges:
+} // end commitChanges:
 
 
 // ========== revert ============================================================
@@ -69,7 +68,7 @@
     [commandField setStringValue:[representedObject stringValue]];
 
     [super revert:sender];
-}// end revert:
+} // end revert:
 
 
 #pragma mark -
@@ -88,7 +87,7 @@
     if ([newComment isEqualToString:oldComment] == NO) {
         [self finishedEditing:sender];
     }
-}// end commandFieldChanged:
+} // end commandFieldChanged:
 
 
 @end

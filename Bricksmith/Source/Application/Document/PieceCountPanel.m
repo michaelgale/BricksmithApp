@@ -21,7 +21,6 @@
 #import "PartReport.h"
 
 @implementation PieceCountPanel
-
 // ========== awakeFromNib ======================================================
 //
 // Purpose:		Readies things that need to be readied.
@@ -38,7 +37,7 @@
 
     // Remember, this method is called twice for an LDrawColorPanelController; the first time
     // is for the File's Owner, which is promptly overwritten.
-}// end awakeFromNib
+} // end awakeFromNib
 
 
 #pragma mark -
@@ -58,7 +57,7 @@
     panel = [[PieceCountPanel alloc] initWithFile:fileIn];
 
     return([panel autorelease]);
-}// end pieceCountPanelForFile:
+} // end pieceCountPanelForFile:
 
 
 // ========== initWithFile: =====================================================
@@ -78,7 +77,7 @@
     [self setFile:fileIn];
 
     return(self);
-}// end initWithFile:
+} // end initWithFile:
 
 
 #pragma mark -
@@ -94,7 +93,7 @@
 - (LDrawMPDModel *)activeModel
 {
     return(self->activeModel);
-}// end activeModel
+} // end activeModel
 
 
 // ========== container =========================================================
@@ -105,7 +104,7 @@
 - (LDrawFile *)file
 {
     return(self->file);
-}// end file
+} // end file
 
 
 // ========== panelNibName ======================================================
@@ -117,7 +116,7 @@
 - (NSString *)panelNibName
 {
     return(@"PieceCountPanel");
-}// end panelNibName
+} // end panelNibName
 
 
 // ========== partReport: =======================================================
@@ -129,7 +128,7 @@
 - (PartReport *)partReport
 {
     return(self->partReport);
-}// end partReport
+} // end partReport
 
 
 #pragma mark -
@@ -154,7 +153,7 @@
     [modelReport getPieceCountReport];
 
     [self setPartReport:modelReport];
-}// end setActiveModel:
+} // end setActiveModel:
 
 
 // ========== setFile: ==========================================================
@@ -169,7 +168,7 @@
 
     file = newFile;
     [self setActiveModel:[newFile activeModel]];
-}// end setFile:
+} // end setFile:
 
 
 // ========== setPartReport: ====================================================
@@ -194,7 +193,7 @@
     [self setTableDataSource:flattened];
 
     [pieceCountTable reloadData];
-}// end setPartReport:
+} // end setPartReport:
 
 
 // ========== setTableDataSource: ===============================================
@@ -220,7 +219,7 @@
     // Update the table
     [pieceCountTable reloadData];
     [self syncSelectionAndPartDisplayed];
-}// end setTableDataSource
+} // end setTableDataSource
 
 
 #pragma mark -
@@ -234,11 +233,11 @@
 // ==============================================================================
 - (IBAction)exportButtonClicked:(id)sender
 {
-    NSSavePanel *savePanel       = [NSSavePanel savePanel];
-    NSURL       *savePath        = nil;
-    NSString    *exported        = nil;
+    NSSavePanel *savePanel = [NSSavePanel savePanel];
+    NSURL       *savePath  = nil;
+    NSString    *exported  = nil;
     NSArray     *sortDescriptors = [self->pieceCountTable sortDescriptors];
-    NSInteger   result           = 0;
+    NSInteger   result = 0;
 
     // set up the save panel
     [savePanel setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
@@ -253,12 +252,9 @@
         savePath = [savePanel URL];
         exported = [self->partReport textualRepresentationWithSortDescriptors:sortDescriptors];
 
-        [exported writeToURL:savePath
-         atomically:YES
-         encoding:NSUTF8StringEncoding
-         error:NULL];
+        [exported writeToURL:savePath atomically:YES encoding:NSUTF8StringEncoding error:NULL];
     }
-}// end exportButtonClicked:
+} // end exportButtonClicked:
 
 
 #pragma mark -
@@ -274,7 +270,7 @@
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
     return([flattenedReport count]);
-}// end numberOfRowsInTableView:
+} // end numberOfRowsInTableView:
 
 
 // **** NSTableDataSource ****
@@ -283,13 +279,12 @@
 // Purpose:		Provide the information for each part row.
 //
 // ==============================================================================
-- (id)tableView:(NSTableView *)tableView
-    objectValueForTableColumn:(NSTableColumn *)tableColumn
-    row:(NSInteger)rowIndex
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)
+    rowIndex
 {
-    NSString     *identifier = [tableColumn identifier];
+    NSString *identifier     = [tableColumn identifier];
     NSDictionary *partRecord = [flattenedReport objectAtIndex:rowIndex];
-    id           object      = nil;
+    id object = nil;
 
     object = [partRecord objectForKey:identifier];
 
@@ -307,7 +302,7 @@
 // object = [LDrawColor nameForLDrawColor:[[partRecord objectForKey:LDRAW_COLOR] intValue]];
 
     return(object);
-}// end tableView:objectValueForTableColumn:row:
+} // end tableView:objectValueForTableColumn:row:
 
 
 // **** NSTableDataSource ****
@@ -322,7 +317,7 @@
 
     [flattenedReport sortUsingDescriptors:newDescriptors];
     [tableView reloadData];
-}// end tableView:sortDescriptorsDidChange:
+} // end tableView:sortDescriptorsDidChange:
 
 
 // **** NSTableDataSource ****
@@ -334,7 +329,7 @@
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification
 {
     [self syncSelectionAndPartDisplayed];
-}// end tableViewSelectionDidChange:
+} // end tableViewSelectionDidChange:
 
 
 #pragma mark -
@@ -375,7 +370,7 @@
         [partPreview setLDrawDirective:newPart];
         [partPreview setLDrawColor:partColor];
     }
-}// end syncSelectionAndPartDisplayed
+} // end syncSelectionAndPartDisplayed
 
 
 #pragma mark -
@@ -395,7 +390,6 @@
     [flattenedReport release];
 
     [super dealloc];
-}// end dealloc
-
+} // end dealloc
 
 @end

@@ -51,7 +51,7 @@
     [self inspectObject:nil];
 
     return(self);
-}// end init
+} // end init
 
 
 #pragma mark -
@@ -75,7 +75,7 @@
     }
 
     [self inspectObjects:objectList];
-}// end inspectObject:
+} // end inspectObject:
 
 
 // ========== inspectObjects: ===================================================
@@ -90,9 +90,9 @@
 // ==============================================================================
 - (void)inspectObjects:(NSArray *)objects
 {
-    BOOL     foundInspector  = NO;
-    NSString *errorString    = nil;
-    id       objectToInspect = nil;
+    BOOL foundInspector   = NO;
+    NSString *errorString = nil;
+    id objectToInspect    = nil;
 
     // No object to inspect? Just show the empty message.
     if (objects == nil || [objects count] == 0) {
@@ -129,7 +129,7 @@
         [_inspectorPanel setTitle:emptyInspectorTitle];
         [errorTextField setStringValue:errorString];
     }
-}// end inspectObjects:
+} // end inspectObjects:
 
 
 // ========== loadInspectorForObject: ===========================================
@@ -147,7 +147,7 @@
     // Inspectable objects will tell us what class to use to inspect with.
     if ([objectToInspect respondsToSelector:@selector(inspectorClassName)]) {
         // Find the class to use, and instantiate one.
-        NSString *className      = [objectToInspect performSelector:@selector(inspectorClassName)];
+        NSString *className = [objectToInspect performSelector:@selector(inspectorClassName)];
         Class    InspectionClass = NSClassFromString(className);
 
         if ([InspectionClass isSubclassOfClass:[ObjectInspectionController class]]) {
@@ -164,10 +164,10 @@
             // we can clean up the memory for it.
             currentInspector = objectInspector;
         }
-    }// end inspectable check.
+    } // end inspectable check.
 
     return(foundInspector);
-}// end loadInspectorForObject:
+} // end loadInspectorForObject:
 
 
 // ========== unloadInspector ===================================================
@@ -193,7 +193,7 @@
 - (void)show:(id)sender
 {
     [_inspectorPanel makeKeyAndOrderFront:sender];
-}// end show:
+} // end show:
 
 
 #pragma mark -
@@ -231,7 +231,7 @@
     NSDocument *currentDocument = [[NSDocumentController sharedDocumentController] currentDocument];
 
     return([currentDocument undoManager]);
-}// end windowWillReturnUndoManager:
+} // end windowWillReturnUndoManager:
 
 
 #pragma mark -
@@ -251,7 +251,7 @@
     [currentInspector release];
 
     [super dealloc];
-}// end dealloc
+} // end dealloc
 
 
 @end

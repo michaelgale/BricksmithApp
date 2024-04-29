@@ -58,25 +58,17 @@ void LDrawDLDestroy(struct LDrawDL *dl);
 
 // Display list mesh accumulation APIs.
 void LDrawDLBuilderSetTex(struct LDrawDLBuilder *ctx, struct LDrawTextureSpec *spec);
-void LDrawDLBuilderAddTri(struct LDrawDLBuilder *ctx,
-                          const GLfloat v[9],
-                          GLfloat n[3],
-                          GLfloat c[4]);
-void LDrawDLBuilderAddQuad(struct LDrawDLBuilder *ctx,
-                           const GLfloat v[12],
-                           GLfloat n[3],
-                           GLfloat c[4]);
-void LDrawDLBuilderAddLine(struct LDrawDLBuilder *ctx, const GLfloat v[6], GLfloat n[3],
-                           GLfloat c[4]);
+void LDrawDLBuilderAddTri(struct LDrawDLBuilder *ctx, const GLfloat v[9], GLfloat n[3], GLfloat c[4]);
+void LDrawDLBuilderAddQuad(struct LDrawDLBuilder *ctx, const GLfloat v[12], GLfloat n[3], GLfloat c[4]);
+void LDrawDLBuilderAddLine(struct LDrawDLBuilder *ctx, const GLfloat v[6], GLfloat n[3], GLfloat c[4]);
 
 // Session/drawing APIs
 struct LDrawDLSession *LDrawDLSessionCreate(const GLfloat model_view[16]);
 void LDrawDLSessionDrawAndDestroy(struct LDrawDLSession *session);
-void LDrawDLDraw(
-    struct LDrawDLSession *session,
-    struct LDrawDL *dl,
-    struct LDrawTextureSpec *spec,
-    const GLfloat cur_color[4],
-    const GLfloat cmp_color[4],
-    const GLfloat transform[16],
-    int draw_now);
+void LDrawDLDraw(struct LDrawDLSession *session,
+    struct LDrawDL                     *dl,
+    struct LDrawTextureSpec            *spec,
+    const GLfloat                      cur_color[4],
+    const GLfloat                      cmp_color[4],
+    const GLfloat                      transform[16],
+    int                                draw_now);

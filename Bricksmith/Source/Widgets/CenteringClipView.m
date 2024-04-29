@@ -34,7 +34,6 @@
 #import <math.h>
 
 @implementation CenteringClipView
-
 // ========== centerDocumentView ================================================
 //
 // Purpose:		Changes the scroll position so that the document view is
@@ -62,7 +61,7 @@
     clipRect.origin.y = floor(clipRect.origin.y);
 
     [self scrollToPoint:clipRect.origin];
-}// end centerDocumentView
+} // end centerDocumentView
 
 
 // ========== constrainScrollPoint: =============================================
@@ -73,8 +72,8 @@
 // ==============================================================================
 - (NSPoint)constrainScrollPoint:(NSPoint)proposedNewOrigin
 {
-    NSRect  docRect          = [[self documentView] frame];
-    NSRect  clipRect         = [self bounds];
+    NSRect  docRect  = [[self documentView] frame];
+    NSRect  clipRect = [self bounds];
     NSPoint constrainedPoint = [super constrainScrollPoint:proposedNewOrigin];
     NSPoint newScrollPoint   = constrainedPoint;
 
@@ -87,7 +86,7 @@
     }
 
     return(newScrollPoint);
-}// end constrainScrollPoint:
+} // end constrainScrollPoint:
 
 
 // ========== viewBoundsChanged: ================================================
@@ -99,7 +98,7 @@
 {
     [super viewBoundsChanged:notification];
     [self centerDocumentView];
-}// end viewBoundsChanged:
+} // end viewBoundsChanged:
 
 
 // ========== viewFrameChanged: =================================================
@@ -111,7 +110,7 @@
 {
     [super viewFrameChanged:notification];
     [self centerDocumentView];
-}// end viewFrameChanged:
+} // end viewFrameChanged:
 
 
 #pragma mark -
@@ -132,7 +131,7 @@
 {
     [super setFrame:frameRect];
     [self centerDocumentView];
-}// end setFrame:
+} // end setFrame:
 
 
 // ========== setFrameOrigin: ===================================================
@@ -141,7 +140,7 @@
 {
     [super setFrameOrigin:newOrigin];
     [self centerDocumentView];
-}// end setFrameOrigin:
+} // end setFrameOrigin:
 
 
 // ========== setFrameSize: =====================================================
@@ -150,7 +149,7 @@
 {
     [super setFrameSize:newSize];
     [self centerDocumentView];
-}// end setFrameSize:
+} // end setFrameSize:
 
 
 // ========== setFrameRotation: =================================================
@@ -159,7 +158,7 @@
 {
     [super setFrameRotation:angle];
     [self centerDocumentView];
-}// end setFrameRotation:
+} // end setFrameRotation:
 
 
 // ========== setBoundsSize: ====================================================

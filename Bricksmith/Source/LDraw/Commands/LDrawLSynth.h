@@ -61,12 +61,12 @@ typedef enum
 {
     NSMutableArray *synthesizedParts;
     NSString       *synthType;
-    int            lsynthClass;
-    LDrawColor     *color;
-    GLfloat        glTransformation[16];
-    BOOL           hidden;
-    BOOL           subdirectiveSelected;
-    Box3           cachedBounds; // cached bounds of the enclosed directives
+    int lsynthClass;
+    LDrawColor *color;
+    GLfloat    glTransformation[16];
+    BOOL hidden;
+    BOOL subdirectiveSelected;
+    Box3 cachedBounds; // cached bounds of the enclosed directives
 }
 
 // Accessors

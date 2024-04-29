@@ -50,8 +50,6 @@
 #define SHRINK_AMOUNT    0.125 // in LDU
 
 @implementation LDrawPart
-
-
 // ========== doubleNearGrid =====================================================
 //
 // Purpose:		Returns true if the value v is within 'epsi' of a grid with
@@ -98,7 +96,7 @@ int doubleNearGrid(double v, double grid, double epsi)
     // drawLock = [[NSLock alloc] init];
 
     return(self);
-}// end init
+} // end init
 
 
 // ========== initWithLines:inRange:parentGroup: ================================
@@ -118,92 +116,74 @@ int doubleNearGrid(double v, double grid, double epsi)
 // +-       -+
 //
 // ==============================================================================
-- (id)initWithLines:(NSArray *)lines
-    inRange:(NSRange)range
-    parentGroup:(dispatch_group_t)parentGroup
+- (id)initWithLines:(NSArray *)lines inRange:(NSRange)range parentGroup:(dispatch_group_t)parentGroup
 {
     NSString   *workingLine   = [lines objectAtIndex:range.location];
     NSString   *parsedField   = nil;
     Matrix4    transformation = IdentityMatrix4;
     LDrawColor *parsedColor   = nil;
 
-    self = [super initWithLines:lines
-            inRange:range
-            parentGroup:parentGroup];
+    self = [super initWithLines:lines inRange:range parentGroup:parentGroup];
 
     // A malformed part could easily cause a string indexing error, which would
     // raise an exception. We don't want this to happen here.
     @try
     {
         // Read in the line code and advance past it.
-        parsedField = [LDrawUtilities readNextField:workingLine
-                       remainder:&workingLine];
+        parsedField = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
         // Only attempt to create the part if this is a valid line.
         if ([parsedField integerValue] == 1) {
             // Read in the color code.
             // (color)
-            parsedField = [LDrawUtilities readNextField:workingLine
-                           remainder:&workingLine];
+            parsedField = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
             parsedColor = [LDrawUtilities parseColorFromField:parsedField];
             [self setLDrawColor:parsedColor];
 
             // Read position.
             // (x)
-            parsedField = [LDrawUtilities readNextField:workingLine
-                           remainder:&workingLine];
+            parsedField = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
             transformation.element[3][0] = [parsedField floatValue];
             // (y)
-            parsedField = [LDrawUtilities readNextField:workingLine
-                           remainder:&workingLine];
+            parsedField = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
             transformation.element[3][1] = [parsedField floatValue];
             // (z)
-            parsedField = [LDrawUtilities readNextField:workingLine
-                           remainder:&workingLine];
+            parsedField = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
             transformation.element[3][2] = [parsedField floatValue];
 
 
             // Read Transformation X.
             // (a)
-            parsedField = [LDrawUtilities readNextField:workingLine
-                           remainder:&workingLine];
+            parsedField = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
             transformation.element[0][0] = [parsedField floatValue];
             // (b)
-            parsedField = [LDrawUtilities readNextField:workingLine
-                           remainder:&workingLine];
+            parsedField = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
             transformation.element[1][0] = [parsedField floatValue];
             // (c)
-            parsedField = [LDrawUtilities readNextField:workingLine
-                           remainder:&workingLine];
+            parsedField = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
             transformation.element[2][0] = [parsedField floatValue];
 
 
             // Read Transformation Y.
             // (d)
-            parsedField = [LDrawUtilities readNextField:workingLine
-                           remainder:&workingLine];
+            parsedField = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
             transformation.element[0][1] = [parsedField floatValue];
             // (e)
-            parsedField = [LDrawUtilities readNextField:workingLine
-                           remainder:&workingLine];
+            parsedField = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
             transformation.element[1][1] = [parsedField floatValue];
             // (f)
-            parsedField = [LDrawUtilities readNextField:workingLine
-                           remainder:&workingLine];
+            parsedField = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
             transformation.element[2][1] = [parsedField floatValue];
 
 
             // Read Transformation Z.
             // (g)
-            parsedField = [LDrawUtilities readNextField:workingLine
-                           remainder:&workingLine];
+            parsedField = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
             transformation.element[0][2] = [parsedField floatValue];
             // (h)
-            parsedField = [LDrawUtilities readNextField:workingLine
-                           remainder:&workingLine];
+            parsedField = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
             transformation.element[1][2] = [parsedField floatValue];
             // (i)
-            parsedField = [LDrawUtilities readNextField:workingLine
-                           remainder:&workingLine];
+            parsedField = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
             transformation.element[2][2] = [parsedField floatValue];
 
             // finish off the corner of the matrix.
@@ -214,18 +194,15 @@ int doubleNearGrid(double v, double grid, double epsi)
             // Read Part Name
             // (part.dat) -- It can have spaces (for MPD models), so we just use the whole
             // rest of the line.
-            [self setDisplayName:[workingLine stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]
-             parse:YES
-             inGroup:parentGroup];
+            [self setDisplayName:[workingLine stringByTrimmingCharactersInSet:[NSCharacterSet
+            whitespaceCharacterSet]] parse:YES inGroup:parentGroup];
 
             // Debug check: full part resolution isn't thread-safe so make sure we haven't run it by accident here!
             assert(cacheType == PartTypeUnresolved);
         }
         else {
-            @throw [NSException exceptionWithName:@"BricksmithParseException"
-                    reason:@"Bad part syntax"
-                    userInfo:nil
-            ];
+            @throw [NSException exceptionWithName:@"BricksmithParseException" reason:@"Bad part syntax"
+                   userInfo:nil];
         }
     }
     @catch (NSException *exception)
@@ -237,7 +214,7 @@ int doubleNearGrid(double v, double grid, double epsi)
     }
 
     return(self);
-}// end initWithLines:inRange:
+} // end initWithLines:inRange:
 
 
 // ========== initWithCoder: ====================================================
@@ -259,12 +236,11 @@ int doubleNearGrid(double v, double grid, double epsi)
     [self setIconName:[decoder decodeObjectForKey:@"iconName"]];
 
     // Decoding structures is a bit messy.
-    temporary = [decoder decodeBytesForKey:@"glTransformation"
-                 returnedLength:NULL];
+    temporary = [decoder decodeBytesForKey:@"glTransformation" returnedLength:NULL];
     memcpy(glTransformation, temporary, sizeof(GLfloat) * 16);
 
     return(self);
-}// end initWithCoder:
+} // end initWithCoder:
 
 
 // ========== encodeWithCoder: ==================================================
@@ -278,16 +254,12 @@ int doubleNearGrid(double v, double grid, double epsi)
 {
     [super encodeWithCoder:encoder];
 
-    [encoder encodeObject:displayName
-     forKey:@"displayName"];
+    [encoder encodeObject:displayName forKey:@"displayName"];
 
     // Parts may have icons other than the standard "Brick", i.e. LSynth constraints
-    [encoder encodeObject:[self iconName]
-     forKey:@"iconName"];
-    [encoder encodeBytes:(void *)glTransformation
-     length:sizeof(GLfloat) * 16
-     forKey:@"glTransformation"];
-}// end encodeWithCoder:
+    [encoder encodeObject:[self iconName] forKey:@"iconName"];
+    [encoder encodeBytes:(void *)glTransformation length:sizeof(GLfloat) * 16 forKey:@"glTransformation"];
+} // end encodeWithCoder:
 
 
 // ========== copyWithZone: =====================================================
@@ -297,14 +269,14 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (id)copyWithZone:(NSZone *)zone
 {
-    LDrawPart *copied        = (LDrawPart *)[super copyWithZone:zone];
+    LDrawPart *copied = (LDrawPart *)[super copyWithZone:zone];
     Matrix4   transformation = [self transformationMatrix];
 
     [copied setDisplayName:[self displayName]];
     [copied setTransformationMatrix:&transformation];
 
     return(copied);
-}// end copyWithZone:
+} // end copyWithZone:
 
 
 #pragma mark -
@@ -317,11 +289,10 @@ int doubleNearGrid(double v, double grid, double epsi)
 // subroutine of -draw: in LDrawDrawableElement.
 //
 // ==============================================================================
-- (void)drawElement:(NSUInteger)optionsMask viewScale:(double)scaleFactor withColor:(LDrawColor *)
-    drawingColor
+- (void)drawElement:(NSUInteger)optionsMask viewScale:(double)scaleFactor withColor:(LDrawColor *)drawingColor
 {
-    LDrawDirective *drawable      = nil;
-    BOOL           drawBoundsOnly = ((optionsMask & DRAW_BOUNDS_ONLY) != 0);
+    LDrawDirective *drawable = nil;
+    BOOL drawBoundsOnly = ((optionsMask & DRAW_BOUNDS_ONLY) != 0);
 
     // If the part is selected, we need to give some indication. We do this
     // by drawing it as a wireframe instead of a filled color. This setting
@@ -355,14 +326,11 @@ int doubleNearGrid(double v, double grid, double epsi)
             // Parts that have a SPECIFIC color have been linked DIRECTLY to
             // their specific colored VBO during -optimizeOpenGL.
 
-            drawable = [[PartLibrary sharedPartLibrary] optimizedDrawableForPart:self
-                        color:drawingColor];
+            drawable = [[PartLibrary sharedPartLibrary] optimizedDrawableForPart:self color:drawingColor];
         }
 
         if (drawBoundsOnly == NO) {
-            [drawable draw:optionsMask
-             viewScale:scaleFactor
-             parentColor:drawingColor];
+            [drawable draw:optionsMask viewScale:scaleFactor parentColor:drawingColor];
         }
         else {
             [self drawBoundsWithColor:drawingColor];
@@ -376,7 +344,7 @@ int doubleNearGrid(double v, double grid, double epsi)
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 #endif
     }
-}// end drawElement:parentColor:
+} // end drawElement:parentColor:
 
 
 // ========== drawSelf: ===========================================================
@@ -464,7 +432,7 @@ int doubleNearGrid(double v, double grid, double epsi)
             }
         }
     }
-}// end drawSelf:
+} // end drawSelf:
 
 
 // ========== drawBoundsWithColor: ==============================================
@@ -479,7 +447,7 @@ int doubleNearGrid(double v, double grid, double epsi)
     // it mangles them based on rotation. In this case, we want to do a raw
     // draw and let the model matrix transform our drawing appropriately.
     [self resolvePart];
-}// end drawBounds
+} // end drawBounds
 
 
 // ========== debugDrawboundingBox ==============================================
@@ -502,7 +470,7 @@ int doubleNearGrid(double v, double grid, double epsi)
     }
 
     [super debugDrawboundingBox];
-}// end debugDrawboundingBox
+} // end debugDrawboundingBox
 
 
 // ========== hitTest:transform:viewScale:boundsOnly:creditObject:hits: =======
@@ -510,15 +478,11 @@ int doubleNearGrid(double v, double grid, double epsi)
 // Purpose:		Hit-test the geometry.
 //
 // ==============================================================================
-- (void)hitTest:(Ray3)pickRay
-    transform:(Matrix4)transform
-    viewScale:(double)scaleFactor
-    boundsOnly:(BOOL)boundsOnly
-    creditObject:(id)creditObject
-    hits:(NSMutableDictionary *)hits
+- (void)hitTest:(Ray3)pickRay transform:(Matrix4)transform viewScale:(double)scaleFactor boundsOnly:(BOOL)
+    boundsOnly creditObject:(id)creditObject hits:(NSMutableDictionary *)hits
 {
     assert(!"Deprecated.");
-}// end hitTest:transform:viewScale:boundsOnly:creditObject:hits:
+} // end hitTest:transform:viewScale:boundsOnly:creditObject:hits:
 
 
 // ========== boxTest:transform:boundsOnly:creditObject:hits: ===================
@@ -526,11 +490,8 @@ int doubleNearGrid(double v, double grid, double epsi)
 // Purpose:		Check for intersections with screen-space geometry.
 //
 // ==============================================================================
-- (BOOL)boxTest:(Box2)bounds
-    transform:(Matrix4)transform
-    boundsOnly:(BOOL)boundsOnly
-    creditObject:(id)creditObject
-    hits:(NSMutableSet *)hits
+- (BOOL)boxTest:(Box2)bounds transform:(Matrix4)transform boundsOnly:(BOOL)boundsOnly creditObject:(id)
+    creditObject hits:(NSMutableSet *)hits
 {
     if (self->hidden == NO) {
         if (!VolumeCanIntersectBox([self boundingBox3], transform, bounds)) {
@@ -538,9 +499,9 @@ int doubleNearGrid(double v, double grid, double epsi)
         }
 
 
-        Matrix4        partTransform     = [self transformationMatrix];
-        Matrix4        combinedTransform = Matrix4Multiply(partTransform, transform);
-        LDrawDirective *modelToDraw      = nil;
+        Matrix4 partTransform       = [self transformationMatrix];
+        Matrix4 combinedTransform   = Matrix4Multiply(partTransform, transform);
+        LDrawDirective *modelToDraw = nil;
 
         // Credit all subgeometry to ourselves (unless we are already a child part)
         if (creditObject == nil) {
@@ -552,11 +513,8 @@ int doubleNearGrid(double v, double grid, double epsi)
 
         assert(boundsOnly == NO);
         if (boundsOnly == NO) {
-            if ([modelToDraw boxTest:bounds
-                 transform:combinedTransform
-                 boundsOnly:NO
-                 creditObject:creditObject hits
-                 :hits]) {
+            if ([modelToDraw boxTest:bounds transform:combinedTransform boundsOnly:NO creditObject:
+                creditObject hits:hits]) {
                 if (creditObject != nil) {
                     return(TRUE);
                 }
@@ -564,7 +522,7 @@ int doubleNearGrid(double v, double grid, double epsi)
         }
     }
     return(FALSE);
-}// end boxTest:transform:boundsOnly:creditObject:hits:
+} // end boxTest:transform:boundsOnly:creditObject:hits:
 
 
 // ========== depthTest:inBox:transform:creditObject:bestObject:bestDepth:=======
@@ -574,21 +532,17 @@ int doubleNearGrid(double v, double grid, double epsi)
 // depth.
 //
 // ==============================================================================
-- (void)depthTest:(Point2)pt
-    inBox:(Box2)bounds
-    transform:(Matrix4)transform
-    creditObject:(id)creditObject
-    bestObject:(id *)bestObject
-    bestDepth:(double *)bestDepth
+- (void)depthTest:(Point2)pt inBox:(Box2)bounds transform:(Matrix4)transform creditObject:(id)creditObject
+    bestObject:(id *)bestObject bestDepth:(double *)bestDepth
 {
     if (self->hidden == NO) {
         if (!VolumeCanIntersectPoint([self boundingBox3], transform, bounds, *bestDepth)) {
             return;
         }
 
-        Matrix4        partTransform     = [self transformationMatrix];
-        Matrix4        combinedTransform = Matrix4Multiply(partTransform, transform);
-        LDrawDirective *modelToDraw      = nil;
+        Matrix4 partTransform       = [self transformationMatrix];
+        Matrix4 combinedTransform   = Matrix4Multiply(partTransform, transform);
+        LDrawDirective *modelToDraw = nil;
 
         // Credit all subgeometry to ourselves (unless we are already a child part)
         if (creditObject == nil) {
@@ -598,15 +552,10 @@ int doubleNearGrid(double v, double grid, double epsi)
         [self resolvePart];
         modelToDraw = cacheModel;
 
-        [modelToDraw depthTest:pt
-         inBox:bounds
-         transform:combinedTransform
-         creditObject:creditObject
-         bestObject:
-         bestObject
-         bestDepth:bestDepth];
+        [modelToDraw depthTest:pt inBox:bounds transform:combinedTransform creditObject:creditObject
+        bestObject:bestObject bestDepth:bestDepth];
     }
-}// end depthTest:inBox:transform:creditObject:bestObject:bestDepth:
+} // end depthTest:inBox:transform:creditObject:bestObject:bestDepth:
 
 
 // ========== write =============================================================
@@ -629,29 +578,26 @@ int doubleNearGrid(double v, double grid, double epsi)
 {
     Matrix4 transformation = [self transformationMatrix];
 
-    return([NSString stringWithFormat:
-            @"1 %@ %@ %@ %@ %@ %@ %@ %@ %@ %@ %@ %@ %@ %@",
-            [LDrawUtilities outputStringForColor:self->color],
+    return([NSString stringWithFormat:@"1 %@ %@ %@ %@ %@ %@ %@ %@ %@ %@ %@ %@ %@ %@",
+           [LDrawUtilities outputStringForColor:self->color],
+           [LDrawUtilities outputStringForFloat:transformation.element[3][0]], // position.x,			(x)
+           [LDrawUtilities outputStringForFloat:transformation.element[3][1]], // position.y,			(y)
+           [LDrawUtilities outputStringForFloat:transformation.element[3][2]], // position.z,			(z)
 
-            [LDrawUtilities outputStringForFloat:transformation.element[3][0]], // position.x,			(x)
-            [LDrawUtilities outputStringForFloat:transformation.element[3][1]], // position.y,			(y)
-            [LDrawUtilities outputStringForFloat:transformation.element[3][2]], // position.z,			(z)
+           [LDrawUtilities outputStringForFloat:transformation.element[0][0]], // transformationX.x,	(a)
+           [LDrawUtilities outputStringForFloat:transformation.element[1][0]], // transformationX.y,	(b)
+           [LDrawUtilities outputStringForFloat:transformation.element[2][0]], // transformationX.z,	(c)
 
-            [LDrawUtilities outputStringForFloat:transformation.element[0][0]], // transformationX.x,	(a)
-            [LDrawUtilities outputStringForFloat:transformation.element[1][0]], // transformationX.y,	(b)
-            [LDrawUtilities outputStringForFloat:transformation.element[2][0]], // transformationX.z,	(c)
+           [LDrawUtilities outputStringForFloat:transformation.element[0][1]], // transformationY.x,	(d)
+           [LDrawUtilities outputStringForFloat:transformation.element[1][1]], // transformationY.y,	(e)
+           [LDrawUtilities outputStringForFloat:transformation.element[2][1]], // transformationY.z,	(f)
 
-            [LDrawUtilities outputStringForFloat:transformation.element[0][1]], // transformationY.x,	(d)
-            [LDrawUtilities outputStringForFloat:transformation.element[1][1]], // transformationY.y,	(e)
-            [LDrawUtilities outputStringForFloat:transformation.element[2][1]], // transformationY.z,	(f)
+           [LDrawUtilities outputStringForFloat:transformation.element[0][2]], // transformationZ.x,	(g)
+           [LDrawUtilities outputStringForFloat:transformation.element[1][2]], // transformationZ.y,	(h)
+           [LDrawUtilities outputStringForFloat:transformation.element[2][2]], // transformationZ.z,	(i)
 
-            [LDrawUtilities outputStringForFloat:transformation.element[0][2]], // transformationZ.x,	(g)
-            [LDrawUtilities outputStringForFloat:transformation.element[1][2]], // transformationZ.y,	(h)
-            [LDrawUtilities outputStringForFloat:transformation.element[2][2]], // transformationZ.z,	(i)
-
-            displayName
-           ]);
-}// end write
+           displayName]);
+} // end write
 
 
 #pragma mark -
@@ -669,7 +615,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 - (NSString *)browsingDescription
 {
     return([[PartLibrary sharedPartLibrary] descriptionForPart:self]);
-}// end browsingDescription
+} // end browsingDescription
 
 
 // ========== inspectorClassName ================================================
@@ -680,7 +626,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 - (NSString *)inspectorClassName
 {
     return(@"InspectionPart");
-}// end inspectorClassName
+} // end inspectorClassName
 
 
 #pragma mark -
@@ -718,7 +664,6 @@ int doubleNearGrid(double v, double grid, double epsi)
                     { bounds.min.x, bounds.min.y, bounds.max.z },
                     { bounds.min.x, bounds.max.y, bounds.max.z },
                     { bounds.min.x, bounds.max.y, bounds.min.z },
-
                     { bounds.max.x, bounds.min.y, bounds.min.z },
                     { bounds.max.x, bounds.min.y, bounds.max.z },
                     { bounds.max.x, bounds.max.y, bounds.max.z },
@@ -745,7 +690,7 @@ int doubleNearGrid(double v, double grid, double epsi)
     }
 
     return(cacheBounds);
-}// end boundingBox3
+} // end boundingBox3
 
 
 // ========== displayName =======================================================
@@ -757,7 +702,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 - (NSString *)displayName
 {
     return(displayName);
-}// end displayName
+} // end displayName
 
 
 // ========== position ==========================================================
@@ -776,7 +721,7 @@ int doubleNearGrid(double v, double grid, double epsi)
     Point3 position = components.translate;
 
     return(position);
-}// end position
+} // end position
 
 
 /*
@@ -813,7 +758,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 - (NSString *)referenceName
 {
     return(referenceName);
-}// end referenceName
+} // end referenceName
 
 
 // ========== referencedMPDSubmodel =============================================
@@ -829,7 +774,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (LDrawModel *)referencedMPDSubmodel
 {
-    LDrawModel *model         = nil;
+    LDrawModel *model = nil;
     LDrawFile  *enclosingFile = [self enclosingFile];
 
     if (enclosingFile != nil) {
@@ -842,7 +787,7 @@ int doubleNearGrid(double v, double grid, double epsi)
     }
 
     return(model);
-}// end referencedMPDSubmodel
+} // end referencedMPDSubmodel
 
 
 // ========== referencedPeerFile ================================================
@@ -868,7 +813,7 @@ int doubleNearGrid(double v, double grid, double epsi)
         return(nil);
     }
     return(cacheModel);
-}// end referencedPeerFile
+} // end referencedPeerFile
 
 
 // ========== transformComponents ===============================================
@@ -879,15 +824,15 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (TransformComponents)transformComponents
 {
-    Matrix4             transformation = [self transformationMatrix];
-    TransformComponents components     = IdentityComponents;
+    Matrix4 transformation = [self transformationMatrix];
+    TransformComponents components = IdentityComponents;
 
     // This is a pretty darn neat little function. I wish I could say I wrote it.
     // It will extract all the user-friendly components out of this nasty matrix.
     Matrix4DecomposeTransformation(transformation, &components);
 
     return(components);
-}// end transformComponents
+} // end transformComponents
 
 
 // ========== transformationMatrix ==============================================
@@ -908,7 +853,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 - (Matrix4)transformationMatrix
 {
     return(Matrix4CreateFromGLMatrix4(glTransformation));
-}// end transformationMatrix
+} // end transformationMatrix
 
 
 #pragma mark -
@@ -933,7 +878,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 
     [self unresolvePart];
     [self invalCache:CacheFlagBounds];
-}// end setLDrawColor:
+} // end setLDrawColor:
 
 
 // ========== setDisplayName: ===================================================
@@ -944,9 +889,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // ==============================================================================
 - (void)setDisplayName:(NSString *)newPartName
 {
-    [self setDisplayName:newPartName
-     parse:YES
-     inGroup:NULL];
+    [self setDisplayName:newPartName parse:YES inGroup:NULL];
 }
 
 
@@ -967,12 +910,10 @@ int doubleNearGrid(double v, double grid, double epsi)
 // handle the s\ prefix.
 //
 // ==============================================================================
-- (void)setDisplayName:(NSString *)newPartName
-    parse:(BOOL)shouldParse
-    inGroup:(dispatch_group_t)parentGroup
+- (void)setDisplayName:(NSString *)newPartName parse:(BOOL)shouldParse inGroup:(dispatch_group_t)parentGroup
 {
-    NSString         *newReferenceName = [newPartName lowercaseString];
-    dispatch_group_t parseGroup        = NULL;
+    NSString *newReferenceName  = [newPartName lowercaseString];
+    dispatch_group_t parseGroup = NULL;
 
     [newPartName retain];
     [displayName release];
@@ -1004,8 +945,7 @@ int doubleNearGrid(double v, double grid, double epsi)
             parseGroup = parentGroup;
         }
 #endif
-        [[PartLibrary sharedPartLibrary] loadModelForName:referenceName
-         inGroup:parseGroup];
+        [[PartLibrary sharedPartLibrary] loadModelForName:referenceName inGroup:parseGroup];
 
 #if USE_BLOCKS
         if (parentGroup == NULL) {
@@ -1014,7 +954,7 @@ int doubleNearGrid(double v, double grid, double epsi)
         }
 #endif
     }
-}// end setDisplayName:
+} // end setDisplayName:
 
 
 // ========== setTransformComponents: ===========================================
@@ -1028,7 +968,7 @@ int doubleNearGrid(double v, double grid, double epsi)
     Matrix4 transformation = Matrix4CreateTransformation(&newComponents);
 
     [self setTransformationMatrix:&transformation];
-}// end setTransformComponents:
+} // end setTransformComponents:
 
 
 // ========== setTransformationMatrix: ==========================================
@@ -1052,7 +992,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 {
     [self invalCache:CacheFlagBounds];
     Matrix4GetGLMatrix4(*newMatrix, self->glTransformation);
-}// end setTransformationMatrix
+} // end setTransformationMatrix
 
 
 // ========== setSelected: ======================================================
@@ -1068,7 +1008,7 @@ int doubleNearGrid(double v, double grid, double epsi)
     if ([[self enclosingDirective] respondsToSelector:@selector(setSubdirectiveSelected:)]) {
         [[self enclosingDirective] setSubdirectiveSelected:flag];
     }
-}// end setSelected:
+} // end setSelected:
 
 
 #pragma mark -
@@ -1087,9 +1027,9 @@ int doubleNearGrid(double v, double grid, double epsi)
 - (Vector3)displacementForNudge:(Vector3)nudgeVector
 {
     Matrix4 transformationMatrix = IdentityMatrix4;
-    Matrix4 inverseMatrix        = IdentityMatrix4;
-    Vector4 worldNudge           = { 0, 0, 0, 1 };
-    Vector4 brickNudge           = { 0 };
+    Matrix4 inverseMatrix = IdentityMatrix4;
+    Vector4 worldNudge    = { 0, 0, 0, 1 };
+    Vector4 brickNudge    = { 0 };
 
     // convert incoming 3D vector to 4D for our math:
     worldNudge.x = nudgeVector.x;
@@ -1097,8 +1037,8 @@ int doubleNearGrid(double v, double grid, double epsi)
     worldNudge.z = nudgeVector.z;
 
     // Figure out which direction we're asking to move the part itself.
-    transformationMatrix        = [self transformationMatrix];
-    inverseMatrix               = Matrix4Invert(transformationMatrix);
+    transformationMatrix = [self transformationMatrix];
+    inverseMatrix = Matrix4Invert(transformationMatrix);
     inverseMatrix.element[3][0] = 0.0; // zero out the translation part, leaving only rotation etc.
     inverseMatrix.element[3][1] = 0.0;
     inverseMatrix.element[3][2] = 0.0;
@@ -1107,8 +1047,7 @@ int doubleNearGrid(double v, double grid, double epsi)
     // If so, the nudge needs to be a different magnitude, to compensate
     // for the fact that Lego bricks are not square!
     brickNudge = V4MulPointByMatrix(worldNudge, inverseMatrix);
-    if (fabs(brickNudge.y) > fabs(brickNudge.x) &&
-        fabs(brickNudge.y) > fabs(brickNudge.z)) {
+    if (fabs(brickNudge.y) > fabs(brickNudge.x) && fabs(brickNudge.y) > fabs(brickNudge.z)) {
         // The trouble is, we need to do different things for different
         // scales. For instance, in medium mode, we probably want to
         // move 1/2 stud horizontally but 1/3 stud vertically.
@@ -1130,7 +1069,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 
     // we now have a nudge based on the correct size: plates or bricks.
     return(nudgeVector);
-}// end displacementForNudge:
+} // end displacementForNudge:
 
 
 // ========== componentsSnappedToGrid:minimumAngle: =============================
@@ -1139,15 +1078,12 @@ int doubleNearGrid(double v, double grid, double epsi)
 // the grid. Kinda a weird legacy API.
 //
 // ==============================================================================
-- (TransformComponents)componentsSnappedToGrid:(double)gridSpacing
-    minimumAngle:(double)degrees
+- (TransformComponents)componentsSnappedToGrid:(double)gridSpacing minimumAngle:(double)degrees
 {
     TransformComponents components = [self transformComponents];
 
-    return([self components:components
-            snappedToGrid:gridSpacing
-            minimumAngle:degrees]);
-}// end componentsSnappedToGrid:minimumAngle:
+    return([self components:components snappedToGrid:gridSpacing minimumAngle:degrees]);
+} // end componentsSnappedToGrid:minimumAngle:
 
 
 // ========== components:snappedToGrid:minimumAngle: ============================
@@ -1168,19 +1104,18 @@ int doubleNearGrid(double v, double grid, double epsi)
 // unchanged.
 //
 // ==============================================================================
-- (TransformComponents)components:(TransformComponents)components
-    snappedToGrid:(double)gridSpacing
+- (TransformComponents)components:(TransformComponents)components snappedToGrid:(double)gridSpacing
     minimumAngle:(double)degrees
 {
-    double  rotationRadians      = radians(degrees);
+    double  rotationRadians = radians(degrees);
     Matrix4 transformationMatrix = IdentityMatrix4;
-    Vector4 yAxisOfPart          = { 0, 1, 0, 1 };
-    Vector4 worldY           = { 0, 0, 0, 1 }; // yAxisOfPart converted to world coordinates
-    Vector3 worldY3          = { 0, 0, 0 };
+    Vector4 yAxisOfPart = { 0, 1, 0, 1 };
+    Vector4 worldY  = { 0, 0, 0, 1 };          // yAxisOfPart converted to world coordinates
+    Vector3 worldY3 = { 0, 0, 0 };
     double  gridSpacingYAxis = 0.0;
-    double  gridX            = 0.0;
-    double  gridY            = 0.0;
-    double  gridZ            = 0.0;
+    double  gridX = 0.0;
+    double  gridY = 0.0;
+    double  gridZ = 0.0;
 
     // ---------- Adjust position to grid ---------------------------------------
 
@@ -1247,7 +1182,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 
     // round-off errors here? Potential for trouble.
     return(components);
-}// end components:snappedToGrid:minimumAngle:
+} // end components:snappedToGrid:minimumAngle:
 
 
 // ========== moveBy: ===========================================================
@@ -1265,7 +1200,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 
     [self setTransformationMatrix:&transformationMatrix];
     [self sendMessageToObservers:MessageObservedChanged];
-}// end moveBy:
+} // end moveBy:
 
 
 // ========== position:snappedToGrid: ===========================================
@@ -1282,8 +1217,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 // -[LDrawPart components:snappedToGrid:minimumAngle:].
 //
 // ==============================================================================
-- (Point3)position:(Point3)position
-    snappedToGrid:(double)gridSpacing
+- (Point3)position:(Point3)position snappedToGrid:(double)gridSpacing
 {
     TransformComponents components = IdentityComponents;
 
@@ -1291,15 +1225,13 @@ int doubleNearGrid(double v, double grid, double epsi)
     components.translate = position;
 
     // Snap to grid using intelligent LDrawPart logic
-    components = [self components:components
-                  snappedToGrid:gridSpacing
-                  minimumAngle:0];
+    components = [self components:components snappedToGrid:gridSpacing minimumAngle:0];
 
     // copy the new position back out of the components
     position = components.translate;
 
     return(position);
-}// end position:snappedToGrid:
+} // end position:snappedToGrid:
 
 
 // ========== rotateByDegrees: ==================================================
@@ -1312,9 +1244,8 @@ int doubleNearGrid(double v, double grid, double epsi)
     Point3 partCenter = [self position];
 
     // Rotate!
-    [self rotateByDegrees:degreesToRotate
-     centerPoint:partCenter];
-}// end rotateByDegrees
+    [self rotateByDegrees:degreesToRotate centerPoint:partCenter];
+} // end rotateByDegrees
 
 
 // ========== rotateByDegrees:centerPoint: ======================================
@@ -1339,21 +1270,20 @@ int doubleNearGrid(double v, double grid, double epsi)
 // centerpoint.
 //
 // ==============================================================================
-- (void)rotateByDegrees:(Tuple3)degreesToRotate
-    centerPoint:(Point3)rotationCenter
+- (void)rotateByDegrees:(Tuple3)degreesToRotate centerPoint:(Point3)rotationCenter
 {
-    Matrix4 transform            = [self transformationMatrix];
-    Vector3 displacement         = rotationCenter;
+    Matrix4 transform    = [self transformationMatrix];
+    Vector3 displacement = rotationCenter;
     Vector3 negativeDisplacement = V3Negate(rotationCenter);
 
     // Do the rotation around the specified centerpoint.
     transform = Matrix4Translate(transform, negativeDisplacement); // translate to rotationCenter
-    transform = Matrix4Rotate(transform, degreesToRotate);       // rotate at rotationCenter
-    transform = Matrix4Translate(transform, displacement);       // translate back to original position
+    transform = Matrix4Rotate(transform, degreesToRotate); // rotate at rotationCenter
+    transform = Matrix4Translate(transform, displacement); // translate back to original position
 
     [self setTransformationMatrix:&transform];
     [self sendMessageToObservers:MessageObservedChanged];
-}// end rotateByDegrees:centerPoint:
+} // end rotateByDegrees:centerPoint:
 
 
 #pragma mark -
@@ -1390,7 +1320,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 - (void)statusInvalidated:(CacheFlagsT)flags who:(id <LDrawObservable>)observable
 {
     [self invalCache:(flags & CacheFlagBounds)];
-}// end statusInvalidated:who:
+} // end statusInvalidated:who:
 
 
 // ========== receiveMessage:who: ===============================================
@@ -1447,14 +1377,10 @@ int doubleNearGrid(double v, double grid, double epsi)
 // Purpose:		Appends the directive into the appropriate container.
 //
 // ==============================================================================
-- (void)flattenIntoLines:(NSMutableArray *)lines
-    triangles:(NSMutableArray *)triangles
-    quadrilaterals:(NSMutableArray *)quadrilaterals
-    other:(NSMutableArray *)everythingElse
-    currentColor:(LDrawColor *)parentColor
-    currentTransform:(Matrix4)transform
-    normalTransform:(Matrix3)normalTransform
-    recursive:(BOOL)recursive
+- (void)flattenIntoLines:(NSMutableArray *)lines triangles:(NSMutableArray *)triangles quadrilaterals:(
+        NSMutableArray *)quadrilaterals other:(NSMutableArray *)everythingElse currentColor:(LDrawColor *)
+    parentColor currentTransform:(Matrix4)transform normalTransform:(Matrix3)normalTransform recursive:(BOOL)
+    recursive
 {
     LDrawModel *modelToDraw      = nil;
     LDrawModel *flatCopy         = nil;
@@ -1464,14 +1390,9 @@ int doubleNearGrid(double v, double grid, double epsi)
     // Nonrecursive flattenings are just trying to collect the primitives. Parts
     // should be completely ignored.
     if (recursive == YES) {
-        [super flattenIntoLines:lines
-         triangles:triangles
-         quadrilaterals:quadrilaterals
-         other:everythingElse
-         currentColor:parentColor
-         currentTransform:transform
-         normalTransform:normalTransform
-         recursive:recursive];
+        [super flattenIntoLines:lines triangles:triangles quadrilaterals:quadrilaterals other:everythingElse
+        currentColor:parentColor currentTransform:transform normalTransform:normalTransform recursive:
+        recursive];
 
         // Flattening involves applying the part's transform to copies of all
         // referenced vertices. (We are forced to make copies because you can't call
@@ -1496,18 +1417,13 @@ int doubleNearGrid(double v, double grid, double epsi)
         // Normals are actually transformed by a different matrix.
         normalTransform = Matrix3MakeNormalTransformFromProjMatrix(combinedTransform);
 
-        [flatCopy flattenIntoLines:lines
-         triangles:triangles
-         quadrilaterals:quadrilaterals
-         other:everythingElse
-         currentColor:[self LDrawColor]
-         currentTransform:combinedTransform
-         normalTransform:normalTransform
-         recursive:recursive];
+        [flatCopy flattenIntoLines:lines triangles:triangles quadrilaterals:quadrilaterals other:
+        everythingElse currentColor:[self LDrawColor] currentTransform:combinedTransform normalTransform:
+        normalTransform recursive:recursive];
 
         [flatCopy release];
     }
-}// end flattenIntoLines:triangles:quadrilaterals:other:currentColor:
+} // end flattenIntoLines:triangles:quadrilaterals:other:currentColor:
 
 
 // ========== collectPartReport: ================================================
@@ -1532,7 +1448,7 @@ int doubleNearGrid(double v, double grid, double epsi)
     // something in the part library. In this case, we would draw the library
     // part, but report the submodel! I'm going to let this ride, because the
     // specification explicitly says the behavior in such a case is undefined.
-}// end collectPartReport:
+} // end collectPartReport:
 
 
 // ========== applyToAllParts: ==================================================
@@ -1544,7 +1460,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 - (void)applyToAllParts:(LDrawPartVisitor)visitor
 {
     visitor(self);
-}// end applyToAllParts:
+} // end applyToAllParts:
 
 
 // ========== registerUndoActions ===============================================
@@ -1561,7 +1477,7 @@ int doubleNearGrid(double v, double grid, double epsi)
     [[undoManager prepareWithInvocationTarget:self] setDisplayName:[self displayName]];
 
     [undoManager setActionName:NSLocalizedString(@"UndoAttributesPart", nil)];
-}// end registerUndoActions:
+} // end registerUndoActions:
 
 
 // ========== addedMPDModel =====================================================
@@ -1576,7 +1492,7 @@ int doubleNearGrid(double v, double grid, double epsi)
     if (cacheType == PartTypeNotFound) {
         [self unresolvePart];
     }
-}// end addedMPDModel
+} // end addedMPDModel
 
 
 // ========== resolvePart =======================================================
@@ -1613,8 +1529,8 @@ int doubleNearGrid(double v, double grid, double epsi)
             }
             else {
                 cacheModel =
-                    [[ModelManager sharedModelManager] requestModel:referenceName
-                     withDocument:[self enclosingFile]];
+                    [[ModelManager sharedModelManager] requestModel:referenceName withDocument:[self
+                    enclosingFile]];
                 if (cacheModel) {
                     cacheType     = PartTypePeerFile;
                     cacheDrawable = cacheModel;
@@ -1628,11 +1544,8 @@ int doubleNearGrid(double v, double grid, double epsi)
                     [self invalCache:CacheFlagBounds];
                     // If we are not found, listen to the "sub-model-added" notification; ideally this would be on our enclosing LDrawFile but for
                     // now listen to all instances.
-                    [[NSNotificationCenter defaultCenter] addObserver:self
-                     selector:@selector(addedMPDModel:)
-                     name:
-                     LDrawMPDSubModelAdded
-                     object:nil];
+                    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addedMPDModel:)
+                    name:LDrawMPDSubModelAdded object:nil];
                 }
             }
         }
@@ -1660,16 +1573,14 @@ int doubleNearGrid(double v, double grid, double epsi)
         }
 
         if (cacheType == PartTypeNotFound) {
-            [[NSNotificationCenter defaultCenter] removeObserver:self
-             name:LDrawMPDSubModelAdded
-             object:nil];
+            [[NSNotificationCenter defaultCenter] removeObserver:self name:LDrawMPDSubModelAdded object:nil];
         }
 
         cacheType     = PartTypeUnresolved;
         cacheDrawable = nil;
         cacheModel    = nil;
     }
-}// end unresolvePart
+} // end unresolvePart
 
 
 // ========== unresolvePartIfPartLibrary ========================================
@@ -1687,7 +1598,7 @@ int doubleNearGrid(double v, double grid, double epsi)
     if (cacheType == PartTypeLibrary || cacheType == PartTypeNotFound) {
         [self unresolvePart];
     }
-}// end unresolvePartIfPartLibrary
+} // end unresolvePartIfPartLibrary
 
 
 // ========== followRedirectionAndUpdate ========================================
@@ -1721,12 +1632,11 @@ int doubleNearGrid(double v, double grid, double epsi)
         // operation.
         NSString *partPath     = [[LDrawPaths sharedPaths] pathForPartName:referenceName];
         NSString *fileContents = [LDrawUtilities stringFromFile:partPath];
-        NSArray  *lines        = [fileContents separateByLine];
+        NSArray  *lines = [fileContents separateByLine];
 
-        dispatch_group_t parseGroup  = dispatch_group_create();
-        LDrawFile        *parsedFile = [[LDrawFile alloc] initWithLines:lines
-                                        inRange:NSMakeRange(0, [lines count])
-                                        parentGroup:parseGroup];
+        dispatch_group_t parseGroup = dispatch_group_create();
+        LDrawFile *parsedFile = [[LDrawFile alloc] initWithLines:lines inRange:NSMakeRange(0, [lines count])
+            parentGroup:parseGroup];
 
         // The part parser is insanely dangerous: it parses on a dispatch group and fills in your
         // NS containers in the background later, with no locks. We use a dispatch group to
@@ -1738,7 +1648,7 @@ int doubleNearGrid(double v, double grid, double epsi)
 
         // We're going to go get all of the directives and try to find EXACTLY one LDrawPart.
         NSArray    *directives = [parsedFile allEnclosedElements];
-        NSUInteger count       = [directives count];
+        NSUInteger count = [directives count];
         NSUInteger i;
         LDrawPart  *redirect = nil;
         for (i = 0; i < count; ++i) {
@@ -1771,7 +1681,7 @@ int doubleNearGrid(double v, double grid, double epsi)
             Matrix4GetGLMatrix4(new_loc, glTransformation);
         }
     }
-}// end followRedirectionAndUpdate
+} // end followRedirectionAndUpdate
 
 
 #pragma mark -
@@ -1798,7 +1708,6 @@ int doubleNearGrid(double v, double grid, double epsi)
     cacheModel    = (id)0xDEADBEEF;
 
     [super dealloc];
-}// end dealloc
-
+} // end dealloc
 
 @end

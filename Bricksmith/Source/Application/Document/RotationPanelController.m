@@ -12,9 +12,7 @@
 // ==============================================================================
 #import "RotationPanelController.h"
 
-@implementation RotationPanelController
-
-RotationPanelController *sharedRotationPanel = nil;
+@implementation RotationPanelController RotationPanelController *sharedRotationPanel = nil;
 
 #pragma mark -
 #pragma mark INITIALIZATION
@@ -32,7 +30,7 @@ RotationPanelController *sharedRotationPanel = nil;
     }
 
     return(sharedRotationPanel);
-}// end rotationPanel
+} // end rotationPanel
 
 
 // ========== init ==============================================================
@@ -60,7 +58,7 @@ RotationPanelController *sharedRotationPanel = nil;
 - (BOOL)enableFixedPointCoordinates
 {
     return(self->rotationMode == RotateAroundFixedPoint);
-}// end enableFixedPointCoordinates
+} // end enableFixedPointCoordinates
 
 
 // ========== angles ============================================================
@@ -72,7 +70,7 @@ RotationPanelController *sharedRotationPanel = nil;
 - (Tuple3)angles
 {
     return(V3Make(angleX, angleY, angleZ));
-}// end angles
+} // end angles
 
 
 // ========== fixedPoint ========================================================
@@ -86,7 +84,7 @@ RotationPanelController *sharedRotationPanel = nil;
 - (Point3)fixedPoint
 {
     return(V3Make(fixedPointX, fixedPointY, fixedPointZ));
-}// end fixedPoint
+} // end fixedPoint
 
 
 // ========== rotationMode ======================================================
@@ -97,7 +95,7 @@ RotationPanelController *sharedRotationPanel = nil;
 - (RotationModeT)rotationMode
 {
     return(self->rotationMode);
-}// end rotationMode
+} // end rotationMode
 
 
 // ---------- keyPathsForValuesAffectingValueForKey: ------------------[static]--
@@ -117,7 +115,7 @@ RotationPanelController *sharedRotationPanel = nil;
     }
 
     return(triggerKeys);
-}// end keyPathsForValuesAffectingValueForKey:
+} // end keyPathsForValuesAffectingValueForKey:
 
 
 #pragma mark -
@@ -135,11 +133,9 @@ RotationPanelController *sharedRotationPanel = nil;
     // Validate, and guarantee that Undo points to the document and not some
     // typed-in text field.
     if ([[self window] makeFirstResponder:nil]) {
-        [NSApp sendAction:@selector(panelRotateParts:)
-         to:nil
-         from:self];
+        [NSApp sendAction:@selector(panelRotateParts:)to:nil from:self];
     }
-}// end rotateButtonClicked:
+} // end rotateButtonClicked:
 
 
 #pragma mark -
@@ -192,7 +188,7 @@ RotationPanelController *sharedRotationPanel = nil;
 - (void)dealloc
 {
     [super dealloc];
-}// end dealloc
+} // end dealloc
 
 
 @end

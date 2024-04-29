@@ -43,8 +43,7 @@
     NSString *remainder = nil;
 
     // skip to first word of comment
-    [scanner scanCharactersFromSet:[NSCharacterSet whitespaceCharacterSet]
-     intoString:nil];
+    [scanner scanCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:nil];
 
     remainder = [[scanner string] substringFromIndex:[scanner scanLocation]];
     [self setStringValue:remainder];
@@ -52,7 +51,7 @@
 // [lineRemainder stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
 
     return(YES);
-}// end lineWithDirectiveText
+} // end lineWithDirectiveText
 
 
 #pragma mark -
@@ -72,10 +71,8 @@
 // ==============================================================================
 - (NSString *)write
 {
-    return([NSString stringWithFormat:@"0 %@ %@",
-            LDRAW_COMMENT_SLASH,
-            [self stringValue]]);
-}// end write
+    return([NSString stringWithFormat:@"0 %@ %@", LDRAW_COMMENT_SLASH, [self stringValue]]);
+} // end write
 
 
 #pragma mark -
@@ -91,7 +88,7 @@
 - (NSString *)browsingDescription
 {
     return([self stringValue]);
-}// end browsingDescription
+} // end browsingDescription
 
 
 // ========== iconName ==========================================================
@@ -103,7 +100,7 @@
 - (NSString *)iconName
 {
     return(@"Comment");
-}// end iconName
+} // end iconName
 
 
 // ========== inspectorClassName ================================================
@@ -114,7 +111,7 @@
 - (NSString *)inspectorClassName
 {
     return(@"InspectionComment");
-}// end inspectorClassName
+} // end inspectorClassName
 
 
 @end

@@ -35,8 +35,7 @@
 
 - (void)setGlossmapName:(NSString *)newName;
 - (void)setImageDisplayName:(NSString *)newName;
-- (void)setImageDisplayName:(NSString *)newName parse:(BOOL)shouldParse inGroup:(dispatch_group_t)
-    parentGroup;
+- (void)setImageDisplayName:(NSString *)newName parse:(BOOL)shouldParse inGroup:(dispatch_group_t)parentGroup;
 
 // Utilities
 + (BOOL)lineIsTextureBeginning:(NSString *)line;

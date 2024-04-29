@@ -20,14 +20,9 @@
 // Viewing Angle
 typedef enum
 {
-    ViewOrientation3D          = 0,
-    ViewOrientationFront       = 1,
-    ViewOrientationBack        = 2,
-    ViewOrientationLeft        = 3,
-    ViewOrientationRight       = 4,
-    ViewOrientationTop         = 5,
-    ViewOrientationBottom      = 6,
-    ViewOrientationWalkThrough = 7
+    ViewOrientation3D     = 0, ViewOrientationFront       = 1, ViewOrientationBack        = 2,
+    ViewOrientationLeft   = 3, ViewOrientationRight       = 4, ViewOrientationTop         = 5,
+    ViewOrientationBottom = 6, ViewOrientationWalkThrough = 7
 } ViewOrientationT;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -48,8 +43,7 @@ typedef enum
 // Parsing
 + (Class)classForDirectiveBeginningWithLine:(NSString *)line;
 + (LDrawColor *)parseColorFromField:(NSString *)colorField;
-+ (NSString *)readNextField:(NSString *)partialDirective
-    remainder:(NSString **)remainder;
++ (NSString *)readNextField:(NSString *)partialDirective remainder:(NSString **)remainder;
 + (NSString *)scanQuotableToken:(NSScanner *)scanner;
 + (NSString *)stringFromFile:(NSString *)path;
 + (NSString *)stringFromFileData:(NSData *)fileData;

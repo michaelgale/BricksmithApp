@@ -9,9 +9,8 @@
 // ==============================================================================
 #import <Foundation/Foundation.h>
 
-@interface NSUserDefaults (UserDefaultsCategory)
-
-- (void)setColor:(NSColor *)aColor forKey:(NSString *)aKey;
+@interface NSUserDefaults (UserDefaultsCategory) -
+(void)setColor : (NSColor *)aColor forKey : (NSString *)aKey;
 - (NSColor *)colorForKey:(NSString *)aKey;
 
 @end

@@ -11,7 +11,6 @@
 #import "FormCategory.h"
 
 @implementation NSForm (FormCategory)
-
 // ========== setCoordinateValue: ===============================================
 //
 // Purpose:		Returns the x,y,z coordinate represented in the first three
@@ -27,7 +26,7 @@
     representedPoint.z = [[self cellAtIndex:2] floatValue];
 
     return(representedPoint);
-}// end coordinateValue
+} // end coordinateValue
 
 
 // ========== setCoordinateValue: ===============================================
@@ -41,7 +40,7 @@
     [[self cellAtIndex:0] setFloatValue:newPoint.x];
     [[self cellAtIndex:1] setFloatValue:newPoint.y];
     [[self cellAtIndex:2] setFloatValue:newPoint.z];
-}// end setCoordinateValue:
+} // end setCoordinateValue:
 
 
 @end

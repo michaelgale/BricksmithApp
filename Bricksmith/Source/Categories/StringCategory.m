@@ -14,8 +14,6 @@
 #include <stdlib.h>
 
 @implementation NSString (StringCategory)
-
-
 // ========== ams_containsString:options: =======================================
 //
 // Purpose:		For quick searches.
@@ -40,14 +38,13 @@
 {
     NSRange foundRange = [self rangeOfString:substring options:mask];
 
-    if (foundRange.location == NSNotFound &&
-        [substring length] > 0) {
+    if (foundRange.location == NSNotFound && [substring length] > 0) {
         return(NO);
     }
     else {
         return(YES);
     }
-}// end ams_containsString:options:
+} // end ams_containsString:options:
 
 
 // ---------- CRLF ----------------------------------------------------[static]--
@@ -59,10 +56,10 @@
 + (NSString *)CRLF
 {
     unichar  CRLFchars[] = { 0x000D, 0x000A }; // DOS linefeed.
-    NSString *CRLF       = [NSString stringWithCharacters:CRLFchars length:2];
+    NSString *CRLF = [NSString stringWithCharacters:CRLFchars length:2];
 
     return(CRLF);
-}// end CRLF
+} // end CRLF
 
 
 // ========== numericCompare: ===================================================
@@ -74,7 +71,7 @@
 - (NSComparisonResult)numericCompare:(NSString *)string
 {
     return([self compare:string options:NSNumericSearch]);
-}// end numericCompare:
+} // end numericCompare:
 
 
 // ========== separateByLine ====================================================
@@ -85,22 +82,20 @@
 // ==============================================================================
 - (NSArray *)separateByLine
 {
-    NSMutableArray *lines             = [NSMutableArray array];
+    NSMutableArray *lines = [NSMutableArray array];
     NSUInteger     stringLength       = [self length];
     NSUInteger     lineStartIndex     = 0;
     NSUInteger     nextlineStartIndex = 0;
     NSUInteger     newlineIndex       = 0; // index of the first newline character in the line.
-    NSInteger      lineLength         = 0;
+    NSInteger      lineLength = 0;
     NSString       *isolatedLine;
 
     while (nextlineStartIndex < stringLength)
     {
         // Read the first line. LDraw files are in DOS format. Oh the agony.
         // But Cocoa is nice to us.
-        [self getLineStart:&lineStartIndex
-         end:&nextlineStartIndex
-         contentsEnd:&newlineIndex
-         forRange:NSMakeRange(nextlineStartIndex, 1)];      // that is, contains the first character.
+        [self getLineStart:&lineStartIndex end:&nextlineStartIndex contentsEnd:&newlineIndex forRange:
+        NSMakeRange(nextlineStartIndex, 1)];                    // that is, contains the first character.
 
         lineLength   = newlineIndex - lineStartIndex;
         isolatedLine = [self substringWithRange:NSMakeRange(lineStartIndex, lineLength)];
@@ -108,7 +103,7 @@
     }
 
     return(lines);
-}// end separateStringByLine
+} // end separateStringByLine
 
 
 // ========== ams_stringByRemovingWhitespace ====================================
@@ -122,13 +117,13 @@
 // ==============================================================================
 - (NSString *)ams_stringByRemovingWhitespace
 {
-    NSInteger      originalLength   = [self length];
-    unichar        *resultBuffer    = malloc(sizeof(unichar) * originalLength);
-    NSCharacterSet *whitespaceSet   = [NSCharacterSet whitespaceCharacterSet];
-    unichar        currentCharacter = '\0';
-    NSInteger      resultLength     = 0;
-    NSInteger      counter          = 0;
-    NSString       *strippedString  = nil;
+    NSInteger originalLength = [self length];
+    unichar   *resultBuffer  = malloc(sizeof(unichar) * originalLength);
+    NSCharacterSet *whitespaceSet = [NSCharacterSet whitespaceCharacterSet];
+    unichar   currentCharacter    = '\0';
+    NSInteger resultLength = 0;
+    NSInteger counter = 0;
+    NSString  *strippedString = nil;
 
     // Copy only non-whitespace characters into the new string.
     // * We'll assume the Unicode Consortium will never be sick enough to put
@@ -146,7 +141,6 @@
     // free memory
     free(resultBuffer);
     return(strippedString);
-}// end ams_stringByRemovingWhitespace
-
+} // end ams_stringByRemovingWhitespace
 
 @end

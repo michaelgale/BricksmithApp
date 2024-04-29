@@ -26,10 +26,10 @@
     self = [super initWithFrame:frame];
 
     preservesScrollCenterDuringLiveResize = NO; // normal Cocoa scroll views don't.
-    storesScrollCenterAsFraction          = NO;
+    storesScrollCenterAsFraction = NO;
 
     return(self);
-}// end initWithFrame:
+} // end initWithFrame:
 
 
 #pragma mark -
@@ -48,13 +48,12 @@
 
     // If we are supposed to be keeping the scroll rect's center in the middle
     // of the scroll view, then we'll need to rescroll it there now.
-    if (self->preservesScrollCenterDuringLiveResize == YES &&
-        [self inLiveResize] == YES &&
-        NSEqualPoints(self->documentScrollCenterPoint, NSZeroPoint) == NO
-        ) {
-        NSView  *documentView             = [self documentView];
-        NSRect  documentFrame             = [documentView frame];
-        NSRect  newVisibleRect            = [documentView visibleRect];
+    if (self->preservesScrollCenterDuringLiveResize == YES && [self inLiveResize] == YES &&
+        NSEqualPoints(self->documentScrollCenterPoint,
+        NSZeroPoint) == NO) {
+        NSView  *documentView  = [self documentView];
+        NSRect  documentFrame  = [documentView frame];
+        NSRect  newVisibleRect = [documentView visibleRect];
         NSPoint absoluteScrollCenterPoint = NSZeroPoint;
 
         if (self->storesScrollCenterAsFraction == YES) {
@@ -73,7 +72,7 @@
 
         [documentView scrollRectToVisible:newVisibleRect];
     }
-}// end setFrame:
+} // end setFrame:
 
 
 // ========== setKeepsScrollCenterDuringLiveResize: =============================
@@ -109,7 +108,7 @@
 - (void)setStoresScrollCenterAsFraction:(BOOL)flag
 {
     self->storesScrollCenterAsFraction = flag;
-}// end setTreatsScrollCenterAsFraction:
+} // end setTreatsScrollCenterAsFraction:
 
 
 // ========== setVerticalPlacard: ===============================================
@@ -123,7 +122,7 @@
 - (void)setVerticalPlacard:(NSView *)newPlacard
 {
     NSScroller *verticalScroller = [self verticalScroller];
-    NSView     *superview        = [verticalScroller superview];
+    NSView     *superview = [verticalScroller superview];
 
     [newPlacard retain];
 
@@ -136,7 +135,7 @@
     [superview addSubview:newPlacard];
     [self tile];
     [self setNeedsDisplay:YES];
-}// end setVerticalPlacard:
+} // end setVerticalPlacard:
 
 
 #pragma mark -
@@ -156,25 +155,24 @@
     // If the USER just scrolled the view, memorize his scrolled center so that
     // we can preserve it during live resize if we are supposed to.
     if ([self inLiveResize] == NO) {
-        NSView  *documentView       = [self documentView];
+        NSView  *documentView = [self documentView];
         NSRect  documentVisibleRect = [documentView visibleRect];
-        NSRect  documentFrame       = [documentView frame];
-        NSPoint visibleCenter       =
-            NSMakePoint(NSMidX(documentVisibleRect), NSMidY(documentVisibleRect));
+        NSRect  documentFrame = [documentView frame];
+        NSPoint visibleCenter = NSMakePoint(NSMidX(documentVisibleRect), NSMidY(documentVisibleRect));
 
         // Careful. Collapsed split views have no visible rect, and we don't
         // want to save THAT!
         if (NSEqualPoints(visibleCenter, NSZeroPoint) == NO) {
             if (self->storesScrollCenterAsFraction == YES) {
                 self->documentScrollCenterPoint = NSMakePoint(visibleCenter.x / NSWidth(documentFrame),
-                                                              visibleCenter.y / NSHeight(documentFrame));
+                        visibleCenter.y / NSHeight(documentFrame));
             }
             else {
                 self->documentScrollCenterPoint = visibleCenter;
             }
         }
     }
-}// end reflectScrolledClipView:
+} // end reflectScrolledClipView:
 
 
 // ========== tile ==============================================================
@@ -190,11 +188,11 @@
     if (self->verticalPlacard != nil) {
         NSScroller *verticalScroller = [self verticalScroller];
         NSRect     scrollerFrame     = [verticalScroller frame];
-        NSRect     placardFrame      = [self->verticalPlacard frame];
+        NSRect     placardFrame = [self->verticalPlacard frame];
 
         // Make the placard fit in the scroller area
         placardFrame.origin.x   = NSMinX(scrollerFrame);
-        placardFrame.origin.y   = 1; // allow the scroll view to draw its border
+        placardFrame.origin.y   = 1;    // allow the scroll view to draw its border
         placardFrame.size.width = NSWidth(scrollerFrame);
 
         // Reduce the scroller to make room for the placard
@@ -205,7 +203,7 @@
         [verticalScroller setFrame:scrollerFrame];
         [self->verticalPlacard setFrame:placardFrame];
     }
-}// end tile
+} // end tile
 
 
 #pragma mark -
@@ -221,7 +219,6 @@
 {
     [verticalPlacard release];
     [super dealloc];
-}// end dealloc
-
+} // end dealloc
 
 @end

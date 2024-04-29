@@ -22,11 +22,11 @@ enum
     tex_proj_planar = 0
 };
 
-enum            // Culling codes from renderer culling checks.
+enum // Culling codes from renderer culling checks.
 {
-    cull_skip,  // Don't draw - object is off screen or too-small-to-care.
-    cull_box,   // Draw, but consider replacing with a box for speed - the object is rather small.
-    cull_draw   // Draw, the object is on screen and big.
+    cull_skip, // Don't draw - object is off screen or too-small-to-care.
+    cull_box, // Draw, but consider replacing with a box for speed - the object is rather small.
+    cull_draw // Draw, the object is on screen and big.
 };
 
 
@@ -58,7 +58,7 @@ struct  LDrawTextureSpec {
 // The cleanup function defines a function ptr used to dispose of the display list that a directive
 // might be retaining.
 
-typedef void *LDrawDLHandle;                          // Opaque handle to some kinf of cached drawing representation.
+typedef void *LDrawDLHandle; // Opaque handle to some kinf of cached drawing representation.
 typedef void (* LDrawDLCleanup_f)(LDrawDLHandle who); // Cleanup function associated with a given DL.
 
 
@@ -73,7 +73,6 @@ typedef void (* LDrawDLCleanup_f)(LDrawDLHandle who); // Cleanup function associ
 // texture."
 //
 @protocol LDrawCollector
-
 // Texture stack - sets up new texturing.  When the stack is totally popped, no texturing is applied.
 - (void)pushTexture:(struct LDrawTextureSpec *)tex_spec;
 - (void)popTexture;
@@ -85,8 +84,6 @@ typedef void (* LDrawDLCleanup_f)(LDrawDLHandle who); // Cleanup function associ
 - (void)drawLine:(GLfloat *)vertices normal:(GLfloat *)normal color:(GLfloat *)color;
 
 @end
-
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 // LDrawRenderer
@@ -100,9 +97,7 @@ typedef void (* LDrawDLCleanup_f)(LDrawDLHandle who); // Cleanup function associ
 // list containing the mesh.  beginDL provides a "collector" protocol capable of actually receiving
 // the mesh.
 
-@protocol LDrawRenderer
-@required
-
+@protocol LDrawRenderer @required
 // Matrix stack.  The new matrix is accumulated onto the existing transform.
 - (void)pushMatrix:(GLfloat *)matrix;
 - (void)popMatrix;
@@ -137,7 +132,7 @@ typedef void (* LDrawDLCleanup_f)(LDrawDLHandle who); // Cleanup function associ
 // display list can be accumulated into at one time.  (This is a bit of a defect of the API that we
 // should consider some day fixing.)
 - (id <LDrawCollector>)beginDL;
-- (void)endDL:(LDrawDLHandle *)outHandle cleanupFunc:(LDrawDLCleanup_f *)func;      // Returns NULL if the display list is empty (e.g. no calls between begin/end)
+- (void)endDL:(LDrawDLHandle *)outHandle cleanupFunc:(LDrawDLCleanup_f *)func; // Returns NULL if the display list is empty (e.g. no calls between begin/end)
 
 - (void)drawDL:(LDrawDLHandle)dl;
 

@@ -35,7 +35,7 @@
     [library setDelegate:self];
 
     return(self);
-}// end init
+} // end init
 
 
 #pragma mark -
@@ -52,7 +52,7 @@
 {
     PartLibrary *library   = [PartLibrary sharedPartLibrary];
     NSArray     *favorites = [[NSUserDefaults standardUserDefaults] objectForKey:FAVORITE_PARTS_KEY];
-    BOOL        success    = NO;
+    BOOL success = NO;
 
     // Try loading an existing library first.
     [library setFavorites:favorites];
@@ -64,7 +64,7 @@
     }
 
     return(success);
-}// end loadPartCatalog
+} // end loadPartCatalog
 
 
 // ========== reloadPartCatalog =================================================
@@ -97,7 +97,7 @@
     [self->progressPanel close];
 
     return(success);
-}// end reloadPartCatalog
+} // end reloadPartCatalog
 
 
 // ========== validateLDrawFolderWithMessage: ===================================
@@ -125,7 +125,7 @@
     }
 
     return(folderIsValid);
-}// end validateLDrawFolder
+} // end validateLDrawFolder
 
 
 #pragma mark -
@@ -151,11 +151,10 @@
 // expect.
 //
 // ==============================================================================
-- (void)partLibrary:(PartLibrary *)partLibrary
-    maximumPartCountToLoad:(NSUInteger)maxPartCount
+- (void)partLibrary:(PartLibrary *)partLibrary maximumPartCountToLoad:(NSUInteger)maxPartCount
 {
     [self->progressPanel setMaxValue:maxPartCount];
-}// end partLibrary:maximumPartCountToLoad:
+} // end partLibrary:maximumPartCountToLoad:
 
 
 // ========== partLibraryIncrementLoadProgressCount: ============================
@@ -166,7 +165,7 @@
 - (void)partLibraryIncrementLoadProgressCount:(PartLibrary *)partLibrary
 {
     [self->progressPanel increment];
-}// end partLibraryIncrementLoadProgressCount:
+} // end partLibraryIncrementLoadProgressCount:
 
 
 #pragma mark -
@@ -181,7 +180,7 @@
 - (void)dealloc
 {
     [super dealloc];
-}// end dealloc
+} // end dealloc
 
 
 @end

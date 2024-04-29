@@ -21,8 +21,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 @interface PartBrowserDataSource : NSObject <NSOutlineViewDelegate, NSOutlineViewDataSource>
 {
-    IBOutlet NSButton      *searchAllCategoriesButton;
-    IBOutlet NSButton      *searchSelectedCategoryButton;
+    IBOutlet NSButton *searchAllCategoriesButton;
+    IBOutlet NSButton *searchSelectedCategoryButton;
     IBOutlet NSSearchField *searchField;
 
     IBOutlet NSOutlineView *categoryTable;
@@ -32,11 +32,11 @@
     IBOutlet NSButton      *zoomOutButton;
     IBOutlet NSButton      *addRemoveFavoriteButton;
     IBOutlet NSButton      *insertButton;
-    IBOutlet NSMenu        *contextualMenu;
+    IBOutlet NSMenu *contextualMenu;
 
-    PartLibrary    *partLibrary; // weak reference to the shared part catalog.
-    NSString       *selectedCategory;
-    NSArray        *categoryList;
+    PartLibrary *partLibrary; // weak reference to the shared part catalog.
+    NSString    *selectedCategory;
+    NSArray     *categoryList;
     NSMutableArray *tableDataSource;
     SearchModeT    searchMode;
 }

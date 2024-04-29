@@ -128,11 +128,11 @@ extern const Size2 ZeroSize2;
 extern const Box2 ZeroBox2;
 extern const Box3 InvalidBox;
 extern const TransformComponents IdentityComponents;
-extern const Matrix3             IdentityMatrix3;
-extern const Matrix4             IdentityMatrix4;
-extern const Point2 ZeroPoint2;
-extern const Point3 ZeroPoint3;
-extern const Point4 ZeroPoint4;
+extern const Matrix3 IdentityMatrix3;
+extern const Matrix4 IdentityMatrix4;
+extern const Point2  ZeroPoint2;
+extern const Point3  ZeroPoint3;
+extern const Point4  ZeroPoint4;
 
 #pragma mark -
 #pragma mark Macros
@@ -211,9 +211,9 @@ extern bool   FloatsApproximatelyEqual(double float1, double float2);
 // 2-D
 extern Point2 V2Make(double x, double y);
 
-extern Vector2     V2Add(Vector2 a, Vector2 b);
-extern Vector2     V2Sub(Vector2 a, Vector2 b);
-extern Vector2     V2MulScalar(Vector2 a, float scalar);
+extern Vector2 V2Add(Vector2 a, Vector2 b);
+extern Vector2 V2Sub(Vector2 a, Vector2 b);
+extern Vector2 V2MulScalar(Vector2 a, float scalar);
 extern Box2   V2MakeBox(double x, double y, double width, double height);
 extern Box2   V2MakeBoxFromPoints(Point2 origin, Point2 maximum);
 extern Size2  V2MakeSize(double width, double height);
@@ -236,7 +236,7 @@ extern double Matrix2x2Determinant(double, double, double, double);
 
 // 3-D
 extern Vector3  V3Make(double x, double y, double z);
-extern Vector3 * V3Duplicate(Vector3 *a);
+extern Vector3 *V3Duplicate(Vector3 *a);
 extern Vector3  V3FromV4(Vector4 originalVector);
 extern Vector3  V3FromV4Normalize(Vector4 originalVector);
 extern bool   V3EqualPoints(Point3 point1, Point3 point2);
@@ -261,19 +261,13 @@ extern Point3 V3Midpoint(Point3 point1, Point3 point2);
 extern Vector3  V3IsolateGreatestComponent(Vector3 vector);
 extern void   V3Print(Point3 point);
 extern bool   V3RayIntersectsTriangle(Ray3 ray,
-                                      Point3 vert0,
-                                      Point3 vert1,
-                                      Point3 vert2,
-                                      double *distanceOut,
-                                      Point2 *intersectPointOut);
-extern bool   V3RayIntersectsSegment(Ray3 segment1,
-                                     Segment3 segment2,
-                                     double tolerance,
-                                     double *distanceOut);
-extern bool   V3RayIntersectsSphere(Ray3 ray,
-                                    Point3 sphereCenter,
-                                    double radius,
-                                    double *distanceOut);
+    Point3                                 vert0,
+    Point3                                 vert1,
+    Point3                                 vert2,
+    double                                 *distanceOut,
+    Point2                                 *intersectPointOut);
+extern bool   V3RayIntersectsSegment(Ray3 segment1, Segment3 segment2, double tolerance, double *distanceOut);
+extern bool   V3RayIntersectsSphere(Ray3 ray, Point3 sphereCenter, double radius, double *distanceOut);
 
 extern Box3   V3BoundsFromPoints(Point3 point1, Point3 point2);
 extern Point3 V3CenterOfBox(Box3 box);
@@ -285,18 +279,9 @@ extern Point3 V3MulPointByMatrix(Point3 pin, Matrix3 m);
 extern Vector3  V3MulPointByProjMatrix(Point3 pin, Matrix4 m);
 extern Matrix4  V3LookAt(Point3 eye, Point3 center, Vector3 up, Matrix4 modelview);
 extern Point3 V3Project(Point3 objPoint, Matrix4 modelview, Matrix4 projection, Box2 viewport);
-extern Point3 V3Unproject(Point3 viewportPoint, Matrix4 modelview, Matrix4 projection,
-                          Box2 viewport);
+extern Point3 V3Unproject(Point3 viewportPoint, Matrix4 modelview, Matrix4 projection, Box2 viewport);
 
-extern double Matrix3x3Determinant(double,
-                                   double,
-                                   double,
-                                   double,
-                                   double,
-                                   double,
-                                   double,
-                                   double,
-                                   double);
+extern double Matrix3x3Determinant(double, double, double, double, double, double, double, double, double);
 extern Matrix3  Matrix3MakeNormalTransformFromProjMatrix(Matrix4 transformationMatrix);
 
 // 4-D
@@ -305,8 +290,7 @@ extern Point4 V4FromPoint3(Vector3 originalPoint);
 extern Vector4  V4MulPointByMatrix(Vector4 pin, Matrix4 m);
 extern Matrix4  Matrix4CreateFromGLMatrix4(const GLfloat *glMatrix);
 extern Matrix4  Matrix4CreateTransformation(TransformComponents *);
-extern int    Matrix4DecomposeTransformation(Matrix4 originalMatrix,
-                                             TransformComponents *decomposed);
+extern int    Matrix4DecomposeTransformation(Matrix4 originalMatrix, TransformComponents *decomposed);
 extern Tuple3 Matrix4DecomposeXYZRotation(Matrix4 matrix);
 extern Tuple3 Matrix4DecomposeZYXRotation(Matrix4 matrix);
 extern Matrix4  Matrix4Multiply(Matrix4 a, Matrix4 b);
@@ -322,26 +306,12 @@ extern void   Matrix4Adjoint(Matrix4 *, Matrix4 *);
 extern double Matrix4x4Determinant(Matrix4 *);
 extern void   Matrix4Print(Matrix4 *matrix);
 
-extern bool   DepthOnTriangle(
-    Point3 vert0,
-    Point3 vert1,
-    Point3 vert2,
-    Point3 *test_pt);
-extern bool   DepthOnLineSegment(
-    Point3 vert0,
-    Point3 vert1,
-    double tolerance,
-    Point3 *test_pt);
+extern bool   DepthOnTriangle(Point3 vert0, Point3 vert1, Point3 vert2, Point3 *test_pt);
+extern bool   DepthOnLineSegment(Point3 vert0, Point3 vert1, double tolerance, Point3 *test_pt);
 
-extern bool   VolumeCanIntersectBox(
-    Box3 boundingVolume,
-    Matrix4 transform,
-    Box2 testBox);
+extern bool   VolumeCanIntersectBox(Box3 boundingVolume, Matrix4 transform, Box2 testBox);
 
-extern bool   VolumeCanIntersectPoint(
-    Box3 boundingVolume,
-    Matrix4 transform,
-    Box2 testPoint,                 // We provide a RANGE that our point is inside - this is how we get 'fuzzy' hits for infinitely thin geometry like lines.
+extern bool   VolumeCanIntersectPoint(Box3 boundingVolume, Matrix4 transform, Box2 testPoint, // We provide a RANGE that our point is inside - this is how we get 'fuzzy' hits for infinitely thin geometry like lines.
     double testDepthSoFar);
 
 

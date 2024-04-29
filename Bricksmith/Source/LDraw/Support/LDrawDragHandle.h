@@ -45,7 +45,6 @@
 - (void)draw:(NSUInteger)optionsMask viewScale:(double)scaleFactor parentColor:(LDrawColor *)parentColor;
 
 // Utilities
-+ (void)makeSphereWithLongitudinalCount:(int)longitudeSections
-    latitudinalCount:(int)latitudeSections;
++ (void)makeSphereWithLongitudinalCount:(int)longitudeSections latitudinalCount:(int)latitudeSections;
 
 @end

@@ -19,33 +19,27 @@
 #include <string.h>
 
 const Size2 ZeroSize2 = { 0.0, 0.0 };
-const Box2  ZeroBox2  = { { 0.0, 0.0 },
-                          { 0.0, 0.0 } };
+const Box2  ZeroBox2  = { { 0.0, 0.0 }, { 0.0, 0.0 } };
 
 // Box which represents no bounds. It is defined in such a way that it can
 // be used transparently in size comparisons -- its minimum is inifinity,
 // so any valid point will be smaller than that!
-const Box3 InvalidBox = { { INFINITY,  INFINITY,  INFINITY  },
-                          { -INFINITY, -INFINITY, -INFINITY } };
+const Box3 InvalidBox = { { INFINITY, INFINITY, INFINITY }, { -INFINITY, -INFINITY, -INFINITY } };
 
 const TransformComponents IdentityComponents =
 {
-    { 1.0, 1.0, 1.0 }, // scale;
-    0,                 // shear_XY;
-    0,                 // shear_XZ;
-    0,                 // shear_YZ;
-    { 0,   0,   0   }, // rotate;		//in radians
-    { 0,   0,   0   }, // translate;
-    { 0,   0,   0, 0} // perspective;
+    { 1.0, 1.0, 1.0     },   // scale;
+    0, // shear_XY;
+    0, // shear_XZ;
+    0, // shear_YZ;
+    { 0,   0,   0       },   // rotate;		//in radians
+    { 0,   0,   0       },   // translate;
+    { 0,   0,   0, 0    }   // perspective;
 };
 
-const Matrix3 IdentityMatrix3 = {   { { 1.0, 0, 0 },
-                                      { 0, 1.0, 0 },
-                                      { 0, 0, 1.0 } } };
+const Matrix3 IdentityMatrix3 = { { { 1.0, 0, 0 }, { 0, 1.0, 0 }, { 0, 0, 1.0 } } };
 
-const Matrix4 IdentityMatrix4 = {   { { 1.0, 0, 0, 0 },
-                                      { 0, 1.0, 0, 0 },
-                                      { 0, 0, 1.0, 0 },
+const Matrix4 IdentityMatrix4 = {   { { 1.0, 0, 0, 0 }, { 0, 1.0, 0, 0 }, { 0, 0, 1.0, 0 },
                                       { 0, 0, 0, 1.0 } } };
 
 const Point2 ZeroPoint2 = { 0.0, 0.0 };
@@ -146,7 +140,7 @@ bool FloatsApproximatelyEqual(double float1, double float2)
 // }
 //
 // return closeEnough;
-}// end FloatsApproximatelyEqual
+} // end FloatsApproximatelyEqual
 
 
 #pragma mark -
@@ -167,7 +161,7 @@ Vector2 V2Add(Vector2 a, Vector2 b)
     result.y = a.y + b.y;
 
     return(result);
-}// end V2Add
+} // end V2Add
 
 
 // ========== V2Sub =============================================================
@@ -183,7 +177,7 @@ Vector2 V2Sub(Vector2 a, Vector2 b)
     result.y = a.y - b.y;
 
     return(result);
-}// end V3Sub
+} // end V3Sub
 
 
 // ========== V2MulScalar =======================================================
@@ -270,10 +264,8 @@ Size2 V2MakeSize(double width, double height)
 // ==============================================================================
 bool V2EqualBoxes(Box2 box1, Box2 box2)
 {
-    return(box1.origin.x == box2.origin.y &&
-           box1.origin.y == box2.origin.y &&
-           box1.size.height == box2.size.height &&
-           box1.size.width == box2.size.width);
+    return(box1.origin.x == box2.origin.y && box1.origin.y == box2.origin.y &&
+           box1.size.height == box2.size.height && box1.size.width == box2.size.width);
 }
 
 
@@ -281,8 +273,7 @@ bool V2EqualBoxes(Box2 box1, Box2 box2)
 // ==============================================================================
 bool V2EqualSizes(Size2 size1, Size2 size2)
 {
-    return(size1.width == size2.width &&
-           size1.height == size2.height);
+    return(size1.width == size2.width && size1.height == size2.height);
 }
 
 
@@ -404,9 +395,7 @@ static double seg_x_at_y(Point2 p1, Point2 p2, double y)
 // ==============================================================================
 bool    V2BoxContains(Box2 box, Point2 pin)
 {
-    return(pin.x >= V2BoxMinX(box) &&
-           pin.x <= V2BoxMaxX(box) &&
-           pin.y >= V2BoxMinY(box) &&
+    return(pin.x >= V2BoxMinX(box) && pin.x <= V2BoxMaxX(box) && pin.y >= V2BoxMinY(box) &&
            pin.y <= V2BoxMaxY(box));
 }
 
@@ -424,8 +413,7 @@ bool V2BoxIntersectsLine(Box2 box, Point2 pin1, Point2 pin2)
     double y1 = V2BoxMinY(box);
     double y2 = V2BoxMaxY(box);
 
-    if (!(pin1.x < x1 && pin2.x < x1) &&
-        !(pin1.x > x1 && pin2.x > x1)) {
+    if (!(pin1.x < x1 && pin2.x < x1) && !(pin1.x > x1 && pin2.x > x1)) {
         double yp = seg_y_at_x(pin1, pin2, x1);
 
         if (yp >= y1 && yp <= y2) {
@@ -433,8 +421,7 @@ bool V2BoxIntersectsLine(Box2 box, Point2 pin1, Point2 pin2)
         }
     }
 
-    if (!(pin1.x < x2 && pin2.x < x2) &&
-        !(pin1.x > x2 && pin2.x > x2)) {
+    if (!(pin1.x < x2 && pin2.x < x2) && !(pin1.x > x2 && pin2.x > x2)) {
         double yp = seg_y_at_x(pin1, pin2, x2);
 
         if (yp >= y1 && yp <= y2) {
@@ -442,8 +429,7 @@ bool V2BoxIntersectsLine(Box2 box, Point2 pin1, Point2 pin2)
         }
     }
 
-    if (!(pin1.y < y1 && pin2.y < y1) &&
-        !(pin1.y > y1 && pin2.y > y1)) {
+    if (!(pin1.y < y1 && pin2.y < y1) && !(pin1.y > y1 && pin2.y > y1)) {
         double xp = seg_x_at_y(pin1, pin2, y1);
 
         if (xp >= x1 && xp <= x2) {
@@ -451,8 +437,7 @@ bool V2BoxIntersectsLine(Box2 box, Point2 pin1, Point2 pin2)
         }
     }
 
-    if (!(pin1.y < y2 && pin2.y < y2) &&
-        !(pin1.y > y2 && pin2.y > y2)) {
+    if (!(pin1.y < y2 && pin2.y < y2) && !(pin1.y > y2 && pin2.y > y2)) {
         double xp = seg_x_at_y(pin1, pin2, y2);
 
         if (xp >= x1 && xp <= x2) {
@@ -473,11 +458,11 @@ bool V2BoxIntersectsLine(Box2 box, Point2 pin1, Point2 pin2)
 // ==============================================================================
 bool    V2PolygonContains(const Point2 *begin, int num_pts, Point2 pin)
 {
-    const Point2 *end          = begin + num_pts;
-    int          cross_counter = 0;
-    Point2       first_p       = *begin;
-    Point2       s_p1;
-    Point2       s_p2;
+    const Point2 *end    = begin + num_pts;
+    int    cross_counter = 0;
+    Point2 first_p = *begin;
+    Point2 s_p1;
+    Point2 s_p2;
 
     s_p1 = *begin;
     ++begin;
@@ -485,8 +470,7 @@ bool    V2PolygonContains(const Point2 *begin, int num_pts, Point2 pin)
     while (begin != end)
     {
         s_p2 = *begin;
-        if ((s_p1.x < pin.x && pin.x <= s_p2.x) ||
-            (s_p2.x < pin.x && pin.x <= s_p1.x)) {
+        if ((s_p1.x < pin.x && pin.x <= s_p2.x) || (s_p2.x < pin.x && pin.x <= s_p1.x)) {
             if (pin.y > seg_y_at_x(s_p1, s_p2, pin.x)) {
                 ++cross_counter;
             }
@@ -496,8 +480,7 @@ bool    V2PolygonContains(const Point2 *begin, int num_pts, Point2 pin)
         ++begin;
     }
     s_p2 = first_p;
-    if ((s_p1.x < pin.x && pin.x <= s_p2.x) ||
-        (s_p2.x < pin.x && pin.x <= s_p1.x)) {
+    if ((s_p1.x < pin.x && pin.x <= s_p2.x) || (s_p2.x < pin.x && pin.x <= s_p1.x)) {
         if (pin.y > seg_y_at_x(s_p1, s_p2, pin.x)) {
             ++cross_counter;
         }
@@ -556,7 +539,7 @@ double Matrix2x2Determinant(double a, double b, double c, double d)
 // double ans;
     return(a * d - b * c);
 // return ans;
-}// end Matrix2x2Determinant
+} // end Matrix2x2Determinant
 
 
 #pragma mark -
@@ -574,7 +557,7 @@ Vector3 V3Make(double x, double y, double z)
 
     v.x = x;  v.y = y;  v.z = z;
     return(v);
-}// end V3Make
+} // end V3Make
 
 
 // ========== V3Duplicate =======================================================
@@ -588,7 +571,7 @@ Vector3 *V3Duplicate(Vector3 *a)
 
     v->x = a->x;  v->y = a->y;  v->z = a->z;
     return(v);
-}// end V3Duplicate
+} // end V3Duplicate
 
 
 // ========== V3FromV4 ==========================================================
@@ -605,10 +588,10 @@ Vector3 V3FromV4(Vector4 originalVector)
     // This is very bad.
     if (originalVector.w != 1.0 && originalVector.w != 0.0) {
         printf("lossy 4D vector conversion: <%f, %f, %f, %f>\n",
-               originalVector.x,
-               originalVector.y,
-               originalVector.z,
-               originalVector.w);
+            originalVector.x,
+            originalVector.y,
+            originalVector.z,
+            originalVector.w);
     }
 
     newVector.x = originalVector.x;
@@ -616,7 +599,7 @@ Vector3 V3FromV4(Vector4 originalVector)
     newVector.z = originalVector.z;
 
     return(newVector);
-}// end V3FromV4
+} // end V3FromV4
 
 
 // ========== V3FromV4Normalize =================================================
@@ -644,7 +627,7 @@ Vector3 V3FromV4Normalize(Vector4 originalVector)
     newVector.z = originalVector.z * recip;
 
     return(newVector);
-}// end V3FromV4Normalize
+} // end V3FromV4Normalize
 
 
 #pragma mark -
@@ -656,15 +639,13 @@ Vector3 V3FromV4Normalize(Vector4 originalVector)
 // ==============================================================================
 bool V3EqualPoints(Point3 point1, Point3 point2)
 {
-    if (point1.x == point2.x &&
-        point1.y == point2.y &&
-        point1.z == point2.z) {
+    if (point1.x == point2.x && point1.y == point2.y && point1.z == point2.z) {
         return(true);
     }
     else {
         return(false);
     }
-}// end V3EqualPoints
+} // end V3EqualPoints
 
 
 // ========== V3PointsWithinTolerance() =========================================
@@ -692,7 +673,7 @@ bool V3PointsWithinTolerance(Point3 point1, Point3 point2)
     else {
         return(false);
     }
-}// end V3PointsWithinTolerance
+} // end V3PointsWithinTolerance
 
 
 // ========== V3SquaredLength ===================================================
@@ -704,10 +685,8 @@ bool V3PointsWithinTolerance(Point3 point1, Point3 point2)
 // ==============================================================================
 double V3SquaredLength(Vector3 a)
 {
-    return((a.x * a.x)
-           + (a.y * a.y)
-           + (a.z * a.z));
-}// end V3SquaredLength
+    return((a.x * a.x) + (a.y * a.y) + (a.z * a.z));
+} // end V3SquaredLength
 
 
 // ========== V3Length ==========================================================
@@ -718,7 +697,7 @@ double V3SquaredLength(Vector3 a)
 double V3Length(Vector3 a)
 {
     return(sqrt(V3SquaredLength(a)));
-}// end V3Length
+} // end V3Length
 
 
 // ========== V3Negate ==========================================================
@@ -733,7 +712,7 @@ Vector3 V3Negate(Vector3 v)
     v.z = -v.z;
 
     return(v);
-}// end V3Negate
+} // end V3Negate
 
 
 // ========== V3AntiEuler =======================================================
@@ -745,13 +724,13 @@ Tuple3  V3AntiEuler(Tuple3 v)
 {
     Matrix4 forwardTransform = Matrix4Rotate(IdentityMatrix4, v);
     Matrix4 inverseTransform = Matrix4Invert(forwardTransform);
-    Tuple3  inverse          = Matrix4DecomposeXYZRotation(inverseTransform);
+    Tuple3  inverse = Matrix4DecomposeXYZRotation(inverseTransform);
 
     inverse.x = degrees(inverse.x);
     inverse.y = degrees(inverse.y);
     inverse.z = degrees(inverse.z);
     return(inverse);
-}// end V3AntiEuler
+} // end V3AntiEuler
 
 
 // ========== V3Normalize =======================================================
@@ -770,7 +749,7 @@ Vector3 V3Normalize(Vector3 v)
     }
 
     return(v);
-}// end V3Normalize
+} // end V3Normalize
 
 
 // ========== V3Scale ===========================================================
@@ -789,7 +768,7 @@ Vector3 V3Scale(Vector3 v, double newlen)
     }
 
     return(v);
-}// end V3Scale
+} // end V3Scale
 
 
 // ========== V3Add =============================================================
@@ -806,7 +785,7 @@ Vector3 V3Add(Vector3 a, Vector3 b)
     result.z = a.z + b.z;
 
     return(result);
-}// end V3Add
+} // end V3Add
 
 
 // ========== V3Sub =============================================================
@@ -823,7 +802,7 @@ Vector3 V3Sub(Vector3 a, Vector3 b)
     result.z = a.z - b.z;
 
     return(result);
-}// end V3Sub
+} // end V3Sub
 
 
 // ========== V3Dot =============================================================
@@ -833,10 +812,8 @@ Vector3 V3Sub(Vector3 a, Vector3 b)
 // ==============================================================================
 double V3Dot(Vector3 a, Vector3 b)
 {
-    return((a.x * b.x)
-           + (a.y * b.y)
-           + (a.z * b.z));
-}// end V3Dot
+    return((a.x * b.x) + (a.y * b.y) + (a.z * b.z));
+} // end V3Dot
 
 
 // ========== V3Lerp ============================================================
@@ -856,7 +833,7 @@ Vector3 V3Lerp(Vector3 lo, Vector3 hi, double alpha)
     result.z = LERP(alpha, lo.z, hi.z);
 
     return(result);
-}// end V3Lerp
+} // end V3Lerp
 
 
 // ========== V3Combine =========================================================
@@ -875,7 +852,7 @@ Vector3 V3Combine(Vector3 a, Vector3 b, double ascl, double bscl)
     result.z = (ascl * a.z) + (bscl * b.z);
 
     return(result);
-}// end V3Combine
+} // end V3Combine
 
 
 // ========== V3Mul =============================================================
@@ -893,7 +870,7 @@ Vector3 V3Mul(Vector3 a, Vector3 b)
     result.z = a.z * b.z;
 
     return(result);
-}// end V3Mul
+} // end V3Mul
 
 
 // ========== V3MulScalar =======================================================
@@ -910,7 +887,7 @@ Vector3 V3MulScalar(Vector3 a, double scalar)
     result.z = a.z * scalar;
 
     return(result);
-}// end V3Mul
+} // end V3Mul
 
 
 // ========== V3DistanceBetween2Points ==========================================
@@ -925,7 +902,7 @@ double V3DistanceBetween2Points(Point3 a, Point3 b)
     double dz = a.z - b.z;
 
     return(sqrt((dx * dx) + (dy * dy) + (dz * dz)));
-}// end V3DistanceBetween2Points
+} // end V3DistanceBetween2Points
 
 
 // ========== V3DistanceFromPointToPlane ========================================
@@ -941,7 +918,7 @@ double V3DistanceFromPointToPlane(Point3 point, Vector3 planeNormal, Point3 poin
 {
     return(V3Dot(planeNormal, V3Sub(point, pointOnPlane)));
 // return distance;
-}// end V3DistanceFromPointToPlane
+} // end V3DistanceFromPointToPlane
 
 
 // ========== V3Cross ===========================================================
@@ -958,7 +935,7 @@ Vector3 V3Cross(Vector3 a, Vector3 b)
     c.z = (a.x * b.y) - (a.y * b.x);
 
     return(c);
-}// end V3Cross
+} // end V3Cross
 
 
 // ========== V3Midpoint ========================================================
@@ -976,7 +953,7 @@ Point3 V3Midpoint(Point3 point1, Point3 point2)
     midpoint.z = (point1.z + point2.z) / 2.0;
 
     return(midpoint);
-}// end V3Midpoint
+} // end V3Midpoint
 
 
 // ========== V3IsolateGreatestComponent ========================================
@@ -1008,7 +985,7 @@ Vector3 V3IsolateGreatestComponent(Vector3 vector)
         }
     }
     return(vector);
-}// end V3IsolateGreatestComponent
+} // end V3IsolateGreatestComponent
 
 
 // ========== V3Print ===========================================================
@@ -1019,7 +996,7 @@ Vector3 V3IsolateGreatestComponent(Vector3 vector)
 void V3Print(Point3 point)
 {
     printf("(%12.6f, %12.6f, %12.6f)\n", point.x, point.y, point.z);
-}// end V3Print
+} // end V3Print
 
 
 // ========== V3RayIntersectsTriangle ===========================================
@@ -1037,8 +1014,11 @@ void V3Print(Point3 point)
 //
 // ==============================================================================
 bool V3RayIntersectsTriangle(Ray3 ray,
-                             Point3 vert0, Point3 vert1, Point3 vert2,
-                             double *intersectDepth, Point2 *intersectPointOut)
+    Point3                        vert0,
+    Point3                        vert1,
+    Point3                        vert2,
+    double                        *intersectDepth,
+    Point2                        *intersectPointOut)
 {
     Vector3 edge1;
     Vector3 edge2;
@@ -1048,8 +1028,8 @@ bool V3RayIntersectsTriangle(Ray3 ray,
     double  det      = 0;
     double  inv_det  = 0;
     double  distance = 0;
-    double  u        = 0;
-    double  v        = 0;
+    double  u = 0;
+    double  v = 0;
 
     // find vectors for two edges sharing vert0
     edge1 = V3Sub(vert1, vert0);
@@ -1117,31 +1097,29 @@ bool V3RayIntersectsTriangle(Ray3 ray,
 // intersection
 //
 // ==============================================================================
-bool V3RayIntersectsSegment(Ray3 segment1, Segment3 segment2,
-                            double tolerance,
-                            double *intersectDepth)
+bool V3RayIntersectsSegment(Ray3 segment1, Segment3 segment2, double tolerance, double *intersectDepth)
 {
-    Vector3 u          = segment1.direction; // V3Sub(segment1.point1, segment1.point0);
-    Vector3 v          = V3Sub(segment2.point1, segment2.point0);
-    Vector3 w          = V3Sub(segment1.origin, segment2.point0);
-    double  a          = V3Dot(u, u); // always >= 0
-    double  b          = V3Dot(u, v);
-    double  c          = V3Dot(v, v); // always >= 0
-    double  d          = V3Dot(u, w);
-    double  e          = V3Dot(v, w);
-    double  D          = a * c - b * b; // always >= 0
-    double  sc         = 0;           // sc = sN / sD, default sD = D >= 0
-    double  sN         = 0;
-    double  sD         = 0;
-    double  tc         = 0; // tc = tN / tD, default tD = D >= 0
-    double  tN         = 0;
-    double  tD         = 0;
+    Vector3 u  = segment1.direction;         // V3Sub(segment1.point1, segment1.point0);
+    Vector3 v  = V3Sub(segment2.point1, segment2.point0);
+    Vector3 w  = V3Sub(segment1.origin, segment2.point0);
+    double  a  = V3Dot(u, u);         // always >= 0
+    double  b  = V3Dot(u, v);
+    double  c  = V3Dot(v, v);         // always >= 0
+    double  d  = V3Dot(u, w);
+    double  e  = V3Dot(v, w);
+    double  D  = a * c - b * b;       // always >= 0
+    double  sc = 0;                   // sc = sN / sD, default sD = D >= 0
+    double  sN = 0;
+    double  sD = 0;
+    double  tc = 0;         // tc = tN / tD, default tD = D >= 0
+    double  tN = 0;
+    double  tD = 0;
     bool    intersects = false;
 
     // compute the line parameters of the two closest points
     if (D < SMALL_NUMBER) { // the lines are almost parallel
-        sN = 0.0;    // force using point0 on segment S1
-        sD = 1.0;    // to prevent possible division by 0.0 later
+        sN = 0.0; // force using point0 on segment S1
+        sD = 1.0; // to prevent possible division by 0.0 later
         tN = e;
         tD = c;
     }
@@ -1187,7 +1165,7 @@ bool V3RayIntersectsSegment(Ray3 segment1, Segment3 segment2,
     // get the difference of the two closest points
     // distance = S1(sc) - S2(tc)
     //
-    Vector3 dP           = V3Add(w, V3Sub(V3MulScalar(u, sc), V3MulScalar(v, tc)));
+    Vector3 dP = V3Add(w, V3Sub(V3MulScalar(u, sc), V3MulScalar(v, tc)));
     double  minCloseness = V3Length(dP);     // return the closest distance
 
 // printf("closeness = %f\n", minCloseness);
@@ -1213,8 +1191,7 @@ bool V3RayIntersectsSegment(Ray3 segment1, Segment3 segment2,
 // http://www.siggraph.org/education/materials/HyperGraph/raytrace/rtinter1.htm
 //
 // ==============================================================================
-bool V3RayIntersectsSphere(Ray3 ray, Point3 sphereCenter, double radius,
-                           double *intersectDepth)
+bool V3RayIntersectsSphere(Ray3 ray, Point3 sphereCenter, double radius, double *intersectDepth)
 {
     double b = 0.0;
     double c = 0.0;
@@ -1226,9 +1203,9 @@ bool V3RayIntersectsSphere(Ray3 ray, Point3 sphereCenter, double radius,
     // depth of an intersection along the ray. (a is always 1 when the ray is
     // normalized).
 
-    b = 2.0 * (ray.direction.x * (ray.origin.x - sphereCenter.x)
-               + ray.direction.y * (ray.origin.y - sphereCenter.y)
-               + ray.direction.z * (ray.origin.z - sphereCenter.z));
+    b = 2.0 *
+        (ray.direction.x * (ray.origin.x - sphereCenter.x) + ray.direction.y *
+        (ray.origin.y - sphereCenter.y) + ray.direction.z * (ray.origin.z - sphereCenter.z));
 
     c = pow(ray.origin.x - sphereCenter.x, 2.0)
         + pow(ray.origin.y - sphereCenter.y, 2.0)
@@ -1272,7 +1249,7 @@ Box3 V3BoundsFromPoints(Point3 point1, Point3 point2)
     bounds.max.z = MAX(point1.z, point2.z);
 
     return(bounds);
-}// end V3BoundsFromPoints
+} // end V3BoundsFromPoints
 
 
 // ========== V3CenterOfBox =====================================================
@@ -1285,7 +1262,7 @@ Point3 V3CenterOfBox(Box3 box)
     Point3 center = V3Midpoint(box.min, box.max);
 
     return(center);
-}// end V3CenterOfBox
+} // end V3CenterOfBox
 
 
 // ========== V3EqualBoxes ======================================================
@@ -1295,13 +1272,9 @@ Point3 V3CenterOfBox(Box3 box)
 // ==============================================================================
 int V3EqualBoxes(Box3 box1, Box3 box2)
 {
-    return(box1.min.x == box2.min.x &&
-           box1.min.y == box2.min.y &&
-           box1.min.z == box2.min.z &&
-           box1.max.x == box2.max.x &&
-           box1.max.y == box2.max.y &&
-           box1.max.z == box2.max.z);
-}// end V3EqualBoxes
+    return(box1.min.x == box2.min.x && box1.min.y == box2.min.y && box1.min.z == box2.min.z &&
+           box1.max.x == box2.max.x && box1.max.y == box2.max.y && box1.max.z == box2.max.z);
+} // end V3EqualBoxes
 
 
 // ========== V3UnionBox ========================================================
@@ -1325,7 +1298,7 @@ Box3 V3UnionBox(Box3 aBox, Box3 bBox)
     bounds.max.z = MAX(aBox.max.z, bBox.max.z);
 
     return(bounds);
-}// end V3UnionBox
+} // end V3UnionBox
 
 
 // ========== V3UnionBoxAndPoint ================================================
@@ -1346,7 +1319,7 @@ Box3 V3UnionBoxAndPoint(Box3 box, Point3 point)
     bounds.max.z = MAX(box.max.z, point.z);
 
     return(bounds);
-}// end V3UnionBoxAndPoint
+} // end V3UnionBoxAndPoint
 
 
 #pragma mark -
@@ -1360,20 +1333,14 @@ Point3 V3MulPointByMatrix(Point3 pin, Matrix3 m)
 {
     Point3 pout = ZeroPoint3;
 
-    pout.x = (pin.x * m.element[0][0])
-        + (pin.y * m.element[1][0])
-        + (pin.z * m.element[2][0]);
+    pout.x = (pin.x * m.element[0][0]) + (pin.y * m.element[1][0]) + (pin.z * m.element[2][0]);
 
-    pout.y = (pin.x * m.element[0][1])
-        + (pin.y * m.element[1][1])
-        + (pin.z * m.element[2][1]);
+    pout.y = (pin.x * m.element[0][1]) + (pin.y * m.element[1][1]) + (pin.z * m.element[2][1]);
 
-    pout.z = (pin.x * m.element[0][2])
-        + (pin.y * m.element[1][2])
-        + (pin.z * m.element[2][2]);
+    pout.z = (pin.x * m.element[0][2]) + (pin.y * m.element[1][2]) + (pin.z * m.element[2][2]);
 
     return(pout);
-}// end V3MulPointByMatrix
+} // end V3MulPointByMatrix
 
 
 // ========== V3MulPointByProjMatrix ============================================
@@ -1387,25 +1354,16 @@ Point3 V3MulPointByProjMatrix(Point3 pin, Matrix4 m)
     Point3 pout = ZeroPoint3;
     double w    = 0.0;
 
-    pout.x = (pin.x * m.element[0][0])
-        + (pin.y * m.element[1][0])
-        + (pin.z * m.element[2][0])
-        + m.element[3][0];
+    pout.x = (pin.x * m.element[0][0]) + (pin.y * m.element[1][0]) + (pin.z * m.element[2][0]) +
+        m.element[3][0];
 
-    pout.y = (pin.x * m.element[0][1])
-        + (pin.y * m.element[1][1])
-        + (pin.z * m.element[2][1])
-        + m.element[3][1];
+    pout.y = (pin.x * m.element[0][1]) + (pin.y * m.element[1][1]) + (pin.z * m.element[2][1]) +
+        m.element[3][1];
 
-    pout.z = (pin.x * m.element[0][2])
-        + (pin.y * m.element[1][2])
-        + (pin.z * m.element[2][2])
-        + m.element[3][2];
+    pout.z = (pin.x * m.element[0][2]) + (pin.y * m.element[1][2]) + (pin.z * m.element[2][2]) +
+        m.element[3][2];
 
-    w = (pin.x * m.element[0][3])
-        + (pin.y * m.element[1][3])
-        + (pin.z * m.element[2][3])
-        + m.element[3][3];
+    w = (pin.x * m.element[0][3]) + (pin.y * m.element[1][3]) + (pin.z * m.element[2][3]) + m.element[3][3];
 
     if (w != 0.0) {
         pout.x /= w;
@@ -1414,7 +1372,7 @@ Point3 V3MulPointByProjMatrix(Point3 pin, Matrix4 m)
     }
 
     return(pout);
-}// end V3MulPointByProjMatrix
+} // end V3MulPointByProjMatrix
 
 
 // ========== V3LookAt ==========================================================
@@ -1425,17 +1383,14 @@ Point3 V3MulPointByProjMatrix(Point3 pin, Matrix4 m)
 // Notes:		Replacement for gluLookAt.
 //
 // ==============================================================================
-Matrix4 V3LookAt(Point3 eye,
-                 Point3 center,
-                 Vector3 up,
-                 Matrix4 modelview)
+Matrix4 V3LookAt(Point3 eye, Point3 center, Vector3 up, Matrix4 modelview)
 {
-    Vector3 F            = V3Sub(center, eye);
-    Vector3 f            = V3Normalize(F);
-    Vector3 upNormal     = V3Normalize(up);
-    Vector3 s            = V3Cross(f, upNormal);
-    Vector3 u            = V3Cross(s, f);
-    Matrix4 M            = IdentityMatrix4;
+    Vector3 F = V3Sub(center, eye);
+    Vector3 f = V3Normalize(F);
+    Vector3 upNormal = V3Normalize(up);
+    Vector3 s = V3Cross(f, upNormal);
+    Vector3 u = V3Cross(s, f);
+    Matrix4 M = IdentityMatrix4;
     Matrix4 newModelview = modelview;
 
     // Transpose of M used by gluLookAt, which uses column-major notation.
@@ -1476,7 +1431,7 @@ Matrix4 V3LookAt(Point3 eye,
 Point3 V3Project(Point3 objPoint, Matrix4 modelview, Matrix4 projection, Box2 viewport)
 {
     Point3 transformedPoint = ZeroPoint3;
-    Point3 windowPoint      = ZeroPoint3;
+    Point3 windowPoint = ZeroPoint3;
 
     transformedPoint = V3MulPointByProjMatrix(objPoint, Matrix4Multiply(modelview, projection));
 
@@ -1485,7 +1440,7 @@ Point3 V3Project(Point3 objPoint, Matrix4 modelview, Matrix4 projection, Box2 vi
     windowPoint.z = (transformedPoint.z + 1.0) / 2.0;
 
     return(windowPoint);
-}// end V3Project
+} // end V3Project
 
 
 // ========== V3Unproject =======================================================
@@ -1525,14 +1480,14 @@ Point3 V3Unproject(Point3 viewportPoint, Matrix4 modelview, Matrix4 projection, 
 //
 // ==============================================================================
 double Matrix3x3Determinant(double a1,
-                            double a2,
-                            double a3,
-                            double b1,
-                            double b2,
-                            double b3,
-                            double c1,
-                            double c2,
-                            double c3)
+    double                         a2,
+    double                         a3,
+    double                         b1,
+    double                         b2,
+    double                         b3,
+    double                         c1,
+    double                         c2,
+    double                         c3)
 {
     double ans;
 
@@ -1540,7 +1495,7 @@ double Matrix3x3Determinant(double a1,
         - b1 * Matrix2x2Determinant(a2, a3, c2, c3)
         + c1 * Matrix2x2Determinant(a2, a3, b2, b3);
     return(ans);
-}// end Matrix3x3Determinant
+} // end Matrix3x3Determinant
 
 
 // ========== Matrix3MakeNormalTransformFromProjMatrix ==========================
@@ -1582,7 +1537,7 @@ Matrix3 Matrix3MakeNormalTransformFromProjMatrix(Matrix4 transformationMatrix)
     normalTransform3.element[2][2] = normalTransform.element[2][2];
 
     return(normalTransform3);
-}// end Matrix3MakeNormalTransformFromProjMatrix
+} // end Matrix3MakeNormalTransformFromProjMatrix
 
 
 #pragma mark -
@@ -1604,7 +1559,7 @@ Vector4 V4Make(double x, double y, double z, double w)
     v.w = w;
 
     return(v);
-}// end V4Make
+} // end V4Make
 
 
 // ========== V4FromPoint3 ======================================================
@@ -1628,7 +1583,7 @@ Point4 V4FromPoint3(Vector3 originalPoint)
     newPoint.w = 1.0; // By setting this to 1, the returned value is a point. Vectors would be set to 0.
 
     return(newPoint);
-}// end V4FromPoint3
+} // end V4FromPoint3
 
 
 // ========== V4MulPointByMatrix() ==============================================
@@ -1643,28 +1598,20 @@ Vector4 V4MulPointByMatrix(Vector4 pin, Matrix4 m)
 {
     Vector4 pout;
 
-    pout.x = (pin.x * m.element[0][0])
-        + (pin.y * m.element[1][0])
-        + (pin.z * m.element[2][0])
-        + (pin.w * m.element[3][0]);
+    pout.x = (pin.x * m.element[0][0]) + (pin.y * m.element[1][0]) + (pin.z * m.element[2][0]) +
+        (pin.w * m.element[3][0]);
 
-    pout.y = (pin.x * m.element[0][1])
-        + (pin.y * m.element[1][1])
-        + (pin.z * m.element[2][1])
-        + (pin.w * m.element[3][1]);
+    pout.y = (pin.x * m.element[0][1]) + (pin.y * m.element[1][1]) + (pin.z * m.element[2][1]) +
+        (pin.w * m.element[3][1]);
 
-    pout.z = (pin.x * m.element[0][2])
-        + (pin.y * m.element[1][2])
-        + (pin.z * m.element[2][2])
-        + (pin.w * m.element[3][2]);
+    pout.z = (pin.x * m.element[0][2]) + (pin.y * m.element[1][2]) + (pin.z * m.element[2][2]) +
+        (pin.w * m.element[3][2]);
 
-    pout.w = (pin.x * m.element[0][3])
-        + (pin.y * m.element[1][3])
-        + (pin.z * m.element[2][3])
-        + (pin.w * m.element[3][3]);
+    pout.w = (pin.x * m.element[0][3]) + (pin.y * m.element[1][3]) + (pin.z * m.element[2][3]) +
+        (pin.w * m.element[3][3]);
 
     return(pout);
-}// end V4MulPointByMatrix
+} // end V4MulPointByMatrix
 
 
 #pragma mark -
@@ -1709,7 +1656,7 @@ Matrix4 Matrix4CreateFromGLMatrix4(const GLfloat *glMatrix)
     newMatrix.element[3][3] = (double)*glMatrix++;
 
     return(newMatrix);
-}// end Matrix4CreateFromGLMatrix4
+} // end Matrix4CreateFromGLMatrix4
 
 
 // ========== Matrix4CreateTransformation() =====================================
@@ -1766,14 +1713,11 @@ Matrix4 Matrix4CreateTransformation(TransformComponents *components)
         (components->shear_XY * rotation[0][2] + rotation[1][2]);
 
     transformation.element[2][0] = components->scale.z *
-        (components->shear_XZ * rotation[0][0] + components->shear_YZ * rotation[1][0] +
-         rotation[2][0]);
+        (components->shear_XZ * rotation[0][0] + components->shear_YZ * rotation[1][0] + rotation[2][0]);
     transformation.element[2][1] = components->scale.z *
-        (components->shear_XZ * rotation[0][1] + components->shear_YZ * rotation[1][1] +
-         rotation[2][1]);
+        (components->shear_XZ * rotation[0][1] + components->shear_YZ * rotation[1][1] + rotation[2][1]);
     transformation.element[2][2] = components->scale.z *
-        (components->shear_XZ * rotation[0][2] + components->shear_YZ * rotation[1][2] +
-         rotation[2][2]);
+        (components->shear_XZ * rotation[0][2] + components->shear_YZ * rotation[1][2] + rotation[2][2]);
 
     // translation is so nice and easy.
     transformation.element[3][0] = components->translate.x;
@@ -1784,7 +1728,7 @@ Matrix4 Matrix4CreateTransformation(TransformComponents *components)
     transformation.element[3][3] = 1.0;
 
     return(transformation);
-}// end Matrix4CreateTransformation
+} // end Matrix4CreateTransformation
 
 
 // ========== Matrix4DecomposeTransformation() ==================================
@@ -1802,8 +1746,7 @@ Matrix4 Matrix4CreateTransformation(TransformComponents *components)
 // Source:		Graphic Gems II, Spencer W. Thomas
 //
 // ==============================================================================
-int Matrix4DecomposeTransformation(Matrix4 originalMatrix,
-                                   TransformComponents *decomposed)
+int Matrix4DecomposeTransformation(Matrix4 originalMatrix, TransformComponents *decomposed)
 {
     Matrix4 localMatrix = originalMatrix;
     Matrix4 pmat, invpmat, tinvpmat;
@@ -1851,8 +1794,7 @@ int Matrix4DecomposeTransformation(Matrix4 originalMatrix,
     }
 
     // First, isolate perspective.  This is the messiest.
-    if (localMatrix.element[0][3] != 0 || localMatrix.element[1][3] != 0 ||
-        localMatrix.element[2][3] != 0) {
+    if (localMatrix.element[0][3] != 0 || localMatrix.element[1][3] != 0 || localMatrix.element[2][3] != 0) {
         // prhs is the right hand side of the equation.
         prhs.x = localMatrix.element[0][3];
         prhs.y = localMatrix.element[1][3];
@@ -1979,7 +1921,7 @@ int Matrix4DecomposeTransformation(Matrix4 originalMatrix,
 
     // All done!
     return(1);
-}// end Matrix4DecomposeTransformation
+} // end Matrix4DecomposeTransformation
 
 
 // ========== Matrix4DecomposeXYZRotation =======================================
@@ -2002,7 +1944,7 @@ Tuple3 Matrix4DecomposeXYZRotation(Matrix4 matrix)
     // We can just use some simple algebra on the simplest components
     // of the rotation matrix.
 
-    if (fabs(cos(rotationAngle.y)) > SMALL_NUMBER) {// within a tolerance of zero.
+    if (fabs(cos(rotationAngle.y)) > SMALL_NUMBER) { // within a tolerance of zero.
         rotationAngle.x = atan2(matrix.element[1][2], matrix.element[2][2]);
         rotationAngle.z = atan2(matrix.element[0][1], matrix.element[0][0]);
     }
@@ -2020,7 +1962,7 @@ Tuple3 Matrix4DecomposeXYZRotation(Matrix4 matrix)
     }
 
     return(rotationAngle);
-}// end Matrix4DecomposeXYZRotation
+} // end Matrix4DecomposeXYZRotation
 
 
 // ========== Matrix4DecomposeZYXRotation =======================================
@@ -2051,7 +1993,7 @@ Tuple3 Matrix4DecomposeZYXRotation(Matrix4 matrix)
     // We can just use some simple algebra on the simplest components
     // of the rotation matrix.
 
-    if (fabs(cos(rotationAngle.y)) > SMALL_NUMBER) {// within a tolerance of zero.
+    if (fabs(cos(rotationAngle.y)) > SMALL_NUMBER) { // within a tolerance of zero.
         rotationAngle.x = atan2(-matrix.element[2][1], matrix.element[2][2]);
         rotationAngle.z = atan2(-matrix.element[1][0], matrix.element[0][0]);
     }
@@ -2069,7 +2011,7 @@ Tuple3 Matrix4DecomposeZYXRotation(Matrix4 matrix)
     }
 
     return(rotationAngle);
-}// end Matrix4DecomposeZYXRotation
+} // end Matrix4DecomposeZYXRotation
 
 
 // ========== Matrix4GetGLMatrix4 ===============================================
@@ -2107,7 +2049,7 @@ void Matrix4GetGLMatrix4(Matrix4 matrix, GLfloat *glTransformation)
     *glTransformation++ = (GLfloat)matrix.element[3][1];
     *glTransformation++ = (GLfloat)matrix.element[3][2];
     *glTransformation++ = (GLfloat)matrix.element[3][3];
-}// end Matrix4GetGLMatrix4
+} // end Matrix4GetGLMatrix4
 
 
 // ========== Matrix4Multiply ==========================================================
@@ -2148,7 +2090,7 @@ Matrix4 Matrix4Multiply(Matrix4 a, Matrix4 b)
         }
     }
     return(c);
-}// end Matrix4Multiply
+} // end Matrix4Multiply
 
 
 // ========== Matrix4MultiplyGLMatrices =========================================
@@ -2188,7 +2130,7 @@ void Matrix4MultiplyGLMatrices(GLfloat *a, GLfloat *b, GLfloat *result)
             result[3 + column] += a[3 + k] * b[k * 4 + column];
         }
     }
-}// end Matrix4Multiply
+} // end Matrix4Multiply
 
 
 // ========== Matrix4Rotate() ===================================================
@@ -2203,20 +2145,20 @@ void Matrix4MultiplyGLMatrices(GLfloat *a, GLfloat *b, GLfloat *result)
 Matrix4 Matrix4Rotate(Matrix4 original, Tuple3 degreesToRotate)
 {
     TransformComponents rotateComponents = IdentityComponents;
-    Matrix4             addedRotation    = IdentityMatrix4;
-    Matrix4             result           = IdentityMatrix4;
+    Matrix4 addedRotation = IdentityMatrix4;
+    Matrix4 result = IdentityMatrix4;
 
     // Create a new matrix that causes the rotation we want.
     // (start with identity matrix)
     rotateComponents.rotate.x = radians(degreesToRotate.x);
     rotateComponents.rotate.y = radians(degreesToRotate.y);
     rotateComponents.rotate.z = radians(degreesToRotate.z);
-    addedRotation             = Matrix4CreateTransformation(&rotateComponents);
+    addedRotation = Matrix4CreateTransformation(&rotateComponents);
 
     result = Matrix4Multiply(original, addedRotation); // rotate at rotationCenter
 
     return(result);
-}// end Matrix4Rotate
+} // end Matrix4Rotate
 
 
 // ========== Matrix4RotateModelview() ==========================================
@@ -2231,9 +2173,9 @@ Matrix4 Matrix4Rotate(Matrix4 original, Tuple3 degreesToRotate)
 Matrix4 Matrix4RotateModelview(Matrix4 original, Tuple3 degreesToRotate)
 {
     TransformComponents rotateComponents = IdentityComponents;
-    Matrix4             addedRotation    = IdentityMatrix4;
-    Matrix4             result           = IdentityMatrix4;
-    Vector3             camera           = ZeroPoint3;
+    Matrix4 addedRotation = IdentityMatrix4;
+    Matrix4 result = IdentityMatrix4;
+    Vector3 camera = ZeroPoint3;
 
     // Camera translation is in the bottom row of the matrix. Capture and clear
     // it so we can apply the rotation around the world origin.
@@ -2247,13 +2189,13 @@ Matrix4 Matrix4RotateModelview(Matrix4 original, Tuple3 degreesToRotate)
     rotateComponents.rotate.x = radians(degreesToRotate.x);
     rotateComponents.rotate.y = radians(degreesToRotate.y);
     rotateComponents.rotate.z = radians(degreesToRotate.z);
-    addedRotation             = Matrix4CreateTransformation(&rotateComponents);
+    addedRotation = Matrix4CreateTransformation(&rotateComponents);
 
     result = Matrix4Multiply(original, addedRotation);
     result = Matrix4Translate(result, camera);
 
     return(result);
-}// end Matrix4RotateModelview
+} // end Matrix4RotateModelview
 
 
 // ========== Matrix4Scale() ====================================================
@@ -2264,9 +2206,9 @@ Matrix4 Matrix4RotateModelview(Matrix4 original, Tuple3 degreesToRotate)
 // ==============================================================================
 Matrix4 Matrix4Scale(Matrix4 original, Tuple3 scaleFactors)
 {
-    TransformComponents components    = IdentityComponents;
-    Matrix4             scalingMatrix = IdentityMatrix4;
-    Matrix4             result        = IdentityMatrix4;
+    TransformComponents components = IdentityComponents;
+    Matrix4 scalingMatrix = IdentityMatrix4;
+    Matrix4 result = IdentityMatrix4;
 
     // Create a new matrix that causes the rotation we want.
     // (start with identity matrix)
@@ -2276,7 +2218,7 @@ Matrix4 Matrix4Scale(Matrix4 original, Tuple3 scaleFactors)
     result = Matrix4Multiply(original, scalingMatrix);
 
     return(result);
-}// end Matrix4Scale
+} // end Matrix4Scale
 
 
 // ========== Matrix4Translate() ================================================
@@ -2298,7 +2240,7 @@ Matrix4 Matrix4Translate(Matrix4 original, Vector3 displacement)
     result.element[3][2] += displacement.z; // that's easier here.
 
     return(result);
-}// end Matrix4Translate
+} // end Matrix4Translate
 
 
 // ========== Matrix4Transpose() ================================================
@@ -2329,7 +2271,7 @@ Matrix4 Matrix4Transpose(Matrix4 a)
     transpose.element[3][2] = a.element[2][3];
     transpose.element[3][3] = a.element[3][3];
     return(transpose);
-}// end Matrix4Transpose
+} // end Matrix4Transpose
 
 
 // ========== Matrix4Invert() ===================================================
@@ -2383,7 +2325,7 @@ Matrix4 Matrix4Invert(Matrix4 in)
     }
 
     return(out);
-}// end Matrix4Invert
+} // end Matrix4Invert
 
 
 // ========== Matrix4Adjoint() ==================================================
@@ -2445,7 +2387,7 @@ void Matrix4Adjoint(Matrix4 *in, Matrix4 *out)
     out->element[1][3] = Matrix3x3Determinant(a1, a2, a3, c1, c2, c3, d1, d2, d3);
     out->element[2][3] = -Matrix3x3Determinant(a1, a2, a3, b1, b2, b3, d1, d2, d3);
     out->element[3][3] = Matrix3x3Determinant(a1, a2, a3, b1, b2, b3, c1, c2, c3);
-}// end Matrix4Adjoint
+} // end Matrix4Adjoint
 
 
 // ========== Matrix4x4Determinant() ============================================
@@ -2481,7 +2423,7 @@ double Matrix4x4Determinant(Matrix4 *m)
         - d1 * Matrix3x3Determinant(a2, a3, a4, b2, b3, b4, c2, c3, c4);
 
     return(ans);
-}// end Matrix4x4Determinant
+} // end Matrix4x4Determinant
 
 
 // ========== Matrix4Print() ====================================================
@@ -2495,13 +2437,13 @@ void Matrix4Print(Matrix4 *matrix)
 
     for (counter = 0; counter < 4; counter++) {
         printf("[%12.6f %12.6f %12.6f %12.6f]\n",
-               matrix->element[counter][0],
-               matrix->element[counter][1],
-               matrix->element[counter][2],
-               matrix->element[counter][3]);
+            matrix->element[counter][0],
+            matrix->element[counter][1],
+            matrix->element[counter][2],
+            matrix->element[counter][3]);
     }
     printf("\n");
-}// end Matrix4Print
+} // end Matrix4Print
 
 
 // ========== VolumeCanIntersectBox() ===========================================
@@ -2514,17 +2456,14 @@ void Matrix4Print(Matrix4 *matrix)
 // and screen space rect are disjoint.
 //
 // ==============================================================================
-bool  VolumeCanIntersectBox(
-    Box3 bounds,
-    Matrix4 transform,
-    Box2 box)
+bool  VolumeCanIntersectBox(Box3 bounds, Matrix4 transform, Box2 box)
 {
-    if (bounds.min.x > bounds.max.x ||
-        bounds.min.y > bounds.max.y ||
-        bounds.min.z > bounds.max.z) { return(false); }
+    if (bounds.min.x > bounds.max.x || bounds.min.y > bounds.max.y || bounds.min.z > bounds.max.z) {
+        return(false);
+    }
 
-    GLfloat aabb_mv[6] = { bounds.min.x, bounds.min.y, bounds.min.z,
-                           bounds.max.x, bounds.max.y, bounds.max.z };
+    GLfloat aabb_mv[6] = { bounds.min.x, bounds.min.y, bounds.min.z, bounds.max.x, bounds.max.y,
+                           bounds.max.z };
     GLfloat aabb_ndc[6];
     GLfloat m[16];
 
@@ -2537,14 +2476,11 @@ bool  VolumeCanIntersectBox(
     double y1 = V2BoxMinY(box);
     double y2 = V2BoxMaxY(box);
 
-    if (x1 > aabb_ndc[3] ||
-        x2 < aabb_ndc[0] ||
-        y1 > aabb_ndc[4] ||
-        y2 < aabb_ndc[1]) {
+    if (x1 > aabb_ndc[3] || x2 < aabb_ndc[0] || y1 > aabb_ndc[4] || y2 < aabb_ndc[1]) {
         return(false);
     }
     return(true);
-}// end VolumeCanIntersectBox
+} // end VolumeCanIntersectBox
 
 
 // ========== VolumeCanIntersectPoint() =========================================
@@ -2559,22 +2495,18 @@ bool  VolumeCanIntersectBox(
 // objects are excluded via a fast path.
 //
 // ==============================================================================
-bool    VolumeCanIntersectPoint(
-    Box3 bounds,
-    Matrix4 transform,
-    Box2 box,
-    double testDepthSoFar)
+bool    VolumeCanIntersectPoint(Box3 bounds, Matrix4 transform, Box2 box, double testDepthSoFar)
 {
-    if (bounds.min.x > bounds.max.x ||
-        bounds.min.y > bounds.max.y ||
-        bounds.min.z > bounds.max.z) { return(false); }
+    if (bounds.min.x > bounds.max.x || bounds.min.y > bounds.max.y || bounds.min.z > bounds.max.z) {
+        return(false);
+    }
 
     // We gotta use clipped conversion to NDC coordinates to get our device-space
     // bounding box.  If we don't, geometry behind the camera will mirror around the
     // XZ and YZ planes and cause chaos.
 
-    GLfloat aabb_mv[6] = { bounds.min.x, bounds.min.y, bounds.min.z,
-                           bounds.max.x, bounds.max.y, bounds.max.z };
+    GLfloat aabb_mv[6] = { bounds.min.x, bounds.min.y, bounds.min.z, bounds.max.x, bounds.max.y,
+                           bounds.max.z };
     GLfloat aabb_ndc[6];
     GLfloat m[16];
 
@@ -2588,15 +2520,12 @@ bool    VolumeCanIntersectPoint(
     double y2 = V2BoxMaxY(box);
 
 
-    if (x1 > aabb_ndc[3] ||
-        x2 < aabb_ndc[0] ||
-        y1 > aabb_ndc[4] ||
-        y2 < aabb_ndc[1] ||
+    if (x1 > aabb_ndc[3] || x2 < aabb_ndc[0] || y1 > aabb_ndc[4] || y2 < aabb_ndc[1] ||
         testDepthSoFar < aabb_ndc[2]) { // If the test depth is LESS than our MIN Z then we ALERADY are closer than this entire test model - skip this model!
         return(false);
     }
     return(true);
-}// end VolumeCanIntersectPoint
+} // end VolumeCanIntersectPoint
 
 
 static double SignedAreaOfTriXY(Point3 *v0, Point3 *v1, Point3 *v2)
@@ -2615,11 +2544,7 @@ static double SignedAreaOfTriXY(Point3 *v0, Point3 *v1, Point3 *v2)
 // Z is the intersection depth.
 //
 // ==============================================================================
-bool    DepthOnTriangle(
-    Point3 v0,
-    Point3 v1,
-    Point3 v2,
-    Point3 *test_pt)
+bool    DepthOnTriangle(Point3 v0, Point3 v1, Point3 v2, Point3 *test_pt)
 {
     double area = SignedAreaOfTriXY(&v0, &v1, &v2);
 
@@ -2636,7 +2561,7 @@ bool    DepthOnTriangle(
         return(true);
     }
     return(false);
-}// end DepthOnTriangle
+} // end DepthOnTriangle
 
 
 static bool PtsCloserThanT2InXY(Point3 *p1, Point3 *p2, double dist_sqr)
@@ -2659,10 +2584,7 @@ static bool PtsCloserThanT2InXY(Point3 *p1, Point3 *p2, double dist_sqr)
 // the proximity distance we use.
 //
 // ==============================================================================
-extern bool   DepthOnLineSegment(
-    Point3 v0,
-    Point3 v1,
-    double t2,                // tolerance^2
+extern bool   DepthOnLineSegment(Point3 v0, Point3 v1, double t2, // tolerance^2
     Point3 *test_pt)
 {
     double ldx = v1.x - v0.x;
@@ -2700,9 +2622,7 @@ extern bool   DepthOnLineSegment(
     else {
         Point3 proj_pt =
         {
-            v0.x + t * ldx,
-            v0.y + t * ldy,
-            v0.z + t * ldz
+            v0.x + t * ldx, v0.y + t * ldy, v0.z + t * ldz
         };
 
         if (PtsCloserThanT2InXY(&proj_pt, test_pt, t2)) {
@@ -2711,4 +2631,4 @@ extern bool   DepthOnLineSegment(
         }
         return(false);
     }
-}// end DepthOnLineSegment
+} // end DepthOnLineSegment

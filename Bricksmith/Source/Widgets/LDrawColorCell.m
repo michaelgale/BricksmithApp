@@ -13,7 +13,6 @@
 #import "LDrawColor.h"
 
 @implementation LDrawColorCell
-
 // ========== drawInteriorWithFrame:inView: =====================================
 //
 // Purpose:		Draw a swatch representing the current color without alpha.
@@ -27,15 +26,12 @@
 
     // Get the color components and covert them. Discard alpha.
     [colorObject getColorRGBA:components];
-    cellColor = [NSColor colorWithCalibratedRed:components[0]
-                 green:components[1]
-                 blue:components[2]
-                 alpha:1.0];
+    cellColor =
+        [NSColor colorWithCalibratedRed:components[0] green:components[1] blue:components[2] alpha:1.0];
 
     // Draw
     [cellColor set];
     NSRectFillUsingOperation(cellFrame, NSCompositingOperationSourceOver);
-}// end drawInteriorWithFrame:inView:
-
+} // end drawInteriorWithFrame:inView:
 
 @end

@@ -56,7 +56,7 @@ struct  Vertex;
 // Vertex insert request.  When we need to subdivide a face because its edges
 // are parts of T junctions, we add one of these structures.
 struct VertexInsert {
-    struct VertexInsert *next;  // Next insert request in the list.
+    struct VertexInsert *next; // Next insert request in the list.
     float               dist; // Distance along the edge of this insert.
     struct Vertex       *vert; // Pointer to vertex from another triangle that is a T with our edge.
 };
@@ -70,7 +70,7 @@ struct Face {
     int                 index[4]; // Index of our neighbor edge's source in neighbor, if we have one.
     int                 flip[4]; // Indicates that our neighbor is winding-flipped from us.
 
-    struct VertexInsert *t_list[4];   // For T junctions, a list of vertices that form Ts with the edge starting with vertex N.
+    struct VertexInsert *t_list[4]; // For T junctions, a list of vertices that form Ts with the edge starting with vertex N.
 
     float               normal[3]; // Whole-face properties: calculated normal
     float               color[4]; // RGBA color passed in,
@@ -87,8 +87,8 @@ struct Vertex {
     int           index;   // Index of us within our owning face.
     struct Face   *face;   // Our owning face.
 
-    struct Vertex *next;   // For snapping: when we are snapping vertices, we build them into a doubly-linked list.  These point to the other vertices
-    struct Vertex *prev;   // in our snap list (or is null if we are not snapped with anyone.)
+    struct Vertex *next; // For snapping: when we are snapping vertices, we build them into a doubly-linked list.  These point to the other vertices
+    struct Vertex *prev; // in our snap list (or is null if we are not snapped with anyone.)
 };
 
 
@@ -96,7 +96,7 @@ struct Vertex {
 struct Mesh {
     int               vertex_count; // Number of vertices so far.
     int               vertex_capacity; // Number of vertices we have storage for in our vertex array.
-    int               unique_vertex_count;// Number of actual unique vertices after merging for export.
+    int               unique_vertex_count; // Number of actual unique vertices after merging for export.
     struct Vertex     *vertices;  // malloc'd array of vertices.
 
     int               face_count; // Number of total faces so far.
@@ -239,8 +239,7 @@ static int compare_points(const float * __restrict p1, const float * __restrict 
 
 // Compare two vertices for complete match-up of all vertices - vertex, normal, color.
 // If these all match, we could merge the vertices on the graphics card.
-static int compare_vertices(const struct Vertex * __restrict v1,
-                            const struct Vertex * __restrict v2)
+static int compare_vertices(const struct Vertex * __restrict v1, const struct Vertex * __restrict v2)
 {
     if (v1->location[0] < v2->location[0]) { return(-1); }
     if (v1->location[0] > v2->location[0]) { return(1); }
@@ -271,9 +270,7 @@ static int compare_vertices(const struct Vertex * __restrict v1,
 
 // Compare only the "Nth" location field, e.g. only x, y, or z.
 // Used to organize points along a single axis.
-static int compare_nth(const struct Vertex * __restrict v1,
-                       const struct Vertex * __restrict v2,
-                       int n)
+static int compare_nth(const struct Vertex * __restrict v1, const struct Vertex * __restrict v2, int n)
 {
     if (v1->location[n] < v2->location[n]) { return(-1); }
     if (v1->location[n] > v2->location[n]) { return(1); }
@@ -339,8 +336,7 @@ static void quickSort_3(struct Vertex *arr, int left, int right)
     int i = left, j = right;
 
     struct Vertex *pivot_ptr = arr + (left + right) / 2;
-    float         pivot[3]   =
-    { pivot_ptr->location[0], pivot_ptr->location[1], pivot_ptr->location[2] };
+    float pivot[3] = { pivot_ptr->location[0], pivot_ptr->location[1], pivot_ptr->location[2] };
 
     /* partition */
 
@@ -378,7 +374,7 @@ static void quickSort_n(struct Vertex **arr, int left, int right, int n)
     int i = left, j = right;
 
     struct Vertex **pivot_ptr = arr + (left + right) / 2;
-    struct Vertex *pivot      = *pivot_ptr;
+    struct Vertex *pivot = *pivot_ptr;
 
     /* partition */
 
@@ -424,18 +420,18 @@ static void sort_vertices_3(struct Vertex *base, int count)
 // The beginning of the range is found via binary search; the end is found by linearly walking forward to find the end.
 // Since we have relatively small numbers of equal points, this linear walk is fine.
 static void range_for_point(struct Vertex *base,
-                            int count,
-                            struct Vertex **begin,
-                            struct Vertex **end,
-                            const float p[3])
+    int                                   count,
+    struct Vertex                         **begin,
+    struct Vertex                         **end,
+    const float                           p[3])
 {
-    int           len    = count;
+    int len = count;
     struct Vertex *first = base;
     struct Vertex *stop  = base + count;
 
     while (len > 0)
     {
-        int           half    = len >> 1;
+        int half = len >> 1;
         struct Vertex *middle = first + half;
 
         int res = compare_points(middle->location, p);
@@ -460,10 +456,10 @@ static void range_for_point(struct Vertex *base,
 // with q.  Q will be in the range [begin, end).  We do this with a linear walk - we know all these vertices are near each other,
 // so we just go find them without jumping.
 static void range_for_vertex(struct Vertex *base,
-                             struct Vertex *stop,
-                             struct Vertex **begin,
-                             struct Vertex **end,
-                             struct Vertex *q)
+    struct Vertex                          *stop,
+    struct Vertex                          **begin,
+    struct Vertex                          **end,
+    struct Vertex                          *q)
 {
     struct Vertex *b = q, *e = q;
 
@@ -550,10 +546,10 @@ struct RTree_node *index_vertices_recursive(struct Vertex **begin, struct Vertex
 
 // Top-level call to index nodes.  Returns the root node of our r-tree.  See note
 // below about not indexing co-colocated nodes!!
-struct RTree_node * index_vertices(struct Vertex *base, int count)
+struct RTree_node *index_vertices(struct Vertex *base, int count)
 {
-    struct Vertex     **arr = (struct Vertex **)malloc(count * sizeof(struct Vertex *));
-    int               i;
+    struct Vertex **arr = (struct Vertex **)malloc(count * sizeof(struct Vertex *));
+    int i;
     struct RTree_node *return_node;
 
     struct Vertex **p = arr;
@@ -625,9 +621,9 @@ static inline int inside(float b1_min[3], float b1_max[3], float p[3])
 
 // R-tree scanning routine.  A functor "visitor" is called (with "ref" passed each time) for every vertex in the Rtree "N" whose bounds
 // are within (inclusive of edges) min_bounds -> max_bounds.
-void scan_rtree(struct RTree_node *n, float min_bounds[3], float max_bounds[3], void (* visitor)(
-                    struct Vertex *v,
-                    void *ref), void *ref)
+void scan_rtree(struct RTree_node *n, float min_bounds[3], float max_bounds[3],
+    void (* visitor)(struct Vertex *v,
+    void *ref), void *ref)
 {
     if (IS_LEAF(n)) {
         struct RTree_leaf *l = (GET_LEAF(n));
@@ -698,9 +694,7 @@ static inline float vec3f_dot(const float * __restrict v1, const float * __restr
 
 
 // vec3: dst = b - a.  (or: vector dst points from A to B).
-static inline void vec3f_diff(float * __restrict dst,
-                              const float * __restrict a,
-                              const float * __restrict b)
+static inline void vec3f_diff(float * __restrict dst, const float * __restrict a, const float * __restrict b)
 {
     dst[0] = b[0] - a[0];
     dst[1] = b[1] - a[1];
@@ -727,7 +721,7 @@ static inline int vec3f_eq(const float * __restrict p1, const float * __restrict
 
 // vec3 cross product, e.g. dst = v1 x v2.
 static inline void vec3_cross(float * __restrict dst, const float * __restrict v1,
-                              const float * __restrict v2)
+    const float * __restrict v2)
 {
     dst[0] = (v1[1] * v2[2]) - (v1[2] * v2[1]);
     dst[1] = (v1[2] * v2[0]) - (v1[0] * v2[2]);
@@ -737,8 +731,8 @@ static inline void vec3_cross(float * __restrict dst, const float * __restrict v
 
 // Returns true if the projection of B onto the line AC is in between (but not on) A and C.
 static inline int in_between_line(const float * __restrict a,
-                                  const float * __restrict b,
-                                  const float * __restrict c)
+    const float * __restrict                               b,
+    const float * __restrict                               c)
 {
     float ab[3], ac[3], cb[3];
 
@@ -751,9 +745,9 @@ static inline int in_between_line(const float * __restrict a,
 
 // project p onto the line along v through o, return it in proj.
 static inline void proj_onto_line(float * __restrict proj,
-                                  const float * __restrict o,
-                                  const float * __restrict v,
-                                  const float * __restrict p)
+    const float * __restrict                         o,
+    const float * __restrict                         v,
+    const float * __restrict                         p)
 {
     float op[3];
 
@@ -821,7 +815,7 @@ static struct Vertex *circulate_ccw(struct Vertex *v, int *did_reverse)
     // cw-------.
 
     struct Face *face_1 = v->face;
-    int         cw      = CW(face_1, v->index);
+    int cw = CW(face_1, v->index);
     struct Face *face_2 = face_1->neighbor[cw];
 
     assert(face_2 != UNKNOWN_FACE);
@@ -830,7 +824,7 @@ static struct Vertex *circulate_ccw(struct Vertex *v, int *did_reverse)
     }
     int M = v->face->index[cw];
 
-    *did_reverse       = face_1->flip[cw];
+    *did_reverse = face_1->flip[cw];
     struct Vertex *ret = (face_1->flip[cw]) ? face_2->vertex[CCW(face_2, M)] : face_2->vertex[M];
 
     assert(compare_points(v->location, ret->location) == 0);
@@ -857,9 +851,8 @@ static struct Vertex *circulate_cw(struct Vertex *v, int *did_reverse)
     }
     int M = v->face->index[v->index];
 
-    *did_reverse       = face_1->flip[v->index];
-    struct Vertex *ret =
-        (face_1->flip[v->index]) ? face_2->vertex[M] : face_2->vertex[CCW(face_2, M)];
+    *did_reverse = face_1->flip[v->index];
+    struct Vertex *ret = (face_1->flip[v->index]) ? face_2->vertex[M] : face_2->vertex[CCW(face_2, M)];
 
     assert(compare_points(v->location, ret->location) == 0);
     assert(ret != v);
@@ -874,7 +867,7 @@ static struct Vertex *circulate_cw(struct Vertex *v, int *did_reverse)
 // direction.
 static struct Vertex *circulate_any(struct Vertex *v, int *dir)
 {
-    int           did_reverse = 0;
+    int did_reverse = 0;
     struct Vertex *ret;
 
     assert(*dir == -1 || *dir == 1);
@@ -958,7 +951,7 @@ void validate_neighbors(struct Mesh *mesh)
             struct Face *face = mesh->faces + f;
             if (face->neighbor[i] && face->neighbor[i] != UNKNOWN_FACE) {
                 struct Face *n = face->neighbor[i];
-                int         ni = face->index[i];
+                int ni = face->index[i];
                 assert(n->neighbor[ni] == face);
 
                 assert(face->flip[i] == n->flip[ni]);
@@ -969,13 +962,13 @@ void validate_neighbors(struct Mesh *mesh)
                 struct Vertex *n1 = n->vertex[ni];
                 struct Vertex *n2 = n->vertex[CCW(n, ni)];
 
-                int okay_fwd =
-                    (compare_points(n1->location, p2->location) == 0) &&
-                    (compare_points(n2->location, p1->location) == 0);
+                int okay_fwd = (compare_points(n1->location,
+                    p2->location) == 0) && (compare_points(n2->location,
+                    p1->location) == 0);
 
-                int okay_rev =
-                    (compare_points(n1->location, p1->location) == 0) &&
-                    (compare_points(n2->location, p2->location) == 0);
+                int okay_rev = (compare_points(n1->location,
+                    p1->location) == 0) && (compare_points(n2->location,
+                    p2->location) == 0);
 
                 assert(!okay_fwd || face->flip[i] == 0);
                 assert(!okay_rev || face->flip[i] == 1);
@@ -1000,13 +993,13 @@ void validate_neighbors(struct Mesh *mesh)
 
 // Create a new mesh to smooth.  You must pass in the _exact_ number of tris,
 // quads and lines that you will later pass in.
-struct Mesh *   create_mesh(int tri_count, int quad_count, int line_count)
+struct Mesh *create_mesh(int tri_count, int quad_count, int line_count)
 {
     struct Mesh *ret = (struct Mesh *)malloc(sizeof(struct Mesh));
 
     ret->vertex_count    = 0;
     ret->vertex_capacity = tri_count * 3 + quad_count * 4 + line_count * 2;
-    ret->vertices        = (struct Vertex *)malloc(sizeof(struct Vertex) * ret->vertex_capacity);
+    ret->vertices = (struct Vertex *)malloc(sizeof(struct Vertex) * ret->vertex_capacity);
 
     ret->face_count    = 0;
     ret->face_capacity = tri_count + quad_count + line_count;
@@ -1043,12 +1036,12 @@ struct Mesh *   create_mesh(int tri_count, int quad_count, int line_count)
 // The TIDs are used to output sets of draw commands that share common texture state -
 // that is, faces, quads and lines are ouput in TID order.
 void add_face(struct Mesh *mesh,
-              const float p1[3],
-              const float p2[3],
-              const float p3[3],
-              const float p4[3],
-              const float color[4],
-              int tid)
+    const float           p1[3],
+    const float           p2[3],
+    const float           p3[3],
+    const float           p4[3],
+    const float           color[4],
+    int                   tid)
 {
   #if SLOW_CHECKING
     if (vec3f_length2(p1, p2) <= EPSI2) { mesh->flags |= TINY_INITIAL_TRIANGLE; }
@@ -1122,8 +1115,7 @@ void add_face(struct Mesh *mesh,
         f->vertex[3]->index = 3;
     }
 
-    f->vertex[0]->face     =
-        f->vertex[1]->face = f;
+    f->vertex[0]->face = f->vertex[1]->face = f;
     if (f->vertex[2]) {
         f->vertex[2]->face = f;
     }
@@ -1219,9 +1211,8 @@ void finish_faces_and_sort(struct Mesh *mesh)
     for (v = 0; v < mesh->vertex_count; ++v) {
         if (v == 0 || compare_points(mesh->vertices[v - 1].location, mesh->vertices[v].location) != 0) {
             ++total_before;
-            struct Vertex *vi    = mesh->vertices + v;
-            float         mib[3] =
-            { vi->location[0] - EPSI, vi->location[1] - EPSI, vi->location[2] - EPSI };
+            struct Vertex *vi = mesh->vertices + v;
+            float mib[3] = { vi->location[0] - EPSI, vi->location[1] - EPSI, vi->location[2] - EPSI };
             float mab[3] = { vi->location[0] + EPSI, vi->location[1] + EPSI, vi->location[2] + EPSI };
             scan_rtree(mesh->index, mib, mab, visit_vertex_to_snap, vi);
         }
@@ -1232,8 +1223,8 @@ void finish_faces_and_sort(struct Mesh *mesh)
             if (mesh->vertices[v].prev == NULL) {
                 if (mesh->vertices[v].next != NULL) {
                     struct Vertex *i;
-                    float         count = 0.0f;
-                    float         p[3]  = { 0 };
+                    float count = 0.0f;
+                    float p[3]  = { 0 };
                     for (i = mesh->vertices + v; i; i = i->next) {
                         count += 1.0f;
                         p[0]  += i->location[0];
@@ -1250,19 +1241,19 @@ void finish_faces_and_sort(struct Mesh *mesh)
                     i = mesh->vertices + v;
                     while (i)
                     {
-                        int           has_more = 0;
-                        struct Vertex *k       = i;
+                        int has_more     = 0;
+                        struct Vertex *k = i;
                         i = i->next;
                         do{
-                            has_more =
-                                (k + 1) < mesh->vertices + mesh->vertex_count &&
-                                compare_points(k->location, (k + 1)->location) == 0;
+                            has_more = (k + 1) < mesh->vertices + mesh->vertex_count &&
+                                compare_points(k->location,
+                                    (k + 1)->location) == 0;
 
                             k->location[0] = p[0];
                             k->location[1] = p[1];
                             k->location[2] = p[2];
-                            k->prev        = NULL;
-                            k->next        = NULL;
+                            k->prev = NULL;
+                            k->next = NULL;
                             ++k;
                         } while (has_more);
                     }
@@ -1286,13 +1277,9 @@ void finish_faces_and_sort(struct Mesh *mesh)
             float *p1 = mesh->faces[f].vertex[0]->location;
             float *p2 = mesh->faces[f].vertex[1]->location;
             float *p3 = mesh->faces[f].vertex[2]->location;
-            if (compare_points(p1, p2) == 0 ||
-                compare_points(p2, p3) == 0 ||
-                compare_points(p1, p3) == 0) {
-                mesh->faces[f].neighbor[0]             =
-                    mesh->faces[f].neighbor[1]         =
-                        mesh->faces[f].neighbor[2]     =
-                            mesh->faces[f].neighbor[3] = NULL;
+            if (compare_points(p1, p2) == 0 || compare_points(p2, p3) == 0 || compare_points(p1, p3) == 0) {
+                mesh->faces[f].neighbor[0]     = mesh->faces[f].neighbor[1] = mesh->faces[f].neighbor[2] =
+                    mesh->faces[f].neighbor[3] = NULL;
             }
         }
         if (mesh->faces[f].degree == 4) {
@@ -1301,16 +1288,11 @@ void finish_faces_and_sort(struct Mesh *mesh)
             float *p3 = mesh->faces[f].vertex[2]->location;
             float *p4 = mesh->faces[f].vertex[3]->location;
 
-            if (compare_points(p1, p2) == 0 ||
-                compare_points(p2, p3) == 0 ||
-                compare_points(p1, p3) == 0 ||
-                compare_points(p3, p4) == 0 ||
-                compare_points(p2, p4) == 0 ||
-                compare_points(p1, p4) == 0) {
-                mesh->faces[f].neighbor[0]             =
-                    mesh->faces[f].neighbor[1]         =
-                        mesh->faces[f].neighbor[2]     =
-                            mesh->faces[f].neighbor[3] = NULL;
+            if (compare_points(p1, p2) == 0 || compare_points(p2, p3) == 0 || compare_points(p1,
+                p3) == 0 || compare_points(p3, p4) == 0 || compare_points(p2, p4) == 0 || compare_points(p1,
+                p4) == 0) {
+                mesh->faces[f].neighbor[0]     = mesh->faces[f].neighbor[1] = mesh->faces[f].neighbor[2] =
+                    mesh->faces[f].neighbor[3] = NULL;
             }
         }
     }
@@ -1326,7 +1308,7 @@ void finish_faces_and_sort(struct Mesh *mesh)
             for (j = 0; j < i; ++j) {
                 if (!vec3f_eq(mesh->vertices[i].location, mesh->vertices[j].location)) {
                     if (vec3f_length2(mesh->vertices[i].location,
-                                      mesh->vertices[j].location) <= CHECK_EPSI2) {
+                        mesh->vertices[j].location) <= CHECK_EPSI2) {
                         mesh->flags |= TINY_RESULTING_GEOM;
                     }
                 }
@@ -1381,7 +1363,7 @@ static void add_crease(struct Mesh *mesh, const float p1[3], const float p2[3])
 // ensures we won't smooth across our type 2 lines.
 void add_creases(struct Mesh *mesh)
 {
-    int         fi;
+    int fi;
     struct Face *f;
 
     for (fi = mesh->poly_count; fi < mesh->face_count; ++fi) {
@@ -1400,8 +1382,8 @@ void add_creases(struct Mesh *mesh)
 // When we are done every polygon edge is a crease or neighbor of someone.
 void finish_creases_and_join(struct Mesh *mesh)
 {
-    int         fi;
-    int         i;
+    int fi;
+    int i;
     struct Face *f;
 
     for (fi = 0; fi < mesh->poly_count; ++fi) {
@@ -1467,8 +1449,8 @@ void finish_creases_and_join(struct Mesh *mesh)
                                     n->neighbor[ni] = f;
                                     f->index[i]     = ni;
                                     n->index[ni]    = i;
-                                    f->flip[i]      = 0;
-                                    n->flip[ni]     = 0;
+                                    f->flip[i]  = 0;
+                                    n->flip[ni] = 0;
                                     break;
                                 }
                             }
@@ -1497,8 +1479,8 @@ void finish_creases_and_join(struct Mesh *mesh)
                                     n->neighbor[ni] = f;
                                     f->index[i]     = ni;
                                     n->index[ni]    = i;
-                                    f->flip[i]      = 1;
-                                    n->flip[ni]     = 1;
+                                    f->flip[i]  = 1;
+                                    n->flip[ni] = 1;
                                     break;
                                 }
                             }
@@ -1533,7 +1515,7 @@ static float weight_for_vertex(struct Vertex *v)
 
     struct Vertex *prev = v->face->vertex[CCW(v->face, v->index)];
     struct Vertex *next = v->face->vertex[CW(v->face, v->index)];
-    float         v1[3], v2[3], d;
+    float v1[3], v2[3], d;
     vec3f_diff(v1, v->location, prev->location);
     vec3f_diff(v2, v->location, next->location);
     vec3f_normalize(v1);
@@ -1576,11 +1558,11 @@ void smooth_vertices(struct Mesh *mesh)
             // First, go clock-wise around, starting at ourselves, until we loop back on ourselves (a closed smooth
             // circuite - the center vert on a stud top is like this) or we run out of vertices.
 
-            struct Vertex *c       = v;
-            float         N[3]     = { 0 };
-            int           ctr      = 0;
-            int           circ_dir = -1;
-            float         w;
+            struct Vertex *c = v;
+            float N[3]     = { 0 };
+            int   ctr      = 0;
+            int   circ_dir = -1;
+            float w;
             do {
                 ++ctr;
                 // printf("\tAdd: %f,%f,%f\n",c->normal[0],c->normal[1],c->normal[2]);
@@ -1607,7 +1589,7 @@ void smooth_vertices(struct Mesh *mesh)
 
             if (c != v) {
                 circ_dir = 1;
-                c        = circulate_any(v, &circ_dir);
+                c = circulate_any(v, &circ_dir);
                 while (c)
                 {
                     ++ctr;
@@ -1671,7 +1653,7 @@ void merge_vertices(struct Mesh *mesh)
 
     int v;
 
-    int           unique           = 0;
+    int unique = 0;
     struct Vertex *first_of_equals = mesh->vertices;
 
     // Resort according ot our xyz + normal + color
@@ -1763,19 +1745,18 @@ void destroy_mesh(struct Mesh *mesh)
 // collection of geometry.  Primitives are also output in order.
 //
 // (In other words, the primary sort key is TID, second is primitive type.)
-void write_indexed_mesh(
-    struct Mesh *mesh,
-    int vertex_table_size,
-    volatile float *io_vertex_table,
-    int index_table_size,
-    volatile unsigned int *io_index_table,
-    int index_base,
-    int out_line_starts[],
-    int out_line_counts[],
-    int out_tri_starts[],
-    int out_tri_counts[],
-    int out_quad_starts[],
-    int out_quad_counts[])
+void write_indexed_mesh(struct Mesh *mesh,
+    int                             vertex_table_size,
+    volatile float                  *io_vertex_table,
+    int                             index_table_size,
+    volatile unsigned int           *io_index_table,
+    int                             index_base,
+    int                             out_line_starts[],
+    int                             out_line_counts[],
+    int                             out_tri_starts[],
+    int                             out_tri_counts[],
+    int                             out_quad_starts[],
+    int                             out_quad_counts[])
 {
     int *starts[5] = { NULL, NULL, out_line_starts, out_tri_starts, out_quad_starts };
     int *counts[5] = { NULL, NULL, out_line_counts, out_tri_counts, out_quad_counts };
@@ -1794,7 +1775,7 @@ void write_indexed_mesh(
 
     int cur_idx = index_base;
 
-    int           d, i, vi, ti;
+    int d, i, vi, ti;
     struct Vertex *v, *vv;
     struct Face   *f;
 
@@ -1901,7 +1882,7 @@ struct t_finder_info_t {
     // we have to track this.
     int           inserted_pts; // Number of points inserted into edges - this increases triangle
     // count so we must track it.
-    struct Vertex *v1;    // Start and end vertices of the edge we are testing.
+    struct Vertex *v1; // Start and end vertices of the edge we are testing.
     struct Vertex *v2;
     struct Face   *f; // The face that v1/v2 belong to.
     int           i; // The side index i of face f that we are tracking, e.g. f->vertices[i] == v1
@@ -1933,10 +1914,8 @@ void visit_possible_t_junc(struct Vertex *v, void *ref)
             if (dist2_lat < EPSI2) {
                 assert(info->f->degree == 4 || info->f->degree == 3);
                 if (info->f->degree == 4) {
-                    if (info->f->t_list[0] == NULL &&
-                        info->f->t_list[1] == NULL &&
-                        info->f->t_list[2] == NULL &&
-                        info->f->t_list[3] == NULL) {
+                    if (info->f->t_list[0] == NULL && info->f->t_list[1] == NULL &&
+                        info->f->t_list[2] == NULL && info->f->t_list[3] == NULL) {
                         ++info->split_quads;
                     }
                 }
@@ -1978,11 +1957,7 @@ void visit_possible_t_junc(struct Vertex *v, void *ref)
 //
 // (BEC is added as a new trinagle.)
 
-void add_ear_and_remove(float *poly,
-                        int pt_count,
-                        struct Mesh *target_mesh,
-                        const float *color,
-                        int tid)
+void add_ear_and_remove(float *poly, int pt_count, struct Mesh *target_mesh, const float *color, int tid)
 {
     int   i, p, n, b = -1;
     float best_dot = -99.0;
@@ -2006,7 +1981,7 @@ void add_ear_and_remove(float *poly,
         dot = vec3f_dot(v1, v2);
         if (dot > best_dot || b == -1) {
             best_dot = dot;
-            b        = i;
+            b = i;
         }
     }
 
@@ -2065,16 +2040,18 @@ void find_and_remove_t_junctions(struct Mesh *mesh)
 
                 float mib[3] =
                 {
-                    MIN(info.v1->location[0], info.v2->location[0]) - EPSI,
-                    MIN(info.v1->location[1], info.v2->location[1]) - EPSI,
-                    MIN(info.v1->location[2], info.v2->location[2]) - EPSI
+                    MIN(info.v1->location[0],         info.v2->location[0]) - EPSI,
+                    MIN(info.v1->location[1],
+                        info.v2->location[1]) - EPSI,
+                    MIN(info.v1->location[2],         info.v2->location[2]) - EPSI
                 };
 
                 float mab[3] =
                 {
-                    MAX(info.v1->location[0], info.v2->location[0]) + EPSI,
-                    MAX(info.v1->location[1], info.v2->location[1]) + EPSI,
-                    MAX(info.v1->location[2], info.v2->location[2]) + EPSI
+                    MAX(info.v1->location[0],         info.v2->location[0]) + EPSI,
+                    MAX(info.v1->location[1],
+                        info.v2->location[1]) + EPSI,
+                    MAX(info.v1->location[2],         info.v2->location[2]) + EPSI
                 };
 
                 scan_rtree(mesh->index, mib, mab, visit_possible_t_junc, &info);
@@ -2085,50 +2062,47 @@ void find_and_remove_t_junctions(struct Mesh *mesh)
 
     // printf("Subdivided %d quads and added %d pts.\n", info.split_quads,info.inserted_pts);
     if (info.inserted_pts > 0) {
-        int         f;
+        int f;
         struct Mesh *new_mesh;
         assert(info.split_quads <= mesh->quad_count);
-        new_mesh = create_mesh(
-            mesh->tri_count + info.inserted_pts + 2 * info.split_quads,
-            mesh->quad_count - info.split_quads,
-            mesh->line_count);
+        new_mesh = create_mesh(mesh->tri_count + info.inserted_pts + 2 * info.split_quads,
+                mesh->quad_count - info.split_quads,
+                mesh->line_count);
 
         for (f = 0; f < mesh->face_count; ++f) {
             struct Face *fp = mesh->faces + f;
-            if (fp->t_list[0] == NULL &&
-                fp->t_list[1] == NULL &&
-                fp->t_list[2] == NULL &&
+            if (fp->t_list[0] == NULL && fp->t_list[1] == NULL && fp->t_list[2] == NULL &&
                 fp->t_list[3] == NULL) {
                 switch (fp->degree)
                 {
                     case 2 :
                         add_face(new_mesh,
-                                 fp->vertex[0]->location,
-                                 fp->vertex[1]->location,
-                                 NULL,
-                                 NULL,
-                                 fp->color,
-                                 fp->tid);
+                            fp->vertex[0]->location,
+                            fp->vertex[1]->location,
+                            NULL,
+                            NULL,
+                            fp->color,
+                            fp->tid);
                         break;
 
                     case 3 :
                         add_face(new_mesh,
-                                 fp->vertex[0]->location,
-                                 fp->vertex[1]->location,
-                                 fp->vertex[2]->location,
-                                 NULL,
-                                 fp->color,
-                                 fp->tid);
+                            fp->vertex[0]->location,
+                            fp->vertex[1]->location,
+                            fp->vertex[2]->location,
+                            NULL,
+                            fp->color,
+                            fp->tid);
                         break;
 
                     case 4 :
                         add_face(new_mesh,
-                                 fp->vertex[0]->location,
-                                 fp->vertex[1]->location,
-                                 fp->vertex[2]->location,
-                                 fp->vertex[3]->location,
-                                 fp->color,
-                                 fp->tid);
+                            fp->vertex[0]->location,
+                            fp->vertex[1]->location,
+                            fp->vertex[2]->location,
+                            fp->vertex[3]->location,
+                            fp->color,
+                            fp->tid);
                         break;
 
                     default :
@@ -2147,7 +2121,7 @@ void find_and_remove_t_junctions(struct Mesh *mesh)
                     }
                 }
 
-                poly      = (float *)malloc(sizeof(float) * 3 * total_pts);
+                poly = (float *)malloc(sizeof(float) * 3 * total_pts);
                 write_ptr = poly;
 
                 for (i = 0; i < fp->degree; ++i) {

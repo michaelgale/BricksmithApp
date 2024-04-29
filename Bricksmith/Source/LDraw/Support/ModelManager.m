@@ -30,7 +30,6 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 @interface ModelManager (private)
-
 // Internal API: when the model manager has to open a file to resolve a peer model,
 // it has to start service on THAT model too to make recursive peer files work!
 // The formula for this is a little bit different than the case when a user-edited
@@ -46,28 +45,25 @@
 ////////////////////////////////////////////////////////////////////////////////
 @interface ModelServiceTable : NSObject
 {
-    @public
-    LDrawFile *file;
-    NSString  *fileName;
-    NSString  *parentDirectory;
+    @public LDrawFile *file;
+    NSString *fileName;
+    NSString *parentDirectory;
 
     // These are the file names present in the same directory as this model.
-    NSMutableSet *peerFileNames;        // NSString * filename
+    NSMutableSet *peerFileNames; // NSString * filename
 
     // This is each file we are tracking and using as input for this model - the key is a full path on disk.
-    NSMutableDictionary *trackedFiles;  // NSString * filepath -> LDrawFile* modelfile
+    NSMutableDictionary *trackedFiles; // NSString * filepath -> LDrawFile* modelfile
 }
 
 - (id)initWithFileName:(NSString *)fileName parentDir:(NSString *)parentDir file:(LDrawFile *)file;
 - (void)dealloc;
 - (LDrawFile *)beginService:(NSString *)relativePath; // Weird: begin service is by partial path, drop is by full path.
-- (BOOL)dropService:(NSString *)fullPath;             // Returns true if it really did find this thing and drop it!
+- (BOOL)dropService:(NSString *)fullPath; // Returns true if it really did find this thing and drop it!
 
 @end
 
 @implementation ModelServiceTable
-
-
 // ========== initWithFileName:parentDir:file ===================================
 //
 // Purpose:		Create a service table and prepare it for use.
@@ -77,20 +73,18 @@
 // updating the table to note when new files pop up.
 //
 // ==============================================================================
-- (id)initWithFileName:(NSString *)inFileName parentDir:(NSString *)inParentDir file:(LDrawFile *)
-    inFile;
+- (id)initWithFileName:(NSString *)inFileName parentDir:(NSString *)inParentDir file:(LDrawFile *)inFile;
 {
     // NSLog(@"Starting service on file %p as %@/%@\n",inFile,inParentDir,inFileName);
     self = [super init];
 
     // NSLog(@"Init service table %p\n", self);
-    self->file            = inFile;
-    self->fileName        = [inFileName retain];
+    self->file     = inFile;
+    self->fileName = [inFileName retain];
     self->parentDirectory = [inParentDir retain];
 
     NSFileManager *fileManager = [[[NSFileManager alloc] init] autorelease];
-    NSArray       *partNames   = [fileManager contentsOfDirectoryAtPath:inParentDir
-                                  error:NULL];
+    NSArray       *partNames   = [fileManager contentsOfDirectoryAtPath:inParentDir error:NULL];
 
     // Must use reference-style names. Peer file names are only cached for the
     // purposes of finding whether or not a part references a peer file.
@@ -151,8 +145,7 @@
     // NSLog(@"%p: Loading model for part name: %@\n", self, inPartialPath);
     NSString *fullPath = [parentDirectory stringByAppendingPathComponent:inPartialPath];
 
-    fullPath = [fullPath stringByReplacingOccurrencesOfString:@"\\"
-                withString:@"/"];
+    fullPath = [fullPath stringByReplacingOccurrencesOfString:@"\\" withString:@"/"];
 
     NSFileManager *fileManager = [[[NSFileManager alloc] init] autorelease];
 
@@ -162,7 +155,7 @@
     }
 
     NSString *fileContents = [LDrawUtilities stringFromFile:fullPath];
-    NSArray  *lines        = [fileContents separateByLine];
+    NSArray  *lines = [fileContents separateByLine];
 
     dispatch_group_t group = NULL;
 
@@ -170,9 +163,8 @@
     group = dispatch_group_create();
 #endif
 
-    LDrawFile *parsedFile = [[LDrawFile alloc] initWithLines:lines
-                             inRange:NSMakeRange(0, [lines count])
-                             parentGroup:group];
+    LDrawFile *parsedFile = [[LDrawFile alloc] initWithLines:lines inRange:NSMakeRange(0, [lines count])
+        parentGroup:group];
 
 #if USE_BLOCKS
     dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
@@ -187,8 +179,7 @@
         // The model we just opened (to help the user's doc) might in turn refer to yet more
         // peer files, so recursively open service on it.  The "internal" version won't freak
         // out that another document owns us.
-        [[ModelManager sharedModelManager] documentSignInInternal:fullPath
-         withFile:parsedFile];
+        [[ModelManager sharedModelManager] documentSignInInternal:fullPath withFile:parsedFile];
     }
 
 
@@ -228,12 +219,9 @@
     return(FALSE);
 }
 
-
 @end
 
-@implementation ModelManager
-
-static ModelManager *SharedModelManager = nil;
+@implementation ModelManager static ModelManager *SharedModelManager = nil;
 
 // ========== sharedModelManager ====================================[static]====
 //
@@ -257,9 +245,9 @@ static ModelManager *SharedModelManager = nil;
 // ==============================================================================
 - (id)init
 {
-    self          = [super init];
+    self = [super init];
     serviceTables = [[NSMutableDictionary alloc] init];
-    dirChars      = [[NSCharacterSet characterSetWithCharactersInString:@"\\/"] retain];
+    dirChars = [[NSCharacterSet characterSetWithCharactersInString:@"\\/"] retain];
     return(self);
 }
 
@@ -327,12 +315,11 @@ static ModelManager *SharedModelManager = nil;
         }
     } while (did_drop);
 
-    ModelServiceTable *newTable = [[ModelServiceTable alloc] initWithFileName:docFileName
-                                   parentDir:docParentDir
-                                   file:file];
+    ModelServiceTable *newTable =
+        [[ModelServiceTable alloc] initWithFileName:docFileName parentDir:docParentDir file:file];
     [serviceTables setObject:newTable forKey:[NSValue valueWithPointer:file]];
     [newTable release];
-}// end documentSignIn:withFile:
+} // end documentSignIn:withFile:
 
 
 // ========== documentSignInInternal:withFile ===================================
@@ -354,9 +341,8 @@ static ModelManager *SharedModelManager = nil;
     NSString *docParentDir = [docPath stringByDeletingLastPathComponent];
     NSString *docFileName  = [docPath lastPathComponent];
 
-    ModelServiceTable *newTable = [[ModelServiceTable alloc] initWithFileName:docFileName
-                                   parentDir:docParentDir
-                                   file:file];
+    ModelServiceTable *newTable =
+        [[ModelServiceTable alloc] initWithFileName:docFileName parentDir:docParentDir file:file];
     [serviceTables setObject:newTable forKey:[NSValue valueWithPointer:file]];
     [newTable release];
 }
@@ -469,6 +455,5 @@ static ModelManager *SharedModelManager = nil;
 
     return(nil);
 }
-
 
 @end

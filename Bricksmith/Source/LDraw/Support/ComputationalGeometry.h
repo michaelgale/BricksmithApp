@@ -10,9 +10,8 @@
 #import <Foundation/Foundation.h>
 #import "LDrawPart.h"
 
-@interface ComputationalGeometry : NSObject
-
-+ (NSArray *)tangentBetweenCircle:(NSMutableDictionary *)c1 andCircle:(NSMutableDictionary *)c2;
+@interface ComputationalGeometry : NSObject +
+    (NSArray *)tangentBetweenCircle : (NSMutableDictionary *)c1 andCircle : (NSMutableDictionary *)c2;
 
 + (void)doJarvisMarch:(NSMutableArray *)preparedData;
 + (int)nextHullPointWithPoints:(NSArray *)points andPointIndex:(int)pIndex;

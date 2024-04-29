@@ -44,7 +44,6 @@
 #import "OverlayHelperWindow.h"
 
 @implementation NSView (OverlayView)
-
 // ========== addOverlayView: ===================================================
 //
 // Purpose:		Adds theView as a subview of a transparent window which is
@@ -64,7 +63,7 @@
     helperView = [[OverlayHelperView alloc] initWithOverlayView:overlayView];
     [self addSubview:helperView];
     [helperView release];
-}// end addOverlayView:ordered:
+} // end addOverlayView:ordered:
 
 
 // ========== removeOverlayView: ================================================
@@ -96,7 +95,7 @@
         [overlayHelper removeFromSuperview];
     }
     [self setNeedsDisplay:YES];
-}// end removeOverlayView:
+} // end removeOverlayView:
 
 
 @end

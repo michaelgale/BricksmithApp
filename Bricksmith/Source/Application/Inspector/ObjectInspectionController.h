@@ -26,7 +26,7 @@
 }
 
 // Accessors
-- (id)object;   // returns the object being edited
+- (id)object; // returns the object being edited
 - (void)setObject:(id)newObject;
 - (NSWindow *)window;
 

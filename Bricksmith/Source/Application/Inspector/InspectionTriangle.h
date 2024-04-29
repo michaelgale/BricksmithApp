@@ -15,9 +15,9 @@
 @interface InspectionTriangle : ObjectInspectionController
 {
     IBOutlet LDrawColorWell *colorWell;
-    IBOutlet NSForm         *vertex1Form;
-    IBOutlet NSForm         *vertex2Form;
-    IBOutlet NSForm         *vertex3Form;
+    IBOutlet NSForm *vertex1Form;
+    IBOutlet NSForm *vertex2Form;
+    IBOutlet NSForm *vertex3Form;
 }
 
 // Actions

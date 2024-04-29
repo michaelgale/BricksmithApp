@@ -10,7 +10,6 @@
 #import "WindowCategory.h"
 
 @implementation NSWindow (WindowCategory)
-
 // ========== frameRectForContentSize: ==========================================
 //
 // Purpose:		Computes the frame rectangle (in screen coordinates) for
@@ -35,7 +34,7 @@
     newFrameRect.origin.y -= newSize.height - currentContentSize.height;
 
     return(newFrameRect);
-}// end frameRectForContentSize:
+} // end frameRectForContentSize:
 
 
 // ========== resizeToSize:animate: =============================================
@@ -48,11 +47,10 @@
 {
     NSRect  currentFrame = [self frame];
     NSPoint upperLeft    = NSMakePoint(NSMinX(currentFrame), NSMaxY(currentFrame));
-    NSRect  newRect      = NSMakeRect(upperLeft.x, upperLeft.y - newSize.height,
-                                      newSize.width, newSize.height);
+    NSRect  newRect = NSMakeRect(upperLeft.x, upperLeft.y - newSize.height, newSize.width, newSize.height);
 
     [self setFrame:newRect display:YES animate:animate];
-}// end resizeToSize:animate:
+} // end resizeToSize:animate:
 
 
 @end

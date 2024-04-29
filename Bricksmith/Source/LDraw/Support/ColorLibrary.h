@@ -25,9 +25,7 @@
 // LDrawPart and LDrawQuadrilateral.
 //
 ////////////////////////////////////////////////////////////////////////////////
-@protocol LDrawColorable
-
-- (LDrawColor *)LDrawColor;
+@protocol LDrawColorable - (LDrawColor *)LDrawColor;
 - (void)setLDrawColor:(LDrawColor *)newColor;
 
 @end

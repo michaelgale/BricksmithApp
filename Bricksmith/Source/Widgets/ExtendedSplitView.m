@@ -35,7 +35,7 @@
     else {
         return(self->autosaveName);
     }
-}// end autosaveName
+} // end autosaveName
 
 
 // ========== setAutosaveName: ==================================================
@@ -67,15 +67,13 @@
         // nib!
         NSArray *subviews = [self subviews];
         NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-        NSUInteger           counter             = 0;
+        NSUInteger counter = 0;
         for (counter = 0; counter < [subviews count]; counter++) {
-            [notificationCenter addObserver:self
-             selector:@selector(subviewFrameDidChange:)
-             name:NSViewFrameDidChangeNotification
-             object:[subviews objectAtIndex:counter]];
+            [notificationCenter addObserver:self selector:@selector(subviewFrameDidChange:)name:
+            NSViewFrameDidChangeNotification object:[subviews objectAtIndex:counter]];
         }
     }
-}// end setAutosaveName:
+} // end setAutosaveName:
 
 
 #pragma mark -
@@ -94,13 +92,13 @@
 {
     // Unnecessary under Leopard
     if ([NSSplitView instancesRespondToSelector:@selector(setAutosaveName:)] == NO) {
-        NSUserDefaults *userDefaults   = [NSUserDefaults standardUserDefaults];
-        NSArray        *subviews       = [self subviews];
-        NSView         *currentSubview = nil;
-        NSRect         currentRect     = NSZeroRect;
-        NSString       *rectString     = nil;
-        NSMutableArray *frameSizes     = nil;
-        NSInteger      counter         = 0;
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        NSArray  *subviews = [self subviews];
+        NSView   *currentSubview   = nil;
+        NSRect   currentRect       = NSZeroRect;
+        NSString *rectString       = nil;
+        NSMutableArray *frameSizes = nil;
+        NSInteger      counter     = 0;
 
         if (self->autosaveName != nil) {
             frameSizes = [userDefaults objectForKey:self->autosaveName];
@@ -138,7 +136,7 @@
         // }
         // NSLog(@"\n\n\n");
     }
-}// end restoreConfiguration
+} // end restoreConfiguration
 
 
 // ========== saveConfiguration =================================================
@@ -154,13 +152,13 @@
     if (self->autosaveName != nil) {
         // Unnecessary under Leopard
         if ([NSSplitView instancesRespondToSelector:@selector(setAutosaveName:)] == NO) {
-            NSUserDefaults *userDefaults   = [NSUserDefaults standardUserDefaults];
-            NSArray        *subviews       = [self subviews];
-            NSView         *currentSubview = nil;
-            NSRect         currentRect     = NSZeroRect;
-            NSString       *rectString     = nil;
-            NSMutableArray *frameSizes     = [NSMutableArray array];
-            NSInteger      counter         = 0;
+            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+            NSArray  *subviews = [self subviews];
+            NSView   *currentSubview   = nil;
+            NSRect   currentRect       = NSZeroRect;
+            NSString *rectString       = nil;
+            NSMutableArray *frameSizes = [NSMutableArray array];
+            NSInteger      counter     = 0;
 
             for (counter = 0; counter < [subviews count]; counter++) {
                 currentSubview = [subviews objectAtIndex:counter];
@@ -170,12 +168,11 @@
             }
 
             if (self->autosaveName != nil) {
-                [userDefaults setObject:frameSizes
-                 forKey:self->autosaveName];
+                [userDefaults setObject:frameSizes forKey:self->autosaveName];
             }
         }
     }
-}// end saveConfiguration
+} // end saveConfiguration
 
 
 #pragma mark -
@@ -194,7 +191,7 @@
 - (void)subviewFrameDidChange:(NSNotification *)notification
 {
     [self saveConfiguration];
-}// end subviewFrameDidChange:
+} // end subviewFrameDidChange:
 
 
 // ========== didAddSubview: ====================================================
@@ -209,11 +206,9 @@
 
     [super didAddSubview:subview];
 
-    [notificationCenter addObserver:self
-     selector:@selector(subviewFrameDidChange:)
-     name:NSViewFrameDidChangeNotification
-     object:subview];
-}// end didAddSubview:
+    [notificationCenter addObserver:self selector:@selector(subviewFrameDidChange:)name:
+    NSViewFrameDidChangeNotification object:subview];
+} // end didAddSubview:
 
 
 // ========== willRemoveSubview: ================================================
@@ -228,10 +223,8 @@
 
     [super willRemoveSubview:subview];
 
-    [notificationCenter removeObserver:self
-     name:NSViewFrameDidChangeNotification
-     object:subview];
-}// end willRemoveSubview:
+    [notificationCenter removeObserver:self name:NSViewFrameDidChangeNotification object:subview];
+} // end willRemoveSubview:
 
 
 #pragma mark -
@@ -248,7 +241,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
     [super dealloc];
-}// end dealloc
-
+} // end dealloc
 
 @end

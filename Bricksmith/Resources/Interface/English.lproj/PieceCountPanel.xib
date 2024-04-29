@@ -161,7 +161,7 @@
                         </view>
                     </box>
                     <box fixedFrame="YES" boxType="oldStyle" borderType="none" title="Title" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="66">
-                        <rect key="frame" x="584" y="43" width="252" height="369"/>
+                        <rect key="frame" x="583" y="43" width="252" height="369"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                         <view key="contentView" id="0vE-mc-nvo">
                             <rect key="frame" x="0.0" y="0.0" width="252" height="369"/>

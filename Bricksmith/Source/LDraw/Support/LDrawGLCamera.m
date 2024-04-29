@@ -19,8 +19,8 @@
 
 // Turn-table view changes how rotations work
 #define USE_TURNTABLE             ([[NSUserDefaults standardUserDefaults] integerForKey: \
-                                    ROTATE_MODE_KEY] ==                                  \
-                                   RotateModeTurntable)
+        ROTATE_MODE_KEY] ==                                  \
+        RotateModeTurntable)
 
 
 #define WALKTHROUGH_NEAR          20.0
@@ -48,18 +48,18 @@
 
     viewportExpandsToAvailableSize = YES;
 
-    zoomFactor     = 100.0;      // percent
+    zoomFactor     = 100.0; // percent
     cameraDistance = -10000.0;
     projectionMode = ProjectionModePerspective;
     locationMode   = LocationModeModel;
-    modelSize      = InvalidBox;
+    modelSize = InvalidBox;
 
     buildRotationMatrix(orientation, 180.0, 1.0, 0.0, 0.0);
     buildIdentity(modelView);
     buildIdentity(projection);
 
     return(self);
-}// end init
+} // end init
 
 
 // ========== dealloc ===========================================================
@@ -71,7 +71,7 @@
 - (void)dealloc
 {
     [super dealloc];
-}// end dealloc
+} // end dealloc
 
 
 // ========== setScroller: ======================================================
@@ -92,7 +92,7 @@
 - (void)setScroller:(id <LDrawGLCameraScroller>)newScroller
 {
     scroller = newScroller;
-}// end setScroller:
+} // end setScroller:
 
 
 #pragma mark -
@@ -116,7 +116,7 @@
 - (GLfloat *)getProjection
 {
     return(projection);
-}// end getProjection
+} // end getProjection
 
 
 // ========== getModelView ======================================================
@@ -129,7 +129,7 @@
 - (GLfloat *)getModelView
 {
     return(modelView);
-}// end getModelView
+} // end getModelView
 
 
 // ========== zoomPercentage ====================================================
@@ -140,7 +140,7 @@
 - (CGFloat)zoomPercentage
 {
     return(self->zoomFactor);
-}// end zoomPercentage
+} // end zoomPercentage
 
 
 // ========== projectionMode ====================================================
@@ -151,7 +151,7 @@
 - (ProjectionModeT)projectionMode
 {
     return(self->projectionMode);
-}// end projectionMode
+} // end projectionMode
 
 
 // ========== locationMode ====================================================
@@ -162,7 +162,7 @@
 - (LocationModeT)locationMode
 {
     return(self->locationMode);
-}// end locationMode
+} // end locationMode
 
 
 // ========== viewingAngle ======================================================
@@ -172,8 +172,8 @@
 // ==============================================================================
 - (Tuple3)viewingAngle
 {
-    Matrix4             transformation = IdentityMatrix4;
-    TransformComponents components     = IdentityComponents;
+    Matrix4 transformation = IdentityMatrix4;
+    TransformComponents components = IdentityComponents;
     Tuple3 degrees = ZeroPoint3;
 
     transformation = Matrix4CreateFromGLMatrix4([self getModelView]);
@@ -186,7 +186,7 @@
     degrees.z = degrees(degrees.z);
 
     return(degrees);
-}// end viewingAngle
+} // end viewingAngle
 
 
 - (Point3)rotationCenter
@@ -212,7 +212,7 @@
 {
     Box2   newVisibleRect = [scroller getVisibleRect];
     Point2 scrollOrigin   = V2Make(newCenter.x - V2BoxWidth([scroller getVisibleRect]) / 2.0,
-                                   newCenter.y - V2BoxHeight([scroller getVisibleRect]) / 2.0);
+            newCenter.y - V2BoxHeight([scroller getVisibleRect]) / 2.0);
 
     // Sanity check
     if (scrollOrigin.x < 0) {
@@ -225,7 +225,7 @@
     newVisibleRect.origin = scrollOrigin;
 
     [scroller setScrollOrigin:newVisibleRect.origin];
-}// end scrollCenterToPoint:
+} // end scrollCenterToPoint:
 
 
 // ========== fieldDepth ========================================================
@@ -244,7 +244,7 @@
     fieldDepth *= 2;
 
     return(fieldDepth);
-}// end fieldDepth
+} // end fieldDepth
 
 
 // ========== nearOrthoClippingRectFromVisibleRect: ============================
@@ -261,7 +261,7 @@
 
     double y = V2BoxMinY(visibleRectIn);
 
-    if (1) {// [self isFlipped] == YES)
+    if (1) { // [self isFlipped] == YES)
 // double sheight = [scroller getDocumentSize].height;
 // double vheight = V2BoxHeight(visibleRectIn);
 // printf("y=%.1f sheight=%.1f vrh=%.1f\n", y, sheight, vheight);
@@ -275,7 +275,7 @@
     visibilityPlane.size.height = V2BoxHeight(visibleRectIn);
 // printf("vp: %.1f, %.1f - %.1f, %.1f\n", visibilityPlane.origin.x, visibilityPlane.origin.y, visibilityPlane.size.width, visibilityPlane.size.height);
     return(visibilityPlane);
-}// end nearOrthoClippingRectFromVisibleRect:
+} // end nearOrthoClippingRectFromVisibleRect:
 
 
 // ========== nearFrustumClippingRectFromVisibleRect: ==========================
@@ -299,14 +299,12 @@
 - (Box2)nearFrustumClippingRectFromVisibleRect:(Box2)visibleRectIn
 {
     Box2   orthoVisibilityPlane = [self nearOrthoClippingRectFromVisibleRect:visibleRectIn];
-    Box2   visibilityPlane      = orthoVisibilityPlane;
-    double fieldDepth           = [self fieldDepth];
+    Box2   visibilityPlane = orthoVisibilityPlane;
+    double fieldDepth = [self fieldDepth];
 
     // Find the scaling percentage betwen the frustum slice through
     // (0,0,0) and the slice that defines the near clipping plane.
-    double visibleProportion = (fabs(self->cameraDistance) - fieldDepth / 2.0)
-        /
-        fabs(self->cameraDistance);
+    double visibleProportion = (fabs(self->cameraDistance) - fieldDepth / 2.0) / fabs(self->cameraDistance);
 
     // scale down the visibility plane, centering it in the full-size one.
     visibilityPlane.origin.x = V2BoxMinX(orthoVisibilityPlane) + V2BoxWidth(orthoVisibilityPlane) *
@@ -317,7 +315,7 @@
     visibilityPlane.size.height = V2BoxHeight(orthoVisibilityPlane) * visibleProportion;
 
     return(visibilityPlane);
-}// end nearFrustumClippingRectFromVisibleRect:
+} // end nearFrustumClippingRectFromVisibleRect:
 
 
 // ========== nearOrthoClippingRectFromNearFrustumClippingRect: =================
@@ -330,13 +328,11 @@
 - (Box2)nearOrthoClippingRectFromNearFrustumClippingRect:(Box2)visibilityPlane
 {
     Box2   orthoVisibilityPlane = ZeroBox2;
-    double fieldDepth           = [self fieldDepth];
+    double fieldDepth = [self fieldDepth];
 
     // Find the scaling percentage betwen the frustum slice through
     // (0,0,0) and the slice that defines the near clipping plane.
-    double visibleProportion = (fabs(self->cameraDistance) - fieldDepth / 2.0)
-        /
-        fabs(self->cameraDistance);
+    double visibleProportion = (fabs(self->cameraDistance) - fieldDepth / 2.0) / fabs(self->cameraDistance);
 
     // Enlarge the ortho plane
     orthoVisibilityPlane.size.width  = visibilityPlane.size.width / visibleProportion;
@@ -349,7 +345,7 @@
         (1.0 - visibleProportion) / 2.0;
 
     return(orthoVisibilityPlane);
-}// end nearOrthoClippingRectFromNearFrustumClippingRect:
+} // end nearOrthoClippingRectFromNearFrustumClippingRect:
 
 
 // ========== visibleRectFromNearOrthoClippingRect: =============================
@@ -368,14 +364,13 @@
     newVisibleRect.origin.y = visibilityPlane.origin.y + [scroller getDocumentSize].height / 2.0;
     newVisibleRect.size     = visibilityPlane.size;
 
-    if (1) {// [self isFlipped] == YES)
-        newVisibleRect.origin.y =
-            [scroller getDocumentSize].height - V2BoxHeight(visibilityPlane)
+    if (1) { // [self isFlipped] == YES)
+        newVisibleRect.origin.y = [scroller getDocumentSize].height - V2BoxHeight(visibilityPlane)
             - V2BoxMinY(newVisibleRect);
     }
 
     return(newVisibleRect);
-}// end visibleRectFromNearOrthoClippingRect:
+} // end visibleRectFromNearOrthoClippingRect:
 
 
 // ========== visibleRectFromNearFrustumClippingRect: ===========================
@@ -393,7 +388,7 @@
     newVisibleRect    = [self visibleRectFromNearOrthoClippingRect:orthoClippingRect];
 
     return(newVisibleRect);
-}// end visibleRectFromNearFrustumClippingRect:
+} // end visibleRectFromNearFrustumClippingRect:
 
 
 // ========== makeProjection ====================================================
@@ -404,7 +399,7 @@
 // ==============================================================================
 - (void)makeProjection
 {
-    double fieldDepth      = [self fieldDepth];
+    double fieldDepth = [self fieldDepth];
     Box2   visibilityPlane = ZeroBox2;
 
     // ULTRA-IMPORTANT NOTE: this method assumes that you have already made our
@@ -416,32 +411,29 @@
         double aspect_ratio = viewportSize.width / viewportSize.height;
 
         buildFrustumMatrix(projection,
-                           -WALKTHROUGH_NEAR / (self->zoomFactor / 100.0),
-                           +WALKTHROUGH_NEAR / (self->zoomFactor / 100.0),
-                           -WALKTHROUGH_NEAR / (self->zoomFactor / 100.0) / aspect_ratio,
-                           +WALKTHROUGH_NEAR / (self->zoomFactor / 100.0) / aspect_ratio,
-                           WALKTHROUGH_NEAR,
-                           WALKTHROUGH_FAR);
+            -WALKTHROUGH_NEAR / (self->zoomFactor / 100.0),
+            +WALKTHROUGH_NEAR / (self->zoomFactor / 100.0),
+            -WALKTHROUGH_NEAR / (self->zoomFactor / 100.0) / aspect_ratio,
+            +WALKTHROUGH_NEAR / (self->zoomFactor / 100.0) / aspect_ratio,
+            WALKTHROUGH_NEAR,
+            WALKTHROUGH_FAR);
     }
     else if (self->projectionMode == ProjectionModePerspective) {
-        visibilityPlane =
-            [self nearFrustumClippingRectFromVisibleRect:[scroller getVisibleRect]];
+        visibilityPlane = [self nearFrustumClippingRectFromVisibleRect:[scroller getVisibleRect]];
         visibilityPlane.size.height = MAX(visibilityPlane.size.height, 8.0);
         visibilityPlane.size.width  = MAX(visibilityPlane.size.width, 8.0);
         assert(visibilityPlane.size.width > 0.0);
         assert(visibilityPlane.size.height > 0.0);
-        buildFrustumMatrix(projection,
-                           (GLfloat)V2BoxMinX(visibilityPlane), // left
-                           (GLfloat)V2BoxMaxX(visibilityPlane), // right
-                           (GLfloat)V2BoxMinY(visibilityPlane), // bottom
-                           (GLfloat)V2BoxMaxY(visibilityPlane), // top
-                           (GLfloat)(fabs(cameraDistance) - fieldDepth / 2.0), // near (closer points are clipped); distance from CAMERA LOCATION
-                           (GLfloat)(fabs(cameraDistance) + fieldDepth / 2.0) // far (points beyond this are clipped); distance from CAMERA LOCATION
-                           );
+        buildFrustumMatrix(projection, (GLfloat)V2BoxMinX(visibilityPlane), // left
+            (GLfloat)V2BoxMaxX(visibilityPlane),                // right
+            (GLfloat)V2BoxMinY(visibilityPlane),                // bottom
+            (GLfloat)V2BoxMaxY(visibilityPlane),                // top
+            (GLfloat)(fabs(cameraDistance) - fieldDepth / 2.0), // near (closer points are clipped); distance from CAMERA LOCATION
+            (GLfloat)(fabs(cameraDistance) + fieldDepth / 2.0)  // far (points beyond this are clipped); distance from CAMERA LOCATION
+            );
     }
     else {
-        visibilityPlane =
-            [self nearOrthoClippingRectFromVisibleRect:[scroller getVisibleRect]];
+        visibilityPlane = [self nearOrthoClippingRectFromVisibleRect:[scroller getVisibleRect]];
         visibilityPlane.size.height = MAX(visibilityPlane.size.height, 16.0);
         visibilityPlane.size.width  = MAX(visibilityPlane.size.width, 16.0);
 
@@ -450,15 +442,14 @@
 
 // printf("proj: %.1f, %.1f - %.1f, %.1f\n", visibilityPlane.origin.x, visibilityPlane.origin.y, visibilityPlane.size.width, visibilityPlane.size.height);
 
-        buildOrthoMatrix(projection,
-                         (GLfloat)V2BoxMinX(visibilityPlane),                // left
-                         (GLfloat)V2BoxMaxX(visibilityPlane),                // right
-                         (GLfloat)V2BoxMinY(visibilityPlane),                // bottom
-                         (GLfloat)V2BoxMaxY(visibilityPlane),                // top
-                         (GLfloat)(fabs(cameraDistance) - fieldDepth / 2.0), // near (points beyond these are clipped)
-                         (GLfloat)(fabs(cameraDistance) + fieldDepth / 2.0)); // far
+        buildOrthoMatrix(projection, (GLfloat)V2BoxMinX(visibilityPlane), // left
+            (GLfloat)V2BoxMaxX(visibilityPlane),                 // right
+            (GLfloat)V2BoxMinY(visibilityPlane),                 // bottom
+            (GLfloat)V2BoxMaxY(visibilityPlane),                 // top
+            (GLfloat)(fabs(cameraDistance) - fieldDepth / 2.0),  // near (points beyond these are clipped)
+            (GLfloat)(fabs(cameraDistance) + fieldDepth / 2.0)); // far
     }
-}// end makeProjection
+} // end makeProjection
 
 
 // ========== makeModelView =====================================================
@@ -473,7 +464,10 @@
 
     buildRotationMatrix(flip, 0.0, 1.0, 0.0, 0.0);
     buildTranslationMatrix(cam_trans, 0.0, 0.0, self->cameraDistance);
-    buildTranslationMatrix(center_trans, -rotationCenter.x, -rotationCenter.y, -rotationCenter.z);
+    buildTranslationMatrix(center_trans,
+        -rotationCenter.x,
+        -rotationCenter.y,
+        -rotationCenter.z);
 
     if (locationMode == LocationModeModel) {
         buildIdentity(temp1);
@@ -488,7 +482,7 @@
         multMatrices(temp1, temp2, center_trans);
         multMatrices(modelView, temp1, flip);
     }
-}// end makeModelView
+} // end makeModelView
 
 
 // ========== tickle ============================================================
@@ -512,14 +506,13 @@
         // We will recalculate camera distance and rebuild the MV matrix.
         ///
 
-        Point3 origin      = { 0.0, 0.0, 0.0 };
-        Point2 centerPoint =
-            V2Make(V2BoxMidX([scroller getVisibleRect]), V2BoxMidY([scroller getVisibleRect]));
+        Point3 origin = { 0.0, 0.0, 0.0 };
+        Point2 centerPoint = V2Make(V2BoxMidX([scroller getVisibleRect]),
+                V2BoxMidY([scroller getVisibleRect]));
         Box3 newBounds = modelSize;
 
-        if (V3EqualBoxes(newBounds, InvalidBox) == YES ||
-            newBounds.min.x >= newBounds.max.x ||
-            newBounds.min.y >= newBounds.max.y ||
+        if (V3EqualBoxes(newBounds,
+            InvalidBox) == YES || newBounds.min.x >= newBounds.max.x || newBounds.min.y >= newBounds.max.y ||
             newBounds.min.z >= newBounds.max.z) {
             newBounds = V3BoundsFromPoints(V3Make(-1.0, -1.0, -1.0), V3Make(1.0, 1.0, 1.0));
         }
@@ -555,10 +548,8 @@
             // size of the model, or the same as the scroll view,
             // whichever is larger.
             // added x2 scaling for retina
-            newFrameSize = V2MakeSize(MAX(snugFrameSize.width,
-                                          [scroller getMaxVisibleSizeDoc].width * 1.5),
-                                      MAX(snugFrameSize.height,
-                                          [scroller getMaxVisibleSizeDoc].height * 1.5));
+            newFrameSize = V2MakeSize(MAX(snugFrameSize.width, [scroller getMaxVisibleSizeDoc].width * 1.5),
+                    MAX(snugFrameSize.height, [scroller getMaxVisibleSizeDoc].height * 1.5));
             newFrameSize.width  = MIN(MAX_DOC_FRAME_WIDTH, newFrameSize.width);
             newFrameSize.height = MIN(MAX_DOC_FRAME_HEIGHT, newFrameSize.height);
         }
@@ -594,7 +585,7 @@
         // Rebuild projection based on latest scroll data from AppKit.
         [self makeProjection];
     }
-}// end tickle
+} // end tickle
 
 
 #pragma mark -
@@ -612,12 +603,11 @@
 // ==============================================================================
 - (void)setModelSize:(Box3)inModelSize
 {
-    assert(inModelSize.min.x != inModelSize.max.x ||
-           inModelSize.min.y != inModelSize.max.y ||
-           inModelSize.min.z != inModelSize.max.z);
+    assert(inModelSize.min.x != inModelSize.max.x || inModelSize.min.y != inModelSize.max.y ||
+        inModelSize.min.z != inModelSize.max.z);
     self->modelSize = inModelSize;
     [self tickle];
-}// end setModelSize:
+} // end setModelSize:
 
 
 // ========== setRotationCenter: =============================================
@@ -630,11 +620,10 @@
 {
     if (V3EqualPoints(self->rotationCenter, point) == NO) {
         self->rotationCenter = point;
-        [self makeModelView];                               // Recalc model view - needed before we can scroll to a given point!
-        [self scrollModelPoint:self->rotationCenter
-         toViewportProportionalPoint:V2Make(0.5, 0.5)];     // scroll to new center (tickles itself, public API)
+        [self makeModelView]; // Recalc model view - needed before we can scroll to a given point!
+        [self scrollModelPoint:self->rotationCenter toViewportProportionalPoint:V2Make(0.5, 0.5)]; // scroll to new center (tickles itself, public API)
     }
-}// end setRotationCenter:
+} // end setRotationCenter:
 
 
 // ========== setZoomPercentage: ================================================
@@ -661,11 +650,10 @@
         return;
     }
 
-    Point2 centerPoint =
-        V2Make(V2BoxMidX([scroller getVisibleRect]), V2BoxMidY([scroller getVisibleRect]));
-    Point2 centerFraction =
-        V2Make(centerPoint.x / [scroller getDocumentSize].width,
-               centerPoint.y / [scroller getDocumentSize].height);
+    Point2 centerPoint = V2Make(V2BoxMidX([scroller getVisibleRect]),
+            V2BoxMidY([scroller getVisibleRect]));
+    Point2 centerFraction = V2Make(centerPoint.x / [scroller getDocumentSize].width,
+            centerPoint.y / [scroller getDocumentSize].height);
 
     self->zoomFactor = newPercentage;
 
@@ -687,8 +675,8 @@
         [self scrollCenterToPoint:centerPoint]; // Request that NS change scrolling to restore centering.
     }
     self->mute--;
-    [self tickle];              // Rebuild ourselves based on the new zoom, scroll, etc.
-}// end setZoomPercentage:
+    [self tickle]; // Rebuild ourselves based on the new zoom, scroll, etc.
+} // end setZoomPercentage:
 
 
 // ========== setZoomPercentage:preservePoint: ==================================
@@ -703,20 +691,19 @@
 // ==============================================================================
 - (void)setZoomPercentage:(CGFloat)newPercentage preservePoint:(Point3)modelPoint
 {
-    Box2 viewport = V2MakeBox(0.0, 0.0, 1.0, 1.0);  // Fake view-port - this gets us our scaled point in viewport-proportional units.
+    Box2 viewport = V2MakeBox(0.0, 0.0, 1.0, 1.0); // Fake view-port - this gets us our scaled point in viewport-proportional units.
 
     // - Near clipping plane unprojection
     Point3 nearModelPoint = V3Project(modelPoint,
-                                      Matrix4CreateFromGLMatrix4(modelView),
-                                      Matrix4CreateFromGLMatrix4(projection),
-                                      viewport);
+            Matrix4CreateFromGLMatrix4(modelView),
+            Matrix4CreateFromGLMatrix4(projection),
+            viewport);
 
     Point2 viewportProportion = V2Make(nearModelPoint.x, nearModelPoint.y);
 
     [self setZoomPercentage:newPercentage];
-    [self scrollModelPoint:modelPoint
-     toViewportProportionalPoint:viewportProportion];                                // (tickles itself, public API)
-}// end setZoomPercentage:preservePoint:
+    [self scrollModelPoint:modelPoint toViewportProportionalPoint:viewportProportion]; // (tickles itself, public API)
+} // end setZoomPercentage:preservePoint:
 
 
 // ========== scrollModelPoint:toViewportProportionalPoint: =====================
@@ -732,9 +719,9 @@
         return;
     }
 
-    Point2  newCenter           = ZeroPoint2;
-    double  zEval               = 0.0;
-    double  zNear               = 0.0;
+    Point2  newCenter = ZeroPoint2;
+    double  zEval     = 0.0;
+    double  zNear     = 0.0;
     Matrix4 modelViewMatrix     = Matrix4CreateFromGLMatrix4(modelView);
     Point4  transformedPoint    = ZeroPoint4;
     Box2    newVisibleRect      = ZeroBox2;
@@ -823,8 +810,8 @@
     // Scroll to it. -makeProjection will now derive the exact frustum or ortho
     // projection which will make the clicked point appear in the center.
     [scroller setScrollOrigin:newVisibleRect.origin];
-    [self tickle];  // Tickle to rebuild all matrices based on external change.
-}// end scrollModelPoint:toViewportProportionalPoint:
+    [self tickle]; // Tickle to rebuild all matrices based on external change.
+} // end scrollModelPoint:toViewportProportionalPoint:
 
 
 // ========== setViewingAngle: ==================================================
@@ -842,7 +829,7 @@
     multMatrices(orientation, gl_flip, gl_angle);
 
     [self makeModelView];
-}// end setViewingAngle:
+} // end setViewingAngle:
 
 
 // ========== setProjectionMode: ================================================
@@ -857,8 +844,8 @@
 - (void)setProjectionMode:(ProjectionModeT)newProjectionMode
 {
     self->projectionMode = newProjectionMode;
-    [self makeProjection];  // This doesn't need a full tickle because proj mode doesn't change the doc size.
-}// end setProjectionMode:
+    [self makeProjection]; // This doesn't need a full tickle because proj mode doesn't change the doc size.
+} // end setProjectionMode:
 
 
 // ========== setLocationMode: ================================================
@@ -881,7 +868,7 @@
 
         [self tickle];
     }
-}// end setProjectionMode:
+} // end setProjectionMode:
 
 
 // ========== rotationDragged ===================================================
@@ -892,7 +879,7 @@
 - (void)rotationDragged:(Vector2)viewDirection
 {
     CGFloat deltaX = viewDirection.x;
-    CGFloat deltaY = -viewDirection.y;     // Apple's delta is backwards, for some reason.
+    CGFloat deltaY = -viewDirection.y; // Apple's delta is backwards, for some reason.
 
     // Get the percentage of the window we have swept over. Since half the
     // window represents 180 degrees of rotation, we will eventually
@@ -902,7 +889,7 @@
 
     // Remember, dragging on y means rotating about x.
     CGFloat rotationAboutY = +(percentDragX * 180.0);
-    CGFloat rotationAboutX = -(percentDragY * 180.0);   // multiply by -1,
+    CGFloat rotationAboutX = -(percentDragY * 180.0); // multiply by -1,
 
     // as we need to convert our drag into a proper rotation
     // direction. See notes in function header.
@@ -926,8 +913,8 @@
 
     // Now we will convert what appears to be the vertical and horizontal
     // axes into the actual model vectors they represent.
-    Vector4 vectorX = { 1.0, 0.0, 0.0, 1.0 };      // unit vector i along x-axis.
-    Vector4 vectorY = { 0.0, 1.0, 0.0, 1.0 };      // unit vector j along y-axis.
+    Vector4 vectorX = { 1.0, 0.0, 0.0, 1.0 }; // unit vector i along x-axis.
+    Vector4 vectorY = { 0.0, 1.0, 0.0, 1.0 }; // unit vector j along y-axis.
     Vector4 transformedVectorX;
     Vector4 transformedVectorY;
 
@@ -946,17 +933,17 @@
     // Now rotate the model around the visual "up" and "down" directions.
 
     applyRotationMatrix(orientation,
-                        (GLfloat)rotationAboutX,
-                        (GLfloat)transformedVectorX.x,
-                        (GLfloat)transformedVectorX.y,
-                        (GLfloat)transformedVectorX.z);
+        (GLfloat)rotationAboutX,
+        (GLfloat)transformedVectorX.x,
+        (GLfloat)transformedVectorX.y,
+        (GLfloat)transformedVectorX.z);
     applyRotationMatrix(orientation,
-                        (GLfloat)rotationAboutY,
-                        (GLfloat)transformedVectorY.x,
-                        (GLfloat)transformedVectorY.y,
-                        (GLfloat)transformedVectorY.z);
+        (GLfloat)rotationAboutY,
+        (GLfloat)transformedVectorY.x,
+        (GLfloat)transformedVectorY.y,
+        (GLfloat)transformedVectorY.z);
     [self makeModelView];
-}// end rotationDragged
+} // end rotationDragged
 
 
 // ========== rotateByDegrees: ==================================================
@@ -969,7 +956,6 @@
 {
     applyRotationMatrix(orientation, (GLfloat)angle, 0.0, -1.0, 0.0);
     [self makeModelView];
-}// end rotateByDegrees:
-
+} // end rotateByDegrees:
 
 @end

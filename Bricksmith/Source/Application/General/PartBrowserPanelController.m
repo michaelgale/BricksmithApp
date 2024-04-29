@@ -13,9 +13,7 @@
 #import "PartBrowserDataSource.h"
 #import "ExtendedSplitView.h"
 
-@implementation PartBrowserPanelController
-
-static PartBrowserPanelController *sharedPartBrowserPanel = nil;
+@implementation PartBrowserPanelController static PartBrowserPanelController *sharedPartBrowserPanel = nil;
 
 
 // ========== awakeFromNib ======================================================
@@ -27,7 +25,7 @@ static PartBrowserPanelController *sharedPartBrowserPanel = nil;
 {
     [self->splitView setAutosaveName:@"PartBrowserPanelSplitView"];
     [self->splitView restoreConfiguration];
-}// end awakeFromNib
+} // end awakeFromNib
 
 
 // ========== windowDidLoad =====================================================
@@ -54,7 +52,7 @@ static PartBrowserPanelController *sharedPartBrowserPanel = nil;
     }
 
     return(sharedPartBrowserPanel);
-}// end sharedPartBrowserPanel
+} // end sharedPartBrowserPanel
 
 
 // ========== init ==============================================================
@@ -67,7 +65,7 @@ static PartBrowserPanelController *sharedPartBrowserPanel = nil;
     self = [super initWithWindowNibName:@"PartBrowser"];
 
     return(self);
-}// end init
+} // end init
 
 
 #pragma mark -
@@ -83,7 +81,7 @@ static PartBrowserPanelController *sharedPartBrowserPanel = nil;
 - (PartBrowserDataSource *)partBrowser
 {
     return(self->partsBrowser);
-}// end partBrowser
+} // end partBrowser
 
 
 #pragma mark -
@@ -108,7 +106,7 @@ static PartBrowserPanelController *sharedPartBrowserPanel = nil;
     // Make sure our memory is all released.
     sharedPartBrowserPanel = nil;
     [self autorelease];
-}// end windowWillClose:
+} // end windowWillClose:
 
 
 // **** NSWindow ****
@@ -123,7 +121,7 @@ static PartBrowserPanelController *sharedPartBrowserPanel = nil;
     NSDocument *currentDocument = [[NSDocumentController sharedDocumentController] currentDocument];
 
     return([currentDocument undoManager]);
-}// end windowWillReturnUndoManager:
+} // end windowWillReturnUndoManager:
 
 
 // ========== splitView:constrainMinCoordinate:ofSubviewAt: =====================
@@ -131,10 +129,11 @@ static PartBrowserPanelController *sharedPartBrowserPanel = nil;
 // Purpose:		Don't allow the view portions to shrink too much.
 //
 // ==============================================================================
-- (CGFloat)splitView:(NSSplitView *)sender constrainMinCoordinate:(CGFloat)proposedMin ofSubviewAt:(NSInteger)offset
+- (CGFloat)splitView:(NSSplitView *)sender constrainMinCoordinate:(CGFloat)proposedMin ofSubviewAt:(NSInteger)
+    offset
 {
     return(96);
-}// end splitView:constrainMinCoordinate:ofSubviewAt:
+} // end splitView:constrainMinCoordinate:ofSubviewAt:
 
 
 #pragma mark -
@@ -151,7 +150,6 @@ static PartBrowserPanelController *sharedPartBrowserPanel = nil;
     // no need to release top-level nib objects, as this is an NSWindowController
 
     [super dealloc];
-}// end dealloc
-
+} // end dealloc
 
 @end

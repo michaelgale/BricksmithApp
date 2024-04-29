@@ -61,7 +61,7 @@ void LDrawDataStreamDestroy(struct LDrawDataStream *str)
 {
     glDeleteBuffers(1, &str->vbo);
     free(str);
-}// end LDrawDataStreamDestroy
+} // end LDrawDataStreamDestroy
 
 
 // ========== LDrawDataStreamMap ==================================================
@@ -94,7 +94,7 @@ void *LDrawDataStreamMap(struct LDrawDataStream *str, int size_desired)
     char *r = (char *)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     return(r + str->cur_base);
-}// end LDrawDataStreamMap
+} // end LDrawDataStreamMap
 
 
 // ========== LDrawDataStreamUnmap ================================================
@@ -112,11 +112,11 @@ void *LDrawDataStreamUnmap(struct LDrawDataStream *str)
     glUnmapBuffer(GL_ARRAY_BUFFER);
     glFlushMappedBufferRangeAPPLE(GL_ARRAY_BUFFER, str->cur_base, str->cur_size);
     char *p = NULL;
-    p             += str->cur_base;
+    p += str->cur_base;
     str->cur_base += str->cur_size;
     str->cur_size  = 0;
     return(p);
-}// end LDrawDataStreamUnmap
+} // end LDrawDataStreamUnmap
 
 
 #else
@@ -157,7 +157,7 @@ void LDrawDataStreamDestroy(struct LDrawDataStream *str)
 {
     glDeleteBuffers(1, &str->vbo);
     free(str);
-}// end LDrawDataStreamDestroy
+} // end LDrawDataStreamDestroy
 
 
 // ========== LDrawDataStreamMap ==================================================
@@ -180,7 +180,7 @@ void *LDrawDataStreamMap(struct LDrawDataStream *str, int size_desired)
     glBindBuffer(GL_ARRAY_BUFFER, str->vbo);
     glBufferData(GL_ARRAY_BUFFER, size_desired, NULL, GL_DYNAMIC_DRAW);
     return(glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY));
-}// end LDrawDataStreamMap
+} // end LDrawDataStreamMap
 
 
 // ========== LDrawDataStreamUnmap ================================================
@@ -197,7 +197,7 @@ void *LDrawDataStreamUnmap(struct LDrawDataStream *str)
     glBindBuffer(GL_ARRAY_BUFFER, str->vbo);
     glUnmapBuffer(GL_ARRAY_BUFFER);
     return(NULL);
-}// end LDrawDataStreamUnmap
+} // end LDrawDataStreamUnmap
 
 
 #endif

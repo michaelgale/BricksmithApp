@@ -10,8 +10,6 @@
 #import "ExtendedTableView.h"
 
 @implementation ExtendedTableView
-
-
 // ========== menuForEvent: =====================================================
 //
 // Purpose:		Return the contextual menu for the given click event on a
@@ -29,8 +27,7 @@
 // ==============================================================================
 - (NSMenu *)menuForEvent:(NSEvent *)theEvent
 {
-    NSPoint clickedPoint = [self convertPoint:[theEvent locationInWindow]
-                            fromView:nil];
+    NSPoint    clickedPoint    = [self convertPoint:[theEvent locationInWindow] fromView:nil];
     NSInteger  clickedRow      = 0;
     NSIndexSet *selectedRows   = [self selectedRowIndexes];
     NSMenu     *contextualMenu = nil;
@@ -50,8 +47,7 @@
         // selection with the clicked row. Now downstream code can simply ask
         // for the selected row.
         if ([selectedRows containsIndex:clickedRow] == NO) {
-            [self selectRowIndexes:[NSIndexSet indexSetWithIndex:clickedRow]
-             byExtendingSelection:NO];
+            [self selectRowIndexes:[NSIndexSet indexSetWithIndex:clickedRow] byExtendingSelection:NO];
         }
 
         contextualMenu = [self menu];
@@ -63,7 +59,7 @@
     }
 
     return(contextualMenu);
-}// end menuForEvent:
+} // end menuForEvent:
 
 
 @end

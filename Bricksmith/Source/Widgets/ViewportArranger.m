@@ -39,7 +39,7 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
     [self setVertical:YES];
 
     return(self);
-}// end initWithCoder:
+} // end initWithCoder:
 
 
 #pragma mark -
@@ -56,11 +56,11 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 {
     NSUInteger     columnCounter = 0;
     NSUInteger     rowCounter    = 0;
-    NSArray        *columns      = [self subviews];
-    NSArray        *rows         = nil;
-    NSSplitView    *column       = nil;
-    NSScrollView   *row          = nil;
-    NSMutableArray *viewports    = [NSMutableArray array];
+    NSArray        *columns   = [self subviews];
+    NSArray        *rows      = nil;
+    NSSplitView    *column    = nil;
+    NSScrollView   *row       = nil;
+    NSMutableArray *viewports = [NSMutableArray array];
 
     // Count up all the GL views in each column
     for (columnCounter = 0; columnCounter < [columns count]; columnCounter++) {
@@ -74,7 +74,7 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
     }
 
     return(viewports);
-}// end allViewports
+} // end allViewports
 
 
 // ========== delegate ==========================================================
@@ -101,7 +101,7 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
     [self updateAutosaveNames];
 
     [self doFrameSanityCheck];
-}// end setAutosaveName:
+} // end setAutosaveName:
 
 
 // ========== setDelegate: ======================================================
@@ -112,7 +112,7 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 - (void)setDelegate:(id <ViewportArrangerDelegate>)delegateIn
 {
     self->delegate = delegateIn;
-}// end setDelegate:
+} // end setDelegate:
 
 
 #pragma mark -
@@ -131,9 +131,9 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 - (IBAction)splitViewportClicked:(id)sender
 {
     NSView *placardView = [sender superview];
-    ExtendedScrollView *sourceViewport  = (ExtendedScrollView *)[placardView superview];  // enclosingScrollView won't work here.
-    NSSplitView        *sourceColumn    = (NSSplitView *)[sourceViewport superview];
-    NSSplitView        *arrangementView = (NSSplitView *)[sourceColumn superview];
+    ExtendedScrollView *sourceViewport = (ExtendedScrollView *)[placardView superview]; // enclosingScrollView won't work here.
+    NSSplitView *sourceColumn    = (NSSplitView *)[sourceViewport superview];
+    NSSplitView *arrangementView = (NSSplitView *)[sourceColumn superview];
 
     ExtendedSplitView  *newColumn   = nil;
     ExtendedScrollView *newViewport = [[self newViewport] autorelease];
@@ -144,16 +144,15 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 
     if (makeNewColumn == YES) {
         sourceViewFrame = [sourceColumn frame];
-        newColumn       =
-            [[[ExtendedSplitView alloc] initWithFrame:NSMakeRect(0, 0, 12, 12)] autorelease];
+        newColumn = [[[ExtendedSplitView alloc] initWithFrame:NSMakeRect(0, 0, 12, 12)] autorelease];
         [newColumn setDelegate:self];
 
 
         // Split the current viewport frame in two.
-        newViewFrame            = sourceViewFrame;
+        newViewFrame = sourceViewFrame;
         newViewFrame.size.width = (NSWidth(sourceViewFrame) - [arrangementView dividerThickness]) / 2;
         newViewFrame.origin.x  += NSWidth(newViewFrame) + [arrangementView dividerThickness];
-        newViewFrame            = NSIntegralRect(newViewFrame);
+        newViewFrame = NSIntegralRect(newViewFrame);
 
         sourceViewFrame.size.width = NSWidth(newViewFrame);
 
@@ -162,9 +161,7 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 
         // Add Views
         [newColumn addSubview:newViewport];
-        [arrangementView addSubview:newColumn
-         positioned:NSWindowAbove
-         relativeTo:sourceColumn];
+        [arrangementView addSubview:newColumn positioned:NSWindowAbove relativeTo:sourceColumn];
         [arrangementView adjustSubviews];
     }
     // Make a new row within the column.
@@ -172,9 +169,9 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
         sourceViewFrame = [sourceViewport frame];
 
         // Split the current viewport frame in two.
-        newViewFrame             = sourceViewFrame;
+        newViewFrame = sourceViewFrame;
         newViewFrame.size.height = (NSHeight(sourceViewFrame) - [sourceColumn dividerThickness]) / 2;
-        newViewFrame             = NSIntegralRect(newViewFrame);
+        newViewFrame = NSIntegralRect(newViewFrame);
 
         sourceViewFrame.origin.y   += NSHeight(newViewFrame) + [sourceColumn dividerThickness];
         sourceViewFrame.size.height = NSHeight(newViewFrame);
@@ -184,21 +181,17 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 
         // Add the new viewport.
         // (Note that "Above" ordering means spatially below in a split view.)
-        [sourceColumn addSubview:newViewport
-         positioned:NSWindowAbove
-         relativeTo:sourceViewport];
+        [sourceColumn addSubview:newViewport positioned:NSWindowAbove relativeTo:sourceViewport];
         [sourceColumn adjustSubviews];
     }
 
     if ([self->delegate respondsToSelector:@selector(viewportArranger:didAddViewport:sourceViewport:)]) {
-        [self->delegate viewportArranger:self
-         didAddViewport:newViewport
-         sourceViewport:sourceViewport];
+        [self->delegate viewportArranger:self didAddViewport:newViewport sourceViewport:sourceViewport];
     }
 
     [self updatePlacardsForViewports];
     [self storeViewports];
-}// end splitViewportClicked:
+} // end splitViewportClicked:
 
 
 // ========== closeViewportClicked: =============================================
@@ -211,19 +204,19 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 {
     NSView *placardView = [sender superview];
     // enclosingScrollView won't work here.
-    ExtendedScrollView *sourceViewport   = (ExtendedScrollView *)[placardView superview];
-    NSSplitView        *sourceColumn     = (NSSplitView *)[sourceViewport superview];
-    NSSplitView        *arrangementView  = (NSSplitView *)[sourceColumn superview];
-    NSArray            *columns          = [arrangementView subviews];
-    NSArray            *rows             = [sourceColumn subviews];
-    NSUInteger         sourceViewIndex   = 0;
-    NSSplitView        *preceedingColumn = nil;
-    ExtendedScrollView *preceedingRow    = nil;
-    NSRect             newViewFrame      = NSZeroRect;
-    BOOL        removingColumn           = [rows count] == 1;// last row in column?
-    BOOL        isFirstResponder         = NO;
-    NSResponder *newFirstResponder       = nil;
-    NSSet       *viewportsToRemove       = nil;
+    ExtendedScrollView *sourceViewport = (ExtendedScrollView *)[placardView superview];
+    NSSplitView *sourceColumn    = (NSSplitView *)[sourceViewport superview];
+    NSSplitView *arrangementView = (NSSplitView *)[sourceColumn superview];
+    NSArray     *columns = [arrangementView subviews];
+    NSArray     *rows    = [sourceColumn subviews];
+    NSUInteger  sourceViewIndex       = 0;
+    NSSplitView *preceedingColumn     = nil;
+    ExtendedScrollView *preceedingRow = nil;
+    NSRect newViewFrame     = NSZeroRect;
+    BOOL   removingColumn   = [rows count] == 1;             // last row in column?
+    BOOL   isFirstResponder = NO;
+    NSResponder *newFirstResponder = nil;
+    NSSet       *viewportsToRemove = nil;
 
     // If the doomed viewport is the first responder, then the view which
     // inherits the source's real estate should also inherit responder status.
@@ -245,7 +238,7 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
             preceedingColumn = [columns objectAtIndex:(sourceViewIndex - 1)];
         }
 
-        newViewFrame             = [preceedingColumn frame];
+        newViewFrame = [preceedingColumn frame];
         newViewFrame.size.width += [arrangementView dividerThickness] + NSWidth([sourceColumn frame]);
 
         if (isFirstResponder == YES) {
@@ -257,8 +250,7 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 
         // Remove the View
         if ([self->delegate respondsToSelector:@selector(viewportArranger:willRemoveViewports:)]) {
-            [self->delegate viewportArranger:self
-             willRemoveViewports:viewportsToRemove];
+            [self->delegate viewportArranger:self willRemoveViewports:viewportsToRemove];
         }
         [sourceColumn removeFromSuperview];
         [preceedingColumn setFrame:newViewFrame];
@@ -276,7 +268,7 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
             preceedingRow = [rows objectAtIndex:(sourceViewIndex - 1)];
         }
 
-        newViewFrame              = [preceedingRow frame];
+        newViewFrame = [preceedingRow frame];
         newViewFrame.size.height += NSHeight([sourceViewport frame]) + [sourceColumn dividerThickness];
 
         if (isFirstResponder == YES) {
@@ -288,8 +280,7 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 
         // Remove the View
         if ([self->delegate respondsToSelector:@selector(viewportArranger:willRemoveViewports:)]) {
-            [self->delegate viewportArranger:self
-             willRemoveViewports:viewportsToRemove];
+            [self->delegate viewportArranger:self willRemoveViewports:viewportsToRemove];
         }
         [sourceViewport removeFromSuperview];
         [preceedingRow setFrame:newViewFrame];
@@ -305,7 +296,7 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
     [self doFrameSanityCheck];
     [self updatePlacardsForViewports];
     [self storeViewports];
-}// end closeViewportClicked:
+} // end closeViewportClicked:
 
 
 #pragma mark -
@@ -321,7 +312,7 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 - (BOOL)splitView:(NSSplitView *)sender canCollapseSubview:(NSView *)subview
 {
     return(YES);
-}// end splitView:canCollapseSubview:
+} // end splitView:canCollapseSubview:
 
 
 // **** NSSplitView ****
@@ -331,12 +322,11 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 // double-clicked.
 //
 // ==============================================================================
-- (BOOL)splitView:(NSSplitView *)splitView
-    shouldCollapseSubview:(NSView *)subview
+- (BOOL)splitView:(NSSplitView *)splitView shouldCollapseSubview:(NSView *)subview
     forDoubleClickOnDividerAtIndex:(NSInteger)dividerIndex
 {
     return(YES);
-}// end splitView:shouldCollapseSubview:forDoubleClickOnDividerAtIndex:
+} // end splitView:shouldCollapseSubview:forDoubleClickOnDividerAtIndex:
 
 
 #pragma mark -
@@ -363,7 +353,7 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
     [closeButton setAction:@selector(closeViewportClicked:)];
 
     return(closeButton);
-}// end newCloseButton
+} // end newCloseButton
 
 
 // ========== newSplitButton ====================================================
@@ -386,7 +376,7 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
     [splitButton setAction:@selector(splitViewportClicked:)];
 
     return(splitButton);
-}// end newSplitButton
+} // end newSplitButton
 
 
 // ========== newSplitPlacard ===================================================
@@ -400,13 +390,13 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 // ==============================================================================
 - (NSView *)newSplitPlacard
 {
-    NSButton *splitButton      = [[self newSplitButton] autorelease];
+    NSButton *splitButton = [[self newSplitButton] autorelease];
     NSView   *placardContainer = [[NSView alloc] initWithFrame:NSMakeRect(0, 0, 12, 12)];
 
     [placardContainer addSubview:splitButton];
 
     return(placardContainer);
-}// end newSplitPlacard
+} // end newSplitPlacard
 
 
 // ========== newSplitClosePlacard ==============================================
@@ -421,8 +411,8 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 // ==============================================================================
 - (NSView *)newSplitClosePlacard
 {
-    NSButton *splitButton      = [[self newSplitButton] autorelease];
-    NSButton *closeButton      = [[self newCloseButton] autorelease];
+    NSButton *splitButton = [[self newSplitButton] autorelease];
+    NSButton *closeButton = [[self newCloseButton] autorelease];
     NSView   *placardContainer = [[NSView alloc] initWithFrame:NSMakeRect(0, 0, 12, 24)];
 
     [placardContainer addSubview:splitButton];
@@ -432,7 +422,7 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
     [closeButton setFrameOrigin:NSMakePoint(0, 0)];
 
     return(placardContainer);
-}// end newSplitClosePlacard
+} // end newSplitClosePlacard
 
 
 // ========== newViewport =======================================================
@@ -458,7 +448,7 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
     [[rowView contentView] setCopiesOnScroll:NO];
 
     return(rowView);
-}// end newViewport
+} // end newViewport
 
 
 #pragma mark -
@@ -477,7 +467,7 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 // ==============================================================================
 - (void)doFrameSanityCheck
 {
-    NSArray     *columns       = [self subviews];
+    NSArray *columns = [self subviews];
     NSSplitView *currentColumn = nil;
     NSUInteger  columnCounter  = 0;
 
@@ -489,7 +479,7 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
         currentColumn = [columns objectAtIndex:columnCounter];
         [self doFrameSanityCheckForSplitView:currentColumn];
     }
-}// end doFrameSanityCheck
+} // end doFrameSanityCheck
 
 
 // ========== doFrameSanityCheckForSplitView: ===================================
@@ -500,10 +490,10 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 // ==============================================================================
 - (void)doFrameSanityCheckForSplitView:(NSSplitView *)splitView
 {
-    NSArray     *subviews    = [splitView subviews];
-    BOOL        isSane       = NO;
+    NSArray *subviews = [splitView subviews];
+    BOOL    isSane    = NO;
     NSSplitView *currentView = nil;
-    NSUInteger  counter      = 0;
+    NSUInteger  counter = 0;
 
     // Try to find a sane row
     for (counter = 0; counter < [subviews count] && isSane == NO; counter++) {
@@ -519,7 +509,7 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
         [currentView setHidden:NO];
         [splitView adjustSubviews];
     }
-}// end doFrameSanityCheckForSplitView:
+} // end doFrameSanityCheckForSplitView:
 
 
 // ========== restoreViewports ==================================================
@@ -536,21 +526,18 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 - (void)restoreViewportsWithAutosaveName:(NSString *)autosaveNameIn
 {
     NSUserDefaults *userDefaults  = [NSUserDefaults standardUserDefaults];
-    NSString       *preferenceKey =
-        [NSString stringWithFormat:@"%@_%@", autosaveNameIn, VIEWS_PER_COLUMN];
-    NSArray            *viewCountPerColumn = [userDefaults objectForKey:preferenceKey];
-    ExtendedSplitView  *columnView         = nil;
-    ExtendedScrollView *rowView            = nil;
-    NSUInteger         rows          = 0;
-    NSUInteger         columnCounter = 0;
-    NSUInteger         rowCounter    = 0;
+    NSString       *preferenceKey = [NSString stringWithFormat:@"%@_%@", autosaveNameIn, VIEWS_PER_COLUMN];
+    NSArray        *viewCountPerColumn = [userDefaults objectForKey:preferenceKey];
+    ExtendedSplitView  *columnView     = nil;
+    ExtendedScrollView *rowView = nil;
+    NSUInteger rows = 0;
+    NSUInteger columnCounter = 0;
+    NSUInteger rowCounter    = 0;
 
     // Defaults: 1 main viewer; 3 detail views to the right
     if (viewCountPerColumn == nil || [viewCountPerColumn count] == 0) {
-        viewCountPerColumn = [NSArray arrayWithObjects:
-                              [NSNumber numberWithInt:1],
-                              [NSNumber numberWithInt:3],
-                              nil];
+        viewCountPerColumn = [NSArray arrayWithObjects:[NSNumber numberWithInt:1], [NSNumber numberWithInt:3],
+            nil];
     }
 
     // Remove all existing views
@@ -573,11 +560,9 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
             rowView = [[self newViewport] autorelease];
             [columnView addSubview:rowView];
 
-            if ([self->delegate respondsToSelector:@selector(viewportArranger:didAddViewport:
-                                                             sourceViewport:)]) {
-                [self->delegate viewportArranger:self
-                 didAddViewport:rowView
-                 sourceViewport:nil];
+            if ([self->delegate respondsToSelector:@selector(viewportArranger:didAddViewport:sourceViewport:)])
+            {
+                [self->delegate viewportArranger:self didAddViewport:rowView sourceViewport:nil];
             }
         }
         [columnView adjustSubviews];
@@ -602,7 +587,7 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 
     [self adjustSubviews];
     [self updatePlacardsForViewports];
-}// end restoreViewports
+} // end restoreViewports
 
 
 // ========== storeViewports ====================================================
@@ -613,26 +598,25 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 // ==============================================================================
 - (void)storeViewports
 {
-    NSUserDefaults *userDefaults       = [NSUserDefaults standardUserDefaults];
-    NSString       *preferenceKey      = nil;
+    NSUserDefaults *userDefaults  = [NSUserDefaults standardUserDefaults];
+    NSString       *preferenceKey = nil;
     NSMutableArray *viewCountPerColumn = [NSMutableArray array];
-    NSArray        *columns            = [self subviews];
-    NSSplitView    *currentColumn      = nil;
-    NSUInteger     rowCount            = 0;
-    NSUInteger     counter             = 0;
+    NSArray        *columns = [self subviews];
+    NSSplitView    *currentColumn = nil;
+    NSUInteger     rowCount = 0;
+    NSUInteger     counter  = 0;
 
     // Save rows per column
     for (counter = 0; counter < [columns count]; counter++) {
         currentColumn = [columns objectAtIndex:counter];
-        rowCount      = [[currentColumn subviews] count];
+        rowCount = [[currentColumn subviews] count];
         [viewCountPerColumn addObject:[NSNumber numberWithInteger:rowCount]];
     }
 
     // Save it
     preferenceKey = [NSString stringWithFormat:@"%@_%@", [self autosaveName], VIEWS_PER_COLUMN];
-    [userDefaults setObject:viewCountPerColumn
-     forKey:preferenceKey];
-}// end storeViewports
+    [userDefaults setObject:viewCountPerColumn forKey:preferenceKey];
+} // end storeViewports
 
 
 // ========== updateAutosaveNames ===============================================
@@ -643,20 +627,19 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 // ==============================================================================
 - (void)updateAutosaveNames
 {
-    NSString          *baseAutosaveName   = [self autosaveName];
-    NSString          *columnAutosaveName = nil;
-    ExtendedSplitView *currentColumn      = nil;
-    NSArray           *columns            = [self subviews];
-    NSUInteger        counter             = 0;
+    NSString *baseAutosaveName       = [self autosaveName];
+    NSString *columnAutosaveName     = nil;
+    ExtendedSplitView *currentColumn = nil;
+    NSArray    *columns = [self subviews];
+    NSUInteger counter  = 0;
 
     for (counter = 0; counter < [columns count]; counter++) {
-        currentColumn      = [columns objectAtIndex:counter];
-        columnAutosaveName =
-            [NSString stringWithFormat:@"%@_Column%ld", baseAutosaveName, (long)counter];
+        currentColumn = [columns objectAtIndex:counter];
+        columnAutosaveName = [NSString stringWithFormat:@"%@_Column%ld", baseAutosaveName, (long)counter];
 
         [currentColumn setAutosaveName:columnAutosaveName];
     }
-}// end updateAutosaveNames
+} // end updateAutosaveNames
 
 
 // ========== updatePlacardsForViewports ========================================
@@ -667,20 +650,20 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 // ==============================================================================
 - (void)updatePlacardsForViewports
 {
-    NSArray            *columns       = [self subviews];
-    NSArray            *rows          = nil;
-    NSSplitView        *currentColumn = nil;
-    ExtendedScrollView *currentRow    = nil;
-    NSView             *placard       = nil;
-    NSUInteger         columnCount    = [columns count];
-    NSUInteger         rowCount       = 0;
-    NSUInteger         columnCounter  = 0;
-    NSUInteger         rowCounter     = 0;
+    NSArray *columns = [self subviews];
+    NSArray *rows    = nil;
+    NSSplitView *currentColumn     = nil;
+    ExtendedScrollView *currentRow = nil;
+    NSView *placard = nil;
+    NSUInteger columnCount   = [columns count];
+    NSUInteger rowCount      = 0;
+    NSUInteger columnCounter = 0;
+    NSUInteger rowCounter    = 0;
 
     for (columnCounter = 0; columnCounter < columnCount; columnCounter++) {
         currentColumn = [columns objectAtIndex:columnCounter];
-        rows          = [currentColumn subviews];
-        rowCount      = [rows count];
+        rows     = [currentColumn subviews];
+        rowCount = [rows count];
 
         // Set the correct placard for each viewport
         for (rowCounter = 0; rowCounter < rowCount; rowCounter++) {
@@ -697,7 +680,7 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
             [currentRow setVerticalPlacard:placard];
         }
     }
-}// end updatePlacardsForViewports
+} // end updatePlacardsForViewports
 
 
 #pragma mark -
@@ -712,7 +695,6 @@ const NSString *VIEWS_PER_COLUMN = @"ViewsPerColumn";
 - (void)dealloc
 {
     [super dealloc];
-}// end dealloc
-
+} // end dealloc
 
 @end

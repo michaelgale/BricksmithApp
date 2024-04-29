@@ -10,7 +10,6 @@
 #import "UserDefaultsCategory.h"
 
 @implementation NSUserDefaults (UserDefaultsCategory)
-
 // ========== setColor:forKey: ==================================================
 //
 // Purpose:		Saves a color into UserDefaults.
@@ -21,7 +20,7 @@
     NSData *theData = [NSArchiver archivedDataWithRootObject:aColor];
 
     [self setObject:theData forKey:aKey];
-}// end setColor:forKey:
+} // end setColor:forKey:
 
 
 // ========== colorForKey: ======================================================
@@ -30,7 +29,6 @@
 //
 // ==============================================================================
 - (NSColor *)colorForKey:(NSString *)aKey
-
 {
     NSColor *theColor = nil;
     NSData  *theData  = [self dataForKey:aKey];
@@ -40,7 +38,7 @@
     }
 
     return(theColor);
-}// end colorForKey:
+} // end colorForKey:
 
 
 @end

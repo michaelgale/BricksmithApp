@@ -13,8 +13,7 @@
 #import "LSynthConfiguration.h"
 #import "LDrawColorWell.h"
 
-@interface InspectionLSynth : ObjectInspectionController <NSTableViewDelegate,
-                                                          NSTableViewDataSource>
+@interface InspectionLSynth : ObjectInspectionController <NSTableViewDelegate, NSTableViewDataSource>
 {
     IBOutlet NSTextField    *lsynthPartLabel;
     IBOutlet NSTextField    *synthesizedPartCount;

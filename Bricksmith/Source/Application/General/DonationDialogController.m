@@ -17,7 +17,6 @@
 #import "MacLDraw.h"
 
 @implementation DonationDialogController
-
 // ========== awakeFromNib ======================================================
 //
 // Purpose:		Finish setting up the UI.
@@ -31,20 +30,18 @@
     LDrawFile *bumModel  = nil;
 
     [self->mainBackground setBackgroundColor:[NSColor whiteColor]];
-    [self->bottomBar setBackgroundColor:[NSColor colorWithCalibratedWhite:0.75
-                                         alpha:1.0]];
+    [self->bottomBar setBackgroundColor:[NSColor colorWithCalibratedWhite:0.75 alpha:1.0]];
 
     // Display an LDraw model of a beggar, just to set the tone.
-    modelPath = [[NSBundle mainBundle] pathForResource:@"Bum"
-                 ofType:@"ldr"];
-    bumModel = [LDrawFile fileFromContentsAtPath:modelPath];
+    modelPath = [[NSBundle mainBundle] pathForResource:@"Bum" ofType:@"ldr"];
+    bumModel  = [LDrawFile fileFromContentsAtPath:modelPath];
 
     [self->bumModelView setLDrawDirective:bumModel];
     [self->bumModelView setAcceptsFirstResponder:NO];
 
     [self->bumModelView reshape]; // must get projection set up to call zoomToFit:
     [self->bumModelView zoomToFit:nil];
-}// end awakeFromNib
+} // end awakeFromNib
 
 
 #pragma mark -
@@ -64,7 +61,7 @@
     [self window];
 
     return(self);
-}// end init
+} // end init
 
 
 #pragma mark -
@@ -80,7 +77,7 @@
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     CFBundleRef    mainBundle    = CFBundleGetMainBundle();
-    UInt32         bundleVersion = CFBundleGetVersionNumber(mainBundle);
+    UInt32 bundleVersion = CFBundleGetVersionNumber(mainBundle);
 
     // Set dialog values
     [self->suppressionCheckbox setState:NSControlStateValueOff];
@@ -92,10 +89,9 @@
     [NSApp runModalForWindow:[self window]];
 
     // Record for next time
-    [userDefaults setInteger:bundleVersion
-     forKey:DONATION_SCREEN_LAST_VERSION_DISPLAYED];
+    [userDefaults setInteger:bundleVersion forKey:DONATION_SCREEN_LAST_VERSION_DISPLAYED];
     [userDefaults synchronize];
-}// end runModal
+} // end runModal
 
 
 // ========== shouldShowDialog ==================================================
@@ -105,14 +101,12 @@
 // ==============================================================================
 - (BOOL)shouldShowDialog
 {
-    NSUserDefaults *userDefaults            = [NSUserDefaults standardUserDefaults];
-    CFBundleRef    mainBundle               = CFBundleGetMainBundle();
-    UInt32         bundleVersion            = CFBundleGetVersionNumber(mainBundle);
-    BOOL           userRequestedSuppression =
-        [userDefaults boolForKey:DONATION_SCREEN_SUPPRESS_THIS_VERSION];
-    UInt32 lastNagVersion =
-        (int)[userDefaults integerForKey:DONATION_SCREEN_LAST_VERSION_DISPLAYED];
-    BOOL showDonationRequest = YES;
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    CFBundleRef    mainBundle    = CFBundleGetMainBundle();
+    UInt32 bundleVersion = CFBundleGetVersionNumber(mainBundle);
+    BOOL   userRequestedSuppression = [userDefaults boolForKey:DONATION_SCREEN_SUPPRESS_THIS_VERSION];
+    UInt32 lastNagVersion = (int)[userDefaults integerForKey:DONATION_SCREEN_LAST_VERSION_DISPLAYED];
+    BOOL   showDonationRequest = YES;
 
     if (userRequestedSuppression == YES) {
         showDonationRequest = NO;
@@ -122,12 +116,11 @@
         showDonationRequest = YES;
 
         // New version. Make them click the box again.
-        [userDefaults setBool:NO
-         forKey:DONATION_SCREEN_SUPPRESS_THIS_VERSION];
+        [userDefaults setBool:NO forKey:DONATION_SCREEN_SUPPRESS_THIS_VERSION];
     }
 
     return(showDonationRequest);
-}// end shouldShowDialog
+} // end shouldShowDialog
 
 
 #pragma mark -
@@ -144,7 +137,7 @@
     LDrawApplication *appDelegate = [NSApp delegate];
 
     [appDelegate doDonate:sender];
-}// end donateButtonClicked:
+} // end donateButtonClicked:
 
 
 // ========== laterButtonClicked: ===============================================
@@ -156,7 +149,7 @@
 {
     [NSApp stopModalWithCode:NSModalResponseOK];
     [self close];
-}// end laterButtonClicked
+} // end laterButtonClicked
 
 
 // ========== suppressionCheckboxClicked: =======================================
@@ -166,12 +159,11 @@
 // ==============================================================================
 - (IBAction)suppressionCheckboxClicked:(id)sender
 {
-    NSUserDefaults *userDefaults            = [NSUserDefaults standardUserDefaults];
-    BOOL           userRequestedSuppression = [self->suppressionCheckbox state];
+    NSUserDefaults *userDefaults  = [NSUserDefaults standardUserDefaults];
+    BOOL userRequestedSuppression = [self->suppressionCheckbox state];
 
-    [userDefaults setBool:userRequestedSuppression
-     forKey:DONATION_SCREEN_SUPPRESS_THIS_VERSION];
-}// end suppressionCheckboxClicked:
+    [userDefaults setBool:userRequestedSuppression forKey:DONATION_SCREEN_SUPPRESS_THIS_VERSION];
+} // end suppressionCheckboxClicked:
 
 
 @end

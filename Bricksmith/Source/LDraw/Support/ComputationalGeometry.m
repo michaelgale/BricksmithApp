@@ -41,9 +41,9 @@
 
 @interface Circle : NSObject
 {
-    int            x;
-    int            y;
-    int            r;
+    int x;
+    int y;
+    int r;
     LDrawDirective *directive;
 }
 - (void)setX:(int)x;
@@ -87,7 +87,8 @@
 }
 
 
-- (int)y {
+- (int)y
+{
     return(self->y);
 }
 
@@ -98,7 +99,8 @@
 }
 
 
-- (int)r {
+- (int)r
+{
     return(self->r);
 }
 
@@ -109,10 +111,10 @@
 }
 
 
-- (LDrawDirective *)directive {
+- (LDrawDirective *)directive
+{
     return(self->directive);
 }
-
 
 @end
 
@@ -161,12 +163,12 @@
 + (NSArray *)tangentBetweenCircle:(NSMutableDictionary *)circle1 andCircle:(NSMutableDictionary *)circle2
 {
     // Recast the supplied dictionaries as Circles for clarity in the main algorithm
-    Circle *c1 = [[[Circle alloc] initWithX:(int)[[circle1 valueForKey:@"x"] integerValue]
-                   Y:(int)[[circle1 valueForKey:@"y"] integerValue]
-                   R:(int)[[circle1 valueForKey:@"r"] integerValue]] autorelease];
-    Circle *c2 = [[[Circle alloc] initWithX:(int)[[circle2 valueForKey:@"x"] integerValue]
-                   Y:(int)[[circle2 valueForKey:@"y"] integerValue]
-                   R:(int)[[circle2 valueForKey:@"r"] integerValue]] autorelease];
+    Circle *c1 =
+        [[[Circle alloc] initWithX:(int)[[circle1 valueForKey:@"x"] integerValue] Y:(int)[[circle1 valueForKey
+        :@"y"] integerValue] R:(int)[[circle1 valueForKey:@"r"] integerValue]] autorelease];
+    Circle *c2 =
+        [[[Circle alloc] initWithX:(int)[[circle2 valueForKey:@"x"] integerValue] Y:(int)[[circle2 valueForKey
+        :@"y"] integerValue] R:(int)[[circle2 valueForKey:@"r"] integerValue]] autorelease];
 
     double d_sq = pow([c1 x] - [c2 x], 2) + pow([c1 y] - [c2 y], 2);
 
@@ -179,7 +181,7 @@
     double vy = ([c2 y] - [c1 y]) / d;
 
     NSMutableArray *results = [NSMutableArray arrayWithCapacity:4];
-    int            i        = 0;
+    int i = 0;
 
     // Let A, B be the centers, and C, D be points at which the tangent
     // touches first and second circle, and n be the normal vector to it.
@@ -208,8 +210,8 @@
 
         int sign2;
         for (sign2 = 1; sign2 >= -1; sign2 -= 2) {
-            double         nx = (vx * c) - sign2 * h * vy;
-            double         ny = (vy * c) - sign2 * h * vx;
+            double nx = (vx * c) - sign2 * h * vy;
+            double ny = (vy * c) - sign2 * h * vx;
             NSMutableArray *a = [NSMutableArray arrayWithCapacity:4];
             [a insertObject:[NSNumber numberWithDouble:([c1 x] + ([c1 r] * nx))] atIndex:0];
             [a insertObject:[NSNumber numberWithDouble:([c1 y] + ([c1 r] * ny))] atIndex:1];
@@ -249,20 +251,18 @@
         // NSLog(@"PreparedData in doJarvisMarch: %@", preparedData);
         leftmost = [ComputationalGeometry leftmost:preparedData];
         // NSLog(@"LEFTMOST: %i %@", leftmost, [preparedData objectAtIndex:leftmost]);
-        [[preparedData objectAtIndex:leftmost] setValue:[NSNumber numberWithBool:(BOOL)true]
-         forKey:@"inHull"];
+        [[preparedData objectAtIndex:leftmost] setValue:[NSNumber numberWithBool:(BOOL)true] forKey:@"inHull"];
 
 
         // main loop - keep finding the next point until it's the starting one
         bool stopIterating = NO;
-        int  pIndex        = leftmost;
+        int  pIndex = leftmost;
         while (!stopIterating)
         {
-            int qIndex = [ComputationalGeometry nextHullPointWithPoints:preparedData
-                          andPointIndex:pIndex];
+            int qIndex = [ComputationalGeometry nextHullPointWithPoints:preparedData andPointIndex:pIndex];
             if (qIndex != leftmost) {
-                [[preparedData objectAtIndex:qIndex] setValue:[NSNumber numberWithBool:(BOOL)true]
-                 forKey:@"inHull"];
+                [[preparedData objectAtIndex:qIndex] setValue:[NSNumber numberWithBool:(BOOL)true] forKey:
+                @"inHull"];
                 pIndex = qIndex;
             }
             else {
@@ -285,20 +285,14 @@
 
     for (rIndex = 0; rIndex < [points count]; rIndex++) {
         // TURN_LEFT, TURN_RIGHT, TURN_NONE = (1, -1, 0)
-        int t = [ComputationalGeometry turnWithPoints:points
-                 P:pIndex
-                 Q:qIndex
-                 R:rIndex];
+        int t = [ComputationalGeometry turnWithPoints:points P:pIndex Q:qIndex R:rIndex];
 
         // NSLog(@"next hull point turn: %i", t);
 
-        if (t == -1 || (t == 0 &&
-                        [ComputationalGeometry distanceBetweenPoints:points
-                         P:pIndex
-                         Q:rIndex] >
-                        [ComputationalGeometry distanceBetweenPoints:points
-                         P:pIndex
-                         Q:qIndex])) {
+        if (t == -1 ||
+            (t == 0 &&
+            [ComputationalGeometry distanceBetweenPoints:points P:pIndex Q:rIndex] >
+            [ComputationalGeometry distanceBetweenPoints:points P:pIndex Q:qIndex])) {
             qIndex = rIndex;
         }
     }
@@ -344,11 +338,7 @@
     // NSLog(@"turnWithPoints: %i", turn);
 
     // TURN_LEFT, TURN_RIGHT, TURN_NONE = (1, -1, 0)
-    return(turn < 0 ?
-           -1 :
-           turn > 0 ?
-           1 :
-           0);
+    return(turn < 0 ? -1 : turn > 0 ? 1 : 0);
 }
 
 
@@ -387,6 +377,5 @@
     }
     return(leftmost);
 }
-
 
 @end

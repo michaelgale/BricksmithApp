@@ -10,7 +10,6 @@
 #import "LDrawFileOutlineView.h"
 
 @implementation LDrawFileOutlineView
-
 // ========== draggingSourceOperationMaskForLocal: ==============================
 //
 // Purpose:		Due to a bug (as of 10.3) in NSTableView, I need this method to
@@ -25,7 +24,7 @@
     else {
         return([super draggingSourceOperationMaskForLocal:isLocal]);
     }
-}// end draggingSourceOperationMaskForLocal:
+} // end draggingSourceOperationMaskForLocal:
 
 
 // ========== selectObjects: ====================================================
@@ -37,10 +36,10 @@
 - (NSIndexSet *)selectObjects:(NSArray *)objects
 {
     // Select all the objects which have been added.
-    id                currentObject    = nil;
-    NSUInteger        indexOfObject    = 0;
+    id currentObject = nil;
+    NSUInteger indexOfObject = 0;
     NSMutableIndexSet *indexesToSelect = [NSMutableIndexSet indexSet];
-    NSInteger         counter          = 0;
+    NSInteger counter = 0;
 
     // Gather up the indices of the pasted objects.
     for (counter = 0; counter < [objects count]; counter++) {
@@ -48,11 +47,10 @@
         indexOfObject = [self rowForItem:currentObject];
         [indexesToSelect addIndex:indexOfObject];
     }
-    [self selectRowIndexes:indexesToSelect
-     byExtendingSelection:NO];
+    [self selectRowIndexes:indexesToSelect byExtendingSelection:NO];
 
     return(indexesToSelect);
-}// end selectObjects:
+} // end selectObjects:
 
 
 @end

@@ -15,8 +15,6 @@
 #import "LDrawColor.h"
 
 @implementation LDrawColorBar
-
-
 // ========== drawRect: =========================================================
 //
 // Purpose:		Paints the represented color inside the bar, along with a small
@@ -43,7 +41,7 @@
 // [self->nsColor drawSwatchInRect:NSInsetRect(aRect, 2, 2)];
     [self->nsColor set];
     NSRectFill(NSInsetRect(aRect, 2, 2));
-}// end drawRect:
+} // end drawRect:
 
 
 #pragma mark -
@@ -58,7 +56,7 @@
 - (LDrawColor *)LDrawColor
 {
     return(color);
-}// end LDrawColor
+} // end LDrawColor
 
 
 // ========== setLDrawColor: ====================================================
@@ -81,17 +79,16 @@
     [newColor getColorRGBA:components];
 
     [self->nsColor release];
-    self->nsColor = [[NSColor colorWithCalibratedRed:components[0]
-                      green:components[1]
-                      blue:components[2]
-                      alpha:1.0] retain];
+    self->nsColor =
+        [[NSColor colorWithCalibratedRed:components[0] green:components[1] blue:components[2] alpha:1.0]
+        retain];
 
     // Create a tool tip to identify the LDraw color code.
     description = [newColor localizedName];
     [self setToolTip:[NSString stringWithFormat:@"LDraw %d\n%@", [newColor colorCode], description]];
 
     [self setNeedsDisplay:YES];
-}// end setLDrawColor:
+} // end setLDrawColor:
 
 
 #pragma mark -
@@ -108,7 +105,6 @@
     [self->nsColor release];
 
     [super dealloc];
-}// end dealloc
-
+} // end dealloc
 
 @end

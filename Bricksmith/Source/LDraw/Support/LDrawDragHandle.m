@@ -16,35 +16,32 @@
 #import "LDrawUtilities.h"
 
 // Shared tag to draw the standard drag handle sphere
-static GLuint vaoTag         = 0;
-static GLuint vboTag         = 0;
+static GLuint vaoTag = 0;
+static GLuint vboTag = 0;
 static GLuint vboVertexCount = 0;
 
 static const double HandleDiameter = 7.0;
 
 @implementation LDrawDragHandle
-
 // ========== initWithTag:position: =============================================
 //
 // Purpose:		Initialize the object with a tag to identify what vertex it is
 // connected to.
 //
 // ==============================================================================
-- (id)initWithTag:(NSInteger)tagIn
-    position:(Point3)positionIn
+- (id)initWithTag:(NSInteger)tagIn position:(Point3)positionIn
 {
     self = [super init];
     if (self) {
-        tag             = tagIn;
-        position        = positionIn;
+        tag = tagIn;
+        position = positionIn;
         initialPosition = positionIn;
 
-        [LDrawDragHandle makeSphereWithLongitudinalCount:8
-         latitudinalCount:8];
+        [LDrawDragHandle makeSphereWithLongitudinalCount:8 latitudinalCount:8];
     }
 
     return(self);
-}// end initWithTag:position:
+} // end initWithTag:position:
 
 
 #pragma mark -
@@ -133,10 +130,9 @@ static const double HandleDiameter = 7.0;
     self->position = positionIn;
 
     if (update) {
-        [self->target performSelector:self->action
-         withObject:self];
+        [self->target performSelector:self->action withObject:self];
     }
-}// end setPosition:updateTarget:
+} // end setPosition:updateTarget:
 
 
 // ========== setTarget: ========================================================
@@ -179,7 +175,7 @@ static const double HandleDiameter = 7.0;
     }
     glPopMatrix();
     glEnable(GL_TEXTURE_2D);
-}// end draw:viewScale:parentColor:
+} // end draw:viewScale:parentColor:
 
 
 // ========== drawSelf: ===========================================================
@@ -195,9 +191,8 @@ static const double HandleDiameter = 7.0;
 {
     GLfloat xyz[3] = { position.x, position.y, position.z };
 
-    [renderer drawDragHandle:xyz
-     withSize:HandleDiameter / 2];
-}// end drawSelf:
+    [renderer drawDragHandle:xyz withSize:HandleDiameter / 2];
+} // end drawSelf:
 
 
 // ========== hitTest:transform:viewScale:boundsOnly:creditObject:hits: =======
@@ -206,12 +201,8 @@ static const double HandleDiameter = 7.0;
 // spherical drag handle.
 //
 // ==============================================================================
-- (void)hitTest:(Ray3)pickRay
-    transform:(Matrix4)transform
-    viewScale:(double)scaleFactor
-    boundsOnly:(BOOL)boundsOnly
-    creditObject:(id)creditObject
-    hits:(NSMutableDictionary *)hits
+- (void)hitTest:(Ray3)pickRay transform:(Matrix4)transform viewScale:(double)scaleFactor boundsOnly:(BOOL)
+    boundsOnly creditObject:(id)creditObject hits:(NSMutableDictionary *)hits
 {
     double handleScale    = 0.0;
     double drawRadius     = 0.0;
@@ -226,12 +217,9 @@ static const double HandleDiameter = 7.0;
     intersects = V3RayIntersectsSphere(pickRay, self->position, drawRadius, &intersectDepth);
 
     if (intersects) {
-        [LDrawUtilities registerHitForObject:self
-         depth:intersectDepth
-         creditObject:creditObject
-         hits:hits];
+        [LDrawUtilities registerHitForObject:self depth:intersectDepth creditObject:creditObject hits:hits];
     }
-}// end hitTest:transform:viewScale:boundsOnly:creditObject:hits:
+} // end hitTest:transform:viewScale:boundsOnly:creditObject:hits:
 
 
 // ========== depthTest:inBox:transform:creditObject:bestObject:bestDepth:=======
@@ -241,12 +229,8 @@ static const double HandleDiameter = 7.0;
 // depth.
 //
 // ==============================================================================
-- (void)depthTest:(Point2)pt
-    inBox:(Box2)bounds
-    transform:(Matrix4)transform
-    creditObject:(id)creditObject
-    bestObject:(id *)bestObject
-    bestDepth:(double *)bestDepth
+- (void)depthTest:(Point2)pt inBox:(Box2)bounds transform:(Matrix4)transform creditObject:(id)creditObject
+    bestObject:(id *)bestObject bestDepth:(double *)bestDepth
 {
     Vector3 v1 = V3MulPointByProjMatrix(self->position, transform);
 
@@ -256,7 +240,7 @@ static const double HandleDiameter = 7.0;
             *bestObject = creditObject ? creditObject : self;
         }
     }
-}// end depthTest:inBox:transform:creditObject:bestObject:bestDepth:
+} // end depthTest:inBox:transform:creditObject:bestObject:bestDepth:
 
 
 #pragma mark -
@@ -279,7 +263,7 @@ static const double HandleDiameter = 7.0;
     Point3 newPosition = V3Add(self->position, moveVector);
 
     [self setPosition:newPosition updateTarget:YES];
-}// end moveBy:
+} // end moveBy:
 
 
 // ---------- makeSphereWithLongitudinalCount:latitudinalCount: -------[static]--
@@ -289,8 +273,7 @@ static const double HandleDiameter = 7.0;
 // The sphere has a radius of 1.
 //
 // ------------------------------------------------------------------------------
-+ (void)makeSphereWithLongitudinalCount:(int)longitudeSections
-    latitudinalCount:(int)latitudeSections
++ (void)makeSphereWithLongitudinalCount:(int)longitudeSections latitudinalCount:(int)latitudeSections
 {
     // Bail if we've already done it.
     if (vboTag != 0) {
@@ -299,15 +282,15 @@ static const double HandleDiameter = 7.0;
     // lat. wraps halfway around sphere
     double latitudeRadians = (M_PI / latitudeSections);
     // long. wraps all the way
-    double        longitudeRadians = (2 * M_PI / longitudeSections);
-    int           vertexCount      = 0;
-    VBOVertexData *vertexes        = NULL;
-    int           latitudeCount    = 0;
-    int           longitudeCount   = 0;
-    double        latitude         = 0;
-    double        longitude        = 0;
-    int           counter          = 0;
-    GLfloat       sphereColor[4];
+    double longitudeRadians = (2 * M_PI / longitudeSections);
+    VBOVertexData *vertexes = NULL;
+    int     vertexCount     = 0;
+    int     latitudeCount   = 0;
+    int     longitudeCount  = 0;
+    int     counter   = 0;
+    double  latitude  = 0;
+    double  longitude = 0;
+    GLfloat sphereColor[4];
 
     // A pleasant lavender color
     sphereColor[0] = 0.50;
@@ -378,8 +361,7 @@ static const double HandleDiameter = 7.0;
     glBindBuffer(GL_ARRAY_BUFFER, vboTag);
     glVertexPointer(3, GL_FLOAT, sizeof(VBOVertexData), NULL);
     glNormalPointer(GL_FLOAT, sizeof(VBOVertexData), (GLvoid *)(sizeof(double) * 3));
-    glColorPointer(4, GL_FLOAT, sizeof(VBOVertexData),
-                   (GLvoid *)(sizeof(double) * 3 + sizeof(double) * 3));
+    glColorPointer(4, GL_FLOAT, sizeof(VBOVertexData), (GLvoid *)(sizeof(double) * 3 + sizeof(double) * 3));
     glBindVertexArrayAPPLE(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
@@ -398,6 +380,5 @@ static const double HandleDiameter = 7.0;
 {
     [super dealloc];
 }
-
 
 @end

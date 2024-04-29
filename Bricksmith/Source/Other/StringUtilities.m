@@ -10,7 +10,6 @@
 #import "StringUtilities.h"
 
 @implementation StringUtilities
-
 // ---------- nextCopyNameForString: ----------------------------------[static]--
 //
 // Purpose:		Returns the next name (in sequence) for a copy of the given
@@ -30,14 +29,13 @@
 // ------------------------------------------------------------------------------
 + (NSString *)nextCopyNameForString:(NSString *)originalString
 {
-    NSString *copyToken       = NSLocalizedString(@"CopySuffix", nil);
-    NSRange  rangeOfCopyToken = [originalString rangeOfString:copyToken
-                                 options:NSBackwardsSearch];
+    NSString  *copyToken = NSLocalizedString(@"CopySuffix", nil);
+    NSRange   rangeOfCopyToken   = [originalString rangeOfString:copyToken options:NSBackwardsSearch];
     NSScanner *copyNumberScanner = nil;
     NSInteger currentCopyNumber  = 0;
     BOOL      foundCopyNumber    = NO;
-    NSString  *baseName          = nil;
-    NSString  *newCopyString     = nil;
+    NSString  *baseName = nil;
+    NSString  *newCopyString = nil;
 
     // This string doesn't have the word "copy" in it yet.
     if (rangeOfCopyToken.location == NSNotFound) {
@@ -59,8 +57,7 @@
             // done with it.
             currentCopyNumber = 0;
         }
-        else if ([copyNumberScanner isAtEnd] == YES &&
-                 foundCopyNumber == NO) {
+        else if ([copyNumberScanner isAtEnd] == YES && foundCopyNumber == NO) {
             // The word copy is there, but not followed by a number. So this is
             // the first copy.
             currentCopyNumber = 1;
@@ -90,7 +87,7 @@
     }
 
     return(newCopyString);
-}// end nextCopyNameForString:
+} // end nextCopyNameForString:
 
 
 // ---------- nextCopyPathForFilePath: --------------------------------[static]--
@@ -112,12 +109,12 @@
 // ------------------------------------------------------------------------------
 + (NSString *)nextCopyPathForFilePath:(NSString *)basePath
 {
-    NSString *fileName              = [basePath lastPathComponent];
-    NSString *enclosingPath         = [basePath stringByDeletingLastPathComponent];
-    NSString *extension             = [basePath pathExtension];
+    NSString *fileName = [basePath lastPathComponent];
+    NSString *enclosingPath = [basePath stringByDeletingLastPathComponent];
+    NSString *extension     = [basePath pathExtension];
     NSString *fileNameSansExtension = [fileName stringByDeletingPathExtension];
-    NSString *copyBaseName          = nil;
-    NSString *copyPath              = nil;
+    NSString *copyBaseName = nil;
+    NSString *copyPath     = nil;
 
     // Derive the copy name and reconstitute the new path based on it.
     copyBaseName = [StringUtilities nextCopyNameForString:fileNameSansExtension];
@@ -125,7 +122,7 @@
     copyPath     = [copyPath stringByAppendingPathExtension:extension];
 
     return(copyPath);
-}// end nextCopyPathForFilePath:
+} // end nextCopyPathForFilePath:
 
 
 @end

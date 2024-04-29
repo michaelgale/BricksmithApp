@@ -19,9 +19,9 @@
 // =======================================================================
 static GLuint load_shader(NSString *file_path, GLenum shader_type, const char *shader_prefix)
 {
-    GLuint       shader_obj        = glCreateShader(shader_type);
-    NSString     *shader_file_text = [LDrawUtilities stringFromFile:file_path];
-    const GLchar *shader_text[2]   = { shader_prefix, [shader_file_text UTF8String] };
+    GLuint   shader_obj = glCreateShader(shader_type);
+    NSString *shader_file_text   = [LDrawUtilities stringFromFile:file_path];
+    const GLchar *shader_text[2] = { shader_prefix, [shader_file_text UTF8String] };
 
     glShaderSource(shader_obj, 2, shader_text, NULL);
     glCompileShader(shader_obj);
@@ -40,7 +40,7 @@ static GLuint load_shader(NSString *file_path, GLenum shader_type, const char *s
         return(0);
     }
     return(shader_obj);
-}// end load_shader
+} // end load_shader
 
 
 // =========- LDrawLoadShaderFromFile ====================================
@@ -57,11 +57,11 @@ static GLuint load_shader(NSString *file_path, GLenum shader_type, const char *s
 GLuint  LDrawLoadShaderFromFile(NSString *file_path, const char *attrib_list[])
 {
     GLuint vshader = load_shader(file_path,
-                                 GL_VERTEX_SHADER,
-                                 "#version 120\n#define VSHADER 1\n#define FSHADER 0\n");
+            GL_VERTEX_SHADER,
+            "#version 120\n#define VSHADER 1\n#define FSHADER 0\n");
     GLuint fshader = load_shader(file_path,
-                                 GL_FRAGMENT_SHADER,
-                                 "#version 120\n#define VSHADER 0\n#define FSHADER 1\n");
+            GL_FRAGMENT_SHADER,
+            "#version 120\n#define VSHADER 0\n#define FSHADER 1\n");
 
     if (!vshader || !fshader) {
         return(0);
@@ -96,7 +96,7 @@ GLuint  LDrawLoadShaderFromFile(NSString *file_path, const char *attrib_list[])
         return(0);
     }
     return(prog);
-}// end LDrawLoadShaderFromFile
+} // end LDrawLoadShaderFromFile
 
 
 // =========- LDrawLoadShaderFromResource ================================
@@ -110,8 +110,7 @@ GLuint  LDrawLoadShaderFromFile(NSString *file_path, const char *attrib_list[])
 GLuint  LDrawLoadShaderFromResource(NSString *name, const char *attrib_list[])
 {
     NSBundle *mainBundle = [NSBundle mainBundle];
-    NSString *path       = [mainBundle pathForResource:name
-                            ofType:nil];
+    NSString *path = [mainBundle pathForResource:name ofType:nil];
 
     return(LDrawLoadShaderFromFile(path, attrib_list));
-}// end LDrawLoadShaderFromResource
+} // end LDrawLoadShaderFromResource
