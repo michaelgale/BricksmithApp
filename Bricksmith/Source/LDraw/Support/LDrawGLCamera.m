@@ -425,11 +425,11 @@
         assert(visibilityPlane.size.width > 0.0);
         assert(visibilityPlane.size.height > 0.0);
         buildFrustumMatrix(projection, (GLfloat)V2BoxMinX(visibilityPlane), // left
-            (GLfloat)V2BoxMaxX(visibilityPlane),                // right
-            (GLfloat)V2BoxMinY(visibilityPlane),                // bottom
-            (GLfloat)V2BoxMaxY(visibilityPlane),                // top
+            (GLfloat)V2BoxMaxX(visibilityPlane), // right
+            (GLfloat)V2BoxMinY(visibilityPlane), // bottom
+            (GLfloat)V2BoxMaxY(visibilityPlane), // top
             (GLfloat)(fabs(cameraDistance) - fieldDepth / 2.0), // near (closer points are clipped); distance from CAMERA LOCATION
-            (GLfloat)(fabs(cameraDistance) + fieldDepth / 2.0)  // far (points beyond this are clipped); distance from CAMERA LOCATION
+            (GLfloat)(fabs(cameraDistance) + fieldDepth / 2.0) // far (points beyond this are clipped); distance from CAMERA LOCATION
             );
     }
     else {
@@ -443,10 +443,10 @@
 // printf("proj: %.1f, %.1f - %.1f, %.1f\n", visibilityPlane.origin.x, visibilityPlane.origin.y, visibilityPlane.size.width, visibilityPlane.size.height);
 
         buildOrthoMatrix(projection, (GLfloat)V2BoxMinX(visibilityPlane), // left
-            (GLfloat)V2BoxMaxX(visibilityPlane),                 // right
-            (GLfloat)V2BoxMinY(visibilityPlane),                 // bottom
-            (GLfloat)V2BoxMaxY(visibilityPlane),                 // top
-            (GLfloat)(fabs(cameraDistance) - fieldDepth / 2.0),  // near (points beyond these are clipped)
+            (GLfloat)V2BoxMaxX(visibilityPlane), // right
+            (GLfloat)V2BoxMinY(visibilityPlane), // bottom
+            (GLfloat)V2BoxMaxY(visibilityPlane), // top
+            (GLfloat)(fabs(cameraDistance) - fieldDepth / 2.0), // near (points beyond these are clipped)
             (GLfloat)(fabs(cameraDistance) + fieldDepth / 2.0)); // far
     }
 } // end makeProjection

@@ -1143,7 +1143,7 @@ NSString *Category_Subparts   = @"Subparts";
 
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, // texture type params
                 canvasRect.size.width, canvasRect.size.height, 0, // source image (w, h)
-                GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV,             // source storage format
+                GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, // source storage format
                 imageBuffer);
             // see function notes about the source storage format.
 

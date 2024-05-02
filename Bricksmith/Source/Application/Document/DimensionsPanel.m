@@ -306,7 +306,7 @@
             case LEGONIAN_FEET_ROW_INDEX :
                 object = [NSString stringWithFormat:NSLocalizedString(@"FeetAndInchesFormat", nil),
                     (int)floor(value / 12), // feet
-                    (int)fmod(value, 12)    // inches
+                    (int)fmod(value, 12) // inches
                     ];
                 break;
 

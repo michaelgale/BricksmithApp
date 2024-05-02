@@ -161,8 +161,8 @@
         // *in* the current step, model etc.
         [selectedObjects enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             if ([obj isKindOfClass:[LDrawPart class]] || [obj isKindOfClass:[LDrawLSynth class]] // parts
-            || ([obj isKindOfClass:[LDrawStep class]] && scope == ScopeStep)                     // steps
-            || ([obj isKindOfClass:[LDrawModel class]] && scope == ScopeModel)) {                // models
+            || ([obj isKindOfClass:[LDrawStep class]] && scope == ScopeStep) // steps
+            || ([obj isKindOfClass:[LDrawModel class]] && scope == ScopeModel)) { // models
                 [selectedParts addObject:obj];
             }
         }];

@@ -1481,7 +1481,8 @@ static NSSize Size2ToNSSize(Size2 size)
                 // Try waiting for a click-and-hold; that means "begin
                 // drag-and-drop"
                 self->mouseDownTimer =
-                    [NSTimer scheduledTimerWithTimeInterval:0.25 target:self selector:@selector(clickAndHoldTimerFired:)userInfo:theEvent repeats:NO];
+                    [NSTimer scheduledTimerWithTimeInterval:0.25 target:self selector:@selector(
+                        clickAndHoldTimerFired:)userInfo:theEvent repeats:NO];
                 break;
 
             case MouseDraggingBeginImmediately :
@@ -2035,7 +2036,8 @@ static NSSize Size2ToNSSize(Size2 size)
             // auto-scroll seems jerky.
             self->marqueeSelectionMode = selectionMode;
             self->autoscrollTimer =
-                [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(autoscrollTimerFired:)userInfo:self repeats:YES];
+                [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(
+                    autoscrollTimerFired:)userInfo:self repeats:YES];
         }
     }
 }

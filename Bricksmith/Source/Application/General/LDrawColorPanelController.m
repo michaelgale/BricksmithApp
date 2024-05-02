@@ -21,10 +21,9 @@
 
 typedef enum
 {
-    MaterialTypeAll         = 0, MaterialTypeSolid       = 1, MaterialTypeTransparent = 2,
-    MaterialTypeChrome      = 3,
-    MaterialTypePearlescent = 4, MaterialTypeRubber      = 5, MaterialTypeMetal  = 6,
-    MaterialTypeOther       = 7, MaterialTypeFavorite    = 8
+    MaterialTypeAll    = 0, MaterialTypeSolid       = 1, MaterialTypeTransparent = 2,
+    MaterialTypeChrome = 3, MaterialTypePearlescent = 4, MaterialTypeRubber      = 5, MaterialTypeMetal  = 6,
+    MaterialTypeOther  = 7, MaterialTypeFavorite    = 8
 } MaterialPopUpTagT;
 
 #define COLOR_SORT_DESCRIPTORS_KEY    @"ColorTable Sort Ordering"

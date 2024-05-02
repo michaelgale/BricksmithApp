@@ -24,7 +24,7 @@
 //
 // ==============================================================================
 
-static NSString *DEFAULT_HOSE_CONSTRAINT = @"LS01.DAT";
+static NSString * DEFAULT_HOSE_CONSTRAINT = @"LS01.DAT";
 static NSString *DEFAULT_BAND_CONSTRAINT = @"3648a.dat";
 static NSString *DEFAULT_HOSE_TYPE = @"TECHNIC_PNEUMATIC_HOSE";
 static NSString *DEFAULT_BAND_TYPE = @"TECHNIC_CHAIN_LINK";
@@ -254,8 +254,6 @@ static LSynthConfiguration *instance = nil;
 
                         // Use our processed description
                         [hose_constraint setValue:description forKey:@"description"];
-
-
                         [hose_constraints addObject:hose_constraint];
                         [quickRefHoseConstraints addObject:[[NSString stringWithCString:type encoding:
                         NSUTF8StringEncoding] lowercaseString]];

@@ -32,8 +32,8 @@ const TransformComponents IdentityComponents =
     0, // shear_XY;
     0, // shear_XZ;
     0, // shear_YZ;
-    { 0,   0,   0       },   // rotate;		//in radians
-    { 0,   0,   0       },   // translate;
+    { 0,   0,   0       },  // rotate;		//in radians
+    { 0,   0,   0       },  // translate;
     { 0,   0,   0, 0    }   // perspective;
 };
 

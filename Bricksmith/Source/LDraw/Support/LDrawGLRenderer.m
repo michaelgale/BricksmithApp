@@ -1027,7 +1027,7 @@
                 [(id)self->fileBeingDrawn projectedBoundingBoxWithModelView:modelView projection:projection
                 view:viewport];
             projectionRect = V2MakeBox(projectedBounds.min.x, projectedBounds.min.y, // origin
-                    projectedBounds.max.x - projectedBounds.min.x,  // width
+                    projectedBounds.max.x - projectedBounds.min.x, // width
                     projectedBounds.max.y - projectedBounds.min.y); // height
 
             // ---------- Find zoom scale -----------------------------------

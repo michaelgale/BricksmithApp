@@ -439,23 +439,18 @@
     // ---------- head pieces ---------------------------------------------------
 
     // * hat
-    [self rotateByDegrees:V3Make(0, angleOfHat, 0)
-    parts:hat, nil];
+    [self rotateByDegrees:V3Make(0, angleOfHat, 0) parts:hat, nil];
 
     // * head
-    [self rotateByDegrees:V3Make(0, angleOfHead, 0)
-    parts:hat, head, nil];
-    [self moveBy:V3Make(0, -24, 0)
-    parts:hat, head, nil];
+    [self rotateByDegrees:V3Make(0, angleOfHead, 0) parts:hat, head, nil];
+    [self moveBy:V3Make(0, -24, 0) parts:hat, head, nil];
 
     // * neck accessory
-    [self rotateByDegrees:V3Make(0, angleOfNeck, 0)
-    parts:neck, nil];
+    [self rotateByDegrees:V3Make(0, angleOfNeck, 0) parts:neck, nil];
 
     // move up for neck accessory
     if (hasNeckAccessory == YES) {
-        [self moveBy:V3Make(0, -headElevation, 0)
-        parts:hat, head, nil];
+        [self moveBy:V3Make(0, -headElevation, 0) parts:hat, head, nil];
     }
 
     // ---------- right arm pieces ----------------------------------------------
@@ -466,31 +461,25 @@
     parts:rightHandAccessory, nil];
     if (hasRightHand == YES) {
         // 15 degrees to fit the hand at 0 degrees
-        [self rotateByDegrees:V3Make(15, 0, 0)
-        parts:rightHandAccessory, nil];
-        [self moveBy:V3Make(0, 0, -10)
-        parts:rightHandAccessory, nil];
+        [self rotateByDegrees:V3Make(15, 0, 0) parts:rightHandAccessory, nil];
+        [self moveBy:V3Make(0, 0, -10) parts:rightHandAccessory, nil];
     }
     else {
         // fit skeleton arm
-        [self moveBy:V3Make(-6, 0, -29.5)
-        parts:rightHandAccessory, nil];
+        [self moveBy:V3Make(-6, 0, -29.5) parts:rightHandAccessory, nil];
     }
 
 
     // * position the right hand in the right arm
     if (hasRightHand == YES) { // don't do this if using the skeleton arm.
         // - apply hand rotation
-        [self rotateByDegrees:V3Make(0, 0, angleOfRightHand)
-        parts:rightHand, rightHandAccessory, nil];
+        [self rotateByDegrees:V3Make(0, 0, angleOfRightHand) parts:rightHand, rightHandAccessory, nil];
 
         // -- rotate hand to match arm socket
-        [self rotateByDegrees:V3Make(45, 0, 0)
-        parts:rightHand, rightHandAccessory, nil];
+        [self rotateByDegrees:V3Make(45, 0, 0) parts:rightHand, rightHandAccessory, nil];
 
         // -- move hand into arm
-        [self moveBy:V3Make(-5, 19, -10)
-        parts:rightHand, rightHandAccessory, nil];
+        [self moveBy:V3Make(-5, 19, -10) parts:rightHand, rightHandAccessory, nil];
     }
 
 
@@ -498,71 +487,56 @@
 
     // -- apply arm rotation
     // negative so it matches how the circular slider looks.
-    [self rotateByDegrees:V3Make(-angleOfRightArm, 0, 0)
-    parts:rightArm, rightHand, rightHandAccessory, nil];
+    [self rotateByDegrees:V3Make(-angleOfRightArm, 0, 0) parts:rightArm, rightHand, rightHandAccessory, nil];
 
     // -- rotate arm to match torso
     // this value is derived from a little trig on the torso surface.
-    [self rotateByDegrees:V3Make(0, 0, armAngle)
-    parts:rightArm, rightHand, rightHandAccessory, nil];
+    [self rotateByDegrees:V3Make(0, 0, armAngle) parts:rightArm, rightHand, rightHandAccessory, nil];
 
     // -- move arm into torso
-    [self moveBy:V3Make(-15.4, 8, 0)
-    parts:rightArm, rightHand, rightHandAccessory, nil];
+    [self moveBy:V3Make(-15.4, 8, 0) parts:rightArm, rightHand, rightHandAccessory, nil];
 
 
     // ---------- left arm pieces -----------------------------------------------
 
     // * position the left accessory in the hand
 
-    [self rotateByDegrees:V3Make(0, angleOfLeftHandAccessory, 0)
-    parts:leftHandAccessory, nil];
+    [self rotateByDegrees:V3Make(0, angleOfLeftHandAccessory, 0) parts:leftHandAccessory, nil];
     if (hasLeftHand == YES) {
         // 15 degrees to fit the hand at 0 degrees
-        [self rotateByDegrees:V3Make(15, 0, 0)
-        parts:leftHandAccessory, nil];
-        [self moveBy:V3Make(0, 0, -10)
-        parts:leftHandAccessory, nil];
+        [self rotateByDegrees:V3Make(15, 0, 0) parts:leftHandAccessory, nil];
+        [self moveBy:V3Make(0, 0, -10) parts:leftHandAccessory, nil];
     }
     else {
         // fit skeleton arm
-        [self moveBy:V3Make(6, 0, -29.5)
-        parts:leftHandAccessory, nil];
+        [self moveBy:V3Make(6, 0, -29.5) parts:leftHandAccessory, nil];
     }
 
 
     // * position the left hand in the left arm
     if (hasLeftHand == YES) { // don't do this if using the skeleton arm.
         // - apply hand rotation
-        [self rotateByDegrees:V3Make(0, 0, angleOfLeftHand)
-        parts:leftHand, leftHandAccessory, nil];
+        [self rotateByDegrees:V3Make(0, 0, angleOfLeftHand) parts:leftHand, leftHandAccessory, nil];
 
         // -- rotate hand to match arm socket
-        [self rotateByDegrees:V3Make(45, 0, 0)
-        parts:leftHand, leftHandAccessory, nil];
+        [self rotateByDegrees:V3Make(45, 0, 0) parts:leftHand, leftHandAccessory, nil];
 
         // -- move hand into arm
-        [self moveBy:V3Make(5, 19, -10)
-        parts:leftHand, leftHandAccessory, nil];
+        [self moveBy:V3Make(5, 19, -10) parts:leftHand, leftHandAccessory, nil];
     }
-
 
     // * position the left arm in the torso
 
     // -- apply arm rotation
     // negative so it matches how the circular slider looks.
-    [self rotateByDegrees:V3Make(-angleOfLeftArm, 0, 0)
-    parts:leftArm, leftHand, leftHandAccessory, nil];
+    [self rotateByDegrees:V3Make(-angleOfLeftArm, 0, 0) parts:leftArm, leftHand, leftHandAccessory, nil];
 
     // -- rotate arm to match torso
     // this value is derived from a little trig on the torso surface.
-    [self rotateByDegrees:V3Make(0, 0, -armAngle)
-    parts:leftArm, leftHand, leftHandAccessory, nil];
+    [self rotateByDegrees:V3Make(0, 0, -armAngle) parts:leftArm, leftHand, leftHandAccessory, nil];
 
     // -- move arm into torso
-    [self moveBy:V3Make(15.4, 8, 0)
-    parts:leftArm, leftHand, leftHandAccessory, nil];
-
+    [self moveBy:V3Make(15.4, 8, 0) parts:leftArm, leftHand, leftHandAccessory, nil];
 
     // ---------- Legs ----------------------------------------------------------
 
@@ -580,10 +554,8 @@
     centerPoint:V3Make(-10, 28, -1)]; // center of the foot.
 
     // * position the right leg on the hips
-    [self rotateByDegrees:V3Make(-angleOfRightLeg, 0, 0)
-    parts:rightLegAccessory, rightLeg, nil];
-    [self moveBy:V3Make(0, 44, 0)
-    parts:rightLegAccessory, rightLeg, nil];
+    [self rotateByDegrees:V3Make(-angleOfRightLeg, 0, 0) parts:rightLegAccessory, rightLeg, nil];
+    [self moveBy:V3Make(0, 44, 0) parts:rightLegAccessory, rightLeg, nil];
 
     // ---------- left leg pieces ----------------------------------------------
 
@@ -597,18 +569,14 @@
     centerPoint:V3Make(10, 28, -1)]; // center of the foot.
 
     // * position the left leg on the hips
-    [self rotateByDegrees:V3Make(-angleOfLeftLeg, 0, 0)
-    parts:leftLegAccessory, leftLeg, nil];
-    [self moveBy:V3Make(0, 44, 0)
-    parts:leftLegAccessory, leftLeg, nil];
-
+    [self rotateByDegrees:V3Make(-angleOfLeftLeg, 0, 0) parts:leftLegAccessory, leftLeg, nil];
+    [self moveBy:V3Make(0, 44, 0) parts:leftLegAccessory, leftLeg, nil];
 
     ///////////////////////////////////////
     //
     // Create the Model
     //
     ///////////////////////////////////////
-
 
     if (hasHat == YES) {
         [firstStep addDirective:hat];
