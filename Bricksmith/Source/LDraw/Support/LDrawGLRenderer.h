@@ -34,7 +34,7 @@
 typedef enum
 {
     LDrawGLDrawNormal        = 0, // full draw
-    LDrawGLDrawExtremelyFast = 1 // bounds only
+    LDrawGLDrawExtremelyFast = 1  // bounds only
 } RotationDrawModeT;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -43,42 +43,6 @@ typedef enum
 //
 ////////////////////////////////////////////////////////////////////////////////
 @interface LDrawGLRenderer : NSObject <LDrawColorable>
-{
-    id <LDrawGLRendererDelegate> delegate;
-    id <LDrawGLCameraScroller>   scroller;
-    id   target;
-    BOOL allowsEditing;
-
-    LDrawDirective *fileBeingDrawn; // Should only be an LDrawFile or LDrawModel.
-    // if you want to do anything else, you must
-    // tweak the selection code in LDrawDrawableElement
-    // and here in -mouseUp: to handle such cases.
-
-    LDrawGLCamera *camera;
-
-    // Drawing Environment
-    LDrawColor *color; // default color to draw parts if none is specified
-    GLfloat    glBackgroundColor[4];
-    Box2 selectionMarquee; // in view coordinates. ZeroBox2 means no marquee.
-    RotationDrawModeT rotationDrawMode; // drawing detail while rotating.
-    ViewOrientationT  viewOrientation; // our orientation
-    NSTimeInterval    fpsStartTime;
-    NSInteger framesSinceStartTime;
-
-    // Event Tracking
-    double  gridSpacing;
-    BOOL    isGesturing;     // true if performing a multitouch trackpad gesture.
-    BOOL    isTrackingDrag;  // true if the last mousedown was followed by a drag, and we're tracking it (drag-and-drop doesn't count)
-    BOOL    isStartingDrag;  // this is the first event in a drag
-    NSTimer *mouseDownTimer; // countdown to beginning drag-and-drop
-    BOOL    canBeginDragAndDrop; // the next mouse-dragged will initiate a drag-and-drop.
-    BOOL    didPartSelection;       // tried part selection during this click
-    BOOL    dragEndedInOurDocument; // YES if the drag we initiated ended in the document we display
-    Vector3 draggingOffset; // displacement between part 0's position and the initial click point of the drag
-    Point3  initialDragLocation; // point in model where part was positioned at draggingEntered
-    LDrawDragHandle *activeDragHandle; // drag handle hit on last mouse-down (or nil)
-    BOOL showAxisLines;
-}
 
 // Initialization
 - (id)initWithBounds:(Size2)boundsIn;
@@ -89,7 +53,6 @@ typedef enum
 
 // Accessors
 - (LDrawDragHandle *)activeDragHandle;
-- (Point2)centerPoint;
 - (BOOL)didPartSelection;
 - (Matrix4)getMatrix;
 - (BOOL)isTrackingDrag;
@@ -99,7 +62,6 @@ typedef enum
 - (Box2)selectionMarquee;
 - (Tuple3)viewingAngle;
 - (ViewOrientationT)viewOrientation;
-- (Box2)viewport;
 - (CGFloat)zoomPercentage;
 - (CGFloat)zoomPercentageForGL;
 
@@ -107,10 +69,9 @@ typedef enum
 - (void)setBackgroundColorRed:(float)red green:(float)green blue:(float)blue;
 - (void)setDelegate:(id <LDrawGLRendererDelegate>)object withScroller:(id <LDrawGLCameraScroller>)scroller;
 - (void)setDraggingOffset:(Vector3)offsetIn;
-- (void)setGridSpacing:(double)newValue;
+- (void)setGridSpacing:(float)newValue;
 - (void)setLDrawDirective:(LDrawDirective *)newFile;
-// This is how we find out that the visible frame of our window is bigger or smaller
-- (void)setMaximumVisibleSize:(Size2)size;
+- (void)setGraphicsSurfaceSize:(Size2)size; // This is how we find out that the visible frame of our window is bigger or smaller
 - (void)setProjectionMode:(ProjectionModeT)newProjectionMode;
 - (void)setLocationMode:(LocationModeT)newLocationMode;
 - (void)setSelectionMarquee:(Box2)newBox;
@@ -133,21 +94,18 @@ typedef enum
 - (void)mouseUp;
 
 - (void)mouseCenterClick:(Point2)viewClickedPoint;
-// Returns TRUE if we hit any parts at all.
-- (BOOL)mouseSelectionClick:(Point2)point_view selectionMode:(SelectionModeT)selectionMode;
+- (BOOL)mouseSelectionClick:(Point2)point_view selectionMode:(SelectionModeT)selectionMode; // Returns TRUE if we hit any parts at all.
 - (void)mouseZoomInClick:(Point2)viewClickedPoint;
 - (void)mouseZoomOutClick:(Point2)viewClickedPoint;
 
 - (void)dragHandleDraggedToPoint:(Point2)point_view constrainDragAxis:(BOOL)constrainDragAxis;
 - (void)panDragged:(Vector2)viewDirection location:(Point2)point_view;
-// This is how we get track-balled
-- (void)rotationDragged:(Vector2)viewDirection;
+- (void)rotationDragged:(Vector2)viewDirection; // This is how we get track-balled
 - (void)zoomDragged:(Vector2)viewDirection;
 - (void)mouseSelectionDragToPoint:(Point2)point_view selectionMode:(SelectionModeT)selectionMode;
 - (void)beginGesture;
 - (void)endGesture;
-// Track-pad twist gesture
-- (void)rotateByDegrees:(double)angle;
+- (void)rotateByDegrees:(float)angle; // Track-pad twist gesture
 
 // Drag and Drop
 - (void)draggingEnteredAtPoint:(Point2)point_view directives:(NSArray *)directives setTransform:(BOOL)
@@ -161,16 +119,18 @@ typedef enum
 - (void)displayNeedsUpdating:(NSNotification *)notification;
 
 // Utilities
+- (BOOL)autoscrollPoint:(Point2)point_view relativeToRect:(Box2)viewRect;
+// - (NSArray *) getDirectivesUnderPoint:(Point2)point_view amongDirectives:(NSArray *)directives fastDraw:(BOOL)fastDraw;
 - (NSArray *)getDirectivesUnderRect:(Box2)rect_view amongDirectives:(NSArray *)directives fastDraw:(BOOL)
     fastDraw;
+// - (NSArray *) getPartsFromHits:(NSDictionary *)hits;
 - (void)publishMouseOverPoint:(Point2)viewPoint;
-// This and setZoomPercentage are how we zoom.
-- (void)setZoomPercentage:(CGFloat)newPercentage preservePoint:(Point2)viewPoint;
-// These two are how we do gesture-based scrolls
-- (void)scrollCenterToModelPoint:(Point3)modelPoint;
+- (void)setZoomPercentage:(CGFloat)newPercentage preservePoint:(Point2)viewPoint; // This and setZoomPercentage are how we zoom.
+- (void)scrollBy:(Vector2)scrollDelta;
+- (void)scrollCameraVisibleRectToPoint:(Point2)visibleRectOrigin;
+- (void)scrollCenterToModelPoint:(Point3)modelPoint; // These two are how we do gesture-based scrolls
 - (void)scrollModelPoint:(Point3)modelPoint toViewportProportionalPoint:(Point2)viewportPoint;
-// A camera "property change"
-- (void)updateRotationCenter;
+- (void)updateRotationCenter; // A camera "property change"
 - (void)showAxisLines:(BOOL)flag;
 
 // - Geometry
@@ -197,6 +157,7 @@ confidence;
 - (void)LDrawGLRendererMouseNotPositioning:(LDrawGLRenderer *)renderer;
 
 - (TransformComponents)LDrawGLRendererPreferredPartTransform:(LDrawGLRenderer *)renderer;
+
 - (void)LDrawGLRenderer:(LDrawGLRenderer *)renderer wantsToSelectDirective:(LDrawDirective *)directiveToSelect
     byExtendingSelection:(BOOL)shouldExtend;
 - (void)LDrawGLRenderer:(LDrawGLRenderer *)renderer wantsToSelectDirectives:(NSArray *)directivesToSelect

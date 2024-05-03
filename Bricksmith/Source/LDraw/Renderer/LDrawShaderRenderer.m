@@ -17,18 +17,18 @@
 // and its order must match the attr_position...array in the .h.
 static const char *attribs[] =
 {
-    "position",      "normal",           "color",           "transform_x",             "transform_y",
+    "position",        "normal",             "color",           "transform_x",           "transform_y",
     "transform_z",
     "transform_w",
-    "color_current", "color_compliment", "texture_mix",     NULL
+    "color_current",   "color_compliment",   "texture_mix",     NULL
 };
 
 // Drag handle linked list.  When we get drag handle requests we transform the location into eye-space (to 'capture' the
 // drag handle location, then we draw it later when our coordinate system isn't possibly scaled.
 struct  LDrawDragHandleInstance {
     struct LDrawDragHandleInstance *next;
-    double                         xyz[3];
-    double                         size;
+    float                          xyz[3];
+    float                          size;
 };
 
 // ========== set_color4fv ========================================================
@@ -71,7 +71,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
 // Purpose: initialize our renderer, and grab all basic OpenGL state we need.
 //
 // ================================================================================
-- (id)initWithScale:(double)initial_scale modelView:(GLfloat *)mv_matrix projection:(GLfloat *)proj_matrix
+- (id)initWithScale:(float)initial_scale modelView:(GLfloat *)mv_matrix projection:(GLfloat *)proj_matrix
 {
     pool = LDrawBDPCreate();
     // Build our shader if it doesn't exist yet.  For now, just stash the GL
@@ -88,7 +88,9 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
     else {
         glUseProgram(prog);
     }
+
     self = [super init];
+
     self->scale = initial_scale;
 
     [[[ColorLibrary sharedColorLibrary] colorForCode:LDrawCurrentColor] getColorRGBA:color_now];
@@ -114,6 +116,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
     glDisableClientState(GL_COLOR_ARRAY);
     glDisableClientState(GL_NORMAL_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);
+
     drag_handles = NULL;
 
     return(self);
@@ -132,25 +135,15 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
 
     LDrawDLSessionDrawAndDestroy(session);
     session = nil;
-    GLfloat xyz[3];
 
     // Go through and draw the drag handles...
 
     for (dh = drag_handles; dh != NULL; dh = dh->next) {
         GLfloat s     = dh->size / self->scale;
-        GLfloat m[16] = { s,                   0,                             0,                   0,
-                          0,                             s,                             0,
-                          0,                   0,                             0,                   s,
-                          0,
-                          (GLfloat)dh->xyz[0],
-                          (GLfloat)dh->xyz[1],
-                          (GLfloat)dh->xyz[2], 1.0f };
+        GLfloat m[16] = { s, 0, 0, 0, 0, s, 0, 0, 0, 0, s, 0, dh->xyz[0], dh->xyz[1], dh->xyz[2], 1.0 };
 
         [self pushMatrix:m];
-        xyz[0] = (GLfloat)dh->xyz[0];
-        xyz[1] = (GLfloat)dh->xyz[1];
-        xyz[2] = (GLfloat)dh->xyz[2];
-        [self drawDragHandleImm:&xyz[0] withSize:dh->size];
+        [self drawDragHandleImm:dh->xyz withSize:dh->size];
         [self popMatrix];
     }
 
@@ -158,13 +151,13 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
     glUseProgram(0);
 
     int a;
-
     for (a = 0; a < attr_count; ++a) {
         glDisableVertexAttribArray(a);
     }
     glEnableClientState(GL_COLOR_ARRAY);
     glEnableClientState(GL_NORMAL_ARRAY);
     glEnableClientState(GL_VERTEX_ARRAY);
+
     LDrawBDPDestroy(pool);
 
     [super dealloc];
@@ -232,8 +225,8 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
         return(cull_skip);
     }
 
-    int x_pix = (aabb_ndc[3] - aabb_ndc[0]) * CULL_BOX_X;
-    int y_pix = (aabb_ndc[4] - aabb_ndc[1]) * CULL_BOX_Y;
+    int x_pix = (aabb_ndc[3] - aabb_ndc[0]) * 512.0;
+    int y_pix = (aabb_ndc[4] - aabb_ndc[1]) * 384.0;
     int dim   = MAX(x_pix, y_pix);
 
     if (dim < 1) {
@@ -242,6 +235,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
     if (dim < 10) {
         return(cull_box);
     }
+
     return(cull_draw);
 } // end pushMatrix:to:
 
@@ -263,14 +257,14 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
     if (!unit_cube) {
         struct LDrawDLBuilder *builder = LDrawDLBuilderCreate();
 
-    #define LBR    0, 0, 0
-    #define RBR    1, 0, 0
-    #define LTR    0, 1, 0
-    #define RTR    1, 1, 0
-    #define LBF    0, 0, 1
-    #define RBF    1, 0, 1
-    #define LTF    0, 1, 1
-    #define RTF    1, 1, 1
+        #define LBR    0, 0, 0
+        #define RBR    1, 0, 0
+        #define LTR    0, 1, 0
+        #define RTR    1, 1, 0
+        #define LBF    0, 0, 1
+        #define RBF    1, 0, 1
+        #define LTF    0, 1, 1
+        #define RTF    1, 1, 1
 
         GLfloat top[12] = { LTF, RTF, RTR, LTR };
         GLfloat bot[12] = { LBF, LBR, RBR, RBF };
@@ -291,14 +285,14 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
 
         unit_cube = LDrawDLBuilderFinish(builder);
     }
+
     GLfloat dim[3] =
     {
         maxXyz[0] - minXyz[0], maxXyz[1] - minXyz[1], maxXyz[2] - minXyz[2]
     };
-    GLfloat rescale[16] = { dim[0],    0,    0,    0,    0,    dim[1], 0, 0, 0, 0, dim[2], 0, minXyz[0],
-                            minXyz[1],
-                            minXyz[2], 1 };
 
+    GLfloat rescale[16] = { dim[0],    0,    0, 0, 0, dim[1], 0, 0, 0, 0, dim[2], 0, minXyz[0], minXyz[1],
+                            minXyz[2], 1 };
     [self pushMatrix:rescale];
     [self drawDL:unit_cube];
     [self popMatrix];
@@ -382,6 +376,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
     memcpy(tex_stack + texture_stack_top, &tex_now, sizeof(tex_now));
     ++texture_stack_top;
     memcpy(&tex_now, spec, sizeof(tex_now));
+
     if (dl_stack_top) {
         LDrawDLBuilderSetTex(dl_now, &tex_now);
     }
@@ -399,6 +394,7 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
     assert(texture_stack_top > 0);
     --texture_stack_top;
     memcpy(&tex_now, tex_stack + texture_stack_top, sizeof(tex_now));
+
     if (dl_stack_top) {
         LDrawDLBuilderSetTex(dl_now, &tex_now);
     }
@@ -446,7 +442,9 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
 {
     assert(dl_stack_top);
     GLfloat c[4];
+
     set_color4fv(color, c);
+
     LDrawDLBuilderAddQuad(dl_now, vertices, normal, c);
 } // end drawQuad:normal:color:
 
@@ -459,8 +457,11 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
 - (void)drawTri:(GLfloat *)vertices normal:(GLfloat *)normal color:(GLfloat *)color;
 {
     assert(dl_stack_top);
+
     GLfloat c[4];
+
     set_color4fv(color, c);
+
     LDrawDLBuilderAddTri(dl_now, vertices, normal, c);
 } // end drawTri:normal:color:
 
@@ -473,8 +474,11 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
 - (void)drawLine:(GLfloat *)vertices normal:(GLfloat *)normal color:(GLfloat *)color;
 {
     assert(dl_stack_top);
+
     GLfloat c[4];
+
     set_color4fv(color, c);
+
     LDrawDLBuilderAddLine(dl_now, vertices, normal, c);
 } // end drawLine:normal:color:
 
@@ -505,10 +509,10 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
 
     applyMatrix(handle_world, transform_now, handle_local);
 
-    dh->xyz[0] = (double)handle_world[0];
-    dh->xyz[1] = (double)handle_world[1];
-    dh->xyz[2] = (double)handle_world[2];
-    dh->size   = (double)size;
+    dh->xyz[0] = handle_world[0];
+    dh->xyz[1] = handle_world[1];
+    dh->xyz[2] = handle_world[2];
+    dh->size   = size;
 } // end drawDragHandle:withSize:
 
 
@@ -535,16 +539,18 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
 
     if (vaoTag == 0) {
         // Bail if we've already done it.
-        int     latitudeSections  = 8;
-        int     longitudeSections = 8;
-        double  latitudeRadians   = (M_PI / latitudeSections);      // lat. wraps halfway around sphere
-        double  longitudeRadians  = (2 * M_PI / longitudeSections); // long. wraps all the way
+
+        int latitudeSections  = 8;
+        int longitudeSections = 8;
+
+        float   latitudeRadians  = (M_PI / latitudeSections);            // lat. wraps halfway around sphere
+        float   longitudeRadians = (2 * M_PI / longitudeSections);       // long. wraps all the way
         int     vertexCount    = 0;
         GLfloat *vertexes      = NULL;
         int     latitudeCount  = 0;
         int     longitudeCount = 0;
-        double  latitude  = 0;
-        double  longitude = 0;
+        float   latitude  = 0;
+        float   longitude = 0;
 
         // ---------- Generate Sphere -----------------------------------------------
 
@@ -584,12 +590,14 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
                 *vertexes++ = cos(latitude + latitudeRadians);
             }
         }
+
         glUnmapBuffer(GL_ARRAY_BUFFER);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
 
         // ---------- Optimize ------------------------------------------------------
 
         vboVertexCount = vertexCount;
+
         // Encapsulate in a VAO
         glGenVertexArraysAPPLE(1, &vaoTag);
         glBindVertexArrayAPPLE(vaoTag);
@@ -607,7 +615,6 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
     glDisable(GL_TEXTURE_2D);
 
     int i;
-
     for (i = 0; i < 4; ++i) {
         glVertexAttrib4f(attr_transform_x + i,
             transform_now[i],

@@ -23,12 +23,12 @@
 // ==============================================================================
 #import "PartBrowserDataSource.h"
 
-#import "ExtendedScrollView.h"
 #import "IconTextCell.h"
 #import "LDrawApplication.h"
 #import "LDrawColorPanelController.h"
 #import "LDrawModel.h"
 #import "LDrawPart.h"
+#import "LDrawViewerContainer.h"
 #import "MacLDraw.h"
 #import "PartLibrary.h"
 #import "StringCategory.h"
@@ -55,6 +55,10 @@
     // -init.
     if (self->partsTable != nil) {
         // ---------- Widget Setup ----------------------------------------------
+
+        if (partPreview == nil) {
+            partPreview = partPreviewViewport.glView;
+        }
 
         // - Category Table
 
@@ -84,11 +88,11 @@
 
         [self->partPreview setAcceptsFirstResponder:NO];
         [self->partPreview setDelegate:self];
-        if ([[self->partPreview enclosingScrollView] isKindOfClass:[ExtendedScrollView class]]) {
-            [(ExtendedScrollView *)[self->partPreview enclosingScrollView]
-            setPreservesScrollCenterDuringLiveResize:YES];
-            [(ExtendedScrollView *)[self->partPreview enclosingScrollView] setStoresScrollCenterAsFraction:YES];
-        }
+// if ([[self->partPreview enclosingScrollView] isKindOfClass:[ExtendedScrollView class]]) {
+// [(ExtendedScrollView *)[self->partPreview enclosingScrollView]
+// setPreservesScrollCenterDuringLiveResize:YES];
+// [(ExtendedScrollView *)[self->partPreview enclosingScrollView] setStoresScrollCenterAsFraction:YES];
+// }
 
 
         [self->zoomInButton setTarget:self->partPreview];

@@ -161,57 +161,16 @@
                         </view>
                     </box>
                     <box fixedFrame="YES" boxType="oldStyle" borderType="none" title="Title" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="66">
-                        <rect key="frame" x="583" y="43" width="252" height="369"/>
+                        <rect key="frame" x="583" y="85" width="251" height="327"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                         <view key="contentView" id="0vE-mc-nvo">
-                            <rect key="frame" x="0.0" y="0.0" width="252" height="369"/>
+                            <rect key="frame" x="0.0" y="0.0" width="251" height="327"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <scrollView fixedFrame="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="60">
-                                    <rect key="frame" x="0.0" y="42" width="232" height="307"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
-                                    <clipView key="contentView" id="zhq-Zd-rEe">
-                                        <rect key="frame" x="1" y="1" width="215" height="290"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                        <subviews>
-                                            <openGLView wantsLayer="YES" fixedFrame="YES" useAuxiliaryDepthBufferStencil="NO" translatesAutoresizingMaskIntoConstraints="NO" id="61" customClass="LDrawGLView">
-                                                <rect key="frame" x="0.0" y="0.0" width="230" height="305"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            </openGLView>
-                                        </subviews>
-                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    </clipView>
-                                    <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="126">
-                                        <rect key="frame" x="1" y="291" width="215" height="15"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                    </scroller>
-                                    <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="125">
-                                        <rect key="frame" x="216" y="1" width="15" height="290"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                    </scroller>
-                                </scrollView>
-                                <button horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="71">
-                                    <rect key="frame" x="27" y="0.0" width="39" height="38"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
-                                    <buttonCell key="cell" type="round" title="−" bezelStyle="circular" alignment="center" borderStyle="border" id="115">
-                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                        <font key="font" metaFont="systemBold" size="16"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <action selector="zoomOut:" target="61" id="74"/>
-                                    </connections>
-                                </button>
-                                <button horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="72">
-                                    <rect key="frame" x="-6" y="0.0" width="39" height="38"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
-                                    <buttonCell key="cell" type="round" title="+" bezelStyle="circular" alignment="center" borderStyle="border" id="116">
-                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                        <font key="font" metaFont="systemBold" size="16"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <action selector="zoomIn:" target="61" id="73"/>
-                                    </connections>
-                                </button>
+                                <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Lp6-SQ-yb7" customClass="LDrawViewerContainer">
+                                    <rect key="frame" x="-3" y="0.0" width="254" height="307"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
+                                </customView>
                             </subviews>
                         </view>
                     </box>
@@ -262,7 +221,7 @@ DQ
             </view>
             <connections>
                 <outlet property="objectController" destination="37" id="63"/>
-                <outlet property="partPreview" destination="61" id="62"/>
+                <outlet property="partPreview" destination="Lp6-SQ-yb7" id="cFr-Gt-zMy"/>
                 <outlet property="pieceCountTable" destination="9" id="56"/>
             </connections>
             <point key="canvasLocation" x="139" y="114"/>

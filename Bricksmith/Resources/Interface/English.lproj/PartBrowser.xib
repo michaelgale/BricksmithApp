@@ -19,7 +19,7 @@
                 <outlet property="addRemoveFavoriteButton" destination="159" id="163"/>
                 <outlet property="categoryTable" destination="213" id="221"/>
                 <outlet property="insertButton" destination="133" id="164"/>
-                <outlet property="partPreview" destination="120" id="121"/>
+                <outlet property="partPreviewViewport" destination="Jz8-76-tOq" id="ttQ-dE-wfF"/>
                 <outlet property="partsTable" destination="115" id="117"/>
                 <outlet property="searchAllCategoriesButton" destination="227" id="230"/>
                 <outlet property="searchField" destination="128" id="129"/>
@@ -78,18 +78,18 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <customView fixedFrame="YES" id="135">
-                                <rect key="frame" x="0.0" y="0.0" width="448" height="228"/>
+                                <rect key="frame" x="0.0" y="0.0" width="448" height="322"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <subviews>
                                     <scrollView focusRingType="none" fixedFrame="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="114">
-                                        <rect key="frame" x="158" y="6" width="290" height="195"/>
+                                        <rect key="frame" x="158" y="6" width="290" height="289"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <clipView key="contentView" id="Nr6-g1-l4J">
-                                            <rect key="frame" x="1" y="1" width="277" height="193"/>
+                                            <rect key="frame" x="1" y="1" width="277" height="287"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" multipleSelection="NO" emptySelection="NO" autosaveName="PartBrowserPanelTable" headerView="204" id="115" customClass="PartBrowserTableView">
-                                                    <rect key="frame" x="0.0" y="0.0" width="277" height="170"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="277" height="264"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <size key="intercellSpacing" width="3" height="2"/>
                                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -134,7 +134,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
                                         <scroller key="verticalScroller" verticalHuggingPriority="750" controlSize="small" horizontal="NO" id="202">
-                                            <rect key="frame" x="278" y="24" width="11" height="170"/>
+                                            <rect key="frame" x="278" y="24" width="11" height="264"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
                                         <tableHeaderView key="headerView" wantsLayer="YES" id="204">
@@ -143,7 +143,7 @@
                                         </tableHeaderView>
                                     </scrollView>
                                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="224">
-                                        <rect key="frame" x="0.0" y="198" width="448" height="30"/>
+                                        <rect key="frame" x="0.0" y="292" width="448" height="30"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         <subviews>
                                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="226">
@@ -177,14 +177,14 @@
                                         </subviews>
                                     </customView>
                                     <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="23" horizontalPageScroll="10" verticalLineScroll="23" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="210">
-                                        <rect key="frame" x="0.0" y="6" width="150" height="195"/>
+                                        <rect key="frame" x="0.0" y="6" width="150" height="289"/>
                                         <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
                                         <clipView key="contentView" id="Xj5-Zr-HQf">
-                                            <rect key="frame" x="1" y="1" width="148" height="193"/>
+                                            <rect key="frame" x="1" y="1" width="148" height="287"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <outlineView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="20" indentationPerLevel="16" autoresizesOutlineColumn="YES" outlineTableColumn="215" id="213">
-                                                    <rect key="frame" x="0.0" y="0.0" width="148" height="193"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="148" height="287"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <size key="intercellSpacing" width="2" height="3"/>
                                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -221,29 +221,10 @@
                                     </scrollView>
                                 </subviews>
                             </customView>
-                            <scrollView fixedFrame="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="122" customClass="ExtendedScrollView">
-                                <rect key="frame" x="0.0" y="237" width="448" height="230"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <clipView key="contentView" id="XOt-OW-hed">
-                                    <rect key="frame" x="1" y="1" width="435" height="217"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <subviews>
-                                        <openGLView wantsLayer="YES" fixedFrame="YES" useAuxiliaryDepthBufferStencil="NO" translatesAutoresizingMaskIntoConstraints="NO" id="120" customClass="LDrawGLView">
-                                            <rect key="frame" x="0.0" y="0.0" width="435" height="216"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                                        </openGLView>
-                                    </subviews>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </clipView>
-                                <scroller key="horizontalScroller" verticalHuggingPriority="750" controlSize="small" horizontal="YES" id="201">
-                                    <rect key="frame" x="1" y="218" width="435" height="11"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </scroller>
-                                <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" controlSize="small" horizontal="NO" id="200">
-                                    <rect key="frame" x="436" y="1" width="11" height="217"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </scroller>
-                            </scrollView>
+                            <customView fixedFrame="YES" id="Jz8-76-tOq" customClass="LDrawViewerContainer">
+                                <rect key="frame" x="0.0" y="331" width="448" height="136"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            </customView>
                         </subviews>
                         <holdingPriorities>
                             <real value="250"/>

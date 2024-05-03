@@ -277,6 +277,22 @@ bool V2EqualSizes(Size2 size1, Size2 size2)
 }
 
 
+// ========== V2SizeCenteredOnPoint =============================================
+///
+/// @abstract	Returns a box of the given size, centered on the point.
+///
+// ==============================================================================
+Box2 V2SizeCenteredOnPoint(Size2 size, Point2 center)
+{
+    Box2 result = V2MakeBox(0, 0, size.width, size.height);
+
+    result.origin.x = center.x - size.width / 2;
+    result.origin.y = center.y - size.height / 2;
+
+    return(result);
+}
+
+
 // ========== V2BoxHeight =======================================================
 // ==============================================================================
 double V2BoxHeight(Box2 box)
@@ -322,6 +338,17 @@ double V2BoxMidX(Box2 box)
 double V2BoxMidY(Box2 box)
 {
     return(box.origin.y + V2BoxHeight(box) * 0.5);
+}
+
+
+// ========== V2BoxMid ==========================================================
+///
+/// @abstract	Returns the middle of the box.
+///
+// ==============================================================================
+Point2 V2BoxMid(Box2 box)
+{
+    return(V2Make(V2BoxMidX(box), V2BoxMidY(box)));
 }
 
 

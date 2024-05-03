@@ -25,7 +25,7 @@
 #import "ViewportArranger.h"
 
 @class DocumentToolbarController;
-@class ExtendedScrollView;
+// @class ExtendedScrollView;
 @class ExtendedSplitView;
 @class LDrawContainer;
 @class LDrawDirective;

@@ -189,7 +189,7 @@ typedef enum
 {
     LDrawPart *representedObject   = [self object];
     TransformComponents components = [representedObject transformComponents];
-    RotationT rotationType = [[_rotationTypePopUp selectedItem] tag];
+    RotationT rotationType = (int)[[_rotationTypePopUp selectedItem] tag];
 
     if (rotationType == rotationRelative) {
         // Rotations entered will be additive.
@@ -222,7 +222,7 @@ typedef enum
 {
     LDrawPart *representedObject   = [self object];
     LDrawDocument *currentDocument = [[NSDocumentController sharedDocumentController] currentDocument];
-    RotationT     rotationType     = [[_rotationTypePopUp selectedItem] tag];
+    RotationT     rotationType     = (int)[[_rotationTypePopUp selectedItem] tag];
 
     // Save out the current state.
     [currentDocument preserveDirectiveState:representedObject];

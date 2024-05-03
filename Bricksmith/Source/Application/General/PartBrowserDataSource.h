@@ -12,6 +12,7 @@
 #import "LDrawGLView.h"
 #import "MacLDraw.h"
 
+@class LDrawViewerContainer;
 @class PartLibrary;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -28,11 +29,12 @@
     IBOutlet NSOutlineView *categoryTable;
     IBOutlet NSTableView   *partsTable;
     IBOutlet LDrawGLView   *partPreview;
-    IBOutlet NSButton      *zoomInButton;
-    IBOutlet NSButton      *zoomOutButton;
-    IBOutlet NSButton      *addRemoveFavoriteButton;
-    IBOutlet NSButton      *insertButton;
-    IBOutlet NSMenu *contextualMenu;
+    IBOutlet LDrawViewerContainer *partPreviewViewport;
+    IBOutlet NSButton *zoomInButton;
+    IBOutlet NSButton *zoomOutButton;
+    IBOutlet NSButton *addRemoveFavoriteButton;
+    IBOutlet NSButton *insertButton;
+    IBOutlet NSMenu   *contextualMenu;
 
     PartLibrary *partLibrary; // weak reference to the shared part catalog.
     NSString    *selectedCategory;

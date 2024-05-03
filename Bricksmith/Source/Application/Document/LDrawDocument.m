@@ -22,7 +22,7 @@
 
 #import "DimensionsPanel.h"
 #import "DocumentToolbarController.h"
-#import "ExtendedScrollView.h"
+// #import "ExtendedScrollView.h"
 #import "ExtendedSplitView.h"
 #import "IconTextCell.h"
 #import "Inspector.h"
@@ -49,6 +49,7 @@
 #import "LDrawStep.h"
 #import "LDrawTriangle.h"
 #import "LDrawUtilities.h"
+#import "LDrawViewerContainer.h"
 #import "LSynthConfiguration.h"
 #import "MacLDraw.h"
 #import "MinifigureDialogController.h"
@@ -59,7 +60,7 @@
 #import "PartReport.h"
 #import "PieceCountPanel.h"
 #import "RotationPanelController.h"
-#import "ScrollViewCategory.h"
+// #import "ScrollViewCategory.h"
 #import "SearchPanelController.h"
 #import "StringUtilities.h"
 #import "UserDefaultsCategory.h"
@@ -2184,11 +2185,6 @@ void AppendChoicesToNewItem(NSMenu *parent_menu, // Menu we append to
 
     dimensions = [DimensionsPanel dimensionPanelForFile:[self documentContents]];
     [[self windowForSheet] beginSheet:dimensions completionHandler:nil];
-// [NSApp beginSheet:dimensions
-// modalForWindow:[self windowForSheet]
-// modalDelegate:self
-// didEndSelector:NULL
-// contextInfo:NULL ];
 } // end showDimensions
 
 
@@ -2204,12 +2200,6 @@ void AppendChoicesToNewItem(NSMenu *parent_menu, // Menu we append to
     pieceCount = [PieceCountPanel pieceCountPanelForFile:[self documentContents]];
 
     [[self windowForSheet] beginSheet:pieceCount completionHandler:nil];
-
-// [NSApp beginSheet:pieceCount
-// modalForWindow:[self windowForSheet]
-// modalDelegate:self
-// didEndSelector:NULL
-// contextInfo:NULL ];
 } // end showPieceCount:
 
 
@@ -5100,18 +5090,14 @@ void AppendChoicesToNewItem(NSMenu *parent_menu, // Menu we append to
 // document and displaying the document contents.
 //
 // ==============================================================================
-- (NSArray *)all3DViewports
+- (NSArray <LDrawGLView *> *)all3DViewports
 {
-    NSArray *scrollViews = [self->viewportArranger allViewports];
-    NSMutableArray *viewports = [NSMutableArray array];
-    NSScrollView   *currentScrollView = nil;
-    LDrawGLView    *currentGLView     = nil;
-    NSUInteger     counter = 0;
+    NSArray <LDrawViewerContainer *> *viewerContainers = [self->viewportArranger allViewports];
+    NSMutableArray <LDrawGLView *>   *viewports = [NSMutableArray array];
 
     // Count up all the GL views in each column
-    for (counter = 0; counter < [scrollViews count]; counter++) {
-        currentScrollView = [scrollViews objectAtIndex:counter];
-        currentGLView     = [currentScrollView documentView];
+    for (LDrawViewerContainer *currentViewer in viewerContainers) {
+        LDrawGLView *currentGLView = currentViewer.glView;
 
         [viewports addObject:currentGLView];
     }
@@ -5146,16 +5132,16 @@ void AppendChoicesToNewItem(NSMenu *parent_menu, // Menu we append to
 // ==============================================================================
 - (LDrawGLView *)main3DViewport
 {
-    NSArray *allViewports = [self all3DViewports];
-    CGFloat largestArea   = 0.0;
-    CGFloat currentArea   = 0.0;
-    NSSize  currentSize   = NSZeroSize;
+    NSArray <LDrawGLView *> *allViewports = [self all3DViewports];
+    CGFloat largestArea = 0.0;
+    CGFloat currentArea = 0.0;
+    NSSize  currentSize = NSZeroSize;
     LDrawGLView *largestViewport = nil;
 
     // Find the largest viewport. We'll assume that's the one the user wants to
     // be the main one.
     for (LDrawGLView *currentViewport in allViewports) {
-        currentSize = [[currentViewport enclosingScrollView] contentSize];
+        currentSize = currentViewport.frame.size;
         currentArea = currentSize.width * currentSize.height;
 
         if (currentArea > largestArea) {
@@ -5178,7 +5164,7 @@ void AppendChoicesToNewItem(NSMenu *parent_menu, // Menu we append to
 // ==============================================================================
 - (void)updateViewportAutosaveNamesAndRestore:(BOOL)shouldRestore
 {
-    NSArray *viewports  = [self all3DViewports];
+    NSArray <LDrawGLView *> *viewports = [self all3DViewports];
     LDrawGLView *glView = nil;
     NSUInteger  viewportCount = [viewports count];
     NSUInteger  counter = 0;
@@ -5208,21 +5194,21 @@ void AppendChoicesToNewItem(NSMenu *parent_menu, // Menu we append to
 // preferences.
 //
 // ==============================================================================
-- (void)viewportArranger:(ViewportArranger *)viewportArrangerIn didAddViewport:(ExtendedScrollView *)
-    newViewport sourceViewport:(ExtendedScrollView *)sourceView
+- (void)viewportArranger:(ViewportArranger *)viewportArrangerIn didAddViewport:(LDrawViewerContainer *)
+    newViewport sourceViewport:(LDrawViewerContainer *)sourceView
 {
-    LDrawGLView *glView = nil;
+    LDrawGLView *glView = newViewport.glView;
     LDrawGLView *sourceGLView = nil;
 
-    glView = [[[LDrawGLView alloc] initWithFrame:NSMakeRect(0, 0, GL_DEF_WIDTH, GL_DEF_HEIGHT)
-        pixelFormat:[NSOpenGLView defaultPixelFormat]] autorelease];
+// glView = [[[LDrawGLView alloc] initWithFrame:NSMakeRect(0, 0, GL_DEF_WIDTH, GL_DEF_HEIGHT)
+// pixelFormat:[NSOpenGLView defaultPixelFormat]] autorelease];
     [self connectLDrawGLView:glView];
 
     // Tie them together
-    [newViewport setDocumentView:glView];
-    [newViewport centerDocumentView];
-    [newViewport setPreservesScrollCenterDuringLiveResize:YES];
-    [newViewport setStoresScrollCenterAsFraction:YES];
+// [newViewport setDocumentView:glView];
+// [newViewport centerDocumentView];
+// [newViewport setPreservesScrollCenterDuringLiveResize:YES];
+// [newViewport setStoresScrollCenterAsFraction:YES];
 
     [self loadDataIntoDocumentUI];
 
@@ -5237,7 +5223,7 @@ void AppendChoicesToNewItem(NSMenu *parent_menu, // Menu we append to
     // here.
     if (sourceView != nil) {
         // Make the new view look like the old one.
-        sourceGLView = [sourceView documentView];
+        sourceGLView = [sourceView glView];
         [glView setViewOrientation:[sourceGLView viewOrientation]];
         [glView setProjectionMode:[sourceGLView projectionMode]];
         [glView setZoomPercentage:[sourceGLView zoomPercentage]];
@@ -5253,21 +5239,28 @@ void AppendChoicesToNewItem(NSMenu *parent_menu, // Menu we append to
 // quite yet).
 //
 // ==============================================================================
-- (void)viewportArranger:(ViewportArranger *)viewportArranger willRemoveViewports:(NSSet *)removingViewports;
+- (void)viewportArranger:(ViewportArranger *)viewportArranger willRemoveViewports:(NSSet <LDrawViewerContainer *> *)removingViewports
 {
-    NSScrollView *mostRecentViewport = [self->mostRecentLDrawView enclosingScrollView];
-    NSArray      *allViewports = [self->viewportArranger allViewports];
-    ExtendedScrollView *currentViewport = nil;
+    NSArray <LDrawViewerContainer *> *allViewports = [self->viewportArranger allViewports];
+    BOOL removingMostRecentView = NO;
+
+    // Are we removing the most recently-used view?
+    for (LDrawViewerContainer *container in removingViewports) {
+        if (container.glView == self->mostRecentLDrawView) {
+            removingMostRecentView = YES;
+            break;
+        }
+    }
 
     // If the current most-recent viewport is being removed, we need to make a
     // new viewport "most-recent." That's because we have bindings observers
     // watching the most recent view, and we'll crash if they're still observing
     // when the view deallocates.
-    if ([removingViewports containsObject:mostRecentViewport]) {
+    if (removingMostRecentView) {
         // Make the first viewport not being removed the most recent.
-        for (currentViewport in allViewports) {
-            if ([removingViewports containsObject:currentViewport] == NO) {
-                [self setMostRecentLDrawView:[currentViewport documentView]];
+        for (LDrawViewerContainer *container in allViewports) {
+            if ([removingViewports containsObject:container] == NO) {
+                [self setMostRecentLDrawView:[container glView]];
                 break;
             }
         }
@@ -5661,7 +5654,7 @@ void AppendChoicesToNewItem(NSMenu *parent_menu, // Menu we append to
 // ==============================================================================
 - (void)loadDataIntoDocumentUI
 {
-    NSArray    *graphicViews = [self all3DViewports];
+    NSArray <LDrawGLView *> *graphicViews = [self all3DViewports];
     NSUInteger counter = 0;
 
     for (counter = 0; counter < [graphicViews count]; counter++) {

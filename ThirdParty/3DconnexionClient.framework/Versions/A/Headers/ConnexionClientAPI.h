@@ -5,7 +5,7 @@
 
 #include <IOKit/IOKitLib.h>
 
-#include "ConnexionClient.h"
+#include <3DConnexionClient/ConnexionClient.h>
 
 //==============================================================================
 #ifdef __cplusplus
