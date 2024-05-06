@@ -163,16 +163,16 @@ struct LDrawDLInstance {
 // Such DLs also have an instance linked list (instance head/tail/count) for each place they should be drawn.
 // All of those get cleared out when DL is not being used in a session.
 struct LDrawDL {
-    struct LDrawDL         *next_dl;       // Session "linked list of active dLs."
+    struct LDrawDL         *next_dl; // Session "linked list of active dLs."
     struct LDrawDLInstance *instance_head; // Linked list of instances to draw.
     struct LDrawDLInstance *instance_tail;
     int                    instance_count;
-    int                    flags;                   // See flags defs above.
-    GLuint                 geo_vbo;                 // Single VBO containing all geometry in the DL.
+    int                    flags; // See flags defs above.
+    GLuint                 geo_vbo; // Single VBO containing all geometry in the DL.
 #if WANT_SMOOTH
-    GLuint                 idx_vbo;                 // Single VBO containing all mesh indices.
+    GLuint                 idx_vbo; // Single VBO containing all mesh indices.
 #endif
-    int                    tex_count;               // Number of per-textures; untex case is always first if present.
+    int                    tex_count; // Number of per-textures; untex case is always first if present.
     #if WANT_STATS
     int                    vrt_count;
 #if WANT_SMOOTH
@@ -190,7 +190,7 @@ struct LDrawDL {
 // huge instancing data buffer.  (The name is taken from "segment buffering" in
 // GPU Gems 2.)
 struct LDrawDLSegment {
-    GLuint               geo_vbo;               // VBO of the brick we are going to draw - contains the actual brick mesh.
+    GLuint               geo_vbo; // VBO of the brick we are going to draw - contains the actual brick mesh.
 #if WANT_SMOOTH
     GLuint               idx_vbo;
 #endif
@@ -207,7 +207,7 @@ struct LDrawDLSortedInstanceLink {
     union {
         struct LDrawDLSortedInstanceLink *next; // DURING draw, we keep a linked list of these guys off of the session as we go.
         float eval; // At the end of draw, when we need to sort, we copy to a fixed size array and sort.
-    };              // Maybe someday we could merge-sort the linked list, but use qsort for now to get shipped.
+    }; // Maybe someday we could merge-sort the linked list, but use qsort for now to get shipped.
     struct  LDrawDL         *dl;
     struct LDrawTextureSpec spec;
     GLfloat                 color[4];

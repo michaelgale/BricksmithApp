@@ -82,7 +82,7 @@
     gridSpacingModeT gridMode;
     gridOrientationModeT gridOrientation;
     LDrawGLView *mostRecentLDrawView; // file graphic view which most recently had focus. Weak link.
-    NSArray     *markedSelection;          // if we are mid-marquee selection, this is an array of the previously selected directives before drag started
+    NSArray     *markedSelection; // if we are mid-marquee selection, this is an array of the previously selected directives before drag started
 }
 
 // Accessors

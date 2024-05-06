@@ -543,8 +543,8 @@ static void set_color4fv(GLfloat *c, GLfloat storage[4])
         int latitudeSections  = 8;
         int longitudeSections = 8;
 
-        float   latitudeRadians  = (M_PI / latitudeSections);            // lat. wraps halfway around sphere
-        float   longitudeRadians = (2 * M_PI / longitudeSections);       // long. wraps all the way
+        float   latitudeRadians  = (M_PI / latitudeSections);    // lat. wraps halfway around sphere
+        float   longitudeRadians = (2 * M_PI / longitudeSections); // long. wraps all the way
         int     vertexCount    = 0;
         GLfloat *vertexes      = NULL;
         int     latitudeCount  = 0;

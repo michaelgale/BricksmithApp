@@ -210,52 +210,46 @@
 typedef enum MenuTags
 {
     // Application Menu
-    applicationMenuTag           = 0,
+    applicationMenuTag              = 0,
     // File Menu
-    fileMenuTag                  = 1, revealInFinderTag               = 101,
+    fileMenuTag                     = 1, revealInFinderTag               = 101,
     // Edit Menu
-    editMenuTag                  = 2, cutMenuTag                      = 202,
-    copyMenuTag                  = 203, pasteMenuTag                    = 204,
-    deleteMenuTag                = 205, selectAllMenuTag                = 206,
-    duplicateMenuTag             = 207, splitStepMenuTag                = 208,
-    changeOriginMenuTag          = 209, splitModelMenuTag               = 210,
-    rotatePositiveXTag           = 220, rotateNegativeXTag              = 221,
-    rotatePositiveYTag           = 222, rotateNegativeYTag              = 223,
-    rotatePositiveZTag           = 224, rotateNegativeZTag              = 225,
+    editMenuTag                     = 2, cutMenuTag                      = 202,
+    copyMenuTag                     = 203, pasteMenuTag       = 204, deleteMenuTag                = 205,
+    selectAllMenuTag                = 206, duplicateMenuTag   = 207, splitStepMenuTag                = 208,
+    changeOriginMenuTag             = 209, splitModelMenuTag  = 210, rotatePositiveXTag           = 220,
+    rotateNegativeXTag              = 221, rotatePositiveYTag = 222, rotateNegativeYTag              = 223,
+    rotatePositiveZTag              = 224, rotateNegativeZTag = 225,
     // Tools Menu
-    toolsMenuTag                 = 3, fileContentsMenuTag             = 302,
-    showMouseToolsMenuTag        = 303, hideMouseToolsMenuTag           = 304,
-    gridFineMenuTag              = 305, gridMediumMenuTag               = 306,
-    gridCoarseMenuTag            = 307, coordModelMenuTag               = 308,
-    coordPartMenuTag             = 309,
+    toolsMenuTag                    = 3, fileContentsMenuTag             = 302,
+    showMouseToolsMenuTag           = 303, hideMouseToolsMenuTag = 304, gridFineMenuTag              = 305,
+    gridMediumMenuTag               = 306, gridCoarseMenuTag     = 307, coordModelMenuTag               = 308,
+    coordPartMenuTag                = 309,
     // Views Menu
-    viewsMenuTag                 = 4, stepDisplayMenuTag              = 404,
-    nextStepMenuTag              = 405, previousStepMenuTag             = 406,
-    orientationMenuTag           = 407, useSelectionForSpinCenterMenuTag= 408,
-    resetSpinCenterMenuTag       = 409,
+    viewsMenuTag                    = 4, stepDisplayMenuTag              = 404,
+    nextStepMenuTag                 = 405, previousStepMenuTag    = 406, orientationMenuTag           = 407,
+    useSelectionForSpinCenterMenuTag= 408, resetSpinCenterMenuTag = 409,
     // Piece Menu
-    pieceMenuTag                 = 5, hidePieceMenuTag                = 501,
-    showPieceMenuTag             = 502, snapToGridMenuTag               = 503,
-    gotoModelMenuTag             = 504,
+    pieceMenuTag                    = 5, hidePieceMenuTag                = 501,
+    showPieceMenuTag                = 502, snapToGridMenuTag = 503, gotoModelMenuTag             = 504,
     // Models Menu
-    modelsMenuTag                = 6, addModelMenuTag                 = 601,
-    modelsSeparatorMenuTag       = 602, insertReferenceMenuTag          = 603,
-    submodelReferenceMenuTag     = 604,    // used for all items in the Insert Reference menu.
-    rawCommandMenuTag            = 605, addModelSelectionMenuTag        = 606,
-    relatedPartMenuTag           = 610,    // used to add related parts dynamically.
+    modelsMenuTag                   = 6, addModelMenuTag                 = 601,
+    modelsSeparatorMenuTag          = 602, insertReferenceMenuTag = 603, submodelReferenceMenuTag     = 604, // used for all items in the Insert Reference menu.
+    rawCommandMenuTag               = 605, addModelSelectionMenuTag        = 606,
+    relatedPartMenuTag              = 610,                                                                   // used to add related parts dynamically.
 
-    lsynthMenuTag                = 630, lsynthPartMenuTag               = 631,// LSynth parts
-    lsynthHoseMenuTag            = 632,    // LSynth synthesizable part: hose
-    lsynthHoseConstraintMenuTag  = 633,    // LSynth constraint items: hose
-    lsynthBandMenuTag            = 634,    // LSynth synthesizable part: band
-    lsynthBandConstraintMenuTag  = 635,    // LSynth constraint items: band
-    lsynthInsideOutsideMenuTag   = 636, lsynthSurroundINSIDEOUTSIDETag  = 637,
-    lsynthInvertINSIDEOUTSIDETag = 638, lsynthInsertINSIDETag           = 639,
-    lsynthInsertOUTSIDETag       = 640, lsynthInsertCROSSTag            = 641,
+    lsynthMenuTag                   = 630, lsynthPartMenuTag               = 631, // LSynth parts
+    lsynthHoseMenuTag               = 632,                                        // LSynth synthesizable part: hose
+    lsynthHoseConstraintMenuTag     = 633,                                        // LSynth constraint items: hose
+    lsynthBandMenuTag               = 634,                                        // LSynth synthesizable part: band
+    lsynthBandConstraintMenuTag     = 635,                                        // LSynth constraint items: band
+    lsynthInsideOutsideMenuTag      = 636, lsynthSurroundINSIDEOUTSIDETag  = 637,
+    lsynthInvertINSIDEOUTSIDETag    = 638, lsynthInsertINSIDETag           = 639,
+    lsynthInsertOUTSIDETag          = 640, lsynthInsertCROSSTag            = 641,
     // Window Menu
-    windowMenuTag                = 7,
+    windowMenuTag                   = 7,
     // Contextual Menus
-    partBrowserAddFavoriteTag    = 4001, partBrowserRemoveFavoriteTag    = 4002
+    partBrowserAddFavoriteTag       = 4001, partBrowserRemoveFavoriteTag    = 4002
 } menuTagsT;
 
 

@@ -53,7 +53,7 @@ extern NSString *Category_Subparts;
     NSMutableDictionary *loadedImages;
     NSMutableDictionary *optimizedTextures; // GLuint texture tags
     NSMutableDictionary *optimizedRepresentations; // access stored vertex objects by part name, then color.
-    dispatch_queue_t    catalogAccessQueue;      // serial queue to mutex changes to the part catalog
+    dispatch_queue_t    catalogAccessQueue; // serial queue to mutex changes to the part catalog
     NSMutableDictionary *parsingGroups; // arrays of dispatch_group_t's which have requested each file currently being parsed
 }
 

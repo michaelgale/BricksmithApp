@@ -23,7 +23,7 @@
     Point3 planePoint3;
 
     NSArray *dragHandles;
-    Box3    cachedBounds;   // cached bounds of the enclosed directives
+    Box3    cachedBounds; // cached bounds of the enclosed directives
 
     GLuint textureTag;
 }

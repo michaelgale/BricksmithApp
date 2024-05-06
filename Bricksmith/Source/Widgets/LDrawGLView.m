@@ -581,7 +581,7 @@ static Box2 NSRectToBox2(NSRect rect)
     }
 
     // the new color may not be in the RGB colorspace, so we need to convert.
-    rgbColor = [newColor colorUsingColorSpaceName:NSDeviceRGBColorSpace];
+    rgbColor = [newColor colorUsingType:NSColorTypeComponentBased];
 
     CGLLockContext([[self openGLContext] CGLContextObj]);
     {

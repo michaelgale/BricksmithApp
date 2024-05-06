@@ -29,7 +29,7 @@
 {
     NSDictionary  *nameModelDict;
     LDrawMPDModel *activeModel;
-    NSString      *filePath;  // where this file came from on disk.
+    NSString      *filePath; // where this file came from on disk.
 }
 
 // Initialization

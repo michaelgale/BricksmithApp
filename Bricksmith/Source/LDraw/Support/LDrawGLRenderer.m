@@ -77,10 +77,10 @@
     BOOL    isStartingDrag;  // this is the first event in a drag
     NSTimer *mouseDownTimer; // countdown to beginning drag-and-drop
     BOOL    canBeginDragAndDrop; // the next mouse-dragged will initiate a drag-and-drop.
-    BOOL    didPartSelection;       // tried part selection during this click
+    BOOL    didPartSelection; // tried part selection during this click
     BOOL    dragEndedInOurDocument; // YES if the drag we initiated ended in the document we display
-    Vector3 draggingOffset;         // displacement between part 0's position and the initial click point of the drag
-    Point3  initialDragLocation;    // point in model where part was positioned at draggingEntered
+    Vector3 draggingOffset; // displacement between part 0's position and the initial click point of the drag
+    Point3  initialDragLocation; // point in model where part was positioned at draggingEntered
     LDrawDragHandle *activeDragHandle; // drag handle hit on last mouse-down (or nil)
     BOOL showAxisLines;
 }
@@ -1062,7 +1062,7 @@
                 [(id)self->fileBeingDrawn projectedBoundingBoxWithModelView:modelView projection:projection
                 view:viewport];
             projectionRect = V2MakeBox(projectedBounds.min.x, projectedBounds.min.y, // origin
-                    projectedBounds.max.x - projectedBounds.min.x,  // width
+                    projectedBounds.max.x - projectedBounds.min.x, // width
                     projectedBounds.max.y - projectedBounds.min.y); // height
 
 

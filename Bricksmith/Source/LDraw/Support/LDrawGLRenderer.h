@@ -34,7 +34,7 @@
 typedef enum
 {
     LDrawGLDrawNormal        = 0, // full draw
-    LDrawGLDrawExtremelyFast = 1  // bounds only
+    LDrawGLDrawExtremelyFast = 1 // bounds only
 } RotationDrawModeT;
 
 ////////////////////////////////////////////////////////////////////////////////

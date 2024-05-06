@@ -451,11 +451,11 @@
             assert(visibilityPlane.size.height > 0.0);
 
             buildFrustumMatrix(projection, V2BoxMinX(visibilityPlane), // left
-                V2BoxMaxX(visibilityPlane),            // right
-                V2BoxMinY(visibilityPlane),            // bottom
-                V2BoxMaxY(visibilityPlane),            // top
+                V2BoxMaxX(visibilityPlane), // right
+                V2BoxMinY(visibilityPlane), // bottom
+                V2BoxMaxY(visibilityPlane), // top
                 fabs(cameraDistance) - fieldDepth / 2, // near (closer points are clipped); distance from CAMERA LOCATION
-                fabs(cameraDistance) + fieldDepth / 2  // far (points beyond this are clipped); distance from CAMERA LOCATION
+                fabs(cameraDistance) + fieldDepth / 2 // far (points beyond this are clipped); distance from CAMERA LOCATION
                 );
         }
         else {
@@ -465,10 +465,10 @@
             assert(visibilityPlane.size.height > 0.0);
 
             buildOrthoMatrix(projection, V2BoxMinX(visibilityPlane), // left
-                V2BoxMaxX(visibilityPlane),             // right
-                V2BoxMinY(visibilityPlane),             // bottom
-                V2BoxMaxY(visibilityPlane),             // top
-                fabs(cameraDistance) - fieldDepth / 2,  // near (points beyond these are clipped)
+                V2BoxMaxX(visibilityPlane), // right
+                V2BoxMinY(visibilityPlane), // bottom
+                V2BoxMaxY(visibilityPlane), // top
+                fabs(cameraDistance) - fieldDepth / 2, // near (points beyond these are clipped)
                 fabs(cameraDistance) + fieldDepth / 2); // far
         }
     }
