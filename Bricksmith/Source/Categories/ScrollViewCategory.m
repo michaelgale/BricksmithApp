@@ -27,7 +27,6 @@
 
     // replicate settings
     [centeringClipView setBackgroundColor:[NSColor windowBackgroundColor]];
-    [centeringClipView setCopiesOnScroll:NO];
     [centeringClipView setDrawsBackground:[oldClipView drawsBackground]];
 
     // set the new view in the scroll view

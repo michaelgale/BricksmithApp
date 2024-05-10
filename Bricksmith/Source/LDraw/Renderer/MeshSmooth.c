@@ -1196,28 +1196,23 @@ static void visit_vertex_to_snap(struct Vertex *v, void *ref)
 void finish_faces_and_sort(struct Mesh *mesh)
 {
     int v, f;
-    int total_before = 0, total_after = 0;
 
     // sort vertices by 10 params
     sort_vertices_3(mesh->vertices, mesh->vertex_count);
-
     mesh->index = index_vertices(mesh->vertices, mesh->vertex_count);
 
   #if DEBUG
     validate_vertex_sort_3(mesh);
   #endif
 
-
     for (v = 0; v < mesh->vertex_count; ++v) {
         if (v == 0 || compare_points(mesh->vertices[v - 1].location, mesh->vertices[v].location) != 0) {
-            ++total_before;
             struct Vertex *vi = mesh->vertices + v;
             float mib[3] = { vi->location[0] - EPSI, vi->location[1] - EPSI, vi->location[2] - EPSI };
             float mab[3] = { vi->location[0] + EPSI, vi->location[1] + EPSI, vi->location[2] + EPSI };
             scan_rtree(mesh->index, mib, mab, visit_vertex_to_snap, vi);
         }
     }
-
     for (v = 0; v < mesh->vertex_count; ++v) {
         if (v == 0 || compare_points(mesh->vertices[v - 1].location, mesh->vertices[v].location) != 0) {
             if (mesh->vertices[v].prev == NULL) {
@@ -1231,14 +1226,12 @@ void finish_faces_and_sort(struct Mesh *mesh)
                         p[1]  += i->location[1];
                         p[2]  += i->location[2];
                     }
-
                     assert(count > 0.0f);
                     count = 1.0f / count;
                     p[0] *= count;
                     p[1] *= count;
                     p[2] *= count;
-
-                    i = mesh->vertices + v;
+                    i     = mesh->vertices + v;
                     while (i)
                     {
                         int has_more     = 0;
@@ -1258,20 +1251,15 @@ void finish_faces_and_sort(struct Mesh *mesh)
                         } while (has_more);
                     }
                 }
-
-                ++total_after;
             }
         }
     }
-    // printf("BEFORE: %d, AFTER: %d\n", total_before, total_after);
-
     sort_vertices_3(mesh->vertices, mesh->vertex_count);
 
     // then re-build ptr indices into faces since we moved vertices
     for (v = 0; v < mesh->vertex_count; ++v) {
         mesh->vertices[v].face->vertex[mesh->vertices[v].index] = mesh->vertices + v;
     }
-
     for (f = 0; f < mesh->face_count; ++f) {
         if (mesh->faces[f].degree == 3) {
             float *p1 = mesh->faces[f].vertex[0]->location;
@@ -1512,20 +1500,22 @@ void finish_creases_and_join(struct Mesh *mesh)
 static float weight_for_vertex(struct Vertex *v)
 {
     return(1.0f);
-
-    struct Vertex *prev = v->face->vertex[CCW(v->face, v->index)];
-    struct Vertex *next = v->face->vertex[CW(v->face, v->index)];
-    float v1[3], v2[3], d;
-    vec3f_diff(v1, v->location, prev->location);
-    vec3f_diff(v2, v->location, next->location);
-    vec3f_normalize(v1);
-    vec3f_normalize(v2);
-
-    d = vec3f_dot(v1, v2);
-    if (d > 1.0f) { d = 1.0f; }
-    if (d < -1.0f) { d = -1.0f; }
-    return(acos(d));
 }
+
+
+// struct Vertex *prev = v->face->vertex[CCW(v->face, v->index)];
+// struct Vertex *next = v->face->vertex[CW(v->face, v->index)];
+// float v1[3], v2[3], d;
+// vec3f_diff(v1, v->location, prev->location);
+// vec3f_diff(v2, v->location, next->location);
+// vec3f_normalize(v1);
+// vec3f_normalize(v2);
+//
+// d = vec3f_dot(v1, v2);
+// if (d > 1.0f) { d = 1.0f; }
+// if (d < -1.0f) { d = -1.0f; }
+// return(acos(d));
+// }
 
 
 // Once all neighbors have been found, this routine calculates the
@@ -1560,15 +1550,10 @@ void smooth_vertices(struct Mesh *mesh)
 
             struct Vertex *c = v;
             float N[3]     = { 0 };
-            int   ctr      = 0;
             int   circ_dir = -1;
             float w;
             do {
-                ++ctr;
-                // printf("\tAdd: %f,%f,%f\n",c->normal[0],c->normal[1],c->normal[2]);
-
                 w = weight_for_vertex(c);
-
                 if (vec3f_dot(v->face->normal, c->face->normal) > 0.0) {
                     N[0] += w * c->face->normal[0];
                     N[1] += w * c->face->normal[1];
@@ -1579,7 +1564,6 @@ void smooth_vertices(struct Mesh *mesh)
                     N[1] -= w * c->face->normal[1];
                     N[2] -= w * c->face->normal[2];
                 }
-
                 c = circulate_any(c, &circ_dir);
             } while (c != NULL && c != v);
 
@@ -1592,8 +1576,6 @@ void smooth_vertices(struct Mesh *mesh)
                 c = circulate_any(v, &circ_dir);
                 while (c)
                 {
-                    ++ctr;
-                    // printf("\tAdd: %f,%f,%f\n",c->normal[0],c->normal[1],c->normal[2]);
                     w = weight_for_vertex(c);
                     if (vec3f_dot(v->face->normal, c->face->normal) > 0.0) {
                         N[0] += w * c->face->normal[0];
@@ -1605,9 +1587,7 @@ void smooth_vertices(struct Mesh *mesh)
                         N[1] -= w * c->face->normal[1];
                         N[2] -= w * c->face->normal[2];
                     }
-
                     c = circulate_any(c, &circ_dir);
-
                     // Invariant: if we did NOT close-loop up top, we should NOT close-loop down here - that would imply
                     // a triangulation where our neighbor info was assymetric, which would be "bad".
                     assert(c != v);
@@ -1615,7 +1595,6 @@ void smooth_vertices(struct Mesh *mesh)
             }
 
             vec3f_normalize(N);
-            // printf("Final: %f %f %f\t%f %f %f (%d)\n",v->location[0],v->location[1], v->location[2], N[0],N[1],N[2], ctr);
             v->normal[0] = N[0];
             v->normal[1] = N[1];
             v->normal[2] = N[2];

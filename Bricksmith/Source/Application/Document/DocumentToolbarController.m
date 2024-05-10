@@ -655,52 +655,6 @@
 
 
 #pragma mark -
-#pragma mark VALIDATION
-#pragma mark -
-
-
-// ========== validateToolbarItem: ==============================================
-//
-// Purpose:		Toolbar validation: eye candy that probably slows everything to
-// a crawl.
-//
-// ==============================================================================
-- (BOOL)validateToolbarItem:(NSToolbarItem *)item
-{
-    LDrawPart *selectedPart  = [self->document selectedPart];
-    NSArray   *selectedItems = [self->document selectedObjects];
-    NSString  *identifier    = [item itemIdentifier];
-    BOOL      enabled = NO;
-
-    // Must have something selected.
-    if ([identifier isEqualToString:TOOLBAR_NUDGE_X_IDENTIFIER] ||
-        [identifier isEqualToString:TOOLBAR_NUDGE_Y_IDENTIFIER] ||
-        [identifier isEqualToString:TOOLBAR_NUDGE_Z_IDENTIFIER]) {
-        if ([selectedItems count] > 0) {
-            enabled = YES;
-        }
-    }
-    // Must have a part selected.
-    else if ([identifier isEqualToString:TOOLBAR_ROTATE_POSITIVE_X] ||
-        [identifier isEqualToString:TOOLBAR_ROTATE_NEGATIVE_X] ||
-        [identifier isEqualToString:TOOLBAR_ROTATE_POSITIVE_Y] ||
-        [identifier isEqualToString:TOOLBAR_ROTATE_NEGATIVE_Y] ||
-        [identifier isEqualToString:TOOLBAR_ROTATE_POSITIVE_Z] ||
-        [identifier isEqualToString:TOOLBAR_ROTATE_NEGATIVE_Z]) {
-        if (selectedPart != nil) {
-            enabled = YES;
-        }
-    }
-    // We don't have special conditions for it; give it a pass.
-    else {
-        enabled = YES;
-    }
-
-    return(enabled);
-} // end validateToolbarItem:
-
-
-#pragma mark -
 #pragma mark DESTRUCTOR
 #pragma mark -
 

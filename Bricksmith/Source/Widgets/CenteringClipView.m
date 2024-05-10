@@ -64,31 +64,6 @@
 } // end centerDocumentView
 
 
-// ========== constrainScrollPoint: =============================================
-//
-// Purpose:		We need to override this so that the superclass doesn't decide
-// our new origin point is invalid.
-//
-// ==============================================================================
-- (NSPoint)constrainScrollPoint:(NSPoint)proposedNewOrigin
-{
-    NSRect  docRect  = [[self documentView] frame];
-    NSRect  clipRect = [self bounds];
-    NSPoint constrainedPoint = [super constrainScrollPoint:proposedNewOrigin];
-    NSPoint newScrollPoint   = constrainedPoint;
-
-    if (NSWidth(docRect) < NSWidth(clipRect)) {
-        newScrollPoint.x = docRect.origin.x - (NSWidth(clipRect) - NSWidth(docRect)) / 2;
-    }
-
-    if (NSHeight(docRect) < NSHeight(clipRect)) {
-        newScrollPoint.y = docRect.origin.y - (NSHeight(clipRect) - NSHeight(docRect)) / 2;
-    }
-
-    return(newScrollPoint);
-} // end constrainScrollPoint:
-
-
 // ========== viewBoundsChanged: ================================================
 //
 // Purpose:		If the view changes, we must recenter.

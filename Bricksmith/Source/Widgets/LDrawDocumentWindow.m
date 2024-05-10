@@ -57,21 +57,4 @@
 } // end disableUpdatesUntilFlush
 
 
-// ========== flushWindow =======================================================
-//
-// Purpose:		Our window is ready to be flushed, and apparently everything has
-// been collected in the same place now. Reenable screen updates if
-// they've been turned off.
-//
-// ==============================================================================
-- (void)flushWindow
-{
-    [super flushWindow];
-    if (needsEnableUpdate) {
-        needsEnableUpdate = NO;
-// NSEnableScreenUpdates(); //or EnableScreenUpdates() in Carbon.
-    }
-} // end flushWindow
-
-
 @end

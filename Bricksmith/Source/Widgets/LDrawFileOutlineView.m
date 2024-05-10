@@ -10,23 +10,6 @@
 #import "LDrawFileOutlineView.h"
 
 @implementation LDrawFileOutlineView
-// ========== draggingSourceOperationMaskForLocal: ==============================
-//
-// Purpose:		Due to a bug (as of 10.3) in NSTableView, I need this method to
-// enable interapplication drags.
-//
-// ==============================================================================
-- (NSDragOperation)draggingSourceOperationMaskForLocal:(BOOL)isLocal
-{
-    if (isLocal == NO) {
-        return(NSDragOperationCopy);
-    }
-    else {
-        return([super draggingSourceOperationMaskForLocal:isLocal]);
-    }
-} // end draggingSourceOperationMaskForLocal:
-
-
 // ========== selectObjects: ====================================================
 //
 // Purpose:		Conveniently selects all the the objects in the array which are

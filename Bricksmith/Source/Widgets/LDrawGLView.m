@@ -154,8 +154,8 @@ static Box2 NSRectToBox2(NSRect rect)
     [renderer prepareOpenGL];
 
     [self takeBackgroundColorFromUserDefaults];
+    [self takeAxisLinesFromUserDefaults];
     [self setViewOrientation:ViewOrientation3D];
-
 
     // ---------- Register notifications ----------------------------------------
 
@@ -164,6 +164,9 @@ static Box2 NSRectToBox2(NSRect rect)
 
     [notificationCenter addObserver:self selector:@selector(backgroundColorDidChange:)name:
     LDrawViewBackgroundColorDidChangeNotification object:nil];
+
+    [notificationCenter addObserver:self selector:@selector(showAxisLinesDidChange:)name:
+    ShowAxisLinesDidChangeNotification object:nil];
 
     NSTrackingAreaOptions options = (NSTrackingMouseEnteredAndExited | NSTrackingMouseMoved |
         NSTrackingActiveInActiveApp | NSTrackingInVisibleRect);
@@ -185,6 +188,7 @@ static Box2 NSRectToBox2(NSRect rect)
     [super prepareOpenGL];
 
     [self takeBackgroundColorFromUserDefaults]; // glClearColor()
+    [self takeAxisLinesFromUserDefaults];
 } // end prepareOpenGL
 
 
@@ -1093,7 +1097,6 @@ static Box2 NSRectToBox2(NSRect rect)
     if (cursor != nil) {
         // Make this cursor active over the entire document.
         [self addCursorRect:visibleRect cursor:cursor];
-        [cursor setOnMouseEntered:YES];
 
         // okay, something very weird is going on here. When the cursor is inside
         // a view and THE PARTS BROWSER DRAWER IS OPEN, merely establishing a
@@ -2720,32 +2723,6 @@ static Box2 NSRectToBox2(NSRect rect)
 }
 
 
-// ========== renewGState =======================================================
-//
-// Purpose:		NSOpenGLViews' content is drawn directly by a hardware surface
-// that, when being moved, is moved before the surrounding regular
-// window content gets drawn and flushed. This causes an annoying
-// flicker, especially with NSSplitViews. Overriding this method
-// gives us a chance to compensate for this problem.
-//
-// ==============================================================================
-- (void)renewGState
-{
-    NSWindow *window = [self window];
-
-    // Disabling screen updates should allow the redrawing of the surrounding
-    // window to catch up with the new position of the OpenGL hardware surface.
-    //
-    // Note: In Apple's "GLChildWindow" sample code, Apple put this in
-    // -splitViewWillResizeSubviews:. But that doesn't actually solve the
-    // problem. Putting it here *does*.
-    //
-    [window disableScreenUpdatesUntilFlush];
-
-    [super renewGState];
-} // end renewGState
-
-
 // ========== reshape ===========================================================
 //
 // Purpose:		Something changed in the viewing department; we need to adjust
@@ -2977,6 +2954,21 @@ static Box2 NSRectToBox2(NSRect rect)
 
     [self setBackgroundColor:newColor];
 } // end takeBackgroundColorFromUserDefaults
+
+
+// ========== takeAxisLinesFromUserDefaults ===============================
+//
+// Purpose:		Set axis lines state from user defaults
+//
+// ==============================================================================
+- (void)takeAxisLinesFromUserDefaults
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL showAxisLines = [userDefaults boolForKey:SHOW_AXIS_LINES_KEY];
+
+    [self setViewAxisLines:showAxisLines];
+    [self->renderer setViewAxisLines:showAxisLines];
+} // end takeAxisLinesFromUserDefaults
 
 
 #pragma mark -

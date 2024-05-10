@@ -53,22 +53,19 @@
     id <LDrawGLCameraScroller>   scroller;
     id   target;
     BOOL allowsEditing;
-
+    LDrawGLCamera  *camera;
     LDrawDirective *fileBeingDrawn; // Should only be an LDrawFile or LDrawModel.
                                     // if you want to do anything else, you must
                                     // tweak the selection code in LDrawDrawableElement
                                     // and here in -mouseUp: to handle such cases.
-
-    LDrawGLCamera *camera;
-
     // Drawing Environment
     LDrawColor *color; // default color to draw parts if none is specified
     GLfloat    glBackgroundColor[4];
+    NSInteger  framesSinceStartTime;
+    NSTimeInterval fpsStartTime;
     Box2 selectionMarquee; // in view coordinates. ZeroBox2 means no marquee.
     RotationDrawModeT rotationDrawMode; // drawing detail while rotating.
     ViewOrientationT  viewOrientation;  // our orientation
-    NSTimeInterval    fpsStartTime;
-    NSInteger framesSinceStartTime;
 
     // Event Tracking
     float   gridSpacing;
@@ -249,10 +246,13 @@
 // ==============================================================================
 - (void)draw
 {
-    NSDate *startTime  = nil;
-    NSUInteger options = DRAW_NO_OPTIONS;
+    NSDate *startTime = nil;
     NSTimeInterval drawTime = 0;
     BOOL considerFastDraw   = NO;
+
+#if DEBUG_DRAWING == 0 && !NEW_RENDERER
+    NSUInteger options = DRAW_NO_OPTIONS;
+#endif
 
     startTime = [NSDate date];
 
@@ -261,7 +261,7 @@
     considerFastDraw = self->isTrackingDrag == YES || self->isGesturing == YES ||
         ([self->fileBeingDrawn respondsToSelector:@selector(draggingDirectives)] &&
         [(id)self->fileBeingDrawn draggingDirectives] != nil);
-#if DEBUG_DRAWING == 0
+#if DEBUG_DRAWING == 0 && !NEW_RENDERER
     if (considerFastDraw == YES && self->rotationDrawMode == LDrawGLDrawExtremelyFast) {
         options |= DRAW_BOUNDS_ONLY;
     }
@@ -374,15 +374,11 @@
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
         glLoadIdentity();
-
         glColor4f(0, 0, 0, 1);
-
         GLfloat vertices[8] =
         {
             p1.x, p1.y, p2.x, p1.y, p2.x, p2.y, p1.x, p2.y
         };
-
-
         glVertexPointer(2, GL_FLOAT, 0, vertices);
         glDisableClientState(GL_NORMAL_ARRAY);
         glDisableClientState(GL_COLOR_ARRAY);

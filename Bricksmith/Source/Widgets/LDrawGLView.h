@@ -121,7 +121,7 @@
 - (void)scrollCameraVisibleRectToPoint:(Point2)visibleRectOrigin;
 - (void)scrollCenterToModelPoint:(Point3)modelPoint;
 - (void)takeBackgroundColorFromUserDefaults;
-
+- (void)takeAxisLinesFromUserDefaults;
 - (void)setViewAxisLines:(BOOL)flag;
 
 @end
