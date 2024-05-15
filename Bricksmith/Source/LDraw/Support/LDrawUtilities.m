@@ -179,10 +179,8 @@ static NSString *defaultAuthor = @"anonymous";
         // 0x3RRGGBB for transparent colors
         // 0x4RGBRGB for a dither of two 12-bit RGB colors
         // 0x5RGBxxx as a dither of one 12-bit RGB color with clear (for transparency).
-
         [scanner scanHexInt:&hexBytes];
         customCodeType = (hexBytes >> 3 * 8) & 0xFF;
-
         switch (customCodeType)
         {
             // Solid color
@@ -332,7 +330,6 @@ static NSString *defaultAuthor = @"anonymous";
             // Un-escape the \"
             [token deleteCharactersInRange:NSMakeRange([token length] - 1, 1)];
             [token appendString:@"\""];
-
             [scanner scanUpToCharactersFromSet:doubleQuote intoString:&temp];
             [scanner scanCharactersFromSet:doubleQuote intoString:NULL];
             [token appendString:temp];
@@ -670,7 +667,6 @@ static NSString *defaultAuthor = @"anonymous";
 
     for (counter = 0; counter < numberOfDirectives; counter++) {
         currentDirective = [directives objectAtIndex:counter];
-// if([currentDirective respondsToSelector:@selector(boundingBox3)])
         {
             partBounds = [currentDirective boundingBox3];
             bounds     = V3UnionBox(bounds, partBounds);
@@ -741,9 +737,9 @@ static NSString *defaultAuthor = @"anonymous";
 // ------------------------------------------------------------------------------
 + (ViewOrientationT)viewOrientationForAngle:(Tuple3)rotationAngle
 {
-    ViewOrientationT viewOrientation = ViewOrientation3D;
     NSUInteger counter   = 0;
     Tuple3     testAngle = ZeroPoint3;
+    ViewOrientationT viewOrientation = ViewOrientation3D;
     ViewOrientationT testOrientation = ViewOrientation3D;
 
     ViewOrientationT orientations[] = { ViewOrientationFront, ViewOrientationBack,
@@ -782,7 +778,6 @@ static NSString *defaultAuthor = @"anonymous";
             [self unresolveLibraryParts:d];
         }
     }
-
     if ([directive respondsToSelector:@selector(unresolvePartIfPartLibrary)]) {
         [(LDrawPart *) directive unresolvePartIfPartLibrary];
     }

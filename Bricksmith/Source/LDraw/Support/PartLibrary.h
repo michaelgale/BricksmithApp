@@ -101,6 +101,8 @@ extern NSString *Category_Subparts;
 - (NSString *)categoryForDescription:(NSString *)modelDescription;
 - (NSString *)descriptionForPart:(LDrawPart *)part;
 - (NSString *)descriptionForPartName:(NSString *)name;
+- (NSString *)pathForPartName:(NSString *)name;
+- (NSString *)directoryForPartName:(NSString *)name;
 - (NSMutableDictionary *)catalogInfoForFileAtPath:(NSString *)filepath;
 - (CGImageRef)readImageAtPath:(NSString *)imagePath asynchronously:(BOOL)asynchronous completionHandler:(void
     (^)(CGImageRef))completionBlock;

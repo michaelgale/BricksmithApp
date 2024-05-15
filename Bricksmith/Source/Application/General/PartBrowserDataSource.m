@@ -88,12 +88,6 @@
 
         [self->partPreview setAcceptsFirstResponder:NO];
         [self->partPreview setDelegate:self];
-// if ([[self->partPreview enclosingScrollView] isKindOfClass:[ExtendedScrollView class]]) {
-// [(ExtendedScrollView *)[self->partPreview enclosingScrollView]
-// setPreservesScrollCenterDuringLiveResize:YES];
-// [(ExtendedScrollView *)[self->partPreview enclosingScrollView] setStoresScrollCenterAsFraction:YES];
-// }
-
 
         [self->zoomInButton setTarget:self->partPreview];
         [self->zoomInButton setAction:@selector(zoomIn:)];
@@ -147,7 +141,6 @@
 
         [self->partsTable setMenu:self->contextualMenu];
 
-
         // ---------- Set Data --------------------------------------------------
 
         [self setPartLibrary:[PartLibrary sharedPartLibrary]];
@@ -158,13 +151,11 @@
         [self syncSelectionAndPartDisplayed];
         [self->partPreview scrollCenterToModelPoint:ZeroPoint3];
 
-
         // ---------- Notifications ---------------------------------------------
 
         // We also want to know if the part catalog changes while the program is running.
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sharedPartCatalogDidChange:)
         name:LDrawPartLibraryDidChangeNotification object:nil];
-
 
         // ---------- Free Memory -----------------------------------------------
         [searchMenuTemplate release];
@@ -341,7 +332,6 @@
     // Swap out the variable
     [allPartRecords retain];
     [self->tableDataSource release];
-
     self->tableDataSource = allPartRecords;
     [partsTable reloadData];
 
@@ -419,6 +409,38 @@
 
     [self setConstraints];
 } // end addFavoriteClicked:
+
+
+// ========== showInFinderClicked: ===============================================
+//
+// Purpose:	  Opens a Finder window at the directory where the LDraw file
+// representing the part is found.
+//
+// ==============================================================================
+- (IBAction)showInFinderClicked:(id)sender
+{
+    NSString *selectedPartName = [self selectedPartName];
+    NSString *partpath = [self->partLibrary directoryForPartName:selectedPartName];
+    NSURL    *fileurl  = [NSURL fileURLWithPath:partpath];
+
+    LSOpenCFURLRef([fileurl fileReferenceURL], NULL);
+} // end showInFinderClicked:
+
+
+// ========== openAsFileClicked: ===============================================
+//
+// Purpose:	  Opens the selected part as an LDraw file
+//
+// ==============================================================================
+
+- (IBAction)openAsFileClicked:(id)sender
+{
+    NSString *selectedPartName = [self selectedPartName];
+    NSString *partpath = [self->partLibrary pathForPartName:selectedPartName];
+    NSURL    *fileurl  = [NSURL fileURLWithPath:partpath];
+
+    LSOpenCFURLRef([fileurl fileReferenceURL], NULL);
+} // end openAsFileClicked:
 
 
 // ========== doubleClickedInPartTable: =========================================
@@ -794,7 +816,6 @@
     NSString       *partNumber = nil;
     NSString       *partDescription    = nil;
     NSString       *partSansWhitespace = nil;
-    NSString       *category = nil;
     NSMutableArray *matchingParts = nil;
     NSString       *searchSansWhitespace = [searchString ams_stringByRemovingWhitespace];
 
@@ -817,7 +838,6 @@
             partNumber = [record objectForKey:PART_NUMBER_KEY];
             partDescription    = [record objectForKey:PART_NAME_KEY];
             partSansWhitespace = [partDescription ams_stringByRemovingWhitespace];
-            category = [record objectForKey:PART_CATEGORY_KEY];
 
             if ([excludedParts containsObject:partNumber] == NO) {
                 // LLW - Change to treat each word in a search string as an item in a list, and
@@ -843,7 +863,6 @@
                         matches = FALSE;
                     }
                 }
-
                 if (matches) {
                     [matchingParts addObject:record];
                 }
@@ -861,8 +880,6 @@
             }
         }
     } // end else we have to search
-
-
     return(matchingParts);
 } // end filterPartRecords:bySearchString:
 

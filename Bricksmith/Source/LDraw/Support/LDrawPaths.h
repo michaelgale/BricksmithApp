@@ -39,6 +39,7 @@ typedef enum
 // Utilities
 - (NSString *)findLDrawPath;
 - (NSString *)pathForPartName:(NSString *)partName;
+- (NSString *)directoryForPartName:(NSString *)partName;
 - (NSString *)pathForTextureName:(NSString *)imageName;
 - (BOOL)validateLDrawFolder:(NSString *)folderPath;
 

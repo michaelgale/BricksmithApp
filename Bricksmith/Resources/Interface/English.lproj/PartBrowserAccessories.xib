@@ -32,6 +32,18 @@
                         <action selector="removeFavoriteClicked:" target="-2" id="8"/>
                     </connections>
                 </menuItem>
+                <menuItem title="Show in Finder" id="IRi-SI-rf3">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="showInFinderClicked:" target="-2" id="BXS-22-RUm"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Open as File" id="BR2-v8-S2q">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="openAsFileClicked:" target="-2" id="H7E-kA-3s3"/>
+                    </connections>
+                </menuItem>
             </items>
             <point key="canvasLocation" x="139" y="122"/>
         </menu>

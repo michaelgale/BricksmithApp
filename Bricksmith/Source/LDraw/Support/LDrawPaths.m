@@ -397,6 +397,49 @@
 } // end pathForPartName:
 
 
+- (NSString *)directoryForPartName:(NSString *)partName
+{
+    NSFileManager   *fileManager   = [[[NSFileManager alloc] init] autorelease];
+    static NSArray  *searchPaths   = nil;
+    NSMutableString *fixedPartName = [NSMutableString stringWithString:partName];
+    NSString *partPath = nil;
+
+    if (searchPaths == nil) {
+        searchPaths = [[NSArray alloc] initWithObjects:[self partsPathForDomain:LDrawUserOfficial],
+            [self primitivesPathForDomain:LDrawUserOfficial], [self partsPathForDomain:LDrawUserUnofficial],
+            [self primitivesPathForDomain:LDrawUserUnofficial],
+            [self partsPathForDomain:LDrawInternalOfficial],
+            [self primitivesPathForDomain:LDrawInternalOfficial],
+            [self partsPathForDomain:LDrawInternalUnofficial],
+            [self primitivesPathForDomain:LDrawInternalUnofficial], nil];
+    }
+
+    // LDraw references parts in subfolders by their relative pathnames in DOS
+    // (e.g., "s\765s01.dat"). Convert to UNIX for simple searching.
+    [fixedPartName replaceOccurrencesOfString:@"\\" // DOS path separator (doubled for escape-sequence)
+    withString:@"/" options:0 range:NSMakeRange(0, [fixedPartName length])];
+
+    // If we pass an empty string, we'll wind up test for directories' existences --
+    // not what we want to do.
+    if ([partName length] == 0) {
+        partPath = nil;
+    }
+    else {
+        // We have a file path name; try each directory.
+
+        for (NSString *basePath in searchPaths) {
+            NSString *testPath = [basePath stringByAppendingPathComponent:fixedPartName];
+
+            if ([fileManager fileExistsAtPath:testPath]) {
+                partPath = basePath;
+            }
+        }
+    }
+
+    return(partPath);
+} // end directoryForPartName:
+
+
 // ========== pathForTextureName: ===============================================
 //
 // Purpose:		Searches the LDraw folder for a texture with the given name.

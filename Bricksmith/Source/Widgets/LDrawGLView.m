@@ -126,27 +126,13 @@ static Box2 NSRectToBox2(NSRect rect)
     context =
         [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:[LDrawApplication sharedOpenGLContext]];
     [self setOpenGLContext:context];
-// [context setView:self]; //documentation says to do this, but it generates an error. Weird.
     [[self openGLContext] makeCurrentContext];
 
     [self setPixelFormat:pixelFormat];
 
-    // Multithreading engine
-    // It turned out to be as miserable a failure as my home-spun attempts.
-    // Three times longer and display corruption to boot. Bricksmith is
-    // apparently allergic to multithreading of any kind, and darn if I know
-    // why.
-// CGLEnable(CGLGetCurrentContext(), kCGLCEMPEngine);
-
     // Prevent "tearing"
     GLint swapInterval = 1;
     [[self openGLContext] setValues:&swapInterval forParameter:NSOpenGLContextParameterSwapInterval];
-
-    // GL surface should be under window to allow Cocoa overtop.
-    // Huge FPS hit--over 40%! Don't do it!
-// GLint   surfaceOrder    = -1;
-// [[self openGLContext] setValues: &surfaceOrder
-// forParameter: NSOpenGLCPSurfaceOrder ];
 
     renderer = [[LDrawGLRenderer alloc] initWithBounds:NSSizeToSize2([self bounds].size)];
     [renderer setDelegate:self withScroller:self];
@@ -583,9 +569,8 @@ static Box2 NSRectToBox2(NSRect rect)
     if (newColor == nil) {
         newColor = [NSColor windowBackgroundColor];
     }
-
     // the new color may not be in the RGB colorspace, so we need to convert.
-    rgbColor = [newColor colorUsingType:NSColorTypeComponentBased];
+    rgbColor = [newColor colorUsingColorSpaceName:NSDeviceRGBColorSpace];
 
     CGLLockContext([[self openGLContext] CGLContextObj]);
     {
@@ -701,7 +686,6 @@ static Box2 NSRectToBox2(NSRect rect)
     {
         [[self openGLContext] makeCurrentContext];
         [self->renderer setLDrawDirective:newFile];
-
         [self setNeedsDisplay:YES];
     }
     CGLUnlockContext([[self openGLContext] CGLContextObj]);
@@ -748,9 +732,7 @@ static Box2 NSRectToBox2(NSRect rect)
     CGLLockContext([[self openGLContext] CGLContextObj]);
     {
         [[self openGLContext] makeCurrentContext];
-
         [self->renderer setProjectionMode:newProjectionMode];
-
         [self setNeedsDisplay:YES];
     }
     CGLUnlockContext([[self openGLContext] CGLContextObj]);
@@ -769,9 +751,7 @@ static Box2 NSRectToBox2(NSRect rect)
     CGLLockContext([[self openGLContext] CGLContextObj]);
     {
         [[self openGLContext] makeCurrentContext];
-
         [self->renderer setLocationMode:newLocationMode];
-
         [self setNeedsDisplay:YES];
     }
     CGLUnlockContext([[self openGLContext] CGLContextObj]);
@@ -812,9 +792,7 @@ static Box2 NSRectToBox2(NSRect rect)
         if ([NSOpenGLContext currentContext] != [self openGLContext]) {
             [[self openGLContext] makeCurrentContext];
         }
-
         [self->renderer setViewingAngle:newAngle];
-
         [self setNeedsDisplay:YES];
     }
     CGLUnlockContext([[self openGLContext] CGLContextObj]);
@@ -831,7 +809,6 @@ static Box2 NSRectToBox2(NSRect rect)
 {
     [[self openGLContext] makeCurrentContext];
     [self->renderer setViewOrientation:newOrientation];
-
     [self saveConfiguration];
 } // end setViewOrientation:
 
@@ -957,7 +934,6 @@ static Box2 NSRectToBox2(NSRect rect)
             [self->delegate respondsToSelector:@selector(LDrawGLViewBecameFirstResponder:)]) {
             [self->delegate LDrawGLViewBecameFirstResponder:self];
         }
-
         // need to draw the focus ring now
         [self->focusRingView setNeedsDisplay:YES];
     }
@@ -979,7 +955,6 @@ static Box2 NSRectToBox2(NSRect rect)
         // need to lose the focus ring
         [self->focusRingView setNeedsDisplay:YES];
     }
-
     return(success);
 } // end resignFirstResponder
 
@@ -995,7 +970,6 @@ static Box2 NSRectToBox2(NSRect rect)
     // It seems -invalidateCursorRectsForView: only causes -resetCursorRects to
     // get called if there is currently a cursor in force. So we oblige it.
     [self addCursorRect:[self visibleRect] cursor:[NSCursor arrowCursor]];
-
     [[self window] invalidateCursorRectsForView:self];
 } // end resetCursor
 
@@ -1017,7 +991,7 @@ static Box2 NSRectToBox2(NSRect rect)
     [super resetCursorRects];
 
     NSRect    visibleRect  = [self visibleRect];
-    BOOL      isClicked    = NO; /*[[NSApp currentEvent] type] == NSLeftMouseDown;*/      // not enough; overwhelmed by repeating key events
+    BOOL      isClicked    = NO;
     NSCursor  *cursor      = nil;
     NSImage   *cursorImage = nil;
     ToolModeT toolMode     = [ToolPalette toolMode];
@@ -1106,8 +1080,7 @@ static Box2 NSRectToBox2(NSRect rect)
         // flicker. I don't know why this is happening, but this hack seems to
         // fix it.
         if ([self mouse:[self convertPoint:[[self window] mouseLocationOutsideOfEventStream] fromView:nil]
-            inRect:[self visibleRect]]) {     // mouse is inside view.
-            // [cursor set]; //not enough.
+            inRect:[self visibleRect]]) { // mouse is inside view.
             [cursor performSelector:@selector(set) withObject:nil afterDelay:0];
         }
     }
@@ -1145,7 +1118,6 @@ static Box2 NSRectToBox2(NSRect rect)
 {
     NSString *characters = [theEvent charactersIgnoringModifiers];
 
-// [self interpretKeyEvents:[NSArray arrayWithObject:theEvent]];
     // We are circumventing the AppKit's key processing system here, because we
     // may want to extend our keys to mean different things with different
     // modifiers. It is easier to do that here than to pass it off to
@@ -1162,45 +1134,6 @@ static Box2 NSRectToBox2(NSRect rect)
             case NSRightArrowFunctionKey :
                 [self nudgeKeyDown:theEvent];
                 break;
-
-            // handled by menu item
-// case NSDeleteCharacter: //regular delete character, apparently.
-// case NSDeleteFunctionKey: //forward delete--documented! My gosh!
-// [NSApp sendAction:@selector(delete:)
-// to:nil //just send it somewhere!
-// from:self];
-
-// case '\\':
-// [self setNeedsDisplay:YES];
-// break;
-//
-// case 'f':
-// {
-// [[self openGLContext] makeCurrentContext];
-// glReadBuffer(GL_FRONT);
-//
-// NSArray *searchPaths = NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, YES);
-// NSString *path = [searchPaths objectAtIndex:0];
-//
-// path = [path stringByAppendingPathComponent:@"Front"];
-// path = [path stringByAppendingPathExtension:@"tiff"];
-// [self saveImageToPath:path];
-// }
-// break;
-//
-// case 'b':
-// {
-// [[self openGLContext] makeCurrentContext];
-// glReadBuffer(GL_BACK);
-//
-// NSArray *searchPaths = NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, YES);
-// NSString *path = [searchPaths objectAtIndex:0];
-//
-// path = [path stringByAppendingPathComponent:@"Back"];
-// path = [path stringByAppendingPathExtension:@"tiff"];
-// [self saveImageToPath:path];
-// }
-// break;
 
             case ' ' :
                 // Swallow the spacebar, since it is a special tool-palette key.
@@ -1861,7 +1794,7 @@ static Box2 NSRectToBox2(NSRect rect)
 
     if (self->delegate != nil &&
         [self->delegate respondsToSelector:@selector(LDrawGLView:writeDirectivesToPasteboard:asCopy:)]) {
-        pasteboard = [NSPasteboard pasteboardWithName:NSPasteboardNameDrag];
+        pasteboard = [NSPasteboard pasteboardWithUniqueName];
         beginCopy  = ([theEvent modifierFlags] & NSEventModifierFlagOption) != 0;
 
         okayToDrag =

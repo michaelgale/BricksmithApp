@@ -22,7 +22,6 @@
 
 #import "DimensionsPanel.h"
 #import "DocumentToolbarController.h"
-// #import "ExtendedScrollView.h"
 #import "ExtendedSplitView.h"
 #import "IconTextCell.h"
 #import "Inspector.h"
@@ -60,7 +59,6 @@
 #import "PartReport.h"
 #import "PieceCountPanel.h"
 #import "RotationPanelController.h"
-// #import "ScrollViewCategory.h"
 #import "SearchPanelController.h"
 #import "StringUtilities.h"
 #import "UserDefaultsCategory.h"
@@ -211,7 +209,6 @@ void AppendChoicesToNewItem(NSMenu *parent_menu, // Menu we append to
         [window resizeToSize:size animate:NO];
     }
 
-
     // Set up the window state based on what is found in preferences.
     drawerState = [userDefaults integerForKey:PART_BROWSER_DRAWER_STATE];
     if (drawerState == NSDrawerOpenState &&
@@ -220,12 +217,10 @@ void AppendChoicesToNewItem(NSMenu *parent_menu, // Menu we append to
         [self->partsBrowser scrollSelectedCategoryToCenter];
     }
 
-
     // File Contents Outline setup
     [fileContentsOutline setDoubleAction:@selector(showInspector:)];
     [fileContentsOutline setVerticalMotionCanBeginDrag:YES];
     [fileContentsOutline registerForDraggedTypes:[NSArray arrayWithObject:LDrawDirectivePboardType]];
-
 
     // We have to do the splitview saving manually. C'mon Apple, get with it!
     // Note: They did in Leopard. These calls will use the system function
@@ -243,7 +238,6 @@ void AppendChoicesToNewItem(NSMenu *parent_menu, // Menu we append to
     [self->coordinateFieldX setFormatter:coordinateFormatter];
     [self->coordinateFieldY setFormatter:coordinateFormatter];
     [self->coordinateFieldZ setFormatter:coordinateFormatter];
-
 
     // update scope step display controls
     [self setStepDisplay:NO];
@@ -269,7 +263,6 @@ void AppendChoicesToNewItem(NSMenu *parent_menu, // Menu we append to
             else {
                 [currentViewport setZoomPercentage:75];
             }
-
             // Scrolling to center doesn't seem to work at restoration time, so
             // do it again here.
             [currentViewport scrollCenterToModelPoint:ZeroPoint3];
@@ -768,7 +761,6 @@ void AppendChoicesToNewItem(NSMenu *parent_menu, // Menu we append to
         else { // turn it off now
             [activeModel setStepDisplay:NO];
         }
-
         [[self documentContents] noteNeedsDisplay];
     }
 
@@ -807,7 +799,6 @@ void AppendChoicesToNewItem(NSMenu *parent_menu, // Menu we append to
     for (counter = 0; counter < [selectedObjects count]; counter++) {
         currentObject = [selectedObjects objectAtIndex:counter];
 
-// if([currentObject isKindOfClass:[LDrawDrawableElement class]])
         if ([currentObject conformsToProtocol:@protocol(LDrawMovableDirective)]) {
             [self moveDirective:(LDrawDrawableElement *)currentObject inDirection:movementVector];
         }
@@ -832,7 +823,6 @@ void AppendChoicesToNewItem(NSMenu *parent_menu, // Menu we append to
     NSInteger counter    = 0;
 
     // We do not normalize the nudge vector - nudge might be set to a multiple of the grid on purpose.
-
     nudgeVector.x *= nudgeMagnitude;
     nudgeVector.y *= nudgeMagnitude;
     nudgeVector.z *= nudgeMagnitude;
@@ -841,8 +831,6 @@ void AppendChoicesToNewItem(NSMenu *parent_menu, // Menu we append to
     for (counter = 0; counter < [selectedObjects count] && firstNudgable == nil; counter++) {
         currentObject = [selectedObjects objectAtIndex:counter];
 
-// if([currentObject isKindOfClass:[LDrawDrawableElement class]])
-// firstNudgable = currentObject;
         if ([currentObject conformsToProtocol:@protocol(LDrawMovableDirective)]) {
             firstNudgable = currentObject;
         }
@@ -896,11 +884,9 @@ void AppendChoicesToNewItem(NSMenu *parent_menu, // Menu we append to
 
     // normalize just in case someone didn't get the message!
     rotationAxis = V3Normalize(rotationAxis);
-
-    rotation.x = rotationAxis.x * degreesToRotate;
-    rotation.y = rotationAxis.y * degreesToRotate;
-    rotation.z = rotationAxis.z * degreesToRotate;
-
+    rotation.x   = rotationAxis.x * degreesToRotate;
+    rotation.y   = rotationAxis.y * degreesToRotate;
+    rotation.z   = rotationAxis.z * degreesToRotate;
     TransformComponents rotateComponents = IdentityComponents;
     Matrix4 addedRotation = IdentityMatrix4;
 
@@ -922,7 +908,6 @@ void AppendChoicesToNewItem(NSMenu *parent_menu, // Menu we append to
             orig.element[3][0] = 0.0;
             orig.element[3][1] = 0.0;
             orig.element[3][2] = 0.0;
-
             Matrix4 origInv = Matrix4Invert(orig);
 
             // To make the rotation be "part relative" we basically change TO the
@@ -949,8 +934,6 @@ void AppendChoicesToNewItem(NSMenu *parent_menu, // Menu we append to
     else {
         rotationMode = RotateAroundSelectionCenter;
     }
-
-
     [self rotateSelection:rotation mode:rotationMode fixedCenter:NULL];
 } // end rotateSelectionAround
 
@@ -1090,7 +1073,6 @@ void AppendChoicesToNewItem(NSMenu *parent_menu, // Menu we append to
             LDrawDirective *directive = [directivesToSelect objectAtIndex:d];
 
             indexToSelect = [fileContentsOutline rowForItem:directive];
-
             if ([indices containsIndex:indexToSelect]) {
                 // Allen says don't do "toggle" behavior with shift-marquee select.
                 // If we did want a toggle, we'd enable this.
@@ -1215,9 +1197,7 @@ void AppendChoicesToNewItem(NSMenu *parent_menu, // Menu we append to
             xform.element[3][2] = 0.0f;
         }
     }
-
     Vector3 nudgeVector = [glView nudgeVectorForMatrix:xform];
-
     [self nudgeSelectionBy:nudgeVector];
 } // end nudge:
 
@@ -1272,7 +1252,7 @@ void AppendChoicesToNewItem(NSMenu *parent_menu, // Menu we append to
 // Maclike thing to do. Alas, MLCad will NOT RECOGNIZE submodels
 // whose names do not have an extension. (Why...?!) Furthermore,
 // according to the LDraw File Specification, a type 1 MUST point
-// ot a "valid LDraw filename," which MUST include the extension.
+// to a "valid LDraw filename," which MUST include the extension.
 // http://www.ldraw.org/Article218.html#lt1 Sigh...
 //
 // This action is not undoable. Why would you want to?
@@ -4659,13 +4639,11 @@ void AppendChoicesToNewItem(NSMenu *parent_menu, // Menu we append to
             }
             break;
 
-
         case pasteMenuTag :
             if ([[pasteboard types] containsObject:LDrawDirectivePboardType]) {
                 enable = YES;
             }
             break;
-
 
         ////////////////////////////////////////
         //
@@ -5101,7 +5079,6 @@ void AppendChoicesToNewItem(NSMenu *parent_menu, // Menu we append to
 
         [viewports addObject:currentGLView];
     }
-
     return(viewports);
 } // end all3DViewports
 
@@ -5114,12 +5091,10 @@ void AppendChoicesToNewItem(NSMenu *parent_menu, // Menu we append to
 - (void)connectLDrawGLView:(LDrawGLView *)glView
 {
     [glView setDelegate:self];
-
     [glView setTarget:self];
     [glView setForwardAction:@selector(advanceOneStep:)];
     [glView setBackAction:@selector(backOneStep:)];
     [glView setNudgeAction:@selector(nudge:)];
-
     [glView setGridSpacingMode:[self gridSpacingMode]];
 } // end connectLDrawGLView:
 
@@ -5143,13 +5118,11 @@ void AppendChoicesToNewItem(NSMenu *parent_menu, // Menu we append to
     for (LDrawGLView *currentViewport in allViewports) {
         currentSize = currentViewport.frame.size;
         currentArea = currentSize.width * currentSize.height;
-
         if (currentArea > largestArea) {
             largestArea     = currentArea;
             largestViewport = currentViewport;
         }
     }
-
     return(largestViewport);
 } // end main3DViewport
 
@@ -5200,21 +5173,8 @@ void AppendChoicesToNewItem(NSMenu *parent_menu, // Menu we append to
     LDrawGLView *glView = newViewport.glView;
     LDrawGLView *sourceGLView = nil;
 
-// glView = [[[LDrawGLView alloc] initWithFrame:NSMakeRect(0, 0, GL_DEF_WIDTH, GL_DEF_HEIGHT)
-// pixelFormat:[NSOpenGLView defaultPixelFormat]] autorelease];
     [self connectLDrawGLView:glView];
-
-    // Tie them together
-// [newViewport setDocumentView:glView];
-// [newViewport centerDocumentView];
-// [newViewport setPreservesScrollCenterDuringLiveResize:YES];
-// [newViewport setStoresScrollCenterAsFraction:YES];
-
     [self loadDataIntoDocumentUI];
-
-    // This doesn't work during viewport restoration. Didn't attempt to debug
-    // it; just moved the code to -windowControllerDidLoadNib:
-// [glView scrollCenterToPoint:NSMakePoint( NSMidX([glView frame]), NSMidY([glView frame]) )];
 
     // Opening zoom level
     // Note: The zoom level when first opening the document is set to default
@@ -5529,12 +5489,11 @@ void AppendChoicesToNewItem(NSMenu *parent_menu, // Menu we append to
 // ==============================================================================
 - (BOOL)elementsAreSelectedOfVisibility:(BOOL)visibleFlag
 {
-    NSArray   *selectedObjects = [self selectedObjects];
-    id        currentObject    = nil;
-    NSInteger counter = 0;
-    BOOL      invisibleSelected = NO;
-    BOOL      visibleSelected   = NO;
-
+    NSInteger counter        = 0;
+    id   currentObject       = nil;
+    BOOL invisibleSelected   = NO;
+    BOOL visibleSelected     = NO;
+    NSArray *selectedObjects = [self selectedObjects];
 
     for (counter = 0; counter < [selectedObjects count]; counter++) {
         currentObject = [selectedObjects objectAtIndex:counter];
@@ -5543,7 +5502,6 @@ void AppendChoicesToNewItem(NSMenu *parent_menu, // Menu we append to
             visibleSelected   = visibleSelected || ([currentObject isHidden] == NO);
         }
     }
-
     if (visibleFlag == YES) {
         return(visibleSelected);
     }
@@ -5564,7 +5522,7 @@ void AppendChoicesToNewItem(NSMenu *parent_menu, // Menu we append to
     representation
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString       *colorKey     = nil;            // preference key for object's syntax color.
+    NSString       *colorKey     = nil;  // preference key for object's syntax color.
     NSColor        *syntaxColor  = nil;
     NSNumber       *obliqueness  = [NSNumber numberWithDouble:0.0]; // italicize?
     NSAttributedString  *styledString = nil;
@@ -5616,7 +5574,6 @@ void AppendChoicesToNewItem(NSMenu *parent_menu, // Menu we append to
 
     // We have the syntax coloring we want.
     syntaxColor = [userDefaults colorForKey:colorKey];
-
     if ([item respondsToSelector:@selector(isHidden)]) {
         if ([(id) item isHidden]) {
             obliqueness = [NSNumber numberWithDouble:0.5];
@@ -5624,7 +5581,6 @@ void AppendChoicesToNewItem(NSMenu *parent_menu, // Menu we append to
     }
 
     // Assemble the attributes dictionary.
-
     [attributes setObject:paragraphStyle forKey:NSParagraphStyleAttributeName];
     [attributes setObject:syntaxColor forKey:NSForegroundColorAttributeName];
     [attributes setObject:obliqueness forKey:NSObliquenessAttributeName];
@@ -5685,7 +5641,6 @@ void AppendChoicesToNewItem(NSMenu *parent_menu, // Menu we append to
     if ([self->selectedDirectivesBeforeCopyDrag count] > 0) {
         selectedItem = [selectedDirectivesBeforeCopyDrag objectAtIndex:0];
     }
-
     // Find selected container
     if ([selectedItem isKindOfClass:[LDrawContainer class]]) {
         selectedContainer = selectedItem;
@@ -5693,7 +5648,6 @@ void AppendChoicesToNewItem(NSMenu *parent_menu, // Menu we append to
     else {
         selectedContainer = [selectedItem enclosingDirective];
     }
-
     return(selectedContainer);
 } // end selectedContainer
 
@@ -5717,7 +5671,6 @@ void AppendChoicesToNewItem(NSMenu *parent_menu, // Menu we append to
         [selectedObjects addObject:currentObject];
         currentIndex = [selectedIndexes indexGreaterThanIndex:currentIndex];
     }
-
     return(selectedObjects);
 } // end selectedObjects
 
@@ -5923,8 +5876,6 @@ void AppendChoicesToNewItem(NSMenu *parent_menu, // Menu we append to
         // knows enough to do DOS line-endings will automatically
         // add them to pasted content.
     }
-
-
     // Set up our pasteboard.
     [pasteboard declareTypes:pboardTypes owner:nil];
 

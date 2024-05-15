@@ -480,7 +480,6 @@ NSString *Category_Subparts   = @"Subparts";
         return(NO);
     }
 
-
     // Parts
     [searchPaths addObject:[NSDictionary dictionaryWithObjectsAndKeys:[sharedPaths partsPathForDomain:
     LDrawUserOfficial], @"path", nil]];
@@ -1381,6 +1380,34 @@ NSString *Category_Subparts   = @"Subparts";
 } // end descriptionForPartName:
 
 
+// ========== pathForPartName: ===========================================
+//
+// Purpose:		Returns the full path of LDraw file for the given part name.
+//
+// ==============================================================================
+
+- (NSString *)pathForPartName:(NSString *)name
+{
+    NSString *partPath = [[LDrawPaths sharedPaths] pathForPartName:name];
+
+    return(partPath);
+} // end pathForPartName:
+
+
+// ========== directoryForPartName: ===========================================
+//
+// Purpose:		Returns the directory which contains the LDraw file for the given part name.
+//
+// ==============================================================================
+
+- (NSString *)directoryForPartName:(NSString *)name
+{
+    NSString *partPath = [[LDrawPaths sharedPaths] directoryForPartName:name];
+
+    return(partPath);
+} // end directoryForPartName
+
+
 // ========== catalogInfoForFileAtPath: =========================================
 //
 // Purpose:		Pulls out the catalog-relevate metadata out of the given file.
@@ -1439,7 +1466,7 @@ NSString *Category_Subparts   = @"Subparts";
         {
             // LDraw uses DOS lineendings
             [fileContents getLineStart:&lineStartIndex end:&nextlineStartIndex contentsEnd:&newlineIndex
-            forRange:NSMakeRange(nextlineStartIndex, 1)];                   // that is, contains the first character.
+            forRange:NSMakeRange(nextlineStartIndex, 1)]; // that is, contains the first character.
 
             lineLength = newlineIndex - lineStartIndex;
             line     = [fileContents substringWithRange:NSMakeRange(lineStartIndex, lineLength)];
@@ -1450,7 +1477,6 @@ NSString *Category_Subparts   = @"Subparts";
                 if ([lineCode isEqualToString:@"0"] == NO) {
                     break;
                 }
-
                 partDescription  = [lineRemainder stringByTrimmingCharactersInSet:whitespace];
                 implicitCategory = [self categoryForDescription:partDescription];
                 [catalogInfo setObject:partDescription forKey:PART_NAME_KEY];

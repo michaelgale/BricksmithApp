@@ -539,11 +539,9 @@
         // Find bounds size, based on model dimensions.
         //
 
-        float distance1 = V3DistanceBetween2Points(origin, newBounds.min);
-        float distance2 = V3DistanceBetween2Points(origin, newBounds.max);
-        float newSize   = MAX(distance1, distance2) + 40;         // 40 is just to provide a margin.
-
-
+        float distance1            = V3DistanceBetween2Points(origin, newBounds.min);
+        float distance2            = V3DistanceBetween2Points(origin, newBounds.max);
+        float newSize              = MAX(distance1, distance2) + 40; // 40 is just to provide a margin.
         Box2  viewportRect         = V2MakeBox(0, 0, _graphicsSurfaceSize.width, _graphicsSurfaceSize.height);
         Size2 snugDocumentSize     = V2MakeSize(newSize * 2, newSize * 2);
         Size2 expandedViewportSize = V2MakeSize(MAX(fabs(V2BoxMinX(self.visibleRect) -

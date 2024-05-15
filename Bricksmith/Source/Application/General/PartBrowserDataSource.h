@@ -60,6 +60,8 @@
 - (void)doubleClickedInPartTable:(id)sender;
 - (IBAction)removeFavoriteClicked:(id)sender;
 - (IBAction)searchFieldChanged:(id)sender;
+- (IBAction)showInFinderClicked:(id)sender;
+- (IBAction)openAsFileClicked:(id)sender;
 
 // Notifications
 - (void)sharedPartCatalogDidChange:(NSNotification *)notification;

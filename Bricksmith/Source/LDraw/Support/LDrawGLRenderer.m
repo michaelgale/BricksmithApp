@@ -247,8 +247,9 @@
 - (void)draw
 {
     NSDate *startTime = nil;
-    NSTimeInterval drawTime = 0;
-    BOOL considerFastDraw   = NO;
+    NSTimeInterval drawTime  = 0;
+    BOOL    considerFastDraw = NO;
+    GLfloat bestLineWidth    = 1.0;
 
 #if DEBUG_DRAWING == 0 && !NEW_RENDERER
     NSUInteger options = DRAW_NO_OPTIONS;
@@ -277,9 +278,6 @@
     glMatrixMode(GL_MODELVIEW);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    // Make lines look a little nicer; Max width 1.0; 0.5 at 100% zoom
-    glLineWidth(MIN([self zoomPercentageForGL] / 100 * 0.5, 1.0));
-
     glMatrixMode(GL_PROJECTION);
     glLoadMatrixf([camera getProjection]);
     glMatrixMode(GL_MODELVIEW);
@@ -302,14 +300,17 @@
         glDisableClientState(GL_NORMAL_ARRAY);
         glDisable(GL_LIGHTING);
 
+        // Red X axis
         glColor4f(1.0, 0.3, 0.3, 1.0f);
         glVertexPointer(3, GL_FLOAT, 0, vx);
         glDrawArrays(GL_LINES, 0, 2);
 
+        // Green Y axis
         glColor4f(0.3, 1.0, 0.3, 1.0f);
         glVertexPointer(3, GL_FLOAT, 0, vy);
         glDrawArrays(GL_LINES, 0, 2);
 
+        // Blue Z axis
         glColor4f(0.3, 0.3, 1.0, 1.0f);
         glVertexPointer(3, GL_FLOAT, 0, vz);
         glDrawArrays(GL_LINES, 0, 2);
@@ -324,6 +325,9 @@
         glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
     }
+    // Make lines look a little nicer; Max width 2.0; 1.0 at 100% zoom
+    bestLineWidth = MIN([self zoomPercentageForGL] / 100 * 1.0, 2.0);
+    glLineWidth(bestLineWidth);
 
     // DRAW!
     #if !NEW_RENDERER
@@ -374,7 +378,10 @@
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
         glLoadIdentity();
-        glColor4f(0, 0, 0, 1);
+
+        // make the selection marquee more visible in magenta with thicker line
+        glLineWidth(MARQUEE_LINE_WIDTH);
+        glColor4f(1, 0.2, 1, 1);
         GLfloat vertices[8] =
         {
             p1.x, p1.y, p2.x, p1.y, p2.x, p2.y, p1.x, p2.y
@@ -398,7 +405,6 @@
     assert(glIsEnabled(GL_VERTEX_ARRAY));
     assert(glIsEnabled(GL_NORMAL_ARRAY));
     assert(glIsEnabled(GL_COLOR_ARRAY));
-
 
     [self->delegate LDrawGLRendererNeedsFlush:self];
 
@@ -1043,8 +1049,6 @@
 
     // How many onscreen pixels do we have to work with?
     maxContentSize = viewport.size;
-// NSLog(@"windowVisibleRect = %@", NSStringFromRect(windowVisibleRect));
-// NSLog(@"maxContentSize = %@", NSStringFromSize(maxContentSize));
 
     // Get bounds
     if ([self->fileBeingDrawn respondsToSelector:@selector(boundingBox3)]) {
@@ -1053,7 +1057,6 @@
             // Project the bounds onto the 2D "canvas"
             modelView  = Matrix4CreateFromGLMatrix4([camera getModelView]);
             projection = Matrix4CreateFromGLMatrix4([camera getProjection]);
-
             projectedBounds =
                 [(id)self->fileBeingDrawn projectedBoundingBoxWithModelView:modelView projection:projection
                 view:viewport];
@@ -1061,30 +1064,23 @@
                     projectedBounds.max.x - projectedBounds.min.x, // width
                     projectedBounds.max.y - projectedBounds.min.y); // height
 
-
             // ---------- Find zoom scale -----------------------------------
             // Completely fill the viewport with the image
-
             zoomScale2D.width  = maxContentSize.width / V2BoxWidth(projectionRect);
             zoomScale2D.height = maxContentSize.height / V2BoxHeight(projectionRect);
-
-            zoomScaleFactor = MIN(zoomScale2D.width, zoomScale2D.height);
-
+            zoomScaleFactor    = MIN(zoomScale2D.width, zoomScale2D.height);
 
             // ---------- Find visual center point --------------------------
             // One might think this would be V3CenterOfBox(bounds). But it's
             // not. It seems perspective distortion can cause the visual
             // center of the model to be someplace else.
-
             Point2 graphicalCenter_viewport = V2BoxMid(projectionRect);
             Point2 graphicalCenter_view     = [self convertPointFromViewport:graphicalCenter_viewport];
             Point3 graphicalCenter_model    = ZeroPoint3;
 
             graphicalCenter_model = [self modelPointForPoint:graphicalCenter_view depthReferencePoint:center];
 
-
             // ---------- Zoom to Fit! --------------------------------------
-
             [self setZoomPercentage:([self zoomPercentage] * zoomScaleFactor)];
             [self scrollCenterToModelPoint:graphicalCenter_model];
         }
@@ -1166,7 +1162,6 @@
         V2BoxWidth(self->selectionMarquee) || V2BoxHeight(self->selectionMarquee)) {
         [self->delegate LDrawGLRendererNeedsRedisplay:self];
     }
-
     self->activeDragHandle = nil;
     self->isTrackingDrag   = NO; // not anymore.
     self->selectionMarquee = ZeroBox2;
@@ -1710,7 +1705,6 @@
 
     firstDirective = [directives objectAtIndex:0];
 
-
     // ---------- Find Location ---------------------------------------------
 
     // Where are we?
@@ -1891,75 +1885,6 @@
 } // end getDepthUnderPoint
 
 
-// ========== getDirectivesUnderMouse:amongDirectives:fastDraw: =================
-//
-// Purpose:		Finds the directives under a given mouse-click. This method is
-// written so that the caller can optimize its hit-detection by
-// doing a preliminary test on just the bounding boxes.
-//
-// Parameters:	theEvent	= mouse-click event
-// directives	= the directives under consideration for being
-// clicked. This may be the whole File directive,
-// or a smaller subset we have already determined
-// (by a previous call) is in the area.
-// fastDraw	= consider only bounding boxes for hit-detection.
-//
-// Returns:		Array of clicked parts; the closest one -- and the only one we
-// ultimately care about -- is always the 0th element.
-//
-// ==============================================================================
-#if 0 // replaced by direct depthTest.
-- (NSArray *)getDirectivesUnderPoint:(Point2)point_view amongDirectives:(NSArray *)directives fastDraw:(BOOL)
-    fastDraw
-{
-    NSArray *clickedDirectives = nil;
-
-    if ([directives count] == 0) {
-        // If there's nothing to test in, there's no work to do!
-        clickedDirectives = [NSArray array];
-    }
-    else {
-        Point2 point_viewport = [self convertPointToViewport:point_view];
-        Point3 contextNear    = ZeroPoint3;
-        Point3 contextFar     = ZeroPoint3;
-        Ray3   pickRay     = { { 0 } };
-        Point3 pickRay_end = ZeroPoint3;
-        Box2   viewport    = [self viewport];
-        NSMutableDictionary *hits = [NSMutableDictionary dictionary];
-        NSUInteger counter = 0;
-
-        // convert to 3D viewport coordinates
-        contextNear = V3Make(point_viewport.x, point_viewport.y, 0.0);
-        contextFar  = V3Make(point_viewport.x, point_viewport.y, 1.0);
-
-        // Pick Ray
-        pickRay.origin = V3Unproject(contextNear,
-                Matrix4CreateFromGLMatrix4([camera getModelView]),
-                Matrix4CreateFromGLMatrix4([camera getProjection]),
-                viewport);
-        pickRay_end = V3Unproject(contextFar,
-                Matrix4CreateFromGLMatrix4([camera getModelView]),
-                Matrix4CreateFromGLMatrix4([camera getProjection]),
-                viewport);
-        pickRay.direction = V3Sub(pickRay_end, pickRay.origin);
-        pickRay.direction = V3Normalize(pickRay.direction);
-
-        // Do hit test
-        for (counter = 0; counter < [directives count]; counter++) {
-            [[directives objectAtIndex:counter] hitTest:pickRay transform:IdentityMatrix4 viewScale:[self
-            zoomPercentageForGL] / 100. boundsOnly:fastDraw creditObject:nil hits:hits];
-        }
-
-        clickedDirectives = [self getPartsFromHits:hits];
-    }
-
-    return(clickedDirectives);
-} // end getDirectivesUnderMouse:amongDirectives:fastDraw:
-
-
-#endif
-
-
 // ========== getDirectivesUnderRect:amongDirectives:fastDraw: ==================
 //
 // Purpose:		Finds the directives under a given mouse-recangle.  This
@@ -2023,58 +1948,6 @@
 
     return(clickedDirectives);
 } // end getDirectivesUnderMouse:amongDirectives:fastDraw
-
-
-// ========== getPartFromHits:hitCount: =========================================
-//
-// Purpose:		Deduce the parts that were clicked on, given the selection data
-// returned from -[LDrawDirective hitTest:...]
-//
-// Each time something's geometry intersects our pick ray under the
-// mouse (and it has a different name), it generates a hit record.
-// So we have to investigate our hits and figure out which hit was
-// the nearest to the front (smallest minimum depth); that is the
-// one we clicked on.
-//
-// Returns:		Array of all the parts under the click. The nearest part is
-// guaranteed to be the first entry in the array. There is no
-// defined order for the rest of the parts.
-//
-// ==============================================================================
-#if 0
-// not used due to depth test
-- (NSArray *)getPartsFromHits:(NSDictionary *)hits
-{
-    NSMutableArray *clickedDirectives = [NSMutableArray arrayWithCapacity:[hits count]];
-    LDrawDirective *currentDirective  = nil;
-    float minimumDepth = INFINITY;
-    float currentDepth = 0;
-
-    // The hit record depths are mapped as depths along the pick ray. We are
-    // looking for the shallowest point, because that's what we clicked on.
-
-    for (NSValue *key in hits) {
-        currentDirective = [key pointerValue];
-        currentDepth     = [[hits objectForKey:key] floatValue];
-
-// NSLog(@"Hit depth %f %@", currentDepth, currentDirective);
-
-        if (currentDepth < minimumDepth) {
-            // guarantee shallowest object is first in array
-            [clickedDirectives insertObject:currentDirective atIndex:0];
-            minimumDepth = currentDepth;
-        }
-        else {
-            [clickedDirectives addObject:currentDirective];
-        }
-    }
-// NSLog(@"===============================================");
-
-    return(clickedDirectives);
-} // end getPartFromHits:hitCount:
-
-
-#endif
 
 
 // ========== publishMouseOverPoint: ============================================

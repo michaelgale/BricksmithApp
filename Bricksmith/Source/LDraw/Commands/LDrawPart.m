@@ -150,7 +150,6 @@ int doubleNearGrid(double v, double grid, double epsi)
             parsedField = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
             transformation.element[3][2] = [parsedField floatValue];
 
-
             // Read Transformation X.
             // (a)
             parsedField = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
@@ -162,7 +161,6 @@ int doubleNearGrid(double v, double grid, double epsi)
             parsedField = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
             transformation.element[2][0] = [parsedField floatValue];
 
-
             // Read Transformation Y.
             // (d)
             parsedField = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
@@ -173,7 +171,6 @@ int doubleNearGrid(double v, double grid, double epsi)
             // (f)
             parsedField = [LDrawUtilities readNextField:workingLine remainder:&workingLine];
             transformation.element[2][1] = [parsedField floatValue];
-
 
             // Read Transformation Z.
             // (g)
@@ -380,7 +377,6 @@ int doubleNearGrid(double v, double grid, double epsi)
                     [renderer pushColor:c];
                 }
             }
-
             if ([self isSelected] == YES) {
                 [renderer pushWireFrame];
             }
@@ -497,8 +493,6 @@ int doubleNearGrid(double v, double grid, double epsi)
         if (!VolumeCanIntersectBox([self boundingBox3], transform, bounds)) {
             return(FALSE);
         }
-
-
         Matrix4 partTransform       = [self transformationMatrix];
         Matrix4 combinedTransform   = Matrix4Multiply(partTransform, transform);
         LDrawDirective *modelToDraw = nil;
@@ -507,10 +501,8 @@ int doubleNearGrid(double v, double grid, double epsi)
         if (creditObject == nil) {
             creditObject = self;
         }
-
         [self resolvePart];
         modelToDraw = cacheModel;
-
         assert(boundsOnly == NO);
         if (boundsOnly == NO) {
             if ([modelToDraw boxTest:bounds transform:combinedTransform boundsOnly:NO creditObject:
@@ -548,10 +540,8 @@ int doubleNearGrid(double v, double grid, double epsi)
         if (creditObject == nil) {
             creditObject = self;
         }
-
         [self resolvePart];
         modelToDraw = cacheModel;
-
         [modelToDraw depthTest:pt inBox:bounds transform:combinedTransform creditObject:creditObject
         bestObject:bestObject bestDepth:bestDepth];
     }
@@ -1197,7 +1187,6 @@ int doubleNearGrid(double v, double grid, double epsi)
     // I NEED to modify the matrix itself here. Some parts have funky, fragile
     // rotation values, and getting the components really badly botches them up.
     transformationMatrix = Matrix4Translate(transformationMatrix, moveVector);
-
     [self setTransformationMatrix:&transformationMatrix];
     [self sendMessageToObservers:MessageObservedChanged];
 } // end moveBy:

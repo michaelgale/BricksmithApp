@@ -387,7 +387,7 @@ PreferencesDialogController * preferencesDialog = nil;
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 
-    BOOL showAxisLinesState = [showAxisLinesButton state];
+    bool showAxisLinesState = [showAxisLinesButton state];
 
     [userDefaults setBool:showAxisLinesState forKey:SHOW_AXIS_LINES_KEY];
     [[NSNotificationCenter defaultCenter] postNotificationName:ShowAxisLinesDidChangeNotification object:

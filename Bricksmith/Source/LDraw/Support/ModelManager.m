@@ -259,12 +259,6 @@
 // ==============================================================================
 - (void)dealloc
 {
-    // NSLog(@"model mgr gone - why?\n");
-// for(NSValue * key in serviceTables)
-// {
-// LDrawFile * f = [key pointerValue];
-// [f release];
-// }
     [serviceTables release];
     [dirChars release];
     [super dealloc];
@@ -284,9 +278,6 @@
     if ([serviceTables objectForKey:[NSValue valueWithPointer:file]] != nil) {
         return;
     }
-
-    // NSLog(@"Accepting sign-in of document %@ as file %p\n", docPath, file);
-
     NSString *docParentDir = [docPath stringByDeletingLastPathComponent];
     NSString *docFileName  = [docPath lastPathComponent];
 
@@ -306,8 +297,6 @@
 
         for (NSValue *key in serviceTables) {
             ModelServiceTable *table = [serviceTables objectForKey:key];
-
-            // NSLog(@"Open document %@/%@ had to drop service on peer %@\n", table->parentDirectory, table->fileName, docFileName);
             if ([table dropService:docPath]) {
                 did_drop = true;
                 break;
@@ -335,12 +324,8 @@
     if ([serviceTables objectForKey:[NSValue valueWithPointer:file]] != nil) {
         return;
     }
-
-    // NSLog(@"Accepting sign-in of document %@ as file %p\n", docPath, file);
-
     NSString *docParentDir = [docPath stringByDeletingLastPathComponent];
     NSString *docFileName  = [docPath lastPathComponent];
-
     ModelServiceTable *newTable =
         [[ModelServiceTable alloc] initWithFileName:docFileName parentDir:docParentDir file:file];
     [serviceTables setObject:newTable forKey:[NSValue valueWithPointer:file]];
@@ -411,12 +396,9 @@
         // NSLog(@"    ignoring part lookup on part %@ because file %p is unknown.\n", partName, whoIsAsking);
         return(nil);
     }
-    // NSLog(@"Part check for known file %@/%@ - wants part %@\n", table->parentDirectory, table->fileName, partName);
-
     NSString *fullPath = [table->parentDirectory stringByAppendingPathComponent:partName];
 
     fullPath = [fullPath stringByReplacingOccurrencesOfString:@"\\" withString:@"/"];
-
 
     for (LDrawFile *key in serviceTables) {
         ModelServiceTable *otherDoc = [serviceTables objectForKey:key];
@@ -425,18 +407,13 @@
             [otherDoc->parentDirectory stringByAppendingPathComponent:otherDoc->fileName];
 
         if ([fullPath isEqualToString:otherFullPath]) {
-            // NSLog(@" Part was already loaded - returning.\n");
             return([otherDoc->file firstModel]);
         }
     }
-
     LDrawFile *alreadyOpenedFile = [table->trackedFiles objectForKey:fullPath];
-
     if (alreadyOpenedFile) {
         return([alreadyOpenedFile firstModel]);
     }
-
-
     if (![table->peerFileNames containsObject:partName]) {
         // Fast case: since we cached our directory, if the part has no relative path
         // and is missing, we can bail now.
@@ -444,9 +421,6 @@
             return(nil);
         }
     }
-
-
-    // NSLog(@" Part may exist - trying to open. - returning.\n");
     LDrawFile *justOpenedNow = [table beginService:partName];
 
     if (justOpenedNow) {
